@@ -13,7 +13,7 @@ Flutter: Use Stable Version *1.22.5*
 
 ## Downloading the code
 
-* Go to (<https://github.com/garg3133/Fusion-mobile>) and click on **Fork**
+* Go to (<https://github.com/FusionIIIT/Fusion-mobile>) and click on **Fork**
 * You will be redirected to *your* fork, `https://github.com/<your_user_name>/Fusion-mobile`
 * Open the terminal, change to the directory where you want to clone the **Fusion** repository
 * Clone your repository using `git clone https://github.com/<your_user_name>/Fusion-mobile`
