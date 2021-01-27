@@ -1,4 +1,4 @@
-#Thu Jan 21 11:19:06 IST 2021
-base.0=/Users/sehej/Developer/Projects/ITW/fusion/build/app/intermediates/dex/debug/mergeDexDebug/out/classes.dex
+#Tue Jan 26 17:44:09 IST 2021
+base.0=E\:\\A_Flutter_Projects\\Fusion-mobile\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\out\\classes.dex
 path.0=classes.dex
 renamed.0=classes.dex
