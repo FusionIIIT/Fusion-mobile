@@ -1,4 +1,4 @@
-#Tue Jan 26 17:44:09 IST 2021
-base.0=E\:\\A_Flutter_Projects\\Fusion-mobile\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\out\\classes.dex
+#Fri Feb 12 10:48:06 IST 2021
+base.0=F\:\\AndroidProjects\\Fusion-mobile\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\out\\classes.dex
 path.0=classes.dex
 renamed.0=classes.dex

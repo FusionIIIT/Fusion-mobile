@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/screens/home.dart';
+import 'package:fusion/Academic/academic_home_page.dart';
 void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -10,7 +11,7 @@ class MyApp extends StatelessWidget {
       title: 'The Complete WebView in Flutter',
       theme: ThemeData(),
       darkTheme: ThemeData.dark(),
-      home: MyHomePage(),
+      home: AcademicHomePage(),
     );
   }
 }
