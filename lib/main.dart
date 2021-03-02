@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fusion/screens/Establishment/establishment_home_page.dart';
 import 'package:fusion/screens/home.dart';
 void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
@@ -10,7 +11,7 @@ class MyApp extends StatelessWidget {
       title: 'The Complete WebView in Flutter',
       theme: ThemeData(),
       darkTheme: ThemeData.dark(),
-      home: MyHomePage(),
+      home: Establishment(),
     );
   }
 }
