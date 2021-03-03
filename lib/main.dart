@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/screens/home.dart';
 import 'package:fusion/screens/Gymkhana/Homepage.dart';
 import 'package:fusion/screens/Gymkhana/Polls.dart';
 import 'package:fusion/screens/Gymkhana/Apply.dart';
