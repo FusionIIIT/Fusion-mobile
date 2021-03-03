@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:fusion/screens/Login%20and%20Dashboard/Components/appBar.dart';
+import 'package:fusion/screens/Login%20and%20Dashboard/Components/side_drawer.dart';
 
 class AcademicHomePage extends StatefulWidget {
+  static String tag = 'academic-page';
   @override
   _AcademicHomePageState createState() => _AcademicHomePageState();
 }
 
 class _AcademicHomePageState extends State<AcademicHomePage> {
   @override
-
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
         border: new Border.all(
@@ -15,13 +17,10 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
           width: 1.0,
           style: BorderStyle.solid,
         ),
-        borderRadius: new BorderRadius.all(
-            new Radius.circular(5.0)
-        )
-    );
+        borderRadius: new BorderRadius.all(new Radius.circular(5.0)));
   }
 
-  Text myText(String text){
+  Text myText(String text) {
     return Text(
       text,
       style: TextStyle(
@@ -30,7 +29,7 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
     );
   }
 
-  Padding myContainer(String text){
+  Padding myContainer(String text) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -45,10 +44,8 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Academic Module"),
-        backgroundColor: Colors.grey[900],
-      ),
+      appBar: DefaultAppBar().buildAppBar(),
+      drawer: SideDrawer(),
       body: ListView(
         scrollDirection: Axis.vertical,
         children: [
@@ -63,9 +60,7 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
                     width: 1.0,
                     style: BorderStyle.solid,
                   ),
-                  borderRadius: new BorderRadius.all(
-                      new Radius.circular(5.0)
-                  ),
+                  borderRadius: new BorderRadius.all(new Radius.circular(5.0)),
                 ),
                 child: Column(
                   children: [
@@ -73,18 +68,15 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
                       image: AssetImage("assets/profile.jpeg"),
                     ),
                     Center(
-                        child: Text(
-                          "Rishabh Pandey",
+                      child: Text("Rishabh Pandey",
                           style: TextStyle(
                             fontSize: 15.0,
-                          )
-                        ),
+                          )),
                     ),
                     Center(
-                        child:Text(
-                          "cse student",
-                        )
-                    ),
+                        child: Text(
+                      "cse student",
+                    )),
                   ],
                 ),
               ),
@@ -95,7 +87,7 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
             child: Container(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Center(child:myText("Academic")),
+                child: Center(child: myText("Academic")),
               ),
               decoration: new BoxDecoration(
                 color: Colors.orange,
@@ -107,13 +99,11 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black,
-                    offset: Offset(0.0,1.0),
+                    offset: Offset(0.0, 1.0),
                     blurRadius: 2.0,
                   )
                 ],
-                borderRadius: new BorderRadius.all(
-                    new Radius.circular(5.0)
-                ),
+                borderRadius: new BorderRadius.all(new Radius.circular(5.0)),
               ),
             ),
           ),
@@ -125,31 +115,31 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
           ),
           InkWell(
             child: myContainer("Registration"),
-            onTap: (){
+            onTap: () {
               Navigator.pushNamed(context, '/registration_home_page');
             },
           ),
           InkWell(
             child: myContainer("Check Dues"),
-            onTap: (){
+            onTap: () {
               Navigator.pushNamed(context, '/dues');
             },
           ),
           InkWell(
             child: myContainer("Apply for Bonafide"),
-            onTap: (){
+            onTap: () {
               Navigator.pushNamed(context, '/bonafide');
             },
           ),
           InkWell(
             child: myContainer("Check Attendance"),
-            onTap: (){
+            onTap: () {
               Navigator.pushNamed(context, '/attendance');
             },
           ),
           InkWell(
             child: myContainer("Branch Change"),
-            onTap: (){
+            onTap: () {
               Navigator.pushNamed(context, 'branch_change');
             },
           ),
@@ -159,13 +149,13 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
           ),
           InkWell(
             child: myContainer("Thesis"),
-            onTap: (){
+            onTap: () {
               Navigator.pushNamed(context, '/thesis');
             },
           ),
           InkWell(
             child: myContainer("View Performance"),
-            onTap: (){
+            onTap: () {
               Navigator.pushNamed(context, '/performance');
             },
           ),
