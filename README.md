@@ -31,6 +31,14 @@ Flutter: Use Stable Version *1.22.6*
 * `git checkout <module-name>`
   * Switches to the branch you just created
 
+## To update your Project
+
+*`git fetch upstream`
+  * Gets the new commits on the main repository
+*`git pull upstream`
+  * Merges the new updates to your project
+
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
