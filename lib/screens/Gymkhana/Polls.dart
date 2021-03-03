@@ -5,46 +5,46 @@ class Polls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Home(),
+      home: Voting_Polls(),
     );
   }
 }
 
-class Home extends StatefulWidget {
-  @override
-  _HomeState createState() => _HomeState();
-}
+ // ignore: camel_case_types
+ class Voting_Polls extends StatefulWidget {
+   @override
+   _Voting_PollsState createState() => _Voting_PollsState();
+ }
 
-class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
-  AnimationController _controller;
+ class _Voting_PollsState extends State<Voting_Polls> {
+   @override
+   Widget build(BuildContext context) {
+     return Scaffold(
+         appBar: AppBar(
+           title: Text('Voting Polls'),
+           backgroundColor: Colors.black,
+         ),
+         body: Column(
+           children: <Widget>[
+             SizedBox(
+               height: 10,
+               width: 10,
+             ),
+             Padding(
+               padding: EdgeInsets.all(5.0),
+               child: Center(
+                 child:Container(
+                   margin: EdgeInsets.all(10.0),
+                   color: Colors.grey[300],
+                   padding:EdgeInsets.all(5.0),
+                   child: Text("Voting Polls",
+                       style: TextStyle(fontSize: 25.0)),
+                 ),  ),
+             ),
+             TextField()
+           ],
+         ));
+   }
+ }
 
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('Voting Polls'),
-          backgroundColor: Colors.black,
-        ),
-        body: Column(
-          children: <Widget>[
-            SizedBox(
-              height: 10,
-              width: 10,
-            ),
-            Padding(
-              padding: EdgeInsets.all(5.0),
-              child: Center(
-                child:Container(
-                  margin: EdgeInsets.all(10.0),
-                  color: Colors.grey[300],
-                  padding:EdgeInsets.all(5.0),
-                  child: Text("Voting Polls",
-                      style: TextStyle(fontSize: 25.0)),
-                ),  ),
-            ),
-            TextField()
-          ],
-        ));
-  }
-}

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fusion/screens/Login%20and%20Dashboard/Components/appBar.dart';
+import 'package:fusion/screens/Login%20and%20Dashboard/Components/side_drawer.dart';
 
-class Homepage extends StatelessWidget {
+class GymkhanaHomepage extends StatelessWidget {
   @override
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
@@ -38,10 +40,8 @@ class Homepage extends StatelessWidget {
   }
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Gymkhana Module"),
-        backgroundColor: Colors.grey[900],
-      ),
+      appBar: DefaultAppBar().buildAppBar(),
+      drawer: SideDrawer(),
       body: ListView(
          scrollDirection: Axis.vertical,
         children: [
