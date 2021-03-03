@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/screens/home.dart';
+import 'package:fusion/screens/Gymkhana/Homepage.dart';
+import 'package:fusion/screens/Gymkhana/Polls.dart';
+import 'package:fusion/screens/Gymkhana/Apply.dart';
+import 'package:fusion/screens/Gymkhana/Record.dart';
+import 'package:fusion/screens/Gymkhana/Club.dart';
+
+
 void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -7,10 +14,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'The Complete WebView in Flutter',
-      theme: ThemeData(),
-      darkTheme: ThemeData.dark(),
-      home: MyHomePage(),
+      initialRoute: '/homepage',
+      routes: {
+        '/homepage': (context) => Homepage(),
+        '/first': (context) =>Applyy(),
+        '/second': (context) => Home(),
+        '/third': (context) => Clubs(),
+        '/fourth': (context) => Records(),
+      },
     );
   }
 }
