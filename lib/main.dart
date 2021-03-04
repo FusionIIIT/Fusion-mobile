@@ -11,6 +11,11 @@ import 'package:fusion/screens/Academic/Branch_Change/branch_change.dart';
 import 'package:fusion/screens/Academic/Check_Attendance/attendance.dart';
 import 'package:fusion/screens/Academic/View_Performance/performance.dart';
 import 'package:fusion/screens/Academic/Check_Dues/dues.dart';
+import 'package:fusion/screens/Gymkhana/Homepage.dart';
+import 'package:fusion/screens/Gymkhana/Polls.dart';
+import 'package:fusion/screens/Gymkhana/Apply.dart';
+import 'package:fusion/screens/Gymkhana/Record.dart';
+import 'package:fusion/screens/Gymkhana/Club.dart';
 
 void main() => runApp(MyApp());
 
@@ -35,6 +40,11 @@ class MyApp extends StatelessWidget {
         '/dues': (context) => Dues(),
         '/thesis': (context) => ThesisHomePage(),
         '/performance': (context) => Performance(),
+        '/homepage': (context) => GymkhanaHomepage(),
+        '/first': (context) =>Applyy(),
+        '/second': (context) => Polls(),
+        '/third': (context) => Clubs(),
+        '/fourth': (context) => Records(),
       },
     );
   }
