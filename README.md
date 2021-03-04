@@ -9,7 +9,7 @@ Use one of the following IDE's:
 - VS Code
 
 
-Flutter: Use Stable Version *1.22.6*
+Flutter: Use Stable Version *2.0*
 
 ## Downloading the code
 
