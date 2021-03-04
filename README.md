@@ -37,7 +37,7 @@ Flutter: Use Stable Version *1.22.6*
 * `git fetch upstream`
   * Gets the new commits on the main repository
   
-* `git pull upstream`
+* `git pull upstream <branch-name>`
   * Merges the new updates to your project
 
 
