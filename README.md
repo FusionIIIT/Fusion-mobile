@@ -28,14 +28,16 @@ Flutter: Use Stable Version *1.22.6*
 
 * `git checkout -b <module-name>`
   * Creates a new branch `<module-name>` in your repository
+  
 * `git checkout <module-name>`
   * Switches to the branch you just created
 
 ## To update your Project
 
-*`git fetch upstream`
+* `git fetch upstream`
   * Gets the new commits on the main repository
-*`git pull upstream`
+  
+* `git pull upstream`
   * Merges the new updates to your project
 
 
