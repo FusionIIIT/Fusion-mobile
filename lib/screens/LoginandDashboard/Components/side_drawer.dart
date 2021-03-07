@@ -128,6 +128,7 @@ class _SideDrawerState extends State<SideDrawer> {
               onTap: () {
                 LoginService auth = LoginService();
                 auth.logout();
+                Navigator.pushReplacementNamed(context, "/landing");
               },
             ),
           ],
