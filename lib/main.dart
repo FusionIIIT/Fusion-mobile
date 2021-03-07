@@ -17,6 +17,7 @@ import 'package:fusion/screens/Gymkhana/Apply.dart';
 import 'package:fusion/screens/Gymkhana/Record.dart';
 import 'package:fusion/screens/Gymkhana/Club.dart';
 import 'package:fusion/screens/Complaint/complaint.dart';
+import 'package:fusion/screens/Profile/profile.dart';
 
 void main() => runApp(MyApp());
 
@@ -47,6 +48,7 @@ class MyApp extends StatelessWidget {
         '/third': (context) => Clubs(),
         '/fourth': (context) => Records(),
         '/complaint': (context) => Complaint(),
+        '/profile':(context)=>Profile(),
       },
     );
   }
