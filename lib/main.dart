@@ -18,7 +18,11 @@ import 'package:fusion/screens/Gymkhana/Apply.dart';
 import 'package:fusion/screens/Gymkhana/Record.dart';
 import 'package:fusion/screens/Gymkhana/Club.dart';
 import 'package:fusion/screens/Complaint/complaint.dart';
+<<<<<<< HEAD
 import 'package:fusion/screens/landing_page.dart';
+=======
+import 'package:fusion/screens/Profile/profile.dart';
+>>>>>>> 1775237ada6f3d3ed696a1b1df29769f8d0afdf8
 
 void main() => runApp(MyApp());
 
@@ -50,6 +54,7 @@ class MyApp extends StatelessWidget {
         '/third': (context) => Clubs(),
         '/fourth': (context) => Records(),
         '/complaint': (context) => Complaint(),
+        '/profile':(context)=>Profile(),
       },
     );
   }
