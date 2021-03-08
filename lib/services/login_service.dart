@@ -1,13 +1,35 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:fusion/models/user.dart';
 import 'package:fusion/services/storage_service.dart';
+import 'package:http/http.dart';
 
 class LoginService {
   User? user;
 
-  void login(String username, String password) async {
-    var prefs = await StorageService.getInstance();
-    print(username);
-    prefs!.saveUserInDB(User(username));
+  login(String username, String password) async {
+    HttpClient client = HttpClient();
+
+    HttpClientRequest request =
+        await client.post("172.27.17.216", 80, "/api/auth/login/");
+
+    print(client);
+
+    request.headers
+        .set(HttpHeaders.contentTypeHeader, "application/json; charset=UTF-8");
+    request.write(jsonEncode({"username": "2018225", "password": "dgVUwBc"}));
+
+    HttpClientResponse response = await request.close();
+
+    response.transform(utf8.decoder).listen((contents) {
+      print(contents);
+    });
+
+    // var prefs = await StorageService.getInstance();
+    // print(jsonEncode({"username": "2018225", "password": "dgVUwBc"}));
+
+    // prefs!.saveUserInDB(User(username));
   }
 
   void logout() async {
