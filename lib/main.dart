@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:fusion/screens/LoginandDashboard/dashboard.dart';
 import 'package:fusion/screens/LoginandDashboard/login_page.dart';
@@ -46,7 +44,7 @@ class MyApp extends StatelessWidget {
         '/thesis': (context) => ThesisHomePage(),
         '/performance': (context) => Performance(),
         '/homepage': (context) => GymkhanaHomepage(),
-        '/first': (context) => Applyy(),
+        '/first': (context) => Apply(),
         '/second': (context) => Polls(),
         '/third': (context) => Clubs(),
         '/fourth': (context) => Records(),
