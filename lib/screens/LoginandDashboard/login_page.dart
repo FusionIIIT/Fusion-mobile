@@ -67,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
           onPressed: () {
             LoginService auth = LoginService();
             auth.login(username!, pass!);
-            // Navigator.pushReplacementNamed(context, "/landing");
+            Navigator.pushReplacementNamed(context, "/landing");
           },
           color: Colors.deepOrangeAccent,
           child: Text(
