@@ -1,18 +1,15 @@
 
 
-import 'ComplaintHistory/complain_history.dart';
 import 'package:flutter/material.dart';
-import '../LoginandDashboard/Components/side_drawer.dart';
+import 'side_drawer.dart';
 import 'dart:ui';
-import 'LodgeComplaint/lodge_complaint.dart';
-import 'Feedback/feedback.dart';
 
-class Complaint extends StatefulWidget {
+class HomeScreen extends StatefulWidget {
   @override
-  _ComplaintState createState() => _ComplaintState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _ComplaintState extends State<Complaint> {
+class _HomeScreenState extends State<HomeScreen> {
   bool _loading1 = true;
   bool _loading2 = false;
   bool _loading3 = false;
@@ -44,9 +41,7 @@ class _ComplaintState extends State<Complaint> {
         ],
       ),
       drawer: SideDrawer(),
-      body: ListView(
-        shrinkWrap: true,
-        physics: ClampingScrollPhysics(),
+      body: Column(
         children: [
           Card(
             elevation: 2.0,
@@ -56,27 +51,46 @@ class _ComplaintState extends State<Complaint> {
               children: [
                 Container(
                   margin: EdgeInsets.only(top: 20),
-                  width: 170,
+                  width: 350,
                   height: 170,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/unknown.jpg'),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+                  decoration: BoxDecoration(),
                 ),
                 SizedBox(height: 10),
                 Text(
-                  'KARAN TIWARI',
+                  'Samarth Soni',
                   style: TextStyle(color: Colors.black, fontSize: 20),
                 ),
                 SizedBox(height: 10),
                 Text(
-                  'student',
+                  'STUDENT | CSE',
                   style: TextStyle(color: Colors.black, fontSize: 15),
                 ),
                 SizedBox(height: 10),
               ],
+            ),
+          ),
+          Card(
+            elevation: 2.0,
+            color: Colors.red[200],
+            margin: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+            shadowColor: Colors.black,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    'DUES',
+                    style: TextStyle(color: Colors.black, fontSize: 24),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    '24.00 Rs',
+                    style: TextStyle(color: Colors.black, fontSize: 24),
+                  ),
+                  SizedBox(height: 10),
+                ],
+              ),
             ),
           ),
           Card(
@@ -88,21 +102,17 @@ class _ComplaintState extends State<Complaint> {
               children: [
                 FlatButton(
                   onPressed: () {
-                    setState(() {
-                      _loading1 = true;
-                      _loading2 = false;
-                      _loading3 = false;
-                    });
+                    Navigator.pushNamed(context, '/book_search');
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Lodge a Complaint',
+                        'Book Search',
                         style: TextStyle(
                           fontWeight: FontWeight.w800,
                           fontSize: 18,
-                          color: _loading1 ? Colors.black : Colors.black26,
+                          color: Colors.black,
                         ),
                       ),
                       Icon(
@@ -115,20 +125,18 @@ class _ComplaintState extends State<Complaint> {
                 FlatButton(
                   onPressed: () {
                     setState(() {
-                      _loading1 = false;
-                      _loading2 = true;
-                      _loading3 = false;
+                      Navigator.pushNamed(context, '/issued_items');
                     });
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Complaint History',
+                        'Issue Items',
                         style: TextStyle(
                           fontWeight: FontWeight.w800,
                           fontSize: 18,
-                          color: _loading2 ? Colors.black : Colors.black26,
+                          color: Colors.black,
                         ),
                       ),
                       Icon(
@@ -137,25 +145,22 @@ class _ComplaintState extends State<Complaint> {
                     ],
                   ),
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 2),
                 FlatButton(
                   onPressed: () {
                     setState(() {
-                      _loading1 = false;
-
-                      _loading2 = false;
-                      _loading3 = true;
+                      Navigator.pushNamed(context, '/dues');
                     });
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Feedback',
+                        'Dues ',
                         style: TextStyle(
                           fontWeight: FontWeight.w800,
                           fontSize: 18,
-                          color: _loading3 ? Colors.black : Colors.black26,
+                          color: Colors.black,
                         ),
                       ),
                       Icon(
@@ -164,25 +169,10 @@ class _ComplaintState extends State<Complaint> {
                     ],
                   ),
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 2),
               ],
             ),
           ),
-          _loading1
-              ? LodgeComplaint()
-              : SizedBox(
-                  height: 2,
-                ),
-          _loading2
-              ? ComplainHistory()
-              : SizedBox(
-                  height: 5,
-                ),
-          _loading3
-              ? FeedBack()
-              : SizedBox(
-                  height: 2,
-                ),
         ],
       ),
     );

@@ -1,4 +1,6 @@
 
+
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -15,13 +17,13 @@ class Apply extends StatelessWidget {
 class Applyy extends StatelessWidget {
   GlobalKey<FormState> formkey = GlobalKey<FormState>();  //Global key
   void validate(){
-    if(formkey.currentState.validate()){
+    if(formkey.currentState!.validate()){
       print("ok");
     }else{
       print("Error");
     }
   }
-  String formvalidate(value){            //form validate function
+  String? formvalidate(value){            //form validate function
     if(value.isEmpty){
       return "Error";
     }else{

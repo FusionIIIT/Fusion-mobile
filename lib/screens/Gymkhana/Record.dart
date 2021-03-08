@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 
 class Record extends StatelessWidget {
@@ -36,10 +38,10 @@ class Records extends StatelessWidget {
             ),
           ],
           rows: Srecords.map((srecord) => DataRow(cells: [
-                DataCell(Text(srecord.Name)),
-                DataCell(Text(srecord.Rollno)),
-                DataCell(Text(srecord.Club)),
-                DataCell(Text(srecord.Category)),
+                DataCell(Text(srecord.Name!)),
+                DataCell(Text(srecord.Rollno!)),
+                DataCell(Text(srecord.Club!)),
+                DataCell(Text(srecord.Category!)),
               ])).toList());
 
   @override
@@ -71,10 +73,10 @@ class Records extends StatelessWidget {
 class Srecord {
   // Student record class
 
-  String Name;
-  String Rollno;
-  String Club;
-  String Category;
+  String? Name;
+  String? Rollno;
+  String? Club;
+  String? Category;
 
   Srecord({this.Name, this.Rollno, this.Club, this.Category});
 }

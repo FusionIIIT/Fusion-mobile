@@ -1,6 +1,8 @@
+
+
 import 'package:flutter/material.dart';
-import 'package:fusion/screens/Login%20and%20Dashboard/Components/appBar.dart';
-import 'package:fusion/screens/Login%20and%20Dashboard/Components/side_drawer.dart';
+import 'package:fusion/screens/LoginandDashboard/Components/appBar.dart';
+import 'package:fusion/screens/LoginandDashboard/Components/side_drawer.dart';
 
 class AcademicHomePage extends StatefulWidget {
   static String tag = 'academic-page';

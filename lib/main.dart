@@ -1,7 +1,8 @@
+
+
 import 'package:flutter/material.dart';
-import 'package:fusion/screens/Login%20and%20Dashboard/home_page.dart';
-import 'package:fusion/screens/Login%20and%20Dashboard/login_page.dart';
-import 'package:fusion/screens/home.dart';
+import 'package:fusion/screens/LoginandDashboard/dashboard.dart';
+import 'package:fusion/screens/LoginandDashboard/login_page.dart';
 import 'package:fusion/screens/Academic/academic_home_page.dart';
 import 'package:fusion/screens/Academic/Current_Semester/current_semester_home_page.dart';
 import 'package:fusion/screens/Academic/Registration/registration_home_page.dart';
@@ -17,6 +18,8 @@ import 'package:fusion/screens/Gymkhana/Apply.dart';
 import 'package:fusion/screens/Gymkhana/Record.dart';
 import 'package:fusion/screens/Gymkhana/Club.dart';
 import 'package:fusion/screens/Complaint/complaint.dart';
+import 'package:fusion/screens/Profile/profile.dart';
+import 'package:fusion/screens/landing_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -28,10 +31,11 @@ class MyApp extends StatelessWidget {
       title: 'Fusion',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blueGrey, fontFamily: 'Nunito'),
-      initialRoute: '/login_page',
+      initialRoute: '/landing',
       routes: {
+        '/landing': (context) => LandingPage(),
         '/login_page': (context) => LoginPage(),
-        '/home_page': (context) => HomePage(),
+        '/home_page': (context) => Dashboard(),
         '/academic_home_page': (context) => AcademicHomePage(),
         '/current_semester_home_page': (context) => CurrentSemesterHomePage(),
         '/registration_home_page': (context) => RegistrationHomePage(),
@@ -47,6 +51,7 @@ class MyApp extends StatelessWidget {
         '/third': (context) => Clubs(),
         '/fourth': (context) => Records(),
         '/complaint': (context) => Complaint(),
+        '/profile': (context) => Profile(),
       },
     );
   }
