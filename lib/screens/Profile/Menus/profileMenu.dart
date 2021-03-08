@@ -3,7 +3,7 @@ import 'dart:ui';
 
 class profileMenu extends StatelessWidget {
   const profileMenu({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -37,10 +37,9 @@ class profileMenu extends StatelessWidget {
                       ElevatedButton(
                           child: Text('Edit'),
                           onPressed: () => {
-                            //Edit Function
-                          },
-                          style: ElevatedButton.styleFrom(
-                              primary: Colors.red)),
+                                //Edit Function
+                              },
+                          style: ElevatedButton.styleFrom(primary: Colors.red)),
                     ],
                   ),
                 ),
@@ -56,8 +55,7 @@ class profileMenu extends StatelessWidget {
                     child: TextFormField(
                       enabled: true,
                       initialValue: 'NA',
-                      decoration:
-                      InputDecoration(border: InputBorder.none),
+                      decoration: InputDecoration(border: InputBorder.none),
                     ),
                   ),
                 )
@@ -90,10 +88,9 @@ class profileMenu extends StatelessWidget {
                       ElevatedButton(
                           child: Text('Edit'),
                           onPressed: () => {
-                            //Edit Function
-                          },
-                          style: ElevatedButton.styleFrom(
-                              primary: Colors.red)),
+                                //Edit Function
+                              },
+                          style: ElevatedButton.styleFrom(primary: Colors.red)),
                     ],
                   ),
                 ),
@@ -113,7 +110,7 @@ class profileMenu extends StatelessWidget {
                             Container(
                               //Label + Edit Button
                               decoration: BoxDecoration(
-                                //border: Border.all(color: Colors.black),
+                                  //border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(5.0),
                                       topRight: Radius.circular(5.0)),
@@ -121,8 +118,7 @@ class profileMenu extends StatelessWidget {
                               padding: EdgeInsets.all(5.0),
                               child: Row(
                                 children: [
-                                  Expanded(
-                                      child: Text('Date of Birth')),
+                                  Expanded(child: Text('Date of Birth')),
                                   // ElevatedButton(
                                   //     child: Text('Edit'),
                                   //     onPressed: ()=>{
@@ -139,14 +135,14 @@ class profileMenu extends StatelessWidget {
                               color: Colors.white24,
                               child: Container(
                                 decoration: BoxDecoration(
-                                  //border: Border.all(color: Colors.black),
+                                    //border: Border.all(color: Colors.black),
                                     color: Colors.grey.shade300),
-                                padding: EdgeInsets.fromLTRB(
-                                    10.0, 1.0, 10.0, 1.0),
+                                padding:
+                                    EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
                                 child: InputDatePickerFormField(
                                   //enabled: true,
-                                  firstDate: DateTime.utc(1996,01,01),
-                                  initialDate: DateTime.utc(1999,08,14),
+                                  firstDate: DateTime.utc(1996, 01, 01),
+                                  initialDate: DateTime.utc(1999, 08, 14),
                                   lastDate: DateTime.now(),
                                 ),
                               ),
@@ -166,7 +162,7 @@ class profileMenu extends StatelessWidget {
                             Container(
                               //Label + Edit Button
                               decoration: BoxDecoration(
-                                //border: Border.all(color: Colors.black),
+                                  //border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(5.0),
                                       topRight: Radius.circular(5.0)),
@@ -191,16 +187,15 @@ class profileMenu extends StatelessWidget {
                               color: Colors.white24,
                               child: Container(
                                 decoration: BoxDecoration(
-                                    border:
-                                    Border.all(color: Colors.black),
+                                    border: Border.all(color: Colors.black),
                                     color: Colors.grey.shade300),
-                                padding: EdgeInsets.fromLTRB(
-                                    10.0, 1.0, 10.0, 1.0),
+                                padding:
+                                    EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
                                 child: TextFormField(
                                   enabled: true,
                                   initialValue: 'Some Address',
-                                  decoration: InputDecoration(
-                                      border: InputBorder.none),
+                                  decoration:
+                                      InputDecoration(border: InputBorder.none),
                                 ),
                               ),
                             )
@@ -239,10 +234,9 @@ class profileMenu extends StatelessWidget {
                       ElevatedButton(
                           child: Text('Edit'),
                           onPressed: () => {
-                            //Edit Function
-                          },
-                          style: ElevatedButton.styleFrom(
-                              primary: Colors.red)),
+                                //Edit Function
+                              },
+                          style: ElevatedButton.styleFrom(primary: Colors.red)),
                     ],
                   ),
                 ),
@@ -262,7 +256,7 @@ class profileMenu extends StatelessWidget {
                             Container(
                               //Label + Edit Button
                               decoration: BoxDecoration(
-                                //border: Border.all(color: Colors.black),
+                                  //border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(5.0),
                                       topRight: Radius.circular(5.0)),
@@ -287,15 +281,15 @@ class profileMenu extends StatelessWidget {
                               color: Colors.white24,
                               child: Container(
                                 decoration: BoxDecoration(
-                                  //border: Border.all(color: Colors.black),
+                                    //border: Border.all(color: Colors.black),
                                     color: Colors.grey.shade300),
-                                padding: EdgeInsets.fromLTRB(
-                                    10.0, 1.0, 10.0, 1.0),
+                                padding:
+                                    EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
                                 child: TextFormField(
                                   enabled: true,
                                   initialValue: '+919690499393',
-                                  decoration: InputDecoration(
-                                      border: InputBorder.none),
+                                  decoration:
+                                      InputDecoration(border: InputBorder.none),
                                 ),
                               ),
                             )
@@ -314,7 +308,7 @@ class profileMenu extends StatelessWidget {
                             Container(
                               //Label + Edit Button
                               decoration: BoxDecoration(
-                                //border: Border.all(color: Colors.black),
+                                  //border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(5.0),
                                       topRight: Radius.circular(5.0)),
@@ -339,16 +333,15 @@ class profileMenu extends StatelessWidget {
                               color: Colors.white24,
                               child: Container(
                                 decoration: BoxDecoration(
-                                    border:
-                                    Border.all(color: Colors.black),
+                                    border: Border.all(color: Colors.black),
                                     color: Colors.grey.shade300),
-                                padding: EdgeInsets.fromLTRB(
-                                    10.0, 1.0, 10.0, 1.0),
+                                padding:
+                                    EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
                                 child: TextFormField(
                                   enabled: true,
                                   initialValue: '2018313@iiitdmj.ac.in',
-                                  decoration: InputDecoration(
-                                      border: InputBorder.none),
+                                  decoration:
+                                      InputDecoration(border: InputBorder.none),
                                 ),
                               ),
                             )

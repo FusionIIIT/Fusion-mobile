@@ -3,7 +3,7 @@ import 'dart:ui';
 
 class educationMenu extends StatelessWidget {
   const educationMenu({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -37,10 +37,9 @@ class educationMenu extends StatelessWidget {
                       ElevatedButton(
                           child: Text('Add'),
                           onPressed: () => {
-                            //Edit Function
-                          },
-                          style: ElevatedButton.styleFrom(
-                              primary: Colors.red)),
+                                //Edit Function
+                              },
+                          style: ElevatedButton.styleFrom(primary: Colors.red)),
                     ],
                   ),
                 ),
@@ -60,7 +59,7 @@ class educationMenu extends StatelessWidget {
                             Container(
                               //Label + Edit Button
                               decoration: BoxDecoration(
-                                //border: Border.all(color: Colors.black),
+                                  //border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(5.0),
                                       topRight: Radius.circular(5.0)),
@@ -68,8 +67,7 @@ class educationMenu extends StatelessWidget {
                               padding: EdgeInsets.all(5.0),
                               child: Row(
                                 children: [
-                                  Expanded(
-                                      child: Text('Degree')),
+                                  Expanded(child: Text('Degree')),
                                 ],
                               ),
                             ),
@@ -79,15 +77,15 @@ class educationMenu extends StatelessWidget {
                               color: Colors.white24,
                               child: Container(
                                 decoration: BoxDecoration(
-                                  //border: Border.all(color: Colors.black),
+                                    //border: Border.all(color: Colors.black),
                                     color: Colors.grey.shade300),
-                                padding: EdgeInsets.fromLTRB(
-                                    10.0, 1.0, 10.0, 1.0),
+                                padding:
+                                    EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
                                 child: TextFormField(
                                   enabled: true,
                                   initialValue: '',
-                                  decoration: InputDecoration(
-                                      border: InputBorder.none),
+                                  decoration:
+                                      InputDecoration(border: InputBorder.none),
                                 ),
                               ),
                             )
@@ -106,7 +104,7 @@ class educationMenu extends StatelessWidget {
                             Container(
                               //Label + Edit Button
                               decoration: BoxDecoration(
-                                //border: Border.all(color: Colors.black),
+                                  //border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(5.0),
                                       topRight: Radius.circular(5.0)),
@@ -114,8 +112,7 @@ class educationMenu extends StatelessWidget {
                               padding: EdgeInsets.all(5.0),
                               child: Row(
                                 children: [
-                                  Expanded(
-                                      child: Text('Stream')),
+                                  Expanded(child: Text('Stream')),
                                 ],
                               ),
                             ),
@@ -125,15 +122,15 @@ class educationMenu extends StatelessWidget {
                               color: Colors.white24,
                               child: Container(
                                 decoration: BoxDecoration(
-                                  //border: Border.all(color: Colors.black),
+                                    //border: Border.all(color: Colors.black),
                                     color: Colors.grey.shade300),
-                                padding: EdgeInsets.fromLTRB(
-                                    10.0, 1.0, 10.0, 1.0),
+                                padding:
+                                    EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
                                 child: TextFormField(
                                   enabled: true,
                                   initialValue: '',
-                                  decoration: InputDecoration(
-                                      border: InputBorder.none),
+                                  decoration:
+                                      InputDecoration(border: InputBorder.none),
                                 ),
                               ),
                             )
@@ -152,7 +149,7 @@ class educationMenu extends StatelessWidget {
                             Container(
                               //Label + Edit Button
                               decoration: BoxDecoration(
-                                //border: Border.all(color: Colors.black),
+                                  //border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(5.0),
                                       topRight: Radius.circular(5.0)),
@@ -160,8 +157,7 @@ class educationMenu extends StatelessWidget {
                               padding: EdgeInsets.all(5.0),
                               child: Row(
                                 children: [
-                                  Expanded(
-                                      child: Text('Start Date')),
+                                  Expanded(child: Text('Start Date')),
                                 ],
                               ),
                             ),
@@ -171,14 +167,14 @@ class educationMenu extends StatelessWidget {
                               color: Colors.white24,
                               child: Container(
                                 decoration: BoxDecoration(
-                                  //border: Border.all(color: Colors.black),
+                                    //border: Border.all(color: Colors.black),
                                     color: Colors.grey.shade300),
-                                padding: EdgeInsets.fromLTRB(
-                                    10.0, 1.0, 10.0, 1.0),
+                                padding:
+                                    EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
                                 child: InputDatePickerFormField(
                                   //enabled: true,
-                                  initialDate: DateTime.utc(2000,01,01),
-                                  firstDate: DateTime.utc(2000,01,01),
+                                  initialDate: DateTime.utc(2000, 01, 01),
+                                  firstDate: DateTime.utc(2000, 01, 01),
                                   lastDate: DateTime.now(),
                                 ),
                               ),
@@ -198,7 +194,7 @@ class educationMenu extends StatelessWidget {
                             Container(
                               //Label + Edit Button
                               decoration: BoxDecoration(
-                                //border: Border.all(color: Colors.black),
+                                  //border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(5.0),
                                       topRight: Radius.circular(5.0)),
@@ -206,8 +202,7 @@ class educationMenu extends StatelessWidget {
                               padding: EdgeInsets.all(5.0),
                               child: Row(
                                 children: [
-                                  Expanded(
-                                      child: Text('End Date')),
+                                  Expanded(child: Text('End Date')),
                                 ],
                               ),
                             ),
@@ -217,14 +212,14 @@ class educationMenu extends StatelessWidget {
                               color: Colors.white24,
                               child: Container(
                                 decoration: BoxDecoration(
-                                  //border: Border.all(color: Colors.black),
+                                    //border: Border.all(color: Colors.black),
                                     color: Colors.grey.shade300),
-                                padding: EdgeInsets.fromLTRB(
-                                    10.0, 1.0, 10.0, 1.0),
+                                padding:
+                                    EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
                                 child: InputDatePickerFormField(
                                   //enabled: true,
-                                  initialDate: DateTime.utc(2000,01,01),
-                                  firstDate: DateTime.utc(2000,01,01),
+                                  initialDate: DateTime.utc(2000, 01, 01),
+                                  firstDate: DateTime.utc(2000, 01, 01),
                                   lastDate: DateTime.now(),
                                 ),
                               ),
@@ -244,7 +239,7 @@ class educationMenu extends StatelessWidget {
                             Container(
                               //Label + Edit Button
                               decoration: BoxDecoration(
-                                //border: Border.all(color: Colors.black),
+                                  //border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(5.0),
                                       topRight: Radius.circular(5.0)),
@@ -252,8 +247,7 @@ class educationMenu extends StatelessWidget {
                               padding: EdgeInsets.all(5.0),
                               child: Row(
                                 children: [
-                                  Expanded(
-                                      child: Text('Institute Name')),
+                                  Expanded(child: Text('Institute Name')),
                                 ],
                               ),
                             ),
@@ -263,15 +257,15 @@ class educationMenu extends StatelessWidget {
                               color: Colors.white24,
                               child: Container(
                                 decoration: BoxDecoration(
-                                  //border: Border.all(color: Colors.black),
+                                    //border: Border.all(color: Colors.black),
                                     color: Colors.grey.shade300),
-                                padding: EdgeInsets.fromLTRB(
-                                    10.0, 1.0, 10.0, 1.0),
+                                padding:
+                                    EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
                                 child: TextFormField(
                                   enabled: true,
                                   initialValue: '',
-                                  decoration: InputDecoration(
-                                      border: InputBorder.none),
+                                  decoration:
+                                      InputDecoration(border: InputBorder.none),
                                 ),
                               ),
                             )
@@ -290,7 +284,7 @@ class educationMenu extends StatelessWidget {
                             Container(
                               //Label + Edit Button
                               decoration: BoxDecoration(
-                                //border: Border.all(color: Colors.black),
+                                  //border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(5.0),
                                       topRight: Radius.circular(5.0)),
@@ -298,8 +292,7 @@ class educationMenu extends StatelessWidget {
                               padding: EdgeInsets.all(5.0),
                               child: Row(
                                 children: [
-                                  Expanded(
-                                      child: Text('Grade')),
+                                  Expanded(child: Text('Grade')),
                                 ],
                               ),
                             ),
@@ -309,15 +302,15 @@ class educationMenu extends StatelessWidget {
                               color: Colors.white24,
                               child: Container(
                                 decoration: BoxDecoration(
-                                  //border: Border.all(color: Colors.black),
+                                    //border: Border.all(color: Colors.black),
                                     color: Colors.grey.shade300),
-                                padding: EdgeInsets.fromLTRB(
-                                    10.0, 1.0, 10.0, 1.0),
+                                padding:
+                                    EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
                                 child: TextFormField(
                                   enabled: true,
                                   initialValue: '',
-                                  decoration: InputDecoration(
-                                      border: InputBorder.none),
+                                  decoration:
+                                      InputDecoration(border: InputBorder.none),
                                 ),
                               ),
                             )
@@ -356,10 +349,9 @@ class educationMenu extends StatelessWidget {
                       ElevatedButton(
                           child: Text('Add'),
                           onPressed: () => {
-                            //Edit Function
-                          },
-                          style: ElevatedButton.styleFrom(
-                              primary: Colors.red)),
+                                //Edit Function
+                              },
+                          style: ElevatedButton.styleFrom(primary: Colors.red)),
                     ],
                   ),
                 ),
@@ -379,7 +371,7 @@ class educationMenu extends StatelessWidget {
                             Container(
                               //Label + Edit Button
                               decoration: BoxDecoration(
-                                //border: Border.all(color: Colors.black),
+                                  //border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(5.0),
                                       topRight: Radius.circular(5.0)),
@@ -397,15 +389,15 @@ class educationMenu extends StatelessWidget {
                               color: Colors.white24,
                               child: Container(
                                 decoration: BoxDecoration(
-                                  //border: Border.all(color: Colors.black),
+                                    //border: Border.all(color: Colors.black),
                                     color: Colors.grey.shade300),
-                                padding: EdgeInsets.fromLTRB(
-                                    10.0, 1.0, 10.0, 1.0),
+                                padding:
+                                    EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
                                 child: TextFormField(
                                   enabled: true,
                                   initialValue: '',
-                                  decoration: InputDecoration(
-                                      border: InputBorder.none),
+                                  decoration:
+                                      InputDecoration(border: InputBorder.none),
                                 ),
                               ),
                             )
@@ -424,7 +416,7 @@ class educationMenu extends StatelessWidget {
                             Container(
                               //Label + Edit Button
                               decoration: BoxDecoration(
-                                //border: Border.all(color: Colors.black),
+                                  //border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(5.0),
                                       topRight: Radius.circular(5.0)),
@@ -442,15 +434,15 @@ class educationMenu extends StatelessWidget {
                               color: Colors.white24,
                               child: Container(
                                 decoration: BoxDecoration(
-                                  //border: Border.all(color: Colors.black),
+                                    //border: Border.all(color: Colors.black),
                                     color: Colors.grey.shade300),
-                                padding: EdgeInsets.fromLTRB(
-                                    10.0, 1.0, 10.0, 1.0),
+                                padding:
+                                    EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
                                 child: TextFormField(
                                   enabled: true,
                                   initialValue: '',
-                                  decoration: InputDecoration(
-                                      border: InputBorder.none),
+                                  decoration:
+                                      InputDecoration(border: InputBorder.none),
                                 ),
                               ),
                             )
@@ -469,7 +461,7 @@ class educationMenu extends StatelessWidget {
                             Container(
                               //Label + Edit Button
                               decoration: BoxDecoration(
-                                //border: Border.all(color: Colors.black),
+                                  //border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(5.0),
                                       topRight: Radius.circular(5.0)),
@@ -477,8 +469,7 @@ class educationMenu extends StatelessWidget {
                               padding: EdgeInsets.all(5.0),
                               child: Row(
                                 children: [
-                                  Expanded(
-                                      child: Text('Start Date')),
+                                  Expanded(child: Text('Start Date')),
                                 ],
                               ),
                             ),
@@ -488,14 +479,14 @@ class educationMenu extends StatelessWidget {
                               color: Colors.white24,
                               child: Container(
                                 decoration: BoxDecoration(
-                                  //border: Border.all(color: Colors.black),
+                                    //border: Border.all(color: Colors.black),
                                     color: Colors.grey.shade300),
-                                padding: EdgeInsets.fromLTRB(
-                                    10.0, 1.0, 10.0, 1.0),
+                                padding:
+                                    EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
                                 child: InputDatePickerFormField(
                                   //enabled: true,
-                                  initialDate: DateTime.utc(2000,01,01),
-                                  firstDate: DateTime.utc(2000,01,01),
+                                  initialDate: DateTime.utc(2000, 01, 01),
+                                  firstDate: DateTime.utc(2000, 01, 01),
                                   lastDate: DateTime.now(),
                                 ),
                               ),
@@ -515,7 +506,7 @@ class educationMenu extends StatelessWidget {
                             Container(
                               //Label + Edit Button
                               decoration: BoxDecoration(
-                                //border: Border.all(color: Colors.black),
+                                  //border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(5.0),
                                       topRight: Radius.circular(5.0)),
@@ -523,8 +514,7 @@ class educationMenu extends StatelessWidget {
                               padding: EdgeInsets.all(5.0),
                               child: Row(
                                 children: [
-                                  Expanded(
-                                      child: Text('End Date')),
+                                  Expanded(child: Text('End Date')),
                                 ],
                               ),
                             ),
@@ -534,14 +524,14 @@ class educationMenu extends StatelessWidget {
                               color: Colors.white24,
                               child: Container(
                                 decoration: BoxDecoration(
-                                  //border: Border.all(color: Colors.black),
+                                    //border: Border.all(color: Colors.black),
                                     color: Colors.grey.shade300),
-                                padding: EdgeInsets.fromLTRB(
-                                    10.0, 1.0, 10.0, 1.0),
+                                padding:
+                                    EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
                                 child: InputDatePickerFormField(
                                   //enabled: true,
-                                  initialDate: DateTime.utc(2000,01,01),
-                                  firstDate: DateTime.utc(2000,01,01),
+                                  initialDate: DateTime.utc(2000, 01, 01),
+                                  firstDate: DateTime.utc(2000, 01, 01),
                                   lastDate: DateTime.now(),
                                 ),
                               ),
@@ -561,7 +551,7 @@ class educationMenu extends StatelessWidget {
                             Container(
                               //Label + Edit Button
                               decoration: BoxDecoration(
-                                //border: Border.all(color: Colors.black),
+                                  //border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(5.0),
                                       topRight: Radius.circular(5.0)),
@@ -579,15 +569,15 @@ class educationMenu extends StatelessWidget {
                               color: Colors.white24,
                               child: Container(
                                 decoration: BoxDecoration(
-                                  //border: Border.all(color: Colors.black),
+                                    //border: Border.all(color: Colors.black),
                                     color: Colors.grey.shade300),
-                                padding: EdgeInsets.fromLTRB(
-                                    10.0, 1.0, 10.0, 1.0),
+                                padding:
+                                    EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
                                 child: TextFormField(
                                   enabled: true,
                                   initialValue: '',
-                                  decoration: InputDecoration(
-                                      border: InputBorder.none),
+                                  decoration:
+                                      InputDecoration(border: InputBorder.none),
                                 ),
                               ),
                             )
