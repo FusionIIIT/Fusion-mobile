@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import '../Constants/constants.dart';
 
@@ -25,7 +23,7 @@ class _ComplainHistoryState extends State<ComplainHistory> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              FlatButton(
+              TextButton(
                 onPressed: () {
                   setState(() {
                     _loading1 = true;
@@ -52,7 +50,7 @@ class _ComplainHistoryState extends State<ComplainHistory> {
                 ),
               ),
               SizedBox(height: 10),
-              FlatButton(
+              TextButton(
                 onPressed: () {
                   setState(() {
                     _loading1 = false;
@@ -79,7 +77,7 @@ class _ComplainHistoryState extends State<ComplainHistory> {
                 ),
               ),
               SizedBox(height: 10),
-              FlatButton(
+              TextButton(
                 onPressed: () {
                   setState(() {
                     _loading1 = false;
@@ -106,7 +104,7 @@ class _ComplainHistoryState extends State<ComplainHistory> {
                 ),
               ),
               SizedBox(height: 10),
-              FlatButton(
+              TextButton(
                 onPressed: () {
                   setState(() {
                     _loading1 = false;

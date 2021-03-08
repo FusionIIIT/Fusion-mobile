@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'side_drawer.dart';
 import 'dart:ui';
@@ -100,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                FlatButton(
+                TextButton(
                   onPressed: () {
                     Navigator.pushNamed(context, '/book_search');
                   },
@@ -122,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 SizedBox(height: 10),
-                FlatButton(
+                TextButton(
                   onPressed: () {
                     setState(() {
                       Navigator.pushNamed(context, '/issued_items');
@@ -146,7 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 SizedBox(height: 2),
-                FlatButton(
+                TextButton(
                   onPressed: () {
                     setState(() {
                       Navigator.pushNamed(context, '/dues');
