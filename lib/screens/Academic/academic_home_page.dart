@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:fusion/screens/LoginandDashboard/Components/appBar.dart';
 import 'package:fusion/screens/LoginandDashboard/Components/side_drawer.dart';
@@ -11,7 +9,6 @@ class AcademicHomePage extends StatefulWidget {
 }
 
 class _AcademicHomePageState extends State<AcademicHomePage> {
-  @override
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
         border: new Border.all(

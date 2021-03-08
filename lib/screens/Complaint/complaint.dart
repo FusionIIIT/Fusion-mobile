@@ -1,5 +1,3 @@
-
-
 import 'ComplaintHistory/complain_history.dart';
 import 'package:flutter/material.dart';
 import '../LoginandDashboard/Components/side_drawer.dart';
@@ -86,7 +84,7 @@ class _ComplaintState extends State<Complaint> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                FlatButton(
+                TextButton(
                   onPressed: () {
                     setState(() {
                       _loading1 = true;
@@ -112,7 +110,7 @@ class _ComplaintState extends State<Complaint> {
                   ),
                 ),
                 SizedBox(height: 10),
-                FlatButton(
+                TextButton(
                   onPressed: () {
                     setState(() {
                       _loading1 = false;
@@ -138,7 +136,7 @@ class _ComplaintState extends State<Complaint> {
                   ),
                 ),
                 SizedBox(height: 10),
-                FlatButton(
+                TextButton(
                   onPressed: () {
                     setState(() {
                       _loading1 = false;

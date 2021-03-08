@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
 
-class achievementsMenu extends StatelessWidget {
-  const achievementsMenu({
+class AchievementsMenu extends StatelessWidget {
+  const AchievementsMenu({
     Key? key,
   }) : super(key: key);
 

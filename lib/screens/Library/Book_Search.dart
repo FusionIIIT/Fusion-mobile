@@ -1,7 +1,7 @@
-
-
 import 'package:flutter/material.dart';
-import 'side_drawer.dart';
+import 'package:fusion/screens/LoginandDashboard/Components/side_drawer.dart';
+
+//TODO: Update Elevated Button
 
 class BookSearch extends StatefulWidget {
   @override
@@ -12,6 +12,7 @@ class _BookSearchState extends State<BookSearch> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: SideDrawer(),
       appBar: AppBar(
         backgroundColor: Colors.black87,
         title: Text(

@@ -1,11 +1,8 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:fusion/screens/LoginandDashboard/Components/appBar.dart';
 import 'package:fusion/screens/LoginandDashboard/Components/side_drawer.dart';
 
 class GymkhanaHomepage extends StatelessWidget {
-  @override
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
         border: new Border.all(
@@ -38,6 +35,7 @@ class GymkhanaHomepage extends StatelessWidget {
     );
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: DefaultAppBar().buildAppBar(),

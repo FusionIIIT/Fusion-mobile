@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fusion/services/login_service.dart';
-import 'dashboard.dart';
 
 class LoginPage extends StatefulWidget {
   static String tag = 'login-page';
@@ -38,6 +38,7 @@ class _LoginPageState extends State<LoginPage> {
       onChanged: (input) {
         username = input;
       },
+      autofillHints: [AutofillHints.username],
     );
 
     final password = TextFormField(
@@ -53,6 +54,7 @@ class _LoginPageState extends State<LoginPage> {
       onChanged: (input) {
         pass = input;
       },
+      autofillHints: [AutofillHints.password],
     );
 
     final loginButton = Padding(
@@ -64,9 +66,13 @@ class _LoginPageState extends State<LoginPage> {
         child: MaterialButton(
           minWidth: 200.0,
           height: 42.0,
-          onPressed: () {
+          onPressed: () async {
             LoginService auth = LoginService();
-            auth.login(username!, pass!);
+            bool complete = await auth.login(username!, pass!);
+            TextInput.finishAutofillContext();
+            if (complete == true) {
+              Navigator.pushReplacementNamed(context, "/landing");
+            }
             Navigator.pushReplacementNamed(context, "/landing");
           },
           color: Colors.deepOrangeAccent,
@@ -82,7 +88,9 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
     final forgotLabel = TextButton(
-      onPressed: () {},
+      onPressed: () {
+        // TODO: Add Forgot Password API
+      },
       child: Text(
         'Forgot password?',
         style: TextStyle(color: Colors.black54),
@@ -91,28 +99,30 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-        child: ListView(
-          shrinkWrap: true,
-          padding: EdgeInsets.only(left: 24.0, right: 24.0),
-          children: <Widget>[
-            logo,
-            Text(
-              'Fusion Login',
-              style: TextStyle(
-                color: Colors.deepOrangeAccent,
-                fontWeight: FontWeight.bold,
-                fontSize: 30.0,
+        child: AutofillGroup(
+          child: ListView(
+            shrinkWrap: true,
+            padding: EdgeInsets.only(left: 24.0, right: 24.0),
+            children: <Widget>[
+              logo,
+              Text(
+                'Fusion Login',
+                style: TextStyle(
+                  color: Colors.deepOrangeAccent,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30.0,
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 48.0),
-            email,
-            SizedBox(height: 8.0),
-            password,
-            SizedBox(height: 8.0),
-            loginButton,
-            forgotLabel,
-          ],
+              SizedBox(height: 48.0),
+              email,
+              SizedBox(height: 8.0),
+              password,
+              SizedBox(height: 8.0),
+              loginButton,
+              forgotLabel,
+            ],
+          ),
         ),
       ),
     );
