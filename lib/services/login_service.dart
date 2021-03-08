@@ -9,6 +9,8 @@ class LoginService {
   User? user;
 
   login(String username, String password) async {
+    // TODO Add Try Except cases for Login
+
     HttpClient client = HttpClient();
 
     HttpClientRequest request =
@@ -26,10 +28,9 @@ class LoginService {
       print(contents);
     });
 
-    // var prefs = await StorageService.getInstance();
-    // print(jsonEncode({"username": "2018225", "password": "dgVUwBc"}));
+    var prefs = await StorageService.getInstance();
 
-    // prefs!.saveUserInDB(User(username));
+    prefs!.saveUserInDB(User(username));
   }
 
   void logout() async {

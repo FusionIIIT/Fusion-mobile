@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:flutter/material.dart';
 import 'side_drawer.dart';
@@ -78,16 +78,16 @@ class _IssuedItemsState extends State<IssuedItems> {
                     DataCell(
                         Container(
                             width: 40, //SET width
-                            child: Text(element["Acc No."]))), //Extracting from Map element the value
+                            child: Text(element["Acc No."]!))), //Extracting from Map element the value
                     DataCell(Container(
                         width: 150, //SET width
-                        child: Text(element["Book Name"]))),
+                        child: Text(element["Book Name"]!))),
                     DataCell(Container(
                         width: 57, //SET width
-                        child: Text(element["Issued Date"]))),
+                        child: Text(element["Issued Date"]!))),
                     DataCell(Container(
                         width: 57, //SET width
-                        child: Text(element["Due Date"]))),
+                        child: Text(element["Due Date"]!))),
                   ],
                 )),
               )

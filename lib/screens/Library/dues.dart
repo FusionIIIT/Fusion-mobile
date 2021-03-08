@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:flutter/material.dart';
 import 'side_drawer.dart';
@@ -85,16 +85,16 @@ class _duesState extends State<dues> {
                     DataCell(
                         Container(
                             width: 40, //SET width
-                            child: Text(element["Acc No."]))), //Extracting from Map element the value
+                            child: Text(element["Acc No."]!))), //Extracting from Map element the value
                     DataCell(Container(
                         width: 57, //SET width
-                        child: Text(element["Due Date"]))),
+                        child: Text(element["Due Date"]!))),
                     DataCell(Container(
                         width: 57, //SET width
-                        child: Text(element["Days*o*d*c"]))),
+                        child: Text(element["Days*o*d*c"]!))),
                     DataCell(Container(
                         width: 57, //SET width
-                        child: Text(element["Total*o*d*c"]))),
+                        child: Text(element["Total*o*d*c"]!))),
                   ],
                 )),
               )
@@ -139,19 +139,19 @@ class _duesState extends State<dues> {
                     DataCell(
                         Container(
                             width: 40, //SET width
-                            child: Text(element["Acc No."]))), //Extracting from Map element the value
+                            child: Text(element["Acc No."]!))), //Extracting from Map element the value
                     DataCell(Container(
                         width: 57, //SET width
-                        child: Text(element["Due Date"]))),
+                        child: Text(element["Due Date"]!))),
                     DataCell(Container(
                         width: 57, //SET width
-                        child: Text(element["Return Date"]))),
+                        child: Text(element["Return Date"]!))),
                     DataCell(Container(
                         width: 57, //SET width
-                        child: Text(element["Total*o*d*c"]))),
+                        child: Text(element["Total*o*d*c"]!))),
                     DataCell(Container(
                         width: 57, //SET width
-                        child: Text(element["Cause"]))),
+                        child: Text(element["Cause"]!))),
                   ],
                 )),
               )
