@@ -1,14 +1,13 @@
+// @dart=2.9
+
 import 'package:flutter/material.dart';
-import 'file:///F:/fusion/fusion_iiit/lib/Library/Book_Search.dart';
 import 'side_drawer.dart';
 import 'dart:ui';
-import '../main.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
-
 
 class _HomeScreenState extends State<HomeScreen> {
   bool _loading1 = true;
@@ -42,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       drawer: SideDrawer(),
-      body:Column(
+      body: Column(
         children: [
           Card(
             elevation: 2.0,
@@ -54,9 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   margin: EdgeInsets.only(top: 20),
                   width: 350,
                   height: 170,
-                  decoration: BoxDecoration(
-
-                  ),
+                  decoration: BoxDecoration(),
                 ),
                 SizedBox(height: 10),
                 Text(
@@ -81,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.all(16.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children:[
+                children: [
                   Text(
                     'DUES',
                     style: TextStyle(color: Colors.black, fontSize: 24),

@@ -3,52 +3,54 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 class NotificationCard extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 2.0,
-      margin:
-      EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+      margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
       shadowColor: Colors.black,
-
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          InfoCard(heading: "Scholarship Portal", details: "Invitation to apply for Merit-cum-Means Scholarship-by Dr. YashPalSingh Katharria"),
-          InfoCard(heading: "Gymkhana Module", details: "Mega Event by Saaz Club Will be organized in L-102 by Kuhu Pyasi"),
-          InfoCard(heading: "Gymkhana Module", details: "Badminton Session Will be organised in SAC"),
-
+          InfoCard(
+              heading: "Scholarship Portal",
+              details:
+                  "Invitation to apply for Merit-cum-Means Scholarship-by Dr. YashPalSingh Katharria"),
+          InfoCard(
+              heading: "Gymkhana Module",
+              details:
+                  "Mega Event by Saaz Club Will be organized in L-102 by Kuhu Pyasi"),
+          InfoCard(
+              heading: "Gymkhana Module",
+              details: "Badminton Session Will be organised in SAC"),
         ],
       ),
     );
   }
 }
+
 class NewsCard extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 2.0,
-      margin:
-      EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+      margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
       shadowColor: Colors.black,
-
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          InfoCard(heading: "Academics News", details: "End Sem Exams Coming Soon"),
-
-
+          InfoCard(
+              heading: "Academics News", details: "End Sem Exams Coming Soon"),
         ],
       ),
     );
   }
 }
+
 class InfoCard extends StatelessWidget {
   final String heading;
   final String details;
-  InfoCard({this.heading,this.details});
+  InfoCard({required this.heading, required this.details});
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -67,7 +69,6 @@ class InfoCard extends StatelessWidget {
               fontSize: 20.0,
               color: Colors.deepOrangeAccent,
               fontWeight: FontWeight.bold,
-
             ),
           ),
           SizedBox(
@@ -90,15 +91,15 @@ class InfoCard extends StatelessWidget {
             },
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                    (Set<MaterialState> states) {
+                (Set<MaterialState> states) {
                   if (states.contains(MaterialState.pressed))
                     return Colors.deepOrange;
-                  return Colors.deepOrangeAccent; // Use the component's default.
+                  return Colors
+                      .deepOrangeAccent; // Use the component's default.
                 },
               ),
             ),
           )
-
         ],
       ),
     );
