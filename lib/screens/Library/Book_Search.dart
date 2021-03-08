@@ -1,6 +1,7 @@
+// @dart=2.9
+
 import 'package:flutter/material.dart';
 import 'side_drawer.dart';
-import 'package:search_widget/search_widget.dart';
 
 class BookSearch extends StatefulWidget {
   @override
@@ -20,26 +21,23 @@ class _BookSearchState extends State<BookSearch> {
           ),
         ),
       ),
-      body:Center(
+      body: Center(
         child: Column(
           children: <Widget>[
-            
             SizedBox(height: 10),
-              Text(
-                'Search By Book Name',
-                style: TextStyle(
-                  fontWeight: FontWeight.w800,
-                  fontSize: 25,
-                  color: Colors.black,
-                ),
+            Text(
+              'Search By Book Name',
+              style: TextStyle(
+                fontWeight: FontWeight.w800,
+                fontSize: 25,
+                color: Colors.black,
               ),
-
+            ),
             SizedBox(height: 28),
             Container(
               width: 420,
-              child:
-              TextField(
-                cursorColor  : Colors.deepOrange,
+              child: TextField(
+                cursorColor: Colors.deepOrange,
                 decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.deepOrange),
@@ -49,12 +47,9 @@ class _BookSearchState extends State<BookSearch> {
                       borderSide: BorderSide(color: Colors.deepOrange),
                       borderRadius: BorderRadius.circular(25.7),
                     ),
-                    focusColor : Colors.deepOrange,
+                    focusColor: Colors.deepOrange,
                     labelText: 'Enter Book Name',
-                    labelStyle: TextStyle(
-                        color: Colors.deepOrange
-                    )
-                ),
+                    labelStyle: TextStyle(color: Colors.deepOrange)),
               ),
             ),
             SizedBox(height: 20),
@@ -66,11 +61,8 @@ class _BookSearchState extends State<BookSearch> {
                 color: Colors.orangeAccent,
                 hoverElevation: 10.0,
                 hoverColor: Colors.white,
-                onPressed: ()=>null,
-                child: Text('Search' ,
-                style:TextStyle(
-                  fontSize: 20
-                )),
+                onPressed: () => null,
+                child: Text('Search', style: TextStyle(fontSize: 20)),
               ),
             ),
             SizedBox(height: 40),
@@ -85,9 +77,8 @@ class _BookSearchState extends State<BookSearch> {
             SizedBox(height: 28),
             Container(
               width: 420,
-              child:
-              TextField(
-                cursorColor  : Colors.deepOrange,
+              child: TextField(
+                cursorColor: Colors.deepOrange,
                 decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.deepOrange),
@@ -97,12 +88,9 @@ class _BookSearchState extends State<BookSearch> {
                       borderSide: BorderSide(color: Colors.deepOrange),
                       borderRadius: BorderRadius.circular(25.7),
                     ),
-                    focusColor : Colors.deepOrange,
+                    focusColor: Colors.deepOrange,
                     labelText: 'Enter Author Name',
-                    labelStyle: TextStyle(
-                        color: Colors.deepOrange
-                    )
-                ),
+                    labelStyle: TextStyle(color: Colors.deepOrange)),
               ),
             ),
             SizedBox(height: 30),
@@ -114,19 +102,13 @@ class _BookSearchState extends State<BookSearch> {
                 color: Colors.orangeAccent,
                 hoverElevation: 10.0,
                 hoverColor: Colors.white,
-                onPressed: ()=>null,
-                child: Text('Search' ,
-                    style:TextStyle(
-                        fontSize: 20
-                    )),
+                onPressed: () => null,
+                child: Text('Search', style: TextStyle(fontSize: 20)),
               ),
             ),
           ],
         ),
       ),
-      );
-
+    );
   }
 }
-
-

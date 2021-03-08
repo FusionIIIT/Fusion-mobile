@@ -3,7 +3,7 @@ import 'dart:ui';
 
 class achievementsMenu extends StatelessWidget {
   const achievementsMenu({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -37,10 +37,9 @@ class achievementsMenu extends StatelessWidget {
                       ElevatedButton(
                           child: Text('Add'),
                           onPressed: () => {
-                            //Edit Function
-                          },
-                          style: ElevatedButton.styleFrom(
-                              primary: Colors.red)),
+                                //Edit Function
+                              },
+                          style: ElevatedButton.styleFrom(primary: Colors.red)),
                     ],
                   ),
                 ),
@@ -60,7 +59,7 @@ class achievementsMenu extends StatelessWidget {
                             Container(
                               //Label + Edit Button
                               decoration: BoxDecoration(
-                                //border: Border.all(color: Colors.black),
+                                  //border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(5.0),
                                       topRight: Radius.circular(5.0)),
@@ -78,15 +77,15 @@ class achievementsMenu extends StatelessWidget {
                               color: Colors.white24,
                               child: Container(
                                 decoration: BoxDecoration(
-                                  //border: Border.all(color: Colors.black),
+                                    //border: Border.all(color: Colors.black),
                                     color: Colors.grey.shade300),
-                                padding: EdgeInsets.fromLTRB(
-                                    10.0, 1.0, 10.0, 1.0),
+                                padding:
+                                    EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
                                 child: TextFormField(
                                   enabled: true,
                                   initialValue: '',
-                                  decoration: InputDecoration(
-                                      border: InputBorder.none),
+                                  decoration:
+                                      InputDecoration(border: InputBorder.none),
                                 ),
                               ),
                             )
@@ -105,7 +104,7 @@ class achievementsMenu extends StatelessWidget {
                             Container(
                               //Label + Edit Button
                               decoration: BoxDecoration(
-                                //border: Border.all(color: Colors.black),
+                                  //border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(5.0),
                                       topRight: Radius.circular(5.0)),
@@ -123,15 +122,15 @@ class achievementsMenu extends StatelessWidget {
                               color: Colors.white24,
                               child: Container(
                                 decoration: BoxDecoration(
-                                  //border: Border.all(color: Colors.black),
+                                    //border: Border.all(color: Colors.black),
                                     color: Colors.grey.shade300),
-                                padding: EdgeInsets.fromLTRB(
-                                    10.0, 1.0, 10.0, 1.0),
+                                padding:
+                                    EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
                                 child: TextFormField(
                                   enabled: true,
                                   initialValue: '',
-                                  decoration: InputDecoration(
-                                      border: InputBorder.none),
+                                  decoration:
+                                      InputDecoration(border: InputBorder.none),
                                 ),
                               ),
                             )
@@ -150,7 +149,7 @@ class achievementsMenu extends StatelessWidget {
                             Container(
                               //Label + Edit Button
                               decoration: BoxDecoration(
-                                //border: Border.all(color: Colors.black),
+                                  //border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(5.0),
                                       topRight: Radius.circular(5.0)),
@@ -158,8 +157,7 @@ class achievementsMenu extends StatelessWidget {
                               padding: EdgeInsets.all(5.0),
                               child: Row(
                                 children: [
-                                  Expanded(
-                                      child: Text('Date')),
+                                  Expanded(child: Text('Date')),
                                 ],
                               ),
                             ),
@@ -169,14 +167,14 @@ class achievementsMenu extends StatelessWidget {
                               color: Colors.white24,
                               child: Container(
                                 decoration: BoxDecoration(
-                                  //border: Border.all(color: Colors.black),
+                                    //border: Border.all(color: Colors.black),
                                     color: Colors.grey.shade300),
-                                padding: EdgeInsets.fromLTRB(
-                                    10.0, 1.0, 10.0, 1.0),
+                                padding:
+                                    EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
                                 child: InputDatePickerFormField(
                                   //enabled: true,
-                                  initialDate: DateTime.utc(2000,01,01),
-                                  firstDate: DateTime.utc(2000,01,01),
+                                  initialDate: DateTime.utc(2000, 01, 01),
+                                  firstDate: DateTime.utc(2000, 01, 01),
                                   lastDate: DateTime.now(),
                                 ),
                               ),
@@ -196,7 +194,7 @@ class achievementsMenu extends StatelessWidget {
                             Container(
                               //Label + Edit Button
                               decoration: BoxDecoration(
-                                //border: Border.all(color: Colors.black),
+                                  //border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(5.0),
                                       topRight: Radius.circular(5.0)),
@@ -214,15 +212,15 @@ class achievementsMenu extends StatelessWidget {
                               color: Colors.white24,
                               child: Container(
                                 decoration: BoxDecoration(
-                                  //border: Border.all(color: Colors.black),
+                                    //border: Border.all(color: Colors.black),
                                     color: Colors.grey.shade300),
-                                padding: EdgeInsets.fromLTRB(
-                                    10.0, 1.0, 10.0, 1.0),
+                                padding:
+                                    EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
                                 child: TextFormField(
                                   enabled: true,
                                   initialValue: '',
-                                  decoration: InputDecoration(
-                                      border: InputBorder.none),
+                                  decoration:
+                                      InputDecoration(border: InputBorder.none),
                                 ),
                               ),
                             )
@@ -241,7 +239,7 @@ class achievementsMenu extends StatelessWidget {
                             Container(
                               //Label + Edit Button
                               decoration: BoxDecoration(
-                                //border: Border.all(color: Colors.black),
+                                  //border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(5.0),
                                       topRight: Radius.circular(5.0)),
@@ -259,15 +257,15 @@ class achievementsMenu extends StatelessWidget {
                               color: Colors.white24,
                               child: Container(
                                 decoration: BoxDecoration(
-                                  //border: Border.all(color: Colors.black),
+                                    //border: Border.all(color: Colors.black),
                                     color: Colors.grey.shade300),
-                                padding: EdgeInsets.fromLTRB(
-                                    10.0, 1.0, 10.0, 1.0),
+                                padding:
+                                    EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
                                 child: TextFormField(
                                   enabled: true,
                                   initialValue: '',
-                                  decoration: InputDecoration(
-                                      border: InputBorder.none),
+                                  decoration:
+                                      InputDecoration(border: InputBorder.none),
                                 ),
                               ),
                             )

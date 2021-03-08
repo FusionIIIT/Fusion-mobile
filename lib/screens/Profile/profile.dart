@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../Login and Dashboard/Components/side_drawer.dart';
+import 'package:fusion/screens/LoginandDashboard/Components/side_drawer.dart';
 import 'dart:ui';
 import './Menus/profileMenu.dart';
 import './Menus/skillsMenu.dart';
@@ -135,8 +135,8 @@ class _ProfileState extends State<Profile> {
                                 : Colors.transparent,
                             child: Text(menu)));
                   }).toList(),
-                  onChanged: (selectedItem) =>
-                      setState(() => _selectedMenu = selectedItem),
+                  onChanged: (String? selectedItem) =>
+                      setState(() => _selectedMenu = selectedItem!),
                 ),
               ),
             ),

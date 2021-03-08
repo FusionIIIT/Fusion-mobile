@@ -4,18 +4,21 @@ import 'package:flutter/rendering.dart';
 import 'Components/appBar.dart';
 import 'Components/side_drawer.dart';
 import 'DashboardComponents/cardItems.dart';
-class HomePage extends StatefulWidget {
+
+class Dashboard extends StatefulWidget {
   static String tag = 'home-page';
   @override
-  _HomePageState createState() => _HomePageState();
+  _DashboardState createState() => _DashboardState();
 }
-class _HomePageState extends State<HomePage> {
+
+class _DashboardState extends State<Dashboard> {
   bool _loading = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),   // This is default app bar used in all modules
-      drawer: SideDrawer(),   // This is sideDrawer used in all modules
+      appBar: DefaultAppBar()
+          .buildAppBar(), // This is default app bar used in all modules
+      drawer: SideDrawer(), // This is sideDrawer used in all modules
       body: ListView(
         shrinkWrap: true,
         physics: ClampingScrollPhysics(),
@@ -121,14 +124,9 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-          _loading
-              ? NotificationCard()
-              :  NewsCard(),
+          _loading ? NotificationCard() : NewsCard(),
         ],
       ),
     );
   }
-
-
 }
-

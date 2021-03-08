@@ -1,17 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'home_page.dart';
+import 'package:fusion/services/login_service.dart';
+import 'dashboard.dart';
 
 class LoginPage extends StatefulWidget {
   static String tag = 'login-page';
   @override
   _LoginPageState createState() => _LoginPageState();
 }
+
 bool checkBoxValue = false;
 
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
+    String? username;
+    String? pass;
+
     final logo = Hero(
       tag: 'hero',
       child: CircleAvatar(
@@ -30,6 +35,9 @@ class _LoginPageState extends State<LoginPage> {
           borderRadius: BorderRadius.circular(32.0),
         ),
       ),
+      onChanged: (input) {
+        username = input;
+      },
     );
 
     final password = TextFormField(
@@ -42,6 +50,9 @@ class _LoginPageState extends State<LoginPage> {
           borderRadius: BorderRadius.circular(32.0),
         ),
       ),
+      onChanged: (input) {
+        pass = input;
+      },
     );
 
     final loginButton = Padding(
@@ -54,7 +65,9 @@ class _LoginPageState extends State<LoginPage> {
           minWidth: 200.0,
           height: 42.0,
           onPressed: () {
-            Navigator.of(context).pushNamed('/home_page');
+            LoginService auth = LoginService();
+            auth.login(username!, pass!);
+            // Navigator.pushReplacementNamed(context, "/landing");
           },
           color: Colors.deepOrangeAccent,
           child: Text(
@@ -68,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
-    final forgotLabel = FlatButton(
+    final forgotLabel = TextButton(
       onPressed: () {},
       child: Text(
         'Forgot password?',

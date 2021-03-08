@@ -3,7 +3,7 @@ import 'dart:ui';
 
 class skillsMenu extends StatelessWidget {
   const skillsMenu({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -37,10 +37,9 @@ class skillsMenu extends StatelessWidget {
                       ElevatedButton(
                           child: Text('Add'),
                           onPressed: () => {
-                            //Edit Function
-                          },
-                          style: ElevatedButton.styleFrom(
-                              primary: Colors.red)),
+                                //Edit Function
+                              },
+                          style: ElevatedButton.styleFrom(primary: Colors.red)),
                     ],
                   ),
                 ),
@@ -60,7 +59,7 @@ class skillsMenu extends StatelessWidget {
                             Container(
                               //Label + Edit Button
                               decoration: BoxDecoration(
-                                //border: Border.all(color: Colors.black),
+                                  //border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(5.0),
                                       topRight: Radius.circular(5.0)),
@@ -85,15 +84,15 @@ class skillsMenu extends StatelessWidget {
                               color: Colors.white24,
                               child: Container(
                                 decoration: BoxDecoration(
-                                  //border: Border.all(color: Colors.black),
+                                    //border: Border.all(color: Colors.black),
                                     color: Colors.grey.shade300),
-                                padding: EdgeInsets.fromLTRB(
-                                    10.0, 1.0, 10.0, 1.0),
+                                padding:
+                                    EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
                                 child: TextFormField(
                                   enabled: true,
                                   initialValue: 'Add new',
-                                  decoration: InputDecoration(
-                                      border: InputBorder.none),
+                                  decoration:
+                                      InputDecoration(border: InputBorder.none),
                                 ),
                               ),
                             )
@@ -112,7 +111,7 @@ class skillsMenu extends StatelessWidget {
                             Container(
                               //Label + Edit Button
                               decoration: BoxDecoration(
-                                //border: Border.all(color: Colors.black),
+                                  //border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(5.0),
                                       topRight: Radius.circular(5.0)),
@@ -137,16 +136,15 @@ class skillsMenu extends StatelessWidget {
                               color: Colors.white24,
                               child: Container(
                                 decoration: BoxDecoration(
-                                    border:
-                                    Border.all(color: Colors.black),
+                                    border: Border.all(color: Colors.black),
                                     color: Colors.grey.shade300),
-                                padding: EdgeInsets.fromLTRB(
-                                    10.0, 1.0, 10.0, 1.0),
+                                padding:
+                                    EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
                                 child: TextFormField(
                                   enabled: true,
                                   initialValue: 'Out of 100',
-                                  decoration: InputDecoration(
-                                      border: InputBorder.none),
+                                  decoration:
+                                      InputDecoration(border: InputBorder.none),
                                 ),
                               ),
                             )
