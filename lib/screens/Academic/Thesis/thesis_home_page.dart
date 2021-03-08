@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/screens/Academic/Thesis/add_thesis_topic.dart';
 import 'package:fusion/screens/Academic/Thesis/registered_thesis.dart';
+import 'package:fusion/screens/Login%20and%20Dashboard/Components/side_drawer.dart';
 
 class ThesisHomePage extends StatefulWidget {
   @override
@@ -14,8 +15,25 @@ class _ThesisHomePageState extends State<ThesisHomePage> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Thesis'),
-          backgroundColor: Colors.grey[900],
+          backgroundColor: Colors.black,
+          title: Text(
+            "FUSION",
+            style: TextStyle(color: Colors.white),
+          ),
+          actions: <Widget>[
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Icon(Icons.search),
+            ),
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Icon(Icons.notifications),
+            ),
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Icon(Icons.more_vert),
+            ),
+          ],
           bottom: TabBar(
             isScrollable: true,
             indicatorColor: Colors.white,
@@ -38,6 +56,7 @@ class _ThesisHomePageState extends State<ThesisHomePage> {
             ],
           ),
         ),
+        drawer: SideDrawer(),
         body: TabBarView(
           children: [
             RegisteredThesis(),

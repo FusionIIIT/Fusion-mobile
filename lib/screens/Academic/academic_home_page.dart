@@ -9,6 +9,9 @@ class AcademicHomePage extends StatefulWidget {
 }
 
 class _AcademicHomePageState extends State<AcademicHomePage> {
+  final list={
+    'Current Semester':['Semester','Time table', 'Academic Calendar', 'List of holidays','Exam time table']
+  };
   @override
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
@@ -140,7 +143,7 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
           InkWell(
             child: myContainer("Branch Change"),
             onTap: () {
-              Navigator.pushNamed(context, 'branch_change');
+              Navigator.pushNamed(context, '/branch_change');
             },
           ),
           InkWell(
@@ -164,3 +167,25 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
     );
   }
 }
+
+class ModulesPadding extends StatelessWidget {
+  final String line;
+  final String pageMover;
+  ModulesPadding({this.line,this.pageMover});
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Text(
+          line,
+          style: TextStyle(fontSize: 16.0, color: Colors.black),
+        ),
+      ),
+      onPressed: () {
+        Navigator.pushNamed(context, pageMover);
+      },
+    );
+  }
+}
+

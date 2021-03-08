@@ -4,6 +4,7 @@ import 'package:fusion/screens/Academic/Current_Semester/exam_time_table.dart';
 import 'package:fusion/screens/Academic/Current_Semester/list_of_holidays.dart';
 import 'package:fusion/screens/Academic/Current_Semester/semester.dart';
 import 'package:fusion/screens/Academic/Current_Semester/time_table.dart';
+import 'package:fusion/screens/Login%20and%20Dashboard/Components/side_drawer.dart';
 
 class CurrentSemesterHomePage extends StatefulWidget {
   @override
@@ -17,8 +18,25 @@ class _CurrentSemesterHomePageState extends State<CurrentSemesterHomePage> {
       length: 5,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('current semester'),
-          backgroundColor: Colors.grey[900],
+          backgroundColor: Colors.black,
+          title: Text(
+            "Current Semester",
+            style: TextStyle(color: Colors.white),
+          ),
+          actions: <Widget>[
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Icon(Icons.search),
+            ),
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Icon(Icons.notifications),
+            ),
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Icon(Icons.more_vert),
+            ),
+          ],
           bottom: TabBar(
             isScrollable: true,
             indicatorColor: Colors.white,
@@ -62,6 +80,7 @@ class _CurrentSemesterHomePageState extends State<CurrentSemesterHomePage> {
             ],
           ),
         ),
+        drawer: SideDrawer(),
         body: TabBarView(
           children: [
             Semester(),
