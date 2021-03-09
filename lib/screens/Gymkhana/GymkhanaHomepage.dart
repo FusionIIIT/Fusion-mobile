@@ -106,25 +106,25 @@ class GymkhanaHomepage extends StatelessWidget {
           InkWell(
             child: myContainer("Apply"),
             onTap: () {
-              Navigator.pushNamed(context, '/first');
+              Navigator.pushNamed(context, '/gymkhana_homepage/apply');
             },
           ),
           InkWell(
             child: myContainer("Voting Polls"),
             onTap: () {
-              Navigator.pushNamed(context, '/second');
+              Navigator.pushNamed(context, '/gymkhana_homepage/polls');
             },
           ),
           InkWell(
             child: myContainer("Club Details"),
             onTap: () {
-              Navigator.pushNamed(context, '/third');
+              Navigator.pushNamed(context, '/gymkhana_homepage/clubs');
             },
           ),
           InkWell(
             child: myContainer("Members Record"),
             onTap: () {
-              Navigator.pushNamed(context, '/fourth');
+              Navigator.pushNamed(context, '/gymkhana_homepage/member_records');
             },
           ),
         ],

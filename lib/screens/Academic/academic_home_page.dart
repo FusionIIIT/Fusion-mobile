@@ -109,37 +109,37 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
           InkWell(
             child: myContainer("Current Semester"),
             onTap: () {
-              Navigator.pushNamed(context, '/current_semester_home_page');
+              Navigator.pushNamed(context, '/academic_home_page/current_semester_home_page');
             },
           ),
           InkWell(
             child: myContainer("Registration"),
             onTap: () {
-              Navigator.pushNamed(context, '/registration_home_page');
+              Navigator.pushNamed(context, '/academic_home_page/registration_home_page');
             },
           ),
           InkWell(
             child: myContainer("Check Dues"),
             onTap: () {
-              Navigator.pushNamed(context, '/dues');
+              Navigator.pushNamed(context, '/academic_home_page/dues');
             },
           ),
           InkWell(
             child: myContainer("Apply for Bonafide"),
             onTap: () {
-              Navigator.pushNamed(context, '/bonafide');
+              Navigator.pushNamed(context, '/academic_home_page/bonafide');
             },
           ),
           InkWell(
             child: myContainer("Check Attendance"),
             onTap: () {
-              Navigator.pushNamed(context, '/attendance');
+              Navigator.pushNamed(context, '/academic_home_page/attendance');
             },
           ),
           InkWell(
             child: myContainer("Branch Change"),
             onTap: () {
-              Navigator.pushNamed(context, 'branch_change');
+              Navigator.pushNamed(context, '/academic_home_page/branch_change');
             },
           ),
           InkWell(
@@ -149,13 +149,13 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
           InkWell(
             child: myContainer("Thesis"),
             onTap: () {
-              Navigator.pushNamed(context, '/thesis');
+              Navigator.pushNamed(context, '/academic_home_page/thesis');
             },
           ),
           InkWell(
             child: myContainer("View Performance"),
             onTap: () {
-              Navigator.pushNamed(context, '/performance');
+              Navigator.pushNamed(context, '/academic_home_page/performance');
             },
           ),
         ],

@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'side_drawer.dart';
 import 'dart:ui';
 
-class HomeScreen extends StatefulWidget {
+class LibraryHomeScreen extends StatefulWidget {
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _LibraryHomeScreenState createState() => _LibraryHomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _LibraryHomeScreenState extends State<LibraryHomeScreen> {
   bool _loading1 = true;
   bool _loading2 = false;
   bool _loading3 = false;
@@ -100,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 TextButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/book_search');
+                    Navigator.pushNamed(context, '/library_homepage/book_search');
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -123,7 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 TextButton(
                   onPressed: () {
                     setState(() {
-                      Navigator.pushNamed(context, '/issued_items');
+                      Navigator.pushNamed(context, '/library_homepage/issued_items');
                     });
                   },
                   child: Row(
@@ -147,7 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 TextButton(
                   onPressed: () {
                     setState(() {
-                      Navigator.pushNamed(context, '/dues');
+                      Navigator.pushNamed(context, '/library_homepage/dues');
                     });
                   },
                   child: Row(
