@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/screens/LoginandDashboard/Components/appBar.dart';
-import 'package:fusion/screens/LoginandDashboard/Components/side_drawer.dart';
+import 'package:fusion/Components/appBar.dart';
+import 'package:fusion/Components/side_drawer.dart';
 
 class GymkhanaHomepage extends StatelessWidget {
   BoxDecoration myBoxDecoration() {
@@ -86,9 +86,9 @@ class GymkhanaHomepage extends StatelessWidget {
                 child: Center(child: myText("Gymkhana")),
               ),
               decoration: new BoxDecoration(
-                color: Colors.orange,
+                color: Colors.deepOrangeAccent,
                 border: new Border.all(
-                  color: Colors.black,
+                  color: Colors.deepOrange,
                   width: 1.0,
                   style: BorderStyle.solid,
                 ),

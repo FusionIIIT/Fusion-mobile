@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
       title: 'Fusion',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blueGrey, fontFamily: 'Nunito'),
-      initialRoute: '/landing',
+      initialRoute: '/profile',
       routes: {
         '/landing': (context) => LandingPage(),
         '/login_page': (context) => LoginPage(),

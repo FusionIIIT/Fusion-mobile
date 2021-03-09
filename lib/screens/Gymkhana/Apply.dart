@@ -30,20 +30,43 @@ class Apply extends StatelessWidget {
             style: TextStyle(fontSize: 25),
           )),
       body: Padding(
-        padding: EdgeInsets.all(25.0),
+        padding: EdgeInsets.all(18.0),
         child: Center(
           child: Form(
             key: formkey,
             child: ListView(
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.all(5.0),
+                  padding: EdgeInsets.all(8.0),
                   child: Center(
                     child: Container(
-                      color: Colors.grey[300],
-                      padding: EdgeInsets.all(5.0),
-                      child: Text("Club Membership Form",
-                          style: TextStyle(fontSize: 25.0)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Center(
+                            child: Text(
+                          "Club Membership Form",
+                          style: TextStyle(
+                            fontSize: 20.0,
+                          ),
+                        )),
+                      ),
+                      decoration: new BoxDecoration(
+                        color: Colors.deepOrangeAccent,
+                        border: new Border.all(
+                          color: Colors.deepOrange,
+                          width: 1.0,
+                          style: BorderStyle.solid,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black,
+                            offset: Offset(0.0, 1.0),
+                            blurRadius: 2.0,
+                          )
+                        ],
+                        borderRadius:
+                            new BorderRadius.all(new Radius.circular(5.0)),
+                      ),
                     ),
                   ),
                 ),
@@ -51,15 +74,28 @@ class Apply extends StatelessWidget {
                   height: 30,
                 ),
                 TextFormField(
+                  keyboardType: TextInputType.name,
                   decoration: InputDecoration(
-                      labelText: "Name", border: OutlineInputBorder()),
+                    hintText: "Name",
+                    contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(32.0),
+                    ),
+                  ),
                   validator: formvalidate,
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 20.0),
                   child: TextFormField(
+                    keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
-                        labelText: "Email", border: OutlineInputBorder()),
+                      hintText: "Email",
+                      contentPadding:
+                          EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(32.0),
+                      ),
+                    ),
                     validator: formvalidate,
                   ),
                 ),
@@ -67,7 +103,13 @@ class Apply extends StatelessWidget {
                   padding: EdgeInsets.only(top: 20.0),
                   child: TextFormField(
                     decoration: InputDecoration(
-                        labelText: "Club", border: OutlineInputBorder()),
+                      hintText: "Club",
+                      contentPadding:
+                          EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(32.0),
+                      ),
+                    ),
                     validator: formvalidate,
                   ),
                 ),
@@ -76,14 +118,39 @@ class Apply extends StatelessWidget {
                   child: TextFormField(
                     maxLength: 3,
                     decoration: InputDecoration(
-                        labelText: "Achievments", border: OutlineInputBorder()),
+                      hintText: "Achievements",
+                      contentPadding:
+                          EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(32.0),
+                      ),
+                    ),
                     validator: formvalidate,
                   ),
                 ),
                 Padding(
-                    padding: EdgeInsets.all(25.0),
-                    child: ElevatedButton(
-                        onPressed: validate, child: Text("submit")))
+                  padding: EdgeInsets.all(25.0),
+                  child: ElevatedButton(
+                    onPressed: validate,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "Submit",
+                        style: TextStyle(fontSize: 20.0),
+                      ),
+                    ),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                        (Set<MaterialState> states) {
+                          if (states.contains(MaterialState.pressed))
+                            return Colors.deepOrange;
+                          return Colors
+                              .deepOrangeAccent; // Use the component's default.
+                        },
+                      ),
+                    ),
+                  ),
+                )
               ],
             ),
           ),

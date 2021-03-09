@@ -1,6 +1,7 @@
+import 'package:fusion/Components/appBar.dart';
 import 'ComplaintHistory/complain_history.dart';
 import 'package:flutter/material.dart';
-import '../LoginandDashboard/Components/side_drawer.dart';
+import 'package:fusion/Components/side_drawer.dart';
 import 'dart:ui';
 import 'LodgeComplaint/lodge_complaint.dart';
 import 'Feedback/feedback.dart';
@@ -18,29 +19,8 @@ class _ComplaintState extends State<Complaint> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black87,
-        title: Text(
-          'FUSION',
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),
-        actions: <Widget>[
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Icon(Icons.search),
-          ),
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Icon(Icons.notifications),
-          ),
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Icon(Icons.more_vert),
-          ),
-        ],
-      ),
+      appBar: DefaultAppBar()
+          .buildAppBar(),
       drawer: SideDrawer(),
       body: ListView(
         shrinkWrap: true,

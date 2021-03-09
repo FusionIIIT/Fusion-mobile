@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'Components/appBar.dart';
-import 'Components/side_drawer.dart';
+import 'package:fusion/Components/appBar.dart';
+import 'package:fusion/Components/side_drawer.dart';
 import 'DashboardComponents/cardItems.dart';
 
 class Dashboard extends StatefulWidget {

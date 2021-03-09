@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/screens/LoginandDashboard/Components/appBar.dart';
-import 'package:fusion/screens/LoginandDashboard/Components/side_drawer.dart';
+import 'package:fusion/Components/appBar.dart';
+import 'package:fusion/Components/side_drawer.dart';
 
 class AcademicHomePage extends StatefulWidget {
   static String tag = 'academic-page';
@@ -89,9 +89,9 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
                 child: Center(child: myText("Academic")),
               ),
               decoration: new BoxDecoration(
-                color: Colors.orange,
+                color: Colors.deepOrangeAccent,
                 border: new Border.all(
-                  color: Colors.black,
+                  color: Colors.deepOrange,
                   width: 1.0,
                   style: BorderStyle.solid,
                 ),
