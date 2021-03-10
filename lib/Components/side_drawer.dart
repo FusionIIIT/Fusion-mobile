@@ -90,13 +90,13 @@ class _SideDrawerState extends State<SideDrawer> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         ModulesPadding(
-                            line: 'DashBoard', pageMover: '/home_page'),
+                            line: 'DashBoard', pageMover: '/dashboard'),
                         ModulesPadding(
                             line: 'Academics Module',
                             pageMover: '/academic_home_page'),
-                        ModulesPadding(line: 'Gymkhana Module'),
-                        ModulesPadding(line: 'Establishment Module'),
-                        ModulesPadding(line: 'Library Module'),
+                        ModulesPadding(line: 'Gymkhana Module', pageMover: '/gymkhana_homepage',),
+                        ModulesPadding(line: 'Establishment Module', pageMover: '/establishment',),
+                        ModulesPadding(line: 'Library Module', pageMover: '/library_homepage',),
                         ModulesPadding(line: 'Awards & Scholarship Module'),
                         ModulesPadding(
                             line: 'Complaint Module', pageMover: '/complaint'),

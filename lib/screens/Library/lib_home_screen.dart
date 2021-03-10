@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'side_drawer.dart';
+import 'package:fusion/Components/appBar.dart';
+import 'package:fusion/Components/side_drawer.dart';
 import 'dart:ui';
 
-class HomeScreen extends StatefulWidget {
+class LibraryHomeScreen extends StatefulWidget {
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _LibraryHomeScreenState createState() => _LibraryHomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _LibraryHomeScreenState extends State<LibraryHomeScreen> {
   bool _loading1 = true;
   bool _loading2 = false;
   bool _loading3 = false;
@@ -15,29 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black87,
-        title: Text(
-          'FUSION',
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),
-        actions: <Widget>[
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Icon(Icons.search),
-          ),
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Icon(Icons.notifications),
-          ),
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Icon(Icons.more_vert),
-          ),
-        ],
-      ),
+      appBar: DefaultAppBar().buildAppBar(),
       drawer: SideDrawer(),
       body: Column(
         children: [
@@ -67,27 +46,44 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-          Card(
-            elevation: 2.0,
-            color: Colors.red[200],
-            margin: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-            shadowColor: Colors.black,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(
-                    'DUES',
-                    style: TextStyle(color: Colors.black, fontSize: 24),
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    '24.00 Rs',
-                    style: TextStyle(color: Colors.black, fontSize: 24),
-                  ),
-                  SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: Container(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(
+                          'DUES',
+                          style: TextStyle(color: Colors.black, fontSize: 20),
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          '24.00 Rs',
+                          style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w800),
+                        ),
+                      ],
+                    ),
+                ),
+              ),
+              decoration: new BoxDecoration(
+                color: Colors.deepOrangeAccent,
+                border: new Border.all(
+                  color: Colors.deepOrange,
+                  width: 1.0,
+                  style: BorderStyle.solid,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black,
+                    offset: Offset(0.0, 1.0),
+                    blurRadius: 2.0,
+                  )
                 ],
+                borderRadius:
+                new BorderRadius.all(new Radius.circular(5.0)),
               ),
             ),
           ),
@@ -100,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 TextButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/book_search');
+                    Navigator.pushNamed(context, '/library_homepage/book_search');
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -123,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 TextButton(
                   onPressed: () {
                     setState(() {
-                      Navigator.pushNamed(context, '/issued_items');
+                      Navigator.pushNamed(context, '/library_homepage/issued_items');
                     });
                   },
                   child: Row(
@@ -147,7 +143,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 TextButton(
                   onPressed: () {
                     setState(() {
-                      Navigator.pushNamed(context, '/dues');
+                      Navigator.pushNamed(context, '/library_homepage/dues');
                     });
                   },
                   child: Row(

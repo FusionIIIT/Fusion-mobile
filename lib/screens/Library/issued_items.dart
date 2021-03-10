@@ -1,7 +1,6 @@
-
-
 import 'package:flutter/material.dart';
-import 'side_drawer.dart';
+import 'package:fusion/Components/appBar.dart';
+import 'package:fusion/Components/side_drawer.dart';
 
 class IssuedItems extends StatefulWidget {
   @override
@@ -16,38 +15,44 @@ class _IssuedItemsState extends State<IssuedItems> {
   ];
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.black87,
-            title: Text(
-              'FUSION',
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-            actions: <Widget>[
-              Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Icon(Icons.search),
-              ),
-              Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Icon(Icons.notifications),
-              ),
-              Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Icon(Icons.more_vert),
-              ),
-            ],
+            title: Text('Issued Items'),
+            backgroundColor: Colors.black,
           ),
-          drawer: SideDrawer(),
           body: ListView(children: <Widget>[
-            SizedBox(height: 30),
             Center(
-                child: Text(
-                  'Issued Items',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                child: Padding(
+                  padding: const EdgeInsets.all(18.0),
+                  child: Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Center(
+                          child: Text(
+                            "Issued Items",
+                            style: TextStyle(
+                              fontSize: 20.0,
+                            ),
+                          )),
+                    ),
+                    decoration: new BoxDecoration(
+                      color: Colors.deepOrangeAccent,
+                      border: new Border.all(
+                        color: Colors.deepOrange,
+                        width: 1.0,
+                        style: BorderStyle.solid,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black,
+                          offset: Offset(0.0, 1.0),
+                          blurRadius: 2.0,
+                        )
+                      ],
+                      borderRadius:
+                      new BorderRadius.all(new Radius.circular(5.0)),
+                    ),
+                  ),
                 )),
             SizedBox(height: 20),
             DataTable(
@@ -94,8 +99,7 @@ class _IssuedItemsState extends State<IssuedItems> {
                   .toList(),
             ),
           ])
-      ),
-    );
+      );
   }
 }
 

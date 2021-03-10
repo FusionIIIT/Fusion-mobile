@@ -282,7 +282,16 @@ class _ComplainHistoryState extends State<ComplainHistory> {
                   style: TextStyle(
                     color: Colors.black,
                   ),
-                  decoration: kTextFieldInputDecoration,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
+                    hintText: "Default Text",
+                    contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10),
+                      ),
+                    ),
+                  ),
                 ),
                 SizedBox(
                   height: 30,
@@ -292,9 +301,22 @@ class _ComplainHistoryState extends State<ComplainHistory> {
                     onPressed: () {
                       // Validate returns true if the form is valid, otherwise false.
                     },
-                    child: Text(
-                      'Submit',
-                      style: TextStyle(fontSize: 20),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        'Submit',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                            (Set<MaterialState> states) {
+                          if (states.contains(MaterialState.pressed))
+                            return Colors.deepOrange;
+                          return Colors
+                              .deepOrangeAccent; // Use the component's default.
+                        },
+                      ),
                     ),
                   ),
                 )

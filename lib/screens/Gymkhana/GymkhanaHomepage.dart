@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/screens/LoginandDashboard/Components/appBar.dart';
-import 'package:fusion/screens/LoginandDashboard/Components/side_drawer.dart';
+import 'package:fusion/Components/appBar.dart';
+import 'package:fusion/Components/side_drawer.dart';
 
 class GymkhanaHomepage extends StatelessWidget {
   BoxDecoration myBoxDecoration() {
@@ -86,9 +86,9 @@ class GymkhanaHomepage extends StatelessWidget {
                 child: Center(child: myText("Gymkhana")),
               ),
               decoration: new BoxDecoration(
-                color: Colors.orange,
+                color: Colors.deepOrangeAccent,
                 border: new Border.all(
-                  color: Colors.black,
+                  color: Colors.deepOrange,
                   width: 1.0,
                   style: BorderStyle.solid,
                 ),
@@ -106,25 +106,25 @@ class GymkhanaHomepage extends StatelessWidget {
           InkWell(
             child: myContainer("Apply"),
             onTap: () {
-              Navigator.pushNamed(context, '/first');
+              Navigator.pushNamed(context, '/gymkhana_homepage/apply');
             },
           ),
           InkWell(
             child: myContainer("Voting Polls"),
             onTap: () {
-              Navigator.pushNamed(context, '/second');
+              Navigator.pushNamed(context, '/gymkhana_homepage/polls');
             },
           ),
           InkWell(
             child: myContainer("Club Details"),
             onTap: () {
-              Navigator.pushNamed(context, '/third');
+              Navigator.pushNamed(context, '/gymkhana_homepage/clubs');
             },
           ),
           InkWell(
             child: myContainer("Members Record"),
             onTap: () {
-              Navigator.pushNamed(context, '/fourth');
+              Navigator.pushNamed(context, '/gymkhana_homepage/member_records');
             },
           ),
         ],

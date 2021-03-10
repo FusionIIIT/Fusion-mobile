@@ -1,10 +1,10 @@
-
-
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:flutter/painting.dart';
+import 'package:fusion/Components/side_drawer.dart';
 import 'cpda_management.dart';
 import 'ltc_management.dart';
+import 'package:fusion/Components/appBar.dart';
 
 
 class Establishment extends StatefulWidget {
@@ -19,30 +19,8 @@ class _EstablishmentState extends State<Establishment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black87,
-        title: Text(
-          'FUSION',
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),
-        actions: <Widget>[
-
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Icon(Icons.notifications),
-          ),
-          Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Icon(Icons.search),
-          ),
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Icon(Icons.more_vert),
-          ),
-        ],
-      ),
+      appBar: DefaultAppBar().buildAppBar(),
+      drawer: SideDrawer(),
       body: ListView(
         shrinkWrap: true,
         physics: ClampingScrollPhysics(),
