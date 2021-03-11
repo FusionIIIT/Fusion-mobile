@@ -38,30 +38,27 @@ class MyApp extends StatelessWidget {
         '/landing': (context) => LandingPage(),
         '/login_page': (context) => LoginPage(),
         '/dashboard': (context) => Dashboard(),
-
         '/academic_home_page': (context) => AcademicHomePage(),
-        '/academic_home_page/current_semester_home_page': (context) => CurrentSemesterHomePage(),
-        '/academic_home_page/registration_home_page': (context) => RegistrationHomePage(),
+        '/academic_home_page/current_semester_home_page': (context) =>
+            CurrentSemesterHomePage(),
+        '/academic_home_page/registration_home_page': (context) =>
+            RegistrationHomePage(),
         '/academic_home_page/bonafide': (context) => Bonafide(),
         '/academic_home_page/branch_change': (context) => BranchChange(),
         '/academic_home_page/attendance': (context) => Attendance(),
         '/academic_home_page/dues': (context) => Dues(),
         '/academic_home_page/thesis': (context) => ThesisHomePage(),
         '/academic_home_page/performance': (context) => Performance(),
-
-        '/establishment' : (context) => Establishment(),
-
+        '/establishment': (context) => Establishment(),
         '/gymkhana_homepage': (context) => GymkhanaHomepage(),
         '/gymkhana_homepage/apply': (context) => Apply(),
         '/gymkhana_homepage/polls': (context) => Polls(),
         '/gymkhana_homepage/clubs': (context) => Clubs(),
         '/gymkhana_homepage/member_records': (context) => Records(),
-
-        '/library_homepage' : (context) => LibraryHomeScreen(),
-        '/library_homepage/book_search' : (context) => BookSearch(),
-        '/library_homepage/issued_items' : (context) => IssuedItems(),
-        '/library_homepage/dues' : (context) => Dues(),
-
+        '/library_homepage': (context) => LibraryHomeScreen(),
+        '/library_homepage/book_search': (context) => BookSearch(),
+        '/library_homepage/issued_items': (context) => IssuedItems(),
+        '/library_homepage/dues': (context) => Dues(),
         '/complaint': (context) => Complaint(),
         '/profile': (context) => Profile(),
       },
