@@ -13,7 +13,6 @@ class StorageService with ChangeNotifier {
 
   User get userInDB {
     var userJson = _getFromDisk(UserKey);
-    print("Json:: " + userJson);
     return User.fromJson(jsonDecode(userJson));
   }
 
@@ -34,7 +33,7 @@ class StorageService with ChangeNotifier {
 
   dynamic _getFromDisk(String key) {
     var value = _sharedPreferences!.get(key);
-    print('(TRACE) LocalStorageService:_getFromDisk. key: $key value: $value');
+    // print('(TRACE) LocalStorageService:_getFromDisk. key: $key value: $value');
     return value;
   }
 

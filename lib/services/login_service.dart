@@ -5,8 +5,6 @@ import 'package:fusion/services/storage_service.dart';
 import 'package:http/http.dart' as http;
 
 class LoginService {
-  User? user;
-
   Future<bool> login(String username, String password) async {
     Map<String, String> data = {"username": username, "password": password};
     Map<String, String> headers = {
@@ -21,7 +19,6 @@ class LoginService {
         ),
         headers: headers,
         body: jsonEncode(data));
-    print((jsonDecode(response.body)));
     var prefs = await StorageService.getInstance();
 
     prefs!.saveUserInDB(User((jsonDecode(response.body))["token"]));
