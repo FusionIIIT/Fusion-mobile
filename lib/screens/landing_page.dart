@@ -17,13 +17,18 @@ class _LandingPageState extends State<LandingPage> {
       builder: (context, AsyncSnapshot? snapshot) {
         if (snapshot!.hasData) {
           try {
-            User _ = snapshot.data.userInDB;
+            User user = snapshot.data.userInDB;
+            return Dashboard(token: user.token);
           } catch (e) {
             return LoginPage();
           }
-          return Dashboard();
         }
-        return LoginPage();
+        return Container(
+          color: Colors.white,
+          child: Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
       },
     );
   }

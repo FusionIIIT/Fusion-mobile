@@ -9,3 +9,9 @@ const kTextFieldInputDecoration = InputDecoration(
     borderSide: BorderSide(),
   ),
 );
+
+getLink() {
+  String localLink = "127.0.0.1:8000";
+  String serverLink = "172.27.16.216:80";
+  return serverLink;
+}
