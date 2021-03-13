@@ -22,4 +22,25 @@ class DashboardService {
     }
     throw Exception('Can\'t load');
   }
+
+  markRead(String id) async {
+    StorageService? prefs = await StorageService.getInstance();
+    String token = prefs!.userInDB.token!;
+    Map<String, String> headers = {'Authorization': 'Token ' + token};
+    Map<String, String> body = {"id": id};
+    var client = http.Client();
+    http.Response response = await client.post(
+      Uri.http(
+        getLink(),
+        "/api/notification/read/",
+      ),
+      headers: headers,
+      body: body,
+    );
+    if (response.statusCode == 200) {
+      print("success");
+      return response;
+    }
+    throw Exception('Can\'t load');
+  }
 }

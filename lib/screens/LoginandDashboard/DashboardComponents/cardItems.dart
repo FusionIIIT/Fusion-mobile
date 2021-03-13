@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:fusion/models/notification.dart' as notif;
+import 'package:fusion/services/dashboard_service.dart';
 
 class NotificationCard extends StatelessWidget {
   final List<notif.Notification>? notifications;
@@ -60,12 +61,18 @@ class NewsCard extends StatelessWidget {
   }
 }
 
-class InfoCard extends StatelessWidget {
+class InfoCard extends StatefulWidget {
   final notif.Notification notification;
 
   InfoCard({
     required this.notification,
   });
+
+  @override
+  _InfoCardState createState() => _InfoCardState();
+}
+
+class _InfoCardState extends State<InfoCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -78,7 +85,7 @@ class InfoCard extends StatelessWidget {
             height: 10.0,
           ),
           Text(
-            notification.data!["module"],
+            widget.notification.data!["module"],
             textAlign: TextAlign.left,
             style: TextStyle(
               fontSize: 20.0,
@@ -92,46 +99,35 @@ class InfoCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              notification.verb!,
+              widget.notification.verb!,
               style: TextStyle(fontSize: 15.0, color: Colors.black),
             ),
           ),
           SizedBox(
             height: 10.0,
           ),
-          notification.unread!
-              ? ElevatedButton(
-                  child: Text('Mark As Read'),
-                  onPressed: () {
-                    // Respond to button press
-                  },
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                      (Set<MaterialState> states) {
-                        if (states.contains(MaterialState.pressed))
-                          return Colors.deepOrange;
-                        return Colors
-                            .deepOrangeAccent; // Use the component's default.
-                      },
-                    ),
-                  ),
-                )
-              : ElevatedButton(
-                  child: Text('Mark As Unead'),
-                  onPressed: () {
-                    // Respond to button press
-                  },
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                      (Set<MaterialState> states) {
-                        if (states.contains(MaterialState.pressed))
-                          return Colors.deepOrange.shade50;
-                        return Colors
-                            .deepOrangeAccent; // Use the component's default.
-                      },
-                    ),
-                  ),
-                )
+          ElevatedButton(
+            child: widget.notification.unread!
+                ? Text('Mark As Read')
+                : Text('Mark As Unread'),
+            onPressed: () {
+              // Respond to button press
+              DashboardService service = DashboardService();
+              setState(() {
+                service.markRead(widget.notification.id!);
+              });
+            },
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                (Set<MaterialState> states) {
+                  if (states.contains(MaterialState.pressed))
+                    return Colors.deepOrange;
+                  return Colors
+                      .deepOrangeAccent; // Use the component's default.
+                },
+              ),
+            ),
+          )
         ],
       ),
     );

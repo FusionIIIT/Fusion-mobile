@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 class Notification {
+  String? id;
   bool? unread;
   String? verb;
   Map? data;
@@ -12,6 +13,7 @@ class Notification {
   bool? emailed;
 
   Notification({
+    this.id,
     this.data,
     this.deleted,
     this.description,
@@ -25,11 +27,15 @@ class Notification {
 
   factory Notification.fromJson(json) {
     return Notification(
-        data: jsonDecode(json["data"].replaceAll("'", '"')),
-        verb: json["verb"],
-        unread: json["unread"],
-        timestamp: DateTime.parse(json["timestamp"]),
-        public: json["public"]);
+      id: json["id"],
+      data: jsonDecode(json["data"].replaceAll("'", '"')),
+      verb: json["verb"],
+      unread: json["unread"],
+      timestamp: DateTime.parse(json["timestamp"]),
+      public: json["public"],
+      description: json["description"],
+      recipient: json["recipient"],
+    );
   }
 
   static List<Notification> fromListJson(json) {
