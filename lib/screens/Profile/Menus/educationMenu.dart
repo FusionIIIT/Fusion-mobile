@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
 
+//TODO: Camel Case
 class educationMenu extends StatelessWidget {
   const educationMenu({
     Key? key,

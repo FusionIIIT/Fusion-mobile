@@ -1,14 +1,12 @@
-//import 'dart:html';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:fusion/screens/LoginandDashboard/Components/side_drawer.dart';
+import 'package:fusion/Components/appBar.dart';
+import 'package:fusion/Components/side_drawer.dart';
 import 'dart:ui';
 import './Menus/profileMenu.dart';
 import './Menus/skillsMenu.dart';
 import './Menus/educationMenu.dart';
 import './Menus/workExperiencesMenu.dart';
-import './Menus/achievementsMenu.dart';
+import 'Menus/achievements_menu.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -27,41 +25,22 @@ class _ProfileState extends State<Profile> {
     'Work Experience',
     'Achievements',
   ];
+
+  //TODO: Update
   static const _menu = [
     profileMenu(),
     skillsMenu(),
     educationMenu(),
     workExperiencesMenu(),
-    achievementsMenu(),
+    AchievementsMenu(),
   ];
   var _selectedMenu = _profileMenu[0];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black87,
-        title: Text(
-          'FUSION',
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),
-        actions: <Widget>[
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Icon(Icons.search),
-          ),
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Icon(Icons.notifications),
-          ),
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Icon(Icons.more_vert),
-          ),
-        ],
-      ),
+      appBar: DefaultAppBar()
+          .buildAppBar(),
       drawer: SideDrawer(),
       body: SingleChildScrollView(
         child: Column(

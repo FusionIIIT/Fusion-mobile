@@ -1,36 +1,28 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:fusion/models/user.dart';
 import 'package:fusion/services/storage_service.dart';
-import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 
 class LoginService {
-  User? user;
+  Future<bool> login(String username, String password) async {
+    Map<String, String> data = {"username": username, "password": password};
+    Map<String, String> headers = {
+      'Content-Type': 'application/json; charset=UTF-8'
+    };
 
-  login(String username, String password) async {
-    // TODO Add Try Except cases for Login
-
-    HttpClient client = HttpClient();
-
-    HttpClientRequest request =
-        await client.post("172.27.17.216", 80, "/api/auth/login/");
-
-    print(client);
-
-    request.headers
-        .set(HttpHeaders.contentTypeHeader, "application/json; charset=UTF-8");
-    request.write(jsonEncode({"username": "2018225", "password": "dgVUwBc"}));
-
-    HttpClientResponse response = await request.close();
-
-    response.transform(utf8.decoder).listen((contents) {
-      print(contents);
-    });
-
+    var client = http.Client();
+    var response = await client.post(
+        Uri.http(
+          "172.27.16.216:80",
+          "/api/auth/login/",
+        ),
+        headers: headers,
+        body: jsonEncode(data));
     var prefs = await StorageService.getInstance();
 
-    prefs!.saveUserInDB(User(username));
+    prefs!.saveUserInDB(User((jsonDecode(response.body))["token"]));
+    return true;
   }
 
   void logout() async {

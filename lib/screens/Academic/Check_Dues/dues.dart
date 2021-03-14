@@ -1,8 +1,8 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:fusion/screens/LoginandDashboard/Components/appBar.dart';
-import 'package:fusion/screens/LoginandDashboard/Components/side_drawer.dart';
+import 'package:fusion/Components/appBar.dart';
+import 'package:fusion/Components/side_drawer.dart';
 
 class Dues extends StatefulWidget {
   @override

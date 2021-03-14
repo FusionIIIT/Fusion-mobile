@@ -1,7 +1,6 @@
-
-
 import 'package:flutter/material.dart';
 
+//TODO: Make Dynamic
 class Record extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -13,36 +12,35 @@ class Record extends StatelessWidget {
 
 class Records extends StatelessWidget {
   Widget bodyData() => DataTable(
-       columnSpacing: 35,
-
-          columns: <DataColumn>[
-            DataColumn(
-              label: Text("Name"),
-              numeric: false,
-              onSort: (i, b) {},
-            ),
-            DataColumn(
-              label: Text("Rollno"),
-              numeric: false,
-              onSort: (i, b) {},
-            ),
-            DataColumn(
-              label: Text("Club"),
-              numeric: false,
-              onSort: (i, b) {},
-            ),
-            DataColumn(
-              label: Text("Category"),
-              numeric: false,
-              onSort: (i, b) {},
-            ),
-          ],
-          rows: Srecords.map((srecord) => DataRow(cells: [
-                DataCell(Text(srecord.Name!)),
-                DataCell(Text(srecord.Rollno!)),
-                DataCell(Text(srecord.Club!)),
-                DataCell(Text(srecord.Category!)),
-              ])).toList());
+      columnSpacing: 35,
+      columns: <DataColumn>[
+        DataColumn(
+          label: Text("Name"),
+          numeric: false,
+          onSort: (i, b) {},
+        ),
+        DataColumn(
+          label: Text("Rollno"),
+          numeric: false,
+          onSort: (i, b) {},
+        ),
+        DataColumn(
+          label: Text("Club"),
+          numeric: false,
+          onSort: (i, b) {},
+        ),
+        DataColumn(
+          label: Text("Category"),
+          numeric: false,
+          onSort: (i, b) {},
+        ),
+      ],
+      rows: Srecords.map((srecord) => DataRow(cells: [
+            DataCell(Text(srecord.Name!)),
+            DataCell(Text(srecord.Rollno!)),
+            DataCell(Text(srecord.Club!)),
+            DataCell(Text(srecord.Category!)),
+          ])).toList());
 
   @override
   Widget build(BuildContext context) {
@@ -54,15 +52,41 @@ class Records extends StatelessWidget {
         body: Column(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.all(5.0),
+              padding: EdgeInsets.all(8.0),
               child: Center(
-                child:Container(
-                  margin: EdgeInsets.all(10.0),
-                  color: Colors.grey[300],
-                  padding:EdgeInsets.all(5.0),
-                  child: Text("Member's Record",
-                      style: TextStyle(fontSize: 25.0)),
-                ),  ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Center(
+                          child: Text(
+                            "Member's Record",
+                            style: TextStyle(
+                              fontSize: 20.0,
+                            ),
+                          )),
+                    ),
+                    decoration: new BoxDecoration(
+                      color: Colors.deepOrangeAccent,
+                      border: new Border.all(
+                        color: Colors.deepOrange,
+                        width: 1.0,
+                        style: BorderStyle.solid,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black,
+                          offset: Offset(0.0, 1.0),
+                          blurRadius: 2.0,
+                        )
+                      ],
+                      borderRadius:
+                      new BorderRadius.all(new Radius.circular(5.0)),
+                    ),
+                  ),
+                ),
+              ),
             ),
             bodyData(),
           ],
