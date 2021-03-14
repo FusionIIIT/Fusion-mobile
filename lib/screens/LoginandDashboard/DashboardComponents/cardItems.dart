@@ -1,54 +1,78 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:fusion/models/notification.dart' as notif;
+import 'package:fusion/services/dashboard_service.dart';
 
 class NotificationCard extends StatelessWidget {
+  final List<notif.Notification>? notifications;
+
+  const NotificationCard({Key? key, required this.notifications})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 2.0,
-      margin:
-      EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+      margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
       shadowColor: Colors.black,
-
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          InfoCard(heading: "Scholarship Portal", details: "Invitation to apply for Merit-cum-Means Scholarship-by Dr. YashPalSingh Katharria"),
-          InfoCard(heading: "Gymkhana Module", details: "Mega Event by Saaz Club Will be organized in L-102 by Kuhu Pyasi"),
-          InfoCard(heading: "Gymkhana Module", details: "Badminton Session Will be organised in SAC"),
-
-        ],
+        children: getCards(),
       ),
     );
   }
+
+  getCards() {
+    List<Widget> cards = [];
+    for (int i = 0; i < notifications!.length; i++) {
+      cards.add(InfoCard(
+        notification: notifications![i],
+      ));
+    }
+    return cards;
+  }
 }
+
 class NewsCard extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 2.0,
-      margin:
-      EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+      margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
       shadowColor: Colors.black,
-
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          InfoCard(heading: "Academics News", details: "End Sem Exams Coming Soon"),
-
-
+          Card(
+            elevation: 3.0,
+            margin: EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0),
+            shadowColor: Colors.black,
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(18.0),
+                child: Text('Work in progress'),
+              ),
+            ),
+          )
         ],
       ),
     );
   }
 }
-class InfoCard extends StatelessWidget {
-  final String heading;
-  final String details;
-  InfoCard({this.heading,this.details});
+
+class InfoCard extends StatefulWidget {
+  final notif.Notification notification;
+
+  InfoCard({
+    required this.notification,
+  });
+
+  @override
+  _InfoCardState createState() => _InfoCardState();
+}
+
+class _InfoCardState extends State<InfoCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -61,13 +85,12 @@ class InfoCard extends StatelessWidget {
             height: 10.0,
           ),
           Text(
-            heading,
+            widget.notification.data!["module"],
             textAlign: TextAlign.left,
             style: TextStyle(
               fontSize: 20.0,
               color: Colors.deepOrangeAccent,
               fontWeight: FontWeight.bold,
-
             ),
           ),
           SizedBox(
@@ -76,7 +99,7 @@ class InfoCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              details,
+              widget.notification.verb!,
               style: TextStyle(fontSize: 15.0, color: Colors.black),
             ),
           ),
@@ -84,21 +107,27 @@ class InfoCard extends StatelessWidget {
             height: 10.0,
           ),
           ElevatedButton(
-            child: Text('Mark As Read'),
+            child: widget.notification.unread!
+                ? Text('Mark As Read')
+                : Text('Mark As Unread'),
             onPressed: () {
               // Respond to button press
+              DashboardService service = DashboardService();
+              setState(() {
+                service.markRead(widget.notification.id!);
+              });
             },
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                    (Set<MaterialState> states) {
+                (Set<MaterialState> states) {
                   if (states.contains(MaterialState.pressed))
                     return Colors.deepOrange;
-                  return Colors.deepOrangeAccent; // Use the component's default.
+                  return Colors
+                      .deepOrangeAccent; // Use the component's default.
                 },
               ),
             ),
           )
-
         ],
       ),
     );
