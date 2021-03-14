@@ -1,8 +1,6 @@
-
-
 import 'package:flutter/material.dart';
-import 'package:fusion/screens/Login%20and%20Dashboard/Components/appBar.dart';
-import 'package:fusion/screens/Login%20and%20Dashboard/Components/side_drawer.dart';
+import 'package:fusion/screens/LoginandDashboard/Components/appBar.dart';
+import 'package:fusion/screens/LoginandDashboard/Components/side_drawer.dart';
 
 class BranchChange extends StatefulWidget {
   @override
@@ -10,7 +8,7 @@ class BranchChange extends StatefulWidget {
 }
 
 class _BranchChangeState extends State<BranchChange> {
-  String _value;
+  String _value="";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,13 +25,13 @@ class _BranchChangeState extends State<BranchChange> {
                       child: Text("department: Finance and Accounts"),
                   ),
                   DropdownMenuItem<String>(
-                    value: "1",
+                    value: "2",
                     child: Text("department: Finance and Accounts"),
                   )
                 ],
               onChanged: (value){
                   setState(() {
-                    _value = value;
+                    _value = value.toString();
                   });
               },
               hint:Text(

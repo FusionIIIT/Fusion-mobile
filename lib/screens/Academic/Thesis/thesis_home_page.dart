@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/screens/Academic/Thesis/add_thesis_topic.dart';
 import 'package:fusion/screens/Academic/Thesis/registered_thesis.dart';
-import 'package:fusion/screens/Login%20and%20Dashboard/Components/side_drawer.dart';
+import 'package:fusion/screens/LoginandDashboard/Components/side_drawer.dart';
 
 class ThesisHomePage extends StatefulWidget {
   @override

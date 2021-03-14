@@ -170,24 +170,4 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
   }
 }
 
-class ModulesPadding extends StatelessWidget {
-  final String line;
-  final String pageMover;
-  ModulesPadding({this.line,this.pageMover});
-  @override
-  Widget build(BuildContext context) {
-    return TextButton(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Text(
-          line,
-          style: TextStyle(fontSize: 16.0, color: Colors.black),
-        ),
-      ),
-      onPressed: () {
-        Navigator.pushNamed(context, pageMover);
-      },
-    );
-  }
-}
 
