@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       title: 'Fusion',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blueGrey, fontFamily: 'Nunito'),
-      initialRoute: '/login_page',
+      initialRoute: '/homepage',
       routes: {
         '/login_page': (context) => LoginPage(),
         '/home_page': (context) => HomePage(),
