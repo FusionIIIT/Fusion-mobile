@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'dart:ui';
 
 class profileMenu extends StatelessWidget {
+  final Map? data;
   const profileMenu({
-    Key? key,
+    Key? key,this.data
   }) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +56,7 @@ class profileMenu extends StatelessWidget {
                     padding: EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
                     child: TextFormField(
                       enabled: true,
-                      initialValue: 'NA',
+                      initialValue: data!['about_me'],
                       decoration: InputDecoration(border: InputBorder.none),
                     ),
                   ),
@@ -141,8 +143,8 @@ class profileMenu extends StatelessWidget {
                                     EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
                                 child: InputDatePickerFormField(
                                   //enabled: true,
-                                  firstDate: DateTime.utc(1996, 01, 01),
-                                  initialDate: DateTime.utc(1999, 08, 14),
+                                  firstDate: DateTime.utc(1900, 01, 01),
+                                  initialDate: DateTime.parse(data!['date_of_birth']),
                                   lastDate: DateTime.now(),
                                 ),
                               ),
@@ -193,7 +195,7 @@ class profileMenu extends StatelessWidget {
                                     EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
                                 child: TextFormField(
                                   enabled: true,
-                                  initialValue: 'Some Address',
+                                  initialValue: data!['address'],
                                   decoration:
                                       InputDecoration(border: InputBorder.none),
                                 ),
@@ -287,7 +289,7 @@ class profileMenu extends StatelessWidget {
                                     EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
                                 child: TextFormField(
                                   enabled: true,
-                                  initialValue: '+919690499393',
+                                  initialValue: data!['phone_no'].toString(),
                                   decoration:
                                       InputDecoration(border: InputBorder.none),
                                 ),
@@ -339,7 +341,7 @@ class profileMenu extends StatelessWidget {
                                     EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
                                 child: TextFormField(
                                   enabled: true,
-                                  initialValue: '2018313@iiitdmj.ac.in',
+                                  initialValue: data!['id']+'@iiitdmj.ac.in',
                                   decoration:
                                       InputDecoration(border: InputBorder.none),
                                 ),

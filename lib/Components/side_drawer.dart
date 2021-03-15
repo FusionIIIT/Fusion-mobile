@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:fusion/screens/Profile/profile.dart';
 import 'package:fusion/services/login_service.dart';
+import 'package:fusion/services/storage_service.dart';
 
 class SideDrawer extends StatefulWidget {
   @override
@@ -113,7 +115,16 @@ class _SideDrawerState extends State<SideDrawer> {
                 : SizedBox(
                     width: 2.0,
                   ),
-            ModulesCard(cardLine: 'Profile', icon: Icons.account_circle),
+            GestureDetector(
+              child: ModulesCard(cardLine: 'Profile', icon: Icons.account_circle),
+              onTap: () async {
+                var _prefs =await StorageService.getInstance();
+                String token=_prefs!.userInDB.token!;
+                Navigator.pushReplacement(context,MaterialPageRoute(builder: (context){
+                  return Profile(token: token);
+                }));
+              },
+            ),
             ModulesCard(cardLine: 'Office Of Dean Students'),
             ModulesCard(cardLine: 'Office Of Dean Academics'),
             ModulesCard(cardLine: 'Director Office'),
