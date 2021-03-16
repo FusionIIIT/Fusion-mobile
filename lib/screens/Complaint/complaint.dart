@@ -7,6 +7,8 @@ import 'LodgeComplaint/lodge_complaint.dart';
 import 'Feedback/feedback.dart';
 
 class Complaint extends StatefulWidget {
+  String? token;
+  Complaint(this.token);
   @override
   _ComplaintState createState() => _ComplaintState();
 }

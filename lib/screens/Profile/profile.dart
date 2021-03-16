@@ -16,7 +16,8 @@ import 'package:http/http.dart';
 class Profile extends StatefulWidget {
   String? token;
   static String tag ='profile-page';
-  Profile({Key? key,this.token}):super(key: key);
+  // Profile({Key? key,this.token}):super(key: key);
+  Profile(this.token);
   @override
   _ProfileState createState() => _ProfileState();
 }

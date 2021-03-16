@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/screens/Profile/profile.dart';
 import 'package:fusion/services/login_service.dart';
 import 'package:fusion/services/storage_service.dart';
 
@@ -91,17 +90,13 @@ class _SideDrawerState extends State<SideDrawer> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        ModulesPadding(
-                            line: 'DashBoard', pageMover: '/dashboard'),
-                        ModulesPadding(
-                            line: 'Academics Module',
-                            pageMover: '/academic_home_page'),
-                        ModulesPadding(line: 'Gymkhana Module', pageMover: '/gymkhana_homepage',),
-                        ModulesPadding(line: 'Establishment Module', pageMover: '/establishment',),
-                        ModulesPadding(line: 'Library Module', pageMover: '/library_homepage',),
+                        ModulesPadding(line: 'DashBoard', pageMover: '/dashboard'),
+                        ModulesPadding(line: 'Academics Module', pageMover: '/academic_home_page'),
+                        ModulesPadding(line: 'Gymkhana Module', pageMover: '/gymkhana_homepage'),
+                        ModulesPadding(line: 'Establishment Module', pageMover: '/establishment'),
+                        ModulesPadding(line: 'Library Module', pageMover: '/library_homepage'),
                         ModulesPadding(line: 'Awards & Scholarship Module'),
-                        ModulesPadding(
-                            line: 'Complaint Module', pageMover: '/complaint'),
+                        ModulesPadding(line: 'Complaint Module', pageMover: '/complaint'),
                         ModulesPadding(line: 'Central Mess Module'),
                         ModulesPadding(line: 'Feeds Module'),
                         ModulesPadding(line: 'Health Center Module'),
@@ -115,16 +110,7 @@ class _SideDrawerState extends State<SideDrawer> {
                 : SizedBox(
                     width: 2.0,
                   ),
-            GestureDetector(
-              child: ModulesCard(cardLine: 'Profile', icon: Icons.account_circle),
-              onTap: () async {
-                var _prefs =await StorageService.getInstance();
-                String token=_prefs!.userInDB.token!;
-                Navigator.pushReplacement(context,MaterialPageRoute(builder: (context){
-                  return Profile(token: token);
-                }));
-              },
-            ),
+            ModulesCard(cardLine: 'Profile', icon: Icons.account_circle, pageMover: '/profile'),
             ModulesCard(cardLine: 'Office Of Dean Students'),
             ModulesCard(cardLine: 'Office Of Dean Academics'),
             ModulesCard(cardLine: 'Director Office'),
@@ -134,14 +120,7 @@ class _SideDrawerState extends State<SideDrawer> {
             ModulesCard(cardLine: 'Office Of HOD (Branch)'),
             ModulesCard(cardLine: 'Finance & Accounts'),
             ModulesCard(cardLine: 'Meet Our Team'),
-            GestureDetector(
-              child: ModulesCard(cardLine: 'Log Out', icon: Icons.logout),
-              onTap: () {
-                LoginService auth = LoginService();
-                auth.logout();
-                Navigator.pushReplacementNamed(context, "/landing");
-              },
-            ),
+            ModulesCard(cardLine: 'Log Out', icon: Icons.logout),
           ],
         ),
       ),
@@ -163,8 +142,10 @@ class ModulesPadding extends StatelessWidget {
           style: TextStyle(fontSize: 16.0, color: Colors.deepOrangeAccent),
         ),
       ),
-      onPressed: () {
-        Navigator.pushNamed(context, pageMover!);
+      onPressed: () async {
+        var _prefs = await StorageService.getInstance();
+        String token = _prefs!.userInDB.token!;
+        Navigator.pushReplacementNamed(context, pageMover!, arguments: token);
       },
     );
   }
@@ -173,28 +154,42 @@ class ModulesPadding extends StatelessWidget {
 // ignore: must_be_immutable
 class ModulesCard extends StatelessWidget {
   final String? cardLine;
+  final String? pageMover;
   IconData? icon;
-  ModulesCard({this.cardLine, this.icon});
+  ModulesCard({this.cardLine, this.icon, this.pageMover});
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: Colors.black,
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              cardLine!,
-              style: TextStyle(fontSize: 16.0, color: Colors.white),
-            ),
-            Icon(
-              icon,
-              color: Colors.deepOrangeAccent,
-            ),
-          ],
+    return GestureDetector(
+      child: Card(
+        color: Colors.black,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                cardLine!,
+                style: TextStyle(fontSize: 16.0, color: Colors.white),
+              ),
+              Icon(
+                icon,
+                color: Colors.deepOrangeAccent,
+              ),
+            ],
+          ),
         ),
       ),
+      onTap: () async {
+        var _prefs = await StorageService.getInstance();
+        String token = _prefs!.userInDB.token!;
+        if(cardLine=='Log Out')
+          {
+              LoginService auth = LoginService();
+              auth.logout();
+              Navigator.pushReplacementNamed(context, "/landing");
+          }
+        Navigator.pushReplacementNamed(context, pageMover!, arguments: token);
+      },
     );
   }
 }
