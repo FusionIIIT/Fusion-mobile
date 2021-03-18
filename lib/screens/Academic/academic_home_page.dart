@@ -141,7 +141,7 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
           InkWell(
             child: myContainer("Branch Change"),
             onTap: () {
-              Navigator.pushNamed(context, '/branch_change');
+              Navigator.pushNamed(context, '/academic_home_page/branch_change');
             },
           ),
           InkWell(
