@@ -38,12 +38,12 @@ class _CpdaManagementState extends State<CpdaManagement> {
                     'CPDA Request',
                     style: TextStyle(
                       fontSize: 20,
-                      fontWeight: FontWeight.w700,
-                      color: _first1? Colors.black:Colors.deepOrange,
+                      color: _first1 ? Colors.black : Colors.black26,
                     ),
                   ),
                   Icon(
                     Icons.arrow_right,
+                    color: _first1 ? Colors.deepOrangeAccent:Colors.black26,
                   )
                 ],
               ),
@@ -67,12 +67,12 @@ class _CpdaManagementState extends State<CpdaManagement> {
                     'Active Applications',
                     style: TextStyle(
                       fontSize: 20,
-                      fontWeight: FontWeight.w700,
-                      color: _first2 ? Colors.black:Colors.deepOrange,
+                      color:_first2 ? Colors.black : Colors.black26,
                     ),
                   ),
                   Icon(
                     Icons.arrow_right,
+                    color: _first2 ? Colors.deepOrangeAccent:Colors.black26,
                   )
                 ],
               ),
@@ -96,12 +96,12 @@ class _CpdaManagementState extends State<CpdaManagement> {
                     'Archieved  Applications',
                     style: TextStyle(
                       fontSize: 20,
-                      fontWeight: FontWeight.w700,
-                      color: _first3 ? Colors.black:Colors.deepOrange,
+                      color: _first3 ? Colors.black : Colors.black26,
                     ),
                   ),
                   Icon(
                     Icons.arrow_right,
+                    color: _first3 ? Colors.deepOrangeAccent:Colors.black26,
                   )
                 ],
               ),
@@ -125,12 +125,12 @@ class _CpdaManagementState extends State<CpdaManagement> {
                     'Review Applications',
                     style: TextStyle(
                       fontSize: 20,
-                      fontWeight: FontWeight.w700,
-                      color: _first4 ? Colors.black:Colors.deepOrange,
+                      color:_first4 ? Colors.black : Colors.black26,
                     ),
                   ),
                   Icon(
                     Icons.arrow_right,
+                    color: _first4 ? Colors.deepOrangeAccent:Colors.black26,
                   )
                 ],
               ),

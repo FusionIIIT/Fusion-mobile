@@ -17,7 +17,7 @@ class _SemesterState extends State<Semester> {
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: DataTable(
-                columns: <DataColumn>[
+              columns:<DataColumn>[
                   DataColumn(
                     label: Text("#"),
                     numeric: false,
@@ -50,11 +50,15 @@ class _SemesterState extends State<Semester> {
                     ],
                   ),
                 ],
+        ),
+      ),
+            Text(
+                "Current CPI- 9.5",
               ),
-            ),
-            Text('Current CPI'),
-            Text('SPI'),
-          ],
+              Text(
+                "Current SPI - ",
+              ),
+        ]
         ),
       ),
     );

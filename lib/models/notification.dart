@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 class Notification {
-  String? id;
+  int? id;
   bool? unread;
   String? verb;
   Map? data;
@@ -9,7 +9,7 @@ class Notification {
   DateTime? timestamp;
   bool? public;
   bool? deleted;
-  String? recipient;
+  int? recipient;
   bool? emailed;
 
   Notification({
