@@ -1,8 +1,4 @@
-
-
-
 import 'package:flutter/material.dart';
-
 
 class LtcManagement extends StatefulWidget {
   @override
@@ -35,12 +31,12 @@ class _LtcManagementState extends State<LtcManagement> {
                     'LTC  info',
                     style: TextStyle(
                       fontSize: 20,
-                      fontWeight: FontWeight.w700,
-                      color: _second1 ? Colors.black:Colors.deepOrange,
+                      color: _second1 ? Colors.black : Colors.black26,
                     ),
                   ),
                   Icon(
                     Icons.arrow_right,
+                    color: _second1 ? Colors.deepOrangeAccent:Colors.black26,
                   )
                 ],
               ),
@@ -62,12 +58,12 @@ class _LtcManagementState extends State<LtcManagement> {
                   'Review applications',
                   style: TextStyle(
                     fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                    color: _second2 ? Colors.black87: Colors.deepOrange,
+                    color:_second2 ? Colors.black : Colors.black26,
                   ),
                 ),
                 Icon(
                   Icons.arrow_right,
+                  color: _second2 ? Colors.deepOrangeAccent:Colors.black26,
                 )
               ],
             ),

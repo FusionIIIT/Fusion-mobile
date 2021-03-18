@@ -26,40 +26,46 @@ class _EstablishmentState extends State<Establishment> {
         physics: ClampingScrollPhysics(),
         children: [
           Card(
-            elevation: 1.0,
-            margin: EdgeInsets.symmetric(horizontal: 60,vertical: 20),
+            elevation: 2.0,
+            margin: EdgeInsets.symmetric(horizontal: 50.0, vertical: 20.0),
+            shadowColor: Colors.black,
             child: Column(
               children: [
                 Container(
-                  margin: EdgeInsets.only(top: 20),
-                  width:170,
-                  height:170,
+                  margin: EdgeInsets.only(top: 20.0),
+                  width: 170.0,
+                  height: 170.0,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage('assets/2018238_lat.jpg'),
+                      image: AssetImage('assets/unknown.jpg'),
                       fit: BoxFit.cover,
                     ),
                   ),
                 ),
-                SizedBox(height: 10),
-                Text(
-                  'SHUBHAM RAJ',
-                  style: TextStyle(color: Colors.black, fontSize: 16
-                  ),
+                SizedBox(
+                  height: 10.0,
                 ),
-                SizedBox(height: 5),
                 Text(
-                  ' CSE   Student',
-                  style: TextStyle(color: Colors.black, fontSize: 16),
+                  'Shubham Raj',
+                  style: TextStyle(fontSize: 20.0, color: Colors.black),
                 ),
-                SizedBox(height: 10),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Text(
+                  "Student",
+                  style: TextStyle(fontSize: 15.0, color: Colors.black),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
               ],
             ),
           ),
           Card(
             elevation: 1.0,
             margin: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-
+            shadowColor: Colors.black,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -75,15 +81,16 @@ class _EstablishmentState extends State<Establishment> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'CPDA  Management',
+                        'CPDA Management',
                         style: TextStyle(
-                          fontWeight: FontWeight.w800,
-                          fontSize: 25,
-                          color: _first ? Colors.black : Colors.deepOrange,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 20,
+                          color: _first ? Colors.black : Colors.black26,
                         ),
                       ),
                       Icon(
-                        Icons.arrow_right,
+                        Icons.arrow_forward,
+                        color: _first ? Colors.deepOrangeAccent : Colors.white,
                       )
 
                     ],
@@ -101,15 +108,16 @@ class _EstablishmentState extends State<Establishment> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'LTC  Management',
+                        'LTC Management',
                         style: TextStyle(
                           fontWeight: FontWeight.w700,
-                          fontSize: 25,
-                          color: _second ? Colors.black : Colors.deepOrange,
+                          fontSize: 20,
+                          color: _second ? Colors.black : Colors.black26,
                         ),
                       ),
                       Icon(
-                        Icons.arrow_right,
+                        Icons.arrow_forward,
+                        color: _second ? Colors.deepOrangeAccent : Colors.white,
                       )
                     ],
                   ),

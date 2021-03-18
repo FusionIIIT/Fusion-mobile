@@ -86,7 +86,8 @@ class _ComplaintState extends State<Complaint> {
                         ),
                       ),
                       Icon(
-                        Icons.arrow_right,
+                        Icons.arrow_forward,
+                        color: _loading1 ? Colors.deepOrangeAccent : Colors.white,
                       )
                     ],
                   ),
@@ -112,7 +113,8 @@ class _ComplaintState extends State<Complaint> {
                         ),
                       ),
                       Icon(
-                        Icons.arrow_right,
+                        Icons.arrow_forward,
+                        color: _loading2 ? Colors.deepOrangeAccent : Colors.white,
                       )
                     ],
                   ),
@@ -139,7 +141,8 @@ class _ComplaintState extends State<Complaint> {
                         ),
                       ),
                       Icon(
-                        Icons.arrow_right,
+                        Icons.arrow_forward,
+                        color: _loading3 ? Colors.deepOrangeAccent : Colors.white,
                       )
                     ],
                   ),
