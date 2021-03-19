@@ -23,29 +23,30 @@ class _DuesState extends State<Dues> {
             child: DataTable(
               columns: <DataColumn>[
                 DataColumn(
-                  label: Text("#"),
-                  numeric: false,
+                  label: Text("Mess Due"),
                 ),
                 DataColumn(
-                  label: Text("Course ID"),
-                  numeric: false,
+                  label: Text("Hostel Due"),
                 ),
                 DataColumn(
-                  label: Text("Course Name"),
-                  numeric: false,
+                  label: Text("Library Due"),
                 ),
                 DataColumn(
-                  label: Text("Credits"),
-                  numeric: false,
+                  label: Text("Placement Cell Due"),
                 ),
                 DataColumn(
-                  label: Text("Semester"),
-                  numeric: false,
+                  label: Text("Academic Due"),
+                  numeric: true,
+                ),
+                DataColumn(
+                  label: Text("Total Due"),
+                  numeric: true,
                 )
               ],
               rows: <DataRow>[
                 DataRow(
                   cells: <DataCell>[
+                    DataCell(Text("")),
                     DataCell(Text("")),
                     DataCell(Text("")),
                     DataCell(Text("")),
