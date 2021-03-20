@@ -1,9 +1,9 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:fusion/screens/Academic/Registration/courses.dart';
 import 'package:fusion/screens/Academic/Registration/final_registration.dart';
 import 'package:fusion/screens/Academic/Registration/pre_registration.dart';
+import 'package:fusion/Components/appBar.dart';
+import 'package:fusion/Components/side_drawer.dart';
 
 class RegistrationHomePage extends StatefulWidget {
   @override
@@ -17,8 +17,25 @@ class _RegistrationHomePageState extends State<RegistrationHomePage> {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Registration'),
-          backgroundColor: Colors.grey[900],
+          backgroundColor: Colors.black,
+          title: Text(
+            "FUSION",
+            style: TextStyle(color: Colors.white),
+          ),
+          actions: <Widget>[
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Icon(Icons.search),
+            ),
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Icon(Icons.notifications),
+            ),
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Icon(Icons.more_vert),
+            ),
+          ],
           bottom: TabBar(
             isScrollable: true,
             indicatorColor: Colors.white,
@@ -48,6 +65,7 @@ class _RegistrationHomePageState extends State<RegistrationHomePage> {
             ],
           ),
         ),
+        drawer: SideDrawer(),
         body: TabBarView(
           children: [
             Courses(),

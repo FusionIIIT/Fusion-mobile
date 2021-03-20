@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:fusion/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
