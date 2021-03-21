@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
         '/gymkhana_homepage': (context) => GymkhanaHomepage(),
         '/gymkhana_homepage/apply': (context) => Apply(),
         '/gymkhana_homepage/polls': (context) => Polls(),
-        '/gymkhana_homepage/clubs': (context) => Clubs(),
+        '/gymkhana_homepage/clubs': (context) => Club(),
         '/gymkhana_homepage/member_records': (context) => Records(),
         '/library_homepage': (context) => LibraryHomeScreen(),
         '/library_homepage/book_search': (context) => BookSearch(),
