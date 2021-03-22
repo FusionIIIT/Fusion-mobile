@@ -1,7 +1,17 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:fusion/models/complaints.dart';
+import 'package:fusion/screens/Complaint/ComplaintHistory/pending_complaints.dart';
+import 'package:fusion/services/complaint_service.dart';
+import 'package:http/http.dart';
 import '../Constants/constants.dart';
 
 class ComplainHistory extends StatefulWidget {
+  String? token;
+  ComplainHistory(this.token);
+
   @override
   _ComplainHistoryState createState() => _ComplainHistoryState();
 }
@@ -12,318 +22,137 @@ class _ComplainHistoryState extends State<ComplainHistory> {
   bool _loading3 = false;
   bool _loading4 = false;
 
+  bool _loading = true;
+
+  int _currentPage = 0;
+  PageController _pageController = PageController(initialPage: 0);
+
+  //integrating_api
+  late StreamController _complaintController;
+  late ComplaintService complaintService;
+  late ComplaintData data;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _complaintController = StreamController();
+    complaintService = ComplaintService();
+    getData();
+
+    Timer.periodic(Duration(seconds: 5), (Timer timer) {
+      if (_currentPage < 2) {
+        _currentPage++;
+      } else {
+        _currentPage = 0;
+      }
+
+      _pageController.animateToPage(
+        _currentPage,
+        duration: Duration(milliseconds: 350),
+        curve: Curves.easeIn,
+      );
+    });
+  }
+
+  getData() async {
+    //print('token-'+widget.token!);
+    Response response = await complaintService.getComplaint(widget.token!);
+    setState(() {
+      data = ComplaintData.fromJson(jsonDecode(response.body));
+      print(data.complaint_details);
+      print(data);
+      _loading = false;
+    });
+  }
+
+  loadData() async {
+    getData().then((res) {
+      _complaintController.add(res);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Card(
-          elevation: 2.0,
-          margin: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-          shadowColor: Colors.black,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TextButton(
-                onPressed: () {
-                  setState(() {
-                    _loading1 = true;
-                    _loading2 = false;
-                    _loading3 = false;
-                    _loading4 = false;
-                  });
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Pending Complaints',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w800,
-                        fontSize: 18,
-                        color: _loading1 ? Colors.black : Colors.black26,
+        _loading1 == true
+            ? SizedBox(
+                height: 200,
+                child: PageView(
+                  scrollDirection: Axis.horizontal,
+                  controller: _pageController,
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PendingComplaints(data)),
+                        );
+                      },
+                      child: Card(
+                        elevation: 6,
+                        margin:
+                            EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                        shadowColor: Colors.black,
+                        child: Center(
+                          child: Text(
+                            'Pending Complaints',
+                            style: TextStyle(color: Colors.black, fontSize: 20),
+                          ),
+                        ),
                       ),
                     ),
-                    Icon(
-                      Icons.arrow_right,
-                    )
+                    GestureDetector(
+                      onTap: () {},
+                      child: Card(
+                        elevation: 6,
+                        margin:
+                            EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                        shadowColor: Colors.black,
+                        child: Center(
+                          child: Text(
+                            'On-Hold Complaints',
+                            style: TextStyle(color: Colors.black, fontSize: 20),
+                          ),
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {},
+                      child: Card(
+                        elevation: 6,
+                        margin:
+                            EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                        shadowColor: Colors.black,
+                        child: Center(
+                          child: Text(
+                            'Resolved Complaints',
+                            style: TextStyle(color: Colors.black, fontSize: 20),
+                          ),
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {},
+                      child: Card(
+                        elevation: 6,
+                        margin:
+                            EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                        shadowColor: Colors.black,
+                        child: Center(
+                          child: Text(
+                            'Declined Complaints',
+                            style: TextStyle(color: Colors.black, fontSize: 20),
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
-              ),
-              SizedBox(height: 10),
-              TextButton(
-                onPressed: () {
-                  setState(() {
-                    _loading1 = false;
-                    _loading2 = true;
-                    _loading3 = false;
-                    _loading4 = false;
-                  });
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'On-Hold Complaints',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w800,
-                        fontSize: 18,
-                        color: _loading2 ? Colors.black : Colors.black26,
-                      ),
-                    ),
-                    Icon(
-                      Icons.arrow_right,
-                    )
-                  ],
-                ),
-              ),
-              SizedBox(height: 10),
-              TextButton(
-                onPressed: () {
-                  setState(() {
-                    _loading1 = false;
-                    _loading2 = false;
-                    _loading3 = true;
-                    _loading4 = false;
-                  });
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Resolved Complaints',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w800,
-                        fontSize: 18,
-                        color: _loading3 ? Colors.black : Colors.black26,
-                      ),
-                    ),
-                    Icon(
-                      Icons.arrow_right,
-                    )
-                  ],
-                ),
-              ),
-              SizedBox(height: 10),
-              TextButton(
-                onPressed: () {
-                  setState(() {
-                    _loading1 = false;
-                    _loading2 = false;
-                    _loading3 = false;
-                    _loading4 = true;
-                  });
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Declined Complaints',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w800,
-                        fontSize: 18,
-                        color: _loading4 ? Colors.black : Colors.black26,
-                      ),
-                    ),
-                    Icon(
-                      Icons.arrow_right,
-                    )
-                  ],
-                ),
-              ),
-              SizedBox(height: 10),
-            ],
-          ),
-        ),
-        Card(
-          elevation: 2.0,
-          margin: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-          shadowColor: Colors.black,
-          child: Container(
-            padding: EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Feedback For Complaints',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 18,
-                  ),
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                Text(
-                  'Date',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 15,
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                TextField(
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
-                  decoration: kTextFieldInputDecoration,
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                Text(
-                  'Complaint Type',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 15,
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                TextField(
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
-                  decoration: kTextFieldInputDecoration,
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                Text(
-                  'Location',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 15,
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                TextField(
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
-                  decoration: kTextFieldInputDecoration,
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                Text(
-                  'Complaint Details *',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 15,
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                TextField(
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
-                  decoration: kTextFieldInputDecoration,
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                Text(
-                  'Status',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 15,
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                TextField(
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
-                  decoration: kTextFieldInputDecoration,
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                Text(
-                  'Workers Name',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 15,
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                TextField(
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
-                  decoration: kTextFieldInputDecoration,
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                Text(
-                  'FeedBack',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 15,
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                TextField(
-                  maxLines: 6,
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-                    hintText: "Default Text",
-                    contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                Center(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // Validate returns true if the form is valid, otherwise false.
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'Submit',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    ),
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                            (Set<MaterialState> states) {
-                          if (states.contains(MaterialState.pressed))
-                            return Colors.deepOrange;
-                          return Colors
-                              .deepOrangeAccent; // Use the component's default.
-                        },
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-        ),
+              )
+            : SizedBox(width: 20),
       ],
     );
   }

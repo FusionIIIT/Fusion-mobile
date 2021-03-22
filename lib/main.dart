@@ -37,7 +37,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/landing': (context) => LandingPage(),
         '/login_page': (context) => LoginPage(),
-        '/dashboard': (context) => Dashboard(ModalRoute.of(context)!.settings.arguments.toString()),
+        '/dashboard': (context) =>
+            Dashboard(ModalRoute.of(context)!.settings.arguments.toString()),
         '/academic_home_page': (context) => AcademicHomePage(),
         '/academic_home_page/current_semester_home_page': (context) =>
             CurrentSemesterHomePage(),
@@ -53,14 +54,16 @@ class MyApp extends StatelessWidget {
         '/gymkhana_homepage': (context) => GymkhanaHomepage(),
         '/gymkhana_homepage/apply': (context) => Apply(),
         '/gymkhana_homepage/polls': (context) => Polls(),
-        '/gymkhana_homepage/clubs': (context) => Clubs(),
+        '/gymkhana_homepage/clubs': (context) => Club(),
         '/gymkhana_homepage/member_records': (context) => Records(),
         '/library_homepage': (context) => LibraryHomeScreen(),
         '/library_homepage/book_search': (context) => BookSearch(),
         '/library_homepage/issued_items': (context) => IssuedItems(),
         '/library_homepage/dues': (context) => Dues(),
-        '/complaint': (context) => Complaint(ModalRoute.of(context)!.settings.arguments.toString()),
-        '/profile': (context) => Profile(ModalRoute.of(context)!.settings.arguments.toString()),
+        '/complaint': (context) =>
+            Complaint(ModalRoute.of(context)!.settings.arguments.toString()),
+        '/profile': (context) =>
+            Profile(ModalRoute.of(context)!.settings.arguments.toString()),
       },
     );
   }

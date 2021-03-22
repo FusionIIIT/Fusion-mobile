@@ -15,7 +15,7 @@ import 'package:http/http.dart';
 
 class Profile extends StatefulWidget {
   String? token;
-  static String tag ='profile-page';
+  static String tag = 'profile-page';
   // Profile({Key? key,this.token}):super(key: key);
   Profile(this.token);
   @override
@@ -26,8 +26,6 @@ class _ProfileState extends State<Profile> {
   bool _loading1 = true;
   // bool _loading2 = false;
   // bool _loading3 = false;
-
-
 
   //integrating_api
   late StreamController _profileController;
@@ -48,7 +46,7 @@ class _ProfileState extends State<Profile> {
     Response response = await profileService.getProfile(widget.token!);
     setState(() {
       data = ProfileData.fromJson(jsonDecode(response.body));
-      print(data.profile);
+      print(data.current);
       _loading1 = false;
     });
   }
@@ -80,11 +78,11 @@ class _ProfileState extends State<Profile> {
 
   //TODO: Update
   List<Function> _menu = [
-    (data)=>profileMenu(data: data.profile),
-    (data)=>skillsMenu(),
-    (data)=>educationMenu(),
-    (data)=>workExperiencesMenu(),
-    (data)=>AchievementsMenu(),
+    (data) => profileMenu(data: data.profile),
+    (data) => skillsMenu(),
+    (data) => educationMenu(),
+    (data) => workExperiencesMenu(),
+    (data) => AchievementsMenu(),
   ];
   var _selectedMenu = _profileMenu[0];
 
@@ -123,7 +121,9 @@ class _ProfileState extends State<Profile> {
                               ),
                               Text(
                                 //NAME
-                                data.user!['first_name']+' '+data.user!['last_name'],
+                                data.user!['first_name'] +
+                                    ' ' +
+                                    data.user!['last_name'],
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 18),
                               ),
@@ -184,5 +184,4 @@ class _ProfileState extends State<Profile> {
             ),
     );
   }
-
 }
