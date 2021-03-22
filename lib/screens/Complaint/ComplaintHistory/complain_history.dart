@@ -41,7 +41,7 @@ class _ComplainHistoryState extends State<ComplainHistory> {
     getData();
 
     Timer.periodic(Duration(seconds: 5), (Timer timer) {
-      if (_currentPage < 2) {
+      if (_currentPage < 3) {
         _currentPage++;
       } else {
         _currentPage = 0;
