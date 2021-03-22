@@ -7,6 +7,8 @@ import 'LodgeComplaint/lodge_complaint.dart';
 import 'Feedback/feedback.dart';
 
 class Complaint extends StatefulWidget {
+  String? token;
+  Complaint(this.token);
   @override
   _ComplaintState createState() => _ComplaintState();
 }
@@ -84,7 +86,8 @@ class _ComplaintState extends State<Complaint> {
                         ),
                       ),
                       Icon(
-                        Icons.arrow_right,
+                        Icons.arrow_forward,
+                        color: _loading1 ? Colors.deepOrangeAccent : Colors.white,
                       )
                     ],
                   ),
@@ -110,7 +113,8 @@ class _ComplaintState extends State<Complaint> {
                         ),
                       ),
                       Icon(
-                        Icons.arrow_right,
+                        Icons.arrow_forward,
+                        color: _loading2 ? Colors.deepOrangeAccent : Colors.white,
                       )
                     ],
                   ),
@@ -137,7 +141,8 @@ class _ComplaintState extends State<Complaint> {
                         ),
                       ),
                       Icon(
-                        Icons.arrow_right,
+                        Icons.arrow_forward,
+                        color: _loading3 ? Colors.deepOrangeAccent : Colors.white,
                       )
                     ],
                   ),

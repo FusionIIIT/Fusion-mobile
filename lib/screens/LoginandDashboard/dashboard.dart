@@ -15,7 +15,7 @@ class Dashboard extends StatefulWidget {
   String? token;
   static String tag = 'home-page';
 
-  Dashboard({Key? key, this.token}) : super(key: key);
+  Dashboard(this.token);
   @override
   _DashboardState createState() => _DashboardState();
 }

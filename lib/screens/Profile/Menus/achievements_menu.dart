@@ -32,6 +32,119 @@ class AchievementsMenu extends StatelessWidget {
                       color: Colors.grey),
                   padding: EdgeInsets.all(5.0),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Expanded(child: Text('Achievements',
+                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  color: Colors.white,
+                  padding: EdgeInsets.all(7.0),
+                  child: Column(
+                    children: [
+                      Container(
+                        // Skill/Technology Container
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                          borderRadius: BorderRadius.circular(5.0),
+                        ),
+                      ),
+                      SizedBox(height: 5),
+                      Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Card(
+                              color: Colors.white54,
+                              child : Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
+                                    child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children:[
+                                          Text('Achievement Name : ' ,style: TextStyle( fontWeight: FontWeight.bold)),
+                                          Text('Enthuse Winner'),
+                                        ]
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
+                                    child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children:[
+                                          Text('Type : ',style: TextStyle( fontWeight: FontWeight.bold)),
+                                          Text('Sports'),
+                                        ]
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
+                                    child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children:[
+                                          Text('Date : ',style: TextStyle( fontWeight: FontWeight.bold)),
+                                          Text('12-10-2020'),
+                                        ]
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
+                                    child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children:[
+                                          Text('Issuer :',style: TextStyle( fontWeight: FontWeight.bold)),
+                                          Text('Gymkhana '),
+                                        ]
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
+                                    child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children:[
+                                          Text('Description :',style: TextStyle( fontWeight: FontWeight.bold)),
+                                          Text('Worked as a SWE Intern at Amazon for 2 months'),
+                                        ]
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 20),
+          Container(
+            // Achievements Container
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.black),
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+            child: Column(
+              children: [
+                Container(
+                  //Label + Edit Button
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black),
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(5.0),
+                          topRight: Radius.circular(5.0)),
+                      color: Colors.grey),
+                  padding: EdgeInsets.all(5.0),
+                  child: Row(
                     children: [
                       Expanded(child: Text('Add a new Achievement')),
                       ElevatedButton(
@@ -57,9 +170,7 @@ class AchievementsMenu extends StatelessWidget {
                         child: Column(
                           children: [
                             Container(
-                              //Label + Edit Button
                               decoration: BoxDecoration(
-                                  //border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(5.0),
                                       topRight: Radius.circular(5.0)),
@@ -278,9 +389,6 @@ class AchievementsMenu extends StatelessWidget {
               ],
             ),
           ),
-          // SizedBox(
-          //   height: 7,
-          // ),
         ],
       ),
     );

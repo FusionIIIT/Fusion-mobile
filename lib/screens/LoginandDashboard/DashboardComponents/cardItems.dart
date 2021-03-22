@@ -114,7 +114,7 @@ class _InfoCardState extends State<InfoCard> {
               // Respond to button press
               DashboardService service = DashboardService();
               setState(() {
-                service.markRead(widget.notification.id!);
+                service.markRead(widget.notification.id!.toString());
               });
             },
             style: ButtonStyle(
