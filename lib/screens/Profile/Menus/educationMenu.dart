@@ -34,7 +34,7 @@ class educationMenu extends StatelessWidget {
       margin: EdgeInsets.all(10.0),
       child: Column(
         children: [
-          this.educationData!=null ? Container(
+          this.educationData!=null  ? this.educationData!.isNotEmpty ?Container(
             // Educational Qualifications Container
             decoration: BoxDecoration(
               border: Border.all(color: Colors.black),
@@ -152,9 +152,9 @@ class educationMenu extends StatelessWidget {
                 ),
               ],
             ),
-          ) :Container() ,
-          this.educationData!=null ? SizedBox(height: 20) : Container(),
-          this.coursesData!=null ? Container(
+          ) :Container() :Container(),
+          this.educationData!=null  ? this.educationData!.isNotEmpty ? SizedBox(height: 20):Container() :Container(),
+          this.coursesData!=null  ? this.coursesData!.isNotEmpty ? Container(
             //Courses Container
             decoration: BoxDecoration(
               border: Border.all(color: Colors.black),
@@ -204,14 +204,14 @@ class educationMenu extends StatelessWidget {
                               columnSpacing: 8.0,
                               columns: [
                                 DataColumn(label: Text(
-                                    'License\nNo.',
-                                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                                    textAlign: TextAlign.center,
+                                  'License\nNo.',
+                                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.center,
                                 )),
                                 DataColumn(label: Text(
-                                    '    Course\n    Name',
-                                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                                    textAlign: TextAlign.center,
+                                  '    Course\n    Name',
+                                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.center,
                                 )),
                                 DataColumn(label: Text(
                                     'Start\nDate',
@@ -260,8 +260,8 @@ class educationMenu extends StatelessWidget {
                 ),
               ],
             ),
-          ) : Container(),
-          this.coursesData!=null ? SizedBox(height: 25) : Container(),
+          ):Container() :Container(),
+          this.coursesData!=null  ? this.coursesData!.isNotEmpty ? SizedBox(height: 25):Container() :Container(),
           Container(
             // Education Container
             decoration: BoxDecoration(
