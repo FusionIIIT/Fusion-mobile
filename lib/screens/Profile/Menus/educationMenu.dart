@@ -1,20 +1,267 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
 
 //TODO: Camel Case
+//Courses Taken List
+final List<Map<String, String>> listOfColumns = [
+  {"Lic No.": "56382", "Course Name": "Introduction to Data Structure and Flutter", "description": "New Course" ,"Start Date": "12-10-2021" , "End Date":"12-10-2101"},
+  {"Lic No.": "12313", "Course Name": "Introduction to Data Structure and Flutter - Web", "description": "New Course","Start Date": "12-10-2021" , "End Date":"12-10-2101"},
+  {"Lic No.": "23123", "Course Name": "Introduction to Flutter", "Start Date": "12-10-2021" , "description": "New Course","End Date":"12-10-2101"},
+];
+
+//Educational Qualification List
+final List<Map<String, String>> listOfColumns2 = [
+  {"Degree": "B.Tech", "Stream": "CSE", "Grade": "A+" ,"Start Date": "12-10-2021" , "End Date":"12-10-2101" , "institute":"IIITDM Jabalpur"},
+  {"Degree": "B.Sc", "Stream": "CS", "Grade": "B","Start Date": "12-10-2021" , "End Date":"12-10-2101","institute":"IIT Kanpur"},
+];
+
 class educationMenu extends StatelessWidget {
+
+  final List? educationData,coursesData;
   const educationMenu({
-    Key? key,
+    Key? key,this.educationData,this.coursesData
   }) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
+    print(this.educationData);
+    print(this.coursesData);
     return Container(
       //color: Colors.grey,
       padding: EdgeInsets.all((5.0)),
       margin: EdgeInsets.all(10.0),
       child: Column(
         children: [
+          this.educationData!=null  ? this.educationData!.isNotEmpty ?Container(
+            // Educational Qualifications Container
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.black),
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+            child: Column(
+              children: [
+                Container(
+                  //Label + Edit Button
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black),
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(5.0),
+                          topRight: Radius.circular(5.0)),
+                      color: Colors.grey),
+                  padding: EdgeInsets.all(5.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Expanded(child: Text('Educational Qualifications',
+                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  color: Colors.white,
+                  padding: EdgeInsets.all(7.0),
+                  child: Column(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                          borderRadius: BorderRadius.circular(5.0),
+                        ),
+                      ),
+                      SizedBox(height: 5),
+                      Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            DataTable(
+                              columnSpacing: 8.0,
+                              columns: [
+                                DataColumn(label: Text(
+                                  'Degree',
+                                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.center,
+                                )),
+                                DataColumn(label: Text(
+                                  'Stream',
+                                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.center,
+                                )),
+                                DataColumn(label: Text(
+                                    'Start\nDate',
+                                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                                    textAlign: TextAlign.center,
+                                )),
+                                DataColumn(label: Text(
+                                    'End\nDate',
+                                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                                    textAlign: TextAlign.center,
+                                )),
+                                DataColumn(label: Text(
+                                    'Grade',
+                                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                                    textAlign: TextAlign.center,
+                                )),
+                                DataColumn(label: Text(
+                                    'Institute',
+                                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                                    textAlign: TextAlign.center,
+                                )),
+                              ],
+                              rows:
+                              this.educationData! // Loops through dataColumnText, each iteration assigning the value to element
+                                  .map(
+                                ((element) => DataRow(
+                                  cells: <DataCell>[
+                                    DataCell(
+                                        Container(
+                                            width: 55, //SET width
+                                            child: Text(element["degree"]!))), //Extracting from Map element the value
+                                    DataCell(Container(
+                                        width: 40, //SET width
+                                        child: Text(element["stream"]!))),
+                                    DataCell(Container(
+                                        width: 40, //SET width
+                                        child: Text(element["sdate"]!))),
+                                    DataCell(Container(
+                                        width: 40, //SET width
+                                        child: Text(element["edate"]!))),
+                                    DataCell(Container(
+                                        width: 20, //SET width
+                                        child: Text(element["grade"]! ,
+                                                     textAlign: TextAlign.center
+                                        ))),
+                                    DataCell(Container(
+                                        width: 120, //SET width
+                                        child: Text(element["institute"]!))),
+                                  ],
+                                )),
+                              )
+                                  .toList(),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ) :Container() :Container(),
+          this.educationData!=null  ? this.educationData!.isNotEmpty ? SizedBox(height: 20):Container() :Container(),
+          this.coursesData!=null  ? this.coursesData!.isNotEmpty ? Container(
+            //Courses Container
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.black),
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+            child: Column(
+              children: [
+
+                Container(
+                  //Label + Edit Button
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black),
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(5.0),
+                          topRight: Radius.circular(5.0)),
+                      color: Colors.grey),
+                  padding: EdgeInsets.all(5.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Expanded(child: Text('Courses Taken',
+                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  color: Colors.white,
+                  padding: EdgeInsets.all(7.0),
+                  child: Column(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                          borderRadius: BorderRadius.circular(5.0),
+                        ),
+                      ),
+                      SizedBox(height: 5),
+                      Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            DataTable(
+                              columnSpacing: 8.0,
+                              columns: [
+                                DataColumn(label: Text(
+                                  'License\nNo.',
+                                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.center,
+                                )),
+                                DataColumn(label: Text(
+                                  '    Course\n    Name',
+                                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.center,
+                                )),
+                                DataColumn(label: Text(
+                                    'Start\nDate',
+                                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)
+                                )),
+                                DataColumn(label: Text(
+                                    'End\nDate',
+                                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)
+                                )),
+                                DataColumn(label: Text(
+                                    'Description',
+                                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)
+                                )),
+                              ],
+                              rows:
+                              this.coursesData! // Loops through dataColumnText, each iteration assigning the value to element
+                                  .map(
+                                ((element) => DataRow(
+                                  cells: <DataCell>[
+                                    DataCell(
+                                        Container(
+                                            width: 40, //SET width
+                                            child: Text(element["license_no"]!))), //Extracting from Map element the value
+                                    DataCell(Container(
+                                        width: 100, //SET width
+                                        child: Text(element["course_name"]!))),
+                                    DataCell(Container(
+                                        width: 40, //SET width
+                                        child: Text(element["sdate"]!))),
+                                    DataCell(Container(
+                                        width: 40, //SET width
+                                        child: Text(element["edate"]!))),
+                                    DataCell(Container(
+                                        width: 100, //SET width
+                                        child: Text(element["description"]!))),
+                                  ],
+                                )),
+                              )
+                                  .toList(),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ):Container() :Container(),
+          this.coursesData!=null  ? this.coursesData!.isNotEmpty ? SizedBox(height: 25):Container() :Container(),
           Container(
             // Education Container
             decoration: BoxDecoration(

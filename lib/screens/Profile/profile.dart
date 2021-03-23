@@ -46,7 +46,10 @@ class _ProfileState extends State<Profile> {
     Response response = await profileService.getProfile(widget.token!);
     setState(() {
       data = ProfileData.fromJson(jsonDecode(response.body));
-      print(data.current);
+      // print(data.current);
+
+      // print(data);
+
       _loading1 = false;
     });
   }
@@ -78,11 +81,13 @@ class _ProfileState extends State<Profile> {
 
   //TODO: Update
   List<Function> _menu = [
-    (data) => profileMenu(data: data.profile),
-    (data) => skillsMenu(),
-    (data) => educationMenu(),
-    (data) => workExperiencesMenu(),
-    (data) => AchievementsMenu(),
+
+    (data)=>profileMenu(data: data.profile),
+    (data)=>skillsMenu(data:data.skills),
+    (data)=>educationMenu(educationData: data.education,coursesData: data.course,),
+    (data)=>workExperiencesMenu(),
+    (data)=>AchievementsMenu(),
+
   ];
   var _selectedMenu = _profileMenu[0];
 
