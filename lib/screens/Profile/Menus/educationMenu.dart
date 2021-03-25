@@ -17,19 +17,24 @@ final List<Map<String, String>> listOfColumns2 = [
 ];
 
 class educationMenu extends StatelessWidget {
+
+  final List? educationData,coursesData;
   const educationMenu({
-    Key? key,
+    Key? key,this.educationData,this.coursesData
   }) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
+    print(this.educationData);
+    print(this.coursesData);
     return Container(
       //color: Colors.grey,
       padding: EdgeInsets.all((5.0)),
       margin: EdgeInsets.all(10.0),
       child: Column(
         children: [
-          Container(
+          this.educationData!=null  ? this.educationData!.isNotEmpty ?Container(
             // Educational Qualifications Container
             decoration: BoxDecoration(
               border: Border.all(color: Colors.black),
@@ -37,7 +42,6 @@ class educationMenu extends StatelessWidget {
             ),
             child: Column(
               children: [
-
                 Container(
                   //Label + Edit Button
                   decoration: BoxDecoration(
@@ -110,26 +114,26 @@ class educationMenu extends StatelessWidget {
                                 )),
                               ],
                               rows:
-                              listOfColumns2 // Loops through dataColumnText, each iteration assigning the value to element
+                              this.educationData! // Loops through dataColumnText, each iteration assigning the value to element
                                   .map(
                                 ((element) => DataRow(
                                   cells: <DataCell>[
                                     DataCell(
                                         Container(
                                             width: 55, //SET width
-                                            child: Text(element["Degree"]!))), //Extracting from Map element the value
+                                            child: Text(element["degree"]!))), //Extracting from Map element the value
                                     DataCell(Container(
                                         width: 40, //SET width
-                                        child: Text(element["Stream"]!))),
+                                        child: Text(element["stream"]!))),
                                     DataCell(Container(
                                         width: 40, //SET width
-                                        child: Text(element["Start Date"]!))),
+                                        child: Text(element["sdate"]!))),
                                     DataCell(Container(
                                         width: 40, //SET width
-                                        child: Text(element["End Date"]!))),
+                                        child: Text(element["edate"]!))),
                                     DataCell(Container(
                                         width: 20, //SET width
-                                        child: Text(element["Grade"]! ,
+                                        child: Text(element["grade"]! ,
                                                      textAlign: TextAlign.center
                                         ))),
                                     DataCell(Container(
@@ -148,9 +152,9 @@ class educationMenu extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-          SizedBox(height: 20),
-          Container(
+          ) :Container() :Container(),
+          this.educationData!=null  ? this.educationData!.isNotEmpty ? SizedBox(height: 20):Container() :Container(),
+          this.coursesData!=null  ? this.coursesData!.isNotEmpty ? Container(
             //Courses Container
             decoration: BoxDecoration(
               border: Border.all(color: Colors.black),
@@ -200,14 +204,14 @@ class educationMenu extends StatelessWidget {
                               columnSpacing: 8.0,
                               columns: [
                                 DataColumn(label: Text(
-                                    'License\nNo.',
-                                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                                    textAlign: TextAlign.center,
+                                  'License\nNo.',
+                                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.center,
                                 )),
                                 DataColumn(label: Text(
-                                    '    Course\n    Name',
-                                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                                    textAlign: TextAlign.center,
+                                  '    Course\n    Name',
+                                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.center,
                                 )),
                                 DataColumn(label: Text(
                                     'Start\nDate',
@@ -223,23 +227,23 @@ class educationMenu extends StatelessWidget {
                                 )),
                               ],
                               rows:
-                              listOfColumns // Loops through dataColumnText, each iteration assigning the value to element
+                              this.coursesData! // Loops through dataColumnText, each iteration assigning the value to element
                                   .map(
                                 ((element) => DataRow(
                                   cells: <DataCell>[
                                     DataCell(
                                         Container(
                                             width: 40, //SET width
-                                            child: Text(element["Lic No."]!))), //Extracting from Map element the value
+                                            child: Text(element["license_no"]!))), //Extracting from Map element the value
                                     DataCell(Container(
                                         width: 100, //SET width
-                                        child: Text(element["Course Name"]!))),
+                                        child: Text(element["course_name"]!))),
                                     DataCell(Container(
                                         width: 40, //SET width
-                                        child: Text(element["Start Date"]!))),
+                                        child: Text(element["sdate"]!))),
                                     DataCell(Container(
                                         width: 40, //SET width
-                                        child: Text(element["End Date"]!))),
+                                        child: Text(element["edate"]!))),
                                     DataCell(Container(
                                         width: 100, //SET width
                                         child: Text(element["description"]!))),
@@ -256,8 +260,8 @@ class educationMenu extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-          SizedBox(height: 25),
+          ):Container() :Container(),
+          this.coursesData!=null  ? this.coursesData!.isNotEmpty ? SizedBox(height: 25):Container() :Container(),
           Container(
             // Education Container
             decoration: BoxDecoration(

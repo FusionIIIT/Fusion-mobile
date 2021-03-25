@@ -11,8 +11,9 @@ final List<Map<String, String>> listOfColumns = [
 
 class skillsMenu extends StatelessWidget {
 
+  final List? data;
   const skillsMenu({
-    Key? key,
+    Key? key,this.data
   }) : super(key: key);
 
   @override
@@ -23,97 +24,98 @@ class skillsMenu extends StatelessWidget {
       margin: EdgeInsets.all(10.0),
       child: Column(
         children: [
-          Container(
-            // Skills and Technologies Container
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.black),
-              borderRadius: BorderRadius.circular(5.0),
-            ),
-            child: Column(
-              children: [
-                Container(
-                  //Label + Edit Button
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(5.0),
-                          topRight: Radius.circular(5.0)),
-                      color: Colors.grey),
-                  padding: EdgeInsets.all(5.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Expanded(child: Text('Skills & Technologies',
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))),
-                      ),
-                    ],
+          this.data!=null?
+              Container(
+              // Skills and Technologies Container
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.black),
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+              child: Column(
+                children: [
+                  Container(
+                    //Label + Edit Button
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black),
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(5.0),
+                            topRight: Radius.circular(5.0)),
+                        color: Colors.grey),
+                    padding: EdgeInsets.all(5.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Expanded(child: Text('Skills & Technologies',
+                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Container(
-                  color: Colors.white,
-                  padding: EdgeInsets.all(7.0),
-                  child: Column(
-                    children: [
-                      Container(
-                        // Skill/Technology Container
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black),
-                          borderRadius: BorderRadius.circular(5.0),
+                  Container(
+                    color: Colors.white,
+                    padding: EdgeInsets.all(7.0),
+                    child: Column(
+                      children: [
+                        Container(
+                          // Skill/Technology Container
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black),
+                            borderRadius: BorderRadius.circular(5.0),
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 5),
-                      Container(
-                        // Rate Container
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black),
-                          borderRadius: BorderRadius.circular(5.0),
-                        ),
-                        child: Column(
-                          children: [
-                            DataTable(
-                              columnSpacing: 10.0,
-                              columns: [
-                                DataColumn(label: Text(
-                                    'Skill/Technology',
-                                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)
-                                )),
-                                DataColumn(label: Text(
+                        SizedBox(height: 5),
+                        Container(
+                          // Rate Container
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black),
+                            borderRadius: BorderRadius.circular(5.0),
+                          ),
+                          child: Column(
+                            children: [
+                              DataTable(
+                                columnSpacing: 10.0,
+                                columns: [
+                                  DataColumn(label: Text(
+                                      'Skill/Technology',
+                                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)
+                                  )),
+                                  DataColumn(label: Text(
                                     'Rating Out of 100',
                                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                                     textAlign: TextAlign.left,
-                                )),
-                              ],
-                              rows:
-                              listOfColumns // Loops through dataColumnText, each iteration assigning the value to element
-                                  .map(
-                                ((element) => DataRow(
-                                  cells: <DataCell>[
-                                    DataCell(
-                                        Container(
-                                            width: 200, //SET width
-                                            child: Text(element["skill"]!))), //Extracting from Map element the value
-                                    DataCell(Container(
-                                        width: 30, //SET width
-                                        child: Text(element["rating"]!,textAlign: TextAlign.right))),
-                                  ],
-                                )),
-                              )
-                                  .toList(),
-                            ),
-                          ],
+                                  )),
+                                ],
+                                rows:
+                                this.data! // Loops through dataColumnText, each iteration assigning the value to element
+                                    .map(
+                                  ((element) => DataRow(
+                                    cells: <DataCell>[
+                                      DataCell(
+                                          Container(
+                                              width: 200, //SET width
+                                              child: Text(element["skill_id"]!['skill']))), //Extracting from Map element the value
+                                      DataCell(Container(
+                                          width: 30, //SET width
+                                          child: Text(element["skill_rating"]!.toString(),textAlign: TextAlign.right))),
+                                    ],
+                                  )),
+                                )
+                                    .toList(),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 15),
+                ],
+              ),
+            ) : Container() ,
+          this.data!=null ? SizedBox(height: 15) : Container() ,
           Container(
-            // Skills and Technologies Container
+            // Add Skills and Technologies Container
             decoration: BoxDecoration(
               border: Border.all(color: Colors.black),
               borderRadius: BorderRadius.circular(5.0),
