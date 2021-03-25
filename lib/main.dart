@@ -25,8 +25,13 @@ import 'package:fusion/screens/landing_page.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   // This widget is the root of your application.
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -57,7 +62,7 @@ class MyApp extends StatelessWidget {
         '/gymkhana_homepage': (context) => GymkhanaHomepage(),
         '/gymkhana_homepage/apply': (context) => Apply(),
         '/gymkhana_homepage/polls': (context) => Polls(),
-        '/gymkhana_homepage/clubs': (context) => Club(),
+        '/gymkhana_homepage/clubs': (context) => Clubs(),
         '/gymkhana_homepage/member_records': (context) => Records(),
         '/library_homepage': (context) => LibraryHomeScreen(),
         '/library_homepage/book_search': (context) => BookSearch(),

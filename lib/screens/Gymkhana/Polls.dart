@@ -1,7 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class Polls extends StatelessWidget {
+class Polls extends StatefulWidget {
+  @override
+  _PollsState createState() => _PollsState();
+}
+
+class _PollsState extends State<Polls> {
   @override
   Widget build(BuildContext context) {
     return VotingPolls();
@@ -62,7 +67,8 @@ class VotingPollsState extends State<VotingPolls> {
                 ),
               ),
             ),
-            TextField()
+            Text('Test Polls',
+            style: TextStyle(fontSize: 10))
           ],
         ));
   }
