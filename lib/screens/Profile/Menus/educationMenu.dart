@@ -3,18 +3,18 @@ import 'package:flutter/material.dart';
 import 'dart:ui';
 
 //TODO: Camel Case
-//Courses Taken List
-final List<Map<String, String>> listOfColumns = [
-  {"Lic No.": "56382", "Course Name": "Introduction to Data Structure and Flutter", "description": "New Course" ,"Start Date": "12-10-2021" , "End Date":"12-10-2101"},
-  {"Lic No.": "12313", "Course Name": "Introduction to Data Structure and Flutter - Web", "description": "New Course","Start Date": "12-10-2021" , "End Date":"12-10-2101"},
-  {"Lic No.": "23123", "Course Name": "Introduction to Flutter", "Start Date": "12-10-2021" , "description": "New Course","End Date":"12-10-2101"},
-];
-
-//Educational Qualification List
-final List<Map<String, String>> listOfColumns2 = [
-  {"Degree": "B.Tech", "Stream": "CSE", "Grade": "A+" ,"Start Date": "12-10-2021" , "End Date":"12-10-2101" , "institute":"IIITDM Jabalpur"},
-  {"Degree": "B.Sc", "Stream": "CS", "Grade": "B","Start Date": "12-10-2021" , "End Date":"12-10-2101","institute":"IIT Kanpur"},
-];
+//Courses Taken Static Data
+// final List<Map<String, String>> listOfColumns = [
+//   {"Lic No.": "56382", "Course Name": "Introduction to Data Structure and Flutter", "description": "New Course" ,"Start Date": "12-10-2021" , "End Date":"12-10-2101"},
+//   {"Lic No.": "12313", "Course Name": "Introduction to Data Structure and Flutter - Web", "description": "New Course","Start Date": "12-10-2021" , "End Date":"12-10-2101"},
+//   {"Lic No.": "23123", "Course Name": "Introduction to Flutter", "Start Date": "12-10-2021" , "description": "New Course","End Date":"12-10-2101"},
+// ];
+//
+// //Educational Qualification List
+// final List<Map<String, String>> listOfColumns2 = [
+//   {"Degree": "B.Tech", "Stream": "CSE", "Grade": "A+" ,"Start Date": "12-10-2021" , "End Date":"12-10-2101" , "institute":"IIITDM Jabalpur"},
+//   {"Degree": "B.Sc", "Stream": "CS", "Grade": "B","Start Date": "12-10-2021" , "End Date":"12-10-2101","institute":"IIT Kanpur"},
+// ];
 
 class educationMenu extends StatelessWidget {
 

@@ -85,7 +85,7 @@ class _ProfileState extends State<Profile> {
     (data)=>profileMenu(data: data.profile),
     (data)=>skillsMenu(data:data.skills),
     (data)=>educationMenu(educationData: data.education,coursesData: data.course,),
-    (data)=>workExperiencesMenu(),
+    (data)=>workExperiencesMenu(internshipData:data.experience,projectData:data.project),
     (data)=>AchievementsMenu(),
 
   ];
