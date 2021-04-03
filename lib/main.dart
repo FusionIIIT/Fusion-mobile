@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:date_field/date_field.dart';
 import 'package:fusion/screens/Establishment/establishment_home_page.dart';
 import 'package:fusion/screens/Library/Book_Search.dart';
 import 'package:fusion/screens/Library/issued_items.dart';
@@ -22,6 +23,15 @@ import 'package:fusion/screens/Gymkhana/Club.dart';
 import 'package:fusion/screens/Complaint/complaint.dart';
 import 'package:fusion/screens/Profile/profile.dart';
 import 'package:fusion/screens/landing_page.dart';
+import 'package:fusion/screens/Healthcenter/healthcentermodule.dart';
+import 'package:fusion/screens/Healthcenter/feedback.dart';
+import 'package:fusion/screens/Healthcenter/viewschedule.dart';
+import 'package:fusion/screens/Healthcenter/history.dart';
+import 'package:fusion/screens/Healthcenter/HealthCenter.dart';
+
+
+
+
 
 void main() => runApp(MyApp());
 
@@ -53,7 +63,7 @@ class MyApp extends StatelessWidget {
         '/gymkhana_homepage': (context) => GymkhanaHomepage(),
         '/gymkhana_homepage/apply': (context) => Apply(),
         '/gymkhana_homepage/polls': (context) => Polls(),
-        '/gymkhana_homepage/clubs': (context) => Clubs(),
+        '/gymkhana_homepage/clubs': (context) => Club(),
         '/gymkhana_homepage/member_records': (context) => Records(),
         '/library_homepage': (context) => LibraryHomeScreen(),
         '/library_homepage/book_search': (context) => BookSearch(),
@@ -61,6 +71,11 @@ class MyApp extends StatelessWidget {
         '/library_homepage/dues': (context) => Dues(),
         '/complaint': (context) => Complaint(ModalRoute.of(context)!.settings.arguments.toString()),
         '/profile': (context) => Profile(ModalRoute.of(context)!.settings.arguments.toString()),
+        '/health_center': (context)=>HealthCenterMod(),
+        '/health_center/healthcenter':(context)=>HealthCenter(),
+        '/health_center/feedback':(context)=>FeedBack(),
+        '/health_center/viewschedule':(context)=>ViewSchedule(),
+        '/health_center/history':(context)=>History(),
       },
     );
   }

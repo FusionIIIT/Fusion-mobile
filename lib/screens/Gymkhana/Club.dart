@@ -1,17 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-//import 'package:fusion/screens/Gymkhana/ClubSession.dart';
+import 'package:fusion/screens/Gymkhana/clubsession.dart';
+//import 'ClubSession.dart';
 
 
 class Club extends StatefulWidget {
+  const Club({Key? key}) : super(key: key);
   @override
   _ClubState createState() => _ClubState();
 }
 
 class _ClubState extends State<Club> {
-  String dropdownValue = 'One';
   static const IconData attachment_sharp = IconData(0xeb6a, fontFamily: 'MaterialIcons');
-  int _value = 1;
+
+  //_ClubState(this.dropdownValue);
 
   Widget clube=new Container(
     color: Colors.white,
@@ -72,11 +74,10 @@ class _ClubState extends State<Club> {
     ),
   );
 
+////////////
 
   ////////////
 
-
-  ///////////
 
 
   @override
@@ -97,6 +98,7 @@ class _ClubState extends State<Club> {
                   //color: Colors.deepOrangeAccent,
                   child: TabBar(
                     labelColor: Colors.deepOrange,
+                    indicatorColor: Colors.deepOrangeAccent,
                     unselectedLabelColor: Colors.black,
                     tabs: [
                       Tab(child: Text("Club Details",style: TextStyle(fontWeight: FontWeight.bold),),),
@@ -112,8 +114,9 @@ class _ClubState extends State<Club> {
                     ),
                     child: TabBarView(children: <Widget>[
                       clubd,
-                      ///clubsession(),
-                      Center(child: Text("Working on...."),),
+                      //DropDownDemo(),
+                      //Center(child: Text("Working on...."),),
+                      ClubDropDown(),
                       clube,
                     ])
                 )
