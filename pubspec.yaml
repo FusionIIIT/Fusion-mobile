@@ -30,7 +30,10 @@ dependencies:
   shared_preferences: ^2.0.3
   provider:
   http: ^0.13.0
-  
+  pull_to_refresh: ^1.6.3
+  date_field: ^2.0.0
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
