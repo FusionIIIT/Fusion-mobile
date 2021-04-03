@@ -47,7 +47,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/landing': (context) => LandingPage(),
         '/login_page': (context) => LoginPage(),
-        '/dashboard': (context) => Dashboard(ModalRoute.of(context)!.settings.arguments.toString()),
+        '/dashboard': (context) =>
+            Dashboard(ModalRoute.of(context)!.settings.arguments.toString()),
         '/academic_home_page': (context) => AcademicHomePage(),
         '/academic_home_page/current_semester_home_page': (context) =>
             CurrentSemesterHomePage(),
@@ -76,6 +77,7 @@ class MyApp extends StatelessWidget {
         '/health_center/feedback':(context)=>FeedBack(),
         '/health_center/viewschedule':(context)=>ViewSchedule(),
         '/health_center/history':(context)=>History(),
+
       },
     );
   }

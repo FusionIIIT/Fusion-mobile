@@ -10,6 +10,8 @@ class AcademicHomePage extends StatefulWidget {
 }
 
 class _AcademicHomePageState extends State<AcademicHomePage> {
+  @override
+
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
         border: new Border.all(
@@ -185,3 +187,5 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
     );
   }
 }
+
+

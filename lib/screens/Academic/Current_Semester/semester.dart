@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 
 class Semester extends StatefulWidget {
@@ -11,11 +9,15 @@ class _SemesterState extends State<Semester> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: SingleChildScrollView(
-        child: Column(
+      child:SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child:Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            DataTable(
-                columns: <DataColumn>[
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: DataTable(
+              columns:<DataColumn>[
                   DataColumn(
                     label: Text("#"),
                     numeric: false,
@@ -37,25 +39,26 @@ class _SemesterState extends State<Semester> {
                     numeric: false,
                   )
                 ],
-              rows: <DataRow>[
-                DataRow(
-                  cells: <DataCell>[
-                    DataCell(Text("")),
-                    DataCell(Text("")),
-                    DataCell(Text("")),
-                    DataCell(Text("")),
-                    DataCell(Text("")),
-                  ],
-                ),
-              ],
-            ),
+                rows: <DataRow>[
+                  DataRow(
+                    cells: <DataCell>[
+                      DataCell(Text("")),
+                      DataCell(Text("")),
+                      DataCell(Text("")),
+                      DataCell(Text("")),
+                      DataCell(Text("")),
+                    ],
+                  ),
+                ],
+        ),
+      ),
             Text(
-              "Current CPI- 9.5",
-            ),
-            Text(
-              "Current SPI - ",
-            ),
-          ],
+                "Current CPI- 9.5",
+              ),
+              Text(
+                "Current SPI - ",
+              ),
+        ]
         ),
       ),
     );
