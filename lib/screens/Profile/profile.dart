@@ -81,13 +81,17 @@ class _ProfileState extends State<Profile> {
 
   //TODO: Update
   List<Function> _menu = [
-
-    (data)=>profileMenu(data: data.profile),
-    (data)=>skillsMenu(data:data.skills),
-    (data)=>educationMenu(educationData: data.education,coursesData: data.course,),
-    (data)=>workExperiencesMenu(internshipData:data.experience,projectData:data.project),
-    (data)=>AchievementsMenu(),
-
+    (data) => profileMenu(data: data.profile),
+    (data) => skillsMenu(data: data.skills),
+    (data) => educationMenu(
+          educationData: data.education,
+          coursesData: data.course,
+        ),
+    (data) => workExperiencesMenu(
+        internshipData: data.experience, projectData: data.project),
+    (data) => AchievementsMenu(
+          achievementData: data.achievement,
+        ),
   ];
   var _selectedMenu = _profileMenu[0];
 
