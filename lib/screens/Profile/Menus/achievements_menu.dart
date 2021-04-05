@@ -37,10 +37,14 @@ class AchievementsMenu extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.all(10.0),
                               child: Expanded(
-                                  child: Text('Achievements',
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold))),
+                                child: Text(
+                                  'Achievements',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -78,12 +82,16 @@ class AchievementsMenu extends StatelessWidget {
                                                     MainAxisAlignment.start,
                                                 children: [
                                                   //Achievements Name
-                                                  Text('Achievement Name : ',
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold)),
-                                                  Text(achievement[
-                                                      'achievement']),
+                                                  Text(
+                                                    'Achievement Name : ',
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    achievement['achievement'],
+                                                  ),
                                                 ]),
                                           ),
                                           Padding(
@@ -94,59 +102,89 @@ class AchievementsMenu extends StatelessWidget {
                                                     MainAxisAlignment.start,
                                                 children: [
                                                   //Achievements Type
-                                                  Text('Type : ',
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold)),
-                                                  Text(achievement[
-                                                      'achievement_type']),
+                                                  Text(
+                                                    'Type : ',
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    achievement[
+                                                        'achievement_type'],
+                                                  ),
                                                 ]),
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.fromLTRB(
-                                                8.0, 4.0, 8.0, 4.0),
+                                              8.0,
+                                              4.0,
+                                              8.0,
+                                              4.0,
+                                            ),
                                             child: Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.start,
                                                 children: [
                                                   //Achievements Date
-                                                  Text('Date : ',
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold)),
-                                                  Text(achievement[
-                                                      'date_earned']),
+                                                  Text(
+                                                    'Date : ',
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    achievement['date_earned'],
+                                                  ),
                                                 ]),
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.fromLTRB(
-                                                8.0, 4.0, 8.0, 4.0),
+                                              8.0,
+                                              4.0,
+                                              8.0,
+                                              4.0,
+                                            ),
                                             child: Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.start,
                                                 children: [
                                                   //Achievements Issuer
-                                                  Text('Issuer :',
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold)),
-                                                  Text(achievement['issuer']),
+                                                  Text(
+                                                    'Issuer :',
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    achievement['issuer'],
+                                                  ),
                                                 ]),
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.fromLTRB(
-                                                8.0, 4.0, 8.0, 4.0),
+                                              8.0,
+                                              4.0,
+                                              8.0,
+                                              4.0,
+                                            ),
                                             child: Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.start,
                                                 children: [
                                                   //Achievements Description
-                                                  Text('Description :',
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold)),
-                                                  Text(achievement[
-                                                      'description']),
+                                                  Text(
+                                                    'Description :',
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    achievement['description'],
+                                                  ),
                                                 ]),
                                           ),
                                         ],
@@ -176,21 +214,33 @@ class AchievementsMenu extends StatelessWidget {
                 Container(
                   //Add a new Achievement Container
                   decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black),
+                      border: Border.all(
+                        color: Colors.black,
+                      ),
                       borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(5.0),
-                          topRight: Radius.circular(5.0)),
+                        topLeft: Radius.circular(5.0),
+                        topRight: Radius.circular(5.0),
+                      ),
                       color: Colors.grey),
                   padding: EdgeInsets.all(5.0),
                   child: Row(
                     children: [
-                      Expanded(child: Text('Add a new Achievement')),
+                      Expanded(
+                        child: Text(
+                          'Add a new Achievement',
+                        ),
+                      ),
                       ElevatedButton(
-                          child: Text('Add'),
-                          onPressed: () => {
-                                //Edit Function
-                              },
-                          style: ElevatedButton.styleFrom(primary: Colors.red)),
+                        child: Text(
+                          'Add',
+                        ),
+                        onPressed: () => {
+                          //Edit Function
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.red,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -202,21 +252,31 @@ class AchievementsMenu extends StatelessWidget {
                       Container(
                         //Add an Achievement Name Container
                         decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black),
-                          borderRadius: BorderRadius.circular(5.0),
+                          border: Border.all(
+                            color: Colors.black,
+                          ),
+                          borderRadius: BorderRadius.circular(
+                            5.0,
+                          ),
                         ),
                         child: Column(
                           children: [
                             Container(
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(5.0),
-                                      topRight: Radius.circular(5.0)),
-                                  color: Colors.grey),
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(5.0),
+                                  topRight: Radius.circular(5.0),
+                                ),
+                                color: Colors.grey,
+                              ),
                               padding: EdgeInsets.all(5.0),
                               child: Row(
                                 children: [
-                                  Expanded(child: Text('Achievement Name')),
+                                  Expanded(
+                                    child: Text(
+                                      'Achievement Name',
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
@@ -225,15 +285,17 @@ class AchievementsMenu extends StatelessWidget {
                               padding: EdgeInsets.all(7.0),
                               color: Colors.white24,
                               child: Container(
-                                decoration:
-                                    BoxDecoration(color: Colors.grey.shade300),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.shade300,
+                                ),
                                 padding:
                                     EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
                                 child: TextFormField(
                                   enabled: true,
                                   initialValue: '',
-                                  decoration:
-                                      InputDecoration(border: InputBorder.none),
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                  ),
                                 ),
                               ),
                             )
@@ -244,8 +306,12 @@ class AchievementsMenu extends StatelessWidget {
                       Container(
                         // Type Container
                         decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black),
-                          borderRadius: BorderRadius.circular(5.0),
+                          border: Border.all(
+                            color: Colors.black,
+                          ),
+                          borderRadius: BorderRadius.circular(
+                            5.0,
+                          ),
                         ),
                         child: Column(
                           children: [
@@ -272,15 +338,17 @@ class AchievementsMenu extends StatelessWidget {
                               padding: EdgeInsets.all(7.0),
                               color: Colors.white24,
                               child: Container(
-                                decoration:
-                                    BoxDecoration(color: Colors.grey.shade300),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.shade300,
+                                ),
                                 padding:
                                     EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
                                 child: TextFormField(
                                   enabled: true,
                                   initialValue: '',
-                                  decoration:
-                                      InputDecoration(border: InputBorder.none),
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                  ),
                                 ),
                               ),
                             )
@@ -299,8 +367,9 @@ class AchievementsMenu extends StatelessWidget {
                             Container(
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(5.0),
-                                      topRight: Radius.circular(5.0)),
+                                    topLeft: Radius.circular(5.0),
+                                    topRight: Radius.circular(5.0),
+                                  ),
                                   color: Colors.grey),
                               padding: EdgeInsets.all(5.0),
                               child: Row(
@@ -337,20 +406,25 @@ class AchievementsMenu extends StatelessWidget {
                         // Issuer Container
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.black),
-                          borderRadius: BorderRadius.circular(5.0),
+                          borderRadius: BorderRadius.circular(
+                            5.0,
+                          ),
                         ),
                         child: Column(
                           children: [
                             Container(
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(5.0),
-                                      topRight: Radius.circular(5.0)),
+                                    topLeft: Radius.circular(5.0),
+                                    topRight: Radius.circular(5.0),
+                                  ),
                                   color: Colors.grey),
                               padding: EdgeInsets.all(5.0),
                               child: Row(
                                 children: [
-                                  Expanded(child: Text('Issuer')),
+                                  Expanded(
+                                    child: Text('Issuer'),
+                                  ),
                                 ],
                               ),
                             ),
@@ -366,8 +440,9 @@ class AchievementsMenu extends StatelessWidget {
                                 child: TextFormField(
                                   enabled: true,
                                   initialValue: '',
-                                  decoration:
-                                      InputDecoration(border: InputBorder.none),
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                  ),
                                 ),
                               ),
                             )
@@ -378,7 +453,9 @@ class AchievementsMenu extends StatelessWidget {
                       Container(
                         // Description Container
                         decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black),
+                          border: Border.all(
+                            color: Colors.black,
+                          ),
                           borderRadius: BorderRadius.circular(5.0),
                         ),
                         child: Column(
@@ -386,13 +463,18 @@ class AchievementsMenu extends StatelessWidget {
                             Container(
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(5.0),
-                                      topRight: Radius.circular(5.0)),
+                                    topLeft: Radius.circular(5.0),
+                                    topRight: Radius.circular(5.0),
+                                  ),
                                   color: Colors.grey),
                               padding: EdgeInsets.all(5.0),
                               child: Row(
                                 children: [
-                                  Expanded(child: Text('Description')),
+                                  Expanded(
+                                    child: Text(
+                                      'Description',
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
@@ -402,15 +484,17 @@ class AchievementsMenu extends StatelessWidget {
                               color: Colors.white24,
                               child: Container(
                                 decoration: BoxDecoration(
-                                    //border: Border.all(color: Colors.black),
-                                    color: Colors.grey.shade300),
+                                  //border: Border.all(color: Colors.black),
+                                  color: Colors.grey.shade300,
+                                ),
                                 padding:
                                     EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
                                 child: TextFormField(
                                   enabled: true,
                                   initialValue: '',
-                                  decoration:
-                                      InputDecoration(border: InputBorder.none),
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                  ),
                                 ),
                               ),
                             )
