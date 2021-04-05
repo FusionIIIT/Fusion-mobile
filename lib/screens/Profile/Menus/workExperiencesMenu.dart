@@ -2,15 +2,29 @@ import 'package:flutter/material.dart';
 import 'dart:ui';
 
 //list of Internships Company
-final List<Map<String, String>> listOfColumns2 = [
-  {"Organisation Name": "Amazon", "Location": "Hyderabad", "Job profile": "A+" ,"Start Date": "12-10-2021" , "End Date":"12-10-2101" , "status":"Completed"},
-  {"Organisation Name": "Google", "Location": "Hyderabad", "Job profile": "B","Start Date": "12-10-2021" , "End Date":"12-10-2101","status":"Completed"},
-];
+// final List<Map<String, String>> listOfColumns2 = [
+//   {
+//     "Organisation Name": "Amazon",
+//     "Location": "Hyderabad",
+//     "Job profile": "A+",
+//     "Start Date": "12-10-2021",
+//     "End Date": "12-10-2101",
+//     "status": "Completed"
+//   },
+//   {
+//     "Organisation Name": "Google",
+//     "Location": "Hyderabad",
+//     "Job profile": "B",
+//     "Start Date": "12-10-2021",
+//     "End Date": "12-10-2101",
+//     "status": "Completed"
+//   },
+// ];
 
 class workExperiencesMenu extends StatelessWidget {
-  const workExperiencesMenu({
-    Key? key,
-  }) : super(key: key);
+  final List? internshipData, projectData;
+  const workExperiencesMenu({Key? key, this.internshipData, this.projectData})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,246 +34,342 @@ class workExperiencesMenu extends StatelessWidget {
       margin: EdgeInsets.all(10.0),
       child: Column(
         children: [
-          Container(
-            // Internships Container
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.black),
-              borderRadius: BorderRadius.circular(5.0),
-            ),
-            child: Column(
-              children: [
-                Container(
+          this.internshipData != null && this.internshipData!.isNotEmpty
+              ? Container(
+                  // Internships Container
                   decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(5.0),
-                          topRight: Radius.circular(5.0)),
-                      color: Colors.grey),
-                  padding: EdgeInsets.all(5.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Expanded(child: Text('Internships',
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))),
-                      ),
-                    ],
+                    border: Border.all(color: Colors.black),
+                    borderRadius: BorderRadius.circular(5.0),
                   ),
-                ),
-                Container(
-                  color: Colors.white,
-                  padding: EdgeInsets.all(7.0),
                   child: Column(
                     children: [
                       Container(
-                        // Skill/Technology Container
                         decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black),
-                          borderRadius: BorderRadius.circular(5.0),
+                            border: Border.all(color: Colors.black),
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(5.0),
+                                topRight: Radius.circular(5.0)),
+                            color: Colors.grey),
+                        padding: EdgeInsets.all(5.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Expanded(
+                                  child: Text('Internships',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold))),
+                            ),
+                          ],
                         ),
                       ),
-                      SizedBox(height: 5),
                       Container(
+                        color: Colors.white,
+                        padding: EdgeInsets.all(7.0),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Card(
-                              color: Colors.white54,
-                              child : Column(
+                            Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black),
+                                borderRadius: BorderRadius.circular(5.0),
+                              ),
+                            ),
+                            SizedBox(height: 2),
+                            for (var internship in this.internshipData!)
+                              Column(
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children:[
-                                        Text('Job Profile : ' ,style: TextStyle( fontWeight: FontWeight.bold)),
-                                        Text('Software Developer Intern'),
-                                      ]
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
-                                    child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children:[
-                                          Text('Organisation Name : ',style: TextStyle( fontWeight: FontWeight.bold)),
-                                          Text('Amazon'),
-                                        ]
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
-                                    child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children:[
-                                          Text('Location : ',style: TextStyle( fontWeight: FontWeight.bold)),
-                                          Text('Hyderabad'),
-                                        ]
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
-                                    child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children:[
-                                          Text('Start Date :',style: TextStyle( fontWeight: FontWeight.bold)),
-                                          Text('12-10-2021  '),
-                                          Text('End Date :',style: TextStyle( fontWeight: FontWeight.bold)),
-                                          Text('12-12-2021'),
-                                        ]
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
-                                    child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children:[
-                                          Text('Description :',style: TextStyle( fontWeight: FontWeight.bold)),
-                                          Text('Worked as a SWE Intern at Amazon for 2 months'),
-                                        ]
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
-                                    child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children:[
-                                          Text('Status : ',style: TextStyle( fontWeight: FontWeight.bold)),
-                                          Text('Completed'),
-                                        ]
+                                  SizedBox(height: 3),
+                                  Container(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Card(
+                                          color: Colors.white54,
+                                          child: Column(
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        8.0, 4.0, 8.0, 4.0),
+                                                child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Text('Job Profile : ',
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold)),
+                                                      Text(internship['title']),
+                                                    ]),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        8.0, 4.0, 8.0, 4.0),
+                                                child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                          'Organisation Name : ',
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold)),
+                                                      Text(internship[
+                                                          'company']),
+                                                    ]),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        8.0, 4.0, 8.0, 4.0),
+                                                child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Text('Location : ',
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold)),
+                                                      Text(internship[
+                                                          'location']),
+                                                    ]),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        8.0, 4.0, 8.0, 4.0),
+                                                child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Text('Start Date :',
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold)),
+                                                      Text(internship['sdate']),
+                                                      Text('End Date :',
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold)),
+                                                      Text(internship['edate']),
+                                                    ]),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        8.0, 4.0, 8.0, 4.0),
+                                                child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Text('Description :',
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold)),
+                                                      Text(internship[
+                                                          'description']),
+                                                    ]),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        8.0, 4.0, 8.0, 4.0),
+                                                child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Text('Status : ',
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold)),
+                                                      Text(
+                                                          internship['status']),
+                                                    ]),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ],
                               ),
-                            ),
                           ],
                         ),
                       ),
                     ],
                   ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 20),
-          Container(
-            // Skills and Technologies Container
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.black),
-              borderRadius: BorderRadius.circular(5.0),
-            ),
-            child: Column(
-              children: [
-                Container(
-                  //Label + Edit Button
+                )
+              : Container(),
+          this.internshipData != null && this.internshipData!.isNotEmpty
+              ? SizedBox(height: 7)
+              : Container(),
+          this.projectData != null && this.projectData!.isNotEmpty
+              ? Container(
+                  // Projects Container
                   decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(5.0),
-                          topRight: Radius.circular(5.0)),
-                      color: Colors.grey),
-                  padding: EdgeInsets.all(5.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Expanded(child: Text('Projects',
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))),
-                      ),
-                    ],
+                    border: Border.all(color: Colors.black),
+                    borderRadius: BorderRadius.circular(5.0),
                   ),
-                ),
-                Container(
-                  color: Colors.white,
-                  padding: EdgeInsets.all(7.0),
                   child: Column(
                     children: [
                       Container(
-                        // Skill/Technology Container
+                        //Label + Edit Button
                         decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black),
-                          borderRadius: BorderRadius.circular(5.0),
+                            border: Border.all(color: Colors.black),
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(5.0),
+                                topRight: Radius.circular(5.0)),
+                            color: Colors.grey),
+                        padding: EdgeInsets.all(5.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Expanded(
+                                  child: Text('Projects',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold))),
+                            ),
+                          ],
                         ),
                       ),
-                      SizedBox(height: 5),
                       Container(
+                        color: Colors.white,
+                        padding: EdgeInsets.all(7.0),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Card(
-                              color: Colors.white54,
-                              child : Column(
+                            Container(
+                              // Skill/Technology Container
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black),
+                                borderRadius: BorderRadius.circular(5.0),
+                              ),
+                            ),
+                            SizedBox(height: 2),
+                            for(var project in this.projectData!)
+                              Column(
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
-                                    child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children:[
-                                          Text('Project Name : ' ,style: TextStyle( fontWeight: FontWeight.bold)),
-                                          Text('Linker'),
-                                        ]
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
-                                    child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children:[
-                                          Text('Project Link : ',style: TextStyle( fontWeight: FontWeight.bold)),
-                                          Text('www.linker.com'),
-                                        ]
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
-                                    child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children:[
-                                          Text('Start Date :',style: TextStyle( fontWeight: FontWeight.bold)),
-                                          Text('12-10-2021  '),
-                                          Text('End Date :',style: TextStyle( fontWeight: FontWeight.bold)),
-                                          Text('12-12-2021'),
-                                        ]
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
-                                    child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children:[
-                                          Text('Description :',style: TextStyle( fontWeight: FontWeight.bold)),
-                                          Text('Worked as a SWE Intern at Amazon for 2 months'),
-                                        ]
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
-                                    child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children:[
-                                          Text('Status : ',style: TextStyle( fontWeight: FontWeight.bold)),
-                                          Text('Completed'),
-                                        ]
+                                  SizedBox(height: 3),
+                                  Container(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Card(
+                                          color: Colors.white54,
+                                          child: Column(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.fromLTRB(
+                                                    8.0, 4.0, 8.0, 4.0),
+                                                child: Row(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                    children: [
+                                                      Text('Project Name : ',
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                              FontWeight.bold)),
+                                                      Text(project['project_name']),
+                                                    ]),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.fromLTRB(
+                                                    8.0, 4.0, 8.0, 4.0),
+                                                child: Row(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                    children: [
+                                                      Text('Project Link : ',
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                              FontWeight.bold)),
+                                                      Text(project['project_link']),
+                                                    ]),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.fromLTRB(
+                                                    8.0, 4.0, 8.0, 4.0),
+                                                child: Row(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                    children: [
+                                                      Text('Start Date :',
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                              FontWeight.bold)),
+                                                      Text(project['sdate']),
+                                                      Text('End Date :',
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                              FontWeight.bold)),
+                                                      Text(project['edate']),
+                                                    ]),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.fromLTRB(
+                                                    8.0, 4.0, 8.0, 4.0),
+                                                child: Row(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                    children: [
+                                                      Text('Summary :',
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                              FontWeight.bold)),
+                                                      Text(project['summary']),
+                                                    ]),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.fromLTRB(
+                                                    8.0, 4.0, 8.0, 4.0),
+                                                child: Row(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                    children: [
+                                                      Text('Status : ',
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                              FontWeight.bold)),
+                                                      Text(project['project_status']),
+                                                    ]),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(height: 5),
+                                      ],
                                     ),
                                   ),
                                 ],
                               ),
-                            ),
-                            SizedBox(height: 5),
                           ],
                         ),
                       ),
                     ],
                   ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 20),
+                )
+              : Container(),
+          this.projectData != null && this.projectData!.isNotEmpty
+              ? SizedBox(height: 20)
+              : Container(),
           Container(
             // Internship Container
             decoration: BoxDecoration(
