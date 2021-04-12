@@ -1,5 +1,4 @@
-
-
+import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
 import '../Constants/constants.dart';
 
@@ -9,6 +8,30 @@ class FeedBack extends StatefulWidget {
 }
 
 class _FeedBackState extends State<FeedBack> {
+  DateTime? pickedDate;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    pickedDate = DateTime.now();
+  }
+
+  _pickDate() async {
+    DateTime date = (await showDatePicker(
+      context: context,
+      initialDate: pickedDate!,
+      firstDate: DateTime(DateTime.now().year - 5),
+      lastDate: DateTime(DateTime.now().year + 5),
+    ))!;
+
+    if (date != null) {
+      setState(() {
+        pickedDate = date;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -40,11 +63,22 @@ class _FeedBackState extends State<FeedBack> {
             SizedBox(
               height: 20,
             ),
-            TextField(
-              style: TextStyle(
-                color: Colors.black,
+            ListTile(
+              title: Container(
+                padding: EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.black,
+                  ),
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
+                child: Text(
+                    '${pickedDate!.day}/${pickedDate!.month}/${pickedDate!.year}'),
               ),
-              decoration: kTextFieldInputDecoration,
+              leading: Icon(
+                Icons.calendar_today_sharp,
+              ),
+              onTap: _pickDate,
             ),
             SizedBox(
               height: 30,
@@ -165,7 +199,8 @@ class _FeedBackState extends State<FeedBack> {
                 hintText: "Default Text",
                 contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10),
                   ),
                 ),
               ),
@@ -187,7 +222,7 @@ class _FeedBackState extends State<FeedBack> {
                 ),
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                        (Set<MaterialState> states) {
+                    (Set<MaterialState> states) {
                       if (states.contains(MaterialState.pressed))
                         return Colors.deepOrange;
                       return Colors

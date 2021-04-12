@@ -3,10 +3,14 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:fusion/models/complaints.dart';
+import 'package:fusion/screens/Complaint/ComplaintHistory/get_complaint_by_id.dart';
 import 'package:fusion/screens/Complaint/ComplaintHistory/pending_complaints.dart';
+import 'package:fusion/screens/Complaint/ComplaintHistory/resolved_complaints.dart';
 import 'package:fusion/services/complaint_service.dart';
 import 'package:http/http.dart';
 import '../Constants/constants.dart';
+import 'declined_complaints.dart';
+import 'on-hold_complaints.dart';
 
 class ComplainHistory extends StatefulWidget {
   String? token;
@@ -30,7 +34,9 @@ class _ComplainHistoryState extends State<ComplainHistory> {
   //integrating_api
   late StreamController _complaintController;
   late ComplaintService complaintService;
-  late ComplaintData data;
+  late ComplaintDataUserStudent data;
+
+  int step = 0;
 
   @override
   void initState() {
@@ -40,11 +46,18 @@ class _ComplainHistoryState extends State<ComplainHistory> {
     complaintService = ComplaintService();
     getData();
 
-    Timer.periodic(Duration(seconds: 5), (Timer timer) {
-      if (_currentPage < 3) {
-        _currentPage++;
+    Timer.periodic(Duration(seconds: 3), (Timer timer) {
+      if (_currentPage < 3 && _currentPage > 0) {
+        if (step % 2 == 0)
+          _currentPage++;
+        else
+          _currentPage--;
+      } else if (_currentPage == 3) {
+        _currentPage--;
+        step++;
       } else {
-        _currentPage = 0;
+        _currentPage++;
+        if (step != 0) step++;
       }
 
       _pageController.animateToPage(
@@ -59,9 +72,9 @@ class _ComplainHistoryState extends State<ComplainHistory> {
     //print('token-'+widget.token!);
     Response response = await complaintService.getComplaint(widget.token!);
     setState(() {
-      data = ComplaintData.fromJson(jsonDecode(response.body));
-      print(data.complaint_details);
-      print(data);
+      data = ComplaintDataUserStudent.fromJson(jsonDecode(response.body));
+      print(data.student_complain);
+      //print(data);
       _loading = false;
     });
   }
@@ -88,6 +101,27 @@ class _ComplainHistoryState extends State<ComplainHistory> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
+                              builder: (context) => GetComplaintByID()),
+                        );
+                      },
+                      child: Card(
+                        elevation: 6,
+                        margin:
+                            EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                        shadowColor: Colors.black,
+                        child: Center(
+                          child: Text(
+                            'Get Complaint By ID',
+                            style: TextStyle(color: Colors.black, fontSize: 20),
+                          ),
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
                               builder: (context) => PendingComplaints(data)),
                         );
                       },
@@ -105,7 +139,13 @@ class _ComplainHistoryState extends State<ComplainHistory> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => OnHoldComplaints(data)),
+                        );
+                      },
                       child: Card(
                         elevation: 6,
                         margin:
@@ -120,7 +160,13 @@ class _ComplainHistoryState extends State<ComplainHistory> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ResolvedComplaints(data)),
+                        );
+                      },
                       child: Card(
                         elevation: 6,
                         margin:
@@ -135,7 +181,13 @@ class _ComplainHistoryState extends State<ComplainHistory> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DeclinedComplaints(data)),
+                        );
+                      },
                       child: Card(
                         elevation: 6,
                         margin:

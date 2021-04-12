@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 
 class DashboardService {
   getDashboard(String token) async {
+    print(token);
     Map<String, String> headers = {'Authorization': 'Token ' + token};
     print("start");
     var client = http.Client();

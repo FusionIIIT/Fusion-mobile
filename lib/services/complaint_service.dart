@@ -10,7 +10,8 @@ class ComplaintService {
     http.Response response = await client.get(
       Uri.http(
         getLink(),
-        "/complaint/api/user/detail/394/",
+        //"/complaint/api/user/detail/394"
+        "/complaint/api/studentcomplain",
       ),
       headers: headers,
     );

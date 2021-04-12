@@ -90,7 +90,9 @@ class _ComplaintState extends State<Complaint> {
                       ),
                       SizedBox(height: 10),
                       Text(
-                        data.current![0]['designation']['name'],
+                        data.profile!['department']!['name'] +
+                            '  ' +
+                            data.profile!['user_type'],
                         style: TextStyle(color: Colors.black, fontSize: 15),
                       ),
                       SizedBox(height: 10),

@@ -23,3 +23,15 @@ class ComplaintData {
     );
   }
 }
+
+class ComplaintDataUserStudent {
+  List? student_complain;
+
+  ComplaintDataUserStudent({this.student_complain});
+
+  factory ComplaintDataUserStudent.fromJson(Map json) {
+    return ComplaintDataUserStudent(
+      student_complain: json["student_complain"],
+    );
+  }
+}

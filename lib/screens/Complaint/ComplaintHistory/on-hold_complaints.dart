@@ -3,27 +3,27 @@ import 'package:fusion/models/complaints.dart';
 import 'complain_history.dart';
 import 'complaints_card.dart';
 
-class PendingComplaints extends StatelessWidget {
+class OnHoldComplaints extends StatelessWidget {
   ComplaintDataUserStudent? data;
-  PendingComplaints(this.data);
-  int? complaintType;
+  OnHoldComplaints(this.data);
+
   final PageController controller = PageController(initialPage: 0);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Pending Complaints"),
+        title: Text("On-Hold Complaints"),
       ),
       body: Container(
         color: Colors.white,
         child: ListView.builder(
           itemCount: data!.student_complain!.length,
           itemBuilder: (BuildContext context, index) {
-            return data!.student_complain![index]['remarks'] == "Pending"
+            return data!.student_complain![index]['remarks'] == "On-Hold"
                 ? ComplaintCard(data: data, index: index)
                 : SizedBox(
-                    width: 10,
+                    width: 1,
                   );
           },
         ),
