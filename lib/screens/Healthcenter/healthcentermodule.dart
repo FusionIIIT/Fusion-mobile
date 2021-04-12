@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/appBar.dart';
-//import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/Components/side_drawer.dart';
 
 class HealthCenterMod extends StatelessWidget {
   BoxDecoration myBoxDecoration() {
@@ -37,7 +37,7 @@ class HealthCenterMod extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: DefaultAppBar().buildAppBar(),
-      //drawer: SideDrawer(),
+      drawer: SideDrawer(),
       body: ListView(
         scrollDirection: Axis.vertical,
         children: [
