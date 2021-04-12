@@ -53,12 +53,10 @@ class _DashboardState extends State<Dashboard> {
       print(data.notifications);
       _loading = false;
     });
-    studentType=data2.profile!['department']!['name'] +
+    name = data2.user!['first_name'] + ' ' + data2.user!['last_name'];
+    studentType = data2.profile!['department']!['name'] +
         '  ' +
         data2.profile!['user_type'];
-    name=data2.user!['first_name'] +
-        ' ' +
-        data2.user!['last_name'];
   }
 
   loadData() async {
@@ -123,7 +121,7 @@ class _DashboardState extends State<Dashboard> {
                             height: 10.0,
                           ),
                           Text(
-                            studentType,  // Display Type of User
+                            studentType, // Display Type of User
                             style:
                                 TextStyle(fontSize: 15.0, color: Colors.black),
                           ),

@@ -32,7 +32,6 @@ class HealthCenterMod extends StatelessWidget {
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,12 +84,12 @@ class HealthCenterMod extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Center(
                     child: Text(
-                      "Health Center",
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        color: Colors.white,
-                      ),
-                    )),
+                  "Health Center",
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    color: Colors.white,
+                  ),
+                )),
               ),
               decoration: new BoxDecoration(
                 color: Colors.deepOrangeAccent,
@@ -116,8 +115,6 @@ class HealthCenterMod extends StatelessWidget {
                   child: myContainer("Appointments/requests"),
                   onTap: () {
                     Navigator.pushNamed(context, '/health_center/healthcenter');
-
-
                   },
                 ),
                 InkWell(
