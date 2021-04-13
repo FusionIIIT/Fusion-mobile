@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
-
+import 'package:fusion/models/profile.dart';
+import 'package:fusion/services/profile_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -14,7 +15,6 @@ import 'package:http/http.dart';
 class Dashboard extends StatefulWidget {
   String? token;
   static String tag = 'home-page';
-
   Dashboard(this.token);
   @override
   _DashboardState createState() => _DashboardState();
@@ -23,34 +23,46 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   bool _bool = true;
   bool _loading = true;
-
+  late String name;
+  late String studentType;
   // Stream Controller for API
   late StreamController _dashboardController;
   late DashboardService dashboardService;
   late DashboardData data;
+  late StreamController _profileController;
+  late ProfileService profileService;
+  late ProfileData data2;
+
   @override
   void initState() {
     super.initState();
 
     _dashboardController = StreamController();
     dashboardService = DashboardService();
-
+    _profileController = StreamController();
+    profileService = ProfileService();
     getData();
   }
 
   getData() async {
     Response response = await dashboardService.getDashboard(widget.token!);
-
+    Response response2 = await profileService.getProfile(widget.token!);
     setState(() {
       data = DashboardData.fromJson(jsonDecode(response.body));
+      data2 = ProfileData.fromJson(jsonDecode(response2.body));
       print(data.notifications);
       _loading = false;
     });
+    name = data2.user!['first_name'] + ' ' + data2.user!['last_name'];
+    studentType = data2.profile!['department']!['name'] +
+        '  ' +
+        data2.profile!['user_type'];
   }
 
   loadData() async {
     getData().then((res) {
       _dashboardController.add(res);
+      _profileController.add(res);
     });
   }
 
@@ -92,7 +104,7 @@ class _DashboardState extends State<Dashboard> {
                             height: 170.0,
                             decoration: BoxDecoration(
                               image: DecorationImage(
-                                image: AssetImage('assets/unknown.jpg'),
+                                image: AssetImage('assets/profile_pic.png'),
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -101,7 +113,7 @@ class _DashboardState extends State<Dashboard> {
                             height: 10.0,
                           ),
                           Text(
-                            'Piyush Agrawal',
+                            name, //Display name of User
                             style:
                                 TextStyle(fontSize: 20.0, color: Colors.black),
                           ),
@@ -109,7 +121,7 @@ class _DashboardState extends State<Dashboard> {
                             height: 10.0,
                           ),
                           Text(
-                            data.designation![0],
+                            studentType, // Display Type of User
                             style:
                                 TextStyle(fontSize: 15.0, color: Colors.black),
                           ),

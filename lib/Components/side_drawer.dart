@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:fusion/services/login_service.dart';
 import 'package:fusion/services/storage_service.dart';
 
+// ignore: must_be_immutable
 class SideDrawer extends StatefulWidget {
+
   @override
   _SideDrawerState createState() => _SideDrawerState();
 }
@@ -10,10 +12,12 @@ class SideDrawer extends StatefulWidget {
 class _SideDrawerState extends State<SideDrawer> {
   bool _loading = false;
   int count = 0;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
+        margin: const EdgeInsets.only(right: 50.0),
         color: Colors.black,
         child: ListView(
           shrinkWrap: true,
@@ -22,8 +26,8 @@ class _SideDrawerState extends State<SideDrawer> {
             Column(
               children: [
                 Container(
-                  width: 150.0,
-                  height: 150.0,
+                  width: 100.0,
+                  height: 100.0,
                   margin: EdgeInsets.only(top: 50.0),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
@@ -99,7 +103,7 @@ class _SideDrawerState extends State<SideDrawer> {
                         ModulesPadding(line: 'Complaint Module', pageMover: '/complaint'),
                         ModulesPadding(line: 'Central Mess Module'),
                         ModulesPadding(line: 'Feeds Module'),
-                        ModulesPadding(line: 'Health Center Module'),
+                        ModulesPadding(line: 'Health Center Module', pageMover: '/health_center',),
                         ModulesPadding(line: 'Leave Module'),
                         ModulesPadding(line: 'Placement Module'),
                         ModulesPadding(line: 'Visitors Hostel Module'),

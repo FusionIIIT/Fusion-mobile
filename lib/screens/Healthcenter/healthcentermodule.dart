@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/appBar.dart';
-//import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/Components/side_drawer.dart';
 
 class HealthCenterMod extends StatelessWidget {
   BoxDecoration myBoxDecoration() {
@@ -32,12 +32,11 @@ class HealthCenterMod extends StatelessWidget {
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: DefaultAppBar().buildAppBar(),
-      //drawer: SideDrawer(),
+      drawer: SideDrawer(),
       body: ListView(
         scrollDirection: Axis.vertical,
         children: [
@@ -85,12 +84,12 @@ class HealthCenterMod extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Center(
                     child: Text(
-                      "Health Center",
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        color: Colors.white,
-                      ),
-                    )),
+                  "Health Center",
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    color: Colors.white,
+                  ),
+                )),
               ),
               decoration: new BoxDecoration(
                 color: Colors.deepOrangeAccent,
@@ -116,8 +115,6 @@ class HealthCenterMod extends StatelessWidget {
                   child: myContainer("Appointments/requests"),
                   onTap: () {
                     Navigator.pushNamed(context, '/health_center/healthcenter');
-
-
                   },
                 ),
                 InkWell(
