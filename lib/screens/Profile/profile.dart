@@ -3,6 +3,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
 import 'dart:ui';
 import './Menus/profileMenu.dart';
 import './Menus/skillsMenu.dart';
@@ -37,7 +39,14 @@ class _ProfileState extends State<Profile> {
 
     _profileController = StreamController();
     profileService = ProfileService();
+    print("start");
+    var service = locator<StorageService>();
+    print("mid");
+    try {
+      data = service.profileData;
+    } catch (e) {}
 
+    print("end");
     getData();
   }
 
