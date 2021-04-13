@@ -18,7 +18,7 @@ class _LandingPageState extends State<LandingPage> {
         if (snapshot!.hasData) {
           try {
             User user = snapshot.data.userInDB;
-            return Dashboard(user.token);
+            return Dashboard();
           } catch (e) {
             return LoginPage();
           }

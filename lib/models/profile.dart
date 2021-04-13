@@ -12,10 +12,18 @@ class ProfileData {
   List? patent;
   List? current;
 
-  ProfileData({this.user, this.profile, this.skills,
-    this.education, this.course, this.experience,
-    this.project, this.achievement, this.publication,
-    this.patent, this.current});
+  ProfileData(
+      {this.user,
+      this.profile,
+      this.skills,
+      this.education,
+      this.course,
+      this.experience,
+      this.project,
+      this.achievement,
+      this.publication,
+      this.patent,
+      this.current});
 
   factory ProfileData.fromJson(Map json) {
     return ProfileData(
@@ -31,7 +39,22 @@ class ProfileData {
       publication: json["publication"],
       patent: json["patent"],
       current: json["current"],
-
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "user": this.user,
+      "profile": this.profile,
+      "skills": this.skills,
+      "education": this.education,
+      "course": this.course,
+      "experience": this.experience,
+      "project": this.project,
+      "achievement": this.achievement,
+      "publication": this.publication,
+      "patent": this.patent,
+      "current": this.current
+    };
   }
 }

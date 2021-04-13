@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/services/login_service.dart';
+import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
 
 // ignore: must_be_immutable
 class SideDrawer extends StatefulWidget {
-
   @override
   _SideDrawerState createState() => _SideDrawerState();
 }
@@ -12,6 +12,19 @@ class SideDrawer extends StatefulWidget {
 class _SideDrawerState extends State<SideDrawer> {
   bool _loading = false;
   int count = 0;
+  String? name;
+  String? depttype;
+  @override
+  void initState() {
+    super.initState();
+    var service = locator<StorageService>();
+    name = service.profileData.user!["first_name"] +
+        " " +
+        service.profileData.user!["last_name"];
+    depttype = service.profileData.profile!['department']!['name'] +
+        " " +
+        service.profileData.profile!['user_type'];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,14 +52,14 @@ class _SideDrawerState extends State<SideDrawer> {
                 ),
                 SizedBox(height: 20.0),
                 Text(
-                  'Piyush Agrawal',
+                  name!,
                   style: TextStyle(fontSize: 25.0, color: Colors.white),
                 ),
                 SizedBox(
                   height: 10.0,
                 ),
                 Text(
-                  'CSE Student',
+                  depttype!,
                   style: TextStyle(fontSize: 15.0, color: Colors.white),
                 ),
                 Divider(
@@ -94,16 +107,29 @@ class _SideDrawerState extends State<SideDrawer> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        ModulesPadding(line: 'DashBoard', pageMover: '/dashboard'),
-                        ModulesPadding(line: 'Academics Module', pageMover: '/academic_home_page'),
-                        ModulesPadding(line: 'Gymkhana Module', pageMover: '/gymkhana_homepage'),
-                        ModulesPadding(line: 'Establishment Module', pageMover: '/establishment'),
-                        ModulesPadding(line: 'Library Module', pageMover: '/library_homepage'),
+                        ModulesPadding(
+                            line: 'DashBoard', pageMover: '/dashboard'),
+                        ModulesPadding(
+                            line: 'Academics Module',
+                            pageMover: '/academic_home_page'),
+                        ModulesPadding(
+                            line: 'Gymkhana Module',
+                            pageMover: '/gymkhana_homepage'),
+                        ModulesPadding(
+                            line: 'Establishment Module',
+                            pageMover: '/establishment'),
+                        ModulesPadding(
+                            line: 'Library Module',
+                            pageMover: '/library_homepage'),
                         ModulesPadding(line: 'Awards & Scholarship Module'),
-                        ModulesPadding(line: 'Complaint Module', pageMover: '/complaint'),
+                        ModulesPadding(
+                            line: 'Complaint Module', pageMover: '/complaint'),
                         ModulesPadding(line: 'Central Mess Module'),
                         ModulesPadding(line: 'Feeds Module'),
-                        ModulesPadding(line: 'Health Center Module', pageMover: '/health_center',),
+                        ModulesPadding(
+                          line: 'Health Center Module',
+                          pageMover: '/health_center',
+                        ),
                         ModulesPadding(line: 'Leave Module'),
                         ModulesPadding(line: 'Placement Module'),
                         ModulesPadding(line: 'Visitors Hostel Module'),
@@ -114,7 +140,10 @@ class _SideDrawerState extends State<SideDrawer> {
                 : SizedBox(
                     width: 2.0,
                   ),
-            ModulesCard(cardLine: 'Profile', icon: Icons.account_circle, pageMover: '/profile'),
+            ModulesCard(
+                cardLine: 'Profile',
+                icon: Icons.account_circle,
+                pageMover: '/profile'),
             ModulesCard(cardLine: 'Office Of Dean Students'),
             ModulesCard(cardLine: 'Office Of Dean Academics'),
             ModulesCard(cardLine: 'Director Office'),
@@ -186,12 +215,11 @@ class ModulesCard extends StatelessWidget {
       onTap: () async {
         var _prefs = await StorageService.getInstance();
         String token = _prefs!.userInDB.token!;
-        if(cardLine=='Log Out')
-          {
-              LoginService auth = LoginService();
-              auth.logout();
-              Navigator.pushReplacementNamed(context, "/landing");
-          }
+        if (cardLine == 'Log Out') {
+          LoginService auth = LoginService();
+          auth.logout();
+          Navigator.pushReplacementNamed(context, "/landing");
+        }
         Navigator.pushReplacementNamed(context, pageMover!, arguments: token);
       },
     );

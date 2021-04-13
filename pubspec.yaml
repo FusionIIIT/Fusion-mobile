@@ -33,6 +33,7 @@ dependencies:
   pull_to_refresh: ^1.6.3
   date_field: ^2.0.0
   datetime_picker_formfield: ^2.0.0
+  get_it: ^6.1.0
 
 
 

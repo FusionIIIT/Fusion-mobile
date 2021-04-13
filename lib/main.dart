@@ -28,8 +28,13 @@ import 'package:fusion/screens/Healthcenter/feedback.dart';
 import 'package:fusion/screens/Healthcenter/viewschedule.dart';
 import 'package:fusion/screens/Healthcenter/history.dart';
 import 'package:fusion/screens/Healthcenter/HealthCenter.dart';
+import 'package:fusion/services/service_locator.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  setupLocator();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -43,8 +48,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/landing': (context) => LandingPage(),
         '/login_page': (context) => LoginPage(),
-        '/dashboard': (context) =>
-            Dashboard(ModalRoute.of(context)!.settings.arguments.toString()),
+        '/dashboard': (context) => Dashboard(),
         '/academic_home_page': (context) => AcademicHomePage(),
         '/academic_home_page/current_semester_home_page': (context) =>
             CurrentSemesterHomePage(),
