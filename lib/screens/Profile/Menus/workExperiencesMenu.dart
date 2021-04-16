@@ -1,26 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
 
-//list of Internships Company
-// final List<Map<String, String>> listOfColumns2 = [
-//   {
-//     "Organisation Name": "Amazon",
-//     "Location": "Hyderabad",
-//     "Job profile": "A+",
-//     "Start Date": "12-10-2021",
-//     "End Date": "12-10-2101",
-//     "status": "Completed"
-//   },
-//   {
-//     "Organisation Name": "Google",
-//     "Location": "Hyderabad",
-//     "Job profile": "B",
-//     "Start Date": "12-10-2021",
-//     "End Date": "12-10-2101",
-//     "status": "Completed"
-//   },
-// ];
-
 class workExperiencesMenu extends StatelessWidget {
   final List? internshipData, projectData;
   const workExperiencesMenu({Key? key, this.internshipData, this.projectData})
@@ -29,7 +9,6 @@ class workExperiencesMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      //color: Colors.grey,
       padding: EdgeInsets.all((5.0)),
       margin: EdgeInsets.all(10.0),
       child: Column(
@@ -45,10 +24,13 @@ class workExperiencesMenu extends StatelessWidget {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black),
+                            border: Border.all(
+                              color: Colors.black,
+                            ),
                             borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(5.0),
-                                topRight: Radius.circular(5.0)),
+                              topLeft: Radius.circular(5.0),
+                              topRight: Radius.circular(5.0),
+                            ),
                             color: Colors.grey),
                         padding: EdgeInsets.all(5.0),
                         child: Row(
@@ -57,10 +39,13 @@ class workExperiencesMenu extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.all(10.0),
                               child: Expanded(
-                                  child: Text('Internships',
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold))),
+                                child: Text(
+                                  'Internships',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -72,7 +57,9 @@ class workExperiencesMenu extends StatelessWidget {
                           children: [
                             Container(
                               decoration: BoxDecoration(
-                                border: Border.all(color: Colors.black),
+                                border: Border.all(
+                                  color: Colors.black,
+                                ),
                                 borderRadius: BorderRadius.circular(5.0),
                               ),
                             ),
@@ -100,12 +87,16 @@ class workExperiencesMenu extends StatelessWidget {
                                                     mainAxisAlignment:
                                                         MainAxisAlignment.start,
                                                     children: [
-                                                      Text('Job Profile : ',
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold)),
-                                                      Text(internship['title']),
+                                                      Text(
+                                                        'Job Profile : ',
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        internship['title'],
+                                                      ),
                                                     ]),
                                               ),
                                               Padding(
@@ -117,11 +108,12 @@ class workExperiencesMenu extends StatelessWidget {
                                                         MainAxisAlignment.start,
                                                     children: [
                                                       Text(
-                                                          'Organisation Name : ',
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold)),
+                                                        'Organisation Name : ',
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
                                                       Text(internship[
                                                           'company']),
                                                     ]),
@@ -134,11 +126,13 @@ class workExperiencesMenu extends StatelessWidget {
                                                     mainAxisAlignment:
                                                         MainAxisAlignment.start,
                                                     children: [
-                                                      Text('Location : ',
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold)),
+                                                      Text(
+                                                        'Location : ',
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
                                                       Text(internship[
                                                           'location']),
                                                     ]),
@@ -151,52 +145,65 @@ class workExperiencesMenu extends StatelessWidget {
                                                     mainAxisAlignment:
                                                         MainAxisAlignment.start,
                                                     children: [
-                                                      Text('Start Date :',
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold)),
-                                                      Text(internship['sdate']),
+                                                      Text(
+                                                        'Start Date :',
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        internship['sdate'],
+                                                      ),
                                                       Text('End Date :',
                                                           style: TextStyle(
                                                               fontWeight:
                                                                   FontWeight
                                                                       .bold)),
-                                                      Text(internship['edate']),
-                                                    ]),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.fromLTRB(
-                                                        8.0, 4.0, 8.0, 4.0),
-                                                child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    children: [
-                                                      Text('Description :',
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold)),
-                                                      Text(internship[
-                                                          'description']),
-                                                    ]),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.fromLTRB(
-                                                        8.0, 4.0, 8.0, 4.0),
-                                                child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    children: [
-                                                      Text('Status : ',
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold)),
                                                       Text(
-                                                          internship['status']),
+                                                        internship['edate'],
+                                                      ),
+                                                    ]),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        8.0, 4.0, 8.0, 4.0),
+                                                child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        'Description :',
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        internship[
+                                                            'description'],
+                                                      ),
+                                                    ]),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        8.0, 4.0, 8.0, 4.0),
+                                                child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        'Status : ',
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        internship['status'],
+                                                      ),
                                                     ]),
                                               ),
                                             ],
@@ -227,12 +234,14 @@ class workExperiencesMenu extends StatelessWidget {
                   child: Column(
                     children: [
                       Container(
-                        //Label + Edit Button
                         decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black),
+                            border: Border.all(
+                              color: Colors.black,
+                            ),
                             borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(5.0),
-                                topRight: Radius.circular(5.0)),
+                              topLeft: Radius.circular(5.0),
+                              topRight: Radius.circular(5.0),
+                            ),
                             color: Colors.grey),
                         padding: EdgeInsets.all(5.0),
                         child: Row(
@@ -241,10 +250,13 @@ class workExperiencesMenu extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.all(10.0),
                               child: Expanded(
-                                  child: Text('Projects',
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold))),
+                                child: Text(
+                                  'Projects',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -255,100 +267,130 @@ class workExperiencesMenu extends StatelessWidget {
                         child: Column(
                           children: [
                             Container(
-                              // Skill/Technology Container
                               decoration: BoxDecoration(
                                 border: Border.all(color: Colors.black),
                                 borderRadius: BorderRadius.circular(5.0),
                               ),
                             ),
                             SizedBox(height: 2),
-                            for(var project in this.projectData!)
+                            for (var project in this.projectData!)
                               Column(
                                 children: [
                                   SizedBox(height: 3),
                                   Container(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Card(
                                           color: Colors.white54,
                                           child: Column(
                                             children: [
                                               Padding(
-                                                padding: const EdgeInsets.fromLTRB(
-                                                    8.0, 4.0, 8.0, 4.0),
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        8.0, 4.0, 8.0, 4.0),
                                                 child: Row(
                                                     mainAxisAlignment:
-                                                    MainAxisAlignment.start,
+                                                        MainAxisAlignment.start,
                                                     children: [
-                                                      Text('Project Name : ',
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                              FontWeight.bold)),
-                                                      Text(project['project_name']),
+                                                      Text(
+                                                        'Project Name : ',
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        project['project_name'],
+                                                      ),
                                                     ]),
                                               ),
                                               Padding(
-                                                padding: const EdgeInsets.fromLTRB(
-                                                    8.0, 4.0, 8.0, 4.0),
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        8.0, 4.0, 8.0, 4.0),
                                                 child: Row(
                                                     mainAxisAlignment:
-                                                    MainAxisAlignment.start,
+                                                        MainAxisAlignment.start,
                                                     children: [
-                                                      Text('Project Link : ',
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                              FontWeight.bold)),
-                                                      Text(project['project_link']),
+                                                      Text(
+                                                        'Project Link : ',
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        project['project_link'],
+                                                      ),
                                                     ]),
                                               ),
                                               Padding(
-                                                padding: const EdgeInsets.fromLTRB(
-                                                    8.0, 4.0, 8.0, 4.0),
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        8.0, 4.0, 8.0, 4.0),
                                                 child: Row(
                                                     mainAxisAlignment:
-                                                    MainAxisAlignment.start,
+                                                        MainAxisAlignment.start,
                                                     children: [
-                                                      Text('Start Date :',
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                              FontWeight.bold)),
+                                                      Text(
+                                                        'Start Date :',
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
                                                       Text(project['sdate']),
-                                                      Text('End Date :',
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                              FontWeight.bold)),
-                                                      Text(project['edate']),
+                                                      Text(
+                                                        'End Date :',
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        project['edate'],
+                                                      ),
                                                     ]),
                                               ),
                                               Padding(
-                                                padding: const EdgeInsets.fromLTRB(
-                                                    8.0, 4.0, 8.0, 4.0),
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        8.0, 4.0, 8.0, 4.0),
                                                 child: Row(
                                                     mainAxisAlignment:
-                                                    MainAxisAlignment.start,
+                                                        MainAxisAlignment.start,
                                                     children: [
-                                                      Text('Summary :',
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                              FontWeight.bold)),
-                                                      Text(project['summary']),
+                                                      Text(
+                                                        'Summary :',
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        project['summary'],
+                                                      ),
                                                     ]),
                                               ),
                                               Padding(
-                                                padding: const EdgeInsets.fromLTRB(
-                                                    8.0, 4.0, 8.0, 4.0),
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        8.0, 4.0, 8.0, 4.0),
                                                 child: Row(
                                                     mainAxisAlignment:
-                                                    MainAxisAlignment.start,
+                                                        MainAxisAlignment.start,
                                                     children: [
                                                       Text('Status : ',
                                                           style: TextStyle(
                                                               fontWeight:
-                                                              FontWeight.bold)),
-                                                      Text(project['project_status']),
+                                                                  FontWeight
+                                                                      .bold)),
+                                                      Text(project[
+                                                          'project_status']),
                                                     ]),
                                               ),
                                             ],
@@ -383,19 +425,23 @@ class workExperiencesMenu extends StatelessWidget {
                   decoration: BoxDecoration(
                       border: Border.all(color: Colors.black),
                       borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(5.0),
-                          topRight: Radius.circular(5.0)),
+                        topLeft: Radius.circular(5.0),
+                        topRight: Radius.circular(5.0),
+                      ),
                       color: Colors.grey),
                   padding: EdgeInsets.all(5.0),
                   child: Row(
                     children: [
-                      Expanded(child: Text('Add new Internship')),
+                      Expanded(
+                        child: Text('Add new Internship'),
+                      ),
                       ElevatedButton(
-                          child: Text('Add'),
-                          onPressed: () => {
-                                //Edit Function
-                              },
-                          style: ElevatedButton.styleFrom(primary: Colors.red)),
+                        child: Text('Add'),
+                        onPressed: () => {
+                          //Edit Function
+                        },
+                        style: ElevatedButton.styleFrom(primary: Colors.red),
+                      ),
                     ],
                   ),
                 ),
@@ -413,17 +459,18 @@ class workExperiencesMenu extends StatelessWidget {
                         child: Column(
                           children: [
                             Container(
-                              //Label + Edit Button
                               decoration: BoxDecoration(
-                                  //border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(5.0),
-                                      topRight: Radius.circular(5.0)),
+                                    topLeft: Radius.circular(5.0),
+                                    topRight: Radius.circular(5.0),
+                                  ),
                                   color: Colors.grey),
                               padding: EdgeInsets.all(5.0),
                               child: Row(
                                 children: [
-                                  Expanded(child: Text('Organisation Name')),
+                                  Expanded(
+                                    child: Text('Organisation Name'),
+                                  ),
                                 ],
                               ),
                             ),
@@ -433,15 +480,16 @@ class workExperiencesMenu extends StatelessWidget {
                               color: Colors.white24,
                               child: Container(
                                 decoration: BoxDecoration(
-                                    //border: Border.all(color: Colors.black),
-                                    color: Colors.grey.shade300),
+                                  color: Colors.grey.shade300,
+                                ),
                                 padding:
                                     EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
                                 child: TextFormField(
                                   enabled: true,
                                   initialValue: '',
-                                  decoration:
-                                      InputDecoration(border: InputBorder.none),
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                  ),
                                 ),
                               ),
                             )
@@ -458,17 +506,18 @@ class workExperiencesMenu extends StatelessWidget {
                         child: Column(
                           children: [
                             Container(
-                              //Label + Edit Button
                               decoration: BoxDecoration(
-                                  //border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(5.0),
-                                      topRight: Radius.circular(5.0)),
+                                    topLeft: Radius.circular(5.0),
+                                    topRight: Radius.circular(5.0),
+                                  ),
                                   color: Colors.grey),
                               padding: EdgeInsets.all(5.0),
                               child: Row(
                                 children: [
-                                  Expanded(child: Text('Location')),
+                                  Expanded(
+                                    child: Text('Location'),
+                                  ),
                                 ],
                               ),
                             ),
@@ -478,15 +527,16 @@ class workExperiencesMenu extends StatelessWidget {
                               color: Colors.white24,
                               child: Container(
                                 decoration: BoxDecoration(
-                                    //border: Border.all(color: Colors.black),
-                                    color: Colors.grey.shade300),
+                                  color: Colors.grey.shade300,
+                                ),
                                 padding:
                                     EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
                                 child: TextFormField(
                                   enabled: true,
                                   initialValue: '',
-                                  decoration:
-                                      InputDecoration(border: InputBorder.none),
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                  ),
                                 ),
                               ),
                             )
@@ -503,17 +553,18 @@ class workExperiencesMenu extends StatelessWidget {
                         child: Column(
                           children: [
                             Container(
-                              //Label + Edit Button
                               decoration: BoxDecoration(
-                                  //border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(5.0),
-                                      topRight: Radius.circular(5.0)),
+                                    topLeft: Radius.circular(5.0),
+                                    topRight: Radius.circular(5.0),
+                                  ),
                                   color: Colors.grey),
                               padding: EdgeInsets.all(5.0),
                               child: Row(
                                 children: [
-                                  Expanded(child: Text('Start Date')),
+                                  Expanded(
+                                    child: Text('Start Date'),
+                                  ),
                                 ],
                               ),
                             ),
@@ -522,13 +573,11 @@ class workExperiencesMenu extends StatelessWidget {
                               padding: EdgeInsets.all(7.0),
                               color: Colors.white24,
                               child: Container(
-                                decoration: BoxDecoration(
-                                    //border: Border.all(color: Colors.black),
-                                    color: Colors.grey.shade300),
+                                decoration:
+                                    BoxDecoration(color: Colors.grey.shade300),
                                 padding:
                                     EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
                                 child: InputDatePickerFormField(
-                                  //enabled: true,
                                   initialDate: DateTime.utc(2000, 01, 01),
                                   firstDate: DateTime.utc(2000, 01, 01),
                                   lastDate: DateTime.now(),
@@ -548,17 +597,18 @@ class workExperiencesMenu extends StatelessWidget {
                         child: Column(
                           children: [
                             Container(
-                              //Label + Edit Button
                               decoration: BoxDecoration(
-                                  //border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(5.0),
-                                      topRight: Radius.circular(5.0)),
+                                    topLeft: Radius.circular(5.0),
+                                    topRight: Radius.circular(5.0),
+                                  ),
                                   color: Colors.grey),
                               padding: EdgeInsets.all(5.0),
                               child: Row(
                                 children: [
-                                  Expanded(child: Text('End Date')),
+                                  Expanded(
+                                    child: Text('End Date'),
+                                  ),
                                 ],
                               ),
                             ),
@@ -568,12 +618,11 @@ class workExperiencesMenu extends StatelessWidget {
                               color: Colors.white24,
                               child: Container(
                                 decoration: BoxDecoration(
-                                    //border: Border.all(color: Colors.black),
-                                    color: Colors.grey.shade300),
+                                  color: Colors.grey.shade300,
+                                ),
                                 padding:
                                     EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
                                 child: InputDatePickerFormField(
-                                  //enabled: true,
                                   initialDate: DateTime.utc(2000, 01, 01),
                                   firstDate: DateTime.utc(2000, 01, 01),
                                   lastDate: DateTime.now(),
@@ -593,17 +642,18 @@ class workExperiencesMenu extends StatelessWidget {
                         child: Column(
                           children: [
                             Container(
-                              //Label + Edit Button
                               decoration: BoxDecoration(
-                                  //border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(5.0),
-                                      topRight: Radius.circular(5.0)),
+                                    topLeft: Radius.circular(5.0),
+                                    topRight: Radius.circular(5.0),
+                                  ),
                                   color: Colors.grey),
                               padding: EdgeInsets.all(5.0),
                               child: Row(
                                 children: [
-                                  Expanded(child: Text('Description')),
+                                  Expanded(
+                                    child: Text('Description'),
+                                  ),
                                 ],
                               ),
                             ),
@@ -613,15 +663,16 @@ class workExperiencesMenu extends StatelessWidget {
                               color: Colors.white24,
                               child: Container(
                                 decoration: BoxDecoration(
-                                    //border: Border.all(color: Colors.black),
-                                    color: Colors.grey.shade300),
+                                  color: Colors.grey.shade300,
+                                ),
                                 padding:
                                     EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
                                 child: TextFormField(
                                   enabled: true,
                                   initialValue: '',
-                                  decoration:
-                                      InputDecoration(border: InputBorder.none),
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                  ),
                                 ),
                               ),
                             )
@@ -638,17 +689,18 @@ class workExperiencesMenu extends StatelessWidget {
                         child: Column(
                           children: [
                             Container(
-                              //Label + Edit Button
                               decoration: BoxDecoration(
-                                  //border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(5.0),
-                                      topRight: Radius.circular(5.0)),
+                                    topLeft: Radius.circular(5.0),
+                                    topRight: Radius.circular(5.0),
+                                  ),
                                   color: Colors.grey),
                               padding: EdgeInsets.all(5.0),
                               child: Row(
                                 children: [
-                                  Expanded(child: Text('Job Profile Title')),
+                                  Expanded(
+                                    child: Text('Job Profile Title'),
+                                  ),
                                 ],
                               ),
                             ),
@@ -657,16 +709,16 @@ class workExperiencesMenu extends StatelessWidget {
                               padding: EdgeInsets.all(7.0),
                               color: Colors.white24,
                               child: Container(
-                                decoration: BoxDecoration(
-                                    //border: Border.all(color: Colors.black),
-                                    color: Colors.grey.shade300),
+                                decoration:
+                                    BoxDecoration(color: Colors.grey.shade300),
                                 padding:
                                     EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
                                 child: TextFormField(
                                   enabled: true,
                                   initialValue: '',
-                                  decoration:
-                                      InputDecoration(border: InputBorder.none),
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                  ),
                                 ),
                               ),
                             )
@@ -683,9 +735,7 @@ class workExperiencesMenu extends StatelessWidget {
                         child: Column(
                           children: [
                             Container(
-                              //Label + Edit Button
                               decoration: BoxDecoration(
-                                  //border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(5.0),
                                       topRight: Radius.circular(5.0)),
@@ -703,15 +753,16 @@ class workExperiencesMenu extends StatelessWidget {
                               color: Colors.white24,
                               child: Container(
                                 decoration: BoxDecoration(
-                                    //border: Border.all(color: Colors.black),
-                                    color: Colors.grey.shade300),
+                                  color: Colors.grey.shade300,
+                                ),
                                 padding:
                                     EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
                                 child: TextFormField(
                                   enabled: true,
                                   initialValue: '',
-                                  decoration:
-                                      InputDecoration(border: InputBorder.none),
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                  ),
                                 ),
                               ),
                             )
@@ -736,23 +787,26 @@ class workExperiencesMenu extends StatelessWidget {
             child: Column(
               children: [
                 Container(
-                  //Label + Edit Button
                   decoration: BoxDecoration(
                       border: Border.all(color: Colors.black),
                       borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(5.0),
-                          topRight: Radius.circular(5.0)),
+                        topLeft: Radius.circular(5.0),
+                        topRight: Radius.circular(5.0),
+                      ),
                       color: Colors.grey),
                   padding: EdgeInsets.all(5.0),
                   child: Row(
                     children: [
-                      Expanded(child: Text('Add a new Project')),
+                      Expanded(
+                        child: Text('Add a new Project'),
+                      ),
                       ElevatedButton(
-                          child: Text('Add'),
-                          onPressed: () => {
-                                //Edit Function
-                              },
-                          style: ElevatedButton.styleFrom(primary: Colors.red)),
+                        child: Text('Add'),
+                        onPressed: () => {
+                          //Edit Function
+                        },
+                        style: ElevatedButton.styleFrom(primary: Colors.red),
+                      ),
                     ],
                   ),
                 ),
@@ -770,17 +824,18 @@ class workExperiencesMenu extends StatelessWidget {
                         child: Column(
                           children: [
                             Container(
-                              //Label + Edit Button
                               decoration: BoxDecoration(
-                                  //border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(5.0),
-                                      topRight: Radius.circular(5.0)),
+                                    topLeft: Radius.circular(5.0),
+                                    topRight: Radius.circular(5.0),
+                                  ),
                                   color: Colors.grey),
                               padding: EdgeInsets.all(5.0),
                               child: Row(
                                 children: [
-                                  Expanded(child: Text('Project Name')),
+                                  Expanded(
+                                    child: Text('Project Name'),
+                                  ),
                                 ],
                               ),
                             ),
@@ -790,15 +845,16 @@ class workExperiencesMenu extends StatelessWidget {
                               color: Colors.white24,
                               child: Container(
                                 decoration: BoxDecoration(
-                                    //border: Border.all(color: Colors.black),
-                                    color: Colors.grey.shade300),
+                                  color: Colors.grey.shade300,
+                                ),
                                 padding:
                                     EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
                                 child: TextFormField(
                                   enabled: true,
                                   initialValue: '',
-                                  decoration:
-                                      InputDecoration(border: InputBorder.none),
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                  ),
                                 ),
                               ),
                             )
@@ -815,17 +871,18 @@ class workExperiencesMenu extends StatelessWidget {
                         child: Column(
                           children: [
                             Container(
-                              //Label + Edit Button
                               decoration: BoxDecoration(
-                                  //border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(5.0),
-                                      topRight: Radius.circular(5.0)),
+                                    topLeft: Radius.circular(5.0),
+                                    topRight: Radius.circular(5.0),
+                                  ),
                                   color: Colors.grey),
                               padding: EdgeInsets.all(5.0),
                               child: Row(
                                 children: [
-                                  Expanded(child: Text('Status')),
+                                  Expanded(
+                                    child: Text('Status'),
+                                  ),
                                 ],
                               ),
                             ),
@@ -834,16 +891,16 @@ class workExperiencesMenu extends StatelessWidget {
                               padding: EdgeInsets.all(7.0),
                               color: Colors.white24,
                               child: Container(
-                                decoration: BoxDecoration(
-                                    //border: Border.all(color: Colors.black),
-                                    color: Colors.grey.shade300),
+                                decoration:
+                                    BoxDecoration(color: Colors.grey.shade300),
                                 padding:
                                     EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
                                 child: TextFormField(
                                   enabled: true,
                                   initialValue: '',
-                                  decoration:
-                                      InputDecoration(border: InputBorder.none),
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                  ),
                                 ),
                               ),
                             )
@@ -854,15 +911,15 @@ class workExperiencesMenu extends StatelessWidget {
                       Container(
                         // Project Link Container
                         decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black),
+                          border: Border.all(
+                            color: Colors.black,
+                          ),
                           borderRadius: BorderRadius.circular(5.0),
                         ),
                         child: Column(
                           children: [
                             Container(
-                              //Label + Edit Button
                               decoration: BoxDecoration(
-                                  //border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(5.0),
                                       topRight: Radius.circular(5.0)),
@@ -870,7 +927,9 @@ class workExperiencesMenu extends StatelessWidget {
                               padding: EdgeInsets.all(5.0),
                               child: Row(
                                 children: [
-                                  Expanded(child: Text('Project Link')),
+                                  Expanded(
+                                    child: Text('Project Link'),
+                                  ),
                                 ],
                               ),
                             ),
@@ -880,15 +939,16 @@ class workExperiencesMenu extends StatelessWidget {
                               color: Colors.white24,
                               child: Container(
                                 decoration: BoxDecoration(
-                                    //border: Border.all(color: Colors.black),
-                                    color: Colors.grey.shade300),
+                                  color: Colors.grey.shade300,
+                                ),
                                 padding:
                                     EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
                                 child: TextFormField(
                                   enabled: true,
                                   initialValue: '',
-                                  decoration:
-                                      InputDecoration(border: InputBorder.none),
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                  ),
                                 ),
                               ),
                             )
@@ -905,17 +965,18 @@ class workExperiencesMenu extends StatelessWidget {
                         child: Column(
                           children: [
                             Container(
-                              //Label + Edit Button
                               decoration: BoxDecoration(
-                                  //border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(5.0),
-                                      topRight: Radius.circular(5.0)),
+                                    topLeft: Radius.circular(5.0),
+                                    topRight: Radius.circular(5.0),
+                                  ),
                                   color: Colors.grey),
                               padding: EdgeInsets.all(5.0),
                               child: Row(
                                 children: [
-                                  Expanded(child: Text('Start Date')),
+                                  Expanded(
+                                    child: Text('Start Date'),
+                                  ),
                                 ],
                               ),
                             ),
@@ -924,13 +985,11 @@ class workExperiencesMenu extends StatelessWidget {
                               padding: EdgeInsets.all(7.0),
                               color: Colors.white24,
                               child: Container(
-                                decoration: BoxDecoration(
-                                    //border: Border.all(color: Colors.black),
-                                    color: Colors.grey.shade300),
+                                decoration:
+                                    BoxDecoration(color: Colors.grey.shade300),
                                 padding:
                                     EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
                                 child: InputDatePickerFormField(
-                                  //enabled: true,
                                   initialDate: DateTime.utc(2000, 01, 01),
                                   firstDate: DateTime.utc(2000, 01, 01),
                                   lastDate: DateTime.now(),
@@ -942,7 +1001,6 @@ class workExperiencesMenu extends StatelessWidget {
                       ),
                       SizedBox(height: 5),
                       Container(
-                        // End Date Container
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.black),
                           borderRadius: BorderRadius.circular(5.0),
@@ -952,15 +1010,17 @@ class workExperiencesMenu extends StatelessWidget {
                             Container(
                               //Label + Edit Button
                               decoration: BoxDecoration(
-                                  //border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(5.0),
-                                      topRight: Radius.circular(5.0)),
+                                    topLeft: Radius.circular(5.0),
+                                    topRight: Radius.circular(5.0),
+                                  ),
                                   color: Colors.grey),
                               padding: EdgeInsets.all(5.0),
                               child: Row(
                                 children: [
-                                  Expanded(child: Text('End Date')),
+                                  Expanded(
+                                    child: Text('End Date'),
+                                  ),
                                 ],
                               ),
                             ),
@@ -969,13 +1029,11 @@ class workExperiencesMenu extends StatelessWidget {
                               padding: EdgeInsets.all(7.0),
                               color: Colors.white24,
                               child: Container(
-                                decoration: BoxDecoration(
-                                    //border: Border.all(color: Colors.black),
-                                    color: Colors.grey.shade300),
+                                decoration:
+                                    BoxDecoration(color: Colors.grey.shade300),
                                 padding:
                                     EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
                                 child: InputDatePickerFormField(
-                                  //enabled: true,
                                   initialDate: DateTime.utc(2000, 01, 01),
                                   firstDate: DateTime.utc(2000, 01, 01),
                                   lastDate: DateTime.now(),
@@ -995,17 +1053,20 @@ class workExperiencesMenu extends StatelessWidget {
                         child: Column(
                           children: [
                             Container(
-                              //Label + Edit Button
                               decoration: BoxDecoration(
-                                  //border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(5.0),
-                                      topRight: Radius.circular(5.0)),
+                                    topLeft: Radius.circular(5.0),
+                                    topRight: Radius.circular(5.0),
+                                  ),
                                   color: Colors.grey),
                               padding: EdgeInsets.all(5.0),
                               child: Row(
                                 children: [
-                                  Expanded(child: Text('Description')),
+                                  Expanded(
+                                    child: Text(
+                                      'Description',
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
@@ -1015,15 +1076,20 @@ class workExperiencesMenu extends StatelessWidget {
                               color: Colors.white24,
                               child: Container(
                                 decoration: BoxDecoration(
-                                    //border: Border.all(color: Colors.black),
-                                    color: Colors.grey.shade300),
-                                padding:
-                                    EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
+                                  color: Colors.grey.shade300,
+                                ),
+                                padding: EdgeInsets.fromLTRB(
+                                  10.0,
+                                  1.0,
+                                  10.0,
+                                  1.0,
+                                ),
                                 child: TextFormField(
                                   enabled: true,
                                   initialValue: '',
-                                  decoration:
-                                      InputDecoration(border: InputBorder.none),
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                  ),
                                 ),
                               ),
                             )

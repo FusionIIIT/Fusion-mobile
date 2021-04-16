@@ -28,12 +28,13 @@ import 'package:fusion/screens/Healthcenter/feedback.dart';
 import 'package:fusion/screens/Healthcenter/viewschedule.dart';
 import 'package:fusion/screens/Healthcenter/history.dart';
 import 'package:fusion/screens/Healthcenter/HealthCenter.dart';
+import 'package:fusion/services/service_locator.dart';
 
-
-
-
-
-void main() => runApp(MyApp());
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  setupLocator();
+  runApp(MyApp());
+}
 
 class MyApp extends StatefulWidget {
   // This widget is the root of your application.
@@ -56,8 +57,7 @@ class _MyAppState extends State<MyApp> {
       routes: {
         '/landing': (context) => LandingPage(),
         '/login_page': (context) => LoginPage(),
-        '/dashboard': (context) =>
-            Dashboard(ModalRoute.of(context)!.settings.arguments.toString()),
+        '/dashboard': (context) => Dashboard(),
         '/academic_home_page': (context) => AcademicHomePage(),
         '/academic_home_page/current_semester_home_page': (context) =>
             CurrentSemesterHomePage(),
@@ -79,14 +79,15 @@ class _MyAppState extends State<MyApp> {
         '/library_homepage/book_search': (context) => BookSearch(),
         '/library_homepage/issued_items': (context) => IssuedItems(),
         '/library_homepage/dues': (context) => Dues(),
-        '/complaint': (context) => Complaint(ModalRoute.of(context)!.settings.arguments.toString()),
-        '/profile': (context) => Profile(ModalRoute.of(context)!.settings.arguments.toString()),
-        '/health_center': (context)=>HealthCenterMod(),
-        '/health_center/healthcenter':(context)=>HealthCenter(),
-        '/health_center/feedback':(context)=>FeedBack(),
-        '/health_center/viewschedule':(context)=>ViewSchedule(),
-        '/health_center/history':(context)=>History(),
-
+        '/complaint': (context) =>
+            Complaint(ModalRoute.of(context)!.settings.arguments.toString()),
+        '/profile': (context) =>
+            Profile(ModalRoute.of(context)!.settings.arguments.toString()),
+        '/health_center': (context) => HealthCenterMod(),
+        '/health_center/healthcenter': (context) => HealthCenter(),
+        '/health_center/feedback': (context) => FeedBack(),
+        '/health_center/viewschedule': (context) => ViewSchedule(),
+        '/health_center/history': (context) => History(),
       },
     );
   }

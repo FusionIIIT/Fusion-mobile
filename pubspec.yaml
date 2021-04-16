@@ -32,12 +32,19 @@ dependencies:
   http: ^0.13.0
   pull_to_refresh: ^1.6.3
   date_field: ^2.0.0
+  datetime_picker_formfield: ^2.0.0
+  get_it: ^6.1.0
+
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  flutter_launcher_icons: ^0.9.0
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/logofusion.png"
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
