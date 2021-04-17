@@ -25,6 +25,8 @@ class ComplaintService {
     throw Exception('Can\'t load');
   }
 
+  getComplaintByID() {}
+
   Future<bool> lodgeComplaint(
     String token,
     String? complaint_finish,

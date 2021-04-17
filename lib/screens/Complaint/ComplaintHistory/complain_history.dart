@@ -101,27 +101,6 @@ class _ComplainHistoryState extends State<ComplainHistory> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => GetComplaintByID()),
-                        );
-                      },
-                      child: Card(
-                        elevation: 6,
-                        margin:
-                            EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                        shadowColor: Colors.black,
-                        child: Center(
-                          child: Text(
-                            'Get Complaint By ID',
-                            style: TextStyle(color: Colors.black, fontSize: 20),
-                          ),
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
                               builder: (context) => PendingComplaints(data)),
                         );
                       },
