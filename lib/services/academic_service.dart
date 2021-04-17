@@ -27,7 +27,8 @@ class AcademicService {
           jsonEncode(
               AcademicData.fromJson(jsonDecode(response.body)).toJson()));
       return response;
-    }
+    } else
+      print("error fetching details");
     throw Exception('Can\'t load');
   }
 }

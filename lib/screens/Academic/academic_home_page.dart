@@ -2,15 +2,62 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/services/academic_service.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
+import 'package:fusion/models/academic.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart';
 
 class AcademicHomePage extends StatefulWidget {
+  String? token;
   static String tag = 'academic-page';
+  AcademicHomePage(this.token);
   @override
   _AcademicHomePageState createState() => _AcademicHomePageState();
 }
 
 class _AcademicHomePageState extends State<AcademicHomePage> {
+  bool _loading1 = true;
+  late StreamController _academicController;
+  late AcademicService academicService;
+  late AcademicData data;
   @override
+  void initState() {
+    super.initState();
+
+    _academicController = StreamController();
+    academicService = AcademicService();
+    print("start");
+    var service = locator<StorageService>();
+    print("mid");
+    try {
+      data = service.academicData;
+    } catch (e) {}
+
+    print("end");
+    getData();
+  }
+
+  getData() async {
+    //print('token-'+widget.token!);
+    Response response = await academicService.getAcademic(widget.token!);
+    setState(() {
+      data = AcademicData.fromJson(jsonDecode(response.body));
+      // print(data.current);
+
+      // print(data);
+
+      _loading1 = false;
+    });
+  }
+
+  loadData() async {
+    getData().then((res) {
+      _academicController.add(res);
+    });
+  }
 
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
@@ -187,5 +234,3 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
     );
   }
 }
-
-

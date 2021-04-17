@@ -49,7 +49,8 @@ class MyApp extends StatelessWidget {
         '/landing': (context) => LandingPage(),
         '/login_page': (context) => LoginPage(),
         '/dashboard': (context) => Dashboard(),
-        '/academic_home_page': (context) => AcademicHomePage(),
+        '/academic_home_page': (context) => AcademicHomePage(
+            ModalRoute.of(context)!.settings.arguments.toString()),
         '/academic_home_page/current_semester_home_page': (context) =>
             CurrentSemesterHomePage(),
         '/academic_home_page/registration_home_page': (context) =>
