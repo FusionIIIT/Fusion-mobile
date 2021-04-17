@@ -201,7 +201,7 @@ class _ComplaintState extends State<Complaint> {
                   ),
                 ),
                 _loading1
-                    ? LodgeComplaint()
+                    ? LodgeComplaint(widget.token)
                     : SizedBox(
                         height: 2,
                       ),
