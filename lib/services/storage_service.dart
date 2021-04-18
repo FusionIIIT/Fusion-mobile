@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:fusion/models/profile.dart';
+import 'package:fusion/models/academic.dart';
 import 'package:fusion/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,6 +21,12 @@ class StorageService with ChangeNotifier {
     var profileJson = _getFromDisk("ProfileKey");
     print(jsonDecode(profileJson));
     return ProfileData.fromJson(jsonDecode(profileJson));
+  }
+
+  AcademicData get academicData {
+    var profileJson = _getFromDisk("ProfileKey");
+    print(jsonDecode(profileJson));
+    return AcademicData.fromJson(jsonDecode(profileJson));
   }
 
   void saveUserInDB(User userToSave) {
