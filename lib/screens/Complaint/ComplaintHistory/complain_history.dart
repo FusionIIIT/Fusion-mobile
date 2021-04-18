@@ -101,7 +101,8 @@ class _ComplainHistoryState extends State<ComplainHistory> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => PendingComplaints(data)),
+                              builder: (context) =>
+                                  PendingComplaints(widget.token!)),
                         );
                       },
                       child: Card(
@@ -122,7 +123,8 @@ class _ComplainHistoryState extends State<ComplainHistory> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => OnHoldComplaints(data)),
+                              builder: (context) =>
+                                  OnHoldComplaints(widget.token!)),
                         );
                       },
                       child: Card(
@@ -143,7 +145,8 @@ class _ComplainHistoryState extends State<ComplainHistory> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ResolvedComplaints(data)),
+                              builder: (context) =>
+                                  ResolvedComplaints(widget.token!)),
                         );
                       },
                       child: Card(
@@ -164,7 +167,8 @@ class _ComplainHistoryState extends State<ComplainHistory> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => DeclinedComplaints(data)),
+                              builder: (context) =>
+                                  DeclinedComplaints(widget.token!)),
                         );
                       },
                       child: Card(

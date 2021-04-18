@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fusion/screens/Complaint/ComplaintHistory/get_complaint_by_id.dart';
+import 'package:fusion/screens/Complaint/ComplaintHistory/pending_complaints.dart';
+import 'package:fusion/screens/Complaint/ComplaintHistory/update_complaint.dart';
+import 'package:fusion/services/complaint_service.dart';
 import '../../../models/complaints.dart';
 
 class ComplaintCard extends StatefulWidget {
   ComplaintDataUserStudent? data;
-  int? index = 0;
+  String? token;
+  int? index;
   ComplaintCard({
+    this.token,
     this.data,
     this.index,
   });
@@ -17,6 +23,7 @@ class ComplaintCard extends StatefulWidget {
 class _ComplaintCardState extends State<ComplaintCard> {
   @override
   Widget build(BuildContext context) {
+    int flag = 0;
     return GestureDetector(
       onTap: () {
         print("Hello");
@@ -29,7 +36,7 @@ class _ComplaintCardState extends State<ComplaintCard> {
         );
       },
       child: Card(
-        elevation: 2,
+        elevation: 5,
         margin: EdgeInsets.symmetric(horizontal: 20, vertical: 40),
         shadowColor: Colors.black,
         child: Padding(
@@ -51,8 +58,87 @@ class _ComplaintCardState extends State<ComplaintCard> {
                 style: TextStyle(fontSize: 17, letterSpacing: 1.5),
               ),
               Text(
-                "Complaint Details :  ${widget.data!.student_complain![widget.index!]['details']}",
+                "Complaint Location :  ${widget.data!.student_complain![widget.index!]['location']}",
                 style: TextStyle(fontSize: 17, letterSpacing: 1.5),
+              ),
+              Text(
+                "Specific Location :  ${widget.data!.student_complain![widget.index!]['specific_location']}",
+                style: TextStyle(fontSize: 17, letterSpacing: 1.5),
+              ),
+              Text(
+                "Details :  ${widget.data!.student_complain![widget.index!]['details']}",
+                style: TextStyle(fontSize: 17, letterSpacing: 1.5),
+              ),
+              SizedBox(height: 5),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => UpdateComplaint(
+                                  widget.token!,
+                                  widget.data!.student_complain![widget.index!]
+                                      ['id'],
+                                  widget.data!.student_complain![widget.index!]
+                                      ['remarks'])),
+                        );
+                      },
+                      child: Row(
+                        children: [
+                          Icon(Icons.update),
+                          Text("  Update"),
+                        ],
+                      )),
+                  ElevatedButton(
+                    onPressed: () async {
+                      return showDialog(
+                        context: context,
+                        builder: (ctx) => AlertDialog(
+                          title: Text("Warning"),
+                          content: Text(
+                              "Are you sure you want to delete complaint?"),
+                          actions: <Widget>[
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text("Cancel"),
+                            ),
+                            ElevatedButton(
+                              onPressed: () async {
+                                ComplaintService auth = ComplaintService();
+                                bool deleteComp = await auth.deleteComplaint(
+                                  widget.token!,
+                                  widget.data!.student_complain![widget.index!]
+                                      ['id'],
+                                );
+                                TextInput.finishAutofillContext();
+                                if (deleteComp == true) {
+                                  int count = 0;
+                                  Navigator.of(context)
+                                      .popUntil((_) => count++ >= 2);
+                                }
+                              },
+                              child: Text("Ok"),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.delete,
+                          size: 25,
+                        ),
+                        Text("  Delete"),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
