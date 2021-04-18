@@ -21,11 +21,6 @@ class AcademicService {
     );
     if (response.statusCode == 200) {
       print("successfully fetched details");
-      var service = locator<StorageService>();
-      service.saveStringToDisk(
-          "ProfileKey",
-          jsonEncode(
-              AcademicData.fromJson(jsonDecode(response.body)).toJson()));
       return response;
     } else
       print("error fetching details");

@@ -26,17 +26,8 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
   @override
   void initState() {
     super.initState();
-
     _academicController = StreamController();
     academicService = AcademicService();
-    print("start");
-    var service = locator<StorageService>();
-    print("mid");
-    try {
-      data = service.academicData;
-    } catch (e) {}
-
-    print("end");
     getData();
   }
 
@@ -44,11 +35,8 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
     //print('token-'+widget.token!);
     Response response = await academicService.getAcademic(widget.token!);
     setState(() {
+      print(response);
       data = AcademicData.fromJson(jsonDecode(response.body));
-      // print(data.current);
-
-      // print(data);
-
       _loading1 = false;
     });
   }
@@ -93,144 +81,158 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
     return Scaffold(
       appBar: DefaultAppBar().buildAppBar(),
       drawer: SideDrawer(),
-      body: ListView(
-        shrinkWrap: true,
-        physics: ClampingScrollPhysics(),
-        children: [
-          Card(
-            elevation: 2.0,
-            margin: EdgeInsets.symmetric(horizontal: 50.0, vertical: 20.0),
-            shadowColor: Colors.black,
-            child: Column(
+      body: _loading1 == true
+          ? Center(child: CircularProgressIndicator())
+          : ListView(
+              shrinkWrap: true,
+              physics: ClampingScrollPhysics(),
               children: [
-                Container(
-                  margin: EdgeInsets.only(top: 20.0),
-                  width: 170.0,
-                  height: 170.0,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/unknown.jpg'),
-                      fit: BoxFit.cover,
+                Card(
+                  elevation: 2.0,
+                  margin:
+                      EdgeInsets.symmetric(horizontal: 50.0, vertical: 20.0),
+                  shadowColor: Colors.black,
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(top: 20.0),
+                        width: 170.0,
+                        height: 170.0,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage('assets/unknown.jpg'),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      Text(
+                        //NAME OF USER
+                        data.details!['current_user']['first_name'] +
+                            ' ' +
+                            data.details!['current_user']['last_name'],
+                        style: TextStyle(fontSize: 20.0, color: Colors.black),
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      Text(
+                        data.details!['user_branch'] + ' | ' + "STUDENT",
+                        style: TextStyle(fontSize: 15.0, color: Colors.black),
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Center(
+                          child: Text(
+                        "Academic",
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          color: Colors.white,
+                        ),
+                      )),
+                    ),
+                    decoration: new BoxDecoration(
+                      color: Colors.deepOrangeAccent,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black,
+                          offset: Offset(0.0, 1.0),
+                          blurRadius: 2.0,
+                        )
+                      ],
+                      borderRadius:
+                          new BorderRadius.all(new Radius.circular(5.0)),
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                Text(
-                  'Rishabh Pandey',
-                  style: TextStyle(fontSize: 20.0, color: Colors.black),
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                Text(
-                  "Student",
-                  style: TextStyle(fontSize: 15.0, color: Colors.black),
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Center(
-                    child: Text(
-                  "Academic",
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.white,
+                Card(
+                  elevation: 2.0,
+                  margin:
+                      EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+                  shadowColor: Colors.black,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      InkWell(
+                        child: myContainer("Current Semester"),
+                        onTap: () {
+                          Navigator.pushNamed(context,
+                              '/academic_home_page/current_semester_home_page',
+                              arguments: data);
+                        },
+                      ),
+                      InkWell(
+                        child: myContainer("Registration"),
+                        onTap: () {
+                          Navigator.pushNamed(context,
+                              '/academic_home_page/registration_home_page',
+                              arguments: data);
+                        },
+                      ),
+                      InkWell(
+                        child: myContainer("Check Dues"),
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, '/academic_home_page/dues',
+                              arguments: data);
+                        },
+                      ),
+                      InkWell(
+                        child: myContainer("Apply for Bonafide"),
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, '/academic_home_page/bonafide');
+                        },
+                      ),
+                      InkWell(
+                        child: myContainer("Check Attendance"),
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, '/academic_home_page/attendance',
+                              arguments: data);
+                        },
+                      ),
+                      InkWell(
+                        child: myContainer("Branch Change"),
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, '/academic_home_page/branch_change');
+                        },
+                      ),
+                      InkWell(
+                        child: myContainer("Evaluate Teaching Credits"),
+                        //onTap: (){},
+                      ),
+                      InkWell(
+                        child: myContainer("Thesis"),
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, '/academic_home_page/thesis');
+                        },
+                      ),
+                      InkWell(
+                        child: myContainer("View Performance"),
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, '/academic_home_page/performance');
+                        },
+                      ),
+                    ],
                   ),
-                )),
-              ),
-              decoration: new BoxDecoration(
-                color: Colors.deepOrangeAccent,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black,
-                    offset: Offset(0.0, 1.0),
-                    blurRadius: 2.0,
-                  )
-                ],
-                borderRadius: new BorderRadius.all(new Radius.circular(5.0)),
-              ),
-            ),
-          ),
-          Card(
-            elevation: 2.0,
-            margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-            shadowColor: Colors.black,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                InkWell(
-                  child: myContainer("Current Semester"),
-                  onTap: () {
-                    Navigator.pushNamed(context,
-                        '/academic_home_page/current_semester_home_page');
-                  },
-                ),
-                InkWell(
-                  child: myContainer("Registration"),
-                  onTap: () {
-                    Navigator.pushNamed(
-                        context, '/academic_home_page/registration_home_page');
-                  },
-                ),
-                InkWell(
-                  child: myContainer("Check Dues"),
-                  onTap: () {
-                    Navigator.pushNamed(context, '/academic_home_page/dues');
-                  },
-                ),
-                InkWell(
-                  child: myContainer("Apply for Bonafide"),
-                  onTap: () {
-                    Navigator.pushNamed(
-                        context, '/academic_home_page/bonafide');
-                  },
-                ),
-                InkWell(
-                  child: myContainer("Check Attendance"),
-                  onTap: () {
-                    Navigator.pushNamed(
-                        context, '/academic_home_page/attendance');
-                  },
-                ),
-                InkWell(
-                  child: myContainer("Branch Change"),
-                  onTap: () {
-                    Navigator.pushNamed(
-                        context, '/academic_home_page/branch_change');
-                  },
-                ),
-                InkWell(
-                  child: myContainer("Evaluate Teaching Credits"),
-                  //onTap: (){},
-                ),
-                InkWell(
-                  child: myContainer("Thesis"),
-                  onTap: () {
-                    Navigator.pushNamed(context, '/academic_home_page/thesis');
-                  },
-                ),
-                InkWell(
-                  child: myContainer("View Performance"),
-                  onTap: () {
-                    Navigator.pushNamed(
-                        context, '/academic_home_page/performance');
-                  },
                 ),
               ],
             ),
-          ),
-        ],
-      ),
     );
   }
 }
