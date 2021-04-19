@@ -13,9 +13,6 @@ const kTextFieldInputDecoration = InputDecoration(
 );
 
 class LodgeComplaint extends StatefulWidget {
-  String? token;
-  LodgeComplaint(this.token);
-
   @override
   _LodgeComplaintState createState() => _LodgeComplaintState();
 }
@@ -185,20 +182,19 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
                 onPressed: () async {
                   ComplaintService auth = ComplaintService();
                   bool lodge = await auth.lodgeComplaint(
-                      widget.token!,
                       formattedDate,
                       complaint_type!,
                       location!,
                       specific_location!,
                       details!,
-                      status!,
-                      remarks!,
-                      flag!,
-                      reason!,
-                      feedback!,
-                      comment!,
-                      complainer!,
-                      worker_id!);
+                      status,
+                      remarks,
+                      flag,
+                      reason,
+                      feedback,
+                      comment,
+                      complainer,
+                      worker_id);
                   TextInput.finishAutofillContext();
                   if (lodge == true) {
                     return showDialog(

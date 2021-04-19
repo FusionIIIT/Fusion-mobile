@@ -4,14 +4,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fusion/models/complaints.dart';
 import 'package:fusion/services/complaint_service.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
 import 'package:http/http.dart';
-import 'complain_history.dart';
 import 'complaints_card.dart';
 
 class DeclinedComplaints extends StatefulWidget {
-  String? token;
-  DeclinedComplaints(this.token);
-
   @override
   _DeclinedComplaintsState createState() => _DeclinedComplaintsState();
 }
@@ -33,8 +31,7 @@ class _DeclinedComplaintsState extends State<DeclinedComplaints> {
   }
 
   getData() async {
-    //print('token-'+widget.token!);
-    Response response = await complaintService.getComplaint(widget.token!);
+    Response response = await complaintService.getComplaint();
     setState(() {
       data = ComplaintDataUserStudent.fromJson(jsonDecode(response.body));
       print(data.student_complain);
@@ -60,10 +57,10 @@ class _DeclinedComplaintsState extends State<DeclinedComplaints> {
           : Container(
               color: Colors.white,
               child: ListView.builder(
-                itemCount: data!.student_complain!.length,
+                itemCount: data.student_complain!.length,
                 itemBuilder: (BuildContext context, index) {
-                  return data!.student_complain![index]['remarks'] == "Declined"
-                      ? ComplaintCard(token: widget.token!, data: data, index: index)
+                  return data.student_complain![index]['remarks'] == "Declined"
+                      ? ComplaintCard(data: data, index: index)
                       : SizedBox(
                           width: 1,
                         );

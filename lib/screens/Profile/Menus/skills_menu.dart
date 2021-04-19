@@ -9,9 +9,9 @@ final List<Map<String, String>> listOfColumns = [
   {"skill": "Java", "rating": "70"},
 ];
 
-class skillsMenu extends StatelessWidget {
+class SkillsMenu extends StatelessWidget {
   final List? data;
-  const skillsMenu({Key? key, this.data}) : super(key: key);
+  const SkillsMenu({Key? key, this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
