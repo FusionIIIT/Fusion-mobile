@@ -3,7 +3,6 @@ import 'package:fusion/services/login_service.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
 
-// ignore: must_be_immutable
 class SideDrawer extends StatefulWidget {
   @override
   _SideDrawerState createState() => _SideDrawerState();
