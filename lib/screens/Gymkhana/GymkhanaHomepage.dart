@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
 
-class GymkhanaHomepage extends StatelessWidget {
+class GymkhanaHomepage extends StatefulWidget {
+  @override
+  _GymkhanaHomepageState createState() => _GymkhanaHomepageState();
+}
+
+class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
         border: new Border.all(
