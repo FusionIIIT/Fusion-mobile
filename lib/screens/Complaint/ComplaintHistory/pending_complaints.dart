@@ -5,13 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:fusion/models/complaints.dart';
 import 'package:fusion/services/complaint_service.dart';
 import 'package:http/http.dart';
-import 'complain_history.dart';
 import 'complaints_card.dart';
 
 class PendingComplaints extends StatefulWidget {
-  String? token;
-  PendingComplaints(this.token);
-
   @override
   _PendingComplaintsState createState() => _PendingComplaintsState();
 }
@@ -34,7 +30,7 @@ class _PendingComplaintsState extends State<PendingComplaints> {
 
   getData() async {
     //print('token-'+widget.token!);
-    Response response = await complaintService.getComplaint(widget.token!);
+    Response response = await complaintService.getComplaint();
     setState(() {
       data = ComplaintDataUserStudent.fromJson(jsonDecode(response.body));
       print(data.student_complain);
@@ -60,11 +56,10 @@ class _PendingComplaintsState extends State<PendingComplaints> {
           : Container(
               color: Colors.white,
               child: ListView.builder(
-                itemCount: data!.student_complain!.length,
+                itemCount: data.student_complain!.length,
                 itemBuilder: (BuildContext context, index) {
-                  return data!.student_complain![index]['remarks'] == "Pending"
-                      ? ComplaintCard(
-                          token: widget.token!, data: data, index: index)
+                  return data.student_complain![index]['remarks'] == "Pending"
+                      ? ComplaintCard(data: data, index: index)
                       : SizedBox(
                           width: 10,
                         );

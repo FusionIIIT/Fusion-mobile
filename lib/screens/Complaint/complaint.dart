@@ -204,12 +204,12 @@ class _ComplaintState extends State<Complaint> {
                     ),
                   ),
                   _loading1
-                      ? LodgeComplaint(widget.token)
+                      ? LodgeComplaint()
                       : SizedBox(
                           height: 2,
                         ),
                   _loading2
-                      ? ComplainHistory(widget.token)
+                      ? ComplainHistory()
                       : SizedBox(
                           height: 5,
                         ),

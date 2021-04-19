@@ -14,10 +14,9 @@ const kTextFieldInputDecoration = InputDecoration(
 );
 
 class UpdateComplaint extends StatefulWidget {
-  String? token;
-  int? id;
-  String? remarks;
-  UpdateComplaint(this.token, this.id, this.remarks);
+  final int? id;
+  final String? remarks;
+  UpdateComplaint(this.id, this.remarks);
 
   @override
   _UpdateComplaintState createState() => _UpdateComplaintState();
@@ -184,21 +183,20 @@ class _UpdateComplaintState extends State<UpdateComplaint> {
                 onPressed: () async {
                   ComplaintService auth = ComplaintService();
                   bool lodge = await auth.updateComplaint(
-                    widget.token!,
                     widget.id!,
-                    complaint_date!,
-                    finishedDate!,
+                    complaint_date,
+                    finishedDate,
                     complaint_type!,
                     location!,
                     specific_location!,
                     details!,
-                    status!,
+                    status,
                     widget.remarks!,
-                    flag!,
-                    reason!,
-                    feedback!,
-                    comment!,
-                    complainer!,
+                    flag,
+                    reason,
+                    feedback,
+                    comment,
+                    complainer,
                   );
                   TextInput.finishAutofillContext();
                   if (lodge == true) {

@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fusion/screens/Complaint/ComplaintHistory/get_complaint_by_id.dart';
-import 'package:fusion/screens/Complaint/ComplaintHistory/pending_complaints.dart';
 import 'package:fusion/screens/Complaint/ComplaintHistory/update_complaint.dart';
 import 'package:fusion/services/complaint_service.dart';
 import '../../../models/complaints.dart';
 
 class ComplaintCard extends StatefulWidget {
-  ComplaintDataUserStudent? data;
-  String? token;
-  int? index;
+  final ComplaintDataUserStudent? data;
+  final int? index;
   ComplaintCard({
-    this.token,
     this.data,
     this.index,
   });
@@ -79,7 +76,6 @@ class _ComplaintCardState extends State<ComplaintCard> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => UpdateComplaint(
-                                  widget.token!,
                                   widget.data!.student_complain![widget.index!]
                                       ['id'],
                                   widget.data!.student_complain![widget.index!]
@@ -111,7 +107,6 @@ class _ComplaintCardState extends State<ComplaintCard> {
                               onPressed: () async {
                                 ComplaintService auth = ComplaintService();
                                 bool deleteComp = await auth.deleteComplaint(
-                                  widget.token!,
                                   widget.data!.student_complain![widget.index!]
                                       ['id'],
                                 );
