@@ -7,9 +7,11 @@ import 'package:fusion/services/storage_service.dart';
 import 'package:http/http.dart' as http;
 
 class ProfileService {
-  getProfile(String token) async {
-    //print('Token '+token);
-    Map<String, String> headers = {'Authorization': 'Token ' + token};
+  getProfile() async {
+    var service = locator<StorageService>();
+    Map<String, String> headers = {
+      'Authorization': 'Token ' + service.userInDB.token!
+    };
     print("fetching profile");
     var client = http.Client();
     http.Response response = await client.get(
@@ -21,9 +23,7 @@ class ProfileService {
     );
     if (response.statusCode == 200) {
       print("successfully fetched profile");
-      var service = locator<StorageService>();
-      service.saveStringToDisk("ProfileKey",
-          jsonEncode(ProfileData.fromJson(jsonDecode(response.body)).toJson()));
+      service.saveProfileInDB(ProfileData.fromJson(jsonDecode(response.body)));
       return response;
     }
     throw Exception('Can\'t load');

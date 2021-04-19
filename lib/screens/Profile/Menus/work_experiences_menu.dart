@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
 
-class workExperiencesMenu extends StatelessWidget {
+class WorkExperiencesMenu extends StatelessWidget {
   final List? internshipData, projectData;
-  const workExperiencesMenu({Key? key, this.internshipData, this.projectData})
+  const WorkExperiencesMenu({Key? key, this.internshipData, this.projectData})
       : super(key: key);
 
   @override

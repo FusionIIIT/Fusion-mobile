@@ -40,7 +40,7 @@ class _ComplaintState extends State<Complaint> {
 
   getData() async {
     //print('token-'+widget.token!);
-    Response response = await profileService.getProfile(widget.token!);
+    Response response = await profileService.getProfile();
     setState(() {
       data = ProfileData.fromJson(jsonDecode(response.body));
       print(data.current);

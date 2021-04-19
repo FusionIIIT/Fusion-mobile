@@ -50,7 +50,7 @@ class _DashboardState extends State<Dashboard> {
     var token = service.userInDB.token;
 
     Response response = await dashboardService.getDashboard(token!);
-    Response response2 = await profileService.getProfile(token);
+    Response response2 = await profileService.getProfile();
     setState(() {
       data = DashboardData.fromJson(jsonDecode(response.body));
       data2 = ProfileData.fromJson(jsonDecode(response2.body));

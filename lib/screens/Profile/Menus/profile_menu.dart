@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
 
-class profileMenu extends StatelessWidget {
+class ProfileMenu extends StatelessWidget {
   final Map? data;
-  const profileMenu({Key? key, this.data}) : super(key: key);
+  const ProfileMenu({Key? key, this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

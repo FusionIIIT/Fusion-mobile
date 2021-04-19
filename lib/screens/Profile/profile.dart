@@ -6,20 +6,16 @@ import 'package:fusion/Components/side_drawer.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
 import 'dart:ui';
-import './Menus/profileMenu.dart';
-import './Menus/skillsMenu.dart';
-import './Menus/educationMenu.dart';
-import './Menus/workExperiencesMenu.dart';
+import 'Menus/profile_menu.dart';
+import 'Menus/skills_menu.dart';
+import 'Menus/education_menu.dart';
+import 'Menus/work_experiences_menu.dart';
 import 'Menus/achievements_menu.dart';
 import 'package:fusion/models/profile.dart';
 import 'package:fusion/services/profile_service.dart';
 import 'package:http/http.dart';
 
 class Profile extends StatefulWidget {
-  String? token;
-  static String tag = 'profile-page';
-  // Profile({Key? key,this.token}):super(key: key);
-  Profile(this.token);
   @override
   _ProfileState createState() => _ProfileState();
 }
@@ -39,25 +35,19 @@ class _ProfileState extends State<Profile> {
 
     _profileController = StreamController();
     profileService = ProfileService();
-    print("start");
     var service = locator<StorageService>();
-    print("mid");
     try {
       data = service.profileData;
-    } catch (e) {}
-
-    print("end");
-    getData();
+    } catch (e) {
+      getData();
+    }
   }
 
   getData() async {
-    //print('token-'+widget.token!);
-    Response response = await profileService.getProfile(widget.token!);
+    var prefs = locator<StorageService>();
+    Response response = await profileService.getProfile();
     setState(() {
       data = ProfileData.fromJson(jsonDecode(response.body));
-      // print(data.current);
-
-      // print(data);
 
       _loading1 = false;
     });
@@ -90,13 +80,13 @@ class _ProfileState extends State<Profile> {
 
   //TODO: Update
   List<Function> _menu = [
-    (data) => profileMenu(data: data.profile),
-    (data) => skillsMenu(data: data.skills),
-    (data) => educationMenu(
+    (data) => ProfileMenu(data: data.profile),
+    (data) => SkillsMenu(data: data.skills),
+    (data) => EducationMenu(
           educationData: data.education,
           coursesData: data.course,
         ),
-    (data) => workExperiencesMenu(
+    (data) => WorkExperiencesMenu(
         internshipData: data.experience, projectData: data.project),
     (data) => AchievementsMenu(
           achievementData: data.achievement,
