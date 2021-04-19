@@ -1,14 +1,14 @@
-import 'dart:convert';
-
 import 'package:fusion/constants.dart';
+import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
 import 'package:http/http.dart' as http;
 
 class DashboardService {
-  getDashboard(String token) async {
-    print(token);
-    Map<String, String> headers = {'Authorization': 'Token ' + token};
-    print("start");
+  getDashboard() async {
+    var service = locator<StorageService>();
+    Map<String, String> headers = {
+      'Authorization': 'Token ' + service.userInDB.token!
+    };
     var client = http.Client();
     http.Response response = await client.get(
       Uri.http(

@@ -56,8 +56,7 @@ class StorageService with ChangeNotifier {
   }
 
   void saveStringToDisk(String key, String content) {
-    print(
-        '(TRACE) StorageService:_saveStringToDisk. key: $key value: $content');
+    print('(TRACE) StorageService:_saveStringToDisk. key: $key');
     _sharedPreferences!.setString(key, content);
   }
 
@@ -68,8 +67,7 @@ class StorageService with ChangeNotifier {
   }
 
   void saveToDisk<T>(String key, T content) {
-    print(
-        '(TRACE) StorageService:_saveStringToDisk. key: $key value: $content');
+    print('(TRACE) StorageService:_saveStringToDisk. key: $key');
     if (content is String) {
       _sharedPreferences!.setString(key, content);
     }

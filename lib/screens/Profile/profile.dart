@@ -38,17 +38,18 @@ class _ProfileState extends State<Profile> {
     var service = locator<StorageService>();
     try {
       data = service.profileData;
+      _loading1 = false;
     } catch (e) {
       getData();
     }
+    //TODO: Remove this?
+    getData();
   }
 
   getData() async {
-    var prefs = locator<StorageService>();
     Response response = await profileService.getProfile();
     setState(() {
       data = ProfileData.fromJson(jsonDecode(response.body));
-
       _loading1 = false;
     });
   }

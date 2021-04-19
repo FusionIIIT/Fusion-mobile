@@ -10,8 +10,6 @@ import 'package:fusion/Components/side_drawer.dart';
 import 'package:fusion/models/dashboard.dart';
 import 'package:fusion/screens/LoginandDashboard/DashboardComponents/cardItems.dart';
 import 'package:fusion/services/dashboard_service.dart';
-import 'package:fusion/services/service_locator.dart';
-import 'package:fusion/services/storage_service.dart';
 import 'package:http/http.dart';
 
 class Dashboard extends StatefulWidget {
@@ -46,15 +44,11 @@ class _DashboardState extends State<Dashboard> {
   }
 
   getData() async {
-    var service = locator<StorageService>();
-    var token = service.userInDB.token;
-
-    Response response = await dashboardService.getDashboard(token!);
+    Response response = await dashboardService.getDashboard();
     Response response2 = await profileService.getProfile();
     setState(() {
       data = DashboardData.fromJson(jsonDecode(response.body));
       data2 = ProfileData.fromJson(jsonDecode(response2.body));
-      print(data.notifications);
       _loading = false;
     });
     name = data2.user!['first_name'] + ' ' + data2.user!['last_name'];
