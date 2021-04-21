@@ -76,7 +76,7 @@ class MyApp extends StatelessWidget {
         '/complaint': (context) =>
             Complaint(ModalRoute.of(context)!.settings.arguments.toString()),
         '/profile': (context) => Profile(),
-        '/health_center': (context) => HealthCenterMod(),
+        '/health_center': (context) => HealthCenterMod(ModalRoute.of(context)!.settings.arguments.toString()),
         '/health_center/healthcenter': (context) => HealthCenter(),
         '/health_center/feedback': (context) => FeedBack(),
         '/health_center/viewschedule': (context) => ViewSchedule(),
