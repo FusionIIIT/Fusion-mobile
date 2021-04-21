@@ -1,8 +1,60 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/models/health.dart';
+import 'package:fusion/services/health_service.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
+import 'package:http/http.dart';
 
-class HealthCenterMod extends StatelessWidget {
+// ignore: must_be_immutable
+class HealthCenterMod extends StatefulWidget {
+  String? token;
+  HealthCenterMod(this.token);
+  @override
+  _HealthCenterModState createState() => _HealthCenterModState();
+}
+
+class _HealthCenterModState extends State<HealthCenterMod> {
+  bool _loading1 = true;
+  late StreamController _healthController;
+  late HeathService healthService;
+  late HealthData data;
+  String? name;
+  String? depttype;
+  @override
+  void initState() {
+    super.initState();
+    var service = locator<StorageService>();
+    name = service.profileData.user!["first_name"] +
+        " " +
+        service.profileData.user!["last_name"];
+    depttype = service.profileData.profile!['department']!['name'] +
+        " " +
+        service.profileData.profile!['user_type'];
+    _healthController = StreamController();
+    healthService = HeathService();
+    getData();
+  }
+
+  getData() async {
+    //print('token-'+widget.token!);
+    Response response = await healthService.getHealth(widget.token!);
+    setState(() {
+      print(response);
+      data = HealthData.fromJson(jsonDecode(response.body));
+      _loading1 = false;
+    });
+  }
+
+  loadData() async {
+    getData().then((res) {
+      _healthController.add(res);
+    });
+  }
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
         border: new Border.all(
@@ -37,7 +89,9 @@ class HealthCenterMod extends StatelessWidget {
     return Scaffold(
       appBar: DefaultAppBar().buildAppBar(),
       drawer: SideDrawer(),
-      body: ListView(
+      body: _loading1 == true
+      ? Center(child: CircularProgressIndicator(),)
+      : ListView(
         scrollDirection: Axis.vertical,
         children: [
           Card(
@@ -61,14 +115,14 @@ class HealthCenterMod extends StatelessWidget {
                   height: 10.0,
                 ),
                 Text(
-                  'Hakim Singh',
+                  name!,
                   style: TextStyle(fontSize: 20.0, color: Colors.black),
                 ),
                 SizedBox(
                   height: 10.0,
                 ),
                 Text(
-                  "Student",
+                  depttype!,
                   style: TextStyle(fontSize: 15.0, color: Colors.black),
                 ),
                 SizedBox(
@@ -84,12 +138,12 @@ class HealthCenterMod extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Center(
                     child: Text(
-                  "Health Center",
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.white,
-                  ),
-                )),
+                      "Health Center",
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        color: Colors.white,
+                      ),
+                    )),
               ),
               decoration: new BoxDecoration(
                 color: Colors.deepOrangeAccent,
@@ -114,25 +168,25 @@ class HealthCenterMod extends StatelessWidget {
                 InkWell(
                   child: myContainer("Appointments/requests"),
                   onTap: () {
-                    Navigator.pushNamed(context, '/health_center/healthcenter');
+                    Navigator.pushNamed(context, '/health_center/healthcenter', arguments: data);
                   },
                 ),
                 InkWell(
                   child: myContainer("History"),
                   onTap: () {
-                    Navigator.pushNamed(context, '/health_center/history');
+                    Navigator.pushNamed(context, '/health_center/history', arguments: data);
                   },
                 ),
                 InkWell(
                   child: myContainer("Feedback"),
                   onTap: () {
-                    Navigator.pushNamed(context, '/health_center/feedback');
+                    Navigator.pushNamed(context, '/health_center/feedback', arguments: data);
                   },
                 ),
                 InkWell(
                   child: myContainer("Doctor Schedule"),
                   onTap: () {
-                    Navigator.pushNamed(context, '/health_center/viewschedule');
+                    Navigator.pushNamed(context, '/health_center/viewschedule', arguments: data);
                   },
                 ),
               ],
