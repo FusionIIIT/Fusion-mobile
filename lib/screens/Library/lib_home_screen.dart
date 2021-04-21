@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/models/profile.dart';
 import 'dart:ui';
+
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
 
 class LibraryHomeScreen extends StatefulWidget {
   @override
@@ -9,9 +13,14 @@ class LibraryHomeScreen extends StatefulWidget {
 }
 
 class _LibraryHomeScreenState extends State<LibraryHomeScreen> {
-  bool _loading1 = true;
-  bool _loading2 = false;
-  bool _loading3 = false;
+  ProfileData? data;
+
+  @override
+  void initState() {
+    super.initState();
+    var service = locator<StorageService>();
+    data = service.profileData;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,12 +43,12 @@ class _LibraryHomeScreenState extends State<LibraryHomeScreen> {
                 ),
                 SizedBox(height: 10),
                 Text(
-                  'Samarth Soni',
+                  data!.user!['first_name'] + ' ' + data!.user!['last_name'],
                   style: TextStyle(color: Colors.black, fontSize: 20),
                 ),
                 SizedBox(height: 10),
                 Text(
-                  'STUDENT | CSE',
+                  data!.profile!['user_type'],
                   style: TextStyle(color: Colors.black, fontSize: 15),
                 ),
                 SizedBox(height: 10),
@@ -52,20 +61,23 @@ class _LibraryHomeScreenState extends State<LibraryHomeScreen> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                          'DUES',
-                          style: TextStyle(color: Colors.black, fontSize: 20),
-                        ),
-                        SizedBox(height: 10),
-                        Text(
-                          '24.00 Rs',
-                          style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w800),
-                        ),
-                      ],
-                    ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        'DUES',
+                        style: TextStyle(color: Colors.black, fontSize: 20),
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        '24.00 Rs',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w800),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               decoration: new BoxDecoration(
@@ -82,8 +94,7 @@ class _LibraryHomeScreenState extends State<LibraryHomeScreen> {
                     blurRadius: 2.0,
                   )
                 ],
-                borderRadius:
-                new BorderRadius.all(new Radius.circular(5.0)),
+                borderRadius: new BorderRadius.all(new Radius.circular(5.0)),
               ),
             ),
           ),
@@ -96,7 +107,8 @@ class _LibraryHomeScreenState extends State<LibraryHomeScreen> {
               children: [
                 TextButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/library_homepage/book_search');
+                    Navigator.pushNamed(
+                        context, '/library_homepage/book_search');
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -119,7 +131,8 @@ class _LibraryHomeScreenState extends State<LibraryHomeScreen> {
                 TextButton(
                   onPressed: () {
                     setState(() {
-                      Navigator.pushNamed(context, '/library_homepage/issued_items');
+                      Navigator.pushNamed(
+                          context, '/library_homepage/issued_items');
                     });
                   },
                   child: Row(

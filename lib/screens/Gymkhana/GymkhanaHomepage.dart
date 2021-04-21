@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/models/profile.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
 
 class GymkhanaHomepage extends StatefulWidget {
   @override
@@ -8,6 +11,7 @@ class GymkhanaHomepage extends StatefulWidget {
 }
 
 class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
+  ProfileData? data;
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
         border: new Border.all(
@@ -39,6 +43,13 @@ class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    var service = locator<StorageService>();
+    data = service.profileData;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: DefaultAppBar().buildAppBar(),
@@ -67,14 +78,14 @@ class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
                   height: 10.0,
                 ),
                 Text(
-                  'Yogendra Singh',
+                  data!.user!['first_name'] + ' ' + data!.user!['last_name'],
                   style: TextStyle(fontSize: 20.0, color: Colors.black),
                 ),
                 SizedBox(
                   height: 10.0,
                 ),
                 Text(
-                  "Student",
+                  data!.profile!['user_type'],
                   style: TextStyle(fontSize: 15.0, color: Colors.black),
                 ),
                 SizedBox(
