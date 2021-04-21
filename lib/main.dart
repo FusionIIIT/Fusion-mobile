@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:date_field/date_field.dart';
 import 'package:fusion/screens/Establishment/establishment_home_page.dart';
 import 'package:fusion/screens/Library/Book_Search.dart';
 import 'package:fusion/screens/Library/issued_items.dart';
@@ -37,14 +36,17 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Fusion',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blueGrey, fontFamily: 'Nunito'),
+
+
+
       initialRoute: '/landing',
+
       routes: {
         '/landing': (context) => LandingPage(),
         '/login_page': (context) => LoginPage(),
@@ -73,8 +75,7 @@ class MyApp extends StatelessWidget {
         '/library_homepage/dues': (context) => Dues(),
         '/complaint': (context) =>
             Complaint(ModalRoute.of(context)!.settings.arguments.toString()),
-        '/profile': (context) =>
-            Profile(ModalRoute.of(context)!.settings.arguments.toString()),
+        '/profile': (context) => Profile(),
         '/health_center': (context) => HealthCenterMod(),
         '/health_center/healthcenter': (context) => HealthCenter(),
         '/health_center/feedback': (context) => FeedBack(),

@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
 //TODO: Make Dynamic
-class Record extends StatelessWidget {
+class Record extends StatefulWidget {
+  @override
+  _RecordState createState() => _RecordState();
+}
+
+class _RecordState extends State<Record> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -10,7 +15,12 @@ class Record extends StatelessWidget {
   }
 }
 
-class Records extends StatelessWidget {
+class Records extends StatefulWidget {
+  @override
+  _RecordsState createState() => _RecordsState();
+}
+
+class _RecordsState extends State<Records> {
   Widget bodyData() => DataTable(
       columnSpacing: 35,
       columns: <DataColumn>[

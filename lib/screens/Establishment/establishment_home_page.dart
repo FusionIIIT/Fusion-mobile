@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:flutter/painting.dart';
 import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/models/profile.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
 import 'cpda_management.dart';
 import 'ltc_management.dart';
 import 'package:fusion/Components/appBar.dart';
-
 
 class Establishment extends StatefulWidget {
   @override
@@ -15,6 +17,14 @@ class Establishment extends StatefulWidget {
 class _EstablishmentState extends State<Establishment> {
   bool _first = true;
   bool _second = false;
+  ProfileData? data;
+
+  @override
+  void initState() {
+    super.initState();
+    var service = locator<StorageService>();
+    data = service.profileData;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,14 +56,14 @@ class _EstablishmentState extends State<Establishment> {
                   height: 10.0,
                 ),
                 Text(
-                  'Shubham Raj',
+                  data!.user!['first_name'] + ' ' + data!.user!['last_name'],
                   style: TextStyle(fontSize: 20.0, color: Colors.black),
                 ),
                 SizedBox(
                   height: 10.0,
                 ),
                 Text(
-                  "Student",
+                  data!.profile!['user_type'],
                   style: TextStyle(fontSize: 15.0, color: Colors.black),
                 ),
                 SizedBox(
@@ -69,12 +79,11 @@ class _EstablishmentState extends State<Establishment> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-               TextButton(
+                TextButton(
                   onPressed: () {
                     setState(() {
                       _first = true;
                       _second = false;
-
                     });
                   },
                   child: Row(
@@ -92,7 +101,6 @@ class _EstablishmentState extends State<Establishment> {
                         Icons.arrow_forward,
                         color: _first ? Colors.deepOrangeAccent : Colors.white,
                       )
-
                     ],
                   ),
                 ),
@@ -127,21 +135,17 @@ class _EstablishmentState extends State<Establishment> {
             ),
           ),
           _first
-               ? CpdaManagement()
-              :SizedBox(
-            height: 2,
-          ),
+              ? CpdaManagement()
+              : SizedBox(
+                  height: 2,
+                ),
           _second
-               ?LtcManagement()
-              :SizedBox(
-            height: 2,
-          )
-      ],
+              ? LtcManagement()
+              : SizedBox(
+                  height: 2,
+                )
+        ],
       ),
     );
   }
 }
-
-
-
-

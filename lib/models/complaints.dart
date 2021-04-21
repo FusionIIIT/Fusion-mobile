@@ -35,3 +35,5 @@ class ComplaintDataUserStudent {
     );
   }
 }
+
+class LodgeComplaintData {}

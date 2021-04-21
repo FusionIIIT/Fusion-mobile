@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fusion/models/complaints.dart';
 import 'package:fusion/services/complaint_service.dart';
 import 'package:intl/intl.dart';
 
@@ -12,40 +13,40 @@ const kTextFieldInputDecoration = InputDecoration(
   ),
 );
 
-class LodgeComplaint extends StatefulWidget {
+class UpdateComplaint extends StatefulWidget {
+  final int? id;
+  final String? remarks;
+  UpdateComplaint(this.id, this.remarks);
+
   @override
-  _LodgeComplaintState createState() => _LodgeComplaintState();
+  _UpdateComplaintState createState() => _UpdateComplaintState();
 }
 
-class _LodgeComplaintState extends State<LodgeComplaint> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+class _UpdateComplaintState extends State<UpdateComplaint> {
   @override
   Widget build(BuildContext context) {
     DateTime? complaint_finish = DateTime.now();
     DateFormat formatter = DateFormat('yyyy-MM-dd');
-    String formattedDate = formatter.format(complaint_finish);
-    print(formattedDate);
+    String? finishedDate = formatter.format(complaint_finish);
+    String complaint_date = DateTime.now().toString();
+    print(finishedDate);
     String? complaint_type;
     String? location;
     String? specific_location;
     String? details;
     String? status = "0";
-    String? remarks = "Pending";
+
     String? flag = "0";
     String? reason = "None";
     String? feedback = "";
     String? comment = "None";
     String? complainer = "2018186";
-    String? worker_id = "";
 
-    return Card(
-      elevation: 2.0,
-      margin: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-      shadowColor: Colors.black,
-      child: Container(
+    return Scaffold(
+      appBar: AppBar(title: Text('Update Complaint')),
+      body: Container(
         padding: EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
           children: [
             Text(
               'Complaints',
@@ -181,31 +182,35 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
               child: ElevatedButton(
                 onPressed: () async {
                   ComplaintService auth = ComplaintService();
-                  bool lodge = await auth.lodgeComplaint(
-                      formattedDate,
-                      complaint_type!,
-                      location!,
-                      specific_location!,
-                      details!,
-                      status,
-                      remarks,
-                      flag,
-                      reason,
-                      feedback,
-                      comment,
-                      complainer,
-                      worker_id);
+                  bool lodge = await auth.updateComplaint(
+                    widget.id!,
+                    complaint_date,
+                    finishedDate,
+                    complaint_type!,
+                    location!,
+                    specific_location!,
+                    details!,
+                    status,
+                    widget.remarks!,
+                    flag,
+                    reason,
+                    feedback,
+                    comment,
+                    complainer,
+                  );
                   TextInput.finishAutofillContext();
                   if (lodge == true) {
                     return showDialog(
                       context: context,
                       builder: (ctx) => AlertDialog(
                         title: Text("Success"),
-                        content: Text("Complaint Added Successfully"),
+                        content: Text("Complaint Updated Successfully"),
                         actions: <Widget>[
                           ElevatedButton(
                             onPressed: () {
-                              Navigator.of(ctx).pop();
+                              int count = 0;
+                              Navigator.of(context)
+                                  .popUntil((_) => count++ >= 3);
                             },
                             child: Text("okay"),
                           ),
@@ -217,7 +222,7 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
                       context: context,
                       builder: (ctx) => AlertDialog(
                         title: Text("Failed"),
-                        content: Text("Cannot add above Complaint"),
+                        content: Text("Cannot Update Complaint"),
                         actions: <Widget>[
                           ElevatedButton(
                             onPressed: () {

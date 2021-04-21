@@ -3,30 +3,20 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:fusion/models/complaints.dart';
-import 'package:fusion/screens/Complaint/ComplaintHistory/get_complaint_by_id.dart';
 import 'package:fusion/screens/Complaint/ComplaintHistory/pending_complaints.dart';
 import 'package:fusion/screens/Complaint/ComplaintHistory/resolved_complaints.dart';
 import 'package:fusion/services/complaint_service.dart';
 import 'package:http/http.dart';
-import '../Constants/constants.dart';
 import 'declined_complaints.dart';
 import 'on-hold_complaints.dart';
 
 class ComplainHistory extends StatefulWidget {
-  String? token;
-  ComplainHistory(this.token);
-
   @override
   _ComplainHistoryState createState() => _ComplainHistoryState();
 }
 
 class _ComplainHistoryState extends State<ComplainHistory> {
   bool _loading1 = true;
-  bool _loading2 = false;
-  bool _loading3 = false;
-  bool _loading4 = false;
-
-  bool _loading = true;
 
   int _currentPage = 0;
   PageController _pageController = PageController(initialPage: 0);
@@ -70,12 +60,12 @@ class _ComplainHistoryState extends State<ComplainHistory> {
 
   getData() async {
     //print('token-'+widget.token!);
-    Response response = await complaintService.getComplaint(widget.token!);
+    Response response = await complaintService.getComplaint();
     setState(() {
       data = ComplaintDataUserStudent.fromJson(jsonDecode(response.body));
       print(data.student_complain);
       //print(data);
-      _loading = false;
+      _loading1 = false;
     });
   }
 
@@ -90,7 +80,10 @@ class _ComplainHistoryState extends State<ComplainHistory> {
     return Column(
       children: [
         _loading1 == true
-            ? SizedBox(
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : SizedBox(
                 height: 200,
                 child: PageView(
                   scrollDirection: Axis.horizontal,
@@ -101,28 +94,7 @@ class _ComplainHistoryState extends State<ComplainHistory> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => GetComplaintByID()),
-                        );
-                      },
-                      child: Card(
-                        elevation: 6,
-                        margin:
-                            EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                        shadowColor: Colors.black,
-                        child: Center(
-                          child: Text(
-                            'Get Complaint By ID',
-                            style: TextStyle(color: Colors.black, fontSize: 20),
-                          ),
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PendingComplaints(data)),
+                              builder: (context) => PendingComplaints()),
                         );
                       },
                       child: Card(
@@ -143,7 +115,7 @@ class _ComplainHistoryState extends State<ComplainHistory> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => OnHoldComplaints(data)),
+                              builder: (context) => OnHoldComplaints()),
                         );
                       },
                       child: Card(
@@ -164,7 +136,7 @@ class _ComplainHistoryState extends State<ComplainHistory> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ResolvedComplaints(data)),
+                              builder: (context) => ResolvedComplaints()),
                         );
                       },
                       child: Card(
@@ -185,7 +157,7 @@ class _ComplainHistoryState extends State<ComplainHistory> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => DeclinedComplaints(data)),
+                              builder: (context) => DeclinedComplaints()),
                         );
                       },
                       child: Card(
@@ -203,8 +175,7 @@ class _ComplainHistoryState extends State<ComplainHistory> {
                     ),
                   ],
                 ),
-              )
-            : SizedBox(width: 20),
+              ),
       ],
     );
   }
