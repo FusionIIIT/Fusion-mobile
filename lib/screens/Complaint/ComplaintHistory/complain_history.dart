@@ -86,7 +86,8 @@ class _ComplainHistoryState extends State<ComplainHistory> {
             : SizedBox(
                 height: 200,
                 child: PageView(
-                  scrollDirection: Axis.horizontal,
+                  // scrollDirection: Axis.horizontal,
+
                   controller: _pageController,
                   children: <Widget>[
                     GestureDetector(

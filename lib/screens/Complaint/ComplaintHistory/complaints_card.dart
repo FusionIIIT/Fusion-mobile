@@ -23,8 +23,10 @@ class _ComplaintCardState extends State<ComplaintCard> {
     int flag = 0;
     return GestureDetector(
       onTap: () {
-        print("Hello");
-        print(widget.data!.student_complain![widget.index!]['id']);
+        //print("Hello");
+        //print(widget.data!.student_complain![widget.index!]['complaint_type']);
+
+        //print(complaintType);
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -72,14 +74,28 @@ class _ComplaintCardState extends State<ComplaintCard> {
                 children: [
                   ElevatedButton(
                       onPressed: () {
+                        String complaintType = widget.data!
+                            .student_complain![widget.index!]['complaint_type'];
+                        print(complaintType);
+                        String location = widget
+                            .data!.student_complain![widget.index!]['location'];
+                        print(location);
+                        String complainerRollNo = widget.data!
+                            .student_complain![widget.index!]['complainer'];
+                        print(complainerRollNo);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => UpdateComplaint(
-                                  widget.data!.student_complain![widget.index!]
-                                      ['id'],
-                                  widget.data!.student_complain![widget.index!]
-                                      ['remarks'])),
+                                    widget.data!
+                                        .student_complain![widget.index!]['id'],
+                                    widget.data!
+                                            .student_complain![widget.index!]
+                                        ['remarks'],
+                                    complaintType,
+                                    location,
+                                    complainerRollNo,
+                                  )),
                         );
                       },
                       child: Row(
