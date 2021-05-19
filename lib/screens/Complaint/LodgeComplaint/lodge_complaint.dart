@@ -28,7 +28,7 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
   List complaintTypeItem = [
     'Electricity',
     'carpenter',
-    'Plumber',
+    'plumber',
     'garbage',
     'dustbin',
     'Internet',
