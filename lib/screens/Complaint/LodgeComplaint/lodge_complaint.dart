@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fusion/services/complaint_service.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
 import 'package:intl/intl.dart';
 
 const kTextFieldInputDecoration = InputDecoration(
@@ -13,29 +15,57 @@ const kTextFieldInputDecoration = InputDecoration(
 );
 
 class LodgeComplaint extends StatefulWidget {
+  final String? complainerRollNo;
+  LodgeComplaint(this.complainerRollNo);
+
   @override
   _LodgeComplaintState createState() => _LodgeComplaintState();
 }
 
 class _LodgeComplaintState extends State<LodgeComplaint> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  String? complaint_type;
+  List complaintTypeItem = [
+    'Electricity',
+    'carpenter',
+    'plumber',
+    'garbage',
+    'dustbin',
+    'Internet',
+    'Other',
+  ];
+
+  String? location;
+  List locationTypeItem = [
+    'hall-1',
+    'hall-3',
+    'hall-4',
+    'CC1',
+    'CC2',
+    'Core Lab',
+    'LHTC',
+    'NR2',
+    'Rewa Residency',
+  ];
+
+  var service = locator<StorageService>();
+
   @override
   Widget build(BuildContext context) {
     DateTime? complaint_finish = DateTime.now();
     DateFormat formatter = DateFormat('yyyy-MM-dd');
     String formattedDate = formatter.format(complaint_finish);
     print(formattedDate);
-    String? complaint_type;
-    String? location;
+
     String? specific_location;
     String? details;
     String? status = "0";
-    String? remarks = "Pending";
+    String? remarks = "On-Hold";
     String? flag = "0";
     String? reason = "None";
     String? feedback = "";
     String? comment = "None";
-    String? complainer = "2018186";
+    String? complainer = widget.complainerRollNo;
     String? worker_id = "";
 
     return Card(
@@ -74,24 +104,41 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
                 fontSize: 15,
               ),
             ),
-            SizedBox(
-              height: 20,
-            ),
-            TextFormField(
-              autofocus: false,
-              style: TextStyle(
-                color: Colors.black,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 16),
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.grey,
+                  ),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: DropdownButton(
+                  hint: Text('Select Item'),
+                  dropdownColor: Colors.grey[200],
+                  icon: Icon(Icons.arrow_drop_down),
+                  isExpanded: true,
+                  underline: SizedBox(),
+                  style: TextStyle(color: Colors.black, fontSize: 16),
+                  onChanged: (newValue) {
+                    print(service.userInDB.token!);
+                    print(complainer);
+                    setState(() {
+                      complaint_type = newValue.toString();
+                    });
+                    print(complaint_type);
+                    //print(valueItem);
+                  },
+                  value: complaint_type,
+                  items: complaintTypeItem.map((valueItem) {
+                    return DropdownMenuItem(
+                      value: valueItem,
+                      child: Text(valueItem),
+                    );
+                  }).toList(),
+                ),
               ),
-              decoration: kTextFieldInputDecoration,
-              onChanged: (input) {
-                complaint_type = input;
-                //print(complaint_type);
-              },
-              validator: (String? value) {
-                if (value!.isEmpty) {
-                  return 'Please enter complaint_type';
-                }
-              },
             ),
             SizedBox(
               height: 30,
@@ -103,20 +150,39 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
                 fontSize: 15,
               ),
             ),
-            TextFormField(
-              autofocus: false,
-              style: TextStyle(
-                color: Colors.black,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 16),
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.grey,
+                  ),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: DropdownButton(
+                  hint: Text('Select Item'),
+                  dropdownColor: Colors.grey[200],
+                  icon: Icon(Icons.arrow_drop_down),
+                  isExpanded: true,
+                  underline: SizedBox(),
+                  style: TextStyle(color: Colors.black, fontSize: 16),
+                  onChanged: (newValue) {
+                    setState(() {
+                      location = newValue.toString();
+                    });
+
+                    //print(valueItem);
+                  },
+                  value: location,
+                  items: locationTypeItem.map((valueItem) {
+                    return DropdownMenuItem(
+                      value: valueItem,
+                      child: Text(valueItem),
+                    );
+                  }).toList(),
+                ),
               ),
-              decoration: kTextFieldInputDecoration,
-              onChanged: (input) {
-                location = input;
-              },
-              validator: (String? value) {
-                if (value!.isEmpty) {
-                  return 'Please enter location';
-                }
-              },
             ),
             SizedBox(
               height: 20,
@@ -185,7 +251,7 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
                       formattedDate,
                       complaint_type!,
                       location!,
-                      specific_location!,
+                      specific_location,
                       details!,
                       status,
                       remarks,

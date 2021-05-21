@@ -43,7 +43,7 @@ class _ComplaintState extends State<Complaint> {
     Response response = await profileService.getProfile();
     setState(() {
       data = ProfileData.fromJson(jsonDecode(response.body));
-      print(data.current);
+      print(data.user!['username']);
       _loading = false;
     });
   }
@@ -204,7 +204,7 @@ class _ComplaintState extends State<Complaint> {
                     ),
                   ),
                   _loading1
-                      ? LodgeComplaint()
+                      ? LodgeComplaint(data.user!['username'])
                       : SizedBox(
                           height: 2,
                         ),

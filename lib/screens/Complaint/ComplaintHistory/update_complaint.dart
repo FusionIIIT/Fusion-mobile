@@ -8,15 +8,18 @@ const kTextFieldInputDecoration = InputDecoration(
   filled: true,
   fillColor: Colors.white,
   contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-  border: OutlineInputBorder(
-    borderRadius: BorderRadius.all(Radius.circular(32)),
-  ),
+  border:
+      OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
 );
 
 class UpdateComplaint extends StatefulWidget {
   final int? id;
   final String? remarks;
-  UpdateComplaint(this.id, this.remarks);
+  final String? complaintType;
+  final String? location;
+  final String? complainerRollNo;
+  UpdateComplaint(this.id, this.remarks, this.complaintType, this.location,
+      this.complainerRollNo);
 
   @override
   _UpdateComplaintState createState() => _UpdateComplaintState();
@@ -30,8 +33,8 @@ class _UpdateComplaintState extends State<UpdateComplaint> {
     String? finishedDate = formatter.format(complaint_finish);
     String complaint_date = DateTime.now().toString();
     print(finishedDate);
-    String? complaint_type;
-    String? location;
+    String? complaint_type = widget.complaintType;
+    String? location = widget.location;
     String? specific_location;
     String? details;
     String? status = "0";
@@ -40,7 +43,7 @@ class _UpdateComplaintState extends State<UpdateComplaint> {
     String? reason = "None";
     String? feedback = "";
     String? comment = "None";
-    String? complainer = "2018186";
+    String? complainer = widget.complainerRollNo;
 
     return Scaffold(
       appBar: AppBar(title: Text('Update Complaint')),
@@ -48,23 +51,6 @@ class _UpdateComplaintState extends State<UpdateComplaint> {
         padding: EdgeInsets.all(16),
         child: ListView(
           children: [
-            Text(
-              'Complaints',
-              style: TextStyle(
-                fontWeight: FontWeight.w900,
-                fontSize: 18,
-              ),
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            Text(
-              'Add a new Complaint',
-              style: TextStyle(
-                fontWeight: FontWeight.w800,
-                fontSize: 15,
-              ),
-            ),
             SizedBox(
               height: 30,
             ),
@@ -78,21 +64,21 @@ class _UpdateComplaintState extends State<UpdateComplaint> {
             SizedBox(
               height: 20,
             ),
-            TextFormField(
-              autofocus: false,
-              style: TextStyle(
-                color: Colors.black,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 16),
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.grey,
+                  ),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Text(
+                  widget.complaintType!,
+                  style: TextStyle(fontSize: 18),
+                ),
               ),
-              decoration: kTextFieldInputDecoration,
-              onChanged: (input) {
-                complaint_type = input;
-                //print(complaint_type);
-              },
-              validator: (String? value) {
-                if (value!.isEmpty) {
-                  return 'Please enter complaint_type';
-                }
-              },
             ),
             SizedBox(
               height: 30,
@@ -104,20 +90,21 @@ class _UpdateComplaintState extends State<UpdateComplaint> {
                 fontSize: 15,
               ),
             ),
-            TextFormField(
-              autofocus: false,
-              style: TextStyle(
-                color: Colors.black,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 16),
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.grey,
+                  ),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Text(
+                  widget.location!,
+                  style: TextStyle(fontSize: 18),
+                ),
               ),
-              decoration: kTextFieldInputDecoration,
-              onChanged: (input) {
-                location = input;
-              },
-              validator: (String? value) {
-                if (value!.isEmpty) {
-                  return 'Please enter location';
-                }
-              },
             ),
             SizedBox(
               height: 20,
