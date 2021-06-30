@@ -20,7 +20,10 @@ class LoginService {
         headers: headers,
         body: jsonEncode(data));
     var prefs = await StorageService.getInstance();
-
+    if (response.body == ["Invalid credentials."]) {
+      // TODO: handle this case
+      return false;
+    }
     prefs!.saveUserInDB(User((jsonDecode(response.body))["token"]));
     return true;
   }
