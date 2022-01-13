@@ -43,7 +43,8 @@ class _ComplaintState extends State<Complaint> {
     Response response = await profileService.getProfile();
     setState(() {
       data = ProfileData.fromJson(jsonDecode(response.body));
-      print(data.user!['username']);
+      print(
+          data.user?['username']); //will not throw error if user does not exist
       _loading = false;
     });
   }
@@ -86,16 +87,20 @@ class _ComplaintState extends State<Complaint> {
                         ),
                         SizedBox(height: 10),
                         Text(
-                          data.user!['first_name'] +
-                              ' ' +
-                              data.user!['last_name'],
+                          data.user != null
+                              ? (data.user!['first_name'] +
+                                  ' ' +
+                                  data.user!['last_name'])
+                              : "User does not exist on data",
                           style: TextStyle(color: Colors.black, fontSize: 20),
                         ),
                         SizedBox(height: 10),
                         Text(
-                          data.profile!['department']!['name'] +
-                              '  ' +
-                              data.profile!['user_type'],
+                          data.profile != null
+                              ? (data.profile!['department']!['name'] +
+                                  '  ' +
+                                  data.profile!['user_type'])
+                              : "No Profile",
                           style: TextStyle(color: Colors.black, fontSize: 15),
                         ),
                         SizedBox(height: 10),
@@ -204,7 +209,8 @@ class _ComplaintState extends State<Complaint> {
                     ),
                   ),
                   _loading1
-                      ? LodgeComplaint(data.user!['username'])
+                      ? LodgeComplaint(
+                          data.user != null ? data.user!['username'] : "null")
                       : SizedBox(
                           height: 2,
                         ),
