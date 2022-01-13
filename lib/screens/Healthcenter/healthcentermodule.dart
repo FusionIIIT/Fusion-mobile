@@ -20,9 +20,9 @@ class HealthCenterMod extends StatefulWidget {
 
 class _HealthCenterModState extends State<HealthCenterMod> {
   bool _loading1 = true;
-  late StreamController _healthController;
-  late HeathService healthService;
-  late HealthData data;
+  StreamController? _healthController;
+  HeathService? healthService;
+  HealthData? data;
   String? name;
   String? depttype;
   @override
@@ -42,7 +42,7 @@ class _HealthCenterModState extends State<HealthCenterMod> {
 
   getData() async {
     //print('token-'+widget.token!);
-    Response response = await healthService.getHealth(widget.token!);
+    Response response = await healthService!.getHealth(widget.token!);
     setState(() {
       print(response);
       data = HealthData.fromJson(jsonDecode(response.body));
@@ -52,7 +52,7 @@ class _HealthCenterModState extends State<HealthCenterMod> {
 
   loadData() async {
     getData().then((res) {
-      _healthController.add(res);
+      _healthController!.add(res);
     });
   }
   BoxDecoration myBoxDecoration() {
