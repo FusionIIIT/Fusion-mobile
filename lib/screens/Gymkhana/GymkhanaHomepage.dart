@@ -12,6 +12,7 @@ class GymkhanaHomepage extends StatefulWidget {
 
 class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
   ProfileData? data;
+
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
         border: new Border.all(
@@ -47,6 +48,10 @@ class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
     super.initState();
     var service = locator<StorageService>();
     data = service.profileData;
+    //TODO: Check if data is not null, data is accessed with ! operator in build()
+    if (data == null) {
+      //profileData cannot be not retrieved from DB, show load error page
+    }
   }
 
   @override
