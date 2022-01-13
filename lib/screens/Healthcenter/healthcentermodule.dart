@@ -28,7 +28,7 @@ class _HealthCenterModState extends State<HealthCenterMod> {
   @override
   void initState() {
     super.initState();
-    var? service = locator<StorageService>();
+    var service = locator<StorageService>();
     name = service.profileData.user!["first_name"] +
         " " +
         service.profileData.user!["last_name"];
@@ -45,7 +45,7 @@ class _HealthCenterModState extends State<HealthCenterMod> {
     Response? response = await healthService!.getHealth(widget.token!);
     setState(() {
       print(response);
-      data = HealthData.fromJson(jsonDecode(response.body));
+      data = HealthData.fromJson(jsonDecode(response!.body));
       _loading1 = false;
     });
   }
