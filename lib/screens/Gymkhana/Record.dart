@@ -46,10 +46,10 @@ class _RecordsState extends State<Records> {
         ),
       ],
       rows: Srecords.map((srecord) => DataRow(cells: [
-            DataCell(Text(srecord.Name!)),
-            DataCell(Text(srecord.Rollno!)),
-            DataCell(Text(srecord.Club!)),
-            DataCell(Text(srecord.Category!)),
+            DataCell(Text(srecord.Name)),
+            DataCell(Text(srecord.Rollno)),
+            DataCell(Text(srecord.Club)),
+            DataCell(Text(srecord.Category)),
           ])).toList());
 
   @override
@@ -71,11 +71,11 @@ class _RecordsState extends State<Records> {
                       padding: const EdgeInsets.all(8.0),
                       child: Center(
                           child: Text(
-                            "Member's Record",
-                            style: TextStyle(
-                              fontSize: 20.0,
-                            ),
-                          )),
+                        "Member's Record",
+                        style: TextStyle(
+                          fontSize: 20.0,
+                        ),
+                      )),
                     ),
                     decoration: new BoxDecoration(
                       color: Colors.deepOrangeAccent,
@@ -92,7 +92,7 @@ class _RecordsState extends State<Records> {
                         )
                       ],
                       borderRadius:
-                      new BorderRadius.all(new Radius.circular(5.0)),
+                          new BorderRadius.all(new Radius.circular(5.0)),
                     ),
                   ),
                 ),
@@ -107,12 +107,16 @@ class _RecordsState extends State<Records> {
 class Srecord {
   // Student record class
 
-  String? Name;
-  String? Rollno;
-  String? Club;
-  String? Category;
+  late String Name;
+  late String Rollno;
+  late String Club;
+  late String Category;
 
-  Srecord({this.Name, this.Rollno, this.Club, this.Category});
+  Srecord(
+      {this.Name: "default-name",
+      this.Rollno: "000000",
+      this.Club: "default-club",
+      this.Category: "default-category"});
 }
 
 var Srecords = <Srecord>[
