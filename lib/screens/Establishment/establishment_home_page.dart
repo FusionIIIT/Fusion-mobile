@@ -56,14 +56,20 @@ class _EstablishmentState extends State<Establishment> {
                   height: 10.0,
                 ),
                 Text(
-                  data!.user!['first_name'] + ' ' + data!.user!['last_name'],
+                  data != null
+                      ? data!.user!['first_name'] +
+                          ' ' +
+                          data!.user!['last_name']
+                      : "Cannot Fetch User",
                   style: TextStyle(fontSize: 20.0, color: Colors.black),
                 ),
                 SizedBox(
                   height: 10.0,
                 ),
                 Text(
-                  data!.profile!['user_type'],
+                  data != null
+                      ? data!.profile!['user_type']
+                      : "Cannot Fetch user_type",
                   style: TextStyle(fontSize: 15.0, color: Colors.black),
                 ),
                 SizedBox(
