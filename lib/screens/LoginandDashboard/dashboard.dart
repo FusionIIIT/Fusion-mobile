@@ -51,10 +51,14 @@ class _DashboardState extends State<Dashboard> {
       data2 = ProfileData.fromJson(jsonDecode(response2.body));
       _loading = false;
     });
-    name = data2.user!['first_name'] + ' ' + data2.user!['last_name'];
-    studentType = data2.profile!['department']!['name'] +
-        '  ' +
-        data2.profile!['user_type'];
+    name = data2.user != null
+        ? (data2.user!['first_name'] + ' ' + data2.user!['last_name'])
+        : "Cannot Fetch Name";
+    studentType = data2.profile != null
+        ? (data2.profile!['department']!['name'] +
+            '  ' +
+            data2.profile!['user_type'])
+        : "Failed to fetch student_type";
   }
 
   loadData() async {
