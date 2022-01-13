@@ -3,12 +3,12 @@
 import 'package:flutter/material.dart';
 import 'side_drawer.dart';
 
-class dues extends StatefulWidget {
+class LibraryDues extends StatefulWidget {
   @override
-  _duesState createState() => _duesState();
+  _LibraryDuesState createState() => _LibraryDuesState();
 }
 
-class _duesState extends State<dues> {
+class _LibraryDuesState extends State<LibraryDues> {
   final List<Map<String, String>> listOfColumns = [
     {
       "Acc No.": "56382",
@@ -85,7 +85,7 @@ class _duesState extends State<dues> {
             SizedBox(height: 30),
             Center(
                 child: Text(
-              'Dues On Returned Items',
+              'LibraryDues On Returned Items',
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
             )),
             SizedBox(height: 20),
@@ -135,7 +135,7 @@ class _duesState extends State<dues> {
             SizedBox(height: 50),
             Center(
                 child: Text(
-              'Dues On Non-Returned Items',
+              'LibraryDues On Non-Returned Items',
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
             )),
             SizedBox(height: 20),
