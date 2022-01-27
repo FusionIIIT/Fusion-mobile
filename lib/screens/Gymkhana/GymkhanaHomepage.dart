@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/models/gymkhana.dart';
 import 'package:fusion/models/profile.dart';
+import 'package:fusion/services/gymkhana_service.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart';
 
 class GymkhanaHomepage extends StatefulWidget {
   @override
@@ -11,7 +16,11 @@ class GymkhanaHomepage extends StatefulWidget {
 }
 
 class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
+  bool _loading1 = true;
   ProfileData? data;
+  late StreamController _gymkhanaController;
+  late GymkhanaService gymkhanaService;
+  late GymkhanaData gymkhanaData;
 
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
@@ -48,10 +57,25 @@ class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
     super.initState();
     var service = locator<StorageService>();
     data = service.profileData;
+    _gymkhanaController = StreamController();
+    gymkhanaService = GymkhanaService();
     //TODO: Check if data is not null, data is accessed with ! operator in build()
     if (data == null) {
-      //profileData cannot be not retrieved from DB, show load error page
+      //profileData cannot be not retrieved show error page
     }
+    getData();
+  }
+
+  getData() async {
+    //print('token-'+widget.token!);
+    Response response1 = await gymkhanaService.getGymkhanaClubsData();
+    Response response2 = await gymkhanaService.getGymkhanaMembersData();
+    setState(() {
+      print(response1);
+      print(response2);
+      // gymkhanaData = GymkhanaData.fromJson(jsonDecode(response.body));
+      _loading1 = false;
+    });
   }
 
   @override
@@ -148,14 +172,21 @@ class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
                 InkWell(
                   child: myContainer("Club Details"),
                   onTap: () {
-                    Navigator.pushNamed(context, '/gymkhana_homepage/clubs');
+                    Navigator.pushNamed(
+                        context,
+                        '/gymkhana_homepage/clubs',
+                        // arguments: gymkhanaData,
+                    );
                   },
                 ),
                 InkWell(
                   child: myContainer("Members Record"),
                   onTap: () {
                     Navigator.pushNamed(
-                        context, '/gymkhana_homepage/member_records');
+                        context,
+                        '/gymkhana_homepage/member_records',
+                        // arguments: gymkhanaData,
+                    );
                   },
                 ),
               ],
