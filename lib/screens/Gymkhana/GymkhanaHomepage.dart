@@ -78,8 +78,8 @@ class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
         clubNames: ['Avartan', 'Saaz', 'Football', 'Cricket',],
         membersDetails:
         [
-          {'name': 'Aaaa', 'rollno': 2019029, 'club': 'Cricket', 'category': 'sports'},
-          {'name': 'baaa', 'rollno': 2019129, 'club': 'Saaz', 'category': 'cultural'},
+          {'name': 'Aaaa', 'rollno': '2019029', 'club': 'Cricket', 'category': 'sports'},
+          {'name': 'baaa', 'rollno': '2019129', 'club': 'Saaz', 'category': 'cultural'},
         ],
         clubDetails:
         [
