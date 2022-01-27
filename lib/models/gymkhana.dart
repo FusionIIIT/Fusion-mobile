@@ -1,62 +1,38 @@
 class GymkhanaData {
   //<Notification>? notifications;
-  Map? user;
-  Map? profile;
-  List? skills;
-  List? education;
-  List? course;
-  List? experience;
-  List? project;
-  List? achievement;
-  List? publication;
-  List? patent;
-  List? current;
-  //----------------
-  // List? clubNames;
+
+  List? clubNames;
+  List? membersDetails;
+  List? clubDetails;
+  List? clubSessions;
+  List? clubEvents;
 
   GymkhanaData(
-      {this.user,
-        this.profile,
-        this.skills,
-        this.education,
-        this.course,
-        this.experience,
-        this.project,
-        this.achievement,
-        this.publication,
-        this.patent,
-        this.current});
+      {
+        this.clubNames,
+        this.membersDetails,
+        this.clubDetails,
+        this.clubSessions,
+        this.clubEvents,
+      });
 
   factory GymkhanaData.fromJson(Map json) {
     return GymkhanaData(
-      user: json["user"],
-      profile: json["profile"],
-      //skills: Notification.fromListJson(json["skills"]),
-      skills: json["skills"],
-      education: json["education"],
-      course: json["course"],
-      experience: json["experience"],
-      project: json["project"],
-      achievement: json["achievement"],
-      publication: json["publication"],
-      patent: json["patent"],
-      current: json["current"],
+      clubNames: json["clubNames"],
+      membersDetails: json["membersDetails"],
+      clubDetails: json["clubDetails"],
+      clubSessions: json["clubSessions"],
+      clubEvents: json["clubEvents"],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      "user": this.user,
-      "profile": this.profile,
-      "skills": this.skills,
-      "education": this.education,
-      "course": this.course,
-      "experience": this.experience,
-      "project": this.project,
-      "achievement": this.achievement,
-      "publication": this.publication,
-      "patent": this.patent,
-      "current": this.current
+      "clubNames": this.clubNames,
+      "membersDetails": this.membersDetails,
+      "clubDetails": this.clubDetails,
+      "clubSessions": this.clubSessions,
+      "clubEvents": this.clubEvents,
     };
   }
 }

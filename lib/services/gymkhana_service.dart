@@ -7,16 +7,16 @@ import 'package:fusion/services/storage_service.dart';
 import 'package:http/http.dart' as http;
 
 class GymkhanaService {
-  static List<String> urls = ['/api/gymkhana/club_details', '/api/gymkhana/members_record'];
+  static const List<String>urls = const ['/api/gymkhana/club_details', '/api/gymkhana/members_record'];
 
-  getGymkhanaClubsData() async {
-    return getGymkhanaData(urls[0]);
-  }
-  getGymkhanaMembersData() async {
-    return getGymkhanaData(urls[1]);
-  }
+  // getGymkhanaClubsData() async {
+  //   return getGymkhanaData(urls[0]);
+  // }
+  // getGymkhanaMembersData() async {
+  //   return getGymkhanaData(urls[1]);
+  // }
 
-  getGymkhanaData(String url) async {
+  getGymkhanaData({int urlIdx = 0}) async {
     var service = locator<StorageService>();
     Map<String, String> headers = {
       'Authorization': 'Token ' + service.userInDB.token!
@@ -27,7 +27,7 @@ class GymkhanaService {
     http.Response response = await client.get(
       Uri.http(
         getLink(),
-        url,
+        urls[urlIdx],
       ),
       headers: headers,
     );
@@ -38,6 +38,6 @@ class GymkhanaService {
     else{
       print("error fetching Gymkhanadata");
     }
-    throw Exception('Can\'t load');
+    throw Exception('Can\'t load Gymkhanadata');
   }
 }
