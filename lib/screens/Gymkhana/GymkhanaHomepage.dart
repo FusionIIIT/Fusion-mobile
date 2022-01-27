@@ -83,14 +83,17 @@ class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
         ],
         clubDetails:
         [
-          {'club': 'Avartan', 'cord': '2018037', 'coco': '2019008', 'activitycal': ''},
+          {'club': 'Avartan', 'coord': '2018037', 'coco': '2019008', 'activitycal': ''},
+          {'club': 'Avartan', 'coord': '2018037', 'coco': '2019008', 'activitycal': ''},
         ],
         clubSessions:
         [
           {'venue': 'L-201', 'date': '22 Mar 21', 'time': '6:00 PM', 'details': ''},
+          {'venue': 'L-201', 'date': '22 Mar 21', 'time': '6:00 PM', 'details': ''},
         ],
         clubEvents:
         [
+          {'club': 'Avartan', 'eventname': 'footloose', 'incharge': 'Dr Deepmala', 'date': '23 Aug 20'},
           {'club': 'Avartan', 'eventname': 'footloose', 'incharge': 'Dr Deepmala', 'date': '23 Aug 20'},
         ],
       );
@@ -210,7 +213,7 @@ class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
                               Navigator.pushNamed(
                                 context,
                                 '/gymkhana_homepage/clubs',
-                                // arguments: gymkhanaData,
+                                arguments: gymkhanaData,
                               );
                             },
                           ),
