@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fusion/models/gymkhana.dart';
 
 //TODO: Make Dynamic
 class Record extends StatefulWidget {
@@ -45,7 +46,7 @@ class _RecordsState extends State<Records> {
           onSort: (i, b) {},
         ),
       ],
-      rows: Srecords.map((srecord) => DataRow(cells: [
+      rows: Srecords.map((srecord) => DataRow(cells: <DataCell>[
             DataCell(Text(srecord.Name)),
             DataCell(Text(srecord.Rollno)),
             DataCell(Text(srecord.Club)),
@@ -54,6 +55,15 @@ class _RecordsState extends State<Records> {
 
   @override
   Widget build(BuildContext context) {
+
+    final GymkhanaData data = ModalRoute.of(context)!.settings.arguments as GymkhanaData;
+    Srecords = data.membersDetails!.map((member) => Srecord(Name: member['name'], Rollno: member['rollno'], Club: member['club'], Category: member['category'])).toList();
+
+    // Srecords = <Srecord>[
+    //   Srecord(Name: "Pawan", Rollno: "430", Club: "Cricket", Category: "sports"),
+    //   Srecord(Name: "Pawergeran", Rollno: "430", Club: "Cricket", Category: "sports"),
+    // ];
+
     return Scaffold(
         appBar: AppBar(
           title: Text('Records'),
@@ -120,5 +130,5 @@ class Srecord {
 }
 
 var Srecords = <Srecord>[
-  Srecord(Name: "Pawan", Rollno: "430", Club: "Cricket", Category: "sports"),
+  Srecord(Name: "default", Rollno: "default", Club: "default", Category: "default"),
 ];
