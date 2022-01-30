@@ -228,6 +228,13 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
                               context, '/academic_home_page/performance');
                         },
                       ),
+                      InkWell(
+                        child: myContainer("Add/Drop courses"),
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, '/academic_home_page/add_drop_courses');
+                        },
+                      ),
                     ],
                   ),
                 ),
