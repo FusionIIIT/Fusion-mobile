@@ -60,13 +60,17 @@ class _ComplainHistoryState extends State<ComplainHistory> {
 
   getData() async {
     //print('token-'+widget.token!);
-    Response response = await complaintService.getComplaint();
-    setState(() {
-      data = ComplaintDataUserStudent.fromJson(jsonDecode(response.body));
-      print(data.student_complain);
-      //print(data);
-      _loading1 = false;
-    });
+    try{
+      Response response = await complaintService.getComplaint();
+      setState(() {
+        data = ComplaintDataUserStudent.fromJson(jsonDecode(response.body));
+        print(data.student_complain);
+        //print(data);
+        _loading1 = false;
+      });
+    }catch(e){
+      print(e);
+    }
   }
 
   loadData() async {
