@@ -69,34 +69,84 @@ class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
   getData() async {
     //print('token-'+widget.token!);
     //TODO: uncomment when API is functioning
-    //Response response = await gymkhanaService.getGymkhanaData();
-    setState(() {
-      //TODO: uncomment when API is functioning
-      // print(response);
-      // gymkhanaData = GymkhanaData.fromJson(jsonDecode(response.body));
-      gymkhanaData = GymkhanaData(
-        clubNames: ['Avartan', 'Saaz', 'Football', 'Cricket',],
-        membersDetails:
-        [
-          {'name': 'Aaaa', 'rollno': '2019029', 'club': 'Cricket', 'category': 'sports'},
-          {'name': 'baaa', 'rollno': '2019129', 'club': 'Saaz', 'category': 'cultural'},
-        ],
-        clubDetails:
-        [
-          {'club': 'Avartan', 'cord': '2018037', 'coco': '2019008', 'activitycal': ''},
-        ],
-        clubSessions:
-        [
-          {'venue': 'L-201', 'date': '22 Mar 21', 'time': '6:00 PM', 'details': ''},
-        ],
-        clubEvents:
-        [
-          {'club': 'Avartan', 'eventname': 'footloose', 'incharge': 'Dr Deepmala', 'date': '23 Aug 20'},
-        ],
-      );
 
-      _loading1 = false;
-    });
+    try {
+      //Response response = await gymkhanaService.getGymkhanaData();
+
+      setState(() {
+        //TODO: uncomment when API is functioning
+        // print(response);
+        // gymkhanaData = GymkhanaData.fromJson(jsonDecode(response.body));
+        gymkhanaData = GymkhanaData(
+          clubNames: [
+            'Avartan',
+            'Saaz',
+            'Football',
+            'Cricket',
+          ],
+          membersDetails: [
+            {
+              'name': 'Aaaa',
+              'rollno': '2019029',
+              'club': 'Cricket',
+              'category': 'sports'
+            },
+            {
+              'name': 'baaa',
+              'rollno': '2019129',
+              'club': 'Saaz',
+              'category': 'cultural'
+            },
+          ],
+          clubDetails: [
+            {
+              'club': 'Avartan',
+              'coord': '2018037',
+              'coco': '2019008',
+              'activitycal': ''
+            },
+            {
+              'club': 'Avartan',
+              'coord': '2018037',
+              'coco': '2019008',
+              'activitycal': ''
+            },
+          ],
+          clubSessions: [
+            {
+              'venue': 'L-201',
+              'date': '22 Mar 21',
+              'time': '6:00 PM',
+              'details': ''
+            },
+            {
+              'venue': 'L-201',
+              'date': '22 Mar 21',
+              'time': '6:00 PM',
+              'details': ''
+            },
+          ],
+          clubEvents: [
+            {
+              'club': 'Avartan',
+              'eventname': 'footloose',
+              'incharge': 'Dr Deepmala',
+              'date': '23 Aug 20'
+            },
+            {
+              'club': 'Avartan',
+              'eventname': 'footloose',
+              'incharge': 'Dr Deepmala',
+              'date': '23 Aug 20'
+            },
+          ],
+        );
+
+        _loading1 = false;
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -107,7 +157,7 @@ class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
       body:
           //TODO: uncomment when API is functioning
           _loading1 == true
-          // false
+              // false
               ? Center(child: CircularProgressIndicator())
               : ListView(
                   scrollDirection: Axis.vertical,
@@ -210,7 +260,7 @@ class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
                               Navigator.pushNamed(
                                 context,
                                 '/gymkhana_homepage/clubs',
-                                // arguments: gymkhanaData,
+                                arguments: gymkhanaData,
                               );
                             },
                           ),

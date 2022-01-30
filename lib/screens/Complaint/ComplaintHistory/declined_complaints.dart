@@ -31,13 +31,17 @@ class _DeclinedComplaintsState extends State<DeclinedComplaints> {
   }
 
   getData() async {
-    Response response = await complaintService.getComplaint();
-    setState(() {
-      data = ComplaintDataUserStudent.fromJson(jsonDecode(response.body));
-      print(data.student_complain);
-      //print(data);
-      _loading = false;
-    });
+    try{
+      Response response = await complaintService.getComplaint();
+      setState(() {
+        data = ComplaintDataUserStudent.fromJson(jsonDecode(response.body));
+        print(data.student_complain);
+        //print(data);
+        _loading = false;
+      });
+    }catch(e){
+      print(e);
+    }
   }
 
   loadData() async {

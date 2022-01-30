@@ -1,82 +1,75 @@
 import 'package:flutter/material.dart';
+import 'package:fusion/models/gymkhana.dart';
 
 class ClubDropDown extends StatefulWidget {
+  List? data;
+
+  ClubDropDown({this.data});
+
   @override
-  _ClubDropDownState createState() => _ClubDropDownState();
+  _ClubDropDownState createState() => _ClubDropDownState(data: this.data);
 }
 
 class _ClubDropDownState extends State<ClubDropDown> {
   int _value = 1;
+  List? data;
 
-  @override
-  Widget SessionView = new Container(
-    color: Colors.white,
-    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 5),
-    child: Table(
-      border: TableBorder.all(color: Colors.black),
-      children: [
-        TableRow(children: [
-          Center(
-            child: Text("\nVenue\n",
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-          ),
-          Center(
-              child: Column(
-            children: [
+  _ClubDropDownState({this.data});
+
+  Widget sessionView() {
+    TableRow header = TableRow(children: [
+      Center(
+        child: Text("\nVenue\n",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+      ),
+      Center(
+        child: Text("\nDate\n",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+      ),
+      Center(
+        child: Text("\nTime\n",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+      ),
+      Center(
+        child: Text("\nDetails\n",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+      ),
+    ]);
+    List<TableRow> rows = data!
+        .map<TableRow>((srecord) => TableRow(children: [
               Center(
-                child: Text("\nDate\n",
-                    style:
-                        TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-              ),
-            ],
-          )),
-          Center(
-              child: Column(
-            children: [
+                  child: Text("\n" + srecord['venue'] + "\n",
+                      style: TextStyle(fontSize: 16))),
               Center(
-                child: Text("\nTime\n",
-                    style:
-                        TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-              ),
-            ],
-          )),
-          Center(
-              child: Column(
-            children: [
+                  child: Text("\n" + srecord['date'] + "\n",
+                      style: TextStyle(fontSize: 16))),
               Center(
-                child: Text("\nDetails\n",
-                    style:
-                        TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-              ),
-            ],
-          )),
-        ]),
-        TableRow(children: [
-          Center(
-            child: Text("\nL-201\n",
-                style: TextStyle(
-                  fontSize: 16,
-                )),
-          ),
-          Center(
-            child: Text("\n22 Mar,21\n", style: TextStyle(fontSize: 16)),
-          ),
-          Center(
-            child: Text("\n6:00PM\n",
-                style: TextStyle(
-                  fontSize: 16,
-                )),
-          ),
-          Center(
-            child:
-                IconButton(icon: Icon(Icons.attachment_sharp), onPressed: null),
-          ),
-        ])
-      ],
-    ),
-  );
+                  child: Text("\n" + srecord['time'] + "\n",
+                      style: TextStyle(fontSize: 16))),
+              Center(
+                  child: IconButton(
+                      icon: Icon(Icons.attachment_sharp), onPressed: null)),
+              // child: Text("\n" + srecord['details'] + "\n",
+              //     style: TextStyle(fontSize: 16))),
+            ]))
+        .toList();
+
+    return Container(
+      color: Colors.white,
+      padding: EdgeInsets.symmetric(vertical: 15, horizontal: 5),
+      child: Table(
+        border: TableBorder.all(color: Colors.black),
+        children: [
+          [header],
+          rows
+        ].expand((x) => x).toList(),
+      ),
+    );
+  }
 
   Widget build(BuildContext context) {
+    // Srecords = data.membersDetails!.map((member) => Srecord(Name: member['name'], Rollno: member['rollno'], Club: member['club'], Category: member['category'])).toList();
+
     return Container(
         width: 200,
         //color: Colors.blue,
@@ -128,7 +121,8 @@ class _ClubDropDownState extends State<ClubDropDown> {
                   });
                 }),
             Padding(padding: EdgeInsets.symmetric(vertical: 20.0)),
-            SessionView,
+            sessionView(),
+
           ],
         ));
   }
