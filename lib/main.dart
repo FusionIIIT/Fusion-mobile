@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fusion/screens/Academic/Add_Drop_Courses/add_drop_courses.dart';
 import 'package:fusion/screens/Establishment/establishment_home_page.dart';
 import 'package:fusion/screens/Library/Book_Search.dart';
 import 'package:fusion/screens/Library/dues.dart';
@@ -60,6 +61,7 @@ class MyApp extends StatelessWidget {
         '/academic_home_page/dues': (context) => Dues(),
         '/academic_home_page/thesis': (context) => ThesisHomePage(),
         '/academic_home_page/performance': (context) => Performance(),
+        '/academic_home_page/add_drop_courses': (context) => AddDropCourses(),
         '/establishment': (context) => Establishment(),
         '/gymkhana_homepage': (context) => GymkhanaHomepage(),
         '/gymkhana_homepage/apply': (context) => Apply(),
