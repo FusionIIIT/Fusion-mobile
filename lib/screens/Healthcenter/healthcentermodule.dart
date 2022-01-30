@@ -42,12 +42,16 @@ class _HealthCenterModState extends State<HealthCenterMod> {
 
   getData() async {
     //print('token-'+widget.token!);
-    Response response = await healthService.getHealth(widget.token!);
-    setState(() {
-      print(response);
-      data = HealthData.fromJson(jsonDecode(response.body));
-      _loading1 = false;
-    });
+    try {
+      Response response = await healthService.getHealth(widget.token!);
+      setState(() {
+        print(response);
+        data = HealthData.fromJson(jsonDecode(response.body));
+        _loading1 = false;
+      });
+    }catch(e){
+      print(e);
+    }
   }
 
   loadData() async {

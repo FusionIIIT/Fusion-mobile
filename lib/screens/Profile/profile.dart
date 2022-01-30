@@ -47,11 +47,15 @@ class _ProfileState extends State<Profile> {
   }
 
   getData() async {
-    Response response = await profileService.getProfile();
-    setState(() {
-      data = ProfileData.fromJson(jsonDecode(response.body));
-      _loading1 = false;
-    });
+    try {
+      Response response = await profileService.getProfile();
+      setState(() {
+        data = ProfileData.fromJson(jsonDecode(response.body));
+        _loading1 = false;
+      });
+    }catch(e){
+      print(e);
+    }
   }
 
   loadData() async {
