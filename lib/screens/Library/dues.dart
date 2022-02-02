@@ -91,27 +91,30 @@ class _LibraryDuesState extends State<LibraryDues> {
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
             )),
             SizedBox(height: 20),
-            DataTable(
-              columnSpacing: 10.0,
-              columns: [
-                DataColumn(
-                    label: Text('Acc No.',
-                        style: TextStyle(
-                            fontSize: 17, fontWeight: FontWeight.bold))),
-                DataColumn(
-                    label: Text('Due Date',
-                        style: TextStyle(
-                            fontSize: 17, fontWeight: FontWeight.bold))),
-                DataColumn(
-                    label: Text('Days*o*d*c',
-                        style: TextStyle(
-                            fontSize: 17, fontWeight: FontWeight.bold))),
-                DataColumn(
-                    label: Text('Total*o*d*c',
-                        style: TextStyle(
-                            fontSize: 17, fontWeight: FontWeight.bold))),
-              ],
-              rows: iterateList(),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: DataTable(
+                columnSpacing: 10.0,
+                columns: [
+                  DataColumn(
+                      label: Text('Acc No.',
+                          style: TextStyle(
+                              fontSize: 17, fontWeight: FontWeight.bold))),
+                  DataColumn(
+                      label: Text('Due Date',
+                          style: TextStyle(
+                              fontSize: 17, fontWeight: FontWeight.bold))),
+                  DataColumn(
+                      label: Text('Days*o*d*c',
+                          style: TextStyle(
+                              fontSize: 17, fontWeight: FontWeight.bold))),
+                  DataColumn(
+                      label: Text('Total*o*d*c',
+                          style: TextStyle(
+                              fontSize: 17, fontWeight: FontWeight.bold))),
+                ],
+                rows: iterateList(),
+              ),
             ),
             SizedBox(height: 50),
             Center(
@@ -122,31 +125,34 @@ class _LibraryDuesState extends State<LibraryDues> {
               ),
             ),
             SizedBox(height: 20),
-            DataTable(
-              columnSpacing: 10.0,
-              columns: [
-                DataColumn(
-                    label: Text('Acc No.',
-                        style: TextStyle(
-                            fontSize: 13, fontWeight: FontWeight.bold))),
-                DataColumn(
-                    label: Text('Due Date',
-                        style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.bold))),
-                DataColumn(
-                    label: Text('Return Date',
-                        style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.bold))),
-                DataColumn(
-                    label: Text('Total*o*d*c',
-                        style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.bold))),
-                DataColumn(
-                    label: Text('Cause',
-                        style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.bold))),
-              ],
-              rows: nonReturnedList(),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: DataTable(
+                columnSpacing: 10.0,
+                columns: [
+                  DataColumn(
+                      label: Text('Acc No.',
+                          style: TextStyle(
+                              fontSize: 13, fontWeight: FontWeight.bold))),
+                  DataColumn(
+                      label: Text('Due Date',
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold))),
+                  DataColumn(
+                      label: Text('Return Date',
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold))),
+                  DataColumn(
+                      label: Text('Total*o*d*c',
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold))),
+                  DataColumn(
+                      label: Text('Cause',
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold))),
+                ],
+                rows: nonReturnedList(),
+              ),
             ),
           ])),
     );
