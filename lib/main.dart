@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 import 'package:fusion/screens/Academic/Add_Drop_Courses/add_drop_courses.dart';
 import 'package:fusion/screens/Establishment/establishment_home_page.dart';
 import 'package:fusion/screens/Library/Book_Search.dart';
@@ -33,7 +34,14 @@ import 'package:fusion/services/service_locator.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   setupLocator();
-  runApp(MyApp());
+  //runApp(MyApp());
+  runZonedGuarded(() {
+    runApp(MyApp());
+  }, (Object error, StackTrace stack) {
+    print("---caught error in zoned---\n");
+    print(error);
+    print(stack);
+  });
 }
 
 class MyApp extends StatelessWidget {
