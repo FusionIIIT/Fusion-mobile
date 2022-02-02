@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-
 class Polls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -15,9 +14,9 @@ class VotingPolls extends StatefulWidget {
 }
 
 class VotingPollsState extends State<VotingPolls> {
-   final List<String> Manu = ["Name","Result","Expired"];
-   String selected = "Name";
-   String select = "Test Polls";
+  final List<String> Manu = ["Name", "Result", "Expired"];
+  String selected = "Name";
+  String select = "Test Polls";
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +24,8 @@ class VotingPollsState extends State<VotingPolls> {
         appBar: AppBar(
           title: Text(
             'Voting Polls',
-            style: TextStyle(fontSize: 25),),
+            style: TextStyle(fontSize: 25),
+          ),
           backgroundColor: Colors.black,
         ),
         body: Column(
@@ -40,11 +40,11 @@ class VotingPollsState extends State<VotingPolls> {
                       padding: const EdgeInsets.all(8.0),
                       child: Center(
                           child: Text(
-                            "Active Polls",
-                            style: TextStyle(
-                              fontSize: 20.0,
-                            ),
-                          )),
+                        "Active Polls",
+                        style: TextStyle(
+                          fontSize: 20.0,
+                        ),
+                      )),
                     ),
                     decoration: new BoxDecoration(
                       color: Colors.deepOrangeAccent,
@@ -61,121 +61,98 @@ class VotingPollsState extends State<VotingPolls> {
                         )
                       ],
                       borderRadius:
-                      new BorderRadius.all(new Radius.circular(5.0)),
+                          new BorderRadius.all(new Radius.circular(5.0)),
                     ),
                   ),
                 ),
               ),
             ),
             Container(
-            padding: EdgeInsets.all(5.0),
-            child : Column(
-    crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Center(
-                child: Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey, width:1)
-                    ),
-                    child: DropdownButton<String>(
-                        hint: Text(" Name"),
-                        icon: Icon(Icons.arrow_drop_down),
-                        iconSize: 36,
-                        isExpanded: true,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 22
+                padding: EdgeInsets.all(5.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: Padding(
+                        padding: EdgeInsets.all(10.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey, width: 1)),
+                          child: DropdownButton<String>(
+                              hint: Text(" Name"),
+                              icon: Icon(Icons.arrow_drop_down),
+                              iconSize: 36,
+                              isExpanded: true,
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 22),
+                              onChanged: (value) {
+                                setState(() {});
+                              },
+                              items:
+                                  Manu.map<DropdownMenuItem<String>>((value) {
+                                return DropdownMenuItem(
+                                  child: Text(value),
+                                  value: value,
+                                );
+                              }).toList()),
                         ),
-
-                        onChanged: (value){
-                          setState(() {
-                          });
-                        },
-                        items: Manu.map<DropdownMenuItem<String>> ((value){
-                          return DropdownMenuItem(
-                            child: Text(value),
-                            value: value,
-
-                          );
-                        }).toList()
-
-
-                    ),
-                  ),   ), ),   Center(
-                child: Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey, width:1)
-                    ),
-                    child: DropdownButton<String>(
-                        hint: Text(" Test "),
-                        icon: Icon(Icons.arrow_drop_down),
-                        iconSize: 36,
-                        isExpanded: true,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 22
-                        ),
-
-                        onChanged: (value){
-                          setState(() {
-                          });
-                        },
-                        items: Manu.map<DropdownMenuItem<String>> ((value){
-                          return DropdownMenuItem(
-                            child: Text(value),
-                            value: value,
-
-                          );
-                        }).toList()
-
-
-                    ),
-                  ),   ), ), Center(
-                child: Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey, width:1)
-                    ),
-                  child: DropdownButton<String>(
-                      hint: Text(" Test Polls"),
-                      icon: Icon(Icons.arrow_drop_down),
-                      iconSize: 36,
-                      isExpanded: true,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 22
                       ),
-
-                      onChanged: (value){
-                        setState(() {
-                        });
-                      },
-                      items: Manu.map<DropdownMenuItem<String>> ((value){
-                        return DropdownMenuItem(
-                          child: Text(value),
-                          value: value,
-
-                        );
-                      }).toList()
-
-
-                  ),
-                  ),   ), ),
-           ],
-                  )
-             )
-
+                    ),
+                    Center(
+                      child: Padding(
+                        padding: EdgeInsets.all(10.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey, width: 1)),
+                          child: DropdownButton<String>(
+                              hint: Text(" Test "),
+                              icon: Icon(Icons.arrow_drop_down),
+                              iconSize: 36,
+                              isExpanded: true,
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 22),
+                              onChanged: (value) {
+                                setState(() {});
+                              },
+                              items:
+                                  Manu.map<DropdownMenuItem<String>>((value) {
+                                return DropdownMenuItem(
+                                  child: Text(value),
+                                  value: value,
+                                );
+                              }).toList()),
+                        ),
+                      ),
+                    ),
+                    Center(
+                      child: Padding(
+                        padding: EdgeInsets.all(10.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey, width: 1)),
+                          child: DropdownButton<String>(
+                              hint: Text(" Test Polls"),
+                              icon: Icon(Icons.arrow_drop_down),
+                              iconSize: 36,
+                              isExpanded: true,
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 22),
+                              onChanged: (value) {
+                                setState(() {});
+                              },
+                              items:
+                                  Manu.map<DropdownMenuItem<String>>((value) {
+                                return DropdownMenuItem(
+                                  child: Text(value),
+                                  value: value,
+                                );
+                              }).toList()),
+                        ),
+                      ),
+                    ),
+                  ],
+                ))
           ],
         ));
   }
 }
-
-
-
-
- 

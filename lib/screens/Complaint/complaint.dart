@@ -40,13 +40,16 @@ class _ComplaintState extends State<Complaint> {
 
   getData() async {
     //print('token-'+widget.token!);
-    Response response = await profileService.getProfile();
-    setState(() {
-      data = ProfileData.fromJson(jsonDecode(response.body));
-      print(
-          data.user?['username']); //will not throw error if user does not exist
-      _loading = false;
-    });
+    try {
+      Response response = await profileService.getProfile();
+      setState(() {
+        data = ProfileData.fromJson(jsonDecode(response.body));
+        print(data.user!['username']);
+        _loading = false;
+      });
+    }catch(e){
+      print(e);
+    }
   }
 
   loadData() async {

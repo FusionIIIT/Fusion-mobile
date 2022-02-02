@@ -33,12 +33,16 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
 
   getData() async {
     //print('token-'+widget.token!);
-    Response response = await academicService.getAcademic(widget.token!);
-    setState(() {
-      print(response);
-      data = AcademicData.fromJson(jsonDecode(response.body));
-      _loading1 = false;
-    });
+    try{
+      Response response = await academicService.getAcademic(widget.token!);
+      setState(() {
+        print(response);
+        data = AcademicData.fromJson(jsonDecode(response.body));
+        _loading1 = false;
+      });
+    }catch(e){
+      print(e);
+    }
   }
 
   loadData() async {
