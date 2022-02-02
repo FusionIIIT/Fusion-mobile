@@ -28,6 +28,7 @@ class _CoursesState extends State<Courses> {
   Widget build(BuildContext context) {
     List? finalData = widget.data.add_courses_options;
     print(finalData);
+    if (finalData == null) finalData = [];
     return Container(
         child: Column(
       children: [
