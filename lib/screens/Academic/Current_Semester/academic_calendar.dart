@@ -42,7 +42,7 @@ class _AcademicCalendarState extends State<AcademicCalendar> {
               child: TabBarView(
                 children: [
                   tabBarChildren(
-                    label: 'ACADEMIC-CALENDER',
+                    label: 'ACADEMIC-CALENDAR',
                     onPressed: () async {
                       String url = getUrl();
                       if (await canLaunch(url)) {
