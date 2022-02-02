@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:fusion/screens/Academic/Add_Drop_Courses/add_drop_courses.dart';
 import 'package:fusion/screens/Establishment/establishment_home_page.dart';
 import 'package:fusion/screens/Library/Book_Search.dart';
 import 'package:fusion/screens/Library/issued_items.dart';
@@ -50,11 +51,7 @@ class MyApp extends StatelessWidget {
       title: 'Fusion',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blueGrey, fontFamily: 'Nunito'),
-
-
-
       initialRoute: '/landing',
-
       routes: {
         '/landing': (context) => LandingPage(),
         '/login_page': (context) => LoginPage(),
@@ -71,6 +68,7 @@ class MyApp extends StatelessWidget {
         '/academic_home_page/dues': (context) => Dues(),
         '/academic_home_page/thesis': (context) => ThesisHomePage(),
         '/academic_home_page/performance': (context) => Performance(),
+        '/academic_home_page/add_drop_courses': (context) => AddDropCourses(),
         '/establishment': (context) => Establishment(),
         '/gymkhana_homepage': (context) => GymkhanaHomepage(),
         '/gymkhana_homepage/apply': (context) => Apply(),
@@ -84,7 +82,8 @@ class MyApp extends StatelessWidget {
         '/complaint': (context) =>
             Complaint(ModalRoute.of(context)!.settings.arguments.toString()),
         '/profile': (context) => Profile(),
-        '/health_center': (context) => HealthCenterMod(ModalRoute.of(context)!.settings.arguments.toString()),
+        '/health_center': (context) => HealthCenterMod(
+            ModalRoute.of(context)!.settings.arguments.toString()),
         '/health_center/healthcenter': (context) => HealthCenter(),
         '/health_center/feedback': (context) => FeedBack(),
         '/health_center/viewschedule': (context) => ViewSchedule(),
