@@ -22,14 +22,14 @@ class _TimeTableState extends State<TimeTable> {
   }
 
   String getUrl({bool commonTTurl = false}) {
-    String url = 'https://' + getLink() + "/static/academic_procedures/";
+    String url = 'http://' + getLink() + "/static/academic_procedures/";
     if (commonTTurl == true) return url + 'TT_NS.pdf';
     if (deptType == 'CSE')
       url += 'TT_CSE.pdf';
     else if (deptType == 'ECE')
       url += 'TT_ECE.pdf';
     else if (deptType == 'ECE') url += 'TT_ME.pdf';
-
+    print(url);
     return url;
   }
 
@@ -62,20 +62,15 @@ class _TimeTableState extends State<TimeTable> {
                   TabBarTextButton(
                     label: 'VIEW TIME-TABLE',
                     onPressed: () async {
-                      String url = getUrl();
-                      if (await canLaunch(url)) {
-                        await launch(url, forceWebView: true);
-                      }
-
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute<dynamic>(
-                      //     builder: (_) => PDFViewerFromUrl(
-                      //       url: getUrl(),
-                      //       label: 'VIEW TIME-TABLE',
-                      //     ),
-                      //   ),
-                      // );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute<dynamic>(
+                          builder: (_) => PDFViewerFromUrl(
+                            url: getUrl(),
+                            label: 'VIEW TIME-TABLE',
+                          ),
+                        ),
+                      );
                     },
                   ),
                   TabBarTextButton(
