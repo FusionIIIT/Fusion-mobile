@@ -20,9 +20,9 @@ class HealthCenterMod extends StatefulWidget {
 
 class _HealthCenterModState extends State<HealthCenterMod> {
   bool _loading1 = true;
-  StreamController? _healthController;
-  HeathService? healthService;
-  HealthData? data;
+  late StreamController _healthController;
+  late HeathService healthService;
+  late HealthData data;
   String? name;
   String? depttype;
   @override
@@ -42,17 +42,17 @@ class _HealthCenterModState extends State<HealthCenterMod> {
 
   getData() async {
     //print('token-'+widget.token!);
-    Response? response = await healthService!.getHealth(widget.token!);
+    Response response = await healthService.getHealth(widget.token!);
     setState(() {
       print(response);
-      data = HealthData.fromJson(jsonDecode(response!.body));
+      data = HealthData.fromJson(jsonDecode(response.body));
       _loading1 = false;
     });
   }
 
   loadData() async {
     getData().then((res) {
-      _healthController!.add(res);
+      _healthController.add(res);
     });
   }
   BoxDecoration myBoxDecoration() {
@@ -65,7 +65,7 @@ class _HealthCenterModState extends State<HealthCenterMod> {
         borderRadius: new BorderRadius.all(new Radius.circular(15.0)));
   }
 
-  Text? myText(String text) {
+  Text myText(String text) {
     return Text(
       text,
       style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
@@ -90,8 +90,8 @@ class _HealthCenterModState extends State<HealthCenterMod> {
       appBar: DefaultAppBar().buildAppBar(),
       drawer: SideDrawer(),
       body: _loading1 == true
-      ? Center(child: CircularProgressIndicator(),)
-      : ListView(
+          ? Center(child: CircularProgressIndicator(),)
+          : ListView(
         scrollDirection: Axis.vertical,
         children: [
           Card(
