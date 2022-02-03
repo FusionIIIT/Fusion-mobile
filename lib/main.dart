@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:fusion/screens/Academic/Add_Drop_Courses/add_drop_courses.dart';
 import 'package:fusion/screens/Establishment/establishment_home_page.dart';
 import 'package:fusion/screens/Library/Book_Search.dart';
+import 'package:fusion/screens/Library/dues.dart';
 import 'package:fusion/screens/Library/issued_items.dart';
 import 'package:fusion/screens/Library/lib_home_screen.dart';
 import 'package:fusion/screens/LoginandDashboard/dashboard.dart';
@@ -78,7 +79,7 @@ class MyApp extends StatelessWidget {
         '/library_homepage': (context) => LibraryHomeScreen(),
         '/library_homepage/book_search': (context) => BookSearch(),
         '/library_homepage/issued_items': (context) => IssuedItems(),
-        '/library_homepage/dues': (context) => Dues(),
+        '/library_homepage/dues': (context) => LibraryDues(),
         '/complaint': (context) =>
             Complaint(ModalRoute.of(context)!.settings.arguments.toString()),
         '/profile': (context) => Profile(),

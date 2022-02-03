@@ -43,12 +43,18 @@ class _LibraryHomeScreenState extends State<LibraryHomeScreen> {
                 ),
                 SizedBox(height: 10),
                 Text(
-                  data!.user!['first_name'] + ' ' + data!.user!['last_name'],
+                  data != null
+                      ? (data!.user!['first_name'] +
+                          ' ' +
+                          data!.user!['last_name'])
+                      : 'Cannot Fetch User',
                   style: TextStyle(color: Colors.black, fontSize: 20),
                 ),
                 SizedBox(height: 10),
                 Text(
-                  data!.profile!['user_type'],
+                  data != null
+                      ? data!.profile!['user_type']
+                      : 'Canot get User Type',
                   style: TextStyle(color: Colors.black, fontSize: 15),
                 ),
                 SizedBox(height: 10),

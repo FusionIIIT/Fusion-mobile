@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fusion/screens/Academic/Registration/courses.dart';
 import 'package:fusion/screens/Academic/Registration/final_registration.dart';
 import 'package:fusion/screens/Academic/Registration/pre_registration.dart';
-import 'package:fusion/Components/appBar.dart';
+// import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
 import 'package:fusion/models/academic.dart';
 
@@ -15,7 +15,7 @@ class _RegistrationHomePageState extends State<RegistrationHomePage> {
   @override
   Widget build(BuildContext context) {
     final AcademicData data =
-        ModalRoute.of(context)!.settings.arguments as AcademicData;
+        ModalRoute.of(context)?.settings.arguments as AcademicData;
     return DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -74,6 +74,7 @@ class _RegistrationHomePageState extends State<RegistrationHomePage> {
             Courses(data: data),
             PreRegistration(),
             FinalRegistration(data: data)
+            // FinalRegistration(data: data)
           ],
         ),
       ),
