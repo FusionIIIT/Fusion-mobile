@@ -31,7 +31,7 @@ class _ExamTimeTableState extends State<ExamTimeTable> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 1,
       initialIndex: 0,
       child: Scaffold(
         body: Column(
@@ -58,20 +58,6 @@ class _ExamTimeTableState extends State<ExamTimeTable> {
                       //     ),
                       //   ),
                       // );
-                    },
-                  ),
-                  tabBarChildren(
-                    label: 'END SEM TIME TABLE',
-                    onPressed: () async {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute<dynamic>(
-                          builder: (_) => PDFViewerFromUrl(
-                            url: getUrl(commonTTurl: true),
-                            label: 'END SEM TIME TABLE',
-                          ),
-                        ),
-                      );
                     },
                   ),
                 ],
