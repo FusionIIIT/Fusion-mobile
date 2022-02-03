@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/pdf_view.dart';
+import 'package:fusion/Components/tabBar_text_button.dart';
 import 'package:fusion/constants.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
@@ -41,7 +42,7 @@ class _AcademicCalendarState extends State<AcademicCalendar> {
             Flexible(
               child: TabBarView(
                 children: [
-                  tabBarChildren(
+                  TabBarTextButton(
                     label: 'ACADEMIC-CALENDAR',
                     onPressed: () async {
                       String url = getUrl();
@@ -64,17 +65,6 @@ class _AcademicCalendarState extends State<AcademicCalendar> {
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget tabBarChildren({String label = "", Function()? onPressed}) {
-    return Center(
-      child: Container(
-        child: TextButton(
-          onPressed: onPressed,
-          child: Text('$label'),
         ),
       ),
     );

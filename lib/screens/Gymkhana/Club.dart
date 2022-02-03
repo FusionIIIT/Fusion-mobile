@@ -11,44 +11,127 @@ class Club extends StatefulWidget {
 }
 
 class _ClubState extends State<Club> {
-  static const IconData attachment_sharp =
-      IconData(0xeb6a, fontFamily: 'MaterialIcons');
+  // static const IconData attachment_sharp =
+  // IconData(0xeb6a, fontFamily: 'MaterialIcons');
 
-  //_ClubState(this.dropdownValue);
+  @override
+  Widget build(BuildContext context) {
+    final GymkhanaData data =
+        ModalRoute.of(context)!.settings.arguments as GymkhanaData;
 
-  Widget clube(data) {
+    return DefaultTabController(
+      length: 3, // length of tabs
+      initialIndex: 0,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+          title: Text('View Club Details'),
+          bottom: TabBar(
+            labelColor: Colors.deepOrange,
+            indicatorColor: Colors.deepOrangeAccent,
+            unselectedLabelColor: Colors.white,
+            tabs: [
+              Tab(
+                child: Text(
+                  "Club Details",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      overflow: TextOverflow.ellipsis),
+                ),
+              ),
+              Tab(
+                child: Text(
+                  "Club Session",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      overflow: TextOverflow.ellipsis),
+                ),
+              ),
+              Tab(
+                child: Text(
+                  "Club Event",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      overflow: TextOverflow.ellipsis),
+                ),
+              ),
+            ],
+          ),
+        ),
+        body: Container(
+          decoration: BoxDecoration(
+              border: Border(top: BorderSide(color: Colors.grey, width: 0.5))),
+          child: TabBarView(
+            children: <Widget>[
+              clubDetails(data.clubDetails),
+              //DropDownDemo(),
+              //Center(child: Text("Working on...."),),
+              ClubSession(data: data.clubSessions),
+              clubEvents(data.clubEvents),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget clubEvents(data) {
     TableRow header = TableRow(children: [
       Center(
         child: Text("\nClub\n",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                overflow: TextOverflow.ellipsis)),
       ),
       Center(
         child: Text("\nEvent Name\n",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                overflow: TextOverflow.ellipsis)),
       ),
       Center(
         child: Text("\nIncharge\n",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                overflow: TextOverflow.ellipsis)),
       ),
       Center(
         child: Text("\nDate\n",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                overflow: TextOverflow.ellipsis)),
       ),
     ]);
     List<TableRow> rows = data!
         .map<TableRow>((srecord) => TableRow(children: [
               Center(
-                  child: Text("\n" + srecord['club'] + "\n",
-                      style: TextStyle(fontSize: 16))),
+                  child: Text(
+                "\n" + srecord['club'] + "\n",
+                style: TextStyle(fontSize: 16),
+                overflow: TextOverflow.ellipsis,
+              )),
               Center(
-                  child: Text("\n" + srecord['eventname'] + "\n",
-                      style: TextStyle(fontSize: 16))),
+                  child: Text(
+                "\n" + srecord['eventname'] + "\n",
+                style: TextStyle(fontSize: 16),
+                overflow: TextOverflow.ellipsis,
+              )),
               Center(
-                  child: Text("\n" + srecord['incharge'] + "\n",
-                      style: TextStyle(fontSize: 16))),
+                  child: Text(
+                "\n" + srecord['incharge'] + "\n",
+                style: TextStyle(fontSize: 16),
+                overflow: TextOverflow.ellipsis,
+              )),
               Center(
-                  child: Text("\n" + srecord['date'] + "\n",
-                      style: TextStyle(fontSize: 16))),
+                  child: Text(
+                "\n" + srecord['date'] + "\n",
+                style: TextStyle(fontSize: 16),
+                overflow: TextOverflow.ellipsis,
+              )),
             ]))
         .toList();
 
@@ -65,22 +148,31 @@ class _ClubState extends State<Club> {
     );
   }
 
-  Widget clubd(data) {
+  Widget clubDetails(data) {
     TableRow header = TableRow(children: [
       Center(
         child: Text("\nClub\n",
-            style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+            style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+                overflow: TextOverflow.ellipsis)),
       ),
       Center(
           child: Column(
         children: [
           Center(
             child: Text("\nCo-",
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    overflow: TextOverflow.ellipsis)),
           ),
           Center(
             child: Text("Ordinator\n",
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    overflow: TextOverflow.ellipsis)),
           ),
         ],
       )),
@@ -89,11 +181,17 @@ class _ClubState extends State<Club> {
         children: [
           Center(
             child: Text("\nCo-",
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    overflow: TextOverflow.ellipsis)),
           ),
           Center(
             child: Text("Coordinator\n",
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    overflow: TextOverflow.ellipsis)),
           ),
         ],
       )),
@@ -102,11 +200,17 @@ class _ClubState extends State<Club> {
         children: [
           Center(
             child: Text("\nActivity",
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    overflow: TextOverflow.ellipsis)),
           ),
           Center(
             child: Text("Calender\n",
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    overflow: TextOverflow.ellipsis)),
           ),
         ],
       )),
@@ -115,16 +219,25 @@ class _ClubState extends State<Club> {
     List<TableRow> rows = data!
         .map<TableRow>((srecord) => TableRow(children: [
               Center(
-                  child: Text("\n" + srecord['club'] + "\n",
-                      style: TextStyle(fontSize: 16))),
+                  child: Text(
+                "\n" + srecord['club'] + "\n",
+                style: TextStyle(fontSize: 16),
+                overflow: TextOverflow.ellipsis,
+              )),
               Center(
-                  child: Text("\n" + srecord['coord'] + "\n",
-                      style: TextStyle(fontSize: 16))),
+                  child: Text(
+                "\n" + srecord['coord'] + "\n",
+                style: TextStyle(fontSize: 16),
+                overflow: TextOverflow.ellipsis,
+              )),
               Center(
-                  child: Text("\n" + srecord['coco'] + "\n",
-                      style: TextStyle(fontSize: 16))),
+                  child: Text(
+                "\n" + srecord['coco'] + "\n",
+                style: TextStyle(fontSize: 16),
+                overflow: TextOverflow.ellipsis,
+              )),
               Center(
-                  // child: Text("\n"+srecord['activitycal']+"\n", style: TextStyle(fontSize: 16))),
+                  // child: Text("\n"+srecord['activitycal']+"\n", style: TextStyle(fontSize: 16),overflow: TextOverflow.ellipsis,)),
                   child: IconButton(
                       icon: Icon(Icons.attachment_sharp), onPressed: null)),
             ]))
@@ -139,78 +252,6 @@ class _ClubState extends State<Club> {
           [header],
           rows
         ].expand((x) => x).toList(),
-      ),
-    );
-  }
-
-////////////
-
-  ////////////
-
-  @override
-  Widget build(BuildContext context) {
-    final GymkhanaData data =
-        ModalRoute.of(context)!.settings.arguments as GymkhanaData;
-
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: Text('View Club Details'),
-      ),
-      body: Container(
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              SizedBox(height: 20.0),
-              DefaultTabController(
-                  length: 3, // length of tabs
-                  initialIndex: 0,
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        Container(
-                          //color: Colors.deepOrangeAccent,
-                          child: TabBar(
-                            labelColor: Colors.deepOrange,
-                            indicatorColor: Colors.deepOrangeAccent,
-                            unselectedLabelColor: Colors.black,
-                            tabs: [
-                              Tab(
-                                child: Text(
-                                  "Club Details",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              Tab(
-                                child: Text(
-                                  "Club Session",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              Tab(
-                                child: Text(
-                                  "Club Event",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                            height: 400, //height of TabBarView
-                            decoration: BoxDecoration(
-                                border: Border(
-                                    top: BorderSide(
-                                        color: Colors.grey, width: 0.5))),
-                            child: TabBarView(children: <Widget>[
-                              clubd(data.clubDetails),
-                              //DropDownDemo(),
-                              //Center(child: Text("Working on...."),),
-                              ClubDropDown(data: data.clubSessions),
-                              clube(data.clubEvents),
-                            ]))
-                      ])),
-            ]),
       ),
     );
   }
