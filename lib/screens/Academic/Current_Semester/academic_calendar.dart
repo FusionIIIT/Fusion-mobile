@@ -31,7 +31,7 @@ class _AcademicCalendarState extends State<AcademicCalendar> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 1,
       initialIndex: 0,
       child: Scaffold(
         body: Column(
@@ -42,7 +42,7 @@ class _AcademicCalendarState extends State<AcademicCalendar> {
               child: TabBarView(
                 children: [
                   tabBarChildren(
-                    label: 'ACADEMIC-CALENDER',
+                    label: 'ACADEMIC-CALENDAR',
                     onPressed: () async {
                       String url = getUrl();
                       if (await canLaunch(url)) {
@@ -58,20 +58,6 @@ class _AcademicCalendarState extends State<AcademicCalendar> {
                       //     ),
                       //   ),
                       // );
-                    },
-                  ),
-                  tabBarChildren(
-                    label: 'ACADEMIC-CALENDER',
-                    onPressed: () async {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute<dynamic>(
-                          builder: (_) => PDFViewerFromUrl(
-                            url: getUrl(commonTTurl: true),
-                            label: 'ACADEMIC-CALENDER',
-                          ),
-                        ),
-                      );
                     },
                   ),
                 ],

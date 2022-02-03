@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 
 class PreRegistration extends StatefulWidget {
@@ -10,6 +8,19 @@ class PreRegistration extends StatefulWidget {
 class _PreRegistrationState extends State<PreRegistration> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      child: Column(
+        children: [
+          SizedBox(height: 20),
+          Text('Pre-Registration for Next Sem Courses'),
+          Expanded(
+              child: Center(
+                  child: Text(
+            "Pre Registration date hasn't come yet",
+            style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+          )))
+        ],
+      ),
+    );
   }
 }
