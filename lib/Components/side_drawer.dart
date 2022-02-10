@@ -73,6 +73,7 @@ class _SideDrawerState extends State<SideDrawer> {
             Card(
               color: Colors.black,
               child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
                 onTap: () {
                   count++;
                   setState(() {
@@ -192,6 +193,7 @@ class ModulesCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      behavior: HitTestBehavior.translucent,
       child: Card(
         color: Colors.black,
         child: Padding(
