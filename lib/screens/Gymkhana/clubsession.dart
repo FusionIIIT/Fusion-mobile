@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/models/gymkhana.dart';
 
-class ClubDropDown extends StatefulWidget {
+class ClubSession extends StatefulWidget {
   List? data;
 
-  ClubDropDown({this.data});
+  ClubSession({this.data});
 
   @override
-  _ClubDropDownState createState() => _ClubDropDownState(data: this.data);
+  _ClubSessionState createState() => _ClubSessionState(data: this.data);
 }
 
-class _ClubDropDownState extends State<ClubDropDown> {
+class _ClubSessionState extends State<ClubSession> {
   int _value = 1;
   List? data;
 
-  _ClubDropDownState({this.data});
+  _ClubSessionState({this.data});
 
   Widget sessionView() {
     TableRow header = TableRow(children: [
@@ -35,7 +35,7 @@ class _ClubDropDownState extends State<ClubDropDown> {
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
       ),
     ]);
-    List<TableRow> rows = data!
+    List<TableRow> rows = (data ?? [])
         .map<TableRow>((srecord) => TableRow(children: [
               Center(
                   child: Text("\n" + srecord['venue'] + "\n",
@@ -122,7 +122,6 @@ class _ClubDropDownState extends State<ClubDropDown> {
                 }),
             Padding(padding: EdgeInsets.symmetric(vertical: 20.0)),
             sessionView(),
-
           ],
         ));
   }
