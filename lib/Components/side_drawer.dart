@@ -168,6 +168,7 @@ class ModulesPadding extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
+      style: TextButton.styleFrom(minimumSize: const Size.fromHeight(50)),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Text(
