@@ -10,6 +10,27 @@ import 'package:http/http.dart';
 import 'declined_complaints.dart';
 import 'on-hold_complaints.dart';
 
+final List<Map<String, String>> listOfColumns = [
+  {
+    "Acc No.": "56382",
+    "Due Date": "12-01-1231",
+    "Days*o*d*c": "43",
+    "Total*o*d*c": "1239"
+  },
+  {
+    "Acc No.": "56382",
+    "Due Date": "19-01-1231",
+    "Days*o*d*c": "13",
+    "Total*o*d*c": "139"
+  },
+  {
+    "Acc No.": "56999",
+    "Due Date": "29-01-1218",
+    "Days*o*d*c": "93",
+    "Total*o*d*c": "134"
+  },
+];
+
 class ComplainHistory extends StatefulWidget {
   @override
   _ComplainHistoryState createState() => _ComplainHistoryState();
@@ -17,10 +38,6 @@ class ComplainHistory extends StatefulWidget {
 
 class _ComplainHistoryState extends State<ComplainHistory> {
   bool _loading1 = true;
-
-  int _currentPage = 0;
-  PageController _pageController = PageController(initialPage: 0);
-
   //integrating_api
   late StreamController _complaintController;
   late ComplaintService complaintService;
@@ -35,32 +52,11 @@ class _ComplainHistoryState extends State<ComplainHistory> {
     _complaintController = StreamController();
     complaintService = ComplaintService();
     getData();
-
-    Timer.periodic(Duration(seconds: 3), (Timer timer) {
-      if (_currentPage < 3 && _currentPage > 0) {
-        if (step % 2 == 0)
-          _currentPage++;
-        else
-          _currentPage--;
-      } else if (_currentPage == 3) {
-        _currentPage--;
-        step++;
-      } else {
-        _currentPage++;
-        if (step != 0) step++;
-      }
-
-      _pageController.animateToPage(
-        _currentPage,
-        duration: Duration(milliseconds: 350),
-        curve: Curves.easeIn,
-      );
-    });
   }
 
   getData() async {
     //print('token-'+widget.token!);
-    try{
+    try {
       Response response = await complaintService.getComplaint();
       setState(() {
         data = ComplaintDataUserStudent.fromJson(jsonDecode(response.body));
@@ -68,7 +64,7 @@ class _ComplainHistoryState extends State<ComplainHistory> {
         //print(data);
         _loading1 = false;
       });
-    }catch(e){
+    } catch (e) {
       print(e);
     }
   }
@@ -81,107 +77,84 @@ class _ComplainHistoryState extends State<ComplainHistory> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        _loading1 == true
-            ? Center(
-                child: CircularProgressIndicator(),
-              )
-            : SizedBox(
-                height: 200,
-                child: PageView(
-                  // scrollDirection: Axis.horizontal,
-
-                  controller: _pageController,
-                  children: <Widget>[
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PendingComplaints()),
-                        );
-                      },
-                      child: Card(
-                        elevation: 6,
-                        margin:
-                            EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                        shadowColor: Colors.black,
-                        child: Center(
-                          child: Text(
-                            'Pending Complaints',
-                            style: TextStyle(color: Colors.black, fontSize: 20),
-                          ),
-                        ),
-                      ),
+    return Container(
+      padding: EdgeInsets.all(16),
+      child: Column(
+        children: [
+          _loading1 == true
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : SizedBox(
+                  height: 200,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: DataTable(
+                      columnSpacing: 10.0,
+                      columns: [
+                        DataColumn(
+                            label: Text('Acc No.',
+                                style: TextStyle(
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.bold))),
+                        DataColumn(
+                            label: Text('Due Date',
+                                style: TextStyle(
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.bold))),
+                        DataColumn(
+                            label: Text('Days*o*d*c',
+                                style: TextStyle(
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.bold))),
+                        DataColumn(
+                            label: Text('Total*o*d*c',
+                                style: TextStyle(
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.bold))),
+                      ],
+                      rows: iterateList(),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => OnHoldComplaints()),
-                        );
-                      },
-                      child: Card(
-                        elevation: 6,
-                        margin:
-                            EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                        shadowColor: Colors.black,
-                        child: Center(
-                          child: Text(
-                            'On-Hold Complaints',
-                            style: TextStyle(color: Colors.black, fontSize: 20),
-                          ),
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ResolvedComplaints()),
-                        );
-                      },
-                      child: Card(
-                        elevation: 6,
-                        margin:
-                            EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                        shadowColor: Colors.black,
-                        child: Center(
-                          child: Text(
-                            'Resolved Complaints',
-                            style: TextStyle(color: Colors.black, fontSize: 20),
-                          ),
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => DeclinedComplaints()),
-                        );
-                      },
-                      child: Card(
-                        elevation: 6,
-                        margin:
-                            EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                        shadowColor: Colors.black,
-                        child: Center(
-                          child: Text(
-                            'Declined Complaints',
-                            style: TextStyle(color: Colors.black, fontSize: 20),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-      ],
+        ],
+      ),
     );
+  }
+}
+
+List<DataRow> iterateList() {
+  if (listOfColumns.isNotEmpty) {
+    return listOfColumns // Loops through dataColumnText, each iteration assigning the value to element
+        .map(
+          ((element) => DataRow(
+                cells: <DataCell>[
+                  DataCell(Container(
+                      width: 40, //SET width
+                      child: Text(element[
+                          "Acc No."]!))), //Extracting from Map element the value
+                  DataCell(Container(
+                      width: 57, //SET width
+                      child: Text(element["Due Date"]!))),
+                  DataCell(Container(
+                      width: 57, //SET width
+                      child: Text(element["Days*o*d*c"]!))),
+                  DataCell(Container(
+                      width: 57, //SET width
+                      child: Text(element["Total*o*d*c"]!))),
+                ],
+              )),
+        )
+        .toList();
+  } else {
+    print("no returned items");
+    return listOfColumns // Loops through dataColumnText, each iteration assigning the value to element
+        .map(
+          ((element) => DataRow(
+                color: MaterialStateColor.resolveWith((states) => Colors.blue),
+                cells: <DataCell>[],
+              )),
+        )
+        .toList();
   }
 }
