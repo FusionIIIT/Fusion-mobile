@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/pdf_view.dart';
+import 'package:fusion/Components/tabBar_text_button.dart';
 import 'package:fusion/constants.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
@@ -21,14 +22,14 @@ class _TimeTableState extends State<TimeTable> {
   }
 
   String getUrl({bool commonTTurl = false}) {
-    String url = 'https://' + getLink() + "/static/academic_procedures/";
+    String url = 'http://' + getLink() + "/static/academic_procedures/";
     if (commonTTurl == true) return url + 'TT_NS.pdf';
     if (deptType == 'CSE')
       url += 'TT_CSE.pdf';
     else if (deptType == 'ECE')
       url += 'TT_ECE.pdf';
     else if (deptType == 'ECE') url += 'TT_ME.pdf';
-
+    print(url);
     return url;
   }
 
@@ -58,26 +59,21 @@ class _TimeTableState extends State<TimeTable> {
             Flexible(
               child: TabBarView(
                 children: [
-                  tabBarChildren(
+                  TabBarTextButton(
                     label: 'VIEW TIME-TABLE',
                     onPressed: () async {
-                      String url = getUrl();
-                      if (await canLaunch(url)) {
-                        await launch(url, forceWebView: true);
-                      }
-
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute<dynamic>(
-                      //     builder: (_) => PDFViewerFromUrl(
-                      //       url: getUrl(),
-                      //       label: 'VIEW TIME-TABLE',
-                      //     ),
-                      //   ),
-                      // );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute<dynamic>(
+                          builder: (_) => PDFViewerFromUrl(
+                            url: getUrl(),
+                            label: 'VIEW TIME-TABLE',
+                          ),
+                        ),
+                      );
                     },
                   ),
-                  tabBarChildren(
+                  TabBarTextButton(
                     label: 'VIEW COMMON TIME-TABLE',
                     onPressed: () async {
                       Navigator.push(
@@ -95,17 +91,6 @@ class _TimeTableState extends State<TimeTable> {
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget tabBarChildren({String label = "", Function()? onPressed}) {
-    return Center(
-      child: Container(
-        child: TextButton(
-          onPressed: onPressed,
-          child: Text('$label'),
         ),
       ),
     );

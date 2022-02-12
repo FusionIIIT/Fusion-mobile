@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/pdf_view.dart';
+import 'package:fusion/Components/tabBar_text_button.dart';
 import 'package:fusion/constants.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
@@ -21,7 +22,7 @@ class _HolidaysListState extends State<HolidaysList> {
   }
 
   String getUrl({bool commonTTurl = false}) {
-    String url = 'https://' +
+    String url = 'http://' +
         getLink() +
         "/static/academic_procedures/List_of_Holidays.pdf";
 
@@ -34,47 +35,23 @@ class _HolidaysListState extends State<HolidaysList> {
       length: 1,
       initialIndex: 0,
       child: Scaffold(
-        body: Column(
-          mainAxisSize: MainAxisSize.min,
+        body: TabBarView(
           children: [
-            //
-            Flexible(
-              child: TabBarView(
-                children: [
-                  tabBarChildren(
-                    label: 'VIEW LIST OF HOLIDAYS',
-                    onPressed: () async {
-                      String url = getUrl();
-                      if (await canLaunch(url)) {
-                        await launch(url, forceWebView: true);
-                      }
-
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute<dynamic>(
-                      //     builder: (_) => PDFViewerFromUrl(
-                      //       url: getUrl(),
-                      //       label: 'VIEW TIME-TABLE',
-                      //     ),
-                      //   ),
-                      // );
-                    },
+            TabBarTextButton(
+              label: 'VIEW LIST OF HOLIDAYS',
+              onPressed: () async {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<dynamic>(
+                    builder: (_) => PDFViewerFromUrl(
+                      url: getUrl(),
+                      label: 'VIEW LIST OF HOLIDAYS',
+                    ),
                   ),
-                ],
-              ),
+                );
+              },
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget tabBarChildren({String label = "", Function()? onPressed}) {
-    return Center(
-      child: Container(
-        child: TextButton(
-          onPressed: onPressed,
-          child: Text('$label'),
         ),
       ),
     );

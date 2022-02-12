@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/pdf_view.dart';
+import 'package:fusion/Components/tabBar_text_button.dart';
 import 'package:fusion/constants.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class AcademicCalendar extends StatefulWidget {
   @override
@@ -21,7 +21,7 @@ class _AcademicCalendarState extends State<AcademicCalendar> {
   }
 
   String getUrl({bool commonTTurl = false}) {
-    String url = 'https://' +
+    String url = 'http://' +
         getLink() +
         "/static/academic_procedures/academic_calender.pdf";
 
@@ -34,47 +34,23 @@ class _AcademicCalendarState extends State<AcademicCalendar> {
       length: 1,
       initialIndex: 0,
       child: Scaffold(
-        body: Column(
-          mainAxisSize: MainAxisSize.min,
+        body: TabBarView(
           children: [
-            //
-            Flexible(
-              child: TabBarView(
-                children: [
-                  tabBarChildren(
-                    label: 'ACADEMIC-CALENDAR',
-                    onPressed: () async {
-                      String url = getUrl();
-                      if (await canLaunch(url)) {
-                        await launch(url, forceWebView: true);
-                      }
-
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute<dynamic>(
-                      //     builder: (_) => PDFViewerFromUrl(
-                      //       url: getUrl(),
-                      //       label: 'VIEW TIME-TABLE',
-                      //     ),
-                      //   ),
-                      // );
-                    },
+            TabBarTextButton(
+              label: 'ACADEMIC-CALENDAR',
+              onPressed: () async {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<dynamic>(
+                    builder: (_) => PDFViewerFromUrl(
+                      url: getUrl(),
+                      label: 'ACADEMIC-CALENDAR',
+                    ),
                   ),
-                ],
-              ),
+                );
+              },
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget tabBarChildren({String label = "", Function()? onPressed}) {
-    return Center(
-      child: Container(
-        child: TextButton(
-          onPressed: onPressed,
-          child: Text('$label'),
         ),
       ),
     );
