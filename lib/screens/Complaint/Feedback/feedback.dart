@@ -34,26 +34,25 @@ class _ComplaintFeedBackState extends State<ComplaintFeedBack> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: SingleChildScrollView(
+    return Scaffold(
+      appBar: AppBar(
+          backgroundColor: Colors.black,
+          title: Text(
+            "Feedback",
+            style: TextStyle(color: Colors.white),
+          )),
+      body: SingleChildScrollView(
         child: Card(
           elevation: 2.0,
-          // margin: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+          // margin: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
           shadowColor: Colors.black,
           child: Container(
             padding: EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'ComplaintFeedback For Complaints',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 18,
-                  ),
-                ),
                 SizedBox(
-                  height: 30,
+                  height: 10,
                 ),
                 Text(
                   'Date',
@@ -63,16 +62,17 @@ class _ComplaintFeedBackState extends State<ComplaintFeedBack> {
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 ListTile(
+                  contentPadding: EdgeInsets.all(0),
                   title: Container(
-                    padding: EdgeInsets.all(5),
+                    padding: EdgeInsets.all(8),
                     decoration: BoxDecoration(
                       border: Border.all(
                         color: Colors.black,
                       ),
-                      borderRadius: BorderRadius.circular(5.0),
+                      borderRadius: BorderRadius.circular(16),
                     ),
                     child: Text(
                         '${pickedDate!.day}/${pickedDate!.month}/${pickedDate!.year}'),
@@ -93,7 +93,7 @@ class _ComplaintFeedBackState extends State<ComplaintFeedBack> {
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 15,
                 ),
                 TextField(
                   style: TextStyle(
@@ -112,7 +112,7 @@ class _ComplaintFeedBackState extends State<ComplaintFeedBack> {
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 15,
                 ),
                 TextField(
                   style: TextStyle(
@@ -131,7 +131,7 @@ class _ComplaintFeedBackState extends State<ComplaintFeedBack> {
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 15,
                 ),
                 TextField(
                   style: TextStyle(
@@ -150,7 +150,7 @@ class _ComplaintFeedBackState extends State<ComplaintFeedBack> {
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 15,
                 ),
                 TextField(
                   style: TextStyle(
@@ -169,7 +169,7 @@ class _ComplaintFeedBackState extends State<ComplaintFeedBack> {
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 15,
                 ),
                 TextField(
                   style: TextStyle(
@@ -188,7 +188,7 @@ class _ComplaintFeedBackState extends State<ComplaintFeedBack> {
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 15,
                 ),
                 TextField(
                   maxLines: 6,
@@ -199,7 +199,7 @@ class _ComplaintFeedBackState extends State<ComplaintFeedBack> {
                     filled: true,
                     fillColor: Colors.white,
                     hintText: "Default Text",
-                    contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                    contentPadding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(
                         Radius.circular(10),
@@ -219,7 +219,7 @@ class _ComplaintFeedBackState extends State<ComplaintFeedBack> {
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         'Submit',
-                        style: TextStyle(fontSize: 20),
+                        style: TextStyle(fontSize: 15),
                       ),
                     ),
                     style: ButtonStyle(

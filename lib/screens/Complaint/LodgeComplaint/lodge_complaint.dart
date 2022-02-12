@@ -68,26 +68,19 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
     String? complainer = widget.complainerRollNo;
     String? worker_id = "";
 
-    return SafeArea(
-      child: Card(
-        elevation: 2.0,
-        // margin: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-        shadowColor: Colors.black,
+    return Scaffold(
+      appBar: AppBar(
+          backgroundColor: Colors.black,
+          title: Text(
+            "Lodge Complaint",
+            style: TextStyle(color: Colors.white),
+          )),
+      body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Complaints',
-                style: TextStyle(
-                  fontWeight: FontWeight.w900,
-                  fontSize: 18,
-                ),
-              ),
-              SizedBox(
-                height: 30,
-              ),
               Text(
                 'Add a new Complaint',
                 style: TextStyle(

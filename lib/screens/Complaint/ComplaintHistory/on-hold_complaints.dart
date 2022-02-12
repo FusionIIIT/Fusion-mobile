@@ -5,12 +5,22 @@ import 'package:flutter/material.dart';
 import 'package:fusion/models/complaints.dart';
 import 'package:fusion/services/complaint_service.dart';
 import 'package:http/http.dart';
-import 'complaints_card.dart';
 
 class OnHoldComplaints extends StatefulWidget {
   @override
   _OnHoldComplaintsState createState() => _OnHoldComplaintsState();
 }
+
+final List<Map<String, String>> onHoldComplains = [
+  {
+    "S.No": " ",
+    "Date": " ",
+    "Complaint Type": " ",
+    "Location": " ",
+    "Details": " ",
+    "Worker Name": " "
+  }
+];
 
 class _OnHoldComplaintsState extends State<OnHoldComplaints> {
   bool _loading = true;
@@ -29,7 +39,7 @@ class _OnHoldComplaintsState extends State<OnHoldComplaints> {
 
   getData() async {
     //print('token-'+widget.token!);
-    try{
+    try {
       Response response = await complaintService.getComplaint();
       setState(() {
         data = ComplaintDataUserStudent.fromJson(jsonDecode(response.body));
@@ -37,7 +47,7 @@ class _OnHoldComplaintsState extends State<OnHoldComplaints> {
         //print(data);
         _loading = false;
       });
-    }catch(e){
+    } catch (e) {
       print(e);
     }
   }
@@ -51,24 +61,83 @@ class _OnHoldComplaintsState extends State<OnHoldComplaints> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("On-Hold Complaints"),
-      ),
       body: _loading == true
           ? Center(child: CircularProgressIndicator())
-          : Container(
-              color: Colors.white,
-              child: ListView.builder(
-                itemCount: data.student_complain!.length,
-                itemBuilder: (BuildContext context, index) {
-                  return data.student_complain![index]['remarks'] == "On-Hold"
-                      ? ComplaintCard(data: data, index: index)
-                      : SizedBox(
-                          width: 1,
-                        );
-                },
-              ),
-            ),
+          : listView(),
     );
   }
+}
+
+ListView listView() {
+  return ListView(
+    children: [
+      SizedBox(height: 20),
+      SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: DataTable(
+          // headingRowColor:
+          //     MaterialStateColor.resolveWith((states) => Colors.blue),
+          dataRowHeight: 80.0,
+          columnSpacing: 10.0,
+          columns: [
+            DataColumn(
+                label: Text('S.No',
+                    style:
+                        TextStyle(fontSize: 13, fontWeight: FontWeight.bold))),
+            DataColumn(
+                label: Text('Date',
+                    style:
+                        TextStyle(fontSize: 14, fontWeight: FontWeight.bold))),
+            DataColumn(
+                label: Text('Complaint Type',
+                    style:
+                        TextStyle(fontSize: 14, fontWeight: FontWeight.bold))),
+            DataColumn(
+                label: Text('Location',
+                    style:
+                        TextStyle(fontSize: 14, fontWeight: FontWeight.bold))),
+            DataColumn(
+                label: Text('Details',
+                    style:
+                        TextStyle(fontSize: 14, fontWeight: FontWeight.bold))),
+            DataColumn(
+                label: Text('Worker Name',
+                    style:
+                        TextStyle(fontSize: 14, fontWeight: FontWeight.bold))),
+          ],
+          rows: complaintList(),
+        ),
+      ),
+    ],
+  );
+}
+
+List<DataRow> complaintList() {
+  return onHoldComplains // Loops through dataColumnText, each iteration assigning the value to element
+      .map(
+        ((element) => DataRow(
+              cells: <DataCell>[
+                DataCell(Container(
+                    width: 40, //SET width
+                    child: Text(element[
+                        "S.No"]!))), //Extracting from Map element the value
+                DataCell(Container(
+                    width: 57, //SET width
+                    child: Text(element["Date"]!))),
+                DataCell(Container(
+                    width: 57, //SET width
+                    child: Text(element["Complaint Type"]!))),
+                DataCell(Container(
+                    width: 57, //SET width
+                    child: Text(element["Location"]!))),
+                DataCell(Container(
+                    width: 57, //SET width
+                    child: Text(element["Details"]!))),
+                DataCell(Container(
+                    width: 57, //SET width
+                    child: Text(element["Worker Name"]!))),
+              ],
+            )),
+      )
+      .toList();
 }
