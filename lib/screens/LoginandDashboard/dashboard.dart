@@ -31,11 +31,9 @@ class _DashboardState extends State<Dashboard> {
   late StreamController _profileController;
   late ProfileService profileService;
   late ProfileData data2;
-
   @override
   void initState() {
     super.initState();
-
     _dashboardController = StreamController();
     dashboardService = DashboardService();
     _profileController = StreamController();
@@ -44,17 +42,21 @@ class _DashboardState extends State<Dashboard> {
   }
 
   getData() async {
-    Response response = await dashboardService.getDashboard();
-    Response response2 = await profileService.getProfile();
-    setState(() {
-      data = DashboardData.fromJson(jsonDecode(response.body));
-      data2 = ProfileData.fromJson(jsonDecode(response2.body));
-      _loading = false;
-    });
-    name = data2.user!['first_name'] + ' ' + data2.user!['last_name'];
-    studentType = data2.profile!['department']!['name'] +
-        '  ' +
-        data2.profile!['user_type'];
+    try {
+      Response response = await dashboardService.getDashboard();
+      Response response2 = await profileService.getProfile();
+      setState(() {
+        data = DashboardData.fromJson(jsonDecode(response.body));
+        data2 = ProfileData.fromJson(jsonDecode(response2.body));
+        _loading = false;
+      });
+      name = data2.user!['first_name'] + ' ' + data2.user!['last_name'];
+      studentType = data2.profile!['department']!['name'] +
+          '  ' +
+          data2.profile!['user_type'];
+    } catch (e) {
+      print(e);
+    }
   }
 
   loadData() async {
@@ -65,7 +67,6 @@ class _DashboardState extends State<Dashboard> {
   }
 
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-
   showSnack() {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(

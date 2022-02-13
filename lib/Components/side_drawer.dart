@@ -176,7 +176,7 @@ class ModulesPadding extends StatelessWidget {
       ),
       onPressed: () async {
         var _prefs = await StorageService.getInstance();
-        String token = _prefs!.userInDB.token!;
+        String token = _prefs!.userInDB?.token ?? "";
         Navigator.pushReplacementNamed(context, pageMover!, arguments: token);
       },
     );
@@ -213,7 +213,7 @@ class ModulesCard extends StatelessWidget {
       ),
       onTap: () async {
         var _prefs = await StorageService.getInstance();
-        String token = _prefs!.userInDB.token!;
+        String token = _prefs!.userInDB?.token ?? "";
         if (cardLine == 'Log Out') {
           LoginService auth = LoginService();
           auth.logout();
