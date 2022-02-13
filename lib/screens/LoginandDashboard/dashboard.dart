@@ -20,7 +20,9 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  bool _bool = true;
+  bool _notificationsBool = true;
+  bool _newsBool = false;
+  bool _announcementsBool = false;
   bool _loading = true;
   late String name;
   late String studentType;
@@ -140,13 +142,17 @@ class _DashboardState extends State<Dashboard> {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              _bool = true;
+                              _notificationsBool = true;
+                              _announcementsBool = false;
+                              _newsBool = false;
                               setState(() {
-                                _bool = true;
+                                _notificationsBool = true;
+                                _announcementsBool = false;
+                                _newsBool = false;
                               });
                             },
                             child: Padding(
-                              padding: const EdgeInsets.all(16.0),
+                              padding: const EdgeInsets.all(15.0),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -160,7 +166,7 @@ class _DashboardState extends State<Dashboard> {
                                   ),
                                   Icon(
                                     Icons.notifications_active_rounded,
-                                    color: _bool
+                                    color: _notificationsBool
                                         ? Colors.deepOrangeAccent
                                         : Colors.white,
                                   ),
@@ -170,9 +176,13 @@ class _DashboardState extends State<Dashboard> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              _bool = false;
+                              _newsBool = true;
+                              _announcementsBool = false;
+                              _notificationsBool = false;
                               setState(() {
-                                _bool = false;
+                                _newsBool = true;
+                                _announcementsBool = false;
+                                _notificationsBool = false;
                               });
                             },
                             child: Padding(
@@ -190,9 +200,44 @@ class _DashboardState extends State<Dashboard> {
                                   ),
                                   Icon(
                                     Icons.email,
-                                    color: _bool
-                                        ? Colors.white
-                                        : Colors.deepOrangeAccent,
+                                    color: _newsBool
+                                        ? Colors.deepOrangeAccent
+                                        : Colors.white,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+
+                          GestureDetector(
+                            onTap: () {
+                              _announcementsBool = true;
+                              _newsBool = false;
+                              _notificationsBool = false;
+                              setState(() {
+                                _announcementsBool = true;
+                                _newsBool = false;
+                                _notificationsBool = false;
+                              });
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 16.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Announcements',
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  Icon(
+                                    Icons.announcement,
+                                    color: _announcementsBool
+                                        ? Colors.deepOrangeAccent
+                                        : Colors.white,
                                   ),
                                 ],
                               ),
@@ -201,7 +246,7 @@ class _DashboardState extends State<Dashboard> {
                         ],
                       ),
                     ),
-                    _bool
+                    _notificationsBool
                         ? NotificationCard(
                             notifications: data.notifications,
                           )
