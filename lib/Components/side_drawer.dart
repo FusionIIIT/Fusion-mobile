@@ -73,6 +73,7 @@ class _SideDrawerState extends State<SideDrawer> {
             Card(
               color: Colors.black,
               child: GestureDetector(
+                //behaviour to translucent to get Tap even on blank or empty space within container
                 behavior: HitTestBehavior.translucent,
                 onTap: () {
                   count++;
@@ -194,6 +195,7 @@ class ModulesCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      //behaviour to translucent to get Tap even on blank or empty space within container
       behavior: HitTestBehavior.translucent,
       child: Card(
         color: Colors.black,

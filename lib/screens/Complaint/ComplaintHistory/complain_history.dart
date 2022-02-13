@@ -57,6 +57,7 @@ class _ComplainHistoryState extends State<ComplainHistory> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
+      //Default TabController for tab scrollbar with number of elements equal to 4
       length: 4,
       child: Scaffold(
         appBar: AppBar(
@@ -79,6 +80,7 @@ class _ComplainHistoryState extends State<ComplainHistory> {
               child: Icon(Icons.more_vert),
             ),
           ],
+          //TabBar for a horizontal scrollable tob bar
           bottom: TabBar(
             isScrollable: true,
             indicatorColor: Colors.white,
@@ -115,6 +117,7 @@ class _ComplainHistoryState extends State<ComplainHistory> {
             ],
           ),
         ),
+        //TabBarView contains all the children to be called when tapped.
         body: TabBarView(
           children: [
             PendingComplaints(),

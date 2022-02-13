@@ -6,6 +6,7 @@ import 'package:fusion/models/complaints.dart';
 import 'package:fusion/services/complaint_service.dart';
 import 'package:http/http.dart';
 
+//A dummy list of sample json returned by backend (this resolvedComplaints will bew removed when backend is available)
 final List<Map<String, String>> resolvedComplaints = [
   {
     "S.No": " ",
@@ -68,18 +69,22 @@ class _ResolvedComplaintsState extends State<ResolvedComplaints> {
   }
 }
 
+//Main component to render the table..
 ListView listView() {
   return ListView(
     children: [
       SizedBox(height: 20),
+      //To scroll pass the width
       SingleChildScrollView(
         scrollDirection: Axis.horizontal,
+        //Component to lay table on the page
         child: DataTable(
           // headingRowColor:
           //     MaterialStateColor.resolveWith((states) => Colors.blue),
           dataRowHeight: 80.0,
           columnSpacing: 10.0,
           columns: [
+            //DataColumns to lay columns of the table
             DataColumn(
                 label: Text('S.No',
                     style:
@@ -105,6 +110,7 @@ ListView listView() {
                     style:
                         TextStyle(fontSize: 14, fontWeight: FontWeight.bold))),
           ],
+          //This method will get lay all the rows
           rows: complaintList(),
         ),
       ),
@@ -113,7 +119,8 @@ ListView listView() {
 }
 
 List<DataRow> complaintList() {
-  return resolvedComplaints // Loops through dataColumnText, each iteration assigning the value to element
+  //Get the list of json and map through, to select each json and lay row to the table..
+  return resolvedComplaints
       .map(
         ((element) => DataRow(
               cells: <DataCell>[
