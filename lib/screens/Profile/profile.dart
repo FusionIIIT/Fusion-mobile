@@ -5,7 +5,6 @@ import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
-import 'dart:ui';
 import 'Menus/profile_menu.dart';
 import 'Menus/skills_menu.dart';
 import 'Menus/education_menu.dart';
@@ -22,8 +21,6 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   bool _loading1 = true;
-  // bool _loading2 = false;
-  // bool _loading3 = false;
 
   //integrating_api
   late StreamController _profileController;
@@ -53,7 +50,7 @@ class _ProfileState extends State<Profile> {
         data = ProfileData.fromJson(jsonDecode(response.body));
         _loading1 = false;
       });
-    }catch(e){
+    } catch (e) {
       print(e);
     }
   }

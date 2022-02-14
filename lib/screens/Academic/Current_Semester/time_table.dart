@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/pdf_view.dart';
-import 'package:fusion/Components/tabBar_text_button.dart';
+import 'package:fusion/Components/tabBar_children_with_text_button.dart';
 import 'package:fusion/constants.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class TimeTable extends StatefulWidget {
   @override
@@ -59,7 +58,7 @@ class _TimeTableState extends State<TimeTable> {
             Flexible(
               child: TabBarView(
                 children: [
-                  TabBarTextButton(
+                  TabBarChildrenWithTextButton(
                     label: 'VIEW TIME-TABLE',
                     onPressed: () async {
                       Navigator.push(
@@ -73,7 +72,7 @@ class _TimeTableState extends State<TimeTable> {
                       );
                     },
                   ),
-                  TabBarTextButton(
+                  TabBarChildrenWithTextButton(
                     label: 'VIEW COMMON TIME-TABLE',
                     onPressed: () async {
                       Navigator.push(

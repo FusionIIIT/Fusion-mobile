@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:core';
 import 'package:fusion/constants.dart';
 import 'package:fusion/services/service_locator.dart';
@@ -6,19 +5,21 @@ import 'package:fusion/services/storage_service.dart';
 import 'package:http/http.dart' as http;
 
 class ComplaintService {
-  getComplaint() async {
+  Future<http.Response> getComplaint() async {
     try {
-      var service = locator<StorageService>();
-      if (service.userInDB?.token == null) throw Exception('Can\'t load');
+      var storage_service = locator<StorageService>();
+
+      if (storage_service.userInDB?.token == null)
+        throw Exception('Token Error');
+
       Map<String, String> headers = {
-        'Authorization': 'Token ' + (service.userInDB?.token ?? "")
+        'Authorization': 'Token ' + (storage_service.userInDB?.token ?? "")
       };
       print("fetching complaints");
       var client = http.Client();
       http.Response response = await client.get(
         Uri.http(
           getLink(),
-          //"/complaint/api/user/detail/394"
           "/complaint/api/studentcomplain",
         ),
         headers: headers,
@@ -29,14 +30,17 @@ class ComplaintService {
       }
       throw Exception('Can\'t load');
     } catch (e) {
-      print(e);
+      rethrow;
     }
   }
 
   Future<bool> lodgeComplaint(
+    // ignore: non_constant_identifier_names
     String? complaint_finish,
+    // ignore: non_constant_identifier_names
     String? complaint_type,
     String? location,
+    // ignore: non_constant_identifier_names
     String? specific_location,
     String? details,
     String? status,
@@ -46,6 +50,7 @@ class ComplaintService {
     String? feedback,
     String? comment,
     String? complainer,
+    // ignore: non_constant_identifier_names
     String? worker_id,
   ) async {
     try {
@@ -64,29 +69,13 @@ class ComplaintService {
         "complainer": complainer!,
         "worker_id": worker_id!,
       };
-      var service = locator<StorageService>();
-      if (service.userInDB?.token == null) throw Exception('Can\'t load');
-      Map<String, String> headers = {
-        'Authorization': 'Token ' + (service.userInDB?.token ?? "")
-      };
+      var storage_service = locator<StorageService>();
+      if (storage_service.userInDB?.token == null)
+        throw Exception('Token Error');
 
-      // Map<String, dynamic> data1 = {
-      //   "complaint_finish": "2021-03-12",
-      //   "complaint_type": "dustbin",
-      //   "location": "hall-3",
-      //   "specific_location": "KFC",
-      //   "details": "kfc",
-      //   "status": "0",
-      //   "remarks": "Pending",
-      //   "flag": "0",
-      //   "reason": "None",
-      //   "feedback": "",
-      //   "comment": "None",
-      //   "complainer": "2018186",
-      //   "worker_id": ""
-      // };
-      // print(data1.toString());
-      //print(data.toString());
+      Map<String, String> headers = {
+        'Authorization': 'Token ' + (storage_service.userInDB?.token ?? "")
+      };
 
       var client = http.Client();
       var response = await client.post(
@@ -101,17 +90,20 @@ class ComplaintService {
       if (response.statusCode == 201) return true;
       return false;
     } catch (e) {
-      print(e);
-      return false;
+      rethrow;
     }
   }
 
   Future<bool> updateComplaint(
     int? id,
+    // ignore: non_constant_identifier_names
     String? complaint_date,
+    // ignore: non_constant_identifier_names
     String? complaint_finish,
+    // ignore: non_constant_identifier_names
     String? complaint_type,
     String? location,
+    // ignore: non_constant_identifier_names
     String? specific_location,
     String? details,
     String? status,
@@ -138,30 +130,13 @@ class ComplaintService {
         "comment": comment!,
         "complainer": complainer!,
       };
-      var service = locator<StorageService>();
-      if (service.userInDB?.token == null) throw Exception('Can\'t load');
+      var storage_service = locator<StorageService>();
+      if (storage_service.userInDB?.token == null)
+        throw Exception('Token Error');
 
       Map<String, String> headers = {
-        'Authorization': 'Token ' + (service.userInDB?.token ?? "")
+        'Authorization': 'Token ' + (storage_service.userInDB?.token ?? "")
       };
-
-      // Map<String, dynamic> data1 = {
-      //   "complaint_date": "2021-03-14T16:47:51.870035",
-      //   "complaint_finish": "2021-03-12",
-      //   "complaint_type": "dustbin",
-      //   "location": "hall-3",
-      //   "specific_location": "A303",
-      //   "details": "bed water",
-      //   "status": 0,
-      //   "remarks": "Pending",
-      //   "flag": 0,
-      //   "reason": "None",
-      //   "feedback": "",
-      //   "comment": "None",
-      //   "complainer": "2018186"
-      // };
-      // print(data1.toString());
-      //print(data.toString());
 
       var client = http.Client();
       var response = await client.put(
@@ -175,18 +150,18 @@ class ComplaintService {
       if (response.statusCode == 200) return true;
       return false;
     } catch (e) {
-      print(e);
-      return false;
+      rethrow;
     }
   }
 
   Future<bool> deleteComplaint(int? id) async {
     try {
-      var service = locator<StorageService>();
-      if (service.userInDB?.token == null) throw Exception('Can\'t load');
+      var storage_service = locator<StorageService>();
+      if (storage_service.userInDB?.token == null)
+        throw Exception('Token Error');
 
       Map<String, String> headers = {
-        'Authorization': 'Token ' + (service.userInDB?.token ?? "")
+        'Authorization': 'Token ' + (storage_service.userInDB?.token ?? "")
       };
       var client = http.Client();
       print(id);
@@ -201,8 +176,7 @@ class ComplaintService {
       if (response.statusCode == 404) return true;
       return false;
     } catch (e) {
-      print(e);
-      return false;
+      rethrow;
     }
   }
 }

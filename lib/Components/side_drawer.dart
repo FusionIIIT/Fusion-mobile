@@ -224,7 +224,8 @@ class ModulesCard extends StatelessWidget {
           auth.logout();
           Navigator.pushReplacementNamed(context, "/landing");
         }
-        Navigator.pushReplacementNamed(context, pageMover!, arguments: token);
+        if (pageMover != null)
+          Navigator.pushReplacementNamed(context, pageMover!, arguments: token);
       },
     );
   }
