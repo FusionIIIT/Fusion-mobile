@@ -1,240 +1,112 @@
-import 'package:date_field/date_field.dart';
+// import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
-import '../Constants/constants.dart';
+// import '../Constants/constants.dart';
 
-class FeedBack extends StatefulWidget {
+//A dummy list of sample json returned by backend (this onHoldComplains will bew removed when backend is available)
+final List<Map<String, String>> feedbackList = [
+  {
+    "Date": " ",
+    "Type": " ",
+    "Location": " ",
+    "Details": " ",
+    "Status": " ",
+    "Worker Name": " ",
+    "Feedback": " "
+  }
+];
+
+class ComplaintFeedBack extends StatefulWidget {
   @override
-  _FeedBackState createState() => _FeedBackState();
+  _ComplaintFeedBackState createState() => _ComplaintFeedBackState();
 }
 
-class _FeedBackState extends State<FeedBack> {
-  DateTime? pickedDate;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    pickedDate = DateTime.now();
-  }
-
-  _pickDate() async {
-    DateTime date = (await showDatePicker(
-      context: context,
-      initialDate: pickedDate!,
-      firstDate: DateTime(DateTime.now().year - 5),
-      lastDate: DateTime(DateTime.now().year + 5),
-    ))!;
-
-    if (date != null) {
-      setState(() {
-        pickedDate = date;
-      });
-    }
-  }
-
+class _ComplaintFeedBackState extends State<ComplaintFeedBack> {
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 2.0,
-      margin: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-      shadowColor: Colors.black,
-      child: Container(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Feedback For Complaints',
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 18,
-              ),
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            Text(
-              'Date',
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 15,
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            ListTile(
-              title: Container(
-                padding: EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.black,
-                  ),
-                  borderRadius: BorderRadius.circular(5.0),
-                ),
-                child: Text(
-                    '${pickedDate!.day}/${pickedDate!.month}/${pickedDate!.year}'),
-              ),
-              leading: Icon(
-                Icons.calendar_today_sharp,
-              ),
-              onTap: _pickDate,
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            Text(
-              'Complaint Type',
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 15,
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            TextField(
-              style: TextStyle(
-                color: Colors.black,
-              ),
-              decoration: kTextFieldInputDecoration,
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            Text(
-              'Location',
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 15,
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            TextField(
-              style: TextStyle(
-                color: Colors.black,
-              ),
-              decoration: kTextFieldInputDecoration,
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            Text(
-              'Complaint Details *',
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 15,
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            TextField(
-              style: TextStyle(
-                color: Colors.black,
-              ),
-              decoration: kTextFieldInputDecoration,
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            Text(
-              'Status',
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 15,
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            TextField(
-              style: TextStyle(
-                color: Colors.black,
-              ),
-              decoration: kTextFieldInputDecoration,
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            Text(
-              'Workers Name',
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 15,
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            TextField(
-              style: TextStyle(
-                color: Colors.black,
-              ),
-              decoration: kTextFieldInputDecoration,
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            Text(
-              'FeedBack',
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 15,
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            TextField(
-              maxLines: 6,
-              style: TextStyle(
-                color: Colors.black,
-              ),
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.white,
-                hintText: "Default Text",
-                contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  // Validate returns true if the form is valid, otherwise false.
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Submit',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                ),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                    (Set<MaterialState> states) {
-                      if (states.contains(MaterialState.pressed))
-                        return Colors.deepOrange;
-                      return Colors
-                          .deepOrangeAccent; // Use the component's default.
-                    },
-                  ),
-                ),
-              ),
-            )
+    return Scaffold(
+      appBar: AppBar(
+          backgroundColor: Colors.black,
+          title: Text(
+            "Feedback",
+            style: TextStyle(color: Colors.white),
+          )),
+      body: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        //Component to lay table on the page
+        child: DataTable(
+          // headingRowColor:
+          //     MaterialStateColor.resolveWith((states) => Colors.blue),
+          dataRowHeight: 80.0,
+          columnSpacing: 10.0,
+          columns: [
+            //DataColumns to lay columns of the table
+            DataColumn(
+                label: Text('Date',
+                    style:
+                        TextStyle(fontSize: 14, fontWeight: FontWeight.bold))),
+            DataColumn(
+                label: Text('Type',
+                    style:
+                        TextStyle(fontSize: 13, fontWeight: FontWeight.bold))),
+            DataColumn(
+                label: Text('Location',
+                    style:
+                        TextStyle(fontSize: 14, fontWeight: FontWeight.bold))),
+            DataColumn(
+                label: Text('Details',
+                    style:
+                        TextStyle(fontSize: 14, fontWeight: FontWeight.bold))),
+            DataColumn(
+                label: Text('Status',
+                    style:
+                        TextStyle(fontSize: 13, fontWeight: FontWeight.bold))),
+            DataColumn(
+                label: Text('Worker Name',
+                    style:
+                        TextStyle(fontSize: 14, fontWeight: FontWeight.bold))),
+            DataColumn(
+                label: Text('Feedback',
+                    style:
+                        TextStyle(fontSize: 1, fontWeight: FontWeight.bold))),
           ],
+          //This method will get lay all the rows
+          rows: feedBacks(),
         ),
       ),
     );
   }
+}
+
+List<DataRow> feedBacks() {
+  //Get the list of json and map through, to select each json and lay row to the table..
+  return feedbackList
+      .map(
+        ((element) => DataRow(
+              cells: <DataCell>[
+                //Extracting from Map element the value
+                DataCell(Container(
+                    width: 57, //SET width
+                    child: Text(element["Date"]!))),
+                DataCell(Container(
+                    width: 40, //SET width
+                    child: Text(element["Type"]!))),
+                DataCell(Container(
+                    width: 57, //SET width
+                    child: Text(element["Location"]!))),
+                DataCell(Container(
+                    width: 57, //SET width
+                    child: Text(element["Details"]!))),
+                DataCell(Container(
+                    width: 40, //SET width
+                    child: Text(element["Status"]!))),
+                DataCell(Container(
+                    width: 57, //SET width
+                    child: Text(element["Worker Name"]!))),
+                DataCell(Container(
+                    width: 40, //SET width
+                    child: Text(element["Feedback"]!))),
+              ],
+            )),
+      )
+      .toList();
 }

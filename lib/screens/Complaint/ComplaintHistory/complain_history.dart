@@ -17,10 +17,6 @@ class ComplainHistory extends StatefulWidget {
 
 class _ComplainHistoryState extends State<ComplainHistory> {
   bool _loading1 = true;
-
-  int _currentPage = 0;
-  PageController _pageController = PageController(initialPage: 0);
-
   //integrating_api
   late StreamController _complaintController;
   late ComplaintService complaintService;
@@ -35,32 +31,11 @@ class _ComplainHistoryState extends State<ComplainHistory> {
     _complaintController = StreamController();
     complaintService = ComplaintService();
     getData();
-
-    Timer.periodic(Duration(seconds: 3), (Timer timer) {
-      if (_currentPage < 3 && _currentPage > 0) {
-        if (step % 2 == 0)
-          _currentPage++;
-        else
-          _currentPage--;
-      } else if (_currentPage == 3) {
-        _currentPage--;
-        step++;
-      } else {
-        _currentPage++;
-        if (step != 0) step++;
-      }
-
-      _pageController.animateToPage(
-        _currentPage,
-        duration: Duration(milliseconds: 350),
-        curve: Curves.easeIn,
-      );
-    });
   }
 
   getData() async {
     //print('token-'+widget.token!);
-    try{
+    try {
       Response response = await complaintService.getComplaint();
       setState(() {
         data = ComplaintDataUserStudent.fromJson(jsonDecode(response.body));
@@ -68,7 +43,7 @@ class _ComplainHistoryState extends State<ComplainHistory> {
         //print(data);
         _loading1 = false;
       });
-    }catch(e){
+    } catch (e) {
       print(e);
     }
   }
@@ -81,107 +56,77 @@ class _ComplainHistoryState extends State<ComplainHistory> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        _loading1 == true
-            ? Center(
-                child: CircularProgressIndicator(),
-              )
-            : SizedBox(
-                height: 200,
-                child: PageView(
-                  // scrollDirection: Axis.horizontal,
-
-                  controller: _pageController,
-                  children: <Widget>[
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PendingComplaints()),
-                        );
-                      },
-                      child: Card(
-                        elevation: 6,
-                        margin:
-                            EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                        shadowColor: Colors.black,
-                        child: Center(
-                          child: Text(
-                            'Pending Complaints',
-                            style: TextStyle(color: Colors.black, fontSize: 20),
-                          ),
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => OnHoldComplaints()),
-                        );
-                      },
-                      child: Card(
-                        elevation: 6,
-                        margin:
-                            EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                        shadowColor: Colors.black,
-                        child: Center(
-                          child: Text(
-                            'On-Hold Complaints',
-                            style: TextStyle(color: Colors.black, fontSize: 20),
-                          ),
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ResolvedComplaints()),
-                        );
-                      },
-                      child: Card(
-                        elevation: 6,
-                        margin:
-                            EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                        shadowColor: Colors.black,
-                        child: Center(
-                          child: Text(
-                            'Resolved Complaints',
-                            style: TextStyle(color: Colors.black, fontSize: 20),
-                          ),
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => DeclinedComplaints()),
-                        );
-                      },
-                      child: Card(
-                        elevation: 6,
-                        margin:
-                            EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                        shadowColor: Colors.black,
-                        child: Center(
-                          child: Text(
-                            'Declined Complaints',
-                            style: TextStyle(color: Colors.black, fontSize: 20),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+    return DefaultTabController(
+      //Default TabController for tab scrollbar with number of elements equal to 4
+      length: 4,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+          title: Text(
+            "Complaint History",
+            style: TextStyle(color: Colors.white),
+          ),
+          actions: <Widget>[
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Icon(Icons.search),
+            ),
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Icon(Icons.notifications),
+            ),
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Icon(Icons.more_vert),
+            ),
+          ],
+          //TabBar for a horizontal scrollable tob bar
+          bottom: TabBar(
+            isScrollable: true,
+            indicatorColor: Colors.white,
+            indicatorWeight: 6.0,
+            tabs: [
+              Tab(
+                child: Container(
+                  child: Text(
+                    'Pending Complaints',
+                  ),
                 ),
               ),
-      ],
+              Tab(
+                child: Container(
+                  child: Text(
+                    'OnHold Complaints',
+                  ),
+                ),
+              ),
+              Tab(
+                child: Container(
+                  child: Text(
+                    'Resolved Complaints',
+                  ),
+                ),
+              ),
+              Tab(
+                child: Container(
+                  child: Text(
+                    'Declined Complaints',
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        //TabBarView contains all the children to be called when tapped.
+        body: TabBarView(
+          children: [
+            PendingComplaints(),
+            OnHoldComplaints(),
+            ResolvedComplaints(),
+            DeclinedComplaints(),
+          ],
+        ),
+      ),
     );
   }
 }
