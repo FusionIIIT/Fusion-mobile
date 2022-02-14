@@ -196,7 +196,11 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
                         child: myContainer("Apply for Bonafide"),
                         onTap: () {
                           Navigator.pushNamed(
-                              context, '/academic_home_page/bonafide');
+                              context, '/academic_home_page/bonafide',
+                              arguments: {
+                                'firstName': data.details!['current_user']['first_name'].toString(),
+                                'lastName': data.details!['current_user']['last_name'],
+                                'branch': data.details!['user_branch']});
                         },
                       ),
                       InkWell(
