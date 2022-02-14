@@ -40,10 +40,10 @@ class _LoginPageState extends State<LoginPage> {
         username = input;
       },
       validator: (String? value) {
-        if (value!.isEmpty) {
+        if (value?.isEmpty ?? false) {
           return 'Please enter username';
         }
-        if (value.contains('@')) {
+        if (value?.contains('@') ?? false) {
           return 'Please enter username only';
         }
       },
@@ -83,11 +83,11 @@ class _LoginPageState extends State<LoginPage> {
           minWidth: 200.0,
           height: 42.0,
           onPressed: () async {
-            if (!(_formKey.currentState!.validate())) {
-              print('Unsuccessful');
+            if (!(_formKey.currentState?.validate() ?? false)) {
+              _showDialog();
             } else {
               LoginService auth = LoginService();
-              bool complete = await auth.login(username!, pass!);
+              bool complete = await auth.login(username ?? "", pass ?? "");
               TextInput.finishAutofillContext();
               if (complete == true) {
                 Navigator.pushReplacementNamed(context, "/landing");
