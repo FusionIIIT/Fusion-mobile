@@ -33,11 +33,9 @@ class _DashboardState extends State<Dashboard> {
   late StreamController _profileController;
   late ProfileService profileService;
   late ProfileData data2;
-
   @override
   void initState() {
     super.initState();
-
     _dashboardController = StreamController();
     dashboardService = DashboardService();
     _profileController = StreamController();
@@ -71,7 +69,6 @@ class _DashboardState extends State<Dashboard> {
   }
 
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-
   showSnack() {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
