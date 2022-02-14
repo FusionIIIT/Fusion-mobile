@@ -58,7 +58,7 @@ class _DashboardState extends State<Dashboard> {
       studentType = data2.profile!['department']!['name'] +
           '  ' +
           data2.profile!['user_type'];
-    }catch(e){
+    } catch (e) {
       print(e);
     }
   }
@@ -137,22 +137,22 @@ class _DashboardState extends State<Dashboard> {
                     ),
                     Card(
                       color: Colors.black,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              _notificationsBool = true;
-                              _announcementsBool = false;
-                              _newsBool = false;
-                              setState(() {
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
                                 _notificationsBool = true;
                                 _announcementsBool = false;
                                 _newsBool = false;
-                              });
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(15.0),
+                                setState(() {
+                                  _notificationsBool = true;
+                                  _announcementsBool = false;
+                                  _newsBool = false;
+                                });
+                              },
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -173,20 +173,17 @@ class _DashboardState extends State<Dashboard> {
                                 ],
                               ),
                             ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              _newsBool = true;
-                              _announcementsBool = false;
-                              _notificationsBool = false;
-                              setState(() {
+                            GestureDetector(
+                              onTap: () {
                                 _newsBool = true;
                                 _announcementsBool = false;
                                 _notificationsBool = false;
-                              });
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
+                                setState(() {
+                                  _newsBool = true;
+                                  _announcementsBool = false;
+                                  _notificationsBool = false;
+                                });
+                              },
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -207,43 +204,42 @@ class _DashboardState extends State<Dashboard> {
                                 ],
                               ),
                             ),
-                          ),
-
-                          GestureDetector(
-                            onTap: () {
-                              _announcementsBool = true;
-                              _newsBool = false;
-                              _notificationsBool = false;
-                              setState(() {
+                            GestureDetector(
+                              onTap: () {
                                 _announcementsBool = true;
                                 _newsBool = false;
                                 _notificationsBool = false;
-                              });
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 16.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Announcements',
-                                    style: TextStyle(
-                                      fontSize: 16.0,
-                                      color: Colors.white,
+                                setState(() {
+                                  _announcementsBool = true;
+                                  _newsBool = false;
+                                  _notificationsBool = false;
+                                });
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 16.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Announcements',
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                        color: Colors.white,
+                                      ),
                                     ),
-                                  ),
-                                  Icon(
-                                    Icons.announcement,
-                                    color: _announcementsBool
-                                        ? Colors.deepOrangeAccent
-                                        : Colors.white,
-                                  ),
-                                ],
+                                    Icon(
+                                      Icons.announcement,
+                                      color: _announcementsBool
+                                          ? Colors.deepOrangeAccent
+                                          : Colors.white,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                     _notificationsBool

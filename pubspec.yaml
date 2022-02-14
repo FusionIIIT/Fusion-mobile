@@ -24,9 +24,6 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.0
-  flutter_webview_plugin:
-    git: https://github.com/nuc134r/flutter_webview_plugin.git
-  webview_flutter: ^1.0.7
   google_fonts:
   shared_preferences: ^2.0.3
   provider:
