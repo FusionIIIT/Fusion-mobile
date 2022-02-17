@@ -47,7 +47,7 @@ class _ComplaintState extends State<Complaint> {
         print(data.user!['username']);
         _loading = false;
       });
-    }catch(e){
+    } catch (e) {
       print(e);
     }
   }
@@ -123,6 +123,11 @@ class _ComplaintState extends State<Complaint> {
                               _loading1 = true;
                               _loading2 = false;
                               _loading3 = false;
+                              Navigator.pushNamed(
+                                  context, '/complaint/lodge_complaint',
+                                  arguments: data.user != null
+                                      ? data.user!['username']
+                                      : "null");
                             });
                           },
                           child: Row(
@@ -153,6 +158,10 @@ class _ComplaintState extends State<Complaint> {
                               _loading1 = false;
                               _loading2 = true;
                               _loading3 = false;
+                              Navigator.pushNamed(
+                                context,
+                                '/complaint/complaint_history',
+                              );
                             });
                           },
                           child: Row(
@@ -181,9 +190,12 @@ class _ComplaintState extends State<Complaint> {
                           onPressed: () {
                             setState(() {
                               _loading1 = false;
-
                               _loading2 = false;
                               _loading3 = true;
+                              Navigator.pushNamed(
+                                context,
+                                '/complaint/feedback',
+                              );
                             });
                           },
                           child: Row(
@@ -211,22 +223,22 @@ class _ComplaintState extends State<Complaint> {
                       ],
                     ),
                   ),
-                  _loading1
-                      ? LodgeComplaint(
-                          data.user != null ? data.user!['username'] : "null")
-                      : SizedBox(
-                          height: 2,
-                        ),
-                  _loading2
-                      ? ComplainHistory()
-                      : SizedBox(
-                          height: 5,
-                        ),
-                  _loading3
-                      ? FeedBack()
-                      : SizedBox(
-                          height: 2,
-                        ),
+                  // _loading1
+                  //     ? LodgeComplaint(
+                  //         data.user != null ? data.user!['username'] : "null")
+                  //     : SizedBox(
+                  //         height: 2,
+                  //       ),
+                  // _loading2
+                  //     ? ComplainHistory()
+                  //     : SizedBox(
+                  //         height: 5,
+                  //       ),
+                  // _loading3
+                  //     ? FeedBack()
+                  //     : SizedBox(
+                  //         height: 2,
+                  //       ),
                 ],
               ),
             ),

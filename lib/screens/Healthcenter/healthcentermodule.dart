@@ -94,8 +94,8 @@ class _HealthCenterModState extends State<HealthCenterMod> {
       appBar: DefaultAppBar().buildAppBar(),
       drawer: SideDrawer(),
       body: _loading1 == true
-      ? Center(child: CircularProgressIndicator(),)
-      : ListView(
+          ? Center(child: CircularProgressIndicator(),)
+          : ListView(
         scrollDirection: Axis.vertical,
         children: [
           Card(

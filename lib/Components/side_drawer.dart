@@ -73,6 +73,8 @@ class _SideDrawerState extends State<SideDrawer> {
             Card(
               color: Colors.black,
               child: GestureDetector(
+                //behaviour to translucent to get Tap even on blank or empty space within container
+                behavior: HitTestBehavior.translucent,
                 onTap: () {
                   count++;
                   setState(() {
@@ -167,6 +169,7 @@ class ModulesPadding extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
+      style: TextButton.styleFrom(minimumSize: const Size.fromHeight(50)),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Text(
@@ -176,7 +179,7 @@ class ModulesPadding extends StatelessWidget {
       ),
       onPressed: () async {
         var _prefs = await StorageService.getInstance();
-        String token = _prefs!.userInDB.token!;
+        String token = _prefs!.userInDB?.token ?? "";
         Navigator.pushReplacementNamed(context, pageMover!, arguments: token);
       },
     );
@@ -192,6 +195,8 @@ class ModulesCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      //behaviour to translucent to get Tap even on blank or empty space within container
+      behavior: HitTestBehavior.translucent,
       child: Card(
         color: Colors.black,
         child: Padding(
@@ -213,13 +218,14 @@ class ModulesCard extends StatelessWidget {
       ),
       onTap: () async {
         var _prefs = await StorageService.getInstance();
-        String token = _prefs!.userInDB.token!;
+        String token = _prefs!.userInDB?.token ?? "";
         if (cardLine == 'Log Out') {
           LoginService auth = LoginService();
           auth.logout();
           Navigator.pushReplacementNamed(context, "/landing");
         }
-        Navigator.pushReplacementNamed(context, pageMover!, arguments: token);
+        if (pageMover != null)
+          Navigator.pushReplacementNamed(context, pageMover!, arguments: token);
       },
     );
   }

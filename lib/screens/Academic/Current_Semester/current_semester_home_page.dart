@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/models/academic.dart';
 import 'package:fusion/screens/Academic/Current_Semester/academic_calendar.dart';
 import 'package:fusion/screens/Academic/Current_Semester/exam_time_table.dart';
 import 'package:fusion/screens/Academic/Current_Semester/list_of_holidays.dart';
 import 'package:fusion/screens/Academic/Current_Semester/semester.dart';
 import 'package:fusion/screens/Academic/Current_Semester/time_table.dart';
-import 'package:fusion/models/academic.dart';
-import 'package:fusion/Components/side_drawer.dart';
-import 'dart:convert';
 
 class CurrentSemesterHomePage extends StatefulWidget {
   @override
