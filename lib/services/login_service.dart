@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:fusion/api.dart';
 import 'package:fusion/models/user.dart';
 import 'package:fusion/services/storage_service.dart';
 import 'package:http/http.dart' as http;
@@ -14,8 +15,8 @@ class LoginService {
     var client = http.Client();
     var response = await client.post(
         Uri.http(
-          "172.27.16.216:80",
-          "/api/auth/login/",
+          kAuthUrl, // constant api url
+          kAuthLogin, //constant api auth point
         ),
         headers: headers,
         body: jsonEncode(data));

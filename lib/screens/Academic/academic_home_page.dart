@@ -33,14 +33,14 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
 
   getData() async {
     //print('token-'+widget.token!);
-    try{
+    try {
       Response response = await academicService.getAcademic(widget.token!);
       setState(() {
         print(response);
         data = AcademicData.fromJson(jsonDecode(response.body));
         _loading1 = false;
       });
-    }catch(e){
+    } catch (e) {
       print(e);
     }
   }
@@ -198,9 +198,13 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
                           Navigator.pushNamed(
                               context, '/academic_home_page/bonafide',
                               arguments: {
-                                'firstName': data.details!['current_user']['first_name'].toString(),
-                                'lastName': data.details!['current_user']['last_name'],
-                                'branch': data.details!['user_branch']});
+                                'firstName': data.details!['current_user']
+                                        ['first_name']
+                                    .toString(),
+                                'lastName': data.details!['current_user']
+                                    ['last_name'],
+                                'branch': data.details!['user_branch']
+                              });
                         },
                       ),
                       InkWell(

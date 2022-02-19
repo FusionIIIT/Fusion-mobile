@@ -1,9 +1,10 @@
-import 'dart:convert';
+// import 'dart:convert';
 
+import 'package:fusion/api.dart';
 import 'package:fusion/constants.dart';
-import 'package:fusion/models/academic.dart';
-import 'package:fusion/services/service_locator.dart';
-import 'package:fusion/services/storage_service.dart';
+// import 'package:fusion/models/academic.dart';
+// import 'package:fusion/services/service_locator.dart';
+// import 'package:fusion/services/storage_service.dart';
 import 'package:http/http.dart' as http;
 
 class AcademicService {
@@ -15,7 +16,7 @@ class AcademicService {
     http.Response response = await client.get(
       Uri.http(
         getLink(),
-        "academic-procedures/api/stu/",
+        kAcademicProcedures, //Constant api path
       ),
       headers: headers,
     );

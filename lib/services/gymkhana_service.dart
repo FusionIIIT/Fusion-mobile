@@ -1,17 +1,13 @@
-import 'dart:convert';
+// import 'dart:convert';
 
+import 'package:fusion/api.dart';
 import 'package:fusion/constants.dart';
-import 'package:fusion/models/gymkhana.dart';
+// import 'package:fusion/models/gymkhana.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
 import 'package:http/http.dart' as http;
 
 class GymkhanaService {
-  static const List<String> urls = const [
-    '/api/gymkhana/club_details',
-    '/api/gymkhana/members_record'
-  ];
-
   // getGymkhanaClubsData() async {
   //   return getGymkhanaData(urls[0]);
   // }
@@ -32,7 +28,8 @@ class GymkhanaService {
       http.Response response = await client.get(
         Uri.http(
           getLink(),
-          urls[urlIdx],
+          kGymkhanaUrls[
+              urlIdx], //kGymkhanaUrls is a list of gymkhana end points
         ),
         headers: headers,
       );
