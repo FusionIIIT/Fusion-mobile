@@ -17,7 +17,6 @@ const kTextFieldInputDecoration = InputDecoration(
 class LodgeComplaint extends StatefulWidget {
   final String? complainerRollNo;
   LodgeComplaint(this.complainerRollNo);
-
   @override
   _LodgeComplaintState createState() => _LodgeComplaintState();
 }
@@ -34,7 +33,6 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
     'Internet',
     'Other',
   ];
-
   String? location;
   List locationTypeItem = [
     'hall-1',
@@ -47,16 +45,13 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
     'NR2',
     'Rewa Residency',
   ];
-
   var service = locator<StorageService>();
-
   @override
   Widget build(BuildContext context) {
     DateTime? complaint_finish = DateTime.now();
     DateFormat formatter = DateFormat('yyyy-MM-dd');
     String formattedDate = formatter.format(complaint_finish);
     print(formattedDate);
-
     String? specific_location;
     String? details;
     String? status = "0";
@@ -117,7 +112,7 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
                     underline: SizedBox(),
                     style: TextStyle(color: Colors.black, fontSize: 16),
                     onChanged: (newValue) {
-                      print(service.userInDB.token!);
+                      print(service.userInDB?.token);
                       print(complainer);
                       setState(() {
                         complaint_type = newValue.toString();

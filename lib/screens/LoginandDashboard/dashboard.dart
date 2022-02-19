@@ -20,7 +20,9 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  bool _bool = true;
+  bool _notificationsBool = true;
+  bool _newsBool = false;
+  bool _announcementsBool = false;
   bool _loading = true;
   late String name;
   late String studentType;
@@ -31,11 +33,9 @@ class _DashboardState extends State<Dashboard> {
   late StreamController _profileController;
   late ProfileService profileService;
   late ProfileData data2;
-
   @override
   void initState() {
     super.initState();
-
     _dashboardController = StreamController();
     dashboardService = DashboardService();
     _profileController = StreamController();
@@ -56,7 +56,7 @@ class _DashboardState extends State<Dashboard> {
       studentType = data2.profile!['department']!['name'] +
           '  ' +
           data2.profile!['user_type'];
-    }catch(e){
+    } catch (e) {
       print(e);
     }
   }
@@ -69,7 +69,6 @@ class _DashboardState extends State<Dashboard> {
   }
 
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-
   showSnack() {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -135,18 +134,22 @@ class _DashboardState extends State<Dashboard> {
                     ),
                     Card(
                       color: Colors.black,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              _bool = true;
-                              setState(() {
-                                _bool = true;
-                              });
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                _notificationsBool = true;
+                                _announcementsBool = false;
+                                _newsBool = false;
+                                setState(() {
+                                  _notificationsBool = true;
+                                  _announcementsBool = false;
+                                  _newsBool = false;
+                                });
+                              },
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -160,23 +163,24 @@ class _DashboardState extends State<Dashboard> {
                                   ),
                                   Icon(
                                     Icons.notifications_active_rounded,
-                                    color: _bool
+                                    color: _notificationsBool
                                         ? Colors.deepOrangeAccent
                                         : Colors.white,
                                   ),
                                 ],
                               ),
                             ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              _bool = false;
-                              setState(() {
-                                _bool = false;
-                              });
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
+                            GestureDetector(
+                              onTap: () {
+                                _newsBool = true;
+                                _announcementsBool = false;
+                                _notificationsBool = false;
+                                setState(() {
+                                  _newsBool = true;
+                                  _announcementsBool = false;
+                                  _notificationsBool = false;
+                                });
+                              },
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -190,18 +194,52 @@ class _DashboardState extends State<Dashboard> {
                                   ),
                                   Icon(
                                     Icons.email,
-                                    color: _bool
-                                        ? Colors.white
-                                        : Colors.deepOrangeAccent,
+                                    color: _newsBool
+                                        ? Colors.deepOrangeAccent
+                                        : Colors.white,
                                   ),
                                 ],
                               ),
                             ),
-                          ),
-                        ],
+                            GestureDetector(
+                              onTap: () {
+                                _announcementsBool = true;
+                                _newsBool = false;
+                                _notificationsBool = false;
+                                setState(() {
+                                  _announcementsBool = true;
+                                  _newsBool = false;
+                                  _notificationsBool = false;
+                                });
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 16.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Announcements',
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Icon(
+                                      Icons.announcement,
+                                      color: _announcementsBool
+                                          ? Colors.deepOrangeAccent
+                                          : Colors.white,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    _bool
+                    _notificationsBool
                         ? NotificationCard(
                             notifications: data.notifications,
                           )
