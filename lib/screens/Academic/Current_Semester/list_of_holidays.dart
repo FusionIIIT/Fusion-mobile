@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/pdf_view.dart';
-import 'package:fusion/Components/tabBar_text_button.dart';
+import 'package:fusion/Components/tabBar_children_with_text_button.dart';
 import 'package:fusion/constants.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class HolidaysList extends StatefulWidget {
   @override
@@ -37,7 +36,7 @@ class _HolidaysListState extends State<HolidaysList> {
       child: Scaffold(
         body: TabBarView(
           children: [
-            TabBarTextButton(
+            TabBarChildrenWithTextButton(
               label: 'VIEW LIST OF HOLIDAYS',
               onPressed: () async {
                 Navigator.push(

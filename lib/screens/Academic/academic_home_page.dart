@@ -1,17 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
 import 'package:fusion/services/academic_service.dart';
-import 'package:fusion/services/service_locator.dart';
-import 'package:fusion/services/storage_service.dart';
 import 'package:fusion/models/academic.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart';
 
 class AcademicHomePage extends StatefulWidget {
-  String? token;
+  final String? token;
   static String tag = 'academic-page';
   AcademicHomePage(this.token);
   @override
@@ -28,25 +25,26 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
     super.initState();
     _academicController = StreamController();
     academicService = AcademicService();
-    getData();
+    getAcademicDataStream();
   }
 
-  getData() async {
+  getAcademicDataStream() async {
     //print('token-'+widget.token!);
-    try{
-      Response response = await academicService.getAcademic(widget.token!);
+    try {
+      Response response =
+          await academicService.getAcademicDetails(widget.token!);
       setState(() {
         print(response);
         data = AcademicData.fromJson(jsonDecode(response.body));
         _loading1 = false;
       });
-    }catch(e){
+    } catch (e) {
       print(e);
     }
   }
 
   loadData() async {
-    getData().then((res) {
+    getAcademicDataStream().then((res) {
       _academicController.add(res);
     });
   }
@@ -198,9 +196,13 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
                           Navigator.pushNamed(
                               context, '/academic_home_page/bonafide',
                               arguments: {
-                                'firstName': data.details!['current_user']['first_name'].toString(),
-                                'lastName': data.details!['current_user']['last_name'],
-                                'branch': data.details!['user_branch']});
+                                'firstName': data.details!['current_user']
+                                        ['first_name']
+                                    .toString(),
+                                'lastName': data.details!['current_user']
+                                    ['last_name'],
+                                'branch': data.details!['user_branch']
+                              });
                         },
                       ),
                       InkWell(

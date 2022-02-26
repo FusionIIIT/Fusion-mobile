@@ -122,15 +122,22 @@ class _ComplaintCardState extends State<ComplaintCard> {
                             ElevatedButton(
                               onPressed: () async {
                                 ComplaintService auth = ComplaintService();
-                                bool deleteComp = await auth.deleteComplaint(
-                                  widget.data!.student_complain![widget.index!]
-                                      ['id'],
-                                );
-                                TextInput.finishAutofillContext();
-                                if (deleteComp == true) {
-                                  int count = 0;
-                                  Navigator.of(context)
-                                      .popUntil((_) => count++ >= 2);
+
+                                // avoid api call if [null] is passed to funciton
+                                if (widget.index != null &&
+                                    widget.data?.student_complain?[
+                                            widget.index!]['id'] !=
+                                        null) {
+                                  bool deleteComp = await auth.deleteComplaint(
+                                      widget.data
+                                              ?.student_complain?[widget.index!]
+                                          ['id']);
+                                  TextInput.finishAutofillContext();
+                                  if (deleteComp == true) {
+                                    int count = 0;
+                                    Navigator.of(context)
+                                        .popUntil((_) => count++ >= 2);
+                                  }
                                 }
                               },
                               child: Text("Ok"),

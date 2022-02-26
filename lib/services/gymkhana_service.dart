@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:fusion/constants.dart';
-import 'package:fusion/models/gymkhana.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
 import 'package:http/http.dart' as http;
@@ -12,20 +9,14 @@ class GymkhanaService {
     '/api/gymkhana/members_record'
   ];
 
-  // getGymkhanaClubsData() async {
-  //   return getGymkhanaData(urls[0]);
-  // }
-  // getGymkhanaMembersData() async {
-  //   return getGymkhanaData(urls[1]);
-  // }
-
-  getGymkhanaData({int urlIdx = 0}) async {
+  Future<http.Response> getGymkhanaData({int urlIdx = 0}) async {
     try {
-      var service = locator<StorageService>();
-      if (service.userInDB?.token == null)
-        throw Exception('Can\'t load Gymkhanadata');
+      var storage_service = locator<StorageService>();
+      if (storage_service.userInDB?.token == null)
+        throw Exception('Token Error');
+
       Map<String, String> headers = {
-        'Authorization': 'Token ' + (service.userInDB?.token ?? "")
+        'Authorization': 'Token ' + (storage_service.userInDB?.token ?? "")
       };
       print("fetching Gymkhana");
       var client = http.Client();
@@ -44,7 +35,7 @@ class GymkhanaService {
       }
       throw Exception('Can\'t load Gymkhanadata');
     } catch (e) {
-      print(e);
+      rethrow;
     }
   }
 }

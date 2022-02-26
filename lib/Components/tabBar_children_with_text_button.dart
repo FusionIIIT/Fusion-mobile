@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class TabBarTextButton extends StatelessWidget {
-  const TabBarTextButton({
+class TabBarChildrenWithTextButton extends StatelessWidget {
+  const TabBarChildrenWithTextButton({
     Key? key,
     this.label = "",
     this.onPressed,

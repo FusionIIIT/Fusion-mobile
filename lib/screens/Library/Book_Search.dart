@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
 
 //TODO: Update Elevated Button
 
@@ -28,11 +26,11 @@ class _BookSearchState extends State<BookSearch> {
                   padding: const EdgeInsets.all(8.0),
                   child: Center(
                       child: Text(
-                        "Search by Book Name",
-                        style: TextStyle(
-                          fontSize: 20.0,
-                        ),
-                      )),
+                    "Search by Book Name",
+                    style: TextStyle(
+                      fontSize: 20.0,
+                    ),
+                  )),
                 ),
                 decoration: new BoxDecoration(
                   color: Colors.deepOrangeAccent,
@@ -48,8 +46,7 @@ class _BookSearchState extends State<BookSearch> {
                       blurRadius: 2.0,
                     )
                   ],
-                  borderRadius:
-                  new BorderRadius.all(new Radius.circular(5.0)),
+                  borderRadius: new BorderRadius.all(new Radius.circular(5.0)),
                 ),
               ),
               SizedBox(height: 28),
@@ -67,17 +64,16 @@ class _BookSearchState extends State<BookSearch> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                      'Search',
-                  style: TextStyle(
-                    fontSize: 20.0
-                  ),),
+                    'Search',
+                    style: TextStyle(fontSize: 20.0),
+                  ),
                 ),
                 onPressed: () {
                   // Respond to button press
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                        (Set<MaterialState> states) {
+                    (Set<MaterialState> states) {
                       if (states.contains(MaterialState.pressed))
                         return Colors.deepOrange;
                       return Colors
@@ -100,11 +96,11 @@ class _BookSearchState extends State<BookSearch> {
                   padding: const EdgeInsets.all(8.0),
                   child: Center(
                       child: Text(
-                        "Search by Author Name",
-                        style: TextStyle(
-                          fontSize: 20.0,
-                        ),
-                      )),
+                    "Search by Author Name",
+                    style: TextStyle(
+                      fontSize: 20.0,
+                    ),
+                  )),
                 ),
                 decoration: new BoxDecoration(
                   color: Colors.deepOrangeAccent,
@@ -120,8 +116,7 @@ class _BookSearchState extends State<BookSearch> {
                       blurRadius: 2.0,
                     )
                   ],
-                  borderRadius:
-                  new BorderRadius.all(new Radius.circular(5.0)),
+                  borderRadius: new BorderRadius.all(new Radius.circular(5.0)),
                 ),
               ),
               SizedBox(height: 28),
@@ -140,16 +135,15 @@ class _BookSearchState extends State<BookSearch> {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     'Search',
-                    style: TextStyle(
-                        fontSize: 20.0
-                    ),),
+                    style: TextStyle(fontSize: 20.0),
+                  ),
                 ),
                 onPressed: () {
                   // Respond to button press
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                        (Set<MaterialState> states) {
+                    (Set<MaterialState> states) {
                       if (states.contains(MaterialState.pressed))
                         return Colors.deepOrange;
                       return Colors
