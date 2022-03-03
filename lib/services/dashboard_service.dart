@@ -1,3 +1,4 @@
+import 'package:fusion/api.dart';
 import 'package:fusion/constants.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
@@ -17,7 +18,7 @@ class DashboardService {
       http.Response response = await client.get(
         Uri.http(
           getLink(),
-          "/api/dashboard/",
+          kDashboard, // constant dashboard path
         ),
         headers: headers,
       );
@@ -45,7 +46,7 @@ class DashboardService {
       http.Response response = await client.post(
         Uri.http(
           getLink(),
-          "/api/notification/read/",
+          kNotificationRead, //constant notification read path
         ),
         headers: headers,
         body: body,

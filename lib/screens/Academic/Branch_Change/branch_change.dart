@@ -8,7 +8,7 @@ class BranchChange extends StatefulWidget {
 }
 
 class _BranchChangeState extends State<BranchChange> {
-  final List departmentsList=[
+  final List departmentsList = [
     "department: Finance and Accounts",
     "department: Establishment",
     "department: Academics",
@@ -37,25 +37,23 @@ class _BranchChangeState extends State<BranchChange> {
   ];
   List<ListItem> departments = [];
   List<DropdownMenuItem<int>> departmentsItems = [];
-  int selectedDepartment=0;
+  int selectedDepartment = 0;
 
-  void loadDepartmentsList(){
-    departments =[];
-    departmentsItems= [];
-    for(int i=0; i<departmentsList.length; i++){
+  void loadDepartmentsList() {
+    departments = [];
+    departmentsItems = [];
+    for (int i = 0; i < departmentsList.length; i++) {
       departments.add(ListItem(i, departmentsList[i]));
     }
-    for(ListItem listItem in departments){
-      departmentsItems.add(
-        DropdownMenuItem(
-            child: Text(listItem.name),
-          value: listItem.value,
-        )
-      );
+    for (ListItem listItem in departments) {
+      departmentsItems.add(DropdownMenuItem(
+        child: Text(listItem.name),
+        value: listItem.value,
+      ));
     }
   }
 
-  String department="";
+  String department = "";
   @override
   Widget build(BuildContext context) {
     loadDepartmentsList();
@@ -63,29 +61,26 @@ class _BranchChangeState extends State<BranchChange> {
       appBar: DefaultAppBar().buildAppBar(),
       drawer: SideDrawer(),
       body: Container(
-        child:Column(
-          children: [
-            Text("Branches:"),
-            DropdownButton<int>(
-              items: departmentsItems,
-              onChanged: (value){
-                  setState(() {
-                    department = departments[value!].name;
-                    selectedDepartment = value;
-                  });
-              },
-              hint:Text(
-                "--------"
-              ),
-              value:selectedDepartment,
-            ),
-            ElevatedButton(
-              child: Text("Submit"),
-              onPressed: (){},
-            )
-          ],
-        )
-      ),
+          child: Column(
+        children: [
+          Text("Branches:"),
+          DropdownButton<int>(
+            items: departmentsItems,
+            onChanged: (value) {
+              setState(() {
+                department = departments[value!].name;
+                selectedDepartment = value;
+              });
+            },
+            hint: Text("--------"),
+            value: selectedDepartment,
+          ),
+          ElevatedButton(
+            child: Text("Submit"),
+            onPressed: () {},
+          )
+        ],
+      )),
     );
   }
 }

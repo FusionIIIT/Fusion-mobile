@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:fusion/api.dart';
 import 'package:fusion/constants.dart';
 import 'package:fusion/models/profile.dart';
 import 'package:fusion/services/service_locator.dart';
@@ -20,7 +21,7 @@ class ProfileService {
       http.Response response = await client.get(
         Uri.http(
           getLink(),
-          "/api/profile/",
+          kProfile, //constant api EndPoint
         ),
         headers: headers,
       );

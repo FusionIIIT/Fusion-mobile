@@ -1,4 +1,6 @@
+// import 'dart:convert';
 import 'dart:core';
+import 'package:fusion/api.dart';
 import 'package:fusion/constants.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
@@ -20,7 +22,7 @@ class ComplaintService {
       http.Response response = await client.get(
         Uri.http(
           getLink(),
-          "/complaint/api/studentcomplain",
+          kComplaintService, //constant api path
         ),
         headers: headers,
       );
@@ -81,7 +83,7 @@ class ComplaintService {
       var response = await client.post(
           Uri.http(
             getLink(),
-            "/complaint/api/newcomplain",
+            kComplaintNew, //constant new complaint path
           ),
           headers: headers,
           body: data);
@@ -142,7 +144,7 @@ class ComplaintService {
       var response = await client.put(
           Uri.http(
             getLink(),
-            "complaint/api/updatecomplain/$id",
+            "$kComplaintUpdate$id", //constant update path
           ),
           headers: headers,
           body: data);
@@ -168,7 +170,7 @@ class ComplaintService {
       var response = await client.delete(
         Uri.http(
           getLink(),
-          "/complaint/api/removecomplain/$id",
+          "$kComplaintRemove$id", //constant remove path
         ),
         headers: headers,
       );

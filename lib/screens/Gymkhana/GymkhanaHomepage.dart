@@ -149,6 +149,12 @@ class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
   }
 
   @override
+  void dispose() {
+    _gymkhanaController.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: DefaultAppBar().buildAppBar(),
