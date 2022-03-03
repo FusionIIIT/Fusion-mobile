@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/pdf_view.dart';
 import 'package:fusion/Components/tabBar_children_with_text_button.dart';
+import 'package:fusion/api.dart';
 import 'package:fusion/constants.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
@@ -23,7 +24,7 @@ class _AcademicCalendarState extends State<AcademicCalendar> {
   String getUrl({bool commonTTurl = false}) {
     String url = 'http://' +
         getLink() +
-        "/static/academic_procedures/academic_calender.pdf";
+        kAcademicProceduresCalender; //api to get calender
 
     return url;
   }
