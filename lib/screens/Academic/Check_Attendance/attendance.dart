@@ -3,11 +3,6 @@ import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
 import 'package:fusion/models/academic.dart';
 
-class Attendance extends StatefulWidget {
-  @override
-  _AttendanceState createState() => _AttendanceState();
-}
-
 class AttendanceRecord {
   String courseId;
   int present;
@@ -19,12 +14,22 @@ class AttendanceRecord {
       required this.totalClass});
 
   //comparator behaviours used for sorting
-  static int cmpCourseId(AttendanceRecord a, AttendanceRecord b) =>
+  // ignore: non_constant_identifier_names
+  static int compare_course_id(AttendanceRecord a, AttendanceRecord b) =>
       a.courseId.compareTo(b.courseId);
-  static int cmpPresent(AttendanceRecord a, AttendanceRecord b) =>
+
+  // ignore: non_constant_identifier_names
+  static int compare_attendance(AttendanceRecord a, AttendanceRecord b) =>
       a.present - b.present;
-  static int cmpTotalClass(AttendanceRecord a, AttendanceRecord b) =>
+
+  // ignore: non_constant_identifier_names
+  static int compare_total_class(AttendanceRecord a, AttendanceRecord b) =>
       a.totalClass - b.totalClass;
+}
+
+class Attendance extends StatefulWidget {
+  @override
+  _AttendanceState createState() => _AttendanceState();
 }
 
 class _AttendanceState extends State<Attendance> {
@@ -32,18 +37,20 @@ class _AttendanceState extends State<Attendance> {
   bool _isAscending = true;
 
   List<AttendanceRecord> _attendanceRecordList = [];
+
   //default comparator for sorting
-  int Function(AttendanceRecord, AttendanceRecord) _cmpBehaviour =
-      AttendanceRecord.cmpCourseId;
+  int Function(AttendanceRecord, AttendanceRecord) _compare_behaviour =
+      AttendanceRecord.compare_course_id;
 
   //construct list of DataRow from list of AttendanceRecord
   //uses cmpBehaviour to sort data
-  getRows() {
+  List<DataRow> getRows() {
     List<DataRow> list = [];
     //use comparator to sort list,
     //if sort in descending then multiply -1 to comparator
-    _attendanceRecordList.sort((a, b) =>
-        _isAscending == true ? _cmpBehaviour(a, b) : -_cmpBehaviour(a, b));
+    _attendanceRecordList.sort((a, b) => _isAscending == true
+        ? _compare_behaviour(a, b)
+        : -_compare_behaviour(a, b));
     _attendanceRecordList.forEach((record) {
       list.add(DataRow(cells: [
         DataCell(Text(record.courseId)),
@@ -57,7 +64,7 @@ class _AttendanceState extends State<Attendance> {
   //called by DataColumn.onSort property,
   //based on columnIndex and sortAscending, it updates variables
   //responsible for sorting
-  updateCmpBehaviour(int columnIndex, bool sortAscending,
+  update_compare_behaviour(int columnIndex, bool sortAscending,
       int Function(AttendanceRecord, AttendanceRecord) cmpBehaviour) {
     //if tapped on already selected column header => change sort order
     //of current column
@@ -70,7 +77,7 @@ class _AttendanceState extends State<Attendance> {
       _currentSortColumn = columnIndex;
       _isAscending = true;
     }
-    _cmpBehaviour = cmpBehaviour;
+    _compare_behaviour = cmpBehaviour;
   }
 
   @override
@@ -112,8 +119,8 @@ class _AttendanceState extends State<Attendance> {
                     numeric: false,
                     onSort: (columnIndex, sortAscending) {
                       setState(() {
-                        updateCmpBehaviour(columnIndex, sortAscending,
-                            AttendanceRecord.cmpCourseId);
+                        update_compare_behaviour(columnIndex, sortAscending,
+                            AttendanceRecord.compare_course_id);
                       });
                     },
                   ),
@@ -122,8 +129,8 @@ class _AttendanceState extends State<Attendance> {
                     numeric: false,
                     onSort: (columnIndex, sortAscending) {
                       setState(() {
-                        updateCmpBehaviour(columnIndex, sortAscending,
-                            AttendanceRecord.cmpPresent);
+                        update_compare_behaviour(columnIndex, sortAscending,
+                            AttendanceRecord.compare_attendance);
                       });
                     },
                   ),
@@ -132,8 +139,8 @@ class _AttendanceState extends State<Attendance> {
                     numeric: false,
                     onSort: (columnIndex, sortAscending) {
                       setState(() {
-                        updateCmpBehaviour(columnIndex, sortAscending,
-                            AttendanceRecord.cmpTotalClass);
+                        update_compare_behaviour(columnIndex, sortAscending,
+                            AttendanceRecord.compare_total_class);
                       });
                     },
                   ),
