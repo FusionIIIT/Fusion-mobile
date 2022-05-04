@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fusion/api.dart';
 
 const kTextFieldInputDecoration = InputDecoration(
   filled: true,
@@ -10,8 +11,6 @@ const kTextFieldInputDecoration = InputDecoration(
   ),
 );
 
-getLink() {
-  // String localLink = "127.0.0.1:8000";
-  String serverLink = "172.27.16.216:80";
-  return serverLink;
+String getLink() {
+  return kserverLink;
 }

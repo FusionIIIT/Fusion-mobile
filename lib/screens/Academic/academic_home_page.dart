@@ -34,7 +34,7 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
       Response response =
           await academicService.getAcademicDetails(widget.token!);
       setState(() {
-        print(response);
+        print(response.body);
         data = AcademicData.fromJson(jsonDecode(response.body));
         _loading1 = false;
       });

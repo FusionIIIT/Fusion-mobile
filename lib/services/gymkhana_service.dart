@@ -4,13 +4,10 @@ import 'package:fusion/services/storage_service.dart';
 import 'package:http/http.dart' as http;
 
 class GymkhanaService {
-  static const List<String> urls = const [
-    '/api/gymkhana/club_details',
-    '/api/gymkhana/members_record'
-  ];
-
-  Future<http.Response> getGymkhanaData({int urlIdx = 0}) async {
+  Future<http.Response> getGymkhanaData({String url = ""}) async {
     try {
+      if (url == "") throw Exception('Invalid Gymkhana Url passed');
+
       var storage_service = locator<StorageService>();
       if (storage_service.userInDB?.token == null)
         throw Exception('Token Error');
@@ -23,7 +20,7 @@ class GymkhanaService {
       http.Response response = await client.get(
         Uri.http(
           getLink(),
-          urls[urlIdx],
+          url,
         ),
         headers: headers,
       );

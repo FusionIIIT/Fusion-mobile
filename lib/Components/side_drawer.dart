@@ -17,12 +17,14 @@ class _SideDrawerState extends State<SideDrawer> {
   void initState() {
     super.initState();
     var service = locator<StorageService>();
-    name = service.profileData.user!["first_name"] +
-        " " +
-        service.profileData.user!["last_name"];
-    depttype = service.profileData.profile!['department']!['name'] +
-        " " +
-        service.profileData.profile!['user_type'];
+    name = "Aarti Kumari";
+    depttype = "CSE";
+    // name = service.profileData.user!["first_name"] +
+    //     " " +
+    //     service.profileData.user!["last_name"];
+    // depttype = service.profileData.profile!['department']!['name'] +
+    //     " " +
+    //     service.profileData.profile!['user_type'];
   }
 
   @override
@@ -70,6 +72,7 @@ class _SideDrawerState extends State<SideDrawer> {
                 ),
               ],
             ),
+            ModulesCard(cardLine: 'DashBoard', pageMover: '/dashboard'),
             Card(
               color: Colors.black,
               child: GestureDetector(
@@ -108,8 +111,8 @@ class _SideDrawerState extends State<SideDrawer> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        ModulesPadding(
-                            line: 'DashBoard', pageMover: '/dashboard'),
+                        // ModulesPadding(
+                        //     line: 'DashBoard', pageMover: '/dashboard'),
                         ModulesPadding(
                             line: 'Academics Module',
                             pageMover: '/academic_home_page'),

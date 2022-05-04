@@ -71,7 +71,7 @@ class _RegistrationHomePageState extends State<RegistrationHomePage> {
         drawer: SideDrawer(),
         body: TabBarView(
           children: [
-            Courses(data: data),
+            Courses(data: data.currently_registered),
             PreRegistration(),
             FinalRegistration(data: data)
             // FinalRegistration(data: data)
