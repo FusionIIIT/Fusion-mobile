@@ -17,12 +17,14 @@ class _SideDrawerState extends State<SideDrawer> {
   void initState() {
     super.initState();
     var service = locator<StorageService>();
-    name = service.profileData.user!["first_name"] +
-        " " +
-        service.profileData.user!["last_name"];
-    depttype = service.profileData.profile!['department']!['name'] +
-        " " +
-        service.profileData.profile!['user_type'];
+    name = "Aarti Kumari";
+    depttype = "CSE";
+    // name = service.profileData.user!["first_name"] +
+    //     " " +
+    //     service.profileData.user!["last_name"];
+    // depttype = service.profileData.profile!['department']!['name'] +
+    //     " " +
+    //     service.profileData.profile!['user_type'];
   }
 
   @override

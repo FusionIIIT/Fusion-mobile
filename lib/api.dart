@@ -1,16 +1,16 @@
 //Server and local links
 String klocalLink = "127.0.0.1:8000";
-String kserverLink = "172.27.16.216:80";
+String kserverLink = "172.27.16.215:80";
 
 //Login Service
-String kAuthUrl = "172.27.16.216:80";
+String kAuthUrl = "172.27.16.215:80";
 String kAuthLogin = "/api/auth/login/";
 
 //Profile Service
 String kProfile = "/api/profile/";
 
 //Academic Procedures
-String kAcademicProcedures = "academic-procedures/api/stu/";
+String kAcademicProcedures = "/academic-procedures/stu/";
 
 //Complaint
 String kComplaintService = "/complaint/api/studentcomplain";
