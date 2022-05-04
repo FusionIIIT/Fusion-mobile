@@ -27,6 +27,14 @@ import 'package:fusion/screens/Gymkhana/Record.dart';
 import 'package:fusion/screens/Gymkhana/Club.dart';
 import 'package:fusion/screens/Complaint/complaint.dart';
 import 'package:fusion/screens/Profile/profile.dart';
+import 'package:fusion/screens/Programme_Curriculum/Batches/batches.dart';
+import 'package:fusion/screens/Programme_Curriculum/Courses/courses.dart';
+import 'package:fusion/screens/Programme_Curriculum/Courses_Info/courses_info.dart';
+import 'package:fusion/screens/Programme_Curriculum/Curriculums/curriculums.dart';
+import 'package:fusion/screens/Programme_Curriculum/Discipline/discipline.dart';
+import 'package:fusion/screens/Programme_Curriculum/Programme/programme_home_page.dart';
+import 'package:fusion/screens/Programme_Curriculum/Programme_Info/programme_info.dart';
+import 'package:fusion/screens/Programme_Curriculum/programme_curriculum_home.dart';
 import 'package:fusion/screens/landing_page.dart';
 import 'package:fusion/screens/Healthcenter/healthcentermodule.dart';
 import 'package:fusion/screens/Healthcenter/feedback.dart';
@@ -73,6 +81,15 @@ class MyApp extends StatelessWidget {
         '/academic_home_page/thesis': (context) => ThesisHomePage(),
         '/academic_home_page/performance': (context) => Performance(),
         '/academic_home_page/add_drop_courses': (context) => AddDropCourses(),
+        '/programme_curriculum_home': (context) => ProgrammeCurriculumHome(),
+        '/programme_curriculum_home/programme': (context) => Programme(),
+        '/programme_curriculum_home/batches': (context) => Batches(),
+        '/programme_curriculum_home/discipline': (context) => Discipline(),
+        '/programme_curriculum_home/curriculum': (context) => Curriculum(),
+        '/programme_curriculum_home/programme_info': (context) =>
+            ProgrammeInfo(),
+        '/programme_curriculum_home/courses': (context) => Courses(),
+        '/programme_curriculum_home/courses_info': (context) => CoursesInfo(),
         '/establishment': (context) => Establishment(),
         '/gymkhana_homepage': (context) => GymkhanaHomepage(),
         '/gymkhana_homepage/apply': (context) => Apply(),

@@ -1,0 +1,454 @@
+"type","Course Slot","info","duration","min_registration_limit","max_registration_limit","Course Code","Course Name","credits"
+"Natural Science","NS1","B.Tech, Sem 1",1,0,1000,"NS101","Mathematics -I",4
+"Natural Science","NS1","B.Tech, Sem 2",1,0,1000,"NS101","Mathematics -I",4
+"Natural Science","NS1","B.Tech, Sem 1",1,0,1000,"NS101","Mathematics -I",4
+"Natural Science","NS1","Sem 1, B.Tech UG",1,0,1000,"NS101","Mathematics -I",4
+"Natural Science","NS2","B.Tech, Sem 1",1,0,1000,"NS102","Engineering Mechanics",4
+"Natural Science","NS2","B.Tech, Sem 1",1,0,1000,"NS102","Engineering Mechanics",4
+"Natural Science","NS2","B.Tech, Sem 1",1,0,1000,"NS102","Engineering Mechanics",4
+"Natural Science","NS2","Sem 1, B.Tech",1,0,1000,"NS102","Engineering Mechanics",4
+"Humanities","HS1","B.Tech, Sem 1",1,0,1000,"HS101","Effective Communications",2
+"Humanities","HS1","B.Tech, Sem 1",1,0,1000,"HS101","Effective Communications",2
+"Humanities","HS1","B.Tech, Sem 1",1,0,1000,"HS101","Effective Communications",2
+"Humanities","HS1","Sem 1, B.Tech",1,0,1000,"HS101","Effective Communications",2
+"Engineering Science","ES1","B.Tech, Sem 1",1,0,1000,"ES101","Fundamentals of Electrical and Electronics Engineering",5
+"Engineering Science","ES1","Sem 1, B.Tech",1,0,1000,"ES101","Fundamentals of Electrical and Electronics Engineering",5
+"Engineering Science","ES1","B.Tech, Sem 1",1,0,1000,"ES101","Fundamentals of Electrical and Electronics Engineering",5
+"Engineering Science","ES1","B.Tech, Sem 1",1,0,1000,"ES101","Fundamentals of Electrical and Electronics Engineering",5
+"Engineering Science","ES2","B.Tech, Sem 1",1,0,1000,"ES102","Fundamentals of Computing",4
+"Engineering Science","ES2","B.Tech, Sem 1",1,0,1000,"ES102","Fundamentals of Computing",4
+"Engineering Science","ES2","B.Tech, Sem 1",1,0,1000,"ES102","Fundamentals of Computing",4
+"Engineering Science","ES2","Sem 1, B.Tech",1,0,1000,"ES102","Fundamentals of Computing",4
+"Natural Science","NS3","B.Tech, Sem 2",1,0,1000,"NS103","Mathematics-II",4
+"Natural Science","NS3","Sem 2, B.Tech",1,0,1000,"NS103","Mathematics-II",4
+"Natural Science","NS3","B.Tech, Sem 1",1,0,1000,"NS103","Mathematics-II",4
+"Natural Science","NS3","B.Tech, Sem 2",1,0,1000,"NS103","Mathematics-II",4
+"Natural Science","NS4","B.Tech, Sem 2",1,0,1000,"NS104","Electrodynamics and Optics",5
+"Natural Science","NS4","Sem 2, B.Tech",1,0,1000,"NS104","Electrodynamics and Optics",5
+"Natural Science","NS4","B.Tech, Sem 2",1,0,1000,"NS104","Electrodynamics and Optics",5
+"Natural Science","NS4","B.Tech, Sem 2",1,0,1000,"NS104","Electrodynamics and Optics",5
+"Humanities","HS2","B.Tech, Sem 2",1,0,1000,"HS102","Culture and Human Values",2
+"Humanities","HS2","B.Tech, Sem 2",1,0,1000,"HS102","Culture and Human Values",2
+"Humanities","HS2","B.Tech, Sem 2",1,0,1000,"HS102","Culture and Human Values",2
+"Design","DS1","B.Tech, Sem 2",1,0,1000,"DS101","Engineering Graphics",3
+"Design","DS1","Sem 2, B.Tech",1,0,1000,"DS101","Engineering Graphics",3
+"Design","DS1","B.Tech, Sem 2",1,0,1000,"DS101","Engineering Graphics",3
+"Design","DS1","B.Tech, Sem 2",1,0,1000,"DS101","Engineering Graphics",3
+"Engineering Science","ES3","Sem 2, B.Tech",1,0,1000,"ES103","Data Structures and Algorithms",4
+"Engineering Science","ES3","B.Tech, Sem 2",1,0,1000,"ES103","Data Structures and Algorithms",4
+"Engineering Science","ES3","B.Tech, Sem 2",1,0,1000,"ES103","Data Structures and Algorithms",4
+"Engineering Science","ES3","B.Tech, Sem 2",1,0,1000,"ES103","Data Structures and Algorithms",4
+"Professional Core","DC1ME",NULL,1,0,1000,"ME2002","Manufacturing Process",4
+"Professional Core","DC1ME","-",1,0,1000,"ME2002","Manufacturing Process",4
+"Professional Core","DC1ME",NULL,1,0,1000,"ME2002","Manufacturing Process",4
+"Humanities","HS2","B.Tech,Sem3",1,0,1000,"HS 102","Culture and Human  Values",2
+"Management Science","MS1","B.Tech, Sem 4",1,0,1000,"MS201","Management Concepts  and Techniques",4
+"Management Science","MS1","B.Tech, Sem4",1,0,1000,"MS201","Management Concepts  and Techniques",4
+"Management Science","MS1","B.Tech, Sem 5",1,0,1000,"MS201","Management Concepts  and Techniques",4
+"Management Science","MS1","B.Tech, Sem 5",1,0,1000,"MS201","Management Concepts  and Techniques",4
+"Professional Core","Prof C3","B.Tech, Sem 4",1,0,1000,"EC203","Network Analysis and  Synthesis",4
+"Professional Core","Prof C3","B.Tech, Sem 4",1,0,1000,"ME203","Thermodynamics",4
+"Professional Core","ProfC3","B.Tech , Sem4",1,0,1000,"CS203","Computer Organization  and Architecture",4
+"Professional Core","Prof C4","B.Tech, Sem 4",1,0,1000,"EC204","Signals and Systems",4
+"Professional Core","ES5","B.Tech, Sem 4",1,0,1000,"ES205","Fundamental of  Robotics",4
+"Engineering Science","ES5","B.Tech, Sem 5",1,0,1000,"ES205","Fundamental of  Robotics",4
+"Professional Core","ES5","B.Tech, Sem4",1,0,1000,"ES205","Fundamental of  Robotics",4
+"Engineering Science","ES5","B.Tech, Sem 5",1,0,1000,"ES205","Fundamental of  Robotics",4
+"Professional Core","Prof C4","B.Tech, Sem4",1,0,1000,"CS204","Design & Analysis of  Algorithm",4
+"Professional Core","Prof C5","B.Tech, Sem 4",1,0,1000,"EC205","Microprocessor and  Interfacing",4
+"Professional Core","Prof C5","B.Tech, Sem 4",1,0,1000,"ME205","Engineering Materials",4
+"Professional Core","Prof C5","B.Tech, Sem 4",1,0,1000,"ME205","Engineering Materials",4
+"Professional Core","Prof C5","B.Tech, Sem 4",1,0,1000,"CS205","Data Communication",4
+"Professional Lab","Prof Lab1","B.Tech, Sem 4",1,0,1000,"EC206L","Microprocessor+Electronics",2
+"Professional Lab","Prof Lab1","B.Tech, Sem 4",1,0,1000,"ME206L","Thermodynamics+Solid  Mechanics",2
+"Professional Lab","Prof Lab1","B.Tech, Sem 4",1,0,1000,"ME206L","Thermodynamics+Solid  Mechanics",2
+"Professional Core","Prof C4","B.Tech, Sem 4",1,0,1000,"ME2003","Solid Mechanics",4
+"Professional Core","Prof C4","B.Tech, Sem 4",1,0,1000,"ME2003","Solid Mechanics",4
+"Professional Core","DC2ME",NULL,1,0,1000,"ME2003","Solid Mechanics",4
+"Professional Core","DC10SM",NULL,1,0,1000,"SM3011","Control Systems",3
+"Professional Core","DC8ME",NULL,1,0,1000,"ME3009","Design of Mechanical Components",3
+"Others","HS 3","B.Tech, Sem 6",1,0,1000,"HS303a","Soft Skills and use of  English Language",4
+"Others","HS 3","B.Tech, Sem 6",1,0,1000,"HS303a","Soft Skills and use of  English Language",4
+"Professional Elective","HS3","B.Tech, Sem 6",1,0,1000,"HS303a","Soft Skills and use of  English Language",4
+"Professional Elective","HS3","B.Tech, Sem 6",1,0,1000,"HS303a","Soft Skills and use of  English Language",4
+"Professional Elective","HS3","B.Tech, Sem 6",1,0,1000,"HS303b","Literature in Social  Cultural Panorama",4
+"Others","HS 3","B.Tech, Sem 6",1,0,1000,"HS303b","Literature in Social  Cultural Panorama",4
+"Professional Elective","HS3","B.Tech, Sem 6",1,0,1000,"HS303b","Literature in Social  Cultural Panorama",4
+"Others","HS 3","B.Tech, Sem 6",1,0,1000,"HS303b","Literature in Social  Cultural Panorama",4
+"Professional Elective","HS3","B.Tech, Sem 6",1,0,1000,"HS303c","Indian Philosophy and  Literature in Engilish",4
+"Others","HS 3","B.Tech, Sem 6",1,0,1000,"HS303c","Indian Philosophy and  Literature in Engilish",4
+"Professional Elective","HS3","B.Tech, Sem 6",1,0,1000,"HS303c","Indian Philosophy and  Literature in Engilish",4
+"Others","HS 3","B.Tech, Sem 6",1,0,1000,"HS303c","Indian Philosophy and  Literature in Engilish",4
+"Professional Core","HS4","B.Tech, Sem 6",1,0,1000,"HS304","Environmental Science",4
+"Professional Core","HS4","B.Tech, Sem 6",1,0,1000,"HS304","Environmental Science",4
+"Professional Core","HS4","B.Tech, Sem 6",1,0,1000,"HS304","Environmental Science",4
+"Professional Core","HS4","B.Tech, Sem 6",1,0,1000,"HS304","Environmental Science",4
+"Professional Core","Prof C9","B.Tech, Sem 6",1,0,1000,"EC312","Linear Integrated  Circuit Design",4
+"Professional Core","Prof C9","B.Tech, Sem 6",1,0,1000,"ME312","Heat and Mass  Transfer",4
+"Professional Core","Prof C9","B.Tech, Sem 6",1,0,1000,"ME312","Heat and Mass  Transfer",4
+"Professional Core","DC9CSE",NULL,1,0,1000,"CS3010","Software Engineering",3
+"Professional Core","Prof C9","B.Tech, Sem 6",1,0,1000,"CS3010","Software Engineering",3
+"Professional Elective","Prof El 2","B.Tech, Sem 6",1,0,1000,"EC313a","Digital Communication",0
+"Professional Elective","Prof El 2","B.Tech, Sem 6",1,0,1000,"EC313b","Digital Signal  Processing",4
+"Professional Elective","Prof El 2","B.Tech, Sem 6",1,0,1000,"EC313c","IC Fabrication",4
+"Professional Elective","Prof E1 2","B.Tech, Sem 6",1,0,1000,"ME313a","Finite Element  Methods",4
+"Professional Elective","Prof E1 2","B.Tech, Sem 6",1,0,1000,"ME313a","Finite Element  Methods",4
+"Professional Elective","Prof E1 2","B.Tech, Sem 6",1,0,1000,"ME313b","CNC Machine Tools  and Programming",4
+"Professional Elective","Prof E1 2","B.Tech, Sem 6",1,0,1000,"ME313b","CNC Machine Tools  and Programming",4
+"Professional Elective","OE3",NULL,1,0,1000,"OE3M26","Computer Aided Design",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3M26","Computer Aided Design",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3M26","Computer Aided Design",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3M26","Computer Aided Design",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3M26","Computer Aided Design",3
+"Professional Elective","Prof E1 2","B.Tech, Sem 6",1,0,1000,"OE3M26","Computer Aided Design",3
+"Professional Elective","Prof E1 2","B.Tech, Sem 6",1,0,1000,"OE3M26","Computer Aided Design",3
+"Professional Elective","Prof El 2","B.Tech, Sem 6",1,0,1000,"CS313a","S/W testing and  Quality Assurance",4
+"Professional Elective","Prof El 2","B.Tech, Sem 6",1,0,1000,"CS313b","Network Security &  Cryptography",4
+"Professional Elective","Prof El 2","B.Tech, Sem 6",1,0,1000,"CS3011","Artificial Intelligence",3
+"Professional Core","DC10CSE",NULL,1,0,1000,"CS3011","Artificial Intelligence",3
+"Professional Elective","Prof El 3","B.Tech, Sem 6",1,0,1000,"EC314a","Antenna Theory & Design",4
+"Professional Elective","Prof El 3","B.Tech, Sem 6",1,0,1000,"EC314b","Wavelet and Filter  Bank",4
+"Professional Elective","Prof El 3","B.Tech, Sem 6",1,0,1000,"EC314c","Biomedical  Instrumentation",4
+"Professional Elective","Prof El 3","B.Tech, Sem 6",1,0,1000,"ME314a","Vibration of  Mechanical Systems",4
+"Professional Elective","Prof El 3","B.Tech, Sem 6",1,0,1000,"ME314a","Vibration of  Mechanical Systems",4
+"Professional Elective","Prof El 3","B.Tech, Sem 6",1,0,1000,"ME314b","Computer Aided  Design",4
+"Professional Elective","Prof El 3","B.Tech, Sem 6",1,0,1000,"ME314b","Computer Aided  Design",4
+"Professional Elective","Prof El 3","B.Tech, Sem 6",1,0,1000,"ME314c","Computational Fluid  Dynamics",4
+"Professional Elective","Prof El 3","B.Tech, Sem 6",1,0,1000,"ME314c","Computational Fluid  Dynamics",4
+"Professional Elective","Prof El 3","B.Tech, Sem 6",1,0,1000,"CS8013","Mobile and Wireless Network",4
+"Professional Elective","Prof El 3","B.Tech, Sem 6",1,0,1000,"CS314b","Machine Learning",4
+"Professional Elective","Prof El 3","B.Tech, Sem 6",1,0,1000,"CS314C","Human Computer  Interactions",4
+"Professional Elective","Prof El 3","B.Tech, Sem 6",1,0,1000,"CS314d","Compiler Design",0
+"Professional Lab","Prof Lab 3","B.Tech, Sem 6",1,0,1000,"EC315L","DSP+Microwave",2
+"Professional Lab","Prof Lab 3","B.Tech, Sem 6",1,0,1000,"ME315L","Adv.  Manufacturing+NCCNC",2
+"Professional Lab","Prof Lab 3","B.Tech, Sem 6",1,0,1000,"ME315L","Adv.  Manufacturing+NCCNC",2
+"Professional Elective","Prof Lab 3","B.Tech, Sem 6",1,0,1000,"CS315L","Lab based Project 3",2
+"Professional Elective","Project or Prof El 10","B.Tech, Sem 8",1,0,1000,"PR499","Project",4
+"Professional Elective","Project or Prof El 10","B.Tech, Sem 8",1,0,1000,"PR499","Project",4
+"Professional Elective","Project or Prof El 10","B.Tech, Sem 8",1,0,1000,"PR499","Project",4
+"Professional Elective","Project or Prof El 10","B.Tech, Sem 8",1,0,1000,"PR499","Project",4
+"Others","ES/7/HS5/NS6/DS3/MN2","B.Tech, Sem 8",1,0,1000,"ES407a","Fundamentals of RF  & Microwave  Electronics",4
+"Others","ES7/HS5/NS6/DS3/MN2","B.Tech, Sem 8",1,0,1000,"ES407a","Fundamentals of RF  & Microwave  Electronics",4
+"Others","ES/7/HS5/NS6/DS3/MN2","B.Tech, Sem 8",1,0,1000,"ES407a","Fundamentals of RF  & Microwave  Electronics",4
+"Others","ES/7/HS5/NS6/DS3/MN2","B.Tech, Sem 8",1,0,1000,"ES407a","Fundamentals of RF  & Microwave  Electronics",4
+"Others","ES7/HS5/NS6/DS3/MN2","B.Tech, Sem 8",1,0,1000,"EC8017","Internet of Things",3
+"Professional Elective","OE11",NULL,1,0,1000,"EC8017","Internet of Things",3
+"Others","ES/7/HS5/NS6/DS3/MN2","B.Tech, Sem 8",1,0,1000,"EC8017","Internet of Things",3
+"Others","ES/7/HS5/NS6/DS3/MN2","B.Tech, Sem 8",1,0,1000,"EC8017","Internet of Things",3
+"Others","ES/7/HS5/NS6/DS3/MN2","B.Tech, Sem 8",1,0,1000,"EC8017","Internet of Things",3
+"Professional Elective","OE11",NULL,1,0,1000,"EC8017","Internet of Things",3
+"Professional Elective","OE11",NULL,1,0,1000,"EC8017","Internet of Things",3
+"Others","ES7/HS5/NS6/DS3/MN2","B.Tech, Sem 8",1,0,1000,"ES407c","Applied Photonics",4
+"Others","ES/7/HS5/NS6/DS3/MN2","B.Tech, Sem 8",1,0,1000,"ES407c","Applied Photonics",4
+"Others","ES/7/HS5/NS6/DS3/MN2","B.Tech, Sem 8",1,0,1000,"ES407c","Applied Photonics",4
+"Others","ES/7/HS5/NS6/DS3/MN2","B.Tech, Sem 8",1,0,1000,"ES407c","Applied Photonics",4
+"Professional Elective","OE1",NULL,1,0,1000,"OE2M07","Operations Research",3
+"Professional Elective","OE1",NULL,1,0,1000,"OE2M07","Operations Research",3
+"Others","ES7/HS5/NS6/DS3/MN2","B.Tech, Sem 8",1,0,1000,"OE2M07","Operations Research",3
+"Professional Elective","OE1",NULL,1,0,1000,"OE2M07","Operations Research",3
+"Professional Elective","OE1",NULL,1,0,1000,"OE2M07","Operations Research",3
+"Others","ES/7/HS5/NS6/DS3/MN2","B.Tech, Sem 8",1,0,1000,"OE2M07","Operations Research",3
+"Others","ES/7/HS5/NS6/DS3/MN2","B.Tech, Sem 8",1,0,1000,"OE2M07","Operations Research",3
+"Professional Elective","OE1",NULL,1,0,1000,"OE2M07","Operations Research",3
+"Others","ES/7/HS5/NS6/DS3/MN2","B.Tech, Sem 8",1,0,1000,"OE2M07","Operations Research",3
+"Professional Lab","Prof Lab1","B.Tech, Sem 4",1,0,1000,"CS206L","Lab based Project 1",4
+"Others","ES/7/HS5/NS6/DS3/MN2","B.Tech, Sem 8",1,0,1000,"ES407e","Internet of Things  (IoT)",4
+"Others","ES/7/HS5/NS6/DS3/MN2","B.Tech, Sem 8",1,0,1000,"ES407e","Internet of Things  (IoT)",4
+"Others","ES7/HS5/NS6/DS3/MN2","B.Tech, Sem 8",1,0,1000,"ES407e","Internet of Things  (IoT)",4
+"Others","ES/7/HS5/NS6/DS3/MN2","B.Tech, Sem 8",1,0,1000,"ES407e","Internet of Things  (IoT)",4
+"Others","ES/7/HS5/NS6/DS3/MN2","B.Tech, Sem 8",1,0,1000,"ES407f","Social network  Analysis",4
+"Others","ES7/HS5/NS6/DS3/MN2","B.Tech, Sem 8",1,0,1000,"ES407f","Social network  Analysis",4
+"Others","ES/7/HS5/NS6/DS3/MN2","B.Tech, Sem 8",1,0,1000,"ES407f","Social network  Analysis",4
+"Others","ES/7/HS5/NS6/DS3/MN2","B.Tech, Sem 8",1,0,1000,"ES407f","Social network  Analysis",4
+"Others","ES/7/HS5/NS6/DS3/MN2","B.Tech, Sem 8",1,0,1000,"HS405a","Culture and  Technology",4
+"Others","ES7/HS5/NS6/DS3/MN2","B.Tech, Sem 8",1,0,1000,"HS405a","Culture and  Technology",4
+"Others","ES/7/HS5/NS6/DS3/MN2","B.Tech, Sem 8",1,0,1000,"HS405a","Culture and  Technology",4
+"Others","ES/7/HS5/NS6/DS3/MN2","B.Tech, Sem 8",1,0,1000,"HS405a","Culture and  Technology",4
+"Professional Elective","Prof EL7","B.Tech, Sem 8",1,0,1000,"EC419a","RF and Microwave  Engineering",4
+"Professional Elective","Prof EL7","B.Tech, Sem 8",1,0,1000,"EC419b","Power Electronics",4
+"Professional Elective","Prof EL7","B.Tech, Sem 8",1,0,1000,"EC419c","Advance Filter  Design",4
+"Professional Elective","Prof El 1","B.Tech, Sem 8",1,0,1000,"ME419a","Computer Integrated  Manufacturing",4
+"Professional Elective","Prof El 1","B.Tech, Sem 8",1,0,1000,"ME419a","Computer Integrated  Manufacturing",4
+"Professional Elective","Prof El 1","B.Tech, Sem 8",1,0,1000,"ME419b","Fracture and Fatigue",4
+"Professional Elective","Prof El 1","B.Tech, Sem 8",1,0,1000,"ME419b","Fracture and Fatigue",4
+"Professional Elective","Prof El 1","B.Tech, Sem 8",1,0,1000,"ME419c","Refrigeration and Air  Conditioning",4
+"Professional Elective","Prof El 1","B.Tech, Sem 8",1,0,1000,"ME419c","Refrigeration and Air  Conditioning",4
+"Professional Elective","Prof EL7","B.Tech, Sem 8",1,0,1000,"CS419a","Computer Vision",4
+"Professional Elective","Prof EL7","B.Tech, Sem 8",1,0,1000,"CS419b","Distributed Systems",4
+"Professional Elective","Prof EL7","B.Tech, Sem 8",1,0,1000,"CS419c","Quantitative  Methods in Software  Engineering",4
+"Professional Elective","Prof El 8","B.Tech, Sem 8",1,0,1000,"EC420a","Advanced Control Systems",4
+"Professional Elective","Prof El 8","B.Tech, Sem 8",1,0,1000,"EC420b","VLSI Test and Testability",4
+"Professional Elective","Prof El 8","B.Tech, Sem 8",1,0,1000,"EC420c","Information Theory  and Coding",4
+"Professional Elective","Prof El 8","B.Tech, Sem 8",1,0,1000,"ME420a","Optimization  Techniques",4
+"Professional Elective","Prof El 8","B.Tech, Sem 8",1,0,1000,"ME420a","Optimization  Techniques",4
+"Professional Elective","Prof El 8","B.Tech, Sem 8",1,0,1000,"ME420b","Mechanics of  Composite Materials",4
+"Professional Elective","Prof El 8","B.Tech, Sem 8",1,0,1000,"ME420b","Mechanics of  Composite Materials",4
+"Professional Elective","Prof El 8","B.Tech, Sem 8",1,0,1000,"ME420c","Metal Forming",4
+"Professional Elective","Prof El 8","B.Tech, Sem 8",1,0,1000,"ME420c","Metal Forming",4
+"Professional Elective","Prof El 8","B.Tech, Sem 8",1,0,1000,"CS420a","Big Data Analytics",4
+"Professional Elective","Prof El 8","B.Tech, Sem 8",1,0,1000,"CS420b","Principles of  Programming  Languages",4
+"Professional Elective","Prof El 8","B.Tech, Sem 8",1,0,1000,"CS420c","Approximation  Algorithms",4
+"Professional Elective","Prof El 8","B.Tech, Sem 8",1,0,1000,"CS420d","Randomized  Algorithms",4
+"Professional Elective","Prof El 9","B.Tech, Sem 8",1,0,1000,"EC421a","CMOS Memory  System Design",4
+"Professional Elective","Prof El 9","B.Tech, Sem 8",1,0,1000,"EC421b","Image Processing",4
+"Professional Elective","Prof El 9","B.Tech, Sem 8",1,0,1000,"EC421c","Optical  Communication",4
+"Professional Elective","Prof El 9","B.Tech, Sem 8",1,0,1000,"ME421a","IC Engine",4
+"Professional Elective","Prof El 9","B.Tech, Sem 8",1,0,1000,"ME421a","IC Engine",4
+"Professional Elective","Prof El 9","B.Tech, Sem 8",1,0,1000,"ME421b","Gas Turbine and  Propulsion",4
+"Professional Elective","Prof El 9","B.Tech, Sem 8",1,0,1000,"ME421b","Gas Turbine and  Propulsion",4
+"Professional Elective","Prof El 9","B.Tech, Sem 8",1,0,1000,"ME421c","Quality, Reliability  and Maintenance  Engineering",4
+"Professional Elective","Prof El 9","B.Tech, Sem 8",1,0,1000,"ME421c","Quality, Reliability  and Maintenance  Engineering",4
+"Professional Elective","Prof El 9","B.Tech, Sem 8",1,0,1000,"CS421a","Image  Reconstruction",4
+"Professional Elective","Prof El 9","B.Tech, Sem 8",1,0,1000,"CS421b","Image Processing(CSE)",4
+"Professional Elective","Prof El 9","B.Tech, Sem 8",1,0,1000,"CS421c","Statistical Methods in  Computer Science",4
+"Professional Elective","Project or Prof El 10","B.Tech, Sem 8",1,0,1000,"EC422a","Nanophotonics and  Plasmonics",4
+"Professional Elective","Project or Prof El 10","B.Tech, Sem 8",1,0,1000,"EC422b","Application of Signal  and Image  Processing",4
+"Professional Elective","Project or Prof El 10","B.Tech, Sem 8",1,0,1000,"EC422c","Renewal Energy System",4
+"Professional Elective","Project or Prof El 10","B.Tech, Sem 8",1,0,1000,"ME422a","Smart Materials and  Structures",4
+"Professional Elective","Project or Prof El 10","B.Tech, Sem 8",1,0,1000,"ME422a","Smart Materials and  Structures",4
+"Professional Elective","Project or Prof El 10","B.Tech, Sem 8",1,0,1000,"ME422b","Fault Diagnosis and  Prognosis for  Engineering Systems",4
+"Professional Elective","Project or Prof El 10","B.Tech, Sem 8",1,0,1000,"ME422b","Fault Diagnosis and  Prognosis for  Engineering Systems",4
+"Professional Elective","Project or Prof El 10","B.Tech, Sem 8",1,0,1000,"ME422c","Robot Kinematics  and Dynamics",4
+"Professional Elective","Project or Prof El 10","B.Tech, Sem 8",1,0,1000,"ME422c","Robot Kinematics  and Dynamics",4
+"Professional Elective","Project or Prof El 10","B.Tech, Sem 8",1,0,1000,"CS422a","Natural Language  Processing",4
+"Professional Elective","Project or Prof El 10","B.Tech, Sem 8",1,0,1000,"CS422b","Visual Cryptography  & Data Hiding",4
+"Professional Elective","Project or Prof El 10","B.Tech, Sem 8",1,0,1000,"CS422c","Model Thinking",4
+"Professional Elective","OE08",NULL,1,0,1000,"CS8018","Web Mining",3
+"Professional Elective","OE08",NULL,1,0,1000,"CS8018","Web Mining",3
+"Professional Elective","OE08",NULL,1,0,1000,"CS8018","Web Mining",3
+"Others","NS2CSE",NULL,1,0,1000,"NS2001","Biology for Engineers",2
+"Optional","PR2",NULL,1,0,1000,"PR2002","Discipline Project",2
+"Optional","PR2",NULL,1,0,1000,"PR2002","Discipline Project",2
+"Optional","PR2",NULL,1,0,1000,"PR2002","Discipline Project",2
+"Optional","PR2",NULL,1,0,1000,"PR2002","Discipline Project",2
+"Optional","PR2",NULL,1,0,1000,"PR2002","Discipline Project",2
+"Others","PC2",NULL,1,0,1000,"PC2002","Professional Development Course",1
+"Others","PC2",NULL,1,0,1000,"PC2002","Professional Development Course",1
+"Others","PC2",NULL,1,0,1000,"PC2002","Professional Development Course",1
+"Others","PC2",NULL,1,0,1000,"PC2002","Professional Development Course",1
+"Others","PC2",NULL,1,0,1000,"PC2002","Professional Development Course",1
+"Professional Elective","OE11",NULL,1,0,1000,"CS8004","Deep Learning and Applications",3
+"Professional Elective","OE11",NULL,1,0,1000,"CS8004","Deep Learning and Applications",3
+"Professional Elective","OE11",NULL,1,0,1000,"CS8004","Deep Learning and Applications",3
+"Professional Elective","OE1",NULL,1,0,1000,"OE2D11","Design Thinking",3
+"Professional Elective","OE1",NULL,1,0,1000,"OE2D11","Design Thinking",3
+"Professional Elective","OE1",NULL,1,0,1000,"OE2D11","Design Thinking",3
+"Professional Elective","OE1",NULL,1,0,1000,"OE2D11","Design Thinking",3
+"Professional Elective","OE1",NULL,1,0,1000,"OE2D11","Design Thinking",3
+"Others","PC4",NULL,1,0,1000,"PC4004","Professional Development Course4",1
+"Others","PC4",NULL,1,0,1000,"PC4004","Professional Development Course4",1
+"Others","PC4",NULL,1,0,1000,"PC4004","Professional Development Course4",1
+"Others","PC4",NULL,1,0,1000,"PC4004","Professional Development Course4",1
+"Professional Core","DS40",NULL,1,0,1000,"DS4013","Design Seminar I",0
+"Professional Core","DS41",NULL,1,0,1000,"DS4014","Design Thesis II",14
+"Others","PC3",NULL,1,0,1000,"PC3003","Professional Development Course 3",1
+"Others","PC3",NULL,1,0,1000,"PC3003","Professional Development Course 3",1
+"Others","PC3",NULL,1,0,1000,"PC3003","Professional Development Course 3",1
+"Others","PC3",NULL,1,0,1000,"PC3003","Professional Development Course 3",1
+"Others","PC3",NULL,1,0,1000,"PC3003","Professional Development Course 3",1
+"Optional","PR3",NULL,1,0,1000,"PR3003","Optional Project",2
+"Optional","PR3",NULL,1,0,1000,"PR3003","Optional Project",2
+"Optional","PR3",NULL,1,0,1000,"PR3003","Optional Project",2
+"Optional","PR3",NULL,1,0,1000,"PR3003","Optional Project",2
+"Optional","PR3",NULL,1,0,1000,"PR3003","Optional Project",2
+"Professional Elective","OE07","-",1,0,1000,"CS8016","Cloud Computing ",3
+"Professional Elective","OE07","-",1,0,1000,"CS8016","Cloud Computing ",3
+"Professional Elective","OE07","-",1,0,1000,"CS8016","Cloud Computing ",3
+"Professional Elective","OE07","-",1,0,1000,"EC8033","Radio Frequency Integrated Circuits Design",3
+"Professional Elective","OE07","-",1,0,1000,"EC8033","Radio Frequency Integrated Circuits Design",3
+"Professional Elective","OE07","-",1,0,1000,"EC8033","Radio Frequency Integrated Circuits Design",3
+"Professional Elective","OE07","-",1,0,1000,"OE4E69","Optical Communication",3
+"Professional Elective","OE07","-",1,0,1000,"OE4E69","Optical Communication",3
+"Professional Elective","OE07","-",1,0,1000,"OE4E69","Optical Communication",3
+"Professional Elective","OE07","-",1,0,1000,"ME5M01","Manufacturing Science",3
+"Professional Elective","OE07","-",1,0,1000,"ME5M01","Manufacturing Science",3
+"Professional Elective","OE07","-",1,0,1000,"ME5M01","Manufacturing Science",3
+"Professional Elective","OE07","-",1,0,1000,"OE4M70","Advanced Mechanics of Solids",3
+"Professional Elective","OE07","-",1,0,1000,"OE4M70","Advanced Mechanics of Solids",3
+"Professional Elective","OE07","-",1,0,1000,"OE4M70","Advanced Mechanics of Solids",3
+"Professional Elective","OE08",NULL,1,0,1000,"EC8002","Advanced Engineering Electromagnetics",3
+"Professional Elective","OE08",NULL,1,0,1000,"EC8002","Advanced Engineering Electromagnetics",3
+"Professional Elective","OE08",NULL,1,0,1000,"EC8002","Advanced Engineering Electromagnetics",3
+"Professional Elective","OE08",NULL,1,0,1000,"EC8029","Advanced Digital Filter Design",3
+"Professional Elective","OE08",NULL,1,0,1000,"EC8029","Advanced Digital Filter Design",3
+"Professional Elective","OE08",NULL,1,0,1000,"EC8029","Advanced Digital Filter Design",3
+"Professional Elective","OE08",NULL,1,0,1000,"OE4E71","Satelite communication",3
+"Professional Elective","OE08",NULL,1,0,1000,"OE4E71","Satelite communication",3
+"Professional Elective","OE08",NULL,1,0,1000,"OE4E71","Satelite communication",3
+"Professional Elective","OE08",NULL,1,0,1000,"OE4M23","Business Analytics using R",3
+"Professional Elective","OE08",NULL,1,0,1000,"OE4M23","Business Analytics using R",3
+"Professional Elective","OE08",NULL,1,0,1000,"OE4M23","Business Analytics using R",3
+"Professional Elective","OE08",NULL,1,0,1000,"ME5D02","Mechanical Vibrations and Condition Monitoring",3
+"Professional Elective","OE08",NULL,1,0,1000,"ME5D02","Mechanical Vibrations and Condition Monitoring",3
+"Professional Elective","OE08",NULL,1,0,1000,"ME5D02","Mechanical Vibrations and Condition Monitoring",3
+"Professional Elective","OE09",NULL,1,0,1000,"CS8017","Intrusion Detection Systems",3
+"Professional Elective","OE09",NULL,1,0,1000,"CS8017","Intrusion Detection Systems",3
+"Professional Elective","OE09",NULL,1,0,1000,"CS8017","Intrusion Detection Systems",3
+"Professional Elective","OE09",NULL,1,0,1000,"EC8004","Pattern Recognition and Machine Learning ",3
+"Professional Elective","OE09",NULL,1,0,1000,"EC8004","Pattern Recognition and Machine Learning ",3
+"Professional Elective","OE09",NULL,1,0,1000,"EC8004","Pattern Recognition and Machine Learning ",3
+"Professional Elective","OE09",NULL,1,0,1000,"EC8005","Advanced Semiconductor Devices",3
+"Professional Elective","OE09",NULL,1,0,1000,"EC8005","Advanced Semiconductor Devices",3
+"Professional Elective","OE09",NULL,1,0,1000,"EC8005","Advanced Semiconductor Devices",3
+"Professional Elective","OE09",NULL,1,0,1000,"ME8012","Computer Aided Geometric Design",3
+"Professional Elective","OE09",NULL,1,0,1000,"ME8012","Computer Aided Geometric Design",3
+"Professional Elective","OE09",NULL,1,0,1000,"ME8012","Computer Aided Geometric Design",3
+"Professional Elective","OE09",NULL,1,0,1000,"ME8002","Design of Experiments",3
+"Professional Elective","OE09",NULL,1,0,1000,"ME8002","Design of Experiments",3
+"Professional Elective","OE09",NULL,1,0,1000,"ME8002","Design of Experiments",3
+"Professional Elective","OE10",NULL,1,0,1000,"CS8007","Social Network Analysis",3
+"Professional Elective","OE10",NULL,1,0,1000,"CS8007","Social Network Analysis",3
+"Professional Elective","OE10",NULL,1,0,1000,"CS8007","Social Network Analysis",3
+"Professional Elective","OE10",NULL,1,0,1000,"EC8016","Electromagnetics Interference and Compatibility",3
+"Professional Elective","OE10",NULL,1,0,1000,"EC8016","Electromagnetics Interference and Compatibility",3
+"Professional Elective","OE10",NULL,1,0,1000,"EC8016","Electromagnetics Interference and Compatibility",3
+"Professional Elective","OE10",NULL,1,0,1000,"EC8030","CMOS Memory Design",3
+"Professional Elective","OE10",NULL,1,0,1000,"EC8030","CMOS Memory Design",3
+"Professional Elective","OE10",NULL,1,0,1000,"EC8030","CMOS Memory Design",3
+"Professional Elective","OE10",NULL,1,0,1000,"EC8031","Digital Image Processing",3
+"Professional Elective","OE10",NULL,1,0,1000,"EC8031","Digital Image Processing",3
+"Professional Elective","OE10",NULL,1,0,1000,"EC8031","Digital Image Processing",3
+"Professional Elective","OE10",NULL,1,0,1000,"ME8003","Sensors and Actuators",3
+"Professional Elective","OE10",NULL,1,0,1000,"ME8003","Sensors and Actuators",3
+"Professional Elective","OE10",NULL,1,0,1000,"ME8003","Sensors and Actuators",3
+"Professional Elective","OE10",NULL,1,0,1000,"OE4M35","Advanced Manufacturing Processes and Technologies",3
+"Professional Elective","OE10",NULL,1,0,1000,"OE4M35","Advanced Manufacturing Processes and Technologies",3
+"Professional Elective","OE10",NULL,1,0,1000,"OE4M35","Advanced Manufacturing Processes and Technologies",3
+"Professional Elective","OE11",NULL,1,0,1000,"EC8032","Numerical Techniques in Electromagnetics",3
+"Professional Elective","OE11",NULL,1,0,1000,"EC8032","Numerical Techniques in Electromagnetics",3
+"Professional Elective","OE11",NULL,1,0,1000,"EC8032","Numerical Techniques in Electromagnetics",3
+"Professional Elective","OE11",NULL,1,0,1000,"OE4M72","Computational Material Science",3
+"Professional Elective","OE11",NULL,1,0,1000,"OE4M72","Computational Material Science",3
+"Professional Elective","OE11",NULL,1,0,1000,"OE4M72","Computational Material Science",3
+"Professional Elective","OE11",NULL,1,0,1000,"OE4M22","Industrial Instrumentation & Metrology",3
+"Professional Elective","OE11",NULL,1,0,1000,"OE4M22","Industrial Instrumentation & Metrology",3
+"Professional Elective","OE11",NULL,1,0,1000,"OE4M22","Industrial Instrumentation & Metrology",3
+"Professional Core","DC8CSE",NULL,1,0,1000,"CS3009","Network Security & Cryptography",3
+"Professional Core","DC8ECE",NULL,1,0,1000,"EC3009","VLSI System Design (VLSI IC desien, logic synthesis using VHDL) ",3
+"Professional Core","DC8SM",NULL,1,0,1000,"SM3009","Additive and Subractive Manufacturing Processes",3
+"Professional Core","DC9ECE",NULL,1,0,1000,"EC3010","Fundamentals of Electromagnetic Theory",3
+"Professional Core","DC9ME",NULL,1,0,1000,"ME3010","Industrial Internet of Things",3
+"Professional Core","DC9SM",NULL,1,0,1000,"SM3010","Computer Aided Product Development",3
+"Professional Core","DC10ECE",NULL,1,0,1000,"EC3011","Digital Communications",3
+"Professional Core","DC10ME",NULL,1,0,1000,"ME3011","Heat Transfer",4
+"Professional Core","DC1CSE",NULL,1,0,1000,"CS2002","Computer Organization and Architecture",4
+"Professional Core","DC1ECE",NULL,1,0,1000,"EC2002","Digital Electronics and Microprocessor Interfacing ",4
+"Professional Core","DC2CSE",NULL,1,0,1000,"CS2003","Database Management Systems",4
+"Professional Core","DC2ECE",NULL,1,0,1000,"EC203a","Principle of Analog Communications ",2
+"Professional Core","DC2ECE2",NULL,1,0,1000,"EC203b","Network Theory (Analysis and Synthesis) ",2
+"Professional Core","DC2SM",NULL,1,0,1000,"SM2003","Solid Mechanics + Design of Mechanical Components",4
+"Professional Core","DC3CSE",NULL,1,0,1000,"CS2004","Introduction to Data Science ",4
+"Professional Core","DC3ECE",NULL,1,0,1000,"EC204a","Electronics Devices and Circuits",2
+"Professional Core","DC3ECE2",NULL,1,0,1000,"EC204b","Instrumentation and Measurement",2
+"Professional Core","DC3ME",NULL,1,0,1000,"ME2004","Engineering Thermodynamics",4
+"Professional Core","DC3SM",NULL,1,0,1000,"SM2004","Engineering Thermodynamics + Heat Transfer",4
+"Professional Lab","IT101",NULL,1,0,1000,"IT2C01","OOPs in Java",2
+"Professional Lab","IT102",NULL,1,0,1000,"IT2E01","Matlab and Simulink, Pspice",2
+"Professional Lab","IT103",NULL,1,0,1000,"IT2M01","drawing/drafting/modelling and kinematic/ dynamic modelling-ME",2
+"Professional Lab","IT104",NULL,1,0,1000,"IT2S01","drawing/drafting/modelling and kinematic/ dynamic modelling-SM",2
+"Professional Lab","IT3CSE",NULL,1,0,1000,"IT3C01","Computer Network Lab ",2
+"Professional Lab","IT3ECE",NULL,1,0,1000,"IT3E01","Tanner Tool (Tspice), VHDL and Verilog ",2
+"Professional Lab","IT3ME",NULL,1,0,1000,"IT3M01","CATIA and Power Mill",2
+"Professional Lab","IT3ME",NULL,1,0,1000,"IT3M01","CATIA and Power Mill",2
+"Professional Core","DC11",NULL,1,0,1000,"SM3012","Advanced Cyber Physical System",3
+"Professional Core","DC7",NULL,1,0,1000,"DS3001","Engineering Design  Including Design and Fabrication Project",4
+"Professional Core","DS30",NULL,1,0,1000,"DS3001","Engineering Design  Including Design and Fabrication Project",4
+"Professional Core","DC7",NULL,1,0,1000,"DS3001","Engineering Design  Including Design and Fabrication Project",4
+"Professional Core","DC7",NULL,1,0,1000,"DS3001","Engineering Design  Including Design and Fabrication Project",4
+"Professional Core","DC7",NULL,1,0,1000,"DS3001","Engineering Design  Including Design and Fabrication Project",4
+"Professional Core","DC7",NULL,1,0,1000,"DS3001","Engineering Design  Including Design and Fabrication Project",4
+"Professional Core","DS31",NULL,1,0,1000,"DS3009","Service Design",3
+"Professional Core","DS32",NULL,1,0,1000,"DS3010","Sustainable Design",3
+"Professional Core","DS33",NULL,1,0,1000,"DS3011","Design Management",3
+"Project","DS34",NULL,1,0,1000,"DS3012","Design Project 4 (compulsory)",3
+"Design","DS20",NULL,1,0,1000,"DS2005","Studies in Form ",3
+"Design","DS21",NULL,1,0,1000,"DS2006","Industrial Design 1 ",3
+"Design","DS22",NULL,1,0,1000,"DS2007","Communication Design 1 ",3
+"Design","DS23",NULL,1,0,1000,"DS2008","Design Project 1 ",3
+"Professional Elective","OE1",NULL,1,0,1000,"OE2C09","Game Theory",3
+"Professional Elective","OE1",NULL,1,0,1000,"OE2C09","Game Theory",3
+"Professional Elective","OE1",NULL,1,0,1000,"OE2C09","Game Theory",3
+"Professional Elective","OE1",NULL,1,0,1000,"OE2C09","Game Theory",3
+"Professional Elective","OE1",NULL,1,0,1000,"OE2C09","Game Theory",3
+"Professional Elective","OE1",NULL,1,0,1000,"OE2E02","Probability and random Process",3
+"Professional Elective","OE1",NULL,1,0,1000,"OE2E02","Probability and random Process",3
+"Professional Elective","OE1",NULL,1,0,1000,"OE2E02","Probability and random Process",3
+"Professional Elective","OE1",NULL,1,0,1000,"OE2E02","Probability and random Process",3
+"Professional Elective","OE1",NULL,1,0,1000,"OE2E02","Probability and random Process",3
+"Professional Elective","OE1",NULL,1,0,1000,"EC8006","Photovoltaics: Fundamentals and Applications ",3
+"Professional Elective","OE1",NULL,1,0,1000,"EC8006","Photovoltaics: Fundamentals and Applications ",3
+"Professional Elective","OE1",NULL,1,0,1000,"EC8006","Photovoltaics: Fundamentals and Applications ",3
+"Professional Elective","OE1",NULL,1,0,1000,"EC8006","Photovoltaics: Fundamentals and Applications ",3
+"Professional Elective","OE1",NULL,1,0,1000,"EC8006","Photovoltaics: Fundamentals and Applications ",3
+"Professional Elective","OE1",NULL,1,0,1000,"OE2N05","Complex Analysis and Linear Algebra",3
+"Professional Elective","OE1",NULL,1,0,1000,"OE2N05","Complex Analysis and Linear Algebra",3
+"Professional Elective","OE1",NULL,1,0,1000,"OE2N05","Complex Analysis and Linear Algebra",3
+"Professional Elective","OE1",NULL,1,0,1000,"OE2N05","Complex Analysis and Linear Algebra",3
+"Professional Elective","OE1",NULL,1,0,1000,"OE2N05","Complex Analysis and Linear Algebra",3
+"Professional Elective","OE1",NULL,1,0,1000,"OE2D15","Design Arts and Aesthetics",3
+"Professional Elective","OE1",NULL,1,0,1000,"OE2D15","Design Arts and Aesthetics",3
+"Professional Elective","OE1",NULL,1,0,1000,"OE2D15","Design Arts and Aesthetics",3
+"Professional Elective","OE1",NULL,1,0,1000,"OE2D15","Design Arts and Aesthetics",3
+"Professional Elective","OE1",NULL,1,0,1000,"OE2D15","Design Arts and Aesthetics",3
+"Professional Elective","OE1",NULL,1,0,1000,"OE2D14","Science and Culture- A Comparison",3
+"Professional Elective","OE1",NULL,1,0,1000,"OE2D14","Science and Culture- A Comparison",3
+"Professional Elective","OE1",NULL,1,0,1000,"OE2D14","Science and Culture- A Comparison",3
+"Professional Elective","OE1",NULL,1,0,1000,"OE2D14","Science and Culture- A Comparison",3
+"Professional Elective","OE1",NULL,1,0,1000,"OE2D14","Science and Culture- A Comparison",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3XX","Software Defined Networking",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3XX","Software Defined Networking",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3XX","Software Defined Networking",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3XX","Software Defined Networking",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3XX","Software Defined Networking",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3E25","VLSI Design Modeling",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3E25","VLSI Design Modeling",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3E25","VLSI Design Modeling",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3E25","VLSI Design Modeling",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3E25","VLSI Design Modeling",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3E40","Computation Genomic & Proteomic",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3E40","Computation Genomic & Proteomic",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3E40","Computation Genomic & Proteomic",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3E40","Computation Genomic & Proteomic",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3E40","Computation Genomic & Proteomic",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE4E50","Detection and Estimation Theory",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE4E50","Detection and Estimation Theory",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE4E50","Detection and Estimation Theory",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE4E50","Detection and Estimation Theory",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE4E50","Detection and Estimation Theory",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3M27","Vibration of Mechanical systems",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3M27","Vibration of Mechanical systems",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3M27","Vibration of Mechanical systems",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3M27","Vibration of Mechanical systems",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3M27","Vibration of Mechanical systems",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3D15","Applied Ergonomics",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3D15","Applied Ergonomics",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3D15","Applied Ergonomics",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3D15","Applied Ergonomics",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3D15","Applied Ergonomics",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3D16","Visual Ergonomics",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3D16","Visual Ergonomics",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3D16","Visual Ergonomics",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3D16","Visual Ergonomics",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3D16","Visual Ergonomics",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3D25","Lighting Design",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3D25","Lighting Design",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3D25","Lighting Design",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3D25","Lighting Design",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3D25","Lighting Design",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3D26","New Media Art",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3D26","New Media Art",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3D26","New Media Art",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3D26","New Media Art",3
+"Professional Elective","OE3",NULL,1,0,1000,"OE3D26","New Media Art",3
+"Professional Core","IT20",NULL,1,0,1000,"IT2001","Data Structure in C",3
+"Professional Core","IT21",NULL,1,0,1000,"IT2002","Data Structure in Python",3
+"Professional Core","IT21",NULL,1,0,1000,"IT2002","Data Structure in Python",3
+"Professional Core","IT21",NULL,1,0,1000,"IT2002","Data Structure in Python",3
+"Professional Elective","OE1",NULL,1,0,1000,"OE2E01","Sensors & Actuators",3
+"Professional Elective","OE1",NULL,1,0,1000,"OE2E01","Sensors & Actuators",3
+"Professional Elective","OE1",NULL,1,0,1000,"OE2E01","Sensors & Actuators",3
+"Professional Elective","OE1",NULL,1,0,1000,"OE2E01","Sensors & Actuators",3
+"Professional Elective","OE1",NULL,1,0,1000,"OE2E01","Sensors & Actuators",3
+"Professional Elective","OE07","-",1,0,1000,"OE4L73","Life Skills Management",3
+"Professional Elective","OE07","-",1,0,1000,"OE4L73","Life Skills Management",3
+"Professional Elective","OE07","-",1,0,1000,"OE4L73","Life Skills Management",3

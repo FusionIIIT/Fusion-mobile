@@ -24,6 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.0
+  csv: ^5.0.1
   google_fonts:
   shared_preferences: ^2.0.3
   provider:
@@ -66,6 +67,7 @@ flutter:
     - assets/mypic.jpg
     - assets/unknown.jpg
     - assets/profile_pic.png
+    - db/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
