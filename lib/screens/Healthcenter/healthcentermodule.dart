@@ -45,11 +45,11 @@ class _HealthCenterModState extends State<HealthCenterMod> {
     try {
       Response response = await healthService.getHealth(widget.token!);
       setState(() {
-        print(response);
+        // print(response);
         data = HealthData.fromJson(jsonDecode(response.body));
         _loading1 = false;
       });
-    }catch(e){
+    } catch (e) {
       print(e);
     }
   }
@@ -59,6 +59,7 @@ class _HealthCenterModState extends State<HealthCenterMod> {
       _healthController.add(res);
     });
   }
+
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
         border: new Border.all(
@@ -88,116 +89,129 @@ class _HealthCenterModState extends State<HealthCenterMod> {
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: DefaultAppBar().buildAppBar(),
       drawer: SideDrawer(),
       body: _loading1 == true
-          ? Center(child: CircularProgressIndicator(),)
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
           : ListView(
-        scrollDirection: Axis.vertical,
-        children: [
-          Card(
-            elevation: 2.0,
-            margin: EdgeInsets.symmetric(horizontal: 50.0, vertical: 20.0),
-            shadowColor: Colors.black,
-            child: Column(
+              scrollDirection: Axis.vertical,
               children: [
-                Container(
-                  margin: EdgeInsets.only(top: 20.0),
-                  width: 170.0,
-                  height: 170.0,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/unknown.jpg'),
-                      fit: BoxFit.cover,
+                Card(
+                  elevation: 2.0,
+                  margin:
+                      EdgeInsets.symmetric(horizontal: 50.0, vertical: 20.0),
+                  shadowColor: Colors.black,
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(top: 20.0),
+                        width: 170.0,
+                        height: 170.0,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage('assets/unknown.jpg'),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      Text(
+                        name!,
+                        style: TextStyle(fontSize: 20.0, color: Colors.black),
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      Text(
+                        depttype!,
+                        style: TextStyle(fontSize: 15.0, color: Colors.black),
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Center(
+                          child: Text(
+                        "Health Center",
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          color: Colors.white,
+                        ),
+                      )),
+                    ),
+                    decoration: new BoxDecoration(
+                      color: Colors.deepOrangeAccent,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black,
+                          offset: Offset(0.0, 1.0),
+                          blurRadius: 2.0,
+                        )
+                      ],
+                      borderRadius:
+                          new BorderRadius.all(new Radius.circular(5.0)),
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                Text(
-                  name!,
-                  style: TextStyle(fontSize: 20.0, color: Colors.black),
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                Text(
-                  depttype!,
-                  style: TextStyle(fontSize: 15.0, color: Colors.black),
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Center(
-                    child: Text(
-                      "Health Center",
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        color: Colors.white,
+                Card(
+                  elevation: 2.0,
+                  margin:
+                      EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+                  shadowColor: Colors.black,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      InkWell(
+                        child: myContainer("Appointments/requests"),
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, '/health_center/healthcenter',
+                              arguments: data);
+                        },
                       ),
-                    )),
-              ),
-              decoration: new BoxDecoration(
-                color: Colors.deepOrangeAccent,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black,
-                    offset: Offset(0.0, 1.0),
-                    blurRadius: 2.0,
-                  )
-                ],
-                borderRadius: new BorderRadius.all(new Radius.circular(5.0)),
-              ),
-            ),
-          ),
-          Card(
-            elevation: 2.0,
-            margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-            shadowColor: Colors.black,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                InkWell(
-                  child: myContainer("Appointments/requests"),
-                  onTap: () {
-                    Navigator.pushNamed(context, '/health_center/healthcenter', arguments: data);
-                  },
-                ),
-                InkWell(
-                  child: myContainer("History"),
-                  onTap: () {
-                    Navigator.pushNamed(context, '/health_center/history', arguments: data);
-                  },
-                ),
-                InkWell(
-                  child: myContainer("Feedback"),
-                  onTap: () {
-                    Navigator.pushNamed(context, '/health_center/feedback', arguments: data);
-                  },
-                ),
-                InkWell(
-                  child: myContainer("Doctor Schedule"),
-                  onTap: () {
-                    Navigator.pushNamed(context, '/health_center/viewschedule', arguments: data);
-                  },
+                      InkWell(
+                        child: myContainer("History"),
+                        onTap: () {
+                          Navigator.pushNamed(context, '/health_center/history',
+                              arguments: data);
+                        },
+                      ),
+                      InkWell(
+                        child: myContainer("Feedback"),
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, '/health_center/feedback',
+                              arguments: data);
+                        },
+                      ),
+                      InkWell(
+                        child: myContainer("Doctor Schedule"),
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, '/health_center/viewschedule',
+                              arguments: data);
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
-          ),
-        ],
-      ),
     );
   }
 }

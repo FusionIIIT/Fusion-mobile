@@ -87,7 +87,7 @@ class ComplaintService {
           ),
           headers: headers,
           body: data);
-      print(response.statusCode);
+      // print(response.statusCode);
 
       if (response.statusCode == 201) return true;
       return false;
@@ -174,7 +174,7 @@ class ComplaintService {
         ),
         headers: headers,
       );
-      print(response.statusCode);
+      // print(response.statusCode);
       if (response.statusCode == 404) return true;
       return false;
     } catch (e) {

@@ -10,7 +10,7 @@ String kAuthLogin = "/api/auth/login/";
 String kProfile = "/api/profile/";
 
 //Academic Procedures
-String kAcademicProcedures = "/academic-procedures/stu/";
+String kAcademicProcedures = "/academic-procedures/api/stu/";
 
 //Complaint
 String kComplaintService = "/complaint/api/studentcomplain";
