@@ -10,7 +10,7 @@ class Semester extends StatefulWidget {
 class _SemesterState extends State<Semester> {
   @override
   Widget build(BuildContext context) {
-    //print(widget.data.details);
+    print(widget.data.currently_registered);
     return Container(
       child: SingleChildScrollView(
         scrollDirection: Axis.vertical,
