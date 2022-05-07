@@ -201,7 +201,9 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
                                     .toString(),
                                 'lastName': data.details!['current_user']
                                     ['last_name'],
-                                'branch': data.details!['user_branch']
+                                'branch': data.details!['user_branch'],
+                                'roll_no': data.details!['current_user']
+                                    ['username'],
                               });
                         },
                       ),
