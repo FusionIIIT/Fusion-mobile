@@ -54,16 +54,13 @@ class _BonafideState extends State<Bonafide> {
           ),
           ElevatedButton(
             onPressed: () async {
-              print("First Name: " + arguments['firstName']);
-              print("Last Name: " + arguments['lastName']);
-              print("Branch: " + arguments['branch']);
               PdfService pdfService = new PdfService();
               final data = await pdfService.generatePdf(
                   bonafidefor == "Other purposes"
                       ? "_______"
                       : bonafidefor.substring(13),
                   arguments["firstName"] + " " + arguments["lastName"],
-                  "2019064",
+                  arguments["roll_no"],
                   arguments["branch"],
                   "B.TECH");
               pdfService.openFile(data);

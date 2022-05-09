@@ -20,13 +20,13 @@ class StorageService with ChangeNotifier {
 
   ProfileData get profileData {
     var profileJson = _getFromDisk(ProfileKey);
-    print(jsonDecode(profileJson));
+    // print(jsonDecode(profileJson));
     return ProfileData.fromJson(jsonDecode(profileJson));
   }
 
   AcademicData get academicData {
     var profileJson = _getFromDisk(ProfileKey);
-    print(jsonDecode(profileJson));
+    // print(jsonDecode(profileJson));
     return AcademicData.fromJson(jsonDecode(profileJson));
   }
 

@@ -17,14 +17,12 @@ class _SideDrawerState extends State<SideDrawer> {
   void initState() {
     super.initState();
     var service = locator<StorageService>();
-    name = "Aarti Kumari";
-    depttype = "CSE";
-    // name = service.profileData.user!["first_name"] +
-    //     " " +
-    //     service.profileData.user!["last_name"];
-    // depttype = service.profileData.profile!['department']!['name'] +
-    //     " " +
-    //     service.profileData.profile!['user_type'];
+    name = service.profileData.user!["first_name"] +
+        " " +
+        service.profileData.user!["last_name"];
+    depttype = service.profileData.profile!['department']!['name'] +
+        " " +
+        service.profileData.profile!['user_type'];
   }
 
   @override
@@ -114,11 +112,15 @@ class _SideDrawerState extends State<SideDrawer> {
                         // ModulesPadding(
                         //     line: 'DashBoard', pageMover: '/dashboard'),
                         ModulesPadding(
-                            line: 'Academics Module',
-                            pageMover: '/academic_home_page'),
+                          line: 'Academics Module',
+                          pageMover: '/academic_home_page',
+                          isActive: true,
+                        ),
                         ModulesPadding(
-                            line: 'Programme Curriculum',
-                            pageMover: '/programme_curriculum_home'),
+                          line: 'Programme Curriculum',
+                          pageMover: '/programme_curriculum_home',
+                          isActive: true,
+                        ),
                         ModulesPadding(
                             line: 'Gymkhana Module',
                             pageMover: '/gymkhana_homepage'),
@@ -171,7 +173,8 @@ class _SideDrawerState extends State<SideDrawer> {
 class ModulesPadding extends StatelessWidget {
   final String? line;
   final String? pageMover;
-  ModulesPadding({this.line, this.pageMover});
+  final bool isActive;
+  ModulesPadding({this.line, this.pageMover, this.isActive = false});
   @override
   Widget build(BuildContext context) {
     return TextButton(
@@ -180,14 +183,21 @@ class ModulesPadding extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Text(
           line!,
-          style: TextStyle(fontSize: 16.0, color: Colors.deepOrangeAccent),
+          style: TextStyle(
+              fontSize: 16.0,
+              color: isActive
+                  ? Colors.deepOrangeAccent
+                  : Colors.deepOrangeAccent.withOpacity(0.5)),
         ),
       ),
-      onPressed: () async {
-        var _prefs = await StorageService.getInstance();
-        String token = _prefs!.userInDB?.token ?? "";
-        Navigator.pushReplacementNamed(context, pageMover!, arguments: token);
-      },
+      onPressed: isActive
+          ? () async {
+              var _prefs = await StorageService.getInstance();
+              String token = _prefs!.userInDB?.token ?? "";
+              Navigator.pushReplacementNamed(context, pageMover!,
+                  arguments: token);
+            }
+          : () {},
     );
   }
 }
