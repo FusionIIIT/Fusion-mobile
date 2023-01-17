@@ -67,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
         if (value!.isEmpty) {
           return 'Please enter Password';
         } else if (value.length < 6) {
-          return 'Password must be  at least 6 characters';
+          return 'Password must be at least 6 characters';
         }
       },
       autofillHints: [AutofillHints.password],
