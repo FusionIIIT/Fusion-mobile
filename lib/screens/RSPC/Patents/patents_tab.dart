@@ -31,9 +31,10 @@ class _PatentsStatusState extends State<PatentsStatus> {
             scrollDirection: Axis.vertical,
             child: DataTable(
               // headingRowColor:
+
               //     MaterialStateColor.resolveWith((states) => Colors.blue),
-              dataRowHeight: 80.0,
-              columnSpacing: 15.0,
+              dataRowHeight: 70.0,
+              columnSpacing: 10.0,
               columns: tabColumnList(),
               rows: tabRowList(),
               // rows: [],
@@ -50,9 +51,14 @@ class _PatentsStatusState extends State<PatentsStatus> {
         .map(
           (el) {
             return DataColumn(
-                label: Text(el.toString(),
-                    style:
-                        TextStyle(fontSize: 13, fontWeight: FontWeight.bold)));
+              label: Expanded(
+                child: Text(
+                  el.toString(),
+                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            );
           },
         )
         .toList()
@@ -75,9 +81,12 @@ class _PatentsStatusState extends State<PatentsStatus> {
                           //     arguments: {'e': e})
                         },
                         child: Container(
-                            //SET width
-                            constraints: BoxConstraints(maxWidth: 200),
-                            child: Text(e.toString())),
+                          //SET width
+                          constraints: BoxConstraints(maxWidth: 200),
+                          child: Text(
+                            e.toString(),
+                          ),
+                        ),
                       )))
                   .toList()
                   .cast<DataCell>(),

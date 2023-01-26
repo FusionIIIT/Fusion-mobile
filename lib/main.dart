@@ -126,7 +126,6 @@ class MyApp extends StatelessWidget {
             ModalRoute.of(context)!.settings.arguments.toString()),
         '/rspc/patents': (context) =>
             Patents(ModalRoute.of(context)!.settings.arguments.toString()),
-        // '/rspc/patents': (context) => Patents(),
       },
     );
   }
