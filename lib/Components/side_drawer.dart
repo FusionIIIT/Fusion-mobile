@@ -122,27 +122,44 @@ class _SideDrawerState extends State<SideDrawer> {
                           isActive: true,
                         ),
                         ModulesPadding(
-                            line: 'Gymkhana Module',
-                            pageMover: '/gymkhana_homepage'),
+                          line: 'Gymkhana Module',
+                          pageMover: '/gymkhana_homepage',
+                          isActive: true,
+                        ),
+
                         ModulesPadding(
-                            line: 'Establishment Module',
-                            pageMover: '/establishment'),
+                          line: 'Establishment Module',
+                          pageMover: '/establishment',
+                          isActive: true,
+                        ),
                         ModulesPadding(
-                            line: 'Library Module',
-                            pageMover: '/library_homepage'),
+                          line: 'Library Module',
+                          pageMover: '/library_homepage',
+                          isActive: true,
+                        ),
                         ModulesPadding(line: 'Awards & Scholarship Module'),
                         ModulesPadding(
-                            line: 'Complaint Module', pageMover: '/complaint'),
+                          line: 'Complaint Module',
+                          pageMover: '/complaint',
+                          isActive: true,
+                        ),
                         ModulesPadding(line: 'Central Mess Module'),
                         ModulesPadding(line: 'Feeds Module'),
                         ModulesPadding(
                           line: 'Health Center Module',
                           pageMover: '/health_center',
+                          isActive: true,
                         ),
+
                         ModulesPadding(line: 'Leave Module'),
                         ModulesPadding(line: 'Placement Module'),
                         ModulesPadding(line: 'Visitors Hostel Module'),
                         ModulesPadding(line: 'File Tracking Module'),
+                        ModulesPadding(
+                          line: 'RSPC Module',
+                          pageMover: '/rspc',
+                          isActive: true,
+                        ),
                       ],
                     ),
                   )
