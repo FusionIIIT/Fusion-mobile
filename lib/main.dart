@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:fusion/screens/Academic/Add_Drop_Courses/add_drop_courses.dart';
+import 'package:fusion/screens/Accounts%20and%20Finance/account_home.dart';
+import 'package:fusion/screens/Accounts%20and%20Finance/bank_detail.dart';
 import 'package:fusion/screens/Complaint/ComplaintHistory/complain_history.dart';
 import 'package:fusion/screens/Complaint/Feedback/feedback.dart';
 import 'package:fusion/screens/Complaint/LodgeComplaint/lodge_complaint.dart';
@@ -42,6 +44,7 @@ import 'package:fusion/screens/Healthcenter/viewschedule.dart';
 import 'package:fusion/screens/Healthcenter/history.dart';
 import 'package:fusion/screens/Healthcenter/HealthCenter.dart';
 import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/screens/Accounts%20and%20Finance/view_salary.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -63,7 +66,7 @@ class MyApp extends StatelessWidget {
       title: 'Fusion',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blueGrey, fontFamily: 'Nunito'),
-      initialRoute: '/landing',
+      initialRoute: 'account_finance/account_home',
       routes: {
         '/landing': (context) => LandingPage(),
         '/login_page': (context) => LoginPage(),
@@ -113,6 +116,10 @@ class MyApp extends StatelessWidget {
         '/health_center/feedback': (context) => FeedBack(),
         '/health_center/viewschedule': (context) => ViewSchedule(),
         '/health_center/history': (context) => History(),
+        'account_finance/account_home':(context)=>AccountHome(),
+        'account_finance/department':(context)=>AccountHome(),
+        'account_finance/bank_detail':(context)=>BankDetail(),
+        'account_finance/view_salary':(context)=>ViewSalary(),
       },
     );
   }
