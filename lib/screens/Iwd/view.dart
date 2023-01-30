@@ -1,20 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
-import 'package:fusion/screens/Academic/Branch_Change/branch_change.dart';
 
-class view extends StatefulWidget {
+class View extends StatefulWidget {
   @override
-  _viewState createState() => _viewState();
+  _ViewState createState() => _ViewState();
 }
 
-class _viewState extends State<view> {
+class _ViewState extends State<View> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-
-  
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -66,40 +60,33 @@ class _viewState extends State<view> {
                   height: 10.0,
                 ),
                 Card(
-            
-            key: _formKey,
-            child: Column(
-            mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: 
-           <Widget>[
-          TextField(
-            decoration: const InputDecoration(
-              labelText: 'Enter Project ID',
-                suffixText: '*',
-                  suffixStyle: TextStyle(
-                    color: Colors.red,
+                  key: _formKey,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      TextField(
+                        decoration: const InputDecoration(
+                          labelText: 'Enter Project ID',
+                          suffixText: '*',
+                          suffixStyle: TextStyle(
+                            color: Colors.red,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {},
+                        child: Text(
+                          'Submit',
+                          style: Theme.of(context).textTheme.headline6,
+                        ),
+                      )
+                    ],
                   ),
-            ),
-             ),
-             SizedBox(
-                 
-height: 10.0,
-             ),
-             ElevatedButton(
-         
-          onPressed: () {},
-          child: Text(
-            'Submit',
-            style: Theme.of(context).textTheme.headline6,
-          ),
-        )
-         
-          
-               
-              ],
-            ),
-         ),
+                ),
               ],
             ),
           ),

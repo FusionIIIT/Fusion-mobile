@@ -103,7 +103,7 @@ class MyApp extends StatelessWidget {
         // IWD Module Route added by Rajat Gupta
         '/iwd_home_page': (context) => IwdHomePage(),
         '/iwd_home_page/project': (context) => Project(),
-        '/iwd_home_page/view': (context) => view(),
+        '/iwd_home_page/view': (context) => View(),
         '/library_homepage': (context) => LibraryHomeScreen(),
         '/library_homepage/book_search': (context) => BookSearch(),
         '/library_homepage/issued_items': (context) => IssuedItems(),
