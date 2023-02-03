@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
 import 'package:fusion/models/profile.dart';
-import 'package:fusion/services/gymkhana_service.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
 import 'package:fusion/services/profile_service.dart';
 import 'package:http/http.dart';
+import 'package:fusion/screens/Department/AboutUs.dart';
 
 class DepartmentHomepage extends StatefulWidget {
   @override
@@ -49,6 +49,8 @@ class _DepartmentHomepageState extends State<DepartmentHomepage> {
 
   @override
   Widget build(BuildContext context) {
+    double kHeight = MediaQuery.of(context).size.height;
+    double kWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         appBar: DefaultAppBar().buildAppBar(),
         drawer: SideDrawer(),
@@ -95,7 +97,148 @@ class _DepartmentHomepageState extends State<DepartmentHomepage> {
                   ),
                 ],
               ),
-            )
+            ),
+            Container(
+              height: 0.4 * kHeight,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      SizedBox(
+                        height: 80.0,
+                        width: 150.0,
+                        child: Column(
+                          children: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                    context, "/department_aboutus");
+                              },
+                              child: Column(
+                                children: [
+                                  Icon(
+                                    Icons.info,
+                                    size: 45.0,
+                                  ),
+                                  Text('About Us'),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 80.0,
+                        width: 150.0,
+                        child: Column(
+                          children: [
+                            TextButton(
+                              onPressed: () {},
+                              child: Column(
+                                children: [
+                                  Icon(
+                                    Icons.article_rounded,
+                                    size: 45.0,
+                                  ),
+                                  Text('Facilities'),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 80.0,
+                        width: 150.0,
+                        child: Column(
+                          children: [
+                            TextButton(
+                              onPressed: () {},
+                              child: Column(
+                                children: [
+                                  Icon(
+                                    Icons.attribution_outlined,
+                                    size: 45.0,
+                                  ),
+                                  Text('Faculty'),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      SizedBox(
+                        height: 80.0,
+                        width: 150.0,
+                        child: Column(
+                          children: [
+                            TextButton(
+                              onPressed: () {},
+                              child: Column(
+                                children: [
+                                  Icon(
+                                    Icons.group,
+                                    size: 45.0,
+                                  ),
+                                  Text('Students'),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 80.0,
+                        width: 150.0,
+                        child: Column(
+                          children: [
+                            TextButton(
+                              onPressed: () {},
+                              child: Column(
+                                children: [
+                                  Icon(
+                                    Icons.volume_down_outlined,
+                                    size: 45.0,
+                                  ),
+                                  Text('Announcements'),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 80.0,
+                        width: 150.0,
+                        child: Column(
+                          children: [
+                            TextButton(
+                              onPressed: () {},
+                              child: Column(
+                                children: [
+                                  Icon(
+                                    Icons.app_registration,
+                                    size: 45.0,
+                                  ),
+                                  Text('Requests'),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ],
         ));
   }
