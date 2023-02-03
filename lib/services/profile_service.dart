@@ -25,14 +25,18 @@ class ProfileService {
         ),
         headers: headers,
       );
+
+      // print('ProfileService ${response.statusCode}\n');
+
       if (response.statusCode == 200) {
         print("successfully fetched profile");
         storage_service
             .saveProfileInDB(ProfileData.fromJson(jsonDecode(response.body)));
         return response;
       }
-      throw Exception('Can\'t load');
+      // throw Exception('Can\'t loaddddddddd Profile_Service');
     } catch (e) {
+      print(e);
       rethrow;
     }
   }

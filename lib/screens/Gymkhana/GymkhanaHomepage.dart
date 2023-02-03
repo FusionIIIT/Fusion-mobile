@@ -8,6 +8,7 @@ import 'package:fusion/models/profile.dart';
 import 'package:fusion/services/gymkhana_service.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
+import 'package:http/http.dart' as http;
 
 class GymkhanaHomepage extends StatefulWidget {
   @override
@@ -70,7 +71,7 @@ class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
     //TODO: uncomment when API is functioning
 
     try {
-      //Response response = await gymkhanaService.getGymkhanaData();
+      http.Response response = await gymkhanaService.getGymkhanaData();
 
       setState(() {
         //TODO: uncomment when API is functioning

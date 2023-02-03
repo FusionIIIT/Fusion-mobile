@@ -28,6 +28,7 @@ class Notification {
   factory Notification.fromJson(json) {
     return Notification(
       id: json["id"],
+      // data: jsonDecode(json["data"]),
       data: jsonDecode(json["data"].replaceAll("'", '"')),
       verb: json["verb"],
       unread: json["unread"],
@@ -41,8 +42,13 @@ class Notification {
   static List<Notification> fromListJson(json) {
     List<Notification> notifs = [];
     json.forEach((v) {
-      notifs.add(Notification.fromJson(v));
+      // notifs.add(Notification.fromJson(v));
+      // print(Notification.fromJson(v).data);
+      // print(jsonDecode(v));
+      // print('\n\n');
     });
+    // print(notifs);
+    // print('NOTIFS');
     return notifs;
   }
 }

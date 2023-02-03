@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fusion/services/rspc_service.dart';
 
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
@@ -34,20 +35,27 @@ class AddResearchProject extends StatefulWidget {
 }
 
 class _AddResearchProjectState extends State<AddResearchProject> {
+  // ignore: unused_field
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String? projectIncharge;
   String? coProjectIncharge;
   String? fundingAgency;
+  String? projectTitle;
+  String? currentStatus;
+  String? financialOutlay;
+  String? submissionDate;
+  String? startDate;
+  String? expectedFinishDate;
+
   List status = [
     'Ongoing',
     'Complete',
   ];
-  String? projectTitle;
   var service = locator<StorageService>();
 
-  TextEditingController submissionDate = TextEditingController();
-  TextEditingController startDate = TextEditingController();
-  TextEditingController expectedFinishDate = TextEditingController();
+  TextEditingController submissionDateController = TextEditingController();
+  TextEditingController startDateController = TextEditingController();
+  TextEditingController expectedFinishDateController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -93,11 +101,11 @@ class _AddResearchProjectState extends State<AddResearchProject> {
                 ),
                 decoration: kTextFieldInputDecoration,
                 onChanged: (input) {
-                  // specific_location = input;
+                  projectIncharge = input;
                 },
                 validator: (String? value) {
                   if (value!.isEmpty) {
-                    return 'Please enter specific_location';
+                    return 'This field is mandatory.';
                   }
                 },
               ),
@@ -121,11 +129,11 @@ class _AddResearchProjectState extends State<AddResearchProject> {
                 ),
                 decoration: kTextFieldInputDecoration,
                 onChanged: (input) {
-                  // specific_location = input;
+                  coProjectIncharge = input;
                 },
                 validator: (String? value) {
                   if (value!.isEmpty) {
-                    return 'Please enter specific_location';
+                    return 'This field is mandatory.';
                   }
                 },
               ),
@@ -149,11 +157,11 @@ class _AddResearchProjectState extends State<AddResearchProject> {
                 ),
                 decoration: kTextFieldInputDecoration,
                 onChanged: (input) {
-                  // specific_location = input;
+                  projectTitle = input;
                 },
                 validator: (String? value) {
                   if (value!.isEmpty) {
-                    return 'Please enter specific_location';
+                    return 'This field is mandatory.';
                   }
                 },
               ),
@@ -177,11 +185,11 @@ class _AddResearchProjectState extends State<AddResearchProject> {
                 ),
                 decoration: kTextFieldInputDecoration,
                 onChanged: (input) {
-                  // specific_location = input;
+                  fundingAgency = input;
                 },
                 validator: (String? value) {
                   if (value!.isEmpty) {
-                    return 'Please enter specific_location';
+                    return 'This field is mandatory.';
                   }
                 },
               ),
@@ -214,13 +222,8 @@ class _AddResearchProjectState extends State<AddResearchProject> {
                     underline: SizedBox(),
                     style: TextStyle(color: Colors.black, fontSize: 16),
                     onChanged: (newValue) {
-                      setState(() {
-                        // location = newValue.toString();
-                      });
-
-                      //print(valueItem);
+                      currentStatus = newValue.toString();
                     },
-                    // value: location,
                     items: status.map((valueItem) {
                       return DropdownMenuItem(
                         value: valueItem,
@@ -244,7 +247,7 @@ class _AddResearchProjectState extends State<AddResearchProject> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 4, vertical: 10),
                 child: TextField(
-                  controller: submissionDate,
+                  controller: submissionDateController,
                   decoration: kInputDateDecoration,
                   onTap: () async {
                     DateTime? pickeddate = await showDatePicker(
@@ -254,8 +257,9 @@ class _AddResearchProjectState extends State<AddResearchProject> {
                         lastDate: DateTime(2100));
                     if (pickeddate != null) {
                       setState(() {
-                        submissionDate.text =
+                        submissionDateController.text =
                             DateFormat('dd-MM-yyyy').format(pickeddate);
+                        submissionDate = submissionDateController.text;
                       });
                     }
                   },
@@ -275,7 +279,7 @@ class _AddResearchProjectState extends State<AddResearchProject> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 4, vertical: 10),
                 child: TextField(
-                  controller: startDate,
+                  controller: startDateController,
                   decoration: kInputDateDecoration,
                   onTap: () async {
                     DateTime? pickeddate = await showDatePicker(
@@ -285,8 +289,9 @@ class _AddResearchProjectState extends State<AddResearchProject> {
                         lastDate: DateTime(2100));
                     if (pickeddate != null) {
                       setState(() {
-                        startDate.text =
+                        startDateController.text =
                             DateFormat('dd-MM-yyyy').format(pickeddate);
+                        startDate = startDateController.text;
                       });
                     }
                   },
@@ -306,7 +311,7 @@ class _AddResearchProjectState extends State<AddResearchProject> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 4, vertical: 16),
                 child: TextField(
-                  controller: expectedFinishDate,
+                  controller: expectedFinishDateController,
                   decoration: kInputDateDecoration,
                   onTap: () async {
                     DateTime? pickeddate = await showDatePicker(
@@ -316,8 +321,9 @@ class _AddResearchProjectState extends State<AddResearchProject> {
                         lastDate: DateTime(2100));
                     if (pickeddate != null) {
                       setState(() {
-                        expectedFinishDate.text =
+                        expectedFinishDateController.text =
                             DateFormat('dd-MM-yyyy').format(pickeddate);
+                        expectedFinishDate = expectedFinishDateController.text;
                       });
                     }
                   },
@@ -340,11 +346,11 @@ class _AddResearchProjectState extends State<AddResearchProject> {
                 ),
                 decoration: kTextFieldInputDecoration,
                 onChanged: (input) {
-                  // specific_location = input;
+                  financialOutlay = input;
                 },
                 validator: (String? value) {
                   if (value!.isEmpty) {
-                    return 'Please enter specific_location';
+                    return 'This field is manadatory.';
                   }
                 },
               ),
@@ -353,7 +359,57 @@ class _AddResearchProjectState extends State<AddResearchProject> {
               ),
               Center(
                 child: ElevatedButton(
-                  onPressed: (() {}),
+                  onPressed: (() async {
+                    RSPCService auth = RSPCService();
+
+                    bool addNewResearchProject = await auth.addResearchProject(
+                      projectIncharge: projectIncharge,
+                      coProjectIncharge: coProjectIncharge,
+                      fundingAgency: fundingAgency,
+                      financialOutlay: financialOutlay,
+                      currentStatus: currentStatus,
+                      projectTitle: projectTitle,
+                      startDate: startDate,
+                      submissionDate: submissionDate,
+                      expectedFinishDate: expectedFinishDate,
+                    );
+                    TextInput.finishAutofillContext();
+                    if (addNewResearchProject) {
+                      print('Successfully added');
+                      return showDialog(
+                        context: context,
+                        builder: (ctx) => AlertDialog(
+                          title: Text("Success"),
+                          content: Text("Project Added Successfully"),
+                          actions: <Widget>[
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(ctx).pop();
+                              },
+                              child: Text("okay"),
+                            ),
+                          ],
+                        ),
+                      );
+                    } else {
+                      print('ERROR OCCURED');
+                      return showDialog(
+                        context: context,
+                        builder: (ctx) => AlertDialog(
+                          title: Text("Failed"),
+                          content: Text("Cannot add above Research Project."),
+                          actions: <Widget>[
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(ctx).pop();
+                              },
+                              child: Text("okay"),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                  }),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(

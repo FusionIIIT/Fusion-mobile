@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fusion/services/rspc_service.dart';
 
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
@@ -34,20 +35,19 @@ class AddConsultancyProject extends StatefulWidget {
 }
 
 class _AddConsultancyProjectState extends State<AddConsultancyProject> {
+  // ignore: unused_field
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String? projectIncharge;
-  String? coProjectIncharge;
-  String? fundingAgency;
-  List status = [
-    'Ongoing',
-    'Complete',
-  ];
+  String? consultant;
+  String? clientName;
+  String? financialOutlay;
   String? projectTitle;
+  String? startDate;
+  String? endDate;
+
   var service = locator<StorageService>();
 
-  TextEditingController submissionDate = TextEditingController();
-  TextEditingController startDate = TextEditingController();
-  TextEditingController expectedFinishDate = TextEditingController();
+  TextEditingController startDateController = TextEditingController();
+  TextEditingController endDateController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -93,11 +93,11 @@ class _AddConsultancyProjectState extends State<AddConsultancyProject> {
                 ),
                 decoration: kTextFieldInputDecoration,
                 onChanged: (input) {
-                  // specific_location = input;
+                  consultant = input;
                 },
                 validator: (String? value) {
                   if (value!.isEmpty) {
-                    return 'Please enter specific_location';
+                    return 'This field is manadatory.';
                   }
                 },
               ),
@@ -121,11 +121,11 @@ class _AddConsultancyProjectState extends State<AddConsultancyProject> {
                 ),
                 decoration: kTextFieldInputDecoration,
                 onChanged: (input) {
-                  // specific_location = input;
+                  clientName = input;
                 },
                 validator: (String? value) {
                   if (value!.isEmpty) {
-                    return 'Please enter specific_location';
+                    return 'This field is manadatory.';
                   }
                 },
               ),
@@ -149,11 +149,11 @@ class _AddConsultancyProjectState extends State<AddConsultancyProject> {
                 ),
                 decoration: kTextFieldInputDecoration,
                 onChanged: (input) {
-                  // specific_location = input;
+                  financialOutlay = input;
                 },
                 validator: (String? value) {
                   if (value!.isEmpty) {
-                    return 'Please enter specific_location';
+                    return 'This field is manadatory.';
                   }
                 },
               ),
@@ -177,11 +177,11 @@ class _AddConsultancyProjectState extends State<AddConsultancyProject> {
                 ),
                 decoration: kTextFieldInputDecoration,
                 onChanged: (input) {
-                  // specific_location = input;
+                  projectTitle = input;
                 },
                 validator: (String? value) {
                   if (value!.isEmpty) {
-                    return 'Please enter specific_location';
+                    return 'This field is manadatory.';
                   }
                 },
               ),
@@ -199,7 +199,7 @@ class _AddConsultancyProjectState extends State<AddConsultancyProject> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 4, vertical: 10),
                 child: TextField(
-                  controller: submissionDate,
+                  controller: startDateController,
                   decoration: kInputDateDecoration,
                   onTap: () async {
                     DateTime? pickeddate = await showDatePicker(
@@ -209,8 +209,9 @@ class _AddConsultancyProjectState extends State<AddConsultancyProject> {
                         lastDate: DateTime(2100));
                     if (pickeddate != null) {
                       setState(() {
-                        submissionDate.text =
+                        startDateController.text =
                             DateFormat('dd-MM-yyyy').format(pickeddate);
+                        startDate = startDateController.text;
                       });
                     }
                   },
@@ -230,7 +231,7 @@ class _AddConsultancyProjectState extends State<AddConsultancyProject> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 4, vertical: 10),
                 child: TextField(
-                  controller: startDate,
+                  controller: endDateController,
                   decoration: kInputDateDecoration,
                   onTap: () async {
                     DateTime? pickeddate = await showDatePicker(
@@ -240,8 +241,9 @@ class _AddConsultancyProjectState extends State<AddConsultancyProject> {
                         lastDate: DateTime(2100));
                     if (pickeddate != null) {
                       setState(() {
-                        startDate.text =
+                        endDateController.text =
                             DateFormat('dd-MM-yyyy').format(pickeddate);
+                        endDate = endDateController.text;
                       });
                     }
                   },
@@ -252,7 +254,53 @@ class _AddConsultancyProjectState extends State<AddConsultancyProject> {
               ),
               Center(
                 child: ElevatedButton(
-                  onPressed: (() {}),
+                  onPressed: (() async {
+                    RSPCService auth = RSPCService();
+                    bool newConsultancyProject =
+                        await auth.addConsultancyProject(
+                            consultant: consultant,
+                            clientName: clientName,
+                            financialOutlay: financialOutlay,
+                            startDate: startDate,
+                            endDate: endDate);
+                    TextInput.finishAutofillContext();
+                    if (newConsultancyProject) {
+                      print('Successfully added');
+                      return showDialog(
+                        context: context,
+                        builder: (ctx) => AlertDialog(
+                          title: Text("Success"),
+                          content: Text("Project Added Successfully"),
+                          actions: <Widget>[
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(ctx).pop();
+                              },
+                              child: Text("okay"),
+                            ),
+                          ],
+                        ),
+                      );
+                    } else {
+                      print('ERROR OCCURED');
+                      return showDialog(
+                        context: context,
+                        builder: (ctx) => AlertDialog(
+                          title: Text("Failed"),
+                          content:
+                              Text("Cannot add above Consultancy Project."),
+                          actions: <Widget>[
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(ctx).pop();
+                              },
+                              child: Text("okay"),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                  }),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(

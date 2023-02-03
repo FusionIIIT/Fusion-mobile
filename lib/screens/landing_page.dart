@@ -14,6 +14,7 @@ class _LandingPageState extends State<LandingPage> {
     return FutureBuilder(
       future: StorageService.getInstance(),
       builder: (context, AsyncSnapshot? snapshot) {
+        // print(snapshot?.data);
         if (snapshot?.hasData ?? false) {
           if (snapshot?.data.userInDB != null) return Dashboard();
           return LoginPage();

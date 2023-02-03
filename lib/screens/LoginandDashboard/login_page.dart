@@ -87,7 +87,12 @@ class _LoginPageState extends State<LoginPage> {
               _showDialog();
             } else {
               LoginService auth = LoginService();
-              bool complete = await auth.login(username ?? "", pass ?? "");
+              bool complete = false;
+              try {
+                complete = await auth.login(username ?? "", pass ?? "");
+              } catch (e) {
+                print(e);
+              }
               TextInput.finishAutofillContext();
               if (complete == true) {
                 Navigator.pushReplacementNamed(context, "/landing");

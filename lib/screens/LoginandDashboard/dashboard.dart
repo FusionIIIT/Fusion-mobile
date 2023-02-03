@@ -11,6 +11,7 @@ import 'package:fusion/models/dashboard.dart';
 import 'package:fusion/screens/LoginandDashboard/DashboardComponents/cardItems.dart';
 import 'package:fusion/services/dashboard_service.dart';
 import 'package:http/http.dart';
+import 'dart:convert';
 
 class Dashboard extends StatefulWidget {
   static String tag = 'home-page';
@@ -46,9 +47,17 @@ class _DashboardState extends State<Dashboard> {
   getData() async {
     try {
       Response response = await dashboardService.getDashboard();
+      // print('response ${response.body}');
       Response response2 = await profileService.getProfile();
+      // print('response ${response2.body}');
+
+      // print(jsonDecode(response.body));
+      // var decodedData = jsonDecode(response.body)['notifications'][0];
+      // print(decodedData);
+      // print(decodedData.notifications);
       setState(() {
         data = DashboardData.fromJson(jsonDecode(response.body));
+        // data = ;
         data2 = ProfileData.fromJson(jsonDecode(response2.body));
         _loading = false;
       });
@@ -56,6 +65,7 @@ class _DashboardState extends State<Dashboard> {
       studentType = data2.profile!['department']!['name'] +
           '  ' +
           data2.profile!['user_type'];
+      print(name);
     } catch (e) {
       print(e);
     }
@@ -239,7 +249,7 @@ class _DashboardState extends State<Dashboard> {
                         ),
                       ),
                     ),
-                    _notificationsBool
+                    (_notificationsBool)
                         ? NotificationCard(
                             notifications: data.notifications,
                           )
