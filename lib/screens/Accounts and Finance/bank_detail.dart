@@ -45,7 +45,7 @@ class _BankDetailState extends State<BankDetail> {
                     contentPadding:
                     EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(32.0),
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
                 ),
@@ -72,7 +72,7 @@ class _BankDetailState extends State<BankDetail> {
                     contentPadding:
                     EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(32.0),
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
                 ),
@@ -95,11 +95,11 @@ class _BankDetailState extends State<BankDetail> {
                 TextField(
                   controller: _ifscController,
                   decoration: InputDecoration(
-                    hintText: "IFSC code",
+                    hintText: "",
                     contentPadding:
                     EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(32.0),
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
                 ),
@@ -126,7 +126,7 @@ class _BankDetailState extends State<BankDetail> {
                     contentPadding:
                     EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(32.0),
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
                 ),
@@ -136,13 +136,20 @@ class _BankDetailState extends State<BankDetail> {
 
                 // submit button
                 Center(
-                    child:TextButton(
-                      style: TextButton.styleFrom(
-                          backgroundColor: Colors.red,
-                          textStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.bold)
+                    child:SizedBox(
+                      height: 50,
+                      width: 100,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          side: BorderSide(width: 1,color: Colors.white,),
+                          backgroundColor: Colors.blue,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            )
+                        ),
+                        onPressed: (){},
+                        child: Text('Submit',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
                       ),
-                      onPressed: (){},
-                      child: Text('submit'),
                     )
                 )
               ,
@@ -183,21 +190,25 @@ class _BankDetailState extends State<BankDetail> {
                                 context, 'account_finance/bank_detail');
                           });
                         },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Bank Details',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w800,
-                                fontSize: 18,
-                                color: Colors.black,
+                        child: Container(
+                          padding: EdgeInsets.all(10),
+                          color: Colors.grey[200],
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Bank Details',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 18,
+                                  color: Colors.black,
+                                ),
                               ),
-                            ),
-                            Icon(
-                              Icons.arrow_right,
-                            )
-                          ],
+                              Icon(
+                                Icons.arrow_right,
+                              )
+                            ],
+                          ),
                         ),
                       ),
                       SizedBox(height: 2),

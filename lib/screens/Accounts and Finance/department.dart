@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class DepartMent extends StatefulWidget {
   const DepartMent({Key? key}) : super(key: key);
@@ -8,11 +9,30 @@ class DepartMent extends StatefulWidget {
 }
 
 class _DepartMentState extends State<DepartMent> {
+  DateTime selectedDate = DateTime.now();
+
+  // text fields
   TextEditingController _companyNameController=TextEditingController();
   TextEditingController _startDateController=TextEditingController();
   TextEditingController _endDateController=TextEditingController();
   TextEditingController _descController=TextEditingController();
   TextEditingController _statusController=TextEditingController();
+
+
+  // date picker code
+  Future<void> _selectDate(BuildContext context) async {
+
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(selectedDate.year-1, 1),
+        lastDate: DateTime(2101));
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +63,7 @@ class _DepartMentState extends State<DepartMent> {
                   contentPadding:
                   EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(32.0),
+                    borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
               ),
@@ -66,11 +86,18 @@ class _DepartMentState extends State<DepartMent> {
               TextField(
                 controller: _startDateController,
                 decoration: InputDecoration(
-                  hintText: "Year",
+                  hintText: "",
                   contentPadding:
                   EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.calendar_month),
+                    onPressed: (){
+                      _selectDate(context);
+                      _startDateController.text=DateFormat('dd-MM-yyyy').format(selectedDate);
+                    },
+                  ),
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(32.0),
+                    borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
               ),
@@ -96,8 +123,15 @@ class _DepartMentState extends State<DepartMent> {
                   hintText: "",
                   contentPadding:
                   EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.calendar_month),
+                    onPressed: (){
+                      _selectDate(context);
+                      _endDateController.text=DateFormat('dd-MM-yyyy').format(selectedDate);
+                      },
+                  ),
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(32.0),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
               ),
@@ -124,7 +158,7 @@ class _DepartMentState extends State<DepartMent> {
                   contentPadding:
                   EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(32.0),
+                    borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
               ),
@@ -152,7 +186,7 @@ class _DepartMentState extends State<DepartMent> {
                   contentPadding:
                   EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(32.0),
+                    borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
               ),
@@ -163,13 +197,20 @@ class _DepartMentState extends State<DepartMent> {
 
 
               Center(
-                  child:TextButton(
-                    style: TextButton.styleFrom(
-                        backgroundColor: Colors.red,
-                        textStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.bold)
+                  child:SizedBox(
+                    height: 50,
+                    width: 100,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                         side: BorderSide(width: 1,color: Colors.white,),
+                          backgroundColor: Colors.blue,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          )
+                      ),
+                      onPressed: (){},
+                      child: Text('print',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
                     ),
-                    onPressed: (){},
-                    child: Text('print'),
                   )
               )
             ],
@@ -187,21 +228,25 @@ class _DepartMentState extends State<DepartMent> {
                     Navigator.pushNamed(
                         context, 'account_finance/department');
                   },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Department',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w800,
-                          fontSize: 18,
-                          color: Colors.black,
+                  child: Container(
+                    padding: EdgeInsets.all(10),
+                    color: Colors.grey[200],
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Department',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w800,
+                            fontSize: 18,
+                            color: Colors.black,
+                          ),
                         ),
-                      ),
-                      Icon(
-                        Icons.arrow_right,
-                      )
-                    ],
+                        Icon(
+                          Icons.arrow_right,
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 SizedBox(height: 10),
