@@ -43,6 +43,7 @@ import 'package:fusion/screens/Healthcenter/history.dart';
 import 'package:fusion/screens/Healthcenter/HealthCenter.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/screens/Department/DepartmentHomepage.dart';
+import 'package:fusion/screens/Department/AboutUs.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -115,6 +116,7 @@ class MyApp extends StatelessWidget {
         '/health_center/viewschedule': (context) => ViewSchedule(),
         '/health_center/history': (context) => History(),
         '/department_homepage': (context) => DepartmentHomepage(),
+        '/department_aboutus': (context) => AboutUs(),
       },
     );
   }
