@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:fusion/screens/Academic/Add_Drop_Courses/add_drop_courses.dart';
+import 'package:fusion/screens/Academic/Leave/leave_form.dart';
+import 'package:fusion/screens/Academic/Leave/leave_status.dart';
 import 'package:fusion/screens/Complaint/ComplaintHistory/complain_history.dart';
 import 'package:fusion/screens/Complaint/Feedback/feedback.dart';
 import 'package:fusion/screens/Complaint/LodgeComplaint/lodge_complaint.dart';
@@ -113,6 +115,8 @@ class MyApp extends StatelessWidget {
         '/health_center/feedback': (context) => FeedBack(),
         '/health_center/viewschedule': (context) => ViewSchedule(),
         '/health_center/history': (context) => History(),
+        '/leave/leave_form': (context) => LeaveForm(),
+        '/leave/leave_status': (context) => LeaveStatus(),
       },
     );
   }
