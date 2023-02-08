@@ -33,8 +33,9 @@ String kHealthCentreStudent = "/healthcenter/api/student";
 
 //RSPC
 
-String kResearchProjectNew = "/rspc/api/new_research_project";
-String kConsultantProjectNew = "/rspc/api/new_consultant_project";
+String kResearchProjectNew = "/research_procedures/api/new_research_project";
+String kConsultantProjectNew =
+    "/research_procedures/api/new_consultant_project";
 
 //------------Screens------------
 
