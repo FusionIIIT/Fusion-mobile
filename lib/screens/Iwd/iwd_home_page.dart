@@ -1,6 +1,14 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/models/profile.dart';
+import 'package:fusion/services/profile_service.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
+import 'package:http/http.dart';
 
 class IwdHomePage extends StatefulWidget {
   @override
@@ -8,6 +16,41 @@ class IwdHomePage extends StatefulWidget {
 }
 
 class _IwdHomePageState extends State<IwdHomePage> {
+  bool _loading1 = true;
+
+  //integrating_api
+  late StreamController _profileController;
+  late ProfileService profileService;
+  late ProfileData data;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _profileController = StreamController();
+    profileService = ProfileService();
+    var service = locator<StorageService>();
+    try {
+      data = service.profileData;
+      _loading1 = false;
+    } catch (e) {
+      getData();
+    }
+    //TODO: Remove this?
+    getData();
+  }
+
+  getData() async {
+    try {
+      Response response = await profileService.getProfile();
+      setState(() {
+        data = ProfileData.fromJson(jsonDecode(response.body));
+        _loading1 = false;
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
         border: new Border.all(
@@ -40,7 +83,6 @@ class _IwdHomePageState extends State<IwdHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final data = '';
     return Scaffold(
       appBar: DefaultAppBar().buildAppBar(),
       drawer: SideDrawer(),
@@ -70,19 +112,19 @@ class _IwdHomePageState extends State<IwdHomePage> {
                 ),
                 Text(
                   //NAME OF USER
-                  'Rajat Gupta',
-                  // data.details!['current_user']['first_name'] +
-                  //     ' ' +
-                  //     data.details!['current_user']['last_name'],
+                  // 'Rajat Gupta',
+                  data.user!['first_name'] + ' ' + data.user!['last_name'],
                   style: TextStyle(fontSize: 20.0, color: Colors.black),
                 ),
                 SizedBox(
                   height: 10.0,
                 ),
                 Text(
-                  'CSE',
-                  // data.details!['user_branch'] + ' | ' + "STUDENT",
-                  // style: TextStyle(fontSize: 15.0, color: Colors.black),
+                  // 'CSE',
+                  data.profile!['department']!['name'] +
+                      ' | ' +
+                      data.profile!['user_type'],
+                  style: TextStyle(fontSize: 15.0, color: Colors.black),
                 ),
                 SizedBox(
                   height: 10.0,
