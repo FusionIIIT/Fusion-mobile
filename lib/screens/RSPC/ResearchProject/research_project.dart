@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fusion/services/rspc_service.dart';
@@ -5,6 +7,8 @@ import 'package:fusion/services/rspc_service.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
 import 'package:intl/intl.dart';
+
+import '../../../services/profile_service.dart';
 
 const kTextFieldInputDecoration = InputDecoration(
   filled: true,
@@ -46,6 +50,7 @@ class _AddResearchProjectState extends State<AddResearchProject> {
   String? submissionDate;
   String? startDate;
   String? expectedFinishDate;
+  String? pfNo;
 
   List status = [
     'Ongoing',
@@ -217,12 +222,15 @@ class _AddResearchProjectState extends State<AddResearchProject> {
                   child: DropdownButton(
                     hint: Text('Status'),
                     dropdownColor: Colors.grey[200],
+                    value: currentStatus,
                     icon: Icon(Icons.arrow_drop_down),
                     isExpanded: true,
                     underline: SizedBox(),
                     style: TextStyle(color: Colors.black, fontSize: 16),
                     onChanged: (newValue) {
-                      currentStatus = newValue.toString();
+                      setState(() {
+                        currentStatus = newValue.toString();
+                      });
                     },
                     items: status.map((valueItem) {
                       return DropdownMenuItem(
@@ -258,7 +266,7 @@ class _AddResearchProjectState extends State<AddResearchProject> {
                     if (pickeddate != null) {
                       setState(() {
                         submissionDateController.text =
-                            DateFormat('dd-MM-yyyy').format(pickeddate);
+                            DateFormat('yyyy-MM-dd').format(pickeddate);
                         submissionDate = submissionDateController.text;
                       });
                     }
@@ -290,7 +298,7 @@ class _AddResearchProjectState extends State<AddResearchProject> {
                     if (pickeddate != null) {
                       setState(() {
                         startDateController.text =
-                            DateFormat('dd-MM-yyyy').format(pickeddate);
+                            DateFormat('yyyy-MM-dd').format(pickeddate);
                         startDate = startDateController.text;
                       });
                     }
@@ -322,7 +330,7 @@ class _AddResearchProjectState extends State<AddResearchProject> {
                     if (pickeddate != null) {
                       setState(() {
                         expectedFinishDateController.text =
-                            DateFormat('dd-MM-yyyy').format(pickeddate);
+                            DateFormat('yyyy-MM-dd').format(pickeddate);
                         expectedFinishDate = expectedFinishDateController.text;
                       });
                     }
@@ -360,8 +368,11 @@ class _AddResearchProjectState extends State<AddResearchProject> {
               Center(
                 child: ElevatedButton(
                   onPressed: (() async {
+                    dynamic res = await ProfileService().getProfile();
+                    dynamic user = jsonDecode(res.body)['user'];
+                    pfNo = user['id'].toString();
+                    print(pfNo);
                     RSPCService auth = RSPCService();
-
                     bool addNewResearchProject = await auth.addResearchProject(
                       projectIncharge: projectIncharge,
                       coProjectIncharge: coProjectIncharge,
@@ -372,6 +383,7 @@ class _AddResearchProjectState extends State<AddResearchProject> {
                       startDate: startDate,
                       submissionDate: submissionDate,
                       expectedFinishDate: expectedFinishDate,
+                      pfNo: pfNo,
                     );
                     TextInput.finishAutofillContext();
                     if (addNewResearchProject) {

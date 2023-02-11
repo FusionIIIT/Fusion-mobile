@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fusion/services/rspc_service.dart';
 
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
+import 'package:fusion/services/profile_service.dart';
 import 'package:intl/intl.dart';
 
 const kTextFieldInputDecoration = InputDecoration(
@@ -43,11 +46,18 @@ class _AddConsultancyProjectState extends State<AddConsultancyProject> {
   String? projectTitle;
   String? startDate;
   String? endDate;
+  String? pfNo;
 
   var service = locator<StorageService>();
 
   TextEditingController startDateController = TextEditingController();
   TextEditingController endDateController = TextEditingController();
+
+  String reverseStringUsingRunes(String input) {
+    var chars = input.runes.toList();
+
+    return String.fromCharCodes(chars.reversed);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -210,7 +220,7 @@ class _AddConsultancyProjectState extends State<AddConsultancyProject> {
                     if (pickeddate != null) {
                       setState(() {
                         startDateController.text =
-                            DateFormat('dd-MM-yyyy').format(pickeddate);
+                            DateFormat('yyyy-MM-dd').format(pickeddate);
                         startDate = startDateController.text;
                       });
                     }
@@ -242,7 +252,7 @@ class _AddConsultancyProjectState extends State<AddConsultancyProject> {
                     if (pickeddate != null) {
                       setState(() {
                         endDateController.text =
-                            DateFormat('dd-MM-yyyy').format(pickeddate);
+                            DateFormat('yyyy-MM-dd').format(pickeddate);
                         endDate = endDateController.text;
                       });
                     }
@@ -255,14 +265,20 @@ class _AddConsultancyProjectState extends State<AddConsultancyProject> {
               Center(
                 child: ElevatedButton(
                   onPressed: (() async {
+                    dynamic res = await ProfileService().getProfile();
+                    dynamic user = jsonDecode(res.body)['user'];
+                    pfNo = user['id'].toString();
                     RSPCService auth = RSPCService();
                     bool newConsultancyProject =
                         await auth.addConsultancyProject(
-                            consultant: consultant,
-                            clientName: clientName,
-                            financialOutlay: financialOutlay,
-                            startDate: startDate,
-                            endDate: endDate);
+                      consultant: consultant,
+                      clientName: clientName,
+                      projectTitle: projectTitle,
+                      financialOutlay: financialOutlay,
+                      startDate: startDate,
+                      endDate: endDate,
+                      pfNo: pfNo,
+                    );
                     TextInput.finishAutofillContext();
                     if (newConsultancyProject) {
                       print('Successfully added');

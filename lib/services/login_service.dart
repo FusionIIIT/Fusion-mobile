@@ -22,7 +22,9 @@ class LoginService {
           ),
           headers: headers,
           body: jsonEncode(data));
-      // print(response.body);
+      // print("here");
+      // print(response);
+      // print(jsonDecode(response.body));
 
       var prefs = await StorageService.getInstance();
       var storage_service = await StorageService.getInstance();
