@@ -5,6 +5,9 @@ import 'package:fusion/screens/Complaint/ComplaintHistory/complain_history.dart'
 import 'package:fusion/screens/Complaint/Feedback/feedback.dart';
 import 'package:fusion/screens/Complaint/LodgeComplaint/lodge_complaint.dart';
 import 'package:fusion/screens/Establishment/establishment_home_page.dart';
+import 'package:fusion/screens/Iwd/iwd_home_page.dart';
+import 'package:fusion/screens/Iwd/project.dart';
+import 'package:fusion/screens/Iwd/view.dart';
 import 'package:fusion/screens/Library/Book_Search.dart';
 import 'package:fusion/screens/Library/dues.dart';
 import 'package:fusion/screens/Library/issued_items.dart';
@@ -96,6 +99,11 @@ class MyApp extends StatelessWidget {
         '/gymkhana_homepage/polls': (context) => Polls(),
         '/gymkhana_homepage/clubs': (context) => Club(),
         '/gymkhana_homepage/member_records': (context) => Records(),
+
+        // IWD Module Route added by Rajat Gupta
+        '/iwd_home_page': (context) => IwdHomePage(),
+        '/iwd_home_page/project': (context) => Project(),
+        '/iwd_home_page/view': (context) => view(),
         '/library_homepage': (context) => LibraryHomeScreen(),
         '/library_homepage/book_search': (context) => BookSearch(),
         '/library_homepage/issued_items': (context) => IssuedItems(),
