@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'utils.dart';
 import 'page-1/stock-management-home.dart';
+import 'page-1/fusion-ui-login.dart';
 // import 'package:myapp/page-1/stock-management-home.dart';
 // import 'package:myapp/page-1/stock-management-2.dart';
 // import 'package:myapp/page-1/rectangle-6.dart';
