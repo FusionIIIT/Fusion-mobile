@@ -30,6 +30,7 @@ class _AboutUsState extends State<AboutUs> {
     super.initState();
     profileService = ProfileService();
     getData();
+    _loadCSV_CSE();
   }
 
   // ignore: non_constant_identifier_names
