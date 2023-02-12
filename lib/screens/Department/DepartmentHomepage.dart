@@ -9,6 +9,7 @@ import 'package:fusion/services/storage_service.dart';
 import 'package:fusion/services/profile_service.dart';
 import 'package:http/http.dart';
 import 'package:fusion/screens/Department/AboutUs.dart';
+import 'package:fusion/screens/Department/Announcements.dart';
 
 class DepartmentHomepage extends StatefulWidget {
   @override
@@ -19,6 +20,7 @@ class _DepartmentHomepageState extends State<DepartmentHomepage> {
   late String name = "";
   late String studentType = "";
   late ProfileData data2;
+  late String user_type = "";
   bool _loading = true;
   late ProfileService profileService;
   @override
@@ -42,6 +44,7 @@ class _DepartmentHomepageState extends State<DepartmentHomepage> {
       studentType = data2.profile!['department']!['name'] +
           '  ' +
           data2.profile!['user_type'];
+      user_type = data2.profile!['user_type'];
     } catch (e) {
       print(e);
     }
@@ -99,6 +102,7 @@ class _DepartmentHomepageState extends State<DepartmentHomepage> {
               ),
             ),
             Container(
+              // UI/UX of student
               height: 0.4 * kHeight,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -114,7 +118,7 @@ class _DepartmentHomepageState extends State<DepartmentHomepage> {
                             TextButton(
                               onPressed: () {
                                 Navigator.pushNamed(
-                                    context, "/department_aboutus");
+                                    context, "/department_homepage/aboutus");
                               },
                               child: Column(
                                 children: [
@@ -200,7 +204,10 @@ class _DepartmentHomepageState extends State<DepartmentHomepage> {
                         child: Column(
                           children: [
                             TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.pushNamed(context,
+                                    "/department_homepage/announcements");
+                              },
                               child: Column(
                                 children: [
                                   Icon(
