@@ -85,7 +85,8 @@ class _InfoCardState extends State<InfoCard> {
             height: 10.0,
           ),
           Text(
-            widget.notification.data!["module"],
+            // widget.notification.data!["module"],
+            '',
             textAlign: TextAlign.left,
             style: TextStyle(
               fontSize: 20.0,
@@ -116,7 +117,7 @@ class _InfoCardState extends State<InfoCard> {
               setState(() {
                 try {
                   service.markRead(widget.notification.id!.toString());
-                }catch(e){
+                } catch (e) {
                   print(e);
                 }
               });
