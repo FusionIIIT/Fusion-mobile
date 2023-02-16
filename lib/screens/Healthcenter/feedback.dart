@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 
-
 class FeedBack extends StatefulWidget {
   @override
   _FeedBackState createState() => _FeedBackState();
 }
 
-
-
 class _FeedBackState extends State<FeedBack> {
   @override
-
-
   Widget feed = Container(
     padding: EdgeInsets.all(20.0),
     child: Column(
@@ -45,7 +40,6 @@ class _FeedBackState extends State<FeedBack> {
     ),
   );
 
-
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -57,6 +51,7 @@ class _FeedBackState extends State<FeedBack> {
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
+
             SizedBox(height: 20.0),
           DefaultTabController(
             length: 1, // length of tabs
