@@ -17,12 +17,14 @@ class _SideDrawerState extends State<SideDrawer> {
   void initState() {
     super.initState();
     var service = locator<StorageService>();
-    name = service.profileData.user!["first_name"] +
-        " " +
-        service.profileData.user!["last_name"];
-    depttype = service.profileData.profile!['department']!['name'] +
-        " " +
-        service.profileData.profile!['user_type'];
+    // name = service.profileData.user!["first_name"] +
+    //     " " +
+    //     service.profileData.user!["last_name"];
+    // depttype = service.profileData.profile!['department']!['name'] +
+    //     " " +
+    //     service.profileData.profile!['user_type'];
+    name="Faizan khan";
+    depttype="Developer";
   }
 
   @override
@@ -160,7 +162,7 @@ class _SideDrawerState extends State<SideDrawer> {
             ModulesCard(cardLine: 'Office Of Registrar'),
             ModulesCard(cardLine: 'Office Of P&D'),
             ModulesCard(cardLine: 'Office Of HOD (Branch)'),
-            ModulesCard(cardLine: 'Finance & Accounts'),
+            ModulesCard(cardLine: 'Finance & Accounts',pageMover: 'account_finance/account_home',),
             ModulesCard(cardLine: 'Meet Our Team'),
             ModulesCard(cardLine: 'Log Out', icon: Icons.logout),
           ],

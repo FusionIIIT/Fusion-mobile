@@ -66,7 +66,7 @@ class MyApp extends StatelessWidget {
       title: 'Fusion',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blueGrey, fontFamily: 'Nunito'),
-      initialRoute: 'account_finance/account_home',
+      initialRoute: 'account_finance/department',
       routes: {
         '/landing': (context) => LandingPage(),
         '/login_page': (context) => LoginPage(),
