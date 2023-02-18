@@ -8,10 +8,10 @@ class Bank{
 
  static Map<String,dynamic> getData(Bank model){
     return {
-      'bank_name':model.bankName,
-      'ifsc_code':model.ifscCode,
-      'branch_name':model.branchName,
-      'account_number':model.accountNumber
+      'Bank_Name':model.bankName,
+      'IFSC_Code':model.ifscCode,
+      'Branch_Name':model.branchName,
+      'Account_no':model.accountNumber
     };
   }
 

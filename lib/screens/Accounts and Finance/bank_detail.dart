@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
 
-import '../../models/bank.dart';
+import '../../models/finance_bank.dart';
 
 class BankDetail extends StatefulWidget {
   const BankDetail({Key? key}) : super(key: key);

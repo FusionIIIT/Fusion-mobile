@@ -9,6 +9,10 @@ String kAuthLogin = "/api/auth/login/";
 //Profile Service
 String kProfile = "/api/profile/";
 
+// Account and finance Service
+String kCompanyDetails="/finance_account/createCompany/";
+String kBankDetails="/finance_account/createBank/";
+
 //Academic Procedures
 String kAcademicProcedures = "/academic-procedures/api/stu/";
 
