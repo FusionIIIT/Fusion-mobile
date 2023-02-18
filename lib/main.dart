@@ -43,6 +43,10 @@ import 'package:fusion/screens/Healthcenter/history.dart';
 import 'package:fusion/screens/Healthcenter/HealthCenter.dart';
 import 'package:fusion/services/service_locator.dart';
 
+import 'package:fusion/screens/Iwd/iwd_home_page.dart';
+import 'package:fusion/screens/Iwd/project.dart';
+import 'package:fusion/screens/Iwd/view.dart';
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   setupLocator();
@@ -126,6 +130,10 @@ class MyApp extends StatelessWidget {
           '/health_center/feedback': (context) => FeedBack(),
           '/health_center/viewschedule': (context) => ViewSchedule(),
           '/health_center/history': (context) => History(),
+
+           '/iwd_home_page': (context) => IwdHomePage(),
+        '/iwd_home_page/project': (context) => Project(),
+        '/iwd_home_page/view': (context) => view(),
         },
       ),
     );
