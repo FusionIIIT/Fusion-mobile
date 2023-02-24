@@ -160,7 +160,7 @@ class _SideDrawerState extends State<SideDrawer> {
             ModulesCard(cardLine: 'Office Of Registrar'),
             ModulesCard(cardLine: 'Office Of P&D'),
             ModulesCard(cardLine: 'Office Of HOD (Branch)'),
-            ModulesCard(cardLine: 'Finance & Accounts'),
+            ModulesCard(cardLine: 'Finance & Accounts', pageMover: 'account_finance/department',),
             ModulesCard(cardLine: 'Meet Our Team'),
             ModulesCard(cardLine: 'Log Out', icon: Icons.logout),
           ],
