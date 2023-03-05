@@ -13,6 +13,7 @@ class _SideDrawerState extends State<SideDrawer> {
   int count = 0;
   String? name;
   String? depttype;
+  bool isStaff=false;
   @override
   void initState() {
     super.initState();
@@ -23,6 +24,8 @@ class _SideDrawerState extends State<SideDrawer> {
     depttype = service.profileData.profile!['department']!['name'] +
         " " +
         service.profileData.profile!['user_type'];
+    isStaff=service.profileData.profile!['is_staff'];
+
   }
 
   @override
@@ -161,6 +164,7 @@ class _SideDrawerState extends State<SideDrawer> {
             ModulesCard(cardLine: 'Office Of P&D'),
             ModulesCard(cardLine: 'Office Of HOD (Branch)'),
             ModulesCard(cardLine: 'Finance & Accounts', pageMover: 'account_finance/department',),
+            ModulesCard(cardLine: 'Income and Expenditure', pageMover:isStaff?'income_expenditure/income_home':'account_finance/department',),
             ModulesCard(cardLine: 'Meet Our Team'),
             ModulesCard(cardLine: 'Log Out', icon: Icons.logout),
           ],

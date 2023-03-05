@@ -66,7 +66,7 @@ class _ViewSalaryState extends State<ViewSalary> {
                 ),
 
                 TextField(
-                  controller: _monthController,
+                  controller: _yearController,
                   decoration: InputDecoration(
                     hintText: "Year",
                     contentPadding:
