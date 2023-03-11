@@ -39,6 +39,13 @@ dependencies:
   path_provider: ^2.0.8
   open_file: ^3.2.1
   flutter_html: ^2.2.1
+  flutter_lints: ^2.0.0
+  date_picker_number: ^1.0.2
+  date_time_picker: ^2.1.0
+  dropdown_button2: ^1.9.2
+  get: ^4.6.5
+  intl: ^0.17.0
+  material: ^1.0.0+2
 
 
 
@@ -68,6 +75,7 @@ flutter:
     - assets/mypic.jpg
     - assets/unknown.jpg
     - assets/profile_pic.png
+    - assets/Rules.pdf
     - db/
 
   # An image asset can refer to one or more resolution-specific "variants", see

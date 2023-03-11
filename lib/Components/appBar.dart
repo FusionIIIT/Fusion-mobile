@@ -26,4 +26,30 @@ class DefaultAppBar {
       ],
     );
   }
+  AppBar visitorHostelAppBar() {
+    return AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
+        title: Text(
+        "Visitor Hostel",
+        style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+      ),
+        backgroundColor: Colors.black,
+        // ignore: prefer_const_literals_to_create_immutables
+        actions: <Widget>[
+        Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Icon(Icons.search),
+        ),
+        Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Icon(Icons.notifications),
+        ),
+        Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Icon(Icons.more_vert),
+        ),
+      ],
+        elevation: 0,
+      );
+  }
 }
