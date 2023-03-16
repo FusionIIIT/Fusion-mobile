@@ -8,7 +8,8 @@ class DefaultAppBar {
       backgroundColor: kPrimaryColor,
       title: Text(
         "Dashboard",
-        style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+        style: TextStyle(
+            color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
       ),
       actions: <Widget>[
         Padding(
@@ -26,16 +27,18 @@ class DefaultAppBar {
       ],
     );
   }
+
   AppBar visitorHostelAppBar() {
     return AppBar(
-        iconTheme: IconThemeData(color: Colors.white),
-        title: Text(
+      iconTheme: IconThemeData(color: Colors.white),
+      title: Text(
         "Visitor Hostel",
-        style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+        style: TextStyle(
+            color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
       ),
-        backgroundColor: Colors.black,
-        // ignore: prefer_const_literals_to_create_immutables
-        actions: <Widget>[
+      backgroundColor: Color.fromARGB(255, 243, 33, 33),
+      // ignore: prefer_const_literals_to_create_immutables
+      actions: <Widget>[
         Padding(
           padding: EdgeInsets.all(8.0),
           child: Icon(Icons.search),
@@ -49,7 +52,7 @@ class DefaultAppBar {
           child: Icon(Icons.more_vert),
         ),
       ],
-        elevation: 0,
-      );
+      elevation: 0,
+    );
   }
 }

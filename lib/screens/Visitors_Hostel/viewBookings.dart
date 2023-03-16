@@ -10,40 +10,40 @@ class ViewBookings extends StatefulWidget {
 }
 
 class _ViewBookingsState extends State<ViewBookings> {
-List < Map < String, dynamic >> bookingData = [{
-    'Intender': 'Bob',
-    'BookingFrom': '21st Jan',
-    'BookingTo': '28th Jan',
-    'Category': 'B',
-    'Status': 'Active'
-}, {
-    'Intender': 'Jane',
-    'BookingFrom': '22nd Jan',
-    'BookingTo': '29th Jan',
-    'Category': 'A',
-    'Status': 'Inactive'
-},
-{
-    'Intender': 'Bob',
-    'BookingFrom': '21st Jan',
-    'BookingTo': '28th Jan',
-    'Category': 'B',
-    'Status': 'Active'
-}, {
-    'Intender': 'Jane',
-    'BookingFrom': '22nd Jan',
-    'BookingTo': '29th Jan',
-    'Category': 'A',
-    'Status': 'Inactive'
-},
-];
-
+  List<Map<String, dynamic>> bookingData = [
+    {
+      'Intender': 'Bob',
+      'BookingFrom': '21st Jan',
+      'BookingTo': '28th Jan',
+      'Category': 'B',
+      'Status': 'Active'
+    },
+    {
+      'Intender': 'Jane',
+      'BookingFrom': '22nd Jan',
+      'BookingTo': '29th Jan',
+      'Category': 'A',
+      'Status': 'Inactive'
+    },
+    {
+      'Intender': 'Bob',
+      'BookingFrom': '21st Jan',
+      'BookingTo': '28th Jan',
+      'Category': 'B',
+      'Status': 'Active'
+    },
+    {
+      'Intender': 'Jane',
+      'BookingFrom': '22nd Jan',
+      'BookingTo': '29th Jan',
+      'Category': 'A',
+      'Status': 'Inactive'
+    },
+  ];
 
   @override
-
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
       appBar: DefaultAppBar().visitorHostelAppBar(),
       drawer: SideDrawer(),
       body: Column(
@@ -61,13 +61,14 @@ List < Map < String, dynamic >> bookingData = [{
                 ),
               ),
               child: SingleChildScrollView(
-                child: Column(
-                children: <Widget>[
+                child: Column(children: <Widget>[
                   SizedBox(height: 24.0),
                   Text(
                     'Bookings',
-                    style: TextStyle(fontSize: 20,
-                    fontWeight: FontWeight.bold,),
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   SizedBox(height: 20.0),
                   Column(
@@ -112,12 +113,13 @@ List < Map < String, dynamic >> bookingData = [{
                         ],
                       );
                     }),
-                  )]
-                ),
+                  )
+                ]),
               ),
             ),
           ),
         ],
       ),
     );
-  }}
+  }
+}

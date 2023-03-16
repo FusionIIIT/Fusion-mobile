@@ -10,40 +10,40 @@ class CompletedBookings extends StatefulWidget {
 }
 
 class _CompletedBookingsState extends State<CompletedBookings> {
-  List < Map < String, dynamic >> bookingData = [{
-    'Intender': 'Bob',
-    'BookingFrom': '21st Jan',
-    'BookingTo': '28th Jan',
-    'Category': 'B',
-    'Status': 'Completed'
-}, {
-    'Intender': 'Jane',
-    'BookingFrom': '22nd Jan',
-    'BookingTo': '29th Jan',
-    'Category': 'A',
-    'Status': 'InComplete'
-},
-{
-    'Intender': 'Bob',
-    'BookingFrom': '21st Jan',
-    'BookingTo': '28th Jan',
-    'Category': 'B',
-    'Status': 'Completed'
-}, {
-    'Intender': 'Jane',
-    'BookingFrom': '22nd Jan',
-    'BookingTo': '29th Jan',
-    'Category': 'A',
-    'Status': 'InComplete'
-},
-];
-
+  List<Map<String, dynamic>> bookingData = [
+    {
+      'Intender': 'Bob',
+      'BookingFrom': '21st Jan',
+      'BookingTo': '28th Jan',
+      'Category': 'B',
+      'Status': 'Completed'
+    },
+    {
+      'Intender': 'Jane',
+      'BookingFrom': '22nd Jan',
+      'BookingTo': '29th Jan',
+      'Category': 'A',
+      'Status': 'InComplete'
+    },
+    {
+      'Intender': 'Bob',
+      'BookingFrom': '21st Jan',
+      'BookingTo': '28th Jan',
+      'Category': 'B',
+      'Status': 'Completed'
+    },
+    {
+      'Intender': 'Jane',
+      'BookingFrom': '22nd Jan',
+      'BookingTo': '29th Jan',
+      'Category': 'A',
+      'Status': 'InComplete'
+    },
+  ];
 
   @override
-
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
       appBar: DefaultAppBar().visitorHostelAppBar(),
       drawer: SideDrawer(),
       body: Column(
@@ -61,13 +61,14 @@ class _CompletedBookingsState extends State<CompletedBookings> {
                 ),
               ),
               child: SingleChildScrollView(
-                child: Column(
-                children: <Widget>[
+                child: Column(children: <Widget>[
                   SizedBox(height: 24.0),
                   Text(
                     'Completed Bookings',
-                    style: TextStyle(fontSize: 20,
-                    fontWeight: FontWeight.bold,),
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   SizedBox(height: 20.0),
                   Column(
@@ -112,8 +113,8 @@ class _CompletedBookingsState extends State<CompletedBookings> {
                         ],
                       );
                     }),
-                  )]
-                ),
+                  )
+                ]),
               ),
             ),
           ),
