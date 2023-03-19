@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
 
+import '../../services/service_locator.dart';
+import '../../services/storage_service.dart';
+
 class ProgrammeCurriculumHome extends StatefulWidget {
   @override
   _ProgrammeCurriculumHomeState createState() =>
@@ -42,6 +45,11 @@ class _ProgrammeCurriculumHomeState extends State<ProgrammeCurriculumHome> {
   @override
   Widget build(BuildContext context) {
     final data = '';
+    var service = locator<StorageService>();
+    var name = service.profileData.user!["first_name"] +
+        " " +
+        service.profileData.user!["last_name"];
+    var depttype = service.profileData.profile!['department']!['name'];
     return Scaffold(
       appBar: DefaultAppBar().buildAppBar(),
       drawer: SideDrawer(),
@@ -71,7 +79,7 @@ class _ProgrammeCurriculumHomeState extends State<ProgrammeCurriculumHome> {
                 ),
                 Text(
                   //NAME OF USER
-                  'Arihant Jain',
+                  name,
                   // data.details!['current_user']['first_name'] +
                   //     ' ' +
                   //     data.details!['current_user']['last_name'],
