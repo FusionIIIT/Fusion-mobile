@@ -227,6 +227,7 @@ class _SideDrawerState extends State<SideDrawer> {
                     width: 2,
                   ),
 
+
             ModulesCard(cardLine: 'Meet Our Team'),
             ModulesCard(cardLine: 'Log Out', icon: Icons.logout),
           ],
