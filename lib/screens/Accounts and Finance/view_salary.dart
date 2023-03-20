@@ -17,8 +17,6 @@ class _ViewSalaryState extends State<ViewSalary> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
-      drawer: SideDrawer(),
       body: Container(
         child: ListView(
           children: [ Padding(
@@ -99,92 +97,7 @@ class _ViewSalaryState extends State<ViewSalary> {
               ],
             ),
           ),
-            Card(
-              elevation: 2.0,
-              margin: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-              shadowColor: Colors.black,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pushNamed(
-                          context, 'account_finance/department');
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Department',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w800,
-                            fontSize: 18,
-                            color: Colors.black,
-                          ),
-                        ),
-                        Icon(
-                          Icons.arrow_right,
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  TextButton(
-                    onPressed: () {
-                      setState(() {
-                        Navigator.pushNamed(
-                            context, 'account_finance/bank_detail');
-                      });
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Bank Details',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w800,
-                            fontSize: 18,
-                            color: Colors.black,
-                          ),
-                        ),
-                        Icon(
-                          Icons.arrow_right,
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 2),
-                  TextButton(
-                    onPressed: () {
-                      setState(() {
-                        Navigator.pushNamed(context, 'account_finance/view_salary');
-                      });
-                    },
-                    child: Container(
-                      padding: EdgeInsets.all(10),
-                      color: Colors.grey[200],
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'View Salary',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w800,
-                              fontSize: 18,
-                              color: Colors.black,
-                            ),
-                          ),
-                          Icon(
-                            Icons.arrow_right,
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 2),
-                ],
-              ),
-            ),],
+          ],
         ),
       ),
     );

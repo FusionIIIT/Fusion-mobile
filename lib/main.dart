@@ -81,7 +81,7 @@ class MyApp extends StatelessWidget {
             fontFamily: 'Nunito',
           useMaterial3: true,
         ),
-        initialRoute: 'income_expenditure/income_details',
+        initialRoute: '/landing',
         routes: {
           '/landing': (context) => LandingPage(),
           '/login_page': (context) => LoginPage(),

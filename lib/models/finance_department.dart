@@ -15,7 +15,7 @@ class Department {
 
   static Map<String,dynamic> getData(Department model){
     return {
-      'Company_Name':model.companyName,
+      'fest':model.companyName,
       'Start_Date':model.startDate,
       'Status':model.status,
       'End_Date':model.endDate,
