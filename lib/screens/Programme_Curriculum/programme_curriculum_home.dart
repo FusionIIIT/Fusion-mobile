@@ -100,27 +100,31 @@ class _ProgrammeCurriculumHomeState extends State<ProgrammeCurriculumHome> {
                 data: data,
                 fieldName: 'Programmes',
                 url: '/programme_curriculum_home/programme',
+                icon: Icons.menu_book_sharp,
               ),
               CardWidget(
                 data: data,
                 fieldName: 'Curriculums',
                 url: '/programme_curriculum_home/curriculum',
+                icon: Icons.local_library_sharp,
               ),
               CardWidget(
                 data: data,
                 fieldName: 'Courses',
                 url: '/programme_curriculum_home/courses',
+                icon: Icons.book,
               ),
               CardWidget(
                 data: data,
                 fieldName: 'Disciplines',
                 url: '/programme_curriculum_home/discipline',
+                icon: Icons.school_sharp,
               ),
               CardWidget(
-                data: data,
-                fieldName: 'Batches',
-                url: '/programme_curriculum_home/batches',
-              ),
+                  data: data,
+                  fieldName: 'Batches',
+                  url: '/programme_curriculum_home/batches',
+                  icon: Icons.group_work_sharp),
             ],
           )
         ],
@@ -135,11 +139,13 @@ class CardWidget extends StatelessWidget {
     required this.data,
     required this.fieldName,
     required this.url,
+    required this.icon,
   }) : super(key: key);
 
   final String data;
   final String fieldName;
   final String url;
+  final IconData icon;
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
         // border: new Border.all(
@@ -163,9 +169,16 @@ class CardWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            child: myText(text),
-            decoration: myBoxDecoration(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Icon(icon),
+              Container(
+                margin: EdgeInsets.only(left: 8.0),
+                child: myText(text),
+                decoration: myBoxDecoration(),
+              ),
+            ],
           ),
           Icon(Icons.chevron_right),
         ],
