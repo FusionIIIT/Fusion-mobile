@@ -159,7 +159,7 @@ class CardWidget extends StatelessWidget {
   Text myText(String text) {
     return Text(
       text,
-      style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
+      style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
     );
   }
 
