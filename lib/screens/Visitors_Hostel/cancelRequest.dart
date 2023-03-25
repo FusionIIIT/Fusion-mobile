@@ -48,18 +48,10 @@ class _CancelledBookingsState extends State<CancelledBookings> {
       drawer: SideDrawer(),
       body: Column(
         children: <Widget>[
-          SizedBox(height: 24.0),
           Expanded(
             child: Container(
               height: double.infinity,
               width: double.infinity,
-              decoration: BoxDecoration(
-                color: Color.fromARGB(255, 248, 247, 247),
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30.0),
-                  topRight: Radius.circular(30.0),
-                ),
-              ),
               child: SingleChildScrollView(
                 child: Column(children: <Widget>[
                   SizedBox(height: 24.0),
@@ -118,6 +110,7 @@ class _CancelledBookingsState extends State<CancelledBookings> {
               ),
             ),
           ),
+          SizedBox(height: 50.0),
         ],
       ),
     );

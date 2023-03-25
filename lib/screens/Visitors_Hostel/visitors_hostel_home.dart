@@ -67,7 +67,7 @@ class _VisitorHostelState extends State<VisitorHostel> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 16.0),
+                  SizedBox(height: 8.0),
                   _isDropdownVisible
                       ? Padding(
                           padding: const EdgeInsets.only(bottom: 16.0),
@@ -160,6 +160,7 @@ class _VisitorHostelState extends State<VisitorHostel> {
                           ),
                         )
                       : SizedBox.shrink(),
+                  SizedBox(height: 16.0),
                   Container(
                     width: MediaQuery.of(context).size.width * 0.8,
                     child: MaterialButton(
