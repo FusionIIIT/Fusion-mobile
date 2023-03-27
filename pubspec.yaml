@@ -18,14 +18,12 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: '>=2.17.0 <3.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.0
   csv: ^5.0.1
-  google_fonts:
   shared_preferences: ^2.0.3
   provider:
   http: ^0.13.0
@@ -39,6 +37,10 @@ dependencies:
   path_provider: ^2.0.8
   open_file: ^3.2.1
   flutter_html: ^2.2.1
+  postgres: ^2.5.2
+  cupertino_icons: ^1.0.2
+  google_fonts: ^3.0.1
+
 
 
 
@@ -67,7 +69,29 @@ flutter:
     - assets/logo.jpg
     - assets/mypic.jpg
     - assets/unknown.jpg
+    - assets/hotel.png
+    - assets/bunk-bed.png
+    - assets/weightlifter.png
     - assets/profile_pic.png
+    - assets/hotel.png
+    - assets/manager.png
+    - assets/request.png
+    - assets/noodle.png
+    - assets/page-1/images/ellipse-1.png
+    - assets/page-1/images/image-4.png
+    - assets/page-1/images/image-4-WUz.png
+    - assets/page-1/images/image-5.png
+    - assets/page-1/images/image-5-hni.png
+    - assets/page-1/images/image-3.png
+    - assets/page-1/images/image-5-s6A.png
+    - assets/page-1/images/image-3-zfk.png
+    - assets/page-1/images/image-4-JUa.png
+    - assets/page-1/images/image-5-ux6.png
+    - assets/page-1/images/image-2.png
+    - assets/page-1/images/image-1.png
+    - assets/page-1/images/image-4-ALJ.png
+
+
     - db/
 
   # An image asset can refer to one or more resolution-specific "variants", see
