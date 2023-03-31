@@ -1,5 +1,5 @@
 //Server and local links
-String klocalLink = "127.0.0.1:8000";
+String klocalLink = "127.0.0.1:5432";
 String kserverLink = "172.27.16.215:80";
 
 //Login Service
@@ -8,6 +8,10 @@ String kAuthLogin = "/api/auth/login/";
 
 //Profile Service
 String kProfile = "/api/profile/";
+
+// Account and finance Service
+String kCompanyDetails="/finance_account/createCompany/";
+String kBankDetails="/finance_account/createBank/";
 
 //Academic Procedures
 String kAcademicProcedures = "/academic-procedures/api/stu/";
