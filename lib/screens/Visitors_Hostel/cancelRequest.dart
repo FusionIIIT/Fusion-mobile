@@ -4,71 +4,63 @@ import 'package:fusion/Components/side_drawer.dart';
 import 'package:fusion/screens/Visitors_Hostel/Components/Card.dart';
 import 'package:fusion/screens/Visitors_Hostel/Components/list_tile.dart';
 
-
 class CancelledBookings extends StatefulWidget {
   @override
   _CancelledBookingsState createState() => _CancelledBookingsState();
 }
 
 class _CancelledBookingsState extends State<CancelledBookings> {
-List < Map < String, dynamic >> bookingData = [{
-    'Intender': 'Bob',
-    'BookingFrom': '21st Jan',
-    'BookingTo': '28th Jan',
-    'Category': 'B',
-    'Status': 'Cancelled'
-}, {
-    'Intender': 'Jane',
-    'BookingFrom': '22nd Jan',
-    'BookingTo': '29th Jan',
-    'Category': 'A',
-    'Status': 'InCancelled'
-},
-{
-    'Intender': 'Bob',
-    'BookingFrom': '21st Jan',
-    'BookingTo': '28th Jan',
-    'Category': 'B',
-    'Status': 'Cancelled'
-}, {
-    'Intender': 'Jane',
-    'BookingFrom': '22nd Jan',
-    'BookingTo': '29th Jan',
-    'Category': 'A',
-    'Status': 'InCancelled'
-},
-];
-
+  List<Map<String, dynamic>> bookingData = [
+    {
+      'Intender': 'Bob',
+      'BookingFrom': '21st Jan',
+      'BookingTo': '28th Jan',
+      'Category': 'B',
+      'Status': 'Cancelled'
+    },
+    {
+      'Intender': 'Jane',
+      'BookingFrom': '22nd Jan',
+      'BookingTo': '29th Jan',
+      'Category': 'A',
+      'Status': 'InCancelled'
+    },
+    {
+      'Intender': 'Bob',
+      'BookingFrom': '21st Jan',
+      'BookingTo': '28th Jan',
+      'Category': 'B',
+      'Status': 'Cancelled'
+    },
+    {
+      'Intender': 'Jane',
+      'BookingFrom': '22nd Jan',
+      'BookingTo': '29th Jan',
+      'Category': 'A',
+      'Status': 'InCancelled'
+    },
+  ];
 
   @override
-
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
       appBar: DefaultAppBar().visitorHostelAppBar(),
       drawer: SideDrawer(),
       body: Column(
         children: <Widget>[
-          SizedBox(height: 24.0),
           Expanded(
             child: Container(
               height: double.infinity,
               width: double.infinity,
-              decoration: BoxDecoration(
-                color: Color.fromARGB(255, 248, 247, 247),
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30.0),
-                  topRight: Radius.circular(30.0),
-                ),
-              ),
               child: SingleChildScrollView(
-                child: Column(
-                children: <Widget>[
+                child: Column(children: <Widget>[
                   SizedBox(height: 24.0),
                   Text(
                     'Cancelled Bookings',
-                    style: TextStyle(fontSize: 20,
-                    fontWeight: FontWeight.bold,),
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   SizedBox(height: 20.0),
                   Column(
@@ -113,12 +105,14 @@ List < Map < String, dynamic >> bookingData = [{
                         ],
                       );
                     }),
-                  )]
-                ),
+                  )
+                ]),
               ),
             ),
           ),
+          SizedBox(height: 50.0),
         ],
       ),
     );
-  }}
+  }
+}
