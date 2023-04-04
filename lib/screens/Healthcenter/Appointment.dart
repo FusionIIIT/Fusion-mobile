@@ -106,6 +106,12 @@ class _AppointmentState extends State<Appointment> {
               suffixIcon: Icon(Icons.access_time_rounded),
               labelText: 'To Time',
             ),
+
+            Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
+            Center(child:TextButton(
+              child: Text('Submit', style: TextStyle(fontSize: 15.0,color: Colors.deepOrangeAccent),),
+              onPressed: () {},
+
             mode: DateTimeFieldPickerMode.time,
             autovalidateMode: AutovalidateMode.always,
             validator: (e) =>
@@ -125,6 +131,7 @@ class _AppointmentState extends State<Appointment> {
             ),
             style: new TextStyle(
               fontFamily: "Poppins",
+
             ),
           ),
           Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
