@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:fusion/screens/Academic/Add_Drop_Courses/add_drop_courses.dart';
+import 'package:fusion/screens/Accounts%20and%20Finance/account_home.dart';
+import 'package:fusion/screens/Accounts%20and%20Finance/bank_detail.dart';
+import 'package:fusion/screens/Accounts%20and%20Finance/view_salary.dart';
 import 'package:fusion/screens/Complaint/ComplaintHistory/complain_history.dart';
 import 'package:fusion/screens/Complaint/Feedback/feedback.dart';
 import 'package:fusion/screens/Complaint/LodgeComplaint/lodge_complaint.dart';
 import 'package:fusion/screens/Establishment/establishment_home_page.dart';
+import 'package:fusion/screens/Income%20and%20Expenditure/income_details.dart';
+import 'package:fusion/screens/Income%20and%20Expenditure/income_home.dart';
 import 'package:fusion/screens/Library/Book_Search.dart';
 import 'package:fusion/screens/Library/dues.dart';
 import 'package:fusion/screens/Library/issued_items.dart';
@@ -77,7 +82,7 @@ class MyApp extends StatelessWidget {
             fontFamily: 'Nunito',
           useMaterial3: true,
         ),
-        initialRoute: '/landing',
+        initialRoute: 'income_expenditure/income_details',
         routes: {
           '/landing': (context) => LandingPage(),
           '/login_page': (context) => LoginPage(),
@@ -127,6 +132,12 @@ class MyApp extends StatelessWidget {
           '/health_center/feedback': (context) => FeedBack(),
           '/health_center/viewschedule': (context) => ViewSchedule(),
           '/health_center/history': (context) => History(),
+          'account_finance/account_home':(context)=>AccountHome(),
+          'account_finance/department':(context)=>AccountHome(),
+          'account_finance/bank_detail':(context)=>BankDetail(),
+          'account_finance/view_salary':(context)=>ViewSalary(),
+          'income_expenditure/income_home':(context)=>IncomeHomeScreen(),
+          'income_expenditure/income_details':(context)=>IncomeDetailScreen(),
         },
       ),
     );
