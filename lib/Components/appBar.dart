@@ -36,7 +36,7 @@ class DefaultAppBar {
         style: TextStyle(
             color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
       ),
-      backgroundColor: Color.fromARGB(255, 243, 33, 33),
+      backgroundColor: Color.fromARGB(255, 243, 108, 53),
       // ignore: prefer_const_literals_to_create_immutables
       actions: <Widget>[
         Padding(

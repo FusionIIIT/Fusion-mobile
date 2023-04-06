@@ -46,6 +46,7 @@ dependencies:
   get: ^4.6.5
   intl: ^0.17.0
   material: ^1.0.0+2
+  country_picker: ^2.0.20
 
 
 

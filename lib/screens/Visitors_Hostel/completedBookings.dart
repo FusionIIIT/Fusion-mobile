@@ -110,7 +110,6 @@ class _CompletedBookingsState extends State<CompletedBookings> {
               ),
             ),
           ),
-          SizedBox(height: 50.0),
         ],
       ),
     );

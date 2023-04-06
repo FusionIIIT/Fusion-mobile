@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/screens/Visitors_Hostel/visitorsDetails.dart';
 
 class PlaceRequest extends StatefulWidget {
   @override
@@ -11,7 +12,6 @@ class _PlaceRequestState extends State<PlaceRequest> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
       appBar: DefaultAppBar().visitorHostelAppBar(),
       drawer: SideDrawer(),
       body: Column(
@@ -25,6 +25,15 @@ class _PlaceRequestState extends State<PlaceRequest> {
               ),
               child: Column(
                 children: <Widget>[
+                  SizedBox(height: 24.0),
+                  Text(
+                    "Place a request",
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
+                  ),
+                  SizedBox(height: 12.0),
+                  Text("Booking Details",
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                   SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -49,7 +58,7 @@ class _PlaceRequestState extends State<PlaceRequest> {
                                 borderRadius: BorderRadius.circular(10),
                                 color: Colors.white,
                                 border: Border.all(
-                                  color: Color.fromARGB(255, 243, 33, 33),
+                                  color: Color.fromARGB(255, 243, 108, 53),
                                   width: 1,
                                 ),
                               ),
@@ -61,7 +70,7 @@ class _PlaceRequestState extends State<PlaceRequest> {
                                 children: [
                                   Icon(
                                     Icons.calendar_today,
-                                    color: Color.fromARGB(255, 243, 33, 33),
+                                    color: Color.fromARGB(255, 243, 108, 53),
                                   ),
                                   SizedBox(width: 10),
                                   Text('Select Date'),
@@ -89,7 +98,7 @@ class _PlaceRequestState extends State<PlaceRequest> {
                                 borderRadius: BorderRadius.circular(10),
                                 color: Colors.white,
                                 border: Border.all(
-                                  color: Color.fromARGB(255, 243, 33, 33),
+                                  color: Color.fromARGB(255, 243, 108, 53),
                                   width: 1,
                                 ),
                               ),
@@ -101,7 +110,7 @@ class _PlaceRequestState extends State<PlaceRequest> {
                                 children: [
                                   Icon(
                                     Icons.access_time,
-                                    color: Color.fromARGB(255, 243, 33, 33),
+                                    color: Color.fromARGB(255, 243, 108, 53),
                                   ),
                                   SizedBox(width: 10),
                                   Text('Select Time'),
@@ -137,7 +146,7 @@ class _PlaceRequestState extends State<PlaceRequest> {
                                 borderRadius: BorderRadius.circular(10),
                                 color: Colors.white,
                                 border: Border.all(
-                                  color: Color.fromARGB(255, 243, 33, 33),
+                                  color: Color.fromARGB(255, 243, 108, 53),
                                   width: 1,
                                 ),
                               ),
@@ -149,7 +158,7 @@ class _PlaceRequestState extends State<PlaceRequest> {
                                 children: [
                                   Icon(
                                     Icons.calendar_today,
-                                    color: Color.fromARGB(255, 243, 33, 33),
+                                    color: Color.fromARGB(255, 243, 108, 53),
                                   ),
                                   SizedBox(width: 10),
                                   Text('Select Date'),
@@ -177,7 +186,7 @@ class _PlaceRequestState extends State<PlaceRequest> {
                                 borderRadius: BorderRadius.circular(10),
                                 color: Colors.white,
                                 border: Border.all(
-                                  color: Color.fromARGB(255, 243, 33, 33),
+                                  color: Color.fromARGB(255, 243, 108, 53),
                                   width: 1,
                                 ),
                               ),
@@ -189,7 +198,7 @@ class _PlaceRequestState extends State<PlaceRequest> {
                                 children: [
                                   Icon(
                                     Icons.access_time,
-                                    color: Color.fromARGB(255, 243, 33, 33),
+                                    color: Color.fromARGB(255, 243, 108, 53),
                                   ),
                                   SizedBox(width: 10),
                                   Text('Select Time'),
@@ -220,14 +229,14 @@ class _PlaceRequestState extends State<PlaceRequest> {
                                     borderRadius: BorderRadius.circular(10),
                                     color: Colors.white,
                                     border: Border.all(
-                                      color: Color.fromARGB(255, 243, 33, 33),
+                                      color: Color.fromARGB(255, 243, 108, 53),
                                       width: 1,
                                     ),
                                   ),
                                   padding: EdgeInsets.all(10),
                                   child: Icon(
                                     Icons.remove,
-                                    color: Color.fromARGB(255, 243, 33, 33),
+                                    color: Color.fromARGB(255, 243, 108, 53),
                                   ),
                                 ),
                               ),
@@ -243,14 +252,14 @@ class _PlaceRequestState extends State<PlaceRequest> {
                                     borderRadius: BorderRadius.circular(10),
                                     color: Colors.white,
                                     border: Border.all(
-                                      color: Color.fromARGB(255, 243, 33, 33),
+                                      color: Color.fromARGB(255, 243, 108, 53),
                                       width: 1,
                                     ),
                                   ),
                                   padding: EdgeInsets.all(10),
                                   child: Icon(
                                     Icons.add,
-                                    color: Color.fromARGB(255, 243, 33, 33),
+                                    color: Color.fromARGB(255, 243, 108, 53),
                                   ),
                                 ),
                               ),
@@ -273,14 +282,14 @@ class _PlaceRequestState extends State<PlaceRequest> {
                                     borderRadius: BorderRadius.circular(10),
                                     color: Colors.white,
                                     border: Border.all(
-                                      color: Color.fromARGB(255, 243, 33, 33),
+                                      color: Color.fromARGB(255, 243, 108, 53),
                                       width: 1,
                                     ),
                                   ),
                                   padding: EdgeInsets.all(10),
                                   child: Icon(
                                     Icons.remove,
-                                    color: Color.fromARGB(255, 243, 33, 33),
+                                    color: Color.fromARGB(255, 243, 108, 53),
                                   ),
                                 ),
                               ),
@@ -296,14 +305,14 @@ class _PlaceRequestState extends State<PlaceRequest> {
                                     borderRadius: BorderRadius.circular(10),
                                     color: Colors.white,
                                     border: Border.all(
-                                      color: Color.fromARGB(255, 243, 33, 33),
+                                      color: Color.fromARGB(255, 243, 108, 53),
                                       width: 1,
                                     ),
                                   ),
                                   padding: EdgeInsets.all(10),
                                   child: Icon(
                                     Icons.add,
-                                    color: Color.fromARGB(255, 243, 33, 33),
+                                    color: Color.fromARGB(255, 243, 108, 53),
                                   ),
                                 ),
                               ),
@@ -317,83 +326,86 @@ class _PlaceRequestState extends State<PlaceRequest> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Expanded(
-                        child: Column(
-                          children: [
-                            Text('Category'),
-                            SizedBox(height: 10),
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.white,
-                                border: Border.all(
-                                  color: Color.fromARGB(255, 243, 33, 33),
-                                  width: 1,
+                      Column(
+                        children: [
+                          Text('Category'),
+                          SizedBox(height: 10),
+                          Row(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.white,
+                                  border: Border.all(
+                                    color: Color.fromARGB(255, 243, 108, 53),
+                                    width: 1,
+                                  ),
+                                ),
+                                width: 120,
+                                height: 50,
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 15,
+                                  vertical: 5,
+                                ),
+                                child: DropdownButton<String>(
+                                  value: 'A',
+                                  isExpanded: true,
+                                  icon: Icon(
+                                    Icons.arrow_drop_down,
+                                    color: Color.fromARGB(255, 243, 108, 53),
+                                  ),
+                                  underline: SizedBox(),
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      // handle updating category
+                                    });
+                                  },
+                                  items: <String>['A', 'B', 'C', 'D']
+                                      .map<DropdownMenuItem<String>>(
+                                          (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
                                 ),
                               ),
-                              width: 100,
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 15,
-                                vertical: 5,
-                              ),
-                              child: DropdownButton<String>(
-                                value: 'A',
-                                isExpanded: true,
-                                icon: Icon(
-                                  Icons.arrow_drop_down,
-                                  color: Color.fromARGB(255, 243, 33, 33),
-                                ),
-                                underline: SizedBox(),
-                                onChanged: (String? newValue) {
-                                  setState(() {
-                                    // handle updating category
-                                  });
-                                },
-                                items: <String>[
-                                  'A',
-                                  'B',
-                                  'C',
-                                  'D'
-                                ].map<DropdownMenuItem<String>>((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value),
-                                  );
-                                }).toList(),
-                              ),
-                            ),
-                          ],
-                        ),
+                            ],
+                          ),
+                        ],
                       ),
-                      Expanded(
-                        child: Column(
-                          children: [
-                            Text('Purpose of Visit'),
-                            SizedBox(height: 10),
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.white,
-                                border: Border.all(
-                                  color: Color.fromARGB(255, 243, 33, 33),
-                                  width: 1,
+                      Column(
+                        children: [
+                          Text('Purpose of Visit'),
+                          SizedBox(height: 10),
+                          Row(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.white,
+                                  border: Border.all(
+                                    color: Color.fromARGB(255, 243, 108, 53),
+                                    width: 1,
+                                  ),
+                                ),
+                                width: 120,
+                                height: 50,
+                                padding: EdgeInsets.symmetric(horizontal: 10),
+                                child: TextField(
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                  ),
+                                  onChanged: (String value) {
+                                    setState(() {
+                                      // handle updating purpose of visit
+                                    });
+                                  },
                                 ),
                               ),
-                              width: 150,
-                              padding: EdgeInsets.symmetric(horizontal: 10),
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                ),
-                                onChanged: (String value) {
-                                  setState(() {
-                                    // handle updating purpose of visit
-                                  });
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
+                            ],
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -407,7 +419,7 @@ class _PlaceRequestState extends State<PlaceRequest> {
                           borderRadius: BorderRadius.circular(10),
                           color: Colors.white,
                           border: Border.all(
-                            color: Color.fromARGB(255, 243, 33, 33),
+                            color: Color.fromARGB(255, 243, 108, 53),
                             width: 1,
                           ),
                         ),
@@ -424,6 +436,31 @@ class _PlaceRequestState extends State<PlaceRequest> {
                             });
                           },
                         ),
+                      ),
+                      SizedBox(height: 16.0),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.3,
+                        child: MaterialButton(
+                            height: 40.0,
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => VisitorsDetails()),
+                              );
+                            },
+                            color: Color.fromARGB(255, 243, 108, 53),
+                            textColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(5.0),
+                                topRight: Radius.circular(5.0),
+                                bottomLeft: Radius.circular(5.0),
+                                bottomRight: Radius.circular(5.0),
+                              ),
+                            ),
+                            child:
+                                Text('Next', style: TextStyle(fontSize: 18.0))),
                       ),
                     ],
                   ),

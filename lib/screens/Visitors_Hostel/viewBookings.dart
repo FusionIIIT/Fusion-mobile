@@ -110,7 +110,6 @@ class _ViewBookingsState extends State<ViewBookings> {
               ),
             ),
           ),
-          SizedBox(height: 50.0),
         ],
       ),
     );
