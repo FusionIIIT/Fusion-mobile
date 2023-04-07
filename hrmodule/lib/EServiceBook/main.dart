@@ -24,20 +24,20 @@ class EServiceBook extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           "E-Service Book",
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.black),
         ),
-        backgroundColor: Color.fromARGB(255, 0, 128, 128),
+        backgroundColor: Color.fromRGBO(243, 108, 53, 1),
         leading: BackButton(
-          color: Colors.white,
+          color: Colors.black,
           onPressed: () => runApp(App()),
         ),
-        actions: <Widget>[
-          Icon(
-            Icons.settings,
-            color: Colors.white,
-            size: 35.0,
-          )
-        ],
+        // actions: <Widget>[
+        //   Icon(
+        //     Icons.settings,
+        //     color: Colors.white,
+        //     size: 35.0,
+        //   )
+        // ],
       ),
       body: EServiceBody(),
     );
@@ -49,188 +49,179 @@ class EServiceBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+   
+    return ListView(
+      
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            ElevatedButton(
-                onPressed: () {},
-                autofocus: true,
-                child: const Text(
-                  'Personal\nDetails',
-                  style: TextStyle(fontSize: 10.0),
-                ),
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(
-                        Color.fromARGB(255, 0, 128, 128)))),
-            ElevatedButton(
-                onPressed: () {},
-                child: const Text(
-                  'Lien',
-                  style: TextStyle(fontSize: 10.0),
-                ),
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(
-                        Color.fromARGB(255, 0, 128, 128)))),
-            ElevatedButton(
-                onPressed: () {},
-                child: const Text(
-                  'Deputation',
-                  style: TextStyle(fontSize: 10.0),
-                ),
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(
-                        Color.fromARGB(255, 0, 128, 128)))),
-            ElevatedButton(
-                onPressed: () {},
-                child: const Text(
-                  'Award',
-                  style: TextStyle(fontSize: 10.0),
-                ),
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(
-                        Color.fromARGB(255, 0, 128, 128)))),
-            ElevatedButton(
-                onPressed: () {},
-                child: const Text(
-                  'Others',
-                  style: TextStyle(fontSize: 10.0),
-                ),
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(
-                        Color.fromARGB(255, 0, 128, 128)))),
-          ],
-        ),
-        Row(
-          children: [
-            Expanded(
-              child: Container(
-                  margin: EdgeInsets.only(top: 20.0),
-                  child: CircleAvatar(
-                      radius: 60,
-                      backgroundImage: NetworkImage(
-                          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkiIFjCOZ-mMeqxd2ryrneiHedE8G9S0AboA&usqp=CAU"))),
-            ),
-            Expanded(
-              child: Container(
-                  child: Column(
-                // mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(top: 20.0),
-                    //
-                    // margin: EdgeInsets.only(left: 5.0),
-                    child: Text(
-                      "SU",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 30.0),
-                    ),
-                  ),
-                  Container(
-                    // margin: EdgeInsets.only(left: 5.0),
-                    child: Text(
-                      "Academics",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w400, fontSize: 20.0),
-                    ),
-                  ),
-                ],
-              )),
-            )
-          ],
+        Container(
+          margin: EdgeInsets.all(15),
+          child: const Text(
+                   'Personal Details',
+                   style: TextStyle(fontSize: 20.0,color:Color.fromRGBO(243, 108, 53, 1) ),
+                 ),
         ),
         Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-                image: NetworkImage(
-                    "https://upload.wikimedia.org/wikipedia/en/1/18/Iiitdmj-logo.jpg"),
-                colorFilter: ColorFilter.mode(
-                    Colors.black.withOpacity(0.07), BlendMode.dstATop)),
+          margin: EdgeInsets.all(15),
+          padding: EdgeInsets.all(0),
+          child: Column(
+            // mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                   'ID',
+                   style: TextStyle(fontSize: 20.0,color:Colors.black ),
+                 ),
+                 Text(
+                   '5567',
+                   style: TextStyle(fontSize: 20.0,color:Color.fromRGBO(243, 108, 53, 1) ),
+                 ),
+            ],
           ),
-          margin: EdgeInsets.only(top: 15.0),
-          child: DataTable(
-              border: TableBorder(
-                borderRadius: BorderRadius.circular(30),
-              ),
-              columns: [
-                DataColumn(
-                    label: ElevatedButton(
-                        onPressed: () {},
-                        child: const Text('Personal Details'),
-                        style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.grey)))),
-                DataColumn(
-                  label: Text(''),
-                ),
-              ],
-              rows: [
-                DataRow(cells: [
-                  DataCell(Text('ID',
-                      style: TextStyle(fontWeight: FontWeight.bold))),
-                  DataCell(Text(
-                    '6666',
-                    style: TextStyle(color: Colors.grey[500]),
-                  )),
-                ]),
-                DataRow(cells: [
-                  DataCell(Text('Title',
-                      style: TextStyle(fontWeight: FontWeight.bold))),
-                  DataCell(
-                      Text('Mr.', style: TextStyle(color: Colors.grey[500]))),
-                ]),
-                DataRow(cells: [
-                  DataCell(Text('Email',
-                      style: TextStyle(fontWeight: FontWeight.bold))),
-                  DataCell(Text('admin@iiitdmj.ac.in',
-                      style: TextStyle(color: Colors.grey[500]))),
-                ]),
-                DataRow(cells: [
-                  DataCell(Text('Name',
-                      style: TextStyle(fontWeight: FontWeight.bold))),
-                  DataCell(
-                      Text('SU', style: TextStyle(color: Colors.grey[500]))),
-                ]),
-                DataRow(cells: [
-                  DataCell(Text('Gender',
-                      style: TextStyle(fontWeight: FontWeight.bold))),
-                  DataCell(
-                      Text('Male', style: TextStyle(color: Colors.grey[500]))),
-                ]),
-                DataRow(cells: [
-                  DataCell(Text('Date of Birth',
-                      style: TextStyle(fontWeight: FontWeight.bold))),
-                  DataCell(Text('Jan 1,1970',
-                      style: TextStyle(color: Colors.grey[500]))),
-                ]),
-                DataRow(cells: [
-                  DataCell(Text('Address',
-                      style: TextStyle(fontWeight: FontWeight.bold))),
-                  DataCell(
-                      Text('IIIT', style: TextStyle(color: Colors.grey[500]))),
-                ]),
-                DataRow(cells: [
-                  DataCell(Text('Phone Number',
-                      style: TextStyle(fontWeight: FontWeight.bold))),
-                  DataCell(Text('9999999999',
-                      style: TextStyle(color: Colors.grey[500]))),
-                ]),
-                DataRow(cells: [
-                  DataCell(Text('Date of Joining',
-                      style: TextStyle(fontWeight: FontWeight.bold))),
-                  DataCell(Text('Column Type',
-                      style: TextStyle(color: Colors.grey[300]))),
-                ]),
-                DataRow(cells: [
-                  DataCell(Text('Department',
-                      style: TextStyle(fontWeight: FontWeight.bold))),
-                  DataCell(Text('Academics',
-                      style: TextStyle(color: Colors.grey[500]))),
-                ])
-              ]),
-        )
+        ),
+        Container(
+          margin: EdgeInsets.all(15),
+          padding: EdgeInsets.all(0),
+          child: Column(
+            // mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                   'Type',
+                   style: TextStyle(fontSize: 20.0,color:Colors.black ),
+                 ),
+                 Text(
+                   'Staff',
+                   style: TextStyle(fontSize: 20.0,color:Color.fromRGBO(243, 108, 53, 1) ),
+                 ),
+            ],
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.all(15),
+          padding: EdgeInsets.all(0),
+          child: Column(
+            // mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                   'Title',
+                   style: TextStyle(fontSize: 20.0,color:Colors.black ),
+                 ),
+                 Text(
+                   'Dr.',
+                   style: TextStyle(fontSize: 20.0,color:Color.fromRGBO(243, 108, 53, 1) ),
+                 ),
+            ],
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.all(15),
+          padding: EdgeInsets.all(0),
+          child: Column(
+            // mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                   'Name',
+                   style: TextStyle(fontSize: 20.0,color:Colors.black ),
+                 ),
+                 Text(
+                   'Pankaj Kumar',
+                   style: TextStyle(fontSize: 20.0,color:Color.fromRGBO(243, 108, 53, 1) ),
+                 ),
+            ],
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.all(15),
+          padding: EdgeInsets.all(0),
+          child: Column(
+            // mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                   'Email',
+                   style: TextStyle(fontSize: 20.0,color:Colors.black ),
+                 ),
+                 Text(
+                   'pankaj@iiitdmj.ac.in',
+                   style: TextStyle(fontSize: 20.0,color:Color.fromRGBO(243, 108, 53, 1) ),
+                 ),
+            ],
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.all(15),
+          padding: EdgeInsets.all(0),
+          child: Column(
+            // mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                   'Gender',
+                   style: TextStyle(fontSize: 20.0,color:Colors.black ),
+                 ),
+                 Text(
+                   'Male',
+                   style: TextStyle(fontSize: 20.0,color:Color.fromRGBO(243, 108, 53, 1) ),
+                 ),
+            ],
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.all(15),
+          padding: EdgeInsets.all(0),
+          child: Column(
+            // mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                   'Date of birth',
+                   style: TextStyle(fontSize: 20.0,color:Colors.black ),
+                 ),
+                 Text(
+                   'Feb 9, 1983',
+                   style: TextStyle(fontSize: 20.0,color:Color.fromRGBO(243, 108, 53, 1) ),
+                 ),
+            ],
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.all(15),
+          padding: EdgeInsets.all(0),
+          child: Column(
+            // mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                   'Address',
+                   style: TextStyle(fontSize: 20.0,color:Colors.black ),
+                 ),
+                 Text(
+                   '-----------------------',
+                   style: TextStyle(fontSize: 20.0,color:Color.fromRGBO(243, 108, 53, 1) ),
+                 ),
+            ],
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.all(15),
+          padding: EdgeInsets.all(0),
+          child: Column(
+            // mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                   'Phone Number',
+                   style: TextStyle(fontSize: 20.0,color:Colors.black ),
+                 ),
+                 Text(
+                   '9999999999',
+                   style: TextStyle(fontSize: 20.0,color:Color.fromRGBO(243, 108, 53, 1) ),
+                 ),
+            ],
+          ),
+        ),
       ],
     );
   }
