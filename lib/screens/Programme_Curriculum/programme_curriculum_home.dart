@@ -80,10 +80,10 @@ class _ProgrammeCurriculumHomeState extends State<ProgrammeCurriculumHome> {
                 )),
               ),
               decoration: new BoxDecoration(
-                color: Colors.black,
+                color: Color.fromRGBO(182, 87, 0, 1),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black,
+                    color: Color.fromRGBO(182, 87, 0, 1),
                     offset: Offset(0.0, 1.0),
                     blurRadius: 2.0,
                   )
