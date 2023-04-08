@@ -39,16 +39,30 @@ class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
   }
 
   Padding myContainer(String text) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: myText(text),
+    if (data!.profile!['user_type'] == "faculty" && text == 'Apply') {
+      return Padding(
+        padding: const EdgeInsets.all(0),
+      );
+    } else if (data!.profile!['user_type'] == "student" && text == 'Fest Budget' ) {
+      return Padding(
+        padding: const EdgeInsets.all(0),
+      );
+    } else if (data!.profile!['user_type'] == "student" && text == 'Submit Event Report' ) {
+      return Padding(
+        padding: const EdgeInsets.all(0),
+      );
+    } else {
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: myText(text),
+          ),
+          decoration: myBoxDecoration(),
         ),
-        decoration: myBoxDecoration(),
-      ),
-    );
+      );
+    }
   }
 
   @override
@@ -233,7 +247,7 @@ class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
                             )
                           ],
                           borderRadius:
-                              new BorderRadius.all(new Radius.circular(5.0)),
+                              new BorderRadius.all(new Radius.circular(20.0)),
                         ),
                       ),
                     ),
@@ -246,10 +260,15 @@ class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           InkWell(
-                            child: myContainer("Apply"),
+                            child: myContainer('Apply'),
                             onTap: () {
-                              Navigator.pushNamed(
-                                  context, '/gymkhana_homepage/apply');
+                              if (data!.profile!['user_type'] == "faculty") {
+                                Navigator.pushNamed(
+                                    context, '/gymkhana_homepage');
+                              } else {
+                                Navigator.pushNamed(
+                                    context, '/gymkhana_homepage/apply');
+                              }
                             },
                           ),
                           InkWell(
@@ -260,7 +279,21 @@ class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
                             },
                           ),
                           InkWell(
-                            child: myContainer("Club Details"),
+                            child: myContainer("Fest Budget"),
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, '/gymkhana_homepage/festbudget');
+                            },
+                          ),
+                          InkWell(
+                            child: myContainer("Submit Event Report"),
+                            onTap: () {
+                              Navigator.pushNamed(context,
+                                  '/gymkhana_homepage/submiteventreport');
+                            },
+                          ),
+                          InkWell(
+                            child: myContainer("View Club Details"),
                             onTap: () {
                               Navigator.pushNamed(
                                 context,

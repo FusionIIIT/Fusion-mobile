@@ -64,9 +64,9 @@ class _AmbulanceRequestState extends State<AmbulanceRequest> {
                   ),
                 ),
                 Padding(padding: EdgeInsets.symmetric(vertical: 20.0)),
-                Center(child:FlatButton(
+                Center(child:TextButton (
                   child: Text('Submit', style: TextStyle(fontSize: 15.0),),
-                  color: Colors.deepOrangeAccent,
+                  // color: Colors.deepOrangeAccent,
                   onPressed: () {},
                 ),
                 ),

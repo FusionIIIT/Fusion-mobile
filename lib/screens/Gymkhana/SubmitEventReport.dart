@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class Apply extends StatefulWidget {
+class SubmitEventReport extends StatefulWidget {
   @override
-  _ApplyState createState() => _ApplyState();
+  _SubmitEventReportState createState() => _SubmitEventReportState();
 }
 
-class _ApplyState extends State<Apply> with SingleTickerProviderStateMixin {
+class _SubmitEventReportState extends State<SubmitEventReport>
+    with SingleTickerProviderStateMixin {
   late TabController _controller;
 
   @override
@@ -44,17 +45,8 @@ class _ApplyState extends State<Apply> with SingleTickerProviderStateMixin {
         appBar: AppBar(
           backgroundColor: Colors.black,
           title: Text(
-            'Apply',
+            'Submit Event Report',
             style: TextStyle(fontSize: 25),
-          ),
-          bottom: TabBar(
-            indicatorColor: Colors.white,
-            indicatorWeight: 6.0,
-            controller: _controller,
-            tabs: [
-              Tab(text: 'Form'),
-              Tab(text: 'New Form'),
-            ],
           ),
         ),
         body: TabBarView(
@@ -75,7 +67,7 @@ class _ApplyState extends State<Apply> with SingleTickerProviderStateMixin {
                               padding: const EdgeInsets.all(8.0),
                               child: Center(
                                   child: Text(
-                                "Club Membership Form",
+                                "Event Form",
                                 style: TextStyle(
                                   fontSize: 20.0,
                                 ),
@@ -107,12 +99,11 @@ class _ApplyState extends State<Apply> with SingleTickerProviderStateMixin {
                       TextFormField(
                         keyboardType: TextInputType.name,
                         decoration: InputDecoration(
-                          hintText: "Name",
+                          hintText: "Event Name",
                           contentPadding:
                               EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(0),
-                            // borderRadius: BorderRadius.zero(32.0)
                           ),
                         ),
                         validator: formvalidate,
@@ -122,37 +113,7 @@ class _ApplyState extends State<Apply> with SingleTickerProviderStateMixin {
                         child: TextFormField(
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
-                            hintText: "Email",
-                            contentPadding:
-                                EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(0),
-                            ),
-                          ),
-                          validator: formvalidate,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 20.0),
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                            hintText: "Club",
-                            contentPadding:
-                                EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(0),
-                            ),
-                          ),
-                          validator: formvalidate,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 20.0),
-                        child: TextFormField(
-                          maxLength: 8,
-                          maxLines: 5,
-                          decoration: InputDecoration(
-                            hintText: "Achievements",
+                            hintText: "Student Incharge",
                             contentPadding:
                                 EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                             border: OutlineInputBorder(
@@ -169,154 +130,7 @@ class _ApplyState extends State<Apply> with SingleTickerProviderStateMixin {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              "Submit",
-                              style: TextStyle(fontSize: 20.0),
-                            ),
-                          ),
-                          style: ButtonStyle(
-                            shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(18.0),
-                                    side: BorderSide(color: Colors.red))),
-                            backgroundColor:
-                                MaterialStateProperty.resolveWith<Color>(
-                              (Set<MaterialState> states) {
-                                if (states.contains(MaterialState.pressed))
-                                  return Colors.deepOrange;
-                                return Colors
-                                    .deepOrangeAccent; // Use the component's default.
-                              },
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.all(18.0),
-              child: Center(
-                child: Form(
-                  key: formkey,
-                  child: ListView(
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Center(
-                          child: Container(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Center(
-                                  child: Text(
-                                " New Club Form",
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                ),
-                              )),
-                            ),
-                            decoration: new BoxDecoration(
-                              color: Colors.deepOrangeAccent,
-                              border: new Border.all(
-                                color: Colors.deepOrange,
-                                width: 1.0,
-                                style: BorderStyle.solid,
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black,
-                                  offset: Offset(0.0, 1.0),
-                                  blurRadius: 2.0,
-                                )
-                              ],
-                              borderRadius: new BorderRadius.all(
-                                  new Radius.circular(5.0)),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      TextFormField(
-                        keyboardType: TextInputType.name,
-                        decoration: InputDecoration(
-                          hintText: "Club",
-                          contentPadding:
-                              EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                        ),
-                        validator: formvalidate,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 20.0),
-                        child: TextFormField(
-                          keyboardType: TextInputType.emailAddress,
-                          decoration: InputDecoration(
-                            hintText: "Category",
-                            contentPadding:
-                                EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(0),
-                            ),
-                          ),
-                          validator: formvalidate,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 20.0),
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                            hintText: "Co-ordinator",
-                            contentPadding:
-                                EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(0),
-                            ),
-                          ),
-                          validator: formvalidate,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 20.0),
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                            hintText: "Co Co-Ordinator",
-                            contentPadding:
-                                EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(0),
-                            ),
-                          ),
-                          validator: formvalidate,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 20.0),
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                            hintText: "faculty Incharge",
-                            contentPadding:
-                                EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(0),
-                            ),
-                          ),
-                          validator: formvalidate,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(25.0),
-                        child: ElevatedButton(
-                          onPressed: validate,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              "Choose File",
+                              "Upload Report File",
                               style: TextStyle(fontSize: 14.0),
                             ),
                           ),
@@ -338,6 +152,34 @@ class _ApplyState extends State<Apply> with SingleTickerProviderStateMixin {
                               },
                             ),
                           ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 20.0),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            hintText: "Date ",
+                            contentPadding:
+                                EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(0),
+                            ),
+                          ),
+                          validator: formvalidate,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 20.0),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            hintText: "Time",
+                            contentPadding:
+                                EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(0),
+                            ),
+                          ),
+                          validator: formvalidate,
                         ),
                       ),
                       Padding(

@@ -23,6 +23,8 @@ import 'package:fusion/screens/Academic/Check_Dues/dues.dart';
 import 'package:fusion/screens/Gymkhana/GymkhanaHomepage.dart';
 import 'package:fusion/screens/Gymkhana/Polls.dart';
 import 'package:fusion/screens/Gymkhana/Apply.dart';
+import 'package:fusion/screens/Gymkhana/SubmitEventReport.dart';
+import 'package:fusion/screens/Gymkhana/FestBudget.dart';
 import 'package:fusion/screens/Gymkhana/Record.dart';
 import 'package:fusion/screens/Gymkhana/Club.dart';
 import 'package:fusion/screens/Complaint/complaint.dart';
@@ -35,6 +37,11 @@ import 'package:fusion/screens/Programme_Curriculum/Discipline/discipline.dart';
 import 'package:fusion/screens/Programme_Curriculum/Programme/programme_home_page.dart';
 import 'package:fusion/screens/Programme_Curriculum/Programme_Info/programme_info.dart';
 import 'package:fusion/screens/Programme_Curriculum/programme_curriculum_home.dart';
+import 'package:fusion/screens/Scholarships_Awards/scholarship_awards.dart';
+import 'package:fusion/screens/Scholarships_Awards/AwardCatalogue/award_catalogue.dart';
+import 'package:fusion/screens/Scholarships_Awards/AwardCatalogue/Faculty/invite_application.dart';
+import 'package:fusion/screens/Scholarships_Awards/AwardCatalogue/Faculty/award_catalogue.dart';
+import 'package:fusion/screens/Scholarships_Awards/ApplyForAwards/applyforawards.dart';
 import 'package:fusion/screens/landing_page.dart';
 import 'package:fusion/screens/Healthcenter/healthcentermodule.dart';
 import 'package:fusion/screens/Healthcenter/feedback.dart';
@@ -82,6 +89,15 @@ class MyApp extends StatelessWidget {
         '/academic_home_page/performance': (context) => Performance(),
         '/academic_home_page/add_drop_courses': (context) => AddDropCourses(),
         '/programme_curriculum_home': (context) => ProgrammeCurriculumHome(),
+        '/scholarship_awards': (context) => ScholarshipAwards(
+            ModalRoute.of(context)!.settings.arguments.toString()),
+        '/scholarship_awards/browse_award_catalogue': (context) =>
+            BrowseAwardCatalogue(),
+        '/scholarship_awards/manage_award_catalogue_fac': (context) =>
+            ManageAwardCatalogueFaculty(),
+        '/scholarship_awards/invite_application': (context) =>
+            InviteApplication(),
+        '/scholarship_awards/apply_for_awards': (context) => ApplyForAwards(),
         '/programme_curriculum_home/programme': (context) => Programme(),
         '/programme_curriculum_home/batches': (context) => Batches(),
         '/programme_curriculum_home/discipline': (context) => Discipline(),
@@ -93,6 +109,9 @@ class MyApp extends StatelessWidget {
         '/establishment': (context) => Establishment(),
         '/gymkhana_homepage': (context) => GymkhanaHomepage(),
         '/gymkhana_homepage/apply': (context) => Apply(),
+        '/gymkhana_homepage/festbudget': (context) => FestBudget(),
+        '/gymkhana_homepage/submiteventreport': (context) =>
+            SubmitEventReport(),
         '/gymkhana_homepage/polls': (context) => Polls(),
         '/gymkhana_homepage/clubs': (context) => Club(),
         '/gymkhana_homepage/member_records': (context) => Records(),

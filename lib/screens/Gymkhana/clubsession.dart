@@ -77,7 +77,7 @@ class _ClubSessionState extends State<ClubSession> {
         child: ListView(
           children: [
             Text(
-              "Club",
+              "Club Sessions",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               textAlign: TextAlign.start,
             ),
@@ -95,10 +95,10 @@ class _ClubSessionState extends State<ClubSession> {
                 elevation: 16,
                 value: _value,
                 isExpanded: true,
-                hint: Text("-SELECT-"),
+                hint: Text("Select Club"),
                 items: [
                   DropdownMenuItem(
-                    child: Text("--SELECT--"),
+                    child: Text("Select Club"),
                     value: 1,
                   ),
                   DropdownMenuItem(

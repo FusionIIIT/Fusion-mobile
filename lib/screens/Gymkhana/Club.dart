@@ -63,6 +63,7 @@ class _ClubState extends State<Club> {
               border: Border(top: BorderSide(color: Colors.grey, width: 0.5))),
           child: TabBarView(
             children: <Widget>[
+              
               clubDetails(data.clubDetails),
               //DropDownDemo(),
               //Center(child: Text("Working on...."),),
@@ -76,7 +77,9 @@ class _ClubState extends State<Club> {
   }
 
   Widget clubEvents(data) {
+    
     TableRow header = TableRow(children: [
+
       Center(
         child: Text("\nClub\n",
             style: TextStyle(
@@ -149,6 +152,7 @@ class _ClubState extends State<Club> {
   }
 
   Widget clubDetails(data) {
+    
     TableRow header = TableRow(children: [
       Center(
         child: Text("\nClub\n",
@@ -246,6 +250,7 @@ class _ClubState extends State<Club> {
     return Container(
       color: Colors.white,
       padding: EdgeInsets.symmetric(vertical: 15, horizontal: 5),
+      
       child: Table(
         border: TableBorder.all(color: Colors.black),
         children: [

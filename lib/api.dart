@@ -29,6 +29,9 @@ const kGymkhanaMemberRecords = '/api/gymkhana/members_record';
 //HealthCentre
 String kHealthCentreStudent = "/healthcenter/api/student";
 
+// Scholarship
+String kAwardsCatalogue = "/spacs/api/awardcatalogue";
+
 //------------Screens------------
 
 //screens/Academic/Current_Semester
