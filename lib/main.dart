@@ -35,6 +35,9 @@ import 'package:fusion/screens/Programme_Curriculum/Discipline/discipline.dart';
 import 'package:fusion/screens/Programme_Curriculum/Programme/programme_home_page.dart';
 import 'package:fusion/screens/Programme_Curriculum/Programme_Info/programme_info.dart';
 import 'package:fusion/screens/Programme_Curriculum/programme_curriculum_home.dart';
+import 'package:fusion/screens/PurchaseAndStore/filed_indents_page.dart';
+import 'package:fusion/screens/PurchaseAndStore/indent_draft_page.dart';
+import 'package:fusion/screens/PurchaseAndStore/purchaseandstock.dart';
 import 'package:fusion/screens/landing_page.dart';
 import 'package:fusion/screens/Healthcenter/healthcentermodule.dart';
 import 'package:fusion/screens/Healthcenter/feedback.dart';
@@ -60,7 +63,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MediaQueryData windowData =
-    MediaQueryData.fromWindow(WidgetsBinding.instance.window);
+        MediaQueryData.fromWindow(WidgetsBinding.instance.window);
     windowData = windowData.copyWith(
       textScaleFactor: 1,
     );
@@ -71,10 +74,10 @@ class MyApp extends StatelessWidget {
         title: 'Fusion',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-            // primarySwatch: Colors.blueGrey,
+          // primarySwatch: Colors.blueGrey,
           // colorSchemeSeed: Color(0xFF2085D0),
           colorSchemeSeed: Color(0xFFF36C35),
-            fontFamily: 'Nunito',
+          fontFamily: 'Nunito',
           useMaterial3: true,
         ),
         initialRoute: '/landing',
@@ -127,6 +130,11 @@ class MyApp extends StatelessWidget {
           '/health_center/feedback': (context) => FeedBack(),
           '/health_center/viewschedule': (context) => ViewSchedule(),
           '/health_center/history': (context) => History(),
+          '/Purchase_and_store_homePage': (context) => PurchaseAndStore(),
+          '/Purchase_and_store_homePage/filed_indents': (context) =>
+              AllFiledIndents(),
+          '/Purchase_and_store_homePage/indent_drafts': (context) =>
+              IdentDraftPage()
         },
       ),
     );
