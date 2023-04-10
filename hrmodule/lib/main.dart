@@ -650,7 +650,7 @@ class Body extends StatelessWidget {
                     // padding: EdgeInsets.all(10),
                     height:80,
                     margin: EdgeInsets.only(top: 20),
-                    child: ElevatedButton(onPressed: () {},
+                    child: ElevatedButton(onPressed: () =>runApp(LeaveApp()),
                      child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       
