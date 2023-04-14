@@ -40,98 +40,101 @@ class _PostAnnouncementState extends State<PostAnnouncement> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: DefaultAppBar().buildAppBar(),
       drawer: SideDrawer(),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text('Programme Type:'),
-            DropdownButton<String>(
-              value: _selectedProgrammeType,
-              onChanged: (String? newValue) {
-                setState(() {
-                  _selectedProgrammeType = newValue!;
-                });
-              },
-              items: _programmeTypes.map((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-            ),
-            SizedBox(height: 16.0),
-            Text('Batch:'),
-            DropdownButton<String>(
-              value: _selectedBatch,
-              onChanged: (String? newValue) {
-                setState(() {
-                  _selectedBatch = newValue!;
-                });
-              },
-              items: _batches.map((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-            ),
-            SizedBox(height: 16.0),
-            Text('Department:'),
-            DropdownButton<String>(
-              value: _selectedDepartment,
-              onChanged: (String? newValue) {
-                setState(() {
-                  _selectedDepartment = newValue!;
-                });
-              },
-              items: _departments.map((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-            ),
-            SizedBox(height: 16.0),
-            Text('Announcement Details:'),
-            TextFormField(
-              onChanged: (value) {
-                _announcementDetails = value;
-              },
-              maxLines: 5,
-              decoration: InputDecoration(
-                hintText: 'Enter announcement details',
-              ),
-            ),
-            SizedBox(height: 16.0),
-            Text('Upload File:'),
-            ElevatedButton(
-              onPressed: () async {
-                final result = await FilePicker.platform.pickFiles();
-                if (result != null) {
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text('Programme Type:'),
+              DropdownButton<String>(
+                value: _selectedProgrammeType,
+                onChanged: (String? newValue) {
                   setState(() {
-                    _uploadedFileUrl = result.files.single.path;
+                    _selectedProgrammeType = newValue!;
                   });
-                } else {
-                  print("file not picked");
-                }
-              },
-              child: Text('Choose File'),
-            ),
-            SizedBox(height: 16.0),
-            _uploadedFileUrl != null
-                ? Text('File uploaded successfully!')
-                : Container(),
-            SizedBox(height: 32.0),
-            ElevatedButton(
-              onPressed: () {
-                _publishAnnouncement();
-              },
-              child: Text('Publish'),
-            ),
-          ],
+                },
+                items: _programmeTypes.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
+              SizedBox(height: 16.0),
+              Text('Batch:'),
+              DropdownButton<String>(
+                value: _selectedBatch,
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _selectedBatch = newValue!;
+                  });
+                },
+                items: _batches.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
+              SizedBox(height: 16.0),
+              Text('Department:'),
+              DropdownButton<String>(
+                value: _selectedDepartment,
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _selectedDepartment = newValue!;
+                  });
+                },
+                items: _departments.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
+              SizedBox(height: 16.0),
+              Text('Announcement Details:'),
+              TextFormField(
+                onChanged: (value) {
+                  _announcementDetails = value;
+                },
+                maxLines: 5,
+                decoration: InputDecoration(
+                  hintText: 'Enter announcement details',
+                ),
+              ),
+              SizedBox(height: 16.0),
+              Text('Upload File:'),
+              ElevatedButton(
+                onPressed: () async {
+                  final result = await FilePicker.platform.pickFiles();
+                  if (result != null) {
+                    setState(() {
+                      _uploadedFileUrl = result.files.single.path;
+                    });
+                  } else {
+                    print("file not picked");
+                  }
+                },
+                child: Text('Choose File'),
+              ),
+              SizedBox(height: 16.0),
+              _uploadedFileUrl != null
+                  ? Text('File uploaded successfully!')
+                  : Container(),
+              SizedBox(height: 32.0),
+              ElevatedButton(
+                onPressed: () {
+                  _publishAnnouncement();
+                },
+                child: Text('Publish'),
+              ),
+            ],
+          ),
         ),
       ),
     );

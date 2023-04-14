@@ -19,58 +19,59 @@ class Faculty extends StatefulWidget {
 class _FacultyState extends State<Faculty> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: DefaultAppBar().buildAppBar(),
-        drawer: SideDrawer(),
-        body: Container(
-            child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Column(
-            children: [
-              Row(
+    return SafeArea(
+        child: Scaffold(
+            appBar: DefaultAppBar().buildAppBar(),
+            drawer: SideDrawer(),
+            body: Container(
+                child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
                 children: [
-                  FacultyCard(
-                      name: 'John Smith',
-                      email: 'john.smith@university.edu',
-                      department: 'Computer Science',
-                      researchInterest: 'Artificial Intelligence'),
-                  FacultyCard(
-                      name: 'John Smith',
-                      email: 'john.smith@university.edu',
-                      department: 'Computer Science',
-                      researchInterest: 'Artificial Intelligence'),
+                  Row(
+                    children: [
+                      FacultyCard(
+                          name: 'John Smith',
+                          email: 'john.smith@university.edu',
+                          department: 'Computer Science',
+                          researchInterest: 'Artificial Intelligence'),
+                      FacultyCard(
+                          name: 'John Smith',
+                          email: 'john.smith@university.edu',
+                          department: 'Computer Science',
+                          researchInterest: 'Artificial Intelligence'),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      FacultyCard(
+                          name: 'John Smith',
+                          email: 'john.smith@university.edu',
+                          department: 'Computer Science',
+                          researchInterest: 'Artificial Intelligence'),
+                      FacultyCard(
+                          name: 'John Smith',
+                          email: 'john.smith@university.edu',
+                          department: 'Computer Science',
+                          researchInterest: 'Artificial Intelligence'),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      FacultyCard(
+                          name: 'John Smith',
+                          email: 'john.smith@university.edu',
+                          department: 'Computer Science',
+                          researchInterest: 'Artificial Intelligence'),
+                      FacultyCard(
+                          name: 'John Smith',
+                          email: 'john.smith@university.edu',
+                          department: 'Computer Science',
+                          researchInterest: 'Artificial Intelligence'),
+                    ],
+                  )
                 ],
               ),
-              Row(
-                children: [
-                  FacultyCard(
-                      name: 'John Smith',
-                      email: 'john.smith@university.edu',
-                      department: 'Computer Science',
-                      researchInterest: 'Artificial Intelligence'),
-                  FacultyCard(
-                      name: 'John Smith',
-                      email: 'john.smith@university.edu',
-                      department: 'Computer Science',
-                      researchInterest: 'Artificial Intelligence'),
-                ],
-              ),
-              Row(
-                children: [
-                  FacultyCard(
-                      name: 'John Smith',
-                      email: 'john.smith@university.edu',
-                      department: 'Computer Science',
-                      researchInterest: 'Artificial Intelligence'),
-                  FacultyCard(
-                      name: 'John Smith',
-                      email: 'john.smith@university.edu',
-                      department: 'Computer Science',
-                      researchInterest: 'Artificial Intelligence'),
-                ],
-              )
-            ],
-          ),
-        )));
+            ))));
   }
 }

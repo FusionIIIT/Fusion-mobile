@@ -105,7 +105,9 @@ class _AnnouncementTableState extends State<AnnouncementTable> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SafeArea(
+        child: Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: DefaultAppBar().buildAppBar(),
       drawer: SideDrawer(),
       body: Center(
@@ -146,193 +148,195 @@ class _AnnouncementTableState extends State<AnnouncementTable> {
                   scrollDirection: Axis.vertical,
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
-                    child: DataTable(
-                      columns: [
-                        DataColumn(
-                          label: Flexible(
-                            child: SizedBox(
-                              width: 100, // set the desired width
-                              child: Text(
-                                "Announcement Date",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
+                    child: Flexible(
+                        fit: FlexFit.loose,
+                        child: DataTable(
+                          columns: [
+                            DataColumn(
+                              label: Flexible(
+                                child: SizedBox(
+                                  width: 100, // set the desired width
+                                  child: Text(
+                                    "Announcement Date",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    overflow: TextOverflow.visible,
+                                    softWrap: true,
+                                  ),
                                 ),
-                                overflow: TextOverflow.visible,
-                                softWrap: true,
                               ),
+                              numeric: true,
                             ),
-                          ),
-                          numeric: true,
-                        ),
-                        DataColumn(
-                          label: Flexible(
-                            child: SizedBox(
-                              width: 100, // set the desired width
-                              child: Text(
-                                "Announcement By",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
+                            DataColumn(
+                              label: Flexible(
+                                child: SizedBox(
+                                  width: 100, // set the desired width
+                                  child: Text(
+                                    "Announcement By",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    overflow: TextOverflow.visible,
+                                    softWrap: true,
+                                  ),
                                 ),
-                                overflow: TextOverflow.visible,
-                                softWrap: true,
                               ),
+                              numeric: true,
                             ),
-                          ),
-                          numeric: true,
-                        ),
-                        DataColumn(
-                          label: Flexible(
-                            child: SizedBox(
-                              width: 100, // set the desired width
-                              child: Text(
-                                "Programme",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
+                            DataColumn(
+                              label: Flexible(
+                                child: SizedBox(
+                                  width: 100, // set the desired width
+                                  child: Text(
+                                    "Programme",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    overflow: TextOverflow.visible,
+                                    softWrap: true,
+                                  ),
                                 ),
-                                overflow: TextOverflow.visible,
-                                softWrap: true,
                               ),
+                              numeric: true,
                             ),
-                          ),
-                          numeric: true,
-                        ),
-                        DataColumn(
-                          label: Flexible(
-                            child: SizedBox(
-                              width: 100, // set the desired width
-                              child: Text(
-                                "Batch",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
+                            DataColumn(
+                              label: Flexible(
+                                child: SizedBox(
+                                  width: 100, // set the desired width
+                                  child: Text(
+                                    "Batch",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    overflow: TextOverflow.visible,
+                                    softWrap: true,
+                                  ),
                                 ),
-                                overflow: TextOverflow.visible,
-                                softWrap: true,
                               ),
+                              numeric: true,
                             ),
-                          ),
-                          numeric: true,
-                        ),
-                        DataColumn(
-                          label: Flexible(
-                            child: SizedBox(
-                              width: 200, // set the desired width
-                              child: Text(
-                                "Message",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                overflow: TextOverflow.visible,
-                                softWrap: true,
-                              ),
-                            ),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Flexible(
-                            child: SizedBox(
-                              width: 100, // set the desired width
-                              child: Text(
-                                "File",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                overflow: TextOverflow.visible,
-                                softWrap: true,
-                              ),
-                            ),
-                          ),
-                          numeric: true,
-                        ),
-                      ],
-                      rows: announcements.map((announcement) {
-                        return DataRow(cells: [
-                          DataCell(
-                            Flexible(
-                              child: SizedBox(
-                                width: 100, // set the desired width
-                                child: Text(
-                                  announcement.annDate.toString(),
-                                  overflow: TextOverflow.visible,
-                                  softWrap: true,
+                            DataColumn(
+                              label: Flexible(
+                                child: SizedBox(
+                                  width: 200, // set the desired width
+                                  child: Text(
+                                    "Message",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    overflow: TextOverflow.visible,
+                                    softWrap: true,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          DataCell(
-                            Flexible(
-                              child: SizedBox(
-                                width: 100, // set the desired width
-                                child: Text(
-                                  announcement.makerId,
-                                  overflow: TextOverflow.visible,
-                                  softWrap: true,
+                            DataColumn(
+                              label: Flexible(
+                                child: SizedBox(
+                                  width: 100, // set the desired width
+                                  child: Text(
+                                    "File",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    overflow: TextOverflow.visible,
+                                    softWrap: true,
+                                  ),
                                 ),
                               ),
+                              numeric: true,
                             ),
-                          ),
-                          DataCell(
-                            Flexible(
-                              child: SizedBox(
-                                width: 100, // set the desired width
-                                child: Text(
-                                  announcement.programme,
-                                  overflow: TextOverflow.visible,
-                                  softWrap: true,
+                          ],
+                          rows: announcements.map((announcement) {
+                            return DataRow(cells: [
+                              DataCell(
+                                Flexible(
+                                  child: SizedBox(
+                                    width: 100, // set the desired width
+                                    child: Text(
+                                      announcement.annDate.toString(),
+                                      overflow: TextOverflow.visible,
+                                      softWrap: true,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                          DataCell(
-                            Flexible(
-                              child: SizedBox(
-                                width: 100, // set the desired width
-                                child: Text(
-                                  announcement.batch,
-                                  overflow: TextOverflow.visible,
-                                  softWrap: true,
+                              DataCell(
+                                Flexible(
+                                  child: SizedBox(
+                                    width: 100, // set the desired width
+                                    child: Text(
+                                      announcement.makerId,
+                                      overflow: TextOverflow.visible,
+                                      softWrap: true,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                          DataCell(
-                            Flexible(
-                              child: SizedBox(
-                                width: 200, // set the desired width
-                                child: Text(
-                                  announcement.message,
-                                  overflow: TextOverflow.visible,
-                                  softWrap: true,
+                              DataCell(
+                                Flexible(
+                                  child: SizedBox(
+                                    width: 100, // set the desired width
+                                    child: Text(
+                                      announcement.programme,
+                                      overflow: TextOverflow.visible,
+                                      softWrap: true,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                          DataCell(Flexible(
-                            child: SizedBox(
-                              width: 100, // set the desired width
-                              child: announcement.uploadAnnouncement != null
-                                  ? ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                PDFViewerFromUrl(
-                                              url: announcement
-                                                      .uploadAnnouncement ??
-                                                  "",
-                                              label: announcement.message,
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                      child: Text('view'),
-                                    )
-                                  : Text("N/A"),
-                            ),
-                          )),
-                        ]);
-                      }).toList(),
-                    ),
+                              DataCell(
+                                Flexible(
+                                  child: SizedBox(
+                                    width: 100, // set the desired width
+                                    child: Text(
+                                      announcement.batch,
+                                      overflow: TextOverflow.visible,
+                                      softWrap: true,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              DataCell(
+                                Flexible(
+                                  child: SizedBox(
+                                    width: 200, // set the desired width
+                                    child: Text(
+                                      announcement.message,
+                                      overflow: TextOverflow.visible,
+                                      softWrap: true,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              DataCell(Flexible(
+                                child: SizedBox(
+                                  width: 100, // set the desired width
+                                  child: announcement.uploadAnnouncement != null
+                                      ? ElevatedButton(
+                                          onPressed: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    PDFViewerFromUrl(
+                                                  url: announcement
+                                                          .uploadAnnouncement ??
+                                                      "",
+                                                  label: announcement.message,
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                          child: Text('view'),
+                                        )
+                                      : Text("N/A"),
+                                ),
+                              )),
+                            ]);
+                          }).toList(),
+                        )),
                   ),
                 );
               }
@@ -340,6 +344,6 @@ class _AnnouncementTableState extends State<AnnouncementTable> {
           ))
         ]),
       ),
-    );
+    ));
   }
 }
