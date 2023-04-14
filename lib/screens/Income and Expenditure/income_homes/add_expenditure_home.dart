@@ -26,32 +26,8 @@ class _AddExpenditureHomeState extends State<AddExpenditureHome> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                TabBar(tabs: [
-                  // view
-                  Tab(
-                    text: "Add Expenditure",
-                  ),
-
-                  // balance sheet
-                  Tab(
-                    text: "View History",
-                  ),
-                ]),
-
-                Expanded(
-                  child: TabBarView(
-                    children: [
-                      // add expenditure
-                      AddExpenditure(),
-
-                      // view history
-                      ExpenditureHistory(),
-                      // BalanceSheetScreen(),
-                    ],
-                  ),
-                ),
-
-
+                Text("Expenditure of Income",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18),),
+                ExpenditureHistory(),
               ],
             ),
           ),

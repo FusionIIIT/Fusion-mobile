@@ -34,13 +34,13 @@ class CustomHistoryCard extends StatelessWidget {
               SizedBox(height: 5,),
               Text("Date added: ${incomeModel.remark}",style: TextStyle(fontSize:14,color: Colors.black54)),
               SizedBox(height: 10,),
-              ElevatedButton(onPressed: (){},
-                  child: Text("Delete",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Colors.white),
-                  ),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.orange),
-              ),
-              ),
+              // ElevatedButton(onPressed: (){},
+              //     child: Text("Delete",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Colors.white),
+              //     ),
+              // style: ButtonStyle(
+              //   backgroundColor: MaterialStateProperty.all(Colors.orange),
+              // ),
+              // ),
               Divider(height: 2,thickness: 1.2,)
             ],
           ),

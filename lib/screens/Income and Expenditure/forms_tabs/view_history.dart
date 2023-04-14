@@ -11,6 +11,8 @@ class ViewHistory extends StatelessWidget {
     IncomeModel(purpose: "p2", amount: 300, date: "13 dec 2022", remark: "nothing"),
     IncomeModel(purpose: "p3", amount: 400, date: "14 dec 2022", remark: "nothing"),
     IncomeModel(purpose: "p4", amount: 500, date: "15 dec 2022", remark: "nothing"),
+    IncomeModel(purpose: "p5", amount: 500, date: "15 dec 2022", remark: "nothing"),
+    IncomeModel(purpose: "p6", amount: 500, date: "15 dec 2022", remark: "nothing"),
   ];
 
   @override

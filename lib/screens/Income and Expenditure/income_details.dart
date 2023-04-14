@@ -17,7 +17,7 @@ class IncomeDetailScreen extends StatefulWidget {
 class _IncomeDetailScreenState extends State<IncomeDetailScreen> {
 
   int selectedIndex=0;
-  List<Widget>widgetList=[AddIncomeHome(),AddExpenditureHome(),FixedAttributeScreen(),AddViewHome(),ExpenseHistory()];
+  List<Widget>widgetList=[AddIncomeHome(),AddExpenditureHome(),AddViewHome(),ExpenseHistory()];
 
   @override
   Widget build(BuildContext context) {
@@ -39,10 +39,6 @@ class _IncomeDetailScreenState extends State<IncomeDetailScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.money_outlined),
             label: 'Expenditure',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.lock_person),
-            label: 'Fixed item',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.view_comfortable_outlined),

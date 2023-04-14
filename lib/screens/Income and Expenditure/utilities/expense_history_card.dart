@@ -35,37 +35,37 @@ class ExpenseHistroyCard extends StatelessWidget {
                   SizedBox(height: 3,),
                   Text("Status: ",style: TextStyle(fontSize:14,color: Colors.black54)),
                   SizedBox(height: 10,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      // decline
-                      ElevatedButton(onPressed: (){},
-                        child: Text("Decline",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Colors.white),
-                        ),
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(Colors.orange),
-                        ),
-                      ),
-
-                      // approved
-                      ElevatedButton(onPressed: (){},
-                        child: Text("Approved",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Colors.white),
-                        ),
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(Colors.orange),
-                        ),
-                      ),
-
-                      // transferred to bank
-                      ElevatedButton(onPressed: (){},
-                        child: Text("Transfer to bank",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Colors.white),
-                        ),
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(Colors.orange),
-                        ),
-                      ),
-                    ],
-                  ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  //   children: [
+                  //     // decline
+                  //     ElevatedButton(onPressed: (){},
+                  //       child: Text("Decline",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Colors.white),
+                  //       ),
+                  //       style: ButtonStyle(
+                  //         backgroundColor: MaterialStateProperty.all(Colors.orange),
+                  //       ),
+                  //     ),
+                  //
+                  //     // approved
+                  //     ElevatedButton(onPressed: (){},
+                  //       child: Text("Approved",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Colors.white),
+                  //       ),
+                  //       style: ButtonStyle(
+                  //         backgroundColor: MaterialStateProperty.all(Colors.orange),
+                  //       ),
+                  //     ),
+                  //
+                  //     // transferred to bank
+                  //     ElevatedButton(onPressed: (){},
+                  //       child: Text("Transfer to bank",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Colors.white),
+                  //       ),
+                  //       style: ButtonStyle(
+                  //         backgroundColor: MaterialStateProperty.all(Colors.orange),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
                   Divider(height: 2,thickness: 1.2,)
                 ],
               ),

@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/screens/Income%20and%20Expenditure/utilities/sheet_card.dart';
+import 'package:fusion/screens/Accounts%20and%20Finance/utilities/download_button.dart';
+import 'package:fusion/services/income_service.dart';
+import 'package:get/get_connect/http/src/response/response.dart';
+
+import '../../../models/complaints.dart';
 
 class ViewScreen extends StatefulWidget {
   const ViewScreen({Key? key}) : super(key: key);
@@ -11,6 +15,41 @@ class ViewScreen extends StatefulWidget {
 class _ViewScreenState extends State<ViewScreen> {
   DateTime _selectedYear = DateTime.now();
   List<String> dates=["Select financial year","Select financial year","Select financial year"];
+
+
+  getIncomeDetails(String date)async{
+    try {
+      var response = await IncomeServices().getIncomeStats(date);
+      setState(() {
+        //todo  set data from response
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  getExpenditureDetails(String date)async{
+    try{
+      var response = await IncomeServices().getExpenditureStats(date);
+      setState(() {
+        //todo  set data from response
+      });
+    }catch(e) {
+      print(e);
+    }
+  }
+
+  getComparisonStats(String date)async{
+    try{
+      var response = await IncomeServices().getComparison(date);
+      setState(() {
+        //todo  set data from response
+      });
+    }catch(e) {
+      print(e);
+    }
+  }
+
 
    _pickYear(context,int index) {
     showDialog(
@@ -69,8 +108,7 @@ class _ViewScreenState extends State<ViewScreen> {
                         ],
                       ),
                     ),
-                    ElevatedButton(
-                        onPressed: () => null, child: Text("Get stats"))
+                    DownloadButton(onPress:dates[0]!="Select financial year"?getIncomeDetails(dates[0]):(){},  fileUrl: "fileUrl", fileName: "fileName", title: "Get stats")
                   ],
                 )
               ],
@@ -99,8 +137,7 @@ class _ViewScreenState extends State<ViewScreen> {
                         ],
                       ),
                     ),
-                    ElevatedButton(
-                        onPressed: () => null, child: Text("Get stats"))
+                   DownloadButton(onPress:dates[1]!="Select financial year"?getExpenditureDetails(dates[1]):(){},  fileUrl: "fileUrl", fileName: "fileName", title: "Get stats")
                   ],
                 )
               ],
@@ -128,8 +165,7 @@ class _ViewScreenState extends State<ViewScreen> {
                         ],
                       ),
                     ),
-                    ElevatedButton(
-                        onPressed: () => null, child: Text("Get stats"))
+                    DownloadButton(onPress:dates[2]!="Select financial year"?getComparisonStats(dates[2]):(){},  fileUrl: "fileUrl", fileName: "fileName", title: "Get stats")
                   ],
                 )
               ],

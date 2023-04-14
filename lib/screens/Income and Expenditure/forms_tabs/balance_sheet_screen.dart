@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+
+import '../../../services/income_service.dart';
+import '../../Accounts and Finance/utilities/download_button.dart';
 class BalanceSheetScreen extends StatefulWidget {
   const BalanceSheetScreen({Key? key}) : super(key: key);
 
@@ -10,6 +13,17 @@ class _BalanceSheetScreenState extends State<BalanceSheetScreen> {
 
   DateTime _selectedYear = DateTime.now();
   List<String> dates=["Select financial year"];
+
+  getBalanceSheetData(String date)async{
+    try{
+      var response = await IncomeServices().getBalanceSheet(date);
+      setState(() {
+        //todo  set data from response
+      });
+    }catch(e) {
+      print(e);
+    }
+  }
 
   _pickYear(context,int index) {
     showDialog(
@@ -66,8 +80,7 @@ class _BalanceSheetScreenState extends State<BalanceSheetScreen> {
                     ],
                   ),
                 ),
-                ElevatedButton(
-                    onPressed: () => null, child: Text("Submit"))
+                DownloadButton(onPress:dates[0]!="Select financial year"?getBalanceSheetData(dates[0]):(){},fileUrl: "fileUrl", fileName: "fileName", title: "submit")
               ],
             )
           ],

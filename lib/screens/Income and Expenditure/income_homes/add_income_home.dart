@@ -24,32 +24,8 @@ class _AddIncomeHomeState extends State<AddIncomeHome> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                TabBar(tabs: [
-                  // view
-                  Tab(
-                    text: "Add Income",
-                  ),
-
-                  // balance sheet
-                  Tab(
-                    text: "View History",
-                  ),
-                ]),
-
-                Expanded(
-                  child: TabBarView(
-                    children: [
-                      // view
-                      AddIncomeScreen(),
-
-                      // balance sheet
-                      ViewHistory(),
-                      // BalanceSheetScreen(),
-                    ],
-                  ),
-                ),
-
-
+                Text("Income Source",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18),),
+                ViewHistory(),
               ],
             ),
           ),
