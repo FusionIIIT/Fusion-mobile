@@ -69,6 +69,7 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       title: 'Fusion',
       debugShowCheckedModeBanner: false,
@@ -134,6 +135,7 @@ class MyApp extends StatelessWidget {
         '/department_homepage/postannouncement': (context) =>
             PostAnnouncement(),
       },
+
     );
   }
 }
