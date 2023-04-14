@@ -2,7 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter/services.dart';
+
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
 import 'package:fusion/services/service_locator.dart';
@@ -10,6 +12,7 @@ import 'package:fusion/services/storage_service.dart';
 import 'package:fusion/services/profile_service.dart';
 import 'package:fusion/models/profile.dart';
 import 'package:http/http.dart';
+
 import 'package:csv/csv.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fusion/models/department.dart';

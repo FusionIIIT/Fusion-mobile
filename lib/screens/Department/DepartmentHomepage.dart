@@ -41,7 +41,6 @@ class _DepartmentHomepageState extends State<DepartmentHomepage> {
         data2 = ProfileData.fromJson(jsonDecode(response2.body));
         _loading = false;
       });
-
       name = data2.user!['first_name'] + ' ' + data2.user!['last_name'];
       studentType = data2.profile!['department']!['name'] +
           '  ' +
@@ -84,7 +83,6 @@ class _DepartmentHomepageState extends State<DepartmentHomepage> {
                   Text(
                     //NAME OF USER
                     name,
-
                     style: TextStyle(fontSize: 20.0, color: Colors.black),
                   ),
                   SizedBox(

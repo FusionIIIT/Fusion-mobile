@@ -10,7 +10,6 @@ class Appointment extends StatefulWidget {
 
 class _AppointmentState extends State<Appointment> {
   int _value = 1;
-
   @override
   Widget build(BuildContext context) {
     return Container(
