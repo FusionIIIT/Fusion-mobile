@@ -46,6 +46,12 @@ import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/screens/Department/DepartmentHomepage.dart';
 import 'package:fusion/screens/Department/AboutUs.dart';
 import 'package:fusion/screens/Department/Announcements.dart';
+import 'package:fusion/screens/Department/Achievements.dart';
+import 'package:fusion/screens/Department/Students.dart';
+import 'package:fusion/screens/Department/Faculty.dart';
+import 'package:fusion/screens/Department/Alumni.dart';
+import 'package:fusion/screens/Department/Facilities.dart';
+import 'package:fusion/screens/Department/PostAnnouncement.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -119,7 +125,14 @@ class MyApp extends StatelessWidget {
         '/health_center/history': (context) => History(),
         '/department_homepage': (context) => DepartmentHomepage(),
         '/department_homepage/aboutus': (context) => AboutUs(),
-        '/department_homepage/announcements': (context) => Announcements(),
+        '/department_homepage/announcements': (context) => AnnouncementTable(),
+        '/department_homepage/faculty': (context) => Faculty(),
+        '/department_homepage/achievements': (context) => Achievements(),
+        '/department_homepage/students': (context) => Students(),
+        '/department_homepage/facilities': (context) => Facilities(),
+        '/department_homepage/alumni': (context) => Alumni(),
+        '/department_homepage/postannouncement': (context) =>
+            PostAnnouncement(),
       },
     );
   }

@@ -29,31 +29,31 @@ class _AboutUsState extends State<AboutUs> {
   void initState() {
     super.initState();
     profileService = ProfileService();
-    getData();
-    _loadCSV_CSE();
   }
 
   // ignore: non_constant_identifier_names
-  _loadCSV_CSE() async {
-    try {
-      final staticdata =
-          await rootBundle.loadString('db/Department_AboutUs_cse.csv');
-      StaticData = const CsvToListConverter().convert(staticdata);
-    } catch (e) {
-      print(e);
-    }
-  }
 
-  getData() async {
+  Future<void> getData() async {
     try {
       Response response = await profileService.getProfile();
-      setState(() {
-        data = ProfileData.fromJson(jsonDecode(response.body));
-        _loading = false;
-      });
+      data = ProfileData.fromJson(jsonDecode(response.body));
       Department = data.profile!['department']!['name'];
       if (Department == 'CSE') {
-        _loadCSV_CSE();
+        final staticdata =
+            await rootBundle.loadString('db/Department_AboutUs_cse.csv');
+        StaticData = const CsvToListConverter().convert(staticdata);
+      } else if (Department == 'ME') {
+        final staticdata =
+            await rootBundle.loadString('db/Department_AboutUs_me.csv');
+        StaticData = const CsvToListConverter().convert(staticdata);
+      } else if (Department == 'SM') {
+        final staticdata =
+            await rootBundle.loadString('db/Department_AboutUs_sm.csv');
+        StaticData = const CsvToListConverter().convert(staticdata);
+      } else if (Department == 'ECE') {
+        final staticdata =
+            await rootBundle.loadString('db/Department_AboutUs_ece.csv');
+        StaticData = const CsvToListConverter().convert(staticdata);
       }
     } catch (e) {
       print(e);
@@ -63,38 +63,51 @@ class _AboutUsState extends State<AboutUs> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: DefaultAppBar().buildAppBar(),
-        drawer: SideDrawer(),
-        body: ListView(children: [
-          Column(
-            children: [
-              Text(
-                "  Welcome to " + Department + " Department",
-                style: TextStyle(
-                  fontSize: 35,
+      appBar: DefaultAppBar().buildAppBar(),
+      drawer: SideDrawer(),
+      body: FutureBuilder(
+          future: getData(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(child: Text('Error loading data'));
+            } else {
+              return ListView(children: [
+                Column(
+                  children: [
+                    Text(
+                      "  Welcome to " + Department + " Department",
+                      style: TextStyle(
+                        fontSize: 35,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    Wrap(children: [
+                      StaticData.isEmpty
+                          ? Text("Fetching Data")
+                          : Column(children: [
+                              for (int i = 0; i < StaticData.length; i++) ...[
+                                Padding(
+                                    padding:
+                                        EdgeInsets.fromLTRB(10, 30, 10, 10),
+                                    child: Text(StaticData[i][0],
+                                        style: TextStyle(
+                                            fontSize: 30,
+                                            fontWeight: FontWeight.bold))),
+                                Padding(
+                                    padding:
+                                        EdgeInsets.fromLTRB(20, 10, 20, 10),
+                                    child: Text(StaticData[i][1],
+                                        style: TextStyle(fontSize: 20))),
+                              ]
+                            ])
+                    ])
+                  ],
                 ),
-                textAlign: TextAlign.center,
-              ),
-              Wrap(children: [
-                StaticData.isEmpty
-                    ? Text("Fetching Data")
-                    : Column(children: [
-                        for (int i = 0; i < StaticData.length; i++) ...[
-                          Padding(
-                              padding: EdgeInsets.fromLTRB(10, 30, 10, 10),
-                              child: Text(StaticData[i][0],
-                                  style: TextStyle(
-                                      fontSize: 30,
-                                      fontWeight: FontWeight.bold))),
-                          Padding(
-                              padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                              child: Text(StaticData[i][1],
-                                  style: TextStyle(fontSize: 20))),
-                        ]
-                      ])
-              ])
-            ],
-          ),
-        ]));
+              ]);
+            }
+          }),
+    );
   }
 }

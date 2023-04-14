@@ -1,20 +1,21 @@
 import 'dart:async';
+import 'package:fusion/constants.dart';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
 import 'package:fusion/models/profile.dart';
-import 'package:fusion/services/service_locator.dart';
-import 'package:fusion/services/storage_service.dart';
 import 'package:fusion/services/profile_service.dart';
 import 'package:http/http.dart';
-import 'package:fusion/screens/Department/AboutUs.dart';
-import 'package:fusion/screens/Department/Announcements.dart';
+import 'package:fusion/services/storage_service.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class DepartmentHomepage extends StatefulWidget {
   @override
   _DepartmentHomepageState createState() => _DepartmentHomepageState();
 }
+
+Color textColor = Colors.black;
 
 class _DepartmentHomepageState extends State<DepartmentHomepage> {
   late String name = "";
@@ -26,11 +27,11 @@ class _DepartmentHomepageState extends State<DepartmentHomepage> {
   @override
   void initState() {
     super.initState();
-    // _dashboardController = StreamController();
-    // dashboardService = DashboardService();
-    // _profileController = StreamController();
-    profileService = ProfileService();
-    getData();
+
+    profileService =
+        ProfileService(); // calling profile service to get user's data
+
+    getData(); // storing user's data in their respective variables
   }
 
   getData() async {
@@ -40,6 +41,7 @@ class _DepartmentHomepageState extends State<DepartmentHomepage> {
         data2 = ProfileData.fromJson(jsonDecode(response2.body));
         _loading = false;
       });
+
       name = data2.user!['first_name'] + ' ' + data2.user!['last_name'];
       studentType = data2.profile!['department']!['name'] +
           '  ' +
@@ -82,18 +84,15 @@ class _DepartmentHomepageState extends State<DepartmentHomepage> {
                   Text(
                     //NAME OF USER
                     name,
-                    // data.details!['current_user']['first_name'] +
-                    //     ' ' +
-                    //     data.details!['current_user']['last_name'],
+
                     style: TextStyle(fontSize: 20.0, color: Colors.black),
                   ),
                   SizedBox(
                     height: 10.0,
                   ),
                   Text(
+                    // users brnch and role(faculty/ student /admin)
                     studentType,
-                    // data.details!['user_branch'] + ' | ' + "STUDENT",
-                    // style: TextStyle(fontSize: 15.0, color: Colors.black),
                   ),
                   SizedBox(
                     height: 10.0,
@@ -102,8 +101,7 @@ class _DepartmentHomepageState extends State<DepartmentHomepage> {
               ),
             ),
             Container(
-              // UI/UX of student
-              height: 0.4 * kHeight,
+              height: 0.5 * kHeight,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -124,9 +122,11 @@ class _DepartmentHomepageState extends State<DepartmentHomepage> {
                                 children: [
                                   Icon(
                                     Icons.info,
+                                    color: kPrimaryColor,
                                     size: 45.0,
                                   ),
-                                  Text('About Us'),
+                                  Text('About Us',
+                                      style: TextStyle(color: textColor)),
                                 ],
                               ),
                             ),
@@ -139,14 +139,19 @@ class _DepartmentHomepageState extends State<DepartmentHomepage> {
                         child: Column(
                           children: [
                             TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                    context, "/department_homepage/facilities");
+                              },
                               child: Column(
                                 children: [
                                   Icon(
                                     Icons.article_rounded,
+                                    color: kPrimaryColor,
                                     size: 45.0,
                                   ),
-                                  Text('Facilities'),
+                                  Text('Facilities',
+                                      style: TextStyle(color: textColor)),
                                 ],
                               ),
                             ),
@@ -159,14 +164,44 @@ class _DepartmentHomepageState extends State<DepartmentHomepage> {
                         child: Column(
                           children: [
                             TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                    context, "/department_homepage/faculty");
+                              },
                               child: Column(
                                 children: [
                                   Icon(
                                     Icons.attribution_outlined,
+                                    color: kPrimaryColor,
                                     size: 45.0,
                                   ),
-                                  Text('Faculty'),
+                                  Text('Faculty',
+                                      style: TextStyle(color: textColor)),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 80.0,
+                        width: 150.0,
+                        child: Column(
+                          children: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pushNamed(context,
+                                    "/department_homepage/achievements");
+                              },
+                              child: Column(
+                                children: [
+                                  Icon(
+                                    Icons.emoji_events,
+                                    color: kPrimaryColor,
+                                    size: 45.0,
+                                  ),
+                                  Text('Achievements',
+                                      style: TextStyle(color: textColor)),
                                 ],
                               ),
                             ),
@@ -184,14 +219,19 @@ class _DepartmentHomepageState extends State<DepartmentHomepage> {
                         child: Column(
                           children: [
                             TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                    context, "/department_homepage/students");
+                              },
                               child: Column(
                                 children: [
                                   Icon(
                                     Icons.group,
+                                    color: kPrimaryColor,
                                     size: 45.0,
                                   ),
-                                  Text('Students'),
+                                  Text('Students',
+                                      style: TextStyle(color: textColor)),
                                 ],
                               ),
                             ),
@@ -212,9 +252,36 @@ class _DepartmentHomepageState extends State<DepartmentHomepage> {
                                 children: [
                                   Icon(
                                     Icons.volume_down_outlined,
+                                    color: kPrimaryColor,
                                     size: 45.0,
                                   ),
-                                  Text('Announcements'),
+                                  Text('Announcements',
+                                      style: TextStyle(color: textColor)),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 80.0,
+                        width: 150.0,
+                        child: Column(
+                          children: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                    context, "/department_homepage/alumni");
+                              },
+                              child: Column(
+                                children: [
+                                  Icon(
+                                    FontAwesomeIcons.graduationCap,
+                                    color: kPrimaryColor,
+                                    size: 45.0,
+                                  ),
+                                  Text('Alumni',
+                                      style: TextStyle(color: textColor)),
                                 ],
                               ),
                             ),
@@ -230,11 +297,11 @@ class _DepartmentHomepageState extends State<DepartmentHomepage> {
                               onPressed: () {},
                               child: Column(
                                 children: [
-                                  Icon(
-                                    Icons.app_registration,
-                                    size: 45.0,
-                                  ),
-                                  Text('Requests'),
+                                  // Icon(
+                                  //   Icons.app_registration,
+                                  //   size: 45.0,
+                                  // ),
+                                  Text(''),
                                 ],
                               ),
                             ),
