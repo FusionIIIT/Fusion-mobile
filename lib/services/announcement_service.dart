@@ -11,7 +11,7 @@ import 'package:path/path.dart';
 class AnnouncementService {
   final String baseUrl = "http://172.27.16.214";
   // ignore: non_constant_identifier_names
-  var token = "069ae2846544200f20f5886b94b54cbe8cfb776e";
+  var token = "134712e89ec9dce6dc7b6c2313a7c0b7d5a82128";
   var storage_service = locator<StorageService>();
 
   Future<List<Announcements>> fetchAnnouncements() async {
@@ -39,7 +39,7 @@ class AnnouncementService {
     String message,
     String? upload_announcement,
   ) async {
-    // var token = storage_service.userInDB?.token;
+    // var token = storage_service.userInDB?.token;     //this is the line for actual token
     var request =
         http.MultipartRequest('POST', Uri.parse(baseUrl + kAddNewAnnouncement));
     request.headers.addAll({
