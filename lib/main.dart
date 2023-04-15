@@ -46,6 +46,8 @@ import 'package:fusion/screens/Healthcenter/history.dart';
 import 'package:fusion/screens/Healthcenter/HealthCenter.dart';
 import 'package:fusion/services/service_locator.dart';
 
+import 'screens/PurchaseAndStore/indent_status_page.dart';
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   setupLocator();
@@ -134,7 +136,9 @@ class MyApp extends StatelessWidget {
           '/Purchase_and_store_homePage/filed_indents': (context) =>
               AllFiledIndents(),
           '/Purchase_and_store_homePage/indent_drafts': (context) =>
-              IdentDraftPage()
+              IdentDraftPage(),
+          '/Purchase_and_store_homePage/indent_status': (context) =>
+              IndentStatus()
         },
       ),
     );

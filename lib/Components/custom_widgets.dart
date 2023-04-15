@@ -64,8 +64,12 @@ Drawer customDrawer() => Drawer(
               pageMover: '/Purchase_and_store_homePage/filed_indents',
             ),
             ModulesCard(
-              cardLine: 'Drafts Indenst',
+              cardLine: 'Indent Drafts',
               pageMover: '/Purchase_and_store_homePage/indent_drafts',
+            ),
+            ModulesCard(
+              cardLine: 'Indent Status',
+              pageMover: '/Purchase_and_store_homePage/indent_status',
             ),
           ],
         ),
@@ -240,6 +244,39 @@ Widget draftCard(
             )
           ],
         )
+      ],
+    ),
+  );
+}
+
+Widget statusCard(
+  String indentName,
+  String uniqueId,
+  String expectedDelivery,
+) {
+  return Container(
+    height: _screenHeight / 15,
+    width: _screenWidth / 2,
+    margin: EdgeInsets.all(12),
+    padding: EdgeInsets.all(12),
+    decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: Colors.grey)),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'File id : ' + uniqueId,
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+        ),
+        Text(
+          'Ident Item : ' + indentName,
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        Text('Date : ' + expectedDelivery,
+            style: TextStyle(fontWeight: FontWeight.bold)),
+        Text('...\n...'),
       ],
     ),
   );
