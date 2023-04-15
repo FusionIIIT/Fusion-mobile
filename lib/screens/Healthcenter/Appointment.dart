@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:date_field/date_field.dart';
+import 'package:intl/intl.dart';
+
+import 'package:fusion/services/health_service.dart';
 
 class Appointment extends StatefulWidget {
   @override
@@ -10,6 +13,8 @@ class Appointment extends StatefulWidget {
 
 class _AppointmentState extends State<Appointment> {
   int _value = 1;
+  String date = '', drname = '', from_time = '', to_time = '', issues = '';
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -47,18 +52,18 @@ class _AppointmentState extends State<Appointment> {
                   value: 1,
                 ),
                 DropdownMenuItem(
-                  child: Text("Dr Tony Gupta"),
+                  child: Text("Dr G.S. Sandhu"),
                   value: 2,
                 ),
                 DropdownMenuItem(
-                  child: Text("Dr Hrishi Goyal"),
+                  child: Text("Dr AN Gupta"),
                   value: 3,
                 ),
                 DropdownMenuItem(child: Text("Dr Preeti Singh"), value: 4),
               ],
               onChanged: (value) {
                 setState(() {
-                  //_value = value;
+                  // _value = value;
                 });
               }),
           Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
@@ -73,10 +78,21 @@ class _AppointmentState extends State<Appointment> {
             ),
             mode: DateTimeFieldPickerMode.date,
             autovalidateMode: AutovalidateMode.always,
+
+            // Adding first date (for this we can't select past date)
+
+            // initialValue or controller.text can be null, empty or a DateTime string otherwise it will throw an error.
+            initialValue: DateTime.now(),
+            firstDate: DateTime.now(),
+
             validator: (e) =>
                 (e?.day ?? 0) == 1 ? 'Please not the first day' : null,
+
             onDateSelected: (DateTime value) {
-              print(value);
+              // print(value);
+              date = DateFormat('yyyy-MM-dd').format(value);
+              print(date);
+              // date =value;
             },
           ),
           Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
@@ -90,10 +106,15 @@ class _AppointmentState extends State<Appointment> {
             ),
             mode: DateTimeFieldPickerMode.time,
             autovalidateMode: AutovalidateMode.always,
+
+            //  For time validation -----------> Pradeep
+
             validator: (e) =>
                 (e?.day ?? 0) == 1 ? 'Please not the first day' : null,
             onDateSelected: (DateTime value) {
-              print(value);
+              // print(value);
+              from_time = DateFormat('HH:mm:ss').format(value);
+              // print(from_time);
             },
           ),
           Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
@@ -111,34 +132,58 @@ class _AppointmentState extends State<Appointment> {
                 (e?.day ?? 0) == 1 ? 'Please not the first day' : null,
             onDateSelected: (DateTime value) {
               print(value);
+              to_time = DateFormat('HH:mm:ss').format(value);
             },
           ),
           Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
           TextFormField(
-            cursorHeight: 30,
-            decoration: new InputDecoration(
-              labelText: "Issues/Symptoms",
-              fillColor: Colors.white,
-              border: new OutlineInputBorder(),
-              //fillColor: Colors.green
-            ),
-            style: new TextStyle(
-              fontFamily: "Poppins",
-            ),
-          ),
+              cursorHeight: 30,
+              decoration: new InputDecoration(
+                labelText: "Issues/Symptoms",
+                fillColor: Colors.white,
+                border: new OutlineInputBorder(),
+                //fillColor: Colors.green
+              ),
+              style: new TextStyle(
+                fontFamily: "Poppins",
+              ),
+              onChanged: (value) {
+                setState(() {
+                  issues = value;
+                });
+              }),
           Padding(
               padding: EdgeInsets.symmetric(
                   vertical: 5.0)), //FlatButton not found in healthcenter
+
           Center(
-            child: FlatButton(
-              child: Text(
-                'Submit',
-                style: TextStyle(fontSize: 15.0),
+            child: SizedBox(
+              width: 100,
+              height: 40,
+              child: TextButton(
+                child: Text(
+                  "Submit",
+                  style: TextStyle(fontSize: 20),
+                ),
+                onPressed: () {
+                  print(date);
+                  print(to_time);
+                  print(from_time);
+                  print(issues);
+                  print('Submitted Successfully!');
+                },
+                style: ButtonStyle(
+                  foregroundColor: MaterialStateProperty.all(Colors.red),
+                  backgroundColor: MaterialStateProperty.all(Colors.white),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    side: BorderSide(color: Colors.red),
+                  )),
+                ),
               ),
-              color: Colors.deepOrangeAccent,
-              onPressed: () {},
             ),
-          ),
+          )
         ],
       ),
     );

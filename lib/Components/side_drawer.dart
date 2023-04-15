@@ -138,6 +138,7 @@ class _SideDrawerState extends State<SideDrawer> {
                         ModulesPadding(
                           line: 'Health Center Module',
                           pageMover: '/health_center',
+                          isActive: true, // activating our module OS-2
                         ),
                         ModulesPadding(line: 'Leave Module'),
                         ModulesPadding(line: 'Placement Module'),
