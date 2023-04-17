@@ -110,7 +110,6 @@ class _ActiveBookingsState extends State<ActiveBookings> {
               ),
             ),
           ),
-          SizedBox(height: 50.0),
         ],
       ),
     );

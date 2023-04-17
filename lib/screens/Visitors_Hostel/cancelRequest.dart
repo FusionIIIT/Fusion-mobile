@@ -110,7 +110,6 @@ class _CancelledBookingsState extends State<CancelledBookings> {
               ),
             ),
           ),
-          SizedBox(height: 50.0),
         ],
       ),
     );

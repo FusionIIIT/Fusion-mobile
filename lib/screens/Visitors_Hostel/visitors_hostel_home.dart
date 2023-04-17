@@ -7,6 +7,7 @@ import 'package:fusion/screens/Visitors_Hostel/cancelRequest.dart';
 import 'package:fusion/screens/Visitors_Hostel/completedBookings.dart';
 import 'package:fusion/screens/Visitors_Hostel/place_request.dart';
 import 'package:fusion/screens/Visitors_Hostel/viewBookings.dart';
+import 'package:fusion/screens/Visitors_Hostel/visitors_hostel_home_admin.dart';
 
 class VisitorHostel extends StatefulWidget {
   @override
@@ -216,7 +217,7 @@ class _VisitorHostelState extends State<VisitorHostel> {
                                 builder: (context) => PlaceRequest()),
                           );
                         },
-                        color: Color.fromARGB(255, 243, 33, 33),
+                        color: Color.fromARGB(255, 243, 108, 53),
                         textColor: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.only(
@@ -227,6 +228,33 @@ class _VisitorHostelState extends State<VisitorHostel> {
                           ),
                         ),
                         child: Text('Place Request',
+                            style: TextStyle(fontSize: 18.0))),
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    child: MaterialButton(
+                        height: 60.0,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => VisitorHostelA()),
+                          );
+                        },
+                        color: Colors.white,
+                        textColor: Colors.black,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(5.0),
+                            topRight: Radius.circular(5.0),
+                            bottomLeft: Radius.circular(5.0),
+                            bottomRight: Radius.circular(5.0),
+                          ),
+                        ),
+                        child: Text('Incharge/Caretaker Login',
                             style: TextStyle(fontSize: 18.0))),
                   ),
                 ],
