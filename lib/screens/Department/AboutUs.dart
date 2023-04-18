@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
 import 'package:fusion/services/service_locator.dart';
@@ -12,6 +13,7 @@ import 'package:fusion/models/profile.dart';
 import 'package:http/http.dart';
 import 'package:csv/csv.dart';
 import 'package:flutter/foundation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AboutUs extends StatefulWidget {
   @override
@@ -19,41 +21,44 @@ class AboutUs extends StatefulWidget {
 }
 
 class _AboutUsState extends State<AboutUs> {
-  late ProfileService profileService;
-  late String Department = "";
-  late ProfileData data;
-  bool _loading = true;
-  List<List<dynamic>> StaticData = [];
-
+  String depart = 'CSE';
+  String tab = 'about';
+  String htmlData = '';
+  String fieldData = '';
+  bool edit = false;
+  late String path = '';
+  List<String> Departments = ["CSE", "ME", "SM", "ECE", "DESIGN"];
   @override
   void initState() {
     super.initState();
-    profileService = ProfileService();
   }
 
-  // ignore: non_constant_identifier_names
+  void changeData() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString(tab + depart, fieldData);
+      htmlData = fieldData;
+      // print(fieldData);
+      // print(htmlData);
+    } catch (e) {
+      print(e);
+    }
+  }
 
   Future<void> getData() async {
     try {
-      Response response = await profileService.getProfile();
-      data = ProfileData.fromJson(jsonDecode(response.body));
-      Department = data.profile!['department']!['name'];
-      if (Department == 'CSE') {
-        final staticdata =
-            await rootBundle.loadString('db/Department_AboutUs_cse.csv');
-        StaticData = const CsvToListConverter().convert(staticdata);
-      } else if (Department == 'ME') {
-        final staticdata =
-            await rootBundle.loadString('db/Department_AboutUs_me.csv');
-        StaticData = const CsvToListConverter().convert(staticdata);
-      } else if (Department == 'SM') {
-        final staticdata =
-            await rootBundle.loadString('db/Department_AboutUs_sm.csv');
-        StaticData = const CsvToListConverter().convert(staticdata);
-      } else if (Department == 'ECE') {
-        final staticdata =
-            await rootBundle.loadString('db/Department_AboutUs_ece.csv');
-        StaticData = const CsvToListConverter().convert(staticdata);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      if (prefs.containsKey(tab + depart)) {
+        final Data = prefs.getString(tab + depart);
+        htmlData = Data!;
+        fieldData = htmlData;
+      } else {
+        final Data = await rootBundle
+            .loadString('db/Dep/' + tab + '/' + depart + '.html');
+        prefs.setString(tab + depart, Data);
+        // print(depart);
+        htmlData = Data;
+        fieldData = htmlData;
       }
     } catch (e) {
       print(e);
@@ -62,52 +67,198 @@ class _AboutUsState extends State<AboutUs> {
 
   @override
   Widget build(BuildContext context) {
+    double kHeight = MediaQuery.of(context).size.height;
+    double kWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: DefaultAppBar().buildAppBar(),
       drawer: SideDrawer(),
-      body: FutureBuilder(
-          future: getData(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              return Center(child: Text('Error loading data'));
-            } else {
-              return ListView(children: [
-                Column(
-                  children: [
-                    Text(
-                      "  Welcome to " + Department + " Department",
-                      style: TextStyle(
-                        fontSize: 35,
+      body: !edit
+          ? FutureBuilder(
+              future: getData(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error loading data'));
+                } else {
+                  return Column(
+                    children: [
+                      Row(
+                        children: [
+                          for (int i = 0; i < Departments.length; i++) ...[
+                            Column(
+                              children: [
+                                Container(
+                                  height: kHeight * 0.05,
+                                  width: kWidth * 0.18,
+                                  margin: EdgeInsets.all(kWidth * 0.01),
+                                  child: ElevatedButton(
+                                    style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all<Color>(
+                                                Colors.black)),
+                                    child: Text(
+                                      Departments[i],
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: kWidth * 0.025),
+                                    ),
+                                    onPressed: () => {
+                                      // print(Departments[i]),
+                                      setState(() {
+                                        depart = Departments[i];
+                                        edit = false;
+                                        getData();
+                                      })
+                                    },
+                                  ),
+                                )
+                              ],
+                            )
+                          ]
+                        ],
                       ),
-                      textAlign: TextAlign.center,
-                    ),
-                    Wrap(children: [
-                      StaticData.isEmpty
-                          ? Text("Fetching Data")
-                          : Column(children: [
-                              for (int i = 0; i < StaticData.length; i++) ...[
-                                Padding(
-                                    padding:
-                                        EdgeInsets.fromLTRB(10, 30, 10, 10),
-                                    child: Text(StaticData[i][0],
-                                        style: TextStyle(
-                                            fontSize: 30,
-                                            fontWeight: FontWeight.bold))),
-                                Padding(
-                                    padding:
-                                        EdgeInsets.fromLTRB(20, 10, 20, 10),
-                                    child: Text(StaticData[i][1],
-                                        style: TextStyle(fontSize: 20))),
-                              ]
-                            ])
-                    ])
-                  ],
-                ),
-              ]);
-            }
-          }),
+                      if (!edit) ...[
+                        Flexible(
+                            flex: 1,
+                            child: SingleChildScrollView(
+                                scrollDirection: Axis.vertical,
+                                child: Container(
+                                  child: Flexible(
+                                      child: Column(
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsets.all(kWidth * 0.05),
+                                        child: HtmlWidget(
+                                            "<h1> " +
+                                                depart +
+                                                " Department </h1>" +
+                                                htmlData,
+                                            textStyle: TextStyle(fontSize: 20)),
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.all(kHeight * 0.05),
+                                        child: SizedBox(
+                                          height: kHeight * 0.1,
+                                          width: kWidth * 0.4,
+                                          child: ElevatedButton(
+                                              style: ButtonStyle(
+                                                backgroundColor:
+                                                    MaterialStateProperty.all<
+                                                        Color>(Colors.green),
+                                              ),
+                                              onPressed: (() => {
+                                                    // print(htmlData),
+                                                    // updateHtmlFile(htmlData),
+                                                    setState(() {
+                                                      print("edit mode on");
+                                                      edit = true;
+                                                    })
+                                                  }),
+                                              child: Text(
+                                                "Edit",
+                                                style: TextStyle(fontSize: 50),
+                                              )),
+                                        ),
+                                      )
+                                    ],
+                                  )),
+                                )))
+                      ] else ...[
+                        SingleChildScrollView(
+                            scrollDirection: Axis.vertical,
+                            child: Container(
+                              margin: EdgeInsets.all(kWidth * 0.035),
+                              child: Flexible(
+                                  fit: FlexFit.loose,
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        child: TextFormField(
+                                            maxLines: 20,
+                                            style: TextStyle(fontSize: 20),
+                                            initialValue: htmlData,
+                                            onChanged: (value) {
+                                              print("value changed");
+                                              fieldData = value;
+                                            }),
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.all(kWidth * 0.030),
+                                        child: SizedBox(
+                                          height: kHeight * 0.1,
+                                          width: kWidth * 0.4,
+                                          child: ElevatedButton(
+                                              style: ButtonStyle(
+                                                backgroundColor:
+                                                    MaterialStateProperty.all<
+                                                        Color>(Colors.green),
+                                              ),
+                                              onPressed: (() => {
+                                                    print("pressed done"),
+                                                    changeData(),
+                                                    setState(() {
+                                                      edit = false;
+                                                    })
+                                                  }),
+                                              child: Text("Done",
+                                                  style:
+                                                      TextStyle(fontSize: 50))),
+                                        ),
+                                      )
+                                    ],
+                                  )),
+                            ))
+                      ]
+                    ],
+                  );
+                }
+              })
+          : SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Container(
+                margin: EdgeInsets.all(kWidth * 0.035),
+                child: Flexible(
+                    fit: FlexFit.loose,
+                    child: Column(
+                      children: [
+                        Container(
+                          child: TextFormField(
+                              maxLines: 20,
+                              style: TextStyle(fontSize: 20),
+                              initialValue: htmlData,
+                              onChanged: (value) {
+                                print("value changed");
+                                setState(() {
+                                  fieldData = value;
+                                });
+                              }),
+                        ),
+                        Container(
+                          margin: EdgeInsets.all(kWidth * 0.030),
+                          child: SizedBox(
+                            height: kHeight * 0.1,
+                            width: kWidth * 0.4,
+                            child: ElevatedButton(
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.green),
+                                ),
+                                onPressed: (() => {
+                                      print("pressed done"),
+                                      changeData(),
+                                      setState(() {
+                                        edit = false;
+                                      })
+                                    }),
+                                child: Text("Done",
+                                    style: TextStyle(fontSize: 50))),
+                          ),
+                        )
+                      ],
+                    )),
+              )),
     );
   }
 }

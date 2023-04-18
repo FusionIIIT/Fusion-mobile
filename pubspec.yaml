@@ -73,6 +73,9 @@ flutter:
     - assets/unknown.jpg
     - assets/profile_pic.png
     - db/
+    - db/Dep/achievements/
+    - db/Dep/about/
+    - db/Dep/facilities/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -44,6 +44,7 @@ class _PostAnnouncementState extends State<PostAnnouncement> {
       appBar: DefaultAppBar().buildAppBar(),
       drawer: SideDrawer(),
       body: SingleChildScrollView(
+
         child: Padding(
           padding: EdgeInsets.all(16.0),
           child: Column(
