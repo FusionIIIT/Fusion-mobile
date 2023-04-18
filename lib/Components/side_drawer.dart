@@ -133,7 +133,9 @@ class _SideDrawerState extends State<SideDrawer> {
                         ModulesPadding(line: 'Awards & Scholarship Module'),
                         ModulesPadding(
                             line: 'Complaint Module', pageMover: '/complaint'),
-                        ModulesPadding(line: 'Central Mess Module'),
+                        ModulesPadding(line: 'Central Mess Module',
+                        isActive : true,
+                        pageMover: '/centralmess_home',),
                         ModulesPadding(line: 'Feeds Module'),
                         ModulesPadding(
                           line: 'Health Center Module',
