@@ -8,7 +8,8 @@ class DefaultAppBar {
       backgroundColor: kPrimaryColor,
       title: Text(
         "Dashboard",
-        style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+        style: TextStyle(
+            color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
       ),
       actions: <Widget>[
         Padding(

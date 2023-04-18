@@ -16,6 +16,7 @@ class ProfileService {
       Map<String, String> headers = {
         'Authorization': 'Token ' + (storage_service.userInDB?.token ?? "")
       };
+      print(headers);
       print("fetching profile");
       var client = http.Client();
       http.Response response = await client.get(
