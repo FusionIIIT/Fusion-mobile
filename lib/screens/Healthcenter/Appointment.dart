@@ -124,9 +124,9 @@ class _AppointmentState extends State<Appointment> {
               ),
             ),
             Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
-            Center(child:FlatButton(
+            Center(child:TextButton(
               child: Text('Submit', style: TextStyle(fontSize: 15.0),),
-              color: Colors.deepOrangeAccent,
+      
               onPressed: () {},
             ),
             ),

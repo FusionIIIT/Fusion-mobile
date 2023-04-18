@@ -30,9 +30,9 @@ class _FeedBackState extends State<FeedBack> {
             fontFamily: "Poppins",
           ),
         ),
-        Center(child:FlatButton(
+        Center(child:TextButton(
           child: Text('Submit', style: TextStyle(fontSize: 15.0),),
-          color: Colors.deepOrangeAccent,
+     
           onPressed: () {},
         ),
         ),
