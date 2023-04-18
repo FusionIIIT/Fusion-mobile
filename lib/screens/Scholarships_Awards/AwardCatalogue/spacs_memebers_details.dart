@@ -4,12 +4,9 @@ import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/models/profile.dart';
 import 'package:fusion/services/profile_service.dart';
 import 'package:http/http.dart';
-// import 'SpacsMembersDetailsHistory/complain_history.dart';
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/side_drawer.dart';
 import 'dart:ui';
-// import 'LodgeSpacsMembersDetails/lodge_SpacsMembersDetails.dart';
-// import 'Feedback/feedback.dart';
 import 'package:provider/provider.dart';
 
 class SpacsMembersDetails extends StatefulWidget {
@@ -70,7 +67,7 @@ class _SpacsMembersDetailsState extends State<SpacsMembersDetails> {
                 physics: ClampingScrollPhysics(),
                 children: [
                   Card(
-                    elevation: 2.0,
+                    elevation: 10.0,
                     margin: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                     shadowColor: Colors.black,
                     child: Column(
@@ -88,23 +85,20 @@ class _SpacsMembersDetailsState extends State<SpacsMembersDetails> {
                         ),
                         SizedBox(height: 10),
                         Text(
-                          data.user != null
-                              ? (data.user!['first_name'] +
-                                  ' ' +
-                                  data.user!['last_name'])
-                              : "User does not exist on data",
-                          style: TextStyle(color: Colors.black, fontSize: 20),
+                          "Dr. Atul Gupta",
+                          style: TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
                         ),
                         SizedBox(height: 10),
                         Text(
-                          data.profile != null
-                              ? (data.profile!['department']!['name'] +
-                                  '  ' +
-                                  data.profile!['user_type'])
-                              : "No Profile",
-                          style: TextStyle(color: Colors.black, fontSize: 15),
+                          "CSE Faculty",
+                          style: TextStyle(color: Colors.black, fontSize: 16),
                         ),
                         SizedBox(height: 10),
+                        Text(
+                          "SPACS Convener",
+                          style: TextStyle(color: Colors.black, fontSize: 15),
+                        ),
+                        SizedBox(height: 20),
                       ],
                     ),
                   ),

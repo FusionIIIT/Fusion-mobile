@@ -2,11 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-// import 'package:fusion/models/complaints.dart';
 import 'package:fusion/screens/Scholarships_Awards/AwardCatalogue/catalogue.dart';
 import 'package:fusion/screens/Scholarships_Awards/AwardCatalogue/previous_winners.dart';
 import 'package:fusion/screens/Scholarships_Awards/AwardCatalogue/spacs_memebers_details.dart';
-// import 'package:fusion/services/complaint_service.dart';
 import 'package:http/http.dart';
 
 class BrowseAwardCatalogue extends StatefulWidget {
@@ -16,10 +14,6 @@ class BrowseAwardCatalogue extends StatefulWidget {
 
 class _BrowseAwardCatalogueState extends State<BrowseAwardCatalogue> {
   bool _loading1 = true;
-  //integrating_api
-  late StreamController _complaintController;
-  // late ComplaintService complaintService;
-  // late ComplaintDataUserStudent data;
 
   int step = 0;
 
@@ -27,31 +21,8 @@ class _BrowseAwardCatalogueState extends State<BrowseAwardCatalogue> {
   void initState() {
     super.initState();
 
-    _complaintController = StreamController();
-    // complaintService = ComplaintService();
-    // getData();
   }
 
-  // getData() async {
-  //   //print('token-'+widget.token!);
-  //   try {
-  //     Response response = await complaintService.getComplaint();
-  //     setState(() {
-  //       data = ComplaintDataUserStudent.fromJson(jsonDecode(response.body));
-  //       print(data.student_complain);
-  //       //print(data);
-  //       _loading1 = false;
-  //     });
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
-
-  // loadData() async {
-  //   getData().then((res) {
-  //     _complaintController.add(res);
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {

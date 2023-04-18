@@ -2,31 +2,40 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:fusion/screens/Scholarships_Awards/ApplyForAwards/Convocation.dart';
-import 'package:fusion/screens/Scholarships_Awards/ApplyForAwards/MCMScholarship.dart';
-import 'package:fusion/screens/Scholarships_Awards/ApplyForAwards/ViewApplications.dart';
+import 'package:fusion/screens/Scholarships_Awards/AwardCatalogue/Faculty/invite_app.dart';
+import 'package:fusion/screens/Scholarships_Awards/AwardCatalogue/Faculty/recent_app.dart';
 import 'package:fusion/screens/Scholarships_Awards/AwardCatalogue/catalogue.dart';
 import 'package:fusion/screens/Scholarships_Awards/AwardCatalogue/previous_winners.dart';
 import 'package:fusion/screens/Scholarships_Awards/AwardCatalogue/spacs_memebers_details.dart';
 import 'package:http/http.dart';
 
-class ApplyForAwards extends StatefulWidget {
+class InviteApplication extends StatefulWidget {
   @override
-  _ApplyForAwardsState createState() => _ApplyForAwardsState();
+  _InviteApplicationState createState() =>
+      _InviteApplicationState();
 }
 
-class _ApplyForAwardsState extends State<ApplyForAwards> {
+class _InviteApplicationState
+    extends State<InviteApplication> {
   bool _loading1 = true;
+
+  int step = 0;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
+      //Default TabController for tab scrollbar with number of elements equal to 4
       length: 3,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.black,
           title: Text(
-            "Apply For Awards",
+            "Invite Applications",
             style: TextStyle(color: Colors.white),
           ),
           actions: <Widget>[
@@ -52,21 +61,14 @@ class _ApplyForAwardsState extends State<ApplyForAwards> {
               Tab(
                 child: Container(
                   child: Text(
-                    'MCM Scholarship',
+                    'Invite Applications',
                   ),
                 ),
               ),
               Tab(
                 child: Container(
                   child: Text(
-                    'Convocation Medals',
-                  ),
-                ),
-              ),
-              Tab(
-                child: Container(
-                  child: Text(
-                    'View Applications Status',
+                    'Recent Invite Applications',
                   ),
                 ),
               ),
@@ -76,9 +78,8 @@ class _ApplyForAwardsState extends State<ApplyForAwards> {
         //TabBarView contains all the children to be called when tapped.
         body: TabBarView(
           children: [
-            MCMScholarship(),
-            Convocation(),
-            ViewApplications(),
+            InviteApplications(),
+            RecentInviteApplications(),
           ],
         ),
       ),

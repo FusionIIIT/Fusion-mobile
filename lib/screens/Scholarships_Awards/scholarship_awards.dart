@@ -4,12 +4,9 @@ import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/models/profile.dart';
 import 'package:fusion/services/profile_service.dart';
 import 'package:http/http.dart';
-// import 'ScholarshipAwardsHistory/complain_history.dart';
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/side_drawer.dart';
 import 'dart:ui';
-// import 'LodgeScholarshipAwards/lodge_ScholarshipAwards.dart';
-// import 'Feedback/feedback.dart';
 import 'package:provider/provider.dart';
 
 class ScholarshipAwards extends StatefulWidget {
@@ -19,6 +16,28 @@ class ScholarshipAwards extends StatefulWidget {
   _ScholarshipAwardsState createState() => _ScholarshipAwardsState();
 }
 
+main() async {
+  late ProfileService profileService;
+  late ProfileData data;
+  bool _loading = true;
+  late String studentType;
+  profileService = ProfileService();
+  try {
+    Response response = await profileService.getProfile();
+
+    data = ProfileData.fromJson(jsonDecode(response.body));
+
+    print(data.user!['username']);
+    _loading = false;
+    studentType = data.profile!['department']!['name'] +
+        '  ' +
+        data.profile!['user_type'];
+    print(studentType);
+  } catch (e) {
+    print(e);
+  }
+}
+
 class _ScholarshipAwardsState extends State<ScholarshipAwards> {
   bool _loading1 = true;
   bool _loading2 = false;
@@ -26,6 +45,7 @@ class _ScholarshipAwardsState extends State<ScholarshipAwards> {
   bool _loading = true;
 
   late StreamController _profileController;
+  late String studentType;
   late ProfileService profileService;
   late ProfileData data;
   @override
@@ -44,9 +64,14 @@ class _ScholarshipAwardsState extends State<ScholarshipAwards> {
       Response response = await profileService.getProfile();
       setState(() {
         data = ProfileData.fromJson(jsonDecode(response.body));
+
         print(data.user!['username']);
         _loading = false;
       });
+      studentType = data.profile!['department']!['name'] +
+          '  ' +
+          data.profile!['user_type'];
+      // print(studentType);
     } catch (e) {
       print(e);
     }
@@ -72,11 +97,12 @@ class _ScholarshipAwardsState extends State<ScholarshipAwards> {
                 physics: ClampingScrollPhysics(),
                 children: [
                   Card(
-                    elevation: 2.0,
+                    elevation: 10.0,
                     margin: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                     shadowColor: Colors.black,
                     child: Column(
                       children: [
+                        
                         Container(
                           margin: EdgeInsets.only(top: 20),
                           width: 170,
@@ -88,14 +114,14 @@ class _ScholarshipAwardsState extends State<ScholarshipAwards> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: 16),
                         Text(
                           data.user != null
                               ? (data.user!['first_name'] +
                                   ' ' +
                                   data.user!['last_name'])
                               : "User does not exist on data",
-                          style: TextStyle(color: Colors.black, fontSize: 20),
+                          style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
                         ),
                         SizedBox(height: 10),
                         Text(
@@ -104,141 +130,107 @@ class _ScholarshipAwardsState extends State<ScholarshipAwards> {
                                   '  ' +
                                   data.profile!['user_type'])
                               : "No Profile",
-                          style: TextStyle(color: Colors.black, fontSize: 15),
+                          style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w500),
                         ),
                         SizedBox(height: 10),
                       ],
                     ),
                   ),
                   Card(
-                    elevation: 2.0,
-                    margin: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                    elevation: 6.0,
+                    margin: EdgeInsets.symmetric(horizontal: 40, vertical: 40),
                     shadowColor: Colors.black,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Padding(padding: const EdgeInsets.all(10.0),),
                         TextButton(
+                          style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.orange)),
                           onPressed: () {
                             setState(() {
                               _loading1 = true;
                               _loading2 = false;
                               _loading3 = false;
-                              Navigator.pushNamed(
-                                  context, '/scholarship_awards/browse_award_catalogue',
-                                  arguments: data.user != null
-                                      ? data.user!['username']
-                                      : "null");
+                              if (data.profile!['user_type'] == 'faculty') {
+                                Navigator.pushNamed(context,
+                                    '/scholarship_awards/manage_award_catalogue_fac',
+                                    arguments: data.user != null
+                                        ? data.user!['username']
+                                        : "null");
+                              } else {
+                                Navigator.pushNamed(context,
+                                    '/scholarship_awards/browse_award_catalogue',
+                                    arguments: data.user != null
+                                        ? data.user!['username']
+                                        : "null");
+                              }
                             });
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Browse Award Catalogue',
+                                data.profile!['user_type'] == 'faculty'
+                                    ? "Manage Catalogue"
+                                    : "Browse Award Catalogue",
                                 style: TextStyle(
                                   fontWeight: FontWeight.w800,
                                   fontSize: 18,
-                                  color:
-                                      _loading1 ? Colors.black : Colors.black26,
+                                  color: Colors.white
                                 ),
                               ),
                               Icon(
                                 Icons.arrow_forward,
-                                color: _loading1
-                                    ? Colors.deepOrangeAccent
-                                    : Colors.white,
+                                color: Colors.white,
                               )
                             ],
                           ),
                         ),
                         SizedBox(height: 10),
                         TextButton(
+                          style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.orange)),
                           onPressed: () {
                             setState(() {
                               _loading1 = false;
                               _loading2 = true;
                               _loading3 = false;
-                              Navigator.pushNamed(
-                                context,
-                                '/scholarship_awards/apply_for_awards',
-                              );
+                              if (data.profile!['user_type'] == 'faculty') {
+                                Navigator.pushNamed(
+                                  context,
+                                  '/scholarship_awards/invite_application',
+                                );
+                              } else {
+                                Navigator.pushNamed(
+                                  context,
+                                  '/scholarship_awards/apply_for_awards',
+                                );
+                              }
                             });
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Apply For Awards',
+                                data.profile!['user_type'] == 'faculty'
+                                    ? "Invite Application"
+                                    : "Apply For Awards",
                                 style: TextStyle(
                                   fontWeight: FontWeight.w800,
                                   fontSize: 18,
-                                  color:
-                                      _loading2 ? Colors.black : Colors.black26,
+                                  color: Color.fromARGB(255, 255, 255, 255),
                                 ),
                               ),
                               Icon(
                                 Icons.arrow_forward,
-                                color: _loading2
-                                    ? Colors.deepOrangeAccent
-                                    : Colors.white,
+                                color: Colors.white,
                               )
                             ],
                           ),
                         ),
                         SizedBox(height: 10),
-                        // TextButton(
-                        //   onPressed: () {
-                        //     setState(() {
-                        //       _loading1 = false;
-                        //       _loading2 = false;
-                        //       _loading3 = true;
-                        //       Navigator.pushNamed(
-                        //         context,
-                        //         '/ScholarshipAwards/feedback',
-                        //       );
-                        //     });
-                        //   },
-                        //   child: Row(
-                        //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //     children: [
-                        //       Text(
-                        //         'Feedback',
-                        //         style: TextStyle(
-                        //           fontWeight: FontWeight.w800,
-                        //           fontSize: 18,
-                        //           color:
-                        //               _loading3 ? Colors.black : Colors.black26,
-                        //         ),
-                        //       ),
-                        //       Icon(
-                        //         Icons.arrow_forward,
-                        //         color: _loading3
-                        //             ? Colors.deepOrangeAccent
-                        //             : Colors.white,
-                        //       )
-                        //     ],
-                        //   ),
-                        // ),
-                        // SizedBox(height: 10),
                       ],
                     ),
                   ),
-                  // _loading1
-                  //     ? LodgeScholarshipAwards(
-                  //         data.user != null ? data.user!['username'] : "null")
-                  //     : SizedBox(
-                  //         height: 2,
-                  //       ),
-                  // _loading2
-                  //     ? ComplainHistory()
-                  //     : SizedBox(
-                  //         height: 5,
-                  //       ),
-                  // _loading3
-                  //     ? FeedBack()
-                  //     : SizedBox(
-                  //         height: 2,
-                  //       ),
                 ],
               ),
             ),
