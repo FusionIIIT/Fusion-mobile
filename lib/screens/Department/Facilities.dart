@@ -21,9 +21,10 @@ class Facilities extends StatefulWidget {
 
 class _FacilitiesState extends State<Facilities> {
   String depart = 'CSE';
-  String tab = 'facilites';
+  String tab = 'facilities';
   String htmlData = '';
   String fieldData = '';
+  late String user_type = "";
   bool edit = false;
   late String path = '';
   List<String> Departments = ["CSE", "ME", "SM", "ECE", "DESIGN"];
