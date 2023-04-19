@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:fusion/screens/Academic/Add_Drop_Courses/add_drop_courses.dart';
 import 'package:fusion/screens/Complaint/ComplaintHistory/complain_history.dart';
+import 'package:fusion/screens/Complaint/ComplaintHistory/get_complaint_by_id.dart';
 import 'package:fusion/screens/Complaint/Feedback/feedback.dart';
 import 'package:fusion/screens/Complaint/LodgeComplaint/lodge_complaint.dart';
 import 'package:fusion/screens/Establishment/establishment_home_page.dart';
@@ -60,7 +61,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MediaQueryData windowData =
-    MediaQueryData.fromWindow(WidgetsBinding.instance.window);
+        MediaQueryData.fromWindow(WidgetsBinding.instance.window);
     windowData = windowData.copyWith(
       textScaleFactor: 1,
     );
@@ -71,10 +72,10 @@ class MyApp extends StatelessWidget {
         title: 'Fusion',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-            // primarySwatch: Colors.blueGrey,
+          // primarySwatch: Colors.blueGrey,
           // colorSchemeSeed: Color(0xFF2085D0),
           colorSchemeSeed: Color(0xFFF36C35),
-            fontFamily: 'Nunito',
+          fontFamily: 'Nunito',
           useMaterial3: true,
         ),
         initialRoute: '/landing',
@@ -119,10 +120,13 @@ class MyApp extends StatelessWidget {
           '/complaint/lodge_complaint': (context) => LodgeComplaint(
               ModalRoute.of(context)!.settings.arguments.toString()),
           '/complaint/complaint_history': (context) => ComplainHistory(),
-          '/complaint/feedback': (context) => ComplaintFeedBack(),
+          // '/complaint/feedback': (context) => ComplaintFeedBack(),
           '/profile': (context) => Profile(),
           '/health_center': (context) => HealthCenterMod(
               ModalRoute.of(context)!.settings.arguments.toString()),
+          '/complaint/fulldetail': (context) => GetComplaintByID(
+              ModalRoute.of(context)!.settings.arguments
+                  as Map<String, dynamic>),
           '/health_center/healthcenter': (context) => HealthCenter(),
           '/health_center/feedback': (context) => FeedBack(),
           '/health_center/viewschedule': (context) => ViewSchedule(),

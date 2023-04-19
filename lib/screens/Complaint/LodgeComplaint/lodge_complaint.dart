@@ -5,14 +5,24 @@ import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
 import 'package:intl/intl.dart';
 
-const kTextFieldInputDecoration = InputDecoration(
-  filled: true,
-  fillColor: Colors.white,
-  contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-  border: OutlineInputBorder(
-    borderRadius: BorderRadius.all(Radius.circular(32)),
-  ),
-);
+import '../../../Components/utils.dart';
+
+kTextFieldInputDecoration(String hint) {
+  return InputDecoration(
+    hintText: hint,
+    filled: true,
+    fillColor: Colors.white,
+    contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+    focusedBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Utils().primarycolor),
+      borderRadius: BorderRadius.all(Radius.circular(32)),
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Utils().primarycolor),
+      borderRadius: BorderRadius.all(Radius.circular(32)),
+    ),
+  );
+}
 
 class LodgeComplaint extends StatefulWidget {
   final String? complainerRollNo;
@@ -22,7 +32,9 @@ class LodgeComplaint extends StatefulWidget {
 }
 
 class _LodgeComplaintState extends State<LodgeComplaint> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  var sl = TextEditingController();
+  var det = new TextEditingController();
+  Utils utils = Utils();
   String? complaint_type;
   List complaintTypeItem = [
     'Electricity',
@@ -48,12 +60,12 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
   var service = locator<StorageService>();
   @override
   Widget build(BuildContext context) {
-    DateTime? complaint_finish = DateTime.now();
+    DateTime? complaintFinish = DateTime.now();
     DateFormat formatter = DateFormat('yyyy-MM-dd');
-    String formattedDate = formatter.format(complaint_finish);
+    String formattedDate = formatter.format(complaintFinish);
     print(formattedDate);
-    String? specific_location;
-    String? details;
+    String? specificLocation = "";
+    String? details = "";
     String? status = "0";
     String? remarks = "On-Hold";
     String? flag = "0";
@@ -61,14 +73,22 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
     String? feedback = "";
     String? comment = "None";
     String? complainer = widget.complainerRollNo;
-    String? worker_id = "";
+    String? workerId = "";
+    renew() {
+      setState(() {
+        sl.clear();
+        det.clear();
+      });
+    }
 
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Colors.black,
+          backgroundColor: utils.primarybackgroundcolor,
+          leading: utils.leadingPopIconsButton(utils.primarycolor, context),
           title: Text(
             "Lodge Complaint",
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(
+                color: utils.primarycolor, fontWeight: FontWeight.bold),
           )),
       body: SingleChildScrollView(
         child: Container(
@@ -79,9 +99,17 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
               Text(
                 'Add a new Complaint',
                 style: TextStyle(
-                  fontWeight: FontWeight.w800,
-                  fontSize: 15,
-                ),
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20,
+                    color: Colors.black.withOpacity(0.6)),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Container(
+                height: 1,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(color: Colors.black.withOpacity(0.6)),
               ),
               SizedBox(
                 height: 30,
@@ -90,7 +118,7 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
                 'Complaint Type *',
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
-                  fontSize: 15,
+                  fontSize: 18,
                 ),
               ),
               Padding(
@@ -100,12 +128,12 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
                   padding: EdgeInsets.symmetric(horizontal: 16),
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color: Colors.grey,
+                      color: utils.primarycolor,
                     ),
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: DropdownButton(
-                    hint: Text('Select Item'),
+                    hint: Text('Select Complaint Type'),
                     dropdownColor: Colors.grey[200],
                     icon: Icon(Icons.arrow_drop_down),
                     isExpanded: true,
@@ -131,13 +159,13 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
                 ),
               ),
               SizedBox(
-                height: 30,
+                height: 15,
               ),
               Text(
                 'Location *',
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
-                  fontSize: 15,
+                  fontSize: 18,
                 ),
               ),
               Padding(
@@ -147,12 +175,12 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
                   padding: EdgeInsets.symmetric(horizontal: 16),
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color: Colors.grey,
+                      color: utils.primarycolor,
                     ),
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: DropdownButton(
-                    hint: Text('Select Item'),
+                    hint: Text('Select Location'),
                     dropdownColor: Colors.grey[200],
                     icon: Icon(Icons.arrow_drop_down),
                     isExpanded: true,
@@ -176,13 +204,13 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
                 ),
               ),
               SizedBox(
-                height: 20,
+                height: 15,
               ),
               Text(
                 'Specific Location *',
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
-                  fontSize: 15,
+                  fontSize: 18,
                 ),
               ),
               SizedBox(
@@ -190,17 +218,20 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
               ),
               TextFormField(
                 autofocus: false,
+                controller: sl,
                 style: TextStyle(
                   color: Colors.black,
                 ),
-                decoration: kTextFieldInputDecoration,
+                decoration:
+                    kTextFieldInputDecoration("Room Number, Floor, Block etc."),
                 onChanged: (input) {
-                  specific_location = input;
+                  specificLocation = input;
                 },
                 validator: (String? value) {
                   if (value!.isEmpty) {
                     return 'Please enter specific_location';
                   }
+                  return null;
                 },
               ),
               SizedBox(
@@ -210,7 +241,7 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
                 'Complaint Details *',
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
-                  fontSize: 15,
+                  fontSize: 18,
                 ),
               ),
               SizedBox(
@@ -218,10 +249,12 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
               ),
               TextFormField(
                 autofocus: false,
+                controller: det,
                 style: TextStyle(
                   color: Colors.black,
                 ),
-                decoration: kTextFieldInputDecoration,
+                decoration:
+                    kTextFieldInputDecoration("What is your Complaint?"),
                 onChanged: (input) {
                   details = input;
                 },
@@ -229,29 +262,41 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
                   if (value!.isEmpty) {
                     return 'Please enter details';
                   }
+                  return null;
                 },
               ),
               SizedBox(
-                height: 30,
+                height: 15,
+              ),
+              Text(
+                "*Complaint will be registered with your User Id: ${widget.complainerRollNo}",
+                style: TextStyle(
+                    fontSize: 12.4,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black.withOpacity(0.7)),
+              ),
+              SizedBox(
+                height: 20,
               ),
               Center(
                 child: ElevatedButton(
                   onPressed: () async {
+                    print("working");
                     ComplaintService auth = ComplaintService();
                     bool lodge = await auth.lodgeComplaint(
                         formattedDate,
                         complaint_type!,
                         location!,
-                        specific_location,
-                        details!,
+                        sl.text,
+                        det.text,
                         status,
                         remarks,
                         flag,
                         reason,
                         feedback,
                         comment,
-                        complainer,
-                        worker_id);
+                        widget.complainerRollNo,
+                        workerId);
                     TextInput.finishAutofillContext();
                     if (lodge == true) {
                       return showDialog(
@@ -262,7 +307,9 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
                           actions: <Widget>[
                             ElevatedButton(
                               onPressed: () {
+                                // Navigator.popUntil(context, )
                                 Navigator.of(ctx).pop();
+                                renew();
                               },
                               child: Text("okay"),
                             ),
@@ -291,16 +338,17 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       'Submit',
-                      style: TextStyle(fontSize: 20),
+                      style: TextStyle(
+                          fontSize: 20, color: utils.primarybackgroundcolor),
                     ),
                   ),
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.resolveWith<Color>(
                       (Set<MaterialState> states) {
                         if (states.contains(MaterialState.pressed))
-                          return Colors.deepOrange;
-                        return Colors
-                            .deepOrangeAccent; // Use the component's default.
+                          return utils.lightgrey;
+                        return utils
+                            .primarycolor; // Use the component's default.
                       },
                     ),
                   ),
