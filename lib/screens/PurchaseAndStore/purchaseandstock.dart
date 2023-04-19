@@ -56,6 +56,7 @@ class _PurchaseAndStoreState extends State<PurchaseAndStore> {
   late String _estimatedCost = "";
 
   late String _budegetaryHead = "";
+
   Future addNewItem() async {
     showDialog(
         context: context,
@@ -144,14 +145,6 @@ class _PurchaseAndStoreState extends State<PurchaseAndStore> {
 
   void save() {
     //save data to database or provider
-    //   setState(() {
-    //   _itemName = nameController.text;
-    //   _itemId = idController.text;
-    //   _quantity = quantityController.text;
-    //   _estimatedCost = estimatedCostController.text;
-    //   _presentStock = presentStockController.text;
-    // });
-    //
 
     setState(() {
       _itemName = nameController.text.trim();
@@ -176,6 +169,19 @@ class _PurchaseAndStoreState extends State<PurchaseAndStore> {
           estimatedCost: _estimatedCost,
           presentStock: _presentStock));
     });
+    Item.draftItemList.add(Item(
+        purposeAndJustification: purposeAndJustificationController.text.trim(),
+        itemType: _itemType,
+        natureOfItem: natureOfItemController.text.trim(),
+        indigenous: indigenousController.text.trim(),
+        replacement: replacementController.text.trim(),
+        expectedDelivery: expectedDeliveryController.text.trim(),
+        sourceOfSupply: sourceOfSupplyController.text.trim(),
+        itemName: _itemName,
+        quantity: quantity,
+        uniqueId: _itemId,
+        estimatedCost: _estimatedCost,
+        presentStock: _presentStock));
     Navigator.pop(context);
     clear();
   }
@@ -296,34 +302,6 @@ class _PurchaseAndStoreState extends State<PurchaseAndStore> {
               SizedBox(
                 height: 20,
               ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-              //   children: [
-              //     ElevatedButton(
-              //       style: ElevatedButton.styleFrom(
-              //           backgroundColor: Colors.deepOrangeAccent),
-              //       child: Text(
-              //         'Filed Indents',
-              //         style: TextStyle(color: Colors.white, fontSize: 16),
-              //       ),
-              //       onPressed: () {
-              //         Navigator.push(
-              //             context,
-              //             MaterialPageRoute(
-              //                 builder: (context) => AllFiledIndents()));
-              //       },
-              //     ),
-              //     ElevatedButton(
-              //       style: ElevatedButton.styleFrom(
-              //           backgroundColor: Colors.deepOrangeAccent),
-              //       child: Text(
-              //         'Indent Status',
-              //         style: TextStyle(color: Colors.white, fontSize: 16),
-              //       ),
-              //       onPressed: () {},
-              //     )
-              //   ],
-              // )
             ],
           ),
         ),

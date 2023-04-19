@@ -1,6 +1,8 @@
 import '../../Components/custom_widgets.dart';
 import 'package:flutter/material.dart';
 
+import '../../models/PurchaseAndStore.dart';
+
 class AllFiledIndents extends StatefulWidget {
   const AllFiledIndents({Key? key}) : super(key: key);
 
@@ -23,8 +25,15 @@ class _AllFiledIndentsState extends State<AllFiledIndents> {
       body: Column(
         children: [
           buildRecieverDesig(),
-          filedIndents("Table", "1001", "20/04/2023"),
-          filedIndents("Chair", "2001", "10/04/2023"),
+          // filedIndents("Table", "1001", "20/04/2023"),
+          // filedIndents("Chair", "2001", "10/04/2023"),
+          Expanded(
+              child: ListView.builder(
+                  itemCount: Item.draftItemList.length,
+                  itemBuilder: (context, ind) => filedIndents(
+                      Item.draftItemList[ind].itemName,
+                      Item.draftItemList[ind].uniqueId,
+                      Item.draftItemList[ind].estimatedCost)))
         ],
       ),
     );

@@ -5,6 +5,16 @@ Item itemFromJson(String str) => Item.fromJson(json.decode(str));
 String itemToJson(Item data) => json.encode(data.toJson());
 
 class Item {
+  static List<Item> draftItemList = List.empty(growable: true);
+
+  void saveToDrafts(Item item) {
+    draftItemList.add(item);
+  }
+
+  static List<Item> getDrafts() {
+    return draftItemList;
+  }
+
   Item({
     required this.itemName,
     required this.quantity,
@@ -34,32 +44,32 @@ class Item {
   final String sourceOfSupply;
 
   factory Item.fromJson(Map<String, dynamic> json) => Item(
-    itemName: json["itemName"],
-    quantity: json["quantity"],
-    uniqueId: json["uniqueId"],
-    estimatedCost: json["estimatedCost"],
-    presentStock: json["presentStock"],
-    purposeAndJustification: json["purposeAndJustification"],
-    itemType: json["itemType"],
-    natureOfItem: json["natureOfItem"],
-    indigenous: json["indigenous"],
-    replacement: json["replacement"],
-    expectedDelivery: json["expectedDelivery"],
-    sourceOfSupply: json["sourceOfSupply"],
-  );
+        itemName: json["itemName"],
+        quantity: json["quantity"],
+        uniqueId: json["uniqueId"],
+        estimatedCost: json["estimatedCost"],
+        presentStock: json["presentStock"],
+        purposeAndJustification: json["purposeAndJustification"],
+        itemType: json["itemType"],
+        natureOfItem: json["natureOfItem"],
+        indigenous: json["indigenous"],
+        replacement: json["replacement"],
+        expectedDelivery: json["expectedDelivery"],
+        sourceOfSupply: json["sourceOfSupply"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "itemName": itemName,
-    "quantity": quantity,
-    "uniqueId": uniqueId,
-    "estimatedCost": estimatedCost,
-    "presentStock": presentStock,
-    "purposeAndJustification": purposeAndJustification,
-    "itemType": itemType,
-    "natureOfItem": natureOfItem,
-    "indigenous": indigenous,
-    "replacement": replacement,
-    "expectedDelivery": expectedDelivery,
-    "sourceOfSupply": sourceOfSupply,
-  };
+        "itemName": itemName,
+        "quantity": quantity,
+        "uniqueId": uniqueId,
+        "estimatedCost": estimatedCost,
+        "presentStock": presentStock,
+        "purposeAndJustification": purposeAndJustification,
+        "itemType": itemType,
+        "natureOfItem": natureOfItem,
+        "indigenous": indigenous,
+        "replacement": replacement,
+        "expectedDelivery": expectedDelivery,
+        "sourceOfSupply": sourceOfSupply,
+      };
 }

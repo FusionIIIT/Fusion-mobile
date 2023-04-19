@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../Components/custom_widgets.dart';
+import '../../models/PurchaseAndStore.dart';
 
 class IdentDraftPage extends StatefulWidget {
   const IdentDraftPage({Key? key}) : super(key: key);
@@ -24,8 +25,13 @@ class _IdentDraftPageState extends State<IdentDraftPage> {
       body: Column(
         children: [
           buildRecieverDesig(),
-          draftCard("Table", "1001", "20/04/2023"),
-          draftCard("Chair", "2001", "10/04/2023"),
+          Expanded(
+              child: ListView.builder(
+                  itemCount: Item.draftItemList.length,
+                  itemBuilder: (context, ind) => draftCard(
+                      Item.draftItemList[ind].itemName,
+                      Item.draftItemList[ind].uniqueId,
+                      Item.draftItemList[ind].estimatedCost)))
         ],
       ),
     );
