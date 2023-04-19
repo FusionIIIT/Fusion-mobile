@@ -6,6 +6,8 @@ import 'package:flutter/services.dart' show rootBundle;
 
 import 'package:csv/csv.dart';
 
+import '../../../Components/utils.dart';
+
 class Patents extends StatefulWidget {
   final uid;
   Patents(this.uid);
@@ -15,7 +17,7 @@ class Patents extends StatefulWidget {
 
 class _PatentsState extends State<Patents> {
   List<List<dynamic>> _patentList = [];
-
+  Utils utils = Utils();
   Future<int> _loadCSV() async {
     final _patentsData = await rootBundle.loadString('db/patents.csv');
     List<List<dynamic>> _list =
@@ -46,12 +48,16 @@ class _PatentsState extends State<Patents> {
               length: 1,
               child: Scaffold(
                 appBar: AppBar(
-                  backgroundColor: Colors.black,
+                  backgroundColor: utils.primarybackgroundcolor,
+                  leading:
+                      utils.leadingPopIconsButton(utils.primarycolor, context),
                   title: Text(
                     "Patents",
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(
+                        color: utils.primarycolor, fontWeight: FontWeight.bold),
                   ),
                 ),
+
                 // drawer: SideDrawer(),
                 body: TabBarView(
                   children: [

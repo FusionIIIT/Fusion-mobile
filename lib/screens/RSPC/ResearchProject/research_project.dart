@@ -8,16 +8,34 @@ import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
 import 'package:intl/intl.dart';
 
+import '../../../Components/utils.dart';
 import '../../../services/profile_service.dart';
 
-const kTextFieldInputDecoration = InputDecoration(
-  filled: true,
-  fillColor: Colors.white,
-  contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-  border: OutlineInputBorder(
-    borderRadius: BorderRadius.all(Radius.circular(32)),
-  ),
-);
+// const kTextFieldInputDecoration = InputDecoration(
+//   filled: true,
+//   fillColor: Colors.white,
+//   contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+//   border: OutlineInputBorder(
+//     borderRadius: BorderRadius.all(Radius.circular(32)),
+//   ),
+// );
+
+kTextFieldInputDecoration(String hint) {
+  return InputDecoration(
+    hintText: hint,
+    filled: true,
+    fillColor: Colors.white,
+    contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+    focusedBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Utils().primarycolor),
+      borderRadius: BorderRadius.all(Radius.circular(32)),
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Utils().primarycolor),
+      borderRadius: BorderRadius.all(Radius.circular(32)),
+    ),
+  );
+}
 
 const kInputDateDecoration = InputDecoration(
   labelText: 'Select Date',
@@ -51,6 +69,7 @@ class _AddResearchProjectState extends State<AddResearchProject> {
   String? startDate;
   String? expectedFinishDate;
   String? pfNo;
+  Utils utils = Utils();
 
   List status = [
     'Ongoing',
@@ -66,12 +85,13 @@ class _AddResearchProjectState extends State<AddResearchProject> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: Text(
-          "Research Project",
-          style: TextStyle(color: Colors.white),
-        ),
-      ),
+          backgroundColor: utils.primarybackgroundcolor,
+          leading: utils.leadingPopIconsButton(utils.primarycolor, context),
+          title: Text(
+            "Research Project",
+            style: TextStyle(
+                color: utils.primarycolor, fontWeight: FontWeight.bold),
+          )),
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.all(25),
@@ -82,9 +102,17 @@ class _AddResearchProjectState extends State<AddResearchProject> {
               Text(
                 'Add a new Research project',
                 style: TextStyle(
-                  fontWeight: FontWeight.w800,
-                  fontSize: 15,
-                ),
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20,
+                    color: Colors.black.withOpacity(0.6)),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Container(
+                height: 1,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(color: Colors.black.withOpacity(0.6)),
               ),
               SizedBox(
                 height: 30,
@@ -104,7 +132,7 @@ class _AddResearchProjectState extends State<AddResearchProject> {
                 style: TextStyle(
                   color: Colors.black,
                 ),
-                decoration: kTextFieldInputDecoration,
+                decoration: kTextFieldInputDecoration("PI"),
                 onChanged: (input) {
                   projectIncharge = input;
                 },
@@ -132,7 +160,7 @@ class _AddResearchProjectState extends State<AddResearchProject> {
                 style: TextStyle(
                   color: Colors.black,
                 ),
-                decoration: kTextFieldInputDecoration,
+                decoration: kTextFieldInputDecoration("Co-PI"),
                 onChanged: (input) {
                   coProjectIncharge = input;
                 },
@@ -160,7 +188,7 @@ class _AddResearchProjectState extends State<AddResearchProject> {
                 style: TextStyle(
                   color: Colors.black,
                 ),
-                decoration: kTextFieldInputDecoration,
+                decoration: kTextFieldInputDecoration("Title"),
                 onChanged: (input) {
                   projectTitle = input;
                 },
@@ -188,7 +216,7 @@ class _AddResearchProjectState extends State<AddResearchProject> {
                 style: TextStyle(
                   color: Colors.black,
                 ),
-                decoration: kTextFieldInputDecoration,
+                decoration: kTextFieldInputDecoration("Agency"),
                 onChanged: (input) {
                   fundingAgency = input;
                 },
@@ -352,7 +380,7 @@ class _AddResearchProjectState extends State<AddResearchProject> {
                 style: TextStyle(
                   color: Colors.black,
                 ),
-                decoration: kTextFieldInputDecoration,
+                decoration: kTextFieldInputDecoration("Outlay"),
                 onChanged: (input) {
                   financialOutlay = input;
                 },
@@ -426,16 +454,17 @@ class _AddResearchProjectState extends State<AddResearchProject> {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       'Submit',
-                      style: TextStyle(fontSize: 20),
+                      style: TextStyle(
+                          fontSize: 20, color: utils.primarybackgroundcolor),
                     ),
                   ),
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.resolveWith<Color>(
                       (Set<MaterialState> states) {
                         if (states.contains(MaterialState.pressed))
-                          return Colors.deepOrange;
-                        return Colors
-                            .deepOrangeAccent; // Use the component's default.
+                          return utils.lightgrey;
+                        return utils
+                            .primarycolor; // Use the component's default.
                       },
                     ),
                   ),

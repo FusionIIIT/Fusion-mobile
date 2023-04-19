@@ -9,14 +9,24 @@ import 'package:fusion/services/storage_service.dart';
 import 'package:fusion/services/profile_service.dart';
 import 'package:intl/intl.dart';
 
-const kTextFieldInputDecoration = InputDecoration(
-  filled: true,
-  fillColor: Colors.white,
-  contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-  border: OutlineInputBorder(
-    borderRadius: BorderRadius.all(Radius.circular(32)),
-  ),
-);
+import '../../../Components/utils.dart';
+
+kTextFieldInputDecoration(String hint) {
+  return InputDecoration(
+    hintText: hint,
+    filled: true,
+    fillColor: Colors.white,
+    contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+    focusedBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Utils().primarycolor),
+      borderRadius: BorderRadius.all(Radius.circular(32)),
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Utils().primarycolor),
+      borderRadius: BorderRadius.all(Radius.circular(32)),
+    ),
+  );
+}
 
 const kInputDateDecoration = InputDecoration(
   labelText: 'Select Date',
@@ -48,6 +58,8 @@ class _AddConsultancyProjectState extends State<AddConsultancyProject> {
   String? endDate;
   String? pfNo;
 
+  Utils utils = Utils();
+
   var service = locator<StorageService>();
 
   TextEditingController startDateController = TextEditingController();
@@ -63,10 +75,12 @@ class _AddConsultancyProjectState extends State<AddConsultancyProject> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: utils.primarybackgroundcolor,
+        leading: utils.leadingPopIconsButton(utils.primarycolor, context),
         title: Text(
           "Consultancy Project",
-          style: TextStyle(color: Colors.white),
+          style:
+              TextStyle(color: utils.primarycolor, fontWeight: FontWeight.bold),
         ),
       ),
       body: SingleChildScrollView(
@@ -79,9 +93,17 @@ class _AddConsultancyProjectState extends State<AddConsultancyProject> {
               Text(
                 'Add a Consultancy Project',
                 style: TextStyle(
-                  fontWeight: FontWeight.w800,
-                  fontSize: 15,
-                ),
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20,
+                    color: Colors.black.withOpacity(0.6)),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Container(
+                height: 1,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(color: Colors.black.withOpacity(0.6)),
               ),
               SizedBox(
                 height: 30,
@@ -101,7 +123,7 @@ class _AddConsultancyProjectState extends State<AddConsultancyProject> {
                 style: TextStyle(
                   color: Colors.black,
                 ),
-                decoration: kTextFieldInputDecoration,
+                decoration: kTextFieldInputDecoration("Consultant"),
                 onChanged: (input) {
                   consultant = input;
                 },
@@ -129,7 +151,7 @@ class _AddConsultancyProjectState extends State<AddConsultancyProject> {
                 style: TextStyle(
                   color: Colors.black,
                 ),
-                decoration: kTextFieldInputDecoration,
+                decoration: kTextFieldInputDecoration("Client"),
                 onChanged: (input) {
                   clientName = input;
                 },
@@ -157,7 +179,7 @@ class _AddConsultancyProjectState extends State<AddConsultancyProject> {
                 style: TextStyle(
                   color: Colors.black,
                 ),
-                decoration: kTextFieldInputDecoration,
+                decoration: kTextFieldInputDecoration("Outlay"),
                 onChanged: (input) {
                   financialOutlay = input;
                 },
@@ -185,7 +207,7 @@ class _AddConsultancyProjectState extends State<AddConsultancyProject> {
                 style: TextStyle(
                   color: Colors.black,
                 ),
-                decoration: kTextFieldInputDecoration,
+                decoration: kTextFieldInputDecoration("Title"),
                 onChanged: (input) {
                   projectTitle = input;
                 },
@@ -321,16 +343,17 @@ class _AddConsultancyProjectState extends State<AddConsultancyProject> {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       'Submit',
-                      style: TextStyle(fontSize: 20),
+                      style: TextStyle(
+                          fontSize: 20, color: utils.primarybackgroundcolor),
                     ),
                   ),
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.resolveWith<Color>(
                       (Set<MaterialState> states) {
                         if (states.contains(MaterialState.pressed))
-                          return Colors.deepOrange;
-                        return Colors
-                            .deepOrangeAccent; // Use the component's default.
+                          return utils.lightgrey;
+                        return utils
+                            .primarycolor; // Use the component's default.
                       },
                     ),
                   ),
