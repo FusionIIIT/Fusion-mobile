@@ -30,9 +30,9 @@ class RSPCService {
         'financial_outlay': financialOutlay,
         'funding_agency': fundingAgency,
         'status': currentStatus,
-        'start': startDate,
-        'end': expectedFinishDate,
-        'sub': submissionDate,
+        'start_date': startDate,
+        'finish_date': expectedFinishDate,
+        'date_submission': submissionDate,
       };
       var storageService = locator<StorageService>();
       if (storageService.userInDB?.token == null)
