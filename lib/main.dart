@@ -35,6 +35,7 @@ import 'package:fusion/screens/Programme_Curriculum/Discipline/discipline.dart';
 import 'package:fusion/screens/Programme_Curriculum/Programme/programme_home_page.dart';
 import 'package:fusion/screens/Programme_Curriculum/Programme_Info/programme_info.dart';
 import 'package:fusion/screens/Programme_Curriculum/programme_curriculum_home.dart';
+import 'package:fusion/screens/Visitors_Hostel/visitors_hostel_home.dart';
 import 'package:fusion/screens/landing_page.dart';
 import 'package:fusion/screens/Healthcenter/healthcentermodule.dart';
 import 'package:fusion/screens/Healthcenter/feedback.dart';
@@ -127,6 +128,7 @@ class MyApp extends StatelessWidget {
           '/health_center/feedback': (context) => FeedBack(),
           '/health_center/viewschedule': (context) => ViewSchedule(),
           '/health_center/history': (context) => History(),
+          '/visitor_hostel' : (context) => VisitorHostel(),
         },
       ),
     );
