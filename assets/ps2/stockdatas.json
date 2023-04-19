@@ -1,0 +1,163 @@
+[
+{
+    "stock_id": "01",
+	"name_of_particulars": "sofa",
+	"rate": "2200",
+	"amount": "22000",
+	"supplier_name" : "Agrawal Motors",
+	"bill_no": "01",
+	"buy_date": "02/02/2023",
+	"issued_date": "02/02/2023",
+	"head_of_asset": "CSE",
+	"section": "CC",
+	"floor": "01",
+	"receiver_name": "Atul Gupta"
+
+},
+
+{
+    "stock_id": "02",
+	"name_of_particulars": "sofa",
+	"rate": "2200",
+	"amount": "22000",
+	"supplier_name" : "Agrawal Motors",
+	"bill_no": "01",
+	"buy_date": "02/02/2023",
+	"issued_date": "02/02/2023",
+	"head_of_asset": "CSE",
+	"section": "CC",
+	"floor": "01",
+	"receiver_name": "Atul Gupta"
+
+},
+
+{
+    "stock_id": "03",
+	"name_of_particulars": "sofa",
+	"rate": "2200",
+	"amount": "22000",
+	"supplier_name" : "Agrawal Motors",
+	"bill_no": "01",
+	"buy_date": "02/02/2023",
+	"issued_date": "02/02/2023",
+	"head_of_asset": "CSE",
+	"section": "CC",
+	"floor": "01",
+	"receiver_name": "Atul Gupta"
+
+},
+
+{
+    "stock_id": "04",
+	"name_of_particulars": "sofa",
+	"rate": "2200",
+	"amount": "22000",
+	"supplier_name" : "Agrawal Motors",
+	"bill_no": "01",
+	"buy_date": "02/02/2023",
+	"issued_date": "02/02/2023",
+	"head_of_asset": "CSE",
+	"section": "CC",
+	"floor": "01",
+	"receiver_name": "Atul Gupta"
+
+},
+
+{
+    "stock_id": "05",
+	"name_of_particulars": "sofa",
+	"rate": "2200",
+	"amount": "22000",
+	"supplier_name" : "Agrawal Motors",
+	"bill_no": "01",
+	"buy_date": "02/02/2023",
+	"issued_date": "02/02/2023",
+	"head_of_asset": "CSE",
+	"section": "CC",
+	"floor": "01",
+	"receiver_name": "Atul Gupta"
+
+},
+
+{
+    "stock_id": "06",
+	"name_of_particulars": "sofa",
+	"rate": "2200",
+	"amount": "22000",
+	"supplier_name" : "Agrawal Motors",
+	"bill_no": "01",
+	"buy_date": "02/02/2023",
+	"issued_date": "02/02/2023",
+	"head_of_asset": "CSE",
+	"section": "CC",
+	"floor": "01",
+	"receiver_name": "Atul Gupta"
+
+},
+
+{
+    "stock_id": "07",
+	"name_of_particulars": "sofa",
+	"rate": "2200",
+	"amount": "22000",
+	"supplier_name" : "Agrawal Motors",
+	"bill_no": "01",
+	"buy_date": "02/02/2023",
+	"issued_date": "02/02/2023",
+	"head_of_asset": "CSE",
+	"section": "CC",
+	"floor": "01",
+	"receiver_name": "Atul Gupta"
+
+},
+
+{
+    "stock_id": "08",
+	"name_of_particulars": "sofa",
+	"rate": "2200",
+	"amount": "22000",
+	"supplier_name" : "Agrawal Motors",
+	"bill_no": "01",
+	"buy_date": "02/02/2023",
+	"issued_date": "02/02/2023",
+	"head_of_asset": "CSE",
+	"section": "CC",
+	"floor": "01",
+	"receiver_name": "Atul Gupta"
+
+},
+
+{
+    "stock_id": "09",
+	"name_of_particulars": "sofa",
+	"rate": "2200",
+	"amount": "22000",
+	"supplier_name" : "Agrawal Motors",
+	"bill_no": "01",
+	"buy_date": "02/02/2023",
+	"issued_date": "02/02/2023",
+	"head_of_asset": "CSE",
+	"section": "CC",
+	"floor": "01",
+	"receiver_name": "Atul Gupta"
+
+},
+
+{
+    "stock_id": "10",
+	"name_of_particulars": "sofa",
+	"rate": "2200",
+	"amount": "22000",
+	"supplier_name" : "Agrawal Motors",
+	"bill_no": "01",
+	"buy_date": "02/02/2023",
+	"issued_date": "02/02/2023",
+	"head_of_asset": "CSE",
+	"section": "CC",
+	"floor": "01",
+	"receiver_name": "Atul Gupta"
+
+},
+
+
+]
