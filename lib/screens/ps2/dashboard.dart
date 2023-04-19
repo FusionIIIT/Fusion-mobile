@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../utils.dart';
 import 'add_items.dart';
-import 'mess.dart';
+import 'view_stock.dart';
 import 'transfer_request.dart';
 import 'transfer_table.dart';
 
