@@ -3,13 +3,16 @@ import 'package:flutter/services.dart';
 import 'package:fusion/services/complaint_service.dart';
 import 'package:intl/intl.dart';
 
-const kTextFieldInputDecoration = InputDecoration(
-  filled: true,
-  fillColor: Colors.white,
-  contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-  border:
-      OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
-);
+kTextFieldInputDecoration(String hint) {
+  return InputDecoration(
+    hintText: hint,
+    filled: true,
+    fillColor: Colors.white,
+    contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+    border:
+        OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
+  );
+}
 
 class UpdateComplaint extends StatefulWidget {
   final int? id;
@@ -27,14 +30,14 @@ class UpdateComplaint extends StatefulWidget {
 class _UpdateComplaintState extends State<UpdateComplaint> {
   @override
   Widget build(BuildContext context) {
-    DateTime? complaint_finish = DateTime.now();
+    DateTime? complaintFinish = DateTime.now();
     DateFormat formatter = DateFormat('yyyy-MM-dd');
-    String? finishedDate = formatter.format(complaint_finish);
-    String complaint_date = DateTime.now().toString();
+    String? finishedDate = formatter.format(complaintFinish);
+    String complaintDate = DateTime.now().toString();
     print(finishedDate);
-    String? complaint_type = widget.complaintType;
+    String? complaintType = widget.complaintType;
     String? location = widget.location;
-    String? specific_location;
+    String? specificLocation;
     String? details;
     String? status = "0";
 
@@ -45,13 +48,26 @@ class _UpdateComplaintState extends State<UpdateComplaint> {
     String? complainer = widget.complainerRollNo;
 
     return Scaffold(
-      appBar: AppBar(title: Text('Update Complaint')),
+      appBar: AppBar(
+        title: Text('Update Complaint'),
+        backgroundColor: Colors.black,
+      ),
       body: Container(
         padding: EdgeInsets.all(16),
         child: ListView(
           children: [
             SizedBox(
-              height: 30,
+              height: 5,
+            ),
+            Text(
+              "Complaint Id:  ${widget.id}",
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black.withOpacity(0.7)),
+            ),
+            SizedBox(
+              height: 15,
             ),
             Text(
               'Complaint Type *',
@@ -61,22 +77,19 @@ class _UpdateComplaintState extends State<UpdateComplaint> {
               ),
             ),
             SizedBox(
-              height: 20,
+              height: 15,
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 16),
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.grey,
-                  ),
-                  borderRadius: BorderRadius.circular(15),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.grey,
                 ),
-                child: Text(
-                  widget.complaintType!,
-                  style: TextStyle(fontSize: 18),
-                ),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Text(
+                widget.complaintType!,
+                style: TextStyle(fontSize: 18),
               ),
             ),
             SizedBox(
@@ -123,14 +136,16 @@ class _UpdateComplaintState extends State<UpdateComplaint> {
               style: TextStyle(
                 color: Colors.black,
               ),
-              decoration: kTextFieldInputDecoration,
+              decoration:
+                  kTextFieldInputDecoration("Room Number, Floor, Block etc. "),
               onChanged: (input) {
-                specific_location = input;
+                specificLocation = input;
               },
               validator: (String? value) {
                 if (value!.isEmpty) {
                   return 'Please enter specific_location';
                 }
+                return null;
               },
             ),
             SizedBox(
@@ -151,7 +166,7 @@ class _UpdateComplaintState extends State<UpdateComplaint> {
               style: TextStyle(
                 color: Colors.black,
               ),
-              decoration: kTextFieldInputDecoration,
+              decoration: kTextFieldInputDecoration("What is your Complaint?"),
               onChanged: (input) {
                 details = input;
               },
@@ -159,6 +174,7 @@ class _UpdateComplaintState extends State<UpdateComplaint> {
                 if (value!.isEmpty) {
                   return 'Please enter details';
                 }
+                return null;
               },
             ),
             SizedBox(
@@ -170,11 +186,11 @@ class _UpdateComplaintState extends State<UpdateComplaint> {
                   ComplaintService auth = ComplaintService();
                   bool lodge = await auth.updateComplaint(
                     widget.id!,
-                    complaint_date,
+                    complaintDate,
                     finishedDate,
-                    complaint_type!,
+                    complaintType!,
                     location!,
-                    specific_location!,
+                    specificLocation!,
                     details!,
                     status,
                     widget.remarks!,

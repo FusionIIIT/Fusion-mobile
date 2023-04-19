@@ -1,16 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/models/profile.dart';
+import 'package:fusion/screens/Complaint/ComplaintHistory/pending_complaints.dart';
 import 'package:fusion/services/profile_service.dart';
 import 'package:http/http.dart';
-import 'ComplaintHistory/complain_history.dart';
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/side_drawer.dart';
-import 'dart:ui';
-import 'LodgeComplaint/lodge_complaint.dart';
-import 'Feedback/feedback.dart';
-import 'package:provider/provider.dart';
+
+import '../../Components/side_drawer.dart';
+import '../../Components/utils.dart';
 
 class Complaint extends StatefulWidget {
   String? token;
@@ -20,9 +17,7 @@ class Complaint extends StatefulWidget {
 }
 
 class _ComplaintState extends State<Complaint> {
-  bool _loading1 = true;
-  bool _loading2 = false;
-  bool _loading3 = false;
+  Utils utils = Utils();
   bool _loading = true;
 
   late StreamController _profileController;
@@ -61,7 +56,37 @@ class _ComplaintState extends State<Complaint> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        leading: Builder(builder: (BuildContext context) {
+          return IconButton(
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+              icon: Icon(
+                Icons.abc,
+                color: utils.primarycolor,
+              ));
+        }),
+        backgroundColor: utils.primarybackgroundcolor,
+        title: Container(
+          alignment: Alignment.center,
+          child: Text(
+            "Fusion",
+            style: TextStyle(
+                color: utils.primarycolor, fontWeight: FontWeight.bold),
+          ),
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: IconButton(
+                onPressed: () {},
+                icon: Icon(Icons.notifications, color: utils.lightgrey)),
+          )
+        ],
+      ),
       drawer: SideDrawer(),
       body: _loading == true
           ? Center(child: CircularProgressIndicator())
@@ -76,6 +101,7 @@ class _ComplaintState extends State<Complaint> {
                     margin: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                     shadowColor: Colors.black,
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
                           margin: EdgeInsets.only(top: 20),
@@ -110,138 +136,124 @@ class _ComplaintState extends State<Complaint> {
                       ],
                     ),
                   ),
-                  Card(
-                    elevation: 2.0,
-                    margin: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                    shadowColor: Colors.black,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TextButton(
-                          onPressed: () {
-                            setState(() {
-                              _loading1 = true;
-                              _loading2 = false;
-                              _loading3 = false;
-                              Navigator.pushNamed(
-                                  context, '/complaint/lodge_complaint',
-                                  arguments: data.user != null
-                                      ? data.user!['username']
-                                      : "null");
-                            });
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Lodge a Complaint',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w800,
-                                  fontSize: 18,
-                                  color:
-                                      _loading1 ? Colors.black : Colors.black26,
+                  SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, '/complaint/lodge_complaint',
+                              arguments: data.user != null
+                                  ? data.user!['username']
+                                  : "null");
+                        },
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          shadowColor: Colors.black,
+                          child: Container(
+                            decoration: utils.containerBorder(Colors.grey),
+                            alignment: Alignment.center,
+                            height: 125,
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.add,
+                                  size: 60,
+                                  // shadows: [],
                                 ),
-                              ),
-                              Icon(
-                                Icons.arrow_forward,
-                                color: _loading1
-                                    ? Colors.deepOrangeAccent
-                                    : Colors.white,
-                              )
-                            ],
+                                SizedBox(
+                                  height: 4,
+                                ),
+                                Text(
+                                  "Lodge a complaint",
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                                SizedBox(
+                                  height: 6,
+                                )
+                              ],
+                            ),
                           ),
                         ),
-                        SizedBox(height: 10),
-                        TextButton(
-                          onPressed: () {
-                            setState(() {
-                              _loading1 = false;
-                              _loading2 = true;
-                              _loading3 = false;
-                              Navigator.pushNamed(
-                                context,
-                                '/complaint/complaint_history',
-                              );
-                            });
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Complaint History',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w800,
-                                  fontSize: 18,
-                                  color:
-                                      _loading2 ? Colors.black : Colors.black26,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PendingComplaints()));
+                        },
+                        child: Card(
+                          shadowColor: Colors.black,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Container(
+                            decoration: utils.containerBorder(Colors.grey),
+                            alignment: Alignment.center,
+                            height: 125,
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.history_edu_outlined,
+                                  size: 50,
                                 ),
-                              ),
-                              Icon(
-                                Icons.arrow_forward,
-                                color: _loading2
-                                    ? Colors.deepOrangeAccent
-                                    : Colors.white,
-                              )
-                            ],
+                                SizedBox(
+                                  height: 4,
+                                ),
+                                Text("Complaint History"),
+                                SizedBox(
+                                  height: 6,
+                                )
+                              ],
+                            ),
                           ),
                         ),
-                        SizedBox(height: 10),
-                        TextButton(
-                          onPressed: () {
-                            setState(() {
-                              _loading1 = false;
-                              _loading2 = false;
-                              _loading3 = true;
-                              Navigator.pushNamed(
-                                context,
-                                '/complaint/feedback',
-                              );
-                            });
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Feedback',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w800,
-                                  fontSize: 18,
-                                  color:
-                                      _loading3 ? Colors.black : Colors.black26,
-                                ),
-                              ),
-                              Icon(
-                                Icons.arrow_forward,
-                                color: _loading3
-                                    ? Colors.deepOrangeAccent
-                                    : Colors.white,
-                              )
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                      ],
-                    ),
-                  ),
-                  // _loading1
-                  //     ? LodgeComplaint(
-                  //         data.user != null ? data.user!['username'] : "null")
-                  //     : SizedBox(
-                  //         height: 2,
-                  //       ),
-                  // _loading2
-                  //     ? ComplainHistory()
-                  //     : SizedBox(
-                  //         height: 5,
-                  //       ),
-                  // _loading3
-                  //     ? FeedBack()
-                  //     : SizedBox(
-                  //         height: 2,
-                  //       ),
+                      )
+                    ],
+                  )
                 ],
               ),
             ),
+    );
+  }
+
+  Widget buttonwidget(String name, IconData icons) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.purple,
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Icon(
+                icons,
+                color: Colors.white,
+              ),
+              SizedBox(
+                width: 8,
+              ),
+              Text(
+                name,
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    color: Colors.white),
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
