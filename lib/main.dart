@@ -131,6 +131,14 @@ class MyApp extends StatelessWidget {
           '/health_center/feedback': (context) => FeedBack(),
           '/health_center/viewschedule': (context) => ViewSchedule(),
           '/health_center/history': (context) => History(),
+          '/rspc': (context) =>
+              RSPCModule(ModalRoute.of(context)!.settings.arguments.toString()),
+          '/rspc/research_project': (context) => AddResearchProject(
+              ModalRoute.of(context)!.settings.arguments.toString()),
+          '/rspc/consultancy_project': (context) => AddConsultancyProject(
+              ModalRoute.of(context)!.settings.arguments.toString()),
+          '/rspc/patents': (context) =>
+              Patents(ModalRoute.of(context)!.settings.arguments.toString()),
         },
       ),
     );
