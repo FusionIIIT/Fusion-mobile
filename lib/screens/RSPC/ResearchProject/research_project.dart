@@ -11,15 +11,6 @@ import 'package:intl/intl.dart';
 import '../../../Components/utils.dart';
 import '../../../services/profile_service.dart';
 
-// const kTextFieldInputDecoration = InputDecoration(
-//   filled: true,
-//   fillColor: Colors.white,
-//   contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-//   border: OutlineInputBorder(
-//     borderRadius: BorderRadius.all(Radius.circular(32)),
-//   ),
-// );
-
 kTextFieldInputDecoration(String hint) {
   return InputDecoration(
     hintText: hint,
