@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/appBar.dart';
+import 'package:fusion/main.dart';
 import 'package:fusion/Components/side_drawer.dart';
 import 'package:fusion/screens/Hostelmanagement/Student_alloted_room.dart';
 import 'package:fusion/screens/Hostelmanagement/Notice_Board.dart';
@@ -146,7 +147,7 @@ class _HostelHomeScreen extends State<HostelHome> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => CollegeDropdownPage()));
+                            builder: (context) => Staff_schedule()));
                     //action code for button 1
                   },
                 ),
@@ -186,76 +187,4 @@ class _HostelHomeScreen extends State<HostelHome> {
     );
   }
 }
-
-class CollegeDropdownPage extends StatefulWidget {
-  @override
-  _CollegeDropdownPageState createState() => _CollegeDropdownPageState();
-}
-
-class _CollegeDropdownPageState extends State<CollegeDropdownPage> {
-  List<String> _collegeNames = ['College A', 'College B', 'College C'];
-  late String _selectedCollege;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Select College'),
-      ),
-      body: Center(
-        child: DropdownButton(
-          value: _selectedCollege,
-          items: _collegeNames.map((collegeName) {
-            return DropdownMenuItem(
-              value: collegeName,
-              child: Text(collegeName),
-            );
-          }).toList(),
-          onChanged: (newValue) {
-            setState(() {
-              Object? obj = "Hello World";
-              String myString = obj.toString(); // Cast obj to String using toString()
-
-              _selectedCollege = myString; newValue;
-            });
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => StaffListPage(collegeName: _selectedCollege),
-              ),
-            );
-          },
-        ),
-      ),
-    );
-  }
-}
-
-
-
-class StaffListPage extends StatelessWidget {
-  final String collegeName;
-
-  StaffListPage({required this.collegeName});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('$collegeName Staff'),
-      ),
-      body: ListView(
-        children: [
-          ListTile(title: Text('Staff 1')),
-          ListTile(title: Text('Staff 2')),
-          ListTile(title: Text('Staff 3')),
-          ListTile(title: Text('Staff 4')),
-          // Add more staff details for the selected college here
-        ],
-      ),
-    );
-  }
-}
-
-
 

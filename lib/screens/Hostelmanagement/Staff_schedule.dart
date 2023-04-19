@@ -1,89 +1,101 @@
 import 'package:flutter/material.dart';
-import 'Staff_schedule.dart';
+import 'package:fusion/main.dart';
+import 'package:flutter/src/widgets/basic.dart';
+import 'package:fusion/screens/Hostelmanagement/hostelmanagement.dart';
 
 
-import 'package:flutter/material.dart';
 
-
-void main() => runApp(MyApp());
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Staff Details',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: CollegeDropdownPage(),
-    );
-  }
-}
-
-class CollegeDropdownPage extends StatefulWidget {
-  @override
-  _CollegeDropdownPageState createState() => _CollegeDropdownPageState();
-}
-
-class _CollegeDropdownPageState extends State<CollegeDropdownPage> {
-  List<String> _collegeNames = ['College A', 'College B', 'College C'];
-  late String _selectedCollege;
-
+class Staff_schedule extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Select College'),
-      ),
-      body: Center(
-        child: DropdownButton(
-          value: _selectedCollege,
-          items: _collegeNames.map((collegeName) {
-            return DropdownMenuItem(
-              value: collegeName,
-              child: Text(collegeName),
-            );
-          }).toList(),
-          onChanged: (newValue) {
-            setState(() {
-              Object? obj = "Hello World";
-              String myString = obj.toString(); // Cast obj to String using toString()
-
-              _selectedCollege = myString; newValue;
-            });
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => StaffListPage(collegeName: _selectedCollege),
-              ),
-            );
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
           },
+          icon: Icon(Icons.arrow_back),
         ),
+        title: const Text('FUSION'),
+        actions: const <Widget>[
+          Icon(Icons.notifications),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: Icon(Icons.search),
+          ),
+          Icon(Icons.more_vert),
+        ],
+        backgroundColor: Colors.deepOrangeAccent,
       ),
-    );
-  }
-}
+      body: Column(
+        children: <Widget>[
+          const Text(
+            "Schedule of Staff",
+            style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+          ),
+          // const Divider(
+          //   height: 20,
+          //   thickness: 2,
+          //   indent: 20,
+          //   endIndent: 0,
+          //   color: Colors.black,
+          // ),
+          ElevatedButton.icon(
+            onPressed: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Staff_schedule()));
+            },
+            style: ElevatedButton.styleFrom(
+              primary: Colors.grey, // Background color
+              alignment: Alignment.topLeft,
+            ),
+            icon: const Icon(
+              // <-- Icon
+              Icons.description,
+              size: 30.0,
+            ),
+            label: Text('Select Hall'),
+            //<-- Text
+          ),
 
-
-
-class StaffListPage extends StatelessWidget {
-  final String collegeName;
-
-  StaffListPage({required this.collegeName});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('$collegeName Staff'),
-      ),
-      body: ListView(
-        children: [
-          ListTile(title: Text('Staff 1')),
-          ListTile(title: Text('Staff 2')),
-          ListTile(title: Text('Staff 3')),
-          ListTile(title: Text('Staff 4')),
-          // Add more staff details for the selected college here
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.all(2.0),
+                child: Text('Name',
+                    style: TextStyle(color: Colors.black, fontSize: 25)),
+              ),
+              Container(
+                padding: EdgeInsets.all(2.0),
+                child: Text(
+                  'Date',
+                  style: TextStyle(color: Colors.black, fontSize: 25),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(2.0),
+                child: Text(
+                  'Starting Time',
+                  style: TextStyle(color: Colors.black, fontSize: 25),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(2.0),
+                child: Text(
+                  'Ending Time',
+                  style: TextStyle(color: Colors.black, fontSize: 25),
+                ),
+              ),
+              Divider(
+                height: 20,
+                thickness: 2,
+                indent: 20,
+                endIndent: 0,
+                color: Colors.black,
+              ),
+            ],
+          ),
         ],
       ),
     );

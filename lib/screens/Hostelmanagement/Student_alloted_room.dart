@@ -29,139 +29,7 @@ class Student_alloted_room extends StatelessWidget {
         ],
         backgroundColor: Colors.deepOrangeAccent,
       ),
-      body: Align(
-          alignment: Alignment.topCenter,
-          child: Container(
-            width: 182,
-            height: 146,
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Color(0x0a000000),
-                width: 1,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Color(0x3f000000),
-                  blurRadius: 4,
-                  offset: Offset(0, 4),
-                ),
-              ],
-            ),
-            padding: const EdgeInsets.only(
-              top: 23,
-              bottom: 83,
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  width: 140,
-                  height: 40,
-                  child: Material(
-                    color: Color(0xffd9d9d9),
-                    borderRadius: BorderRadius.circular(5),
-                    child: Stack(
-                      children: [
-                        Positioned(
-                          left: 50,
-                          top: 10,
-                          child: Text(
-                            "Select Hall",
-                            style: TextStyle(color: Colors.black, fontSize: 15),
-                          ),
-                        ),
-                        Positioned.fill(
-                          child: Align(
-                            alignment: Alignment.topLeft,
-                            child: SizedBox(
-                              width: 39,
-                              height: 40,
-                              child: Material(
-                                color: Color(0xff808080),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Positioned.fill(
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Container(
-                                width: 18,
-                                height: 18,
-                                child: IconButton(
-                                    icon: Icon(Icons.home),
-                                    onPressed: () {
-                                      DropdownButton<String>(
-                                        value: 'Select Hall',
-                                        isExpanded: true,
-                                        icon: const Icon(
-                                          Icons.home,
-                                          color: Colors.deepOrangeAccent,
-                                        ),
-                                        underline: const SizedBox(),
-                                        onChanged: (String? newValue) {
-                                          if (newValue == 'Hall 1') {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      Alloted_room()),
-                                            );
-                                          } else if (newValue == 'Hall 3') {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      Alloted_room()),
-                                            );
-                                          } else if (newValue == 'Hall 4') {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      Alloted_room()),
-                                            );
-                                          } else if (newValue ==
-                                              'Maa Saraswati') {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      Alloted_room()),
-                                            );
-                                          }
-                                          setState(() {
-                                            // handle updating category
-                                          });
-                                        },
-                                        items: <String>[
-                                          'Select Hall',
-                                          'Hall 1',
-                                          'Hall 3',
-                                          'Hall 4',
-                                          'Maa Saraswati'
-                                        ].map<DropdownMenuItem<String>>(
-                                            (String value) {
-                                          return DropdownMenuItem<String>(
-                                            value: value,
-                                            child: Text(value),
-                                          );
-                                        }).toList(),
-                                      );
-                                    })),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          )
-          /*  Column(
+      body: Column(
         children: <Widget>[
           Container(
             height: 200,
@@ -256,8 +124,7 @@ class Student_alloted_room extends StatelessWidget {
             ]),
           ),
         ],
-      ),   */
-          ),
+      ),
     );
   }
 }
