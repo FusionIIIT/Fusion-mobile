@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fusion/main.dart';
 import 'package:fusion/screens/Hostelmanagement/hostelmanagement.dart';
 
+import 'Notice_Board.dart';
+
 class Student_attendance extends StatelessWidget {
   //const SecondRoute({super.key});
 
@@ -58,21 +60,53 @@ class Student_attendance extends StatelessWidget {
               endIndent: 0,
               color: Colors.black,
             ),
-            ElevatedButton.icon(
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => attendance()));
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Colors.grey, // Background color
+             DropdownButton<String>(
+                value: 'Select Hall',
+                isExpanded: true,
+                icon: const Icon(
+                  Icons.home,
+                  color: Colors.deepOrangeAccent,
+                ),
+                underline: const SizedBox(),
+                onChanged: (String? newValue) {
+                  if (newValue == 'Hall 1') {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => attendance()),
+                    );
+                  } else if (newValue == 'Hall 3') {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => attendance()),
+                    );
+                  } else if (newValue == 'Hall 4') {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => attendance()),
+                    );
+                  } else if (newValue == 'Maa Saraswati') {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => attendance()),
+                    );
+                  }
+                  setState(() {
+                    // handle updating category
+                  });
+                },
+                items: <String>[
+                  'Select Hall',
+                  'Hall 1',
+                  'Hall 3',
+                  'Hall 4',
+                  'Maa Saraswati'
+                ].map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
               ),
-              icon: const Icon(
-                // <-- Icon
-                Icons.home,
-                size: 24.0,
-              ),
-              label: Text('Select Hall'), //<-- Text
-            ),
           ]),
         ),
       ]),
