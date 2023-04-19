@@ -95,6 +95,7 @@ class _DuesState extends State<Dues> {
             HostelDues(),
             PlaccementDues(),
             OverallDues()
+
           ],
         ),
       ),
