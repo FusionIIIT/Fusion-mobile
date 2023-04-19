@@ -47,17 +47,11 @@ class _DashboardState extends State<Dashboard> {
   getData() async {
     try {
       Response response = await dashboardService.getDashboard();
-      // print('response ${response.body}');
-      Response response2 = await profileService.getProfile();
-      // print('response ${response2.body}');
 
-      // print(jsonDecode(response.body));
-      // var decodedData = jsonDecode(response.body)['notifications'][0];
-      // print(decodedData);
-      // print(decodedData.notifications);
+      Response response2 = await profileService.getProfile();
       setState(() {
         data = DashboardData.fromJson(jsonDecode(response.body));
-        // data = ;
+
         data2 = ProfileData.fromJson(jsonDecode(response2.body));
         _loading = false;
       });
@@ -65,7 +59,6 @@ class _DashboardState extends State<Dashboard> {
       studentType = data2.profile!['department']!['name'] +
           '  ' +
           data2.profile!['user_type'];
-      print(name);
     } catch (e) {
       print(e);
     }
@@ -249,7 +242,7 @@ class _DashboardState extends State<Dashboard> {
                         ),
                       ),
                     ),
-                    (_notificationsBool)
+                    _notificationsBool
                         ? NotificationCard(
                             notifications: data.notifications,
                           )

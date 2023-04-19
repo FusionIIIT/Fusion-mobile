@@ -16,7 +16,7 @@ class ProfileService {
       Map<String, String> headers = {
         'Authorization': 'Token ' + (storage_service.userInDB?.token ?? "")
       };
-      print("fetching profile........");
+      print("fetching profile");
       var client = http.Client();
       http.Response response = await client.get(
         Uri.http(
@@ -27,11 +27,12 @@ class ProfileService {
       );
 
       if (response.statusCode == 200) {
-        print("successfully fetched profile..........");
+        print("successfully fetched profile");
         storage_service
             .saveProfileInDB(ProfileData.fromJson(jsonDecode(response.body)));
         return response;
       }
+      throw Exception('Can\'t load');
     } catch (e) {
       print(e);
       rethrow;

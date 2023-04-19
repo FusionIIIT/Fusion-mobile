@@ -32,7 +32,6 @@ class StorageService with ChangeNotifier {
 
   void saveUserInDB(User userToSave) {
     saveStringToDisk(UserKey, json.encode(userToSave.toJson()));
-    print('SAVED SUCCESSFULLY ');
     notifyListeners();
   }
 
@@ -47,7 +46,6 @@ class StorageService with ChangeNotifier {
     if (_sharedPreferences == null) {
       _sharedPreferences = await SharedPreferences.getInstance();
     }
-    // print(_instance);
     return _instance;
   }
 
