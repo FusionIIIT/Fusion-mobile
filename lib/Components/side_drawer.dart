@@ -128,6 +128,10 @@ class _SideDrawerState extends State<SideDrawer> {
                             line: 'Establishment Module',
                             pageMover: '/establishment'),
                         ModulesPadding(
+                            line: 'StockInventory Module',
+                            pageMover: '/stockinventory',
+                            isActive: true),
+                        ModulesPadding(
                             line: 'Library Module',
                             pageMover: '/library_homepage'),
                         ModulesPadding(line: 'Awards & Scholarship Module'),
