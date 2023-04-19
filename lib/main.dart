@@ -78,7 +78,9 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
             // primarySwatch: Colors.blueGrey,
+
           colorSchemeSeed: Color.fromARGB(255, 58, 32, 208),
+
             fontFamily: 'Nunito',
           useMaterial3: true,
         ),
