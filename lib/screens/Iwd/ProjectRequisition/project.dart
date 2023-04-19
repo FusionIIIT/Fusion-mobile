@@ -10,13 +10,13 @@ import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
 import 'package:http/http.dart';
 
-class view extends StatefulWidget {
+class Project extends StatefulWidget {
   @override
-  _ViewState createState() => _ViewState();
+  State<Project> createState() => _ProjectState();
 }
 
-class _ViewState extends State<view> {
-   bool _loading1 = true;
+class _ProjectState extends State<Project> {
+  bool _loading1 = true;
 
   //integrating_api
   late StreamController _profileController;
@@ -111,8 +111,6 @@ class _ViewState extends State<view> {
                   height: 10.0,
                 ),
                 Text(
-                  //NAME OF USER
-                  // 'Rajat Gupta',
                   data.user!['first_name'] + ' ' + data.user!['last_name'],
                   style: TextStyle(fontSize: 20.0, color: Colors.black),
                 ),
@@ -132,44 +130,33 @@ class _ViewState extends State<view> {
               ],
             ),
           ),
-        Card(
-            
-           
+          Card(
+            elevation: 2.0,
+            margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+            shadowColor: Colors.black,
             child: Column(
-            mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: 
-           <Widget>[
-          TextField(
-            decoration: const InputDecoration(
-              labelText: 'Enter Project ID',
-                suffixText: '*',
-                  suffixStyle: TextStyle(
-                    color: Colors.red,
-                  ),
+              children: [
+                InkWell(
+                  child: myContainer('Create project requisition:'),
+                ),
+                SizedBox(
+                  width: 10.0,
+                ),
+                Row(
+            children: [
+              ElevatedButton(onPressed: () {}, child: const Text('Previous')),
+              SizedBox(
+                width: 10.0,
               ),
-             ),
-             SizedBox(
-                 
-              height: 10.0,
-             ),
-             ElevatedButton(
-         
-          onPressed: () {},
-          child: Text(
-            'Submit',
-            style: Theme.of(context).textTheme.headline6,
+              ElevatedButton(onPressed: () {}, child: const Text('Submit')),
+            ],
           ),
-        )
-         
-          
-            
               ],
             ),
           ),
-          ],
-        ),
-  );
-    
+        ],
+      ),
+    );
   }
 }

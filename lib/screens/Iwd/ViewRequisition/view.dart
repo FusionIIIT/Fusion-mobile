@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'dart:convert';
 
@@ -11,14 +10,13 @@ import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
 import 'package:http/http.dart';
 
-class Project extends StatefulWidget {
+class View extends StatefulWidget {
   @override
-  State<Project> createState() => _ProjectState();
+  _ViewState createState() => _ViewState();
 }
 
-class _ProjectState extends State<Project> {
-    bool _loading1 = true;
-
+class _ViewState extends State<View> {
+  bool _loading1 = true;
 
   //integrating_api
   late StreamController _profileController;
@@ -92,76 +90,33 @@ class _ProjectState extends State<Project> {
         shrinkWrap: true,
         physics: ClampingScrollPhysics(),
         children: [
+     
           Card(
-            elevation: 2.0,
-            margin: EdgeInsets.symmetric(horizontal: 50.0, vertical: 20.0),
-            shadowColor: Colors.black,
             child: Column(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(top: 20.0),
-                  width: 170.0,
-                  height: 170.0,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/unknown.jpg'),
-                      fit: BoxFit.cover,
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                TextField(
+                  decoration: const InputDecoration(
+                    labelText: 'Enter Project ID',
+                    suffixText: '*',
+                    suffixStyle: TextStyle(
+                      color: Colors.red,
                     ),
                   ),
                 ),
                 SizedBox(
                   height: 10.0,
                 ),
-                Text(
-                
-                  data.user!['first_name'] + ' ' + data.user!['last_name'],
-                  style: TextStyle(fontSize: 20.0, color: Colors.black),
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                Text(
-                  // 'CSE',
-                  data.profile!['department']!['name'] +
-                      ' | ' +
-                      data.profile!['user_type'],
-                  style: TextStyle(fontSize: 15.0, color: Colors.black),
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-              ],
-            ),
-          ),
-           Card(
-            elevation: 2.0,
-            margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-            shadowColor: Colors.black,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                InkWell(
-                  child: myContainer('Create project requisition:'),
-                ),
-                SizedBox(
-                  width: 10.0,
-                ),
                 Row(
-                  children: [
-                    ElevatedButton(
-                        onPressed: () {}, child: const Text('Fill Page 1')),
-                    SizedBox(
-                      width: 10.0,
-                    ),
-                    ElevatedButton(
-                        onPressed: () {}, child: const Text('Fill Page 2')),
-                    SizedBox(
-                      width: 10.0,
-                    ),
-                    ElevatedButton(
-                        onPressed: () {}, child: const Text('Fill Page 3')),
-                  ],
-                ),
+            children: [
+              ElevatedButton(onPressed: () {}, child: const Text('Previous')),
+              SizedBox(
+                width: 10.0,
+              ),
+              ElevatedButton(onPressed: () {}, child: const Text('Submit')),
+            ],
+          ),
               ],
             ),
           ),

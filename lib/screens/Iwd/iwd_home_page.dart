@@ -142,12 +142,19 @@ class _IwdHomePageState extends State<IwdHomePage> {
                 InkWell(
                   child: myContainer("Create Project requisition"),
                   onTap: () {
-                    Navigator.pushNamed(context, '/iwd_home_page/project',
+                    Navigator.pushNamed(context, '/iwd_home_page/page1',
                         arguments: data);
                   },
                 ),
                 InkWell(
-                  child: myContainer("Create View Requisition"),
+                  child: myContainer("Corrigendum Page"),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/iwd_home_page/corrigendum',
+                        arguments: data);
+                  },
+                ),
+                InkWell(
+                  child: myContainer("Veiw Project Details"),
                   onTap: () {
                     Navigator.pushNamed(context, '/iwd_home_page/view',
                         arguments: data);
