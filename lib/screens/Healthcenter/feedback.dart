@@ -6,6 +6,8 @@ class FeedBack extends StatefulWidget {
 }
 
 class _FeedBackState extends State<FeedBack> {
+  String feedback = '';
+
   @override
   Widget feed = Container(
     padding: EdgeInsets.all(20.0),

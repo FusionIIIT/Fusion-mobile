@@ -165,13 +165,69 @@ class _AppointmentState extends State<Appointment> {
                   "Submit",
                   style: TextStyle(fontSize: 20),
                 ),
-                onPressed: () {
-                  print(date);
-                  print(to_time);
-                  print(from_time);
-                  print(issues);
-                  print('Submitted Successfully!');
+
+                // try something new here
+
+                onPressed: () async {
+                  HeathService auth = HeathService();
+                  bool lodge = await auth.doctorAppoinment(
+                    // _value,
+                    date,
+                    from_time,
+                    to_time,
+                    issues,
+                  );
+                  // print(user_id);
+                  // print(start_date);
+                  // print(end_date);
+                  // print(reason);
+                  // print(lodge);
+
+                  // TextInput.finishAutofillContext();
+                  if (lodge == true) {
+                    return showDialog(
+                      context: context,
+                      builder: (ctx) => AlertDialog(
+                        title: Text("Success"),
+                        content: Text("Ambulance Request Added Successfully"),
+                        actions: <Widget>[
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(ctx).pop();
+                            },
+                            child: Text("okay"),
+                          ),
+                        ],
+                      ),
+                    );
+                  } else {
+                    return showDialog(
+                      context: context,
+                      builder: (ctx) => AlertDialog(
+                        title: Text("Failed"),
+                        content: Text("Cannot add Ambulance Request"),
+                        actions: <Widget>[
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(ctx).pop();
+                            },
+                            child: Text("okay"),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
                 },
+
+                // end something new here
+
+                // onPressed: () {
+                //   print(date);
+                //   print(to_time);
+                //   print(from_time);
+                //   print(issues);
+                //   print('Submitted Successfully!');
+                // },
                 style: ButtonStyle(
                   foregroundColor: MaterialStateProperty.all(Colors.red),
                   backgroundColor: MaterialStateProperty.all(Colors.white),
