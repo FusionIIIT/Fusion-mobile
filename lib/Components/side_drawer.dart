@@ -13,6 +13,9 @@ class _SideDrawerState extends State<SideDrawer> {
   int count = 0;
   String? name;
   String? depttype;
+  String? userType = "student";
+  bool accountExtend = false;
+
   @override
   void initState() {
     super.initState();
@@ -23,6 +26,8 @@ class _SideDrawerState extends State<SideDrawer> {
     depttype = service.profileData.profile!['department']!['name'] +
         " " +
         service.profileData.profile!['user_type'];
+    userType = service.profileData.profile!['user_type'];
+    print(service.profileData.profile!['user_type']);
   }
 
   @override
@@ -160,7 +165,69 @@ class _SideDrawerState extends State<SideDrawer> {
             ModulesCard(cardLine: 'Office Of Registrar'),
             ModulesCard(cardLine: 'Office Of P&D'),
             ModulesCard(cardLine: 'Office Of HOD (Branch)'),
-            ModulesCard(cardLine: 'Finance & Accounts'),
+            // todo change negative to positive
+            Card(
+              color: Colors.black,
+              child: GestureDetector(
+                //behaviour to translucent to get Tap even on blank or empty space within container
+                behavior: HitTestBehavior.translucent,
+                onTap: () {
+                  setState(() {
+                    if (accountExtend) {
+                      accountExtend = false;
+                    } else {
+                      accountExtend = true;
+                    }
+                  });
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Accounts Section',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Icon(
+                        Icons.arrow_downward,
+                        color: Colors.deepOrangeAccent,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            accountExtend
+                ? Card(
+                    color: Colors.black,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      ModulesPadding(
+                        line: 'Finance & Accounts',
+                        pageMover: userType != 'student'
+                            ? '/dashboard'
+                            : 'account_finance/account_home',
+                        isActive: true,
+                      ),
+                      ModulesPadding(
+                        line:  'Income and Expenditure',
+                        pageMover: userType != 'student'
+                            ? 'income_expenditure/income_home'
+                            : 'income_expenditure/income_details',
+                        isActive: true,
+                      ),
+                    ],
+                  ))
+                : SizedBox(
+                    width: 2,
+                  ),
+
+
             ModulesCard(cardLine: 'Meet Our Team'),
             ModulesCard(cardLine: 'Log Out', icon: Icons.logout),
           ],
@@ -174,7 +241,9 @@ class ModulesPadding extends StatelessWidget {
   final String? line;
   final String? pageMover;
   final bool isActive;
+
   ModulesPadding({this.line, this.pageMover, this.isActive = false});
+
   @override
   Widget build(BuildContext context) {
     return TextButton(
@@ -207,7 +276,9 @@ class ModulesCard extends StatelessWidget {
   final String? cardLine;
   final String? pageMover;
   IconData? icon;
+
   ModulesCard({this.cardLine, this.icon, this.pageMover});
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
