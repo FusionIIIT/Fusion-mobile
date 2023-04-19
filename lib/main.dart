@@ -62,7 +62,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MediaQueryData windowData =
+
         MediaQueryData.fromWindow(WidgetsBinding.instance.window);
+
     windowData = windowData.copyWith(
       textScaleFactor: 1,
     );
@@ -73,10 +75,12 @@ class MyApp extends StatelessWidget {
         title: 'Fusion',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+
           // primarySwatch: Colors.blueGrey,
           // colorSchemeSeed: Color(0xFF2085D0),
           colorSchemeSeed: Color(0xFFF36C35),
           fontFamily: 'Nunito',
+
           useMaterial3: true,
         ),
         initialRoute: '/landing',
@@ -126,7 +130,9 @@ class MyApp extends StatelessWidget {
           '/health_center': (context) => HealthCenterMod(
               ModalRoute.of(context)!.settings.arguments.toString()),
           '/health_center/healthcenter': (context) => HealthCenter(),
+
           '/hostel_home': (context) => HostelHome(),
+
           '/health_center/feedback': (context) => FeedBack(),
           '/health_center/viewschedule': (context) => ViewSchedule(),
           '/health_center/history': (context) => History(),

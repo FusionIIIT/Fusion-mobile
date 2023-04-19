@@ -12,6 +12,7 @@ class _AmbulanceRequestState extends State<AmbulanceRequest> {
     return Container(
       padding: EdgeInsets.all(20.0),
       child: Column(
+
               children: [
                 Padding(padding: EdgeInsets.symmetric(vertical: 20.0)),
 
@@ -71,6 +72,7 @@ class _AmbulanceRequestState extends State<AmbulanceRequest> {
                 ),
 
               ],
+
       ),
     );
   }
