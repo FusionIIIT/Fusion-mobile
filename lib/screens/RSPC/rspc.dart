@@ -157,6 +157,7 @@ class _RSPCModuleState extends State<RSPCModule> {
                             height: 125,
                             width: MediaQuery.of(context).size.width * 0.4,
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Icon(
@@ -167,11 +168,10 @@ class _RSPCModuleState extends State<RSPCModule> {
                                 SizedBox(
                                   height: 4,
                                 ),
-                                Center(
-                                  child: Text(
-                                    "Add Research Project",
-                                    style: TextStyle(fontSize: 16),
-                                  ),
+                                Text(
+                                  "Add Research Project",
+                                  style: TextStyle(fontSize: 16),
+                                  textAlign: TextAlign.center,
                                 ),
                                 SizedBox(
                                   height: 6,
@@ -199,6 +199,7 @@ class _RSPCModuleState extends State<RSPCModule> {
                             height: 125,
                             width: MediaQuery.of(context).size.width * 0.4,
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Icon(
@@ -209,11 +210,10 @@ class _RSPCModuleState extends State<RSPCModule> {
                                 SizedBox(
                                   height: 4,
                                 ),
-                                Center(
-                                  child: Text(
-                                    "Add Consultancy Project",
-                                    style: TextStyle(fontSize: 16),
-                                  ),
+                                Text(
+                                  "Add Consultancy Project",
+                                  style: TextStyle(fontSize: 16),
+                                  textAlign: TextAlign.center,
                                 ),
                                 SizedBox(
                                   height: 6,
@@ -240,12 +240,12 @@ class _RSPCModuleState extends State<RSPCModule> {
                             height: 125,
                             width: MediaQuery.of(context).size.width * 0.4,
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Icon(
                                   Icons.book,
                                   size: 60,
-                                  // shadows: [],
                                 ),
                                 SizedBox(
                                   height: 4,
@@ -254,6 +254,7 @@ class _RSPCModuleState extends State<RSPCModule> {
                                   child: Text(
                                     "Patents",
                                     style: TextStyle(fontSize: 16),
+                                    textAlign: TextAlign.center,
                                   ),
                                 ),
                                 SizedBox(
