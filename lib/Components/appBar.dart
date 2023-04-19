@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:fusion/constants.dart';
 
 class DefaultAppBar {
   AppBar buildAppBar() {
     return AppBar(
-      backgroundColor: Colors.black,
+      iconTheme: IconThemeData(color: Colors.white),
+      backgroundColor: kPrimaryColor,
       title: Text(
-        "FUSION",
-        style: TextStyle(color: Colors.white),
+        "Dashboard",
+        style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
       ),
       actions: <Widget>[
         Padding(

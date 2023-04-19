@@ -22,11 +22,9 @@ class LoginService {
           ),
           headers: headers,
           body: jsonEncode(data));
-      // print("here");
-      // print(response);
-      // print(jsonDecode(response.body));
-
       var prefs = await StorageService.getInstance();
+      print("response.body: ${response.body}");
+
       var storage_service = await StorageService.getInstance();
       storage_service!.saveUserInDB(User((jsonDecode(response.body))["token"]));
 
