@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 
 import '../utils.dart';
 import 'add_items.dart';
-import 'view_stock.dart';
+import 'mess.dart';
 import 'transfer_request.dart';
 import 'transfer_table.dart';
+import 'pdf_viewer.dart';
 
 class PS2Dashboard extends StatelessWidget {
   @override
@@ -329,6 +330,7 @@ class Dashboards extends StatelessWidget {
                             ),
                           ),
                         ),
+
                         Positioned(
                           // 74F (17:48)
                           left: 294 * fem,
@@ -363,6 +365,208 @@ class Dashboards extends StatelessWidget {
                               height: 64 * fem,
                               child: Icon(
                                 Icons.add_shopping_cart,
+                                size: 50.0,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  Container(
+                    // group28Gfu (17:45)
+                    margin: EdgeInsets.fromLTRB(
+                        0 * fem, 0 * fem, 0 * fem, 11 * fem),
+                    width: double.infinity,
+                    height: 64 * fem,
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          // rectangle6Zuu (17:46)
+                          left: 5 * fem,
+                          top: 2 * fem,
+                          child: Align(
+                            child: SizedBox(
+                              width: 318 * fem,
+                              height: 60 * fem,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(6 * fem),
+                                  color: Color(0xfff4f4f4),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          // addstockFXq (17:47)
+                          left: 71 * fem,
+                          top: 20 * fem,
+                          child: Center(
+                            child: Align(
+                              child: SizedBox(
+                                width: 152 * fem,
+                                height: 22 * fem,
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => StockViewePDF()),
+                                    );
+                                  },
+                                  child: Text(
+                                    'Generate stock report',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 18 * ffem,
+                                      fontWeight: FontWeight.w500,
+                                      height: 1.2175 * ffem / fem,
+                                      color: Color(0xff000000),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        Positioned(
+                          // 74F (17:48)
+                          left: 294 * fem,
+                          top: 19.5 * fem,
+                          child: Center(
+                            child: Align(
+                              child: SizedBox(
+                                width: 13 * fem,
+                                height: 25 * fem,
+                                child: Text(
+                                  '>',
+                                  textAlign: TextAlign.center,
+                                  style: SafeGoogleFont(
+                                    'Montserrat',
+                                    fontSize: 20 * ffem,
+                                    fontWeight: FontWeight.w900,
+                                    height: 1.2175 * ffem / fem,
+                                    color: Color(0xff000000),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          // group26kN7 (17:49)
+                          left: 0 * fem,
+                          top: 0 * fem,
+                          child: Align(
+                            child: SizedBox(
+                              width: 64 * fem,
+                              height: 64 * fem,
+                              child: Icon(
+                                Icons.report,
+                                size: 50.0,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  Container(
+                    // group28Gfu (17:45)
+                    margin: EdgeInsets.fromLTRB(
+                        0 * fem, 0 * fem, 0 * fem, 11 * fem),
+                    width: double.infinity,
+                    height: 64 * fem,
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          // rectangle6Zuu (17:46)
+                          left: 5 * fem,
+                          top: 2 * fem,
+                          child: Align(
+                            child: SizedBox(
+                              width: 318 * fem,
+                              height: 60 * fem,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(6 * fem),
+                                  color: Color(0xfff4f4f4),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          // addstockFXq (17:47)
+                          left: 71 * fem,
+                          top: 20 * fem,
+                          child: Center(
+                            child: Align(
+                              child: SizedBox(
+                                width: 152 * fem,
+                                height: 22 * fem,
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => TransferViewePDF()),
+                                    );
+                                  },
+                                  child: Text(
+                                    'Generate Transfer Report',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 18 * ffem,
+                                      fontWeight: FontWeight.w500,
+                                      height: 1.2175 * ffem / fem,
+                                      color: Color(0xff000000),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        Positioned(
+                          // 74F (17:48)
+                          left: 294 * fem,
+                          top: 19.5 * fem,
+                          child: Center(
+                            child: Align(
+                              child: SizedBox(
+                                width: 13 * fem,
+                                height: 25 * fem,
+                                child: Text(
+                                  '>',
+                                  textAlign: TextAlign.center,
+                                  style: SafeGoogleFont(
+                                    'Montserrat',
+                                    fontSize: 20 * ffem,
+                                    fontWeight: FontWeight.w900,
+                                    height: 1.2175 * ffem / fem,
+                                    color: Color(0xff000000),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          // group26kN7 (17:49)
+                          left: 0 * fem,
+                          top: 0 * fem,
+                          child: Align(
+                            child: SizedBox(
+                              width: 64 * fem,
+                              height: 64 * fem,
+                              child: Icon(
+                                Icons.transfer_within_a_station_sharp,
                                 size: 50.0,
                               ),
                             ),
@@ -408,7 +612,7 @@ class Dashboards extends StatelessWidget {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => TransferTable()),
+                                          builder: (context) => MyAppTransfer()),
                                     );
                                   },
                                   child: Text(
@@ -504,7 +708,7 @@ class Dashboards extends StatelessWidget {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => MyAppTransfer()),
+                                          builder: (context) => TransferTable()),
                                     );
                                   },
                                   child: Text(
