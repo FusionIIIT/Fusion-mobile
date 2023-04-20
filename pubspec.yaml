@@ -28,7 +28,7 @@ dependencies:
   google_fonts:
   shared_preferences: ^2.0.3
   provider:
-  http: ^0.13.0
+  http: ^0.13.5
   pull_to_refresh: ^1.6.3
   date_field: ^2.0.0
   datetime_picker_formfield: ^2.0.0
@@ -39,6 +39,9 @@ dependencies:
   path_provider: ^2.0.8
   open_file: ^3.2.1
   flutter_html: ^2.2.1
+  sqflite: ^2.2.6
+  dio: ^5.0.0
+  dio_cookie_manager: ^2.0.0
 
 
 
