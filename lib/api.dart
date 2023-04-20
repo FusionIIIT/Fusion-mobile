@@ -39,3 +39,6 @@ String kAcademicProceduresEndTT =
 String kAcademicProceduresHolidaysTT =
     "/static/academic_procedures/List_of_Holidays.pdf";
 String kAcademicProceduresTT = "/static/academic_procedures/";
+
+
+String kMessMenu = "/mess/api/menuApi";

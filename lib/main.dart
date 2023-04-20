@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:fusion/screens/Academic/Add_Drop_Courses/add_drop_courses.dart';
+import 'package:fusion/screens/CentralMess/application_status.dart';
 import 'package:fusion/screens/CentralMess/applications.dart';
 import 'package:fusion/screens/CentralMess/centralmess_home.dart';
 import 'package:fusion/screens/CentralMess/feedback.dart';
+import 'package:fusion/screens/CentralMess/feedback_stats.dart';
 import 'package:fusion/screens/CentralMess/menu.dart';
+import 'package:fusion/screens/CentralMess/menuchangereq.dart';
 import 'package:fusion/screens/CentralMess/registeration.dart';
+import 'package:fusion/screens/CentralMess/respondmanager.dart';
+import 'package:fusion/screens/CentralMess/respondmenuchange.dart';
 import 'package:fusion/screens/Complaint/ComplaintHistory/complain_history.dart';
 import 'package:fusion/screens/Complaint/Feedback/feedback.dart';
 import 'package:fusion/screens/Complaint/LodgeComplaint/lodge_complaint.dart';
@@ -132,11 +137,17 @@ class MyApp extends StatelessWidget {
           '/health_center/feedback': (context) => FeedBack(),
           '/health_center/viewschedule': (context) => ViewSchedule(),
           '/health_center/history': (context) => History(),
-          '/centralmess_home': (context) => CentralMessHome(),
+          '/centralmess_home': (context) => CentralMessHome(ModalRoute.of(context)!.settings.arguments.toString()),
           '/centralmess_home/menu': (context) => MessMenu(),
           '/centralmess_home/registeration' : (context) => MessRegisteration(),
           '/centralmess_home/feedback' : (context) => MessFeedback(),
           '/centralmess_home/applications' : (context) => MessApplication(),
+          '/centralmess_home/menuchangereq': (context) => ReqMenuChange(),
+          '/centralmess_home/feedback_stats': (context) => FeedbackStats(),
+          '/centralmess_home/application_status' : (context) => Status(),
+          'centralmess_home/respondmanager' : (context) => RespondRequests(),
+          'centralmess_home/respondmenuchange' : (context) => ResMenuChange(),
+
         },
       ),
     );

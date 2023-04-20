@@ -5,6 +5,9 @@ import 'package:fusion/Components/side_drawer.dart';
 import '../../services/service_locator.dart';
 import '../../services/storage_service.dart';
 class CentralMessHome extends StatefulWidget {
+  final String? token;
+  static String tag = 'academic-page';
+  CentralMessHome(this.token);
   @override
   _CentralMessHomeState createState() =>
       _CentralMessHomeState();
@@ -15,9 +18,12 @@ class _CentralMessHomeState extends State<CentralMessHome> {
   int count = 0;
   String? name;
   String? depttype;
+  bool isConvener = false;
+  bool isManager = false;
   @override
   void initState() {
     super.initState();
+    print('inmess${widget.token}');
     var service = locator<StorageService>();
     name = service.profileData.user!["first_name"] +
         " " +
@@ -25,7 +31,8 @@ class _CentralMessHomeState extends State<CentralMessHome> {
     depttype = service.profileData.profile!['department']!['name'] +
         " " +
         service.profileData.profile!['user_type'];
-    print(service.profileData.user);
+    print(service.profileData.user!['id']);
+    if(service.profileData.current!.length > 1)isConvener = service.profileData.current![1]["designation"]["name"].contains("mess_convener");
   }
 
   BoxDecoration myBoxDecoration() {
@@ -71,7 +78,8 @@ class _CentralMessHomeState extends State<CentralMessHome> {
 
   @override
   Widget build(BuildContext context) {
-    final data = '';
+    final data = widget.token;
+    print(data);
     return Scaffold(
       appBar: DefaultAppBar().buildAppBar(),
       drawer: SideDrawer(),
@@ -154,6 +162,30 @@ class _CentralMessHomeState extends State<CentralMessHome> {
                       arguments: data);
                 },
               ),
+              isConvener? InkWell(
+                child: myContainer("Request Menu Change"),
+                onTap: () {
+                  Navigator.pushNamed(
+                      context, '/centralmess_home/menuchangereq',
+                      arguments: data);
+                },
+              ):Container(),
+              isConvener? InkWell(
+                child: myContainer("View Feedback"),
+                onTap: () {
+                  Navigator.pushNamed(
+                      context, '/centralmess_home/feedback_stats',
+                      arguments: data);
+                },
+              ):Container(),
+              isManager? InkWell(
+                child: myContainer("Respond Requests"),
+                onTap: () {
+                  Navigator.pushNamed(
+                      context, '/centralmess_home/respondmanager',
+                      arguments: data);
+                },
+              ):Container(),
             ],
           ),
         ],
