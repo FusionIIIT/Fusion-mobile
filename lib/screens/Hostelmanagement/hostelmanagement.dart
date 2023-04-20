@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/main.dart';
 import 'package:fusion/Components/side_drawer.dart';
-import 'package:fusion/screens/Hostelmanagement/Student_alloted_room.dart';
-import 'package:fusion/screens/Hostelmanagement/Notice_Board.dart';
-import 'package:fusion/screens/Hostelmanagement/Student_attendance.dart';
-import 'package:fusion/screens/Hostelmanagement/Staff_schedule.dart';
-import 'package:fusion/screens/Hostelmanagement/Book_Guest.dart';
+import 'package:fusion/screens/HostelManagement/Student_alloted_room.dart';
+import 'package:fusion/screens/HostelManagement/Notice_Board.dart';
+import 'package:fusion/screens/HostelManagement/Student_attendance.dart';
+import 'package:fusion/screens/HostelManagement/your_book.dart';
+import 'package:fusion/screens/HostelManagement/Book_Guest.dart';
 
 class HostelHome extends StatefulWidget {
   @override
-  _HostelHomeScreen createState() =>
-      _HostelHomeScreen();
+  _HostelHomeScreen createState() => _HostelHomeScreen();
 }
 
 class _HostelHomeScreen extends State<HostelHome> {
@@ -104,12 +103,12 @@ class _HostelHomeScreen extends State<HostelHome> {
                 padding: const EdgeInsets.all(8.0),
                 child: Center(
                     child: Text(
-                      "Hostel Management",
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        color: Colors.white,
-                      ),
-                    )),
+                  "Hostel Management",
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    color: Colors.white,
+                  ),
+                )),
               ),
               decoration: new BoxDecoration(
                 color: Colors.deepOrangeAccent,
@@ -142,16 +141,6 @@ class _HostelHomeScreen extends State<HostelHome> {
                   },
                 ),
                 InkWell(
-                  child: myContainer("Staff's Schedule"),
-                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Staff_schedule()));
-                    //action code for button 1
-                  },
-                ),
-                InkWell(
                   child: myContainer("Notice Board"),
                   onTap: () {
                     Navigator.push(
@@ -171,11 +160,17 @@ class _HostelHomeScreen extends State<HostelHome> {
                 ),
                 InkWell(
                   child: myContainer("Book Guest Room"),
-                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Book_Guest()));
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Book_Guest()));
+                    //action code for button 1
+                  },
+                ),
+                InkWell(
+                  child: myContainer("Your Booking"),
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => your_book()));
                     //action code for button 1
                   },
                 ),
@@ -187,4 +182,3 @@ class _HostelHomeScreen extends State<HostelHome> {
     );
   }
 }
-

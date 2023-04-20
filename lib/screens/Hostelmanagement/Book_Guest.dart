@@ -1,8 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/main.dart';
-import 'package:fusion/screens/Hostelmanagement/hostelmanagement.dart';
+import 'package:fusion/screens/HostelManagement/hostelmanagement.dart';
 
+class SubmitButton extends StatelessWidget {
+  final String text;
+  final Function onPressed;
 
+  SubmitButton({required this.text, required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: onPressed(),
+      child: Text(text),
+    );
+  }
+}
 
 class Book_Guest extends StatelessWidget {
   //const SecondRoute({super.key});
@@ -12,19 +25,16 @@ class Book_Guest extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
+          color: Colors.white,
           onPressed: () {
             Navigator.pop(context);
           },
           icon: Icon(Icons.arrow_back),
         ),
-        title: const Text("Guest Room Booking"),
+        title: const Text("Guest Room Booking",
+            style: TextStyle(color: Colors.white)),
         actions: const <Widget>[
-          Icon(Icons.notifications),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Icon(Icons.search),
-          ),
-          Icon(Icons.more_vert),
+          Icon(Icons.notifications, color: Colors.white),
         ],
         backgroundColor: Colors.deepOrangeAccent,
       ),
@@ -32,10 +42,10 @@ class Book_Guest extends StatelessWidget {
         alignment: Alignment.topCenter,
         child: Container(
           width: 350,
-          height: 600,
+          height: 650,
           decoration: BoxDecoration(
             border: Border.all(
-              color: Color.fromARGB(255, 58, 58, 58),
+              color: Colors.white,
               width: 1,
             ),
             boxShadow: [
@@ -446,46 +456,50 @@ class Book_Guest extends StatelessWidget {
               ),
               Positioned(
                 left: 111,
-                top: 507,
-                child: Container(
+                top: 520,
+                /*child: Container(
                   width: 100,
                   height: 40,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100),
                     color: Color(0xfff36c35),
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 99,
-                        height: 40,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 30,
-                          vertical: 10,
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Submit",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 11.5,
-                                fontFamily: "Roboto",
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
+                  ),*/
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 99,
+                      height: 40,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 30,
+                        vertical: 10,
                       ),
-                    ],
-                  ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {},
+                            child: Text('Submit',
+                                style: TextStyle(color: Colors.white)),
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.deepOrangeAccent,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              textStyle: TextStyle(
+                                  fontSize: 11,
+                                  fontFamily: "Roboto",
+                                  fontWeight: FontWeight.w100),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],

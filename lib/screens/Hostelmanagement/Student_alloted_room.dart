@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/main.dart';
 import 'package:flutter/src/widgets/basic.dart';
-import 'package:fusion/screens/Hostelmanagement/hostelmanagement.dart';
+import 'package:fusion/screens/HostelManagement/hostelmanagement.dart';
 
 import 'Notice_Board.dart';
 
@@ -13,19 +13,16 @@ class Student_alloted_room extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
+          color: Colors.white,
           onPressed: () {
             Navigator.pop(context);
           },
           icon: Icon(Icons.arrow_back),
         ),
-        title: const Text("Student's Alloted Room"),
+        title: const Text("Student's Alloted Room",
+            style: TextStyle(color: Colors.white)),
         actions: const <Widget>[
-          Icon(Icons.notifications),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Icon(Icons.search),
-          ),
-          Icon(Icons.more_vert),
+          Icon(Icons.notifications, color: Colors.white),
         ],
         backgroundColor: Colors.deepOrangeAccent,
       ),
@@ -137,19 +134,16 @@ class Alloted_room extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
+          color: Colors.white,
           onPressed: () {
             Navigator.pop(context);
           },
           icon: Icon(Icons.arrow_back),
         ),
-        title: const Text('FUSION'),
+        title: const Text("Student's Alloted Room",
+            style: TextStyle(color: Colors.white)),
         actions: const <Widget>[
-          Icon(Icons.notifications),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Icon(Icons.search),
-          ),
-          Icon(Icons.more_vert),
+          Icon(Icons.notifications, color: Colors.white),
         ],
         backgroundColor: Colors.deepOrangeAccent,
       ),
@@ -257,19 +251,16 @@ class rooms extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
+          color: Colors.white,
           onPressed: () {
             Navigator.pop(context);
           },
           icon: Icon(Icons.arrow_back),
         ),
-        title: const Text('FUSION'),
+        title: const Text("Student's Alloted Room",
+            style: TextStyle(color: Colors.white)),
         actions: const <Widget>[
-          Icon(Icons.notifications),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Icon(Icons.search),
-          ),
-          Icon(Icons.more_vert),
+          Icon(Icons.notifications, color: Colors.white),
         ],
         backgroundColor: Colors.deepOrangeAccent,
       ),

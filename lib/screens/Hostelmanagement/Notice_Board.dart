@@ -20,19 +20,18 @@ class Notice_Board extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
+            color: Colors.white,
             onPressed: () {
               Navigator.pop(context);
             },
             icon: Icon(Icons.arrow_back),
           ),
-          title: const Text('Notice Board'),
+          title: const Text('Notice Board',
+              style: TextStyle(
+                color: Colors.white,
+              )),
           actions: const <Widget>[
-            Icon(Icons.notifications),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              //child: Icon(Icons.search),
-            ),
-            //Icon(Icons.more_vert),
+            Icon(Icons.notifications, color: Colors.white),
           ],
           backgroundColor: Colors.deepOrangeAccent,
         ),
@@ -89,14 +88,12 @@ class Notice_Board extends StatelessWidget {
                           context,
                           MaterialPageRoute(builder: (context) => Notice()),
                         );
-                      }
-                      else if (newValue == 'Hall 4') {
+                      } else if (newValue == 'Hall 4') {
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => Notice()),
                         );
-                      }
-                      else if (newValue == 'Maa Saraswati') {
+                      } else if (newValue == 'Maa Saraswati') {
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => Notice()),
@@ -126,25 +123,25 @@ class Notice_Board extends StatelessWidget {
         ]));
   }
 }
+
 class Notice extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-         leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(Icons.arrow_back),
-          ),
-        title: const Text('Notice Board'),
+        leading: IconButton(
+          color: Colors.white,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(Icons.arrow_back),
+        ),
+        title: const Text('Notice Board',
+            style: TextStyle(
+              color: Colors.white,
+            )),
         actions: const <Widget>[
-          Icon(Icons.notifications),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            //child: Icon(Icons.search),
-          ),
-          //Icon(Icons.more_vert),
+          Icon(Icons.notifications, color: Colors.white),
         ],
         backgroundColor: Colors.deepOrangeAccent,
       ),
@@ -210,20 +207,19 @@ class noticeboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-         leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(Icons.arrow_back),
-          ),
-        title: const Text('FUSION'),
+        leading: IconButton(
+          color: Colors.white,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(Icons.arrow_back),
+        ),
+        title: const Text('Notice Board',
+            style: TextStyle(
+              color: Colors.white,
+            )),
         actions: const <Widget>[
-          Icon(Icons.notifications),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Icon(Icons.search),
-          ),
-          Icon(Icons.more_vert),
+          Icon(Icons.notifications, color: Colors.white),
         ],
         backgroundColor: Colors.deepOrangeAccent,
       ),

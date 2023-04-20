@@ -12,19 +12,18 @@ class Student_attendance extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
+          color: Colors.white,
           onPressed: () {
             Navigator.pop(context);
           },
           icon: Icon(Icons.arrow_back),
         ),
-        title: const Text('Student Attendance'),
+        title: const Text('Student Attendance',
+            style: TextStyle(
+              color: Colors.white,
+            )),
         actions: const <Widget>[
-          Icon(Icons.notifications),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            //child: Icon(Icons.search),
-          ),
-          // Icon(Icons.more_vert),
+          Icon(Icons.notifications, color: Colors.white),
         ],
         backgroundColor: Colors.deepOrangeAccent,
       ),
@@ -60,78 +59,78 @@ class Student_attendance extends StatelessWidget {
               endIndent: 0,
               color: Colors.black,
             ),
-             DropdownButton<String>(
-                value: 'Select Hall',
-                isExpanded: true,
-                icon: const Icon(
-                  Icons.home,
-                  color: Colors.deepOrangeAccent,
-                ),
-                underline: const SizedBox(),
-                onChanged: (String? newValue) {
-                  if (newValue == 'Hall 1') {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => attendance()),
-                    );
-                  } else if (newValue == 'Hall 3') {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => attendance()),
-                    );
-                  } else if (newValue == 'Hall 4') {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => attendance()),
-                    );
-                  } else if (newValue == 'Maa Saraswati') {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => attendance()),
-                    );
-                  }
-                  setState(() {
-                    // handle updating category
-                  });
-                },
-                items: <String>[
-                  'Select Hall',
-                  'Hall 1',
-                  'Hall 3',
-                  'Hall 4',
-                  'Maa Saraswati'
-                ].map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
+            DropdownButton<String>(
+              value: 'Select Hall',
+              isExpanded: true,
+              icon: const Icon(
+                Icons.home,
+                color: Colors.deepOrangeAccent,
               ),
+              underline: const SizedBox(),
+              onChanged: (String? newValue) {
+                if (newValue == 'Hall 1') {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => attendance()),
+                  );
+                } else if (newValue == 'Hall 3') {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => attendance()),
+                  );
+                } else if (newValue == 'Hall 4') {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => attendance()),
+                  );
+                } else if (newValue == 'Maa Saraswati') {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => attendance()),
+                  );
+                }
+                setState(() {
+                  // handle updating category
+                });
+              },
+              items: <String>[
+                'Select Hall',
+                'Hall 1',
+                'Hall 3',
+                'Hall 4',
+                'Maa Saraswati'
+              ].map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+            ),
           ]),
         ),
       ]),
     );
   }
 }
+
 class attendance extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
+          color: Colors.white,
           onPressed: () {
             Navigator.pop(context);
           },
           icon: Icon(Icons.arrow_back),
         ),
-        title: const Text('FUSION'),
+        title: const Text('Student Attendance',
+            style: TextStyle(
+              color: Colors.white,
+            )),
         actions: const <Widget>[
-          Icon(Icons.notifications),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Icon(Icons.search),
-          ),
-          Icon(Icons.more_vert),
+          Icon(Icons.notifications, color: Colors.white),
         ],
         backgroundColor: Colors.deepOrangeAccent,
       ),
@@ -200,19 +199,18 @@ class view_attendance extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
+          color: Colors.white,
           onPressed: () {
             Navigator.pop(context);
           },
           icon: Icon(Icons.arrow_back),
         ),
-        title: const Text('FUSION'),
+        title: const Text('Student Attendance',
+            style: TextStyle(
+              color: Colors.white,
+            )),
         actions: const <Widget>[
-          Icon(Icons.notifications),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            //child: Icon(Icons.search),
-          ),
-          //Icon(Icons.more_vert),
+          Icon(Icons.notifications, color: Colors.white),
         ],
         backgroundColor: Colors.deepOrangeAccent,
       ),
