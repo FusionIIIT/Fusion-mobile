@@ -102,16 +102,24 @@ class _ClubSessionState extends State<ClubSession> {
                     value: 1,
                   ),
                   DropdownMenuItem(
-                    child: Text("Saaz"),
+                    child: Text("Cricket"),
                     value: 2,
                   ),
                   DropdownMenuItem(
-                    child: Text("Avartan"),
+                    child: Text("Badminton"),
                     value: 3,
                   ),
                   DropdownMenuItem(
-                    child: Text("Electronics"),
+                    child: Text("Saaz"),
                     value: 4,
+                  ),
+                  DropdownMenuItem(
+                    child: Text("Avartan"),
+                    value: 5,
+                  ),
+                  DropdownMenuItem(
+                    child: Text("Electronics"),
+                    value: 6,
                   ),
                 ],
                 onChanged: (int? value) {

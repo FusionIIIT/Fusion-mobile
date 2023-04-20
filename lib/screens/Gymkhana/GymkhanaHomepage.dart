@@ -43,11 +43,13 @@ class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
       return Padding(
         padding: const EdgeInsets.all(0),
       );
-    } else if (data!.profile!['user_type'] == "student" && text == 'Fest Budget' ) {
+    } else if (data!.profile!['user_type'] == "student" &&
+        text == 'Fest Budget') {
       return Padding(
         padding: const EdgeInsets.all(0),
       );
-    } else if (data!.profile!['user_type'] == "student" && text == 'Submit Event Report' ) {
+    } else if (data!.profile!['user_type'] == "student" &&
+        text == 'Submit Event Report') {
       return Padding(
         padding: const EdgeInsets.all(0),
       );
@@ -99,58 +101,82 @@ class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
           ],
           membersDetails: [
             {
-              'name': 'Aaaa',
-              'rollno': '2019029',
+              'name': 'Arnav',
+              'rollno': '20bcs040',
               'club': 'Cricket',
               'category': 'sports'
             },
             {
-              'name': 'baaa',
-              'rollno': '2019129',
+              'name': 'Bhushan',
+              'rollno': '21bsm015',
               'club': 'Saaz',
+              'category': 'cultural'
+            },
+            {
+              'name': 'Anjali',
+              'rollno': '22bcs020',
+              'club': 'Dance',
               'category': 'cultural'
             },
           ],
           clubDetails: [
             {
               'club': 'Avartan',
-              'coord': '2018037',
-              'coco': '2019008',
+              'coord': '20bcs178',
+              'coco': '21bds025',
               'activitycal': ''
             },
             {
-              'club': 'Avartan',
-              'coord': '2018037',
-              'coco': '2019008',
+              'club': 'Cricket',
+              'coord': '20bsm037',
+              'coco': '21bcs117',
+              'activitycal': ''
+            },
+            {
+              'club': 'Badminton',
+              'coord': '20bcs009',
+              'coco': '21bec140',
               'activitycal': ''
             },
           ],
           clubSessions: [
             {
-              'venue': 'L-201',
-              'date': '22 Mar 21',
+              'venue': 'Sac',
+              'date': '10 April 23',
               'time': '6:00 PM',
               'details': ''
             },
             {
-              'venue': 'L-201',
-              'date': '22 Mar 21',
-              'time': '6:00 PM',
+              'venue': 'Oat',
+              'date': '15 April 23',
+              'time': '7:00 PM',
+              'details': ''
+            },
+            {
+              'venue': 'L-104',
+              'date': '9 April 23',
+              'time': '5:00 PM',
               'details': ''
             },
           ],
           clubEvents: [
             {
-              'club': 'Avartan',
-              'eventname': 'footloose',
-              'incharge': 'Dr Deepmala',
-              'date': '23 Aug 20'
+              'club': 'Badminton ',
+              'eventname': 'Tournament',
+              'incharge': 'Dr Seetharam',
+              'date': '10 April 23'
+            },
+            {
+              'club': 'Cricket Club',
+              'eventname': 'Tournament',
+              'incharge': 'Dr Seetharam',
+              'date': '5 April 23'
             },
             {
               'club': 'Avartan',
-              'eventname': 'footloose',
-              'incharge': 'Dr Deepmala',
-              'date': '23 Aug 20'
+              'eventname': 'Vishu',
+              'incharge': 'Dr Vijaypal',
+              'date': '15 April 23'
             },
           ],
         );
