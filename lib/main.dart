@@ -72,9 +72,11 @@ class MyApp extends StatelessWidget {
         title: 'Fusion',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          // primarySwatch: Colors.blueGrey,
-          colorSchemeSeed: Color(0xFF2085D0),
-          fontFamily: 'Nunito',
+
+            // primarySwatch: Colors.blueGrey,
+          // colorSchemeSeed: Color(0xFF2085D0),
+          colorSchemeSeed: Color(0xFFF36C35),
+            fontFamily: 'Nunito',
           useMaterial3: true,
         ),
         initialRoute: '/landing',
