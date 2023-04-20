@@ -55,14 +55,33 @@ class _RecordsState extends State<Records> {
 
   @override
   Widget build(BuildContext context) {
+    final GymkhanaData data =
+        ModalRoute.of(context)!.settings.arguments as GymkhanaData;
+    Srecords = data.membersDetails!
+        .map((member) => Srecord(
+            Name: member['name'],
+            Rollno: member['rollno'],
+            Club: member['club'],
+            Category: member['category']))
+        .toList();
 
-    final GymkhanaData data = ModalRoute.of(context)!.settings.arguments as GymkhanaData;
-    Srecords = data.membersDetails!.map((member) => Srecord(Name: member['name'], Rollno: member['rollno'], Club: member['club'], Category: member['category'])).toList();
-
-    // Srecords = <Srecord>[
-    //   Srecord(Name: "Pawan", Rollno: "430", Club: "Cricket", Category: "sports"),
-    //   Srecord(Name: "Pawergeran", Rollno: "430", Club: "Cricket", Category: "sports"),
-    // ];
+    Srecords = <Srecord>[
+      Srecord(
+          Name: "Abhishek",
+          Rollno: "22bcs012",
+          Club: "Badminton",
+          Category: "Sports"),
+      Srecord(
+          Name: "Pawan Singh",
+          Rollno: "21bec098",
+          Club: "Dance",
+          Category: "Cultural"),
+      Srecord(
+          Name: "Rajat ",
+          Rollno: "20bcs140",
+          Club: "Basketball",
+          Category: "Sports"),
+    ];
 
     return Scaffold(
         appBar: AppBar(
@@ -130,5 +149,6 @@ class Srecord {
 }
 
 var Srecords = <Srecord>[
-  Srecord(Name: "default", Rollno: "default", Club: "default", Category: "default"),
+  Srecord(
+      Name: "default", Rollno: "default", Club: "default", Category: "default"),
 ];

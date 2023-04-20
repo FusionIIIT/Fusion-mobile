@@ -1,0 +1,63 @@
+[
+  {
+    "status": "200",
+    "message": "Previous Scholarship and Awards Details",
+    "data": [
+      {
+        "application_id": 1,
+        "type": "Award",
+        "data": [
+          {
+            "Award_Name": "Name",
+            "Winner": "winner Name",
+            "Email": "email@gmail.com",
+            "Year": "2018",
+            "Phone Number": "984635378",
+            "Description": "This is Description"
+          }
+        ]
+      },
+      {
+        "application_id": 2,
+        "type": "Scholarship",
+        "data": [
+          {
+            "Scholarship_Name": "Name",
+            "Winner": "winner name",
+            "Email": "email@gmail.com",
+            "Year": "2018",
+            "Phone Number": "984635378",
+            "Description": "This is Description"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "status": "200",
+    "message": "SPACS Applications",
+    "data": [
+      {
+        "application_id": 1,
+        "data": {
+          "Name": "Application Name",
+          "Applied Date": "2021-03-14",
+          "Status": "Pending"
+        }
+      },
+      {
+        "application_id": 2,
+        "data": {
+          "Name": "Application Name",
+          "Applied Date": "2020-08-12",
+          "Status": "Pending"
+        }
+      }
+    ]
+  },
+  {
+    "status": "200",
+    "data": "Application added successfully"
+  }
+  
+]

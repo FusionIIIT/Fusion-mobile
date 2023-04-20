@@ -39,16 +39,32 @@ class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
   }
 
   Padding myContainer(String text) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: myText(text),
+    if (data!.profile!['user_type'] == "faculty" && text == 'Apply') {
+      return Padding(
+        padding: const EdgeInsets.all(0),
+      );
+    } else if (data!.profile!['user_type'] == "student" &&
+        text == 'Fest Budget') {
+      return Padding(
+        padding: const EdgeInsets.all(0),
+      );
+    } else if (data!.profile!['user_type'] == "student" &&
+        text == 'Submit Event Report') {
+      return Padding(
+        padding: const EdgeInsets.all(0),
+      );
+    } else {
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: myText(text),
+          ),
+          decoration: myBoxDecoration(),
         ),
-        decoration: myBoxDecoration(),
-      ),
-    );
+      );
+    }
   }
 
   @override
@@ -85,58 +101,82 @@ class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
           ],
           membersDetails: [
             {
-              'name': 'Aaaa',
-              'rollno': '2019029',
+              'name': 'Arnav',
+              'rollno': '20bcs040',
               'club': 'Cricket',
               'category': 'sports'
             },
             {
-              'name': 'baaa',
-              'rollno': '2019129',
+              'name': 'Bhushan',
+              'rollno': '21bsm015',
               'club': 'Saaz',
+              'category': 'cultural'
+            },
+            {
+              'name': 'Anjali',
+              'rollno': '22bcs020',
+              'club': 'Dance',
               'category': 'cultural'
             },
           ],
           clubDetails: [
             {
               'club': 'Avartan',
-              'coord': '2018037',
-              'coco': '2019008',
+              'coord': '20bcs178',
+              'coco': '21bds025',
               'activitycal': ''
             },
             {
-              'club': 'Avartan',
-              'coord': '2018037',
-              'coco': '2019008',
+              'club': 'Cricket',
+              'coord': '20bsm037',
+              'coco': '21bcs117',
+              'activitycal': ''
+            },
+            {
+              'club': 'Badminton',
+              'coord': '20bcs009',
+              'coco': '21bec140',
               'activitycal': ''
             },
           ],
           clubSessions: [
             {
-              'venue': 'L-201',
-              'date': '22 Mar 21',
+              'venue': 'Sac',
+              'date': '10 April 23',
               'time': '6:00 PM',
               'details': ''
             },
             {
-              'venue': 'L-201',
-              'date': '22 Mar 21',
-              'time': '6:00 PM',
+              'venue': 'Oat',
+              'date': '15 April 23',
+              'time': '7:00 PM',
+              'details': ''
+            },
+            {
+              'venue': 'L-104',
+              'date': '9 April 23',
+              'time': '5:00 PM',
               'details': ''
             },
           ],
           clubEvents: [
             {
-              'club': 'Avartan',
-              'eventname': 'footloose',
-              'incharge': 'Dr Deepmala',
-              'date': '23 Aug 20'
+              'club': 'Badminton ',
+              'eventname': 'Tournament',
+              'incharge': 'Dr Seetharam',
+              'date': '10 April 23'
+            },
+            {
+              'club': 'Cricket Club',
+              'eventname': 'Tournament',
+              'incharge': 'Dr Seetharam',
+              'date': '5 April 23'
             },
             {
               'club': 'Avartan',
-              'eventname': 'footloose',
-              'incharge': 'Dr Deepmala',
-              'date': '23 Aug 20'
+              'eventname': 'Vishu',
+              'incharge': 'Dr Vijaypal',
+              'date': '15 April 23'
             },
           ],
         );
@@ -233,7 +273,7 @@ class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
                             )
                           ],
                           borderRadius:
-                              new BorderRadius.all(new Radius.circular(5.0)),
+                              new BorderRadius.all(new Radius.circular(20.0)),
                         ),
                       ),
                     ),
@@ -246,10 +286,15 @@ class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           InkWell(
-                            child: myContainer("Apply"),
+                            child: myContainer('Apply'),
                             onTap: () {
-                              Navigator.pushNamed(
-                                  context, '/gymkhana_homepage/apply');
+                              if (data!.profile!['user_type'] == "faculty") {
+                                Navigator.pushNamed(
+                                    context, '/gymkhana_homepage');
+                              } else {
+                                Navigator.pushNamed(
+                                    context, '/gymkhana_homepage/apply');
+                              }
                             },
                           ),
                           InkWell(
@@ -260,7 +305,21 @@ class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
                             },
                           ),
                           InkWell(
-                            child: myContainer("Club Details"),
+                            child: myContainer("Fest Budget"),
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, '/gymkhana_homepage/festbudget');
+                            },
+                          ),
+                          InkWell(
+                            child: myContainer("Submit Event Report"),
+                            onTap: () {
+                              Navigator.pushNamed(context,
+                                  '/gymkhana_homepage/submiteventreport');
+                            },
+                          ),
+                          InkWell(
+                            child: myContainer("View Club Details"),
                             onTap: () {
                               Navigator.pushNamed(
                                 context,
