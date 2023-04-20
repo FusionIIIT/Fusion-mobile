@@ -34,6 +34,9 @@ String kHealthCentreStudent = "/healthcenter/api/student";
 String kResearchProjectNew = "/research_procedures/api/new_research_project";
 String kConsultantProjectNew =
     "/research_procedures/api/new_consultant_project";
+String kResearchProjects = "/research_procedures/api/get_research_projects";
+String kConsultancyProjects =
+    "/research_procedures/api/get_consultancy_projects";
 
 //------------Screens------------
 

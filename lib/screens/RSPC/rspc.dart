@@ -250,12 +250,93 @@ class _RSPCModuleState extends State<RSPCModule> {
                                 SizedBox(
                                   height: 4,
                                 ),
-                                Center(
-                                  child: Text(
-                                    "Patents",
-                                    style: TextStyle(fontSize: 16),
-                                    textAlign: TextAlign.center,
-                                  ),
+                                Text(
+                                  "Patents",
+                                  style: TextStyle(fontSize: 16),
+                                  textAlign: TextAlign.center,
+                                ),
+                                SizedBox(
+                                  height: 6,
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, '/rspc/view_research_project',
+                              arguments: data.user != null
+                                  ? data.user!['username']
+                                  : "null");
+                        },
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          shadowColor: Colors.black,
+                          child: Container(
+                            decoration: utils.containerBorder(Colors.grey),
+                            alignment: Alignment.center,
+                            height: 125,
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.border_color_outlined,
+                                  size: 60,
+                                ),
+                                SizedBox(
+                                  height: 4,
+                                ),
+                                Text(
+                                  "Research Projects",
+                                  style: TextStyle(fontSize: 16),
+                                  textAlign: TextAlign.center,
+                                ),
+                                SizedBox(
+                                  height: 6,
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, '/rspc/view_consultancy_project',
+                              arguments: data.user != null
+                                  ? data.user!['username']
+                                  : "null");
+                        },
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          shadowColor: Colors.black,
+                          child: Container(
+                            decoration: utils.containerBorder(Colors.grey),
+                            alignment: Alignment.center,
+                            height: 125,
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.border_color_outlined,
+                                  size: 60,
+                                  // shadows: [],
+                                ),
+                                SizedBox(
+                                  height: 4,
+                                ),
+                                Text(
+                                  "Consultancy Projects",
+                                  style: TextStyle(fontSize: 16),
+                                  textAlign: TextAlign.center,
                                 ),
                                 SizedBox(
                                   height: 6,

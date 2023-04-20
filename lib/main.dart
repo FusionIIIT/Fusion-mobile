@@ -38,6 +38,8 @@ import 'package:fusion/screens/Programme_Curriculum/programme_curriculum_home.da
 import 'package:fusion/screens/RSPC/Patents/patents.dart';
 import 'package:fusion/screens/RSPC/ConsultancyProject/consultancy_project.dart';
 import 'package:fusion/screens/RSPC/ResearchProject/research_project.dart';
+import 'package:fusion/screens/RSPC/ViewProject/consultancy_projects.dart';
+import 'package:fusion/screens/RSPC/ViewProject/research_projects.dart';
 import 'package:fusion/screens/landing_page.dart';
 import 'package:fusion/screens/Healthcenter/healthcentermodule.dart';
 import 'package:fusion/screens/Healthcenter/feedback.dart';
@@ -131,7 +133,7 @@ class MyApp extends StatelessWidget {
           '/health_center/feedback': (context) => FeedBack(),
           '/health_center/viewschedule': (context) => ViewSchedule(),
           '/health_center/history': (context) => History(),
-          '/rspc': (context) =>
+        '/rspc': (context) =>
               RSPCModule(ModalRoute.of(context)!.settings.arguments.toString()),
           '/rspc/research_project': (context) => AddResearchProject(
               ModalRoute.of(context)!.settings.arguments.toString()),
@@ -139,6 +141,10 @@ class MyApp extends StatelessWidget {
               ModalRoute.of(context)!.settings.arguments.toString()),
           '/rspc/patents': (context) =>
               Patents(ModalRoute.of(context)!.settings.arguments.toString()),
+          '/rspc/view_research_project': (context) => ResearchProject(
+              ModalRoute.of(context)!.settings.arguments.toString()),
+          '/rspc/view_consultancy_project': (context) => ConsultancyProject(
+              ModalRoute.of(context)!.settings.arguments.toString()),
         },
       ),
     );
