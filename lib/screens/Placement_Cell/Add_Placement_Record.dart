@@ -30,18 +30,48 @@ class _AddPlacementRecord extends State<AddPlacementRecord> {
               dropdownColor: kPrimaryColor,
               items: <DropdownMenuItem<String>>[
                 DropdownMenuItem(
-                  value: 'Add Placement Record',
+                  value: 'Placement Schedule',
                   child: Text(
-                    'Add Placement Record',
+                    'Placement Schedule',
                   ),
                 ),
                 DropdownMenuItem(
-                    value: 'Add Event', child: Text('Add Event')
+                    value: 'Add Placement Record', child: Text('Add Placement Record')
                 ),
+                DropdownMenuItem(
+                    value: 'Add Event', child: Text('Add Event')
+                ),DropdownMenuItem(
+                    value: 'Past Records', child: Text('Past Records')
+                ),DropdownMenuItem(
+                    value: 'Batch Statistics', child: Text('Batch Statistics')
+                ),
+
               ],
 
               onChanged: (String? value) {
-                setState(() => _value = value!);
+                setState((){
+                  _value = value!;
+                  switch(_value){
+                    case 'Placement Schedule':
+                      Navigator.pushReplacementNamed(context, '/placement_cell/placement_cell_home');
+                      break;
+                    case 'Add Placement Record':
+                      Navigator.pushReplacementNamed(context, '/placement_cell/add_placement_record');
+                      break;
+                    case 'Add Event':
+                      Navigator.pushReplacementNamed(context, 'placement_cell/add_event');
+                      break;
+                    case 'Batch Statistics':
+                      Navigator.pushReplacementNamed(context, '/placement_cell/batch_statistics');
+                      break;
+                    case 'Past Records':
+                      Navigator.pushReplacementNamed(context, '/placement_cell/past_records');
+                      break;
+                    default:
+                      break;
+                  }
+
+                });
               },
             ),
           ],

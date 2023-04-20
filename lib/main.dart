@@ -26,9 +26,12 @@ import 'package:fusion/screens/Gymkhana/Apply.dart';
 import 'package:fusion/screens/Gymkhana/Record.dart';
 import 'package:fusion/screens/Gymkhana/Club.dart';
 import 'package:fusion/screens/Complaint/complaint.dart';
+import 'package:fusion/screens/Placement_Cell/Add_Event.dart';
 import 'package:fusion/screens/Placement_Cell/Add_Placement_Record.dart';
 import 'package:fusion/screens/Placement_Cell/Batch_Statistics.dart';
+import 'package:fusion/screens/Placement_Cell/Past_Records.dart';
 import 'package:fusion/screens/Placement_Cell/View_Placement_Records.dart';
+import 'package:fusion/screens/Placement_Cell/Placement_Cell_Home.dart';
 import 'package:fusion/screens/Profile/profile.dart';
 import 'package:fusion/screens/Programme_Curriculum/Batches/batches.dart';
 import 'package:fusion/screens/Programme_Curriculum/Courses/courses.dart';
@@ -130,7 +133,11 @@ class MyApp extends StatelessWidget {
           '/health_center/feedback': (context) => FeedBack(),
           '/health_center/viewschedule': (context) => ViewSchedule(),
           '/health_center/history': (context) => History(),
+          '/placement_cell/placement_cell_home': (context) => PlacementHomePage(ModalRoute.of(context)!.settings.arguments.toString()),
           '/placement_cell/add_placement_record':(context) => AddPlacementRecord(),
+          '/placement_cell/past_records':(context) => PastRecords(),
+          '/placement_cell/batch_statistics':(context) => BatchStatistics(),
+          'placement_cell/add_event':(context) => AddEvent(),
 
         },
       ),

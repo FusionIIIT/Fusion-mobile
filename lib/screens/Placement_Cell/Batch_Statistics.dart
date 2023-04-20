@@ -1,7 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/side_drawer.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:fusion/screens/Placement_Cell/Placement_Charts.dart';
+import 'package:fusion/constants.dart';
 
 class BatchStatistics extends StatefulWidget {
   @override
@@ -9,11 +12,13 @@ class BatchStatistics extends StatefulWidget {
 }
 
 class _BatchStatisticsState extends State<BatchStatistics> {
-  int _value = 2011;
+
+  int _graphValue = 2011;
+  String _value = 'Batch Statistics';
   Widget graphs = EmptyGraphs();
   @override
   Widget build(BuildContext context) {
-    switch(_value){
+    switch(_graphValue){
       case 2011:
         graphs = EmptyGraphs();
         break;
@@ -23,6 +28,66 @@ class _BatchStatisticsState extends State<BatchStatistics> {
     }
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: kPrimaryColor,
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            DropdownButton<String>(
+              value: _value,
+              style:  TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+              focusColor: kPrimaryColor,
+              dropdownColor: kPrimaryColor,
+              items: <DropdownMenuItem<String>>[
+                DropdownMenuItem(
+                  value: 'Placement Schedule',
+                  child: Text(
+                    'Placement Schedule',
+                  ),
+                ),
+                DropdownMenuItem(
+                    value: 'Add Placement Record', child: Text('Add Placement Record')
+                ),
+                DropdownMenuItem(
+                    value: 'Add Event', child: Text('Add Event')
+                ),DropdownMenuItem(
+                    value: 'Past Records', child: Text('Past Records')
+                ),DropdownMenuItem(
+                    value: 'Batch Statistics', child: Text('Batch Statistics')
+                ),
+
+              ],
+
+              onChanged: (String? value) {
+                setState((){
+                  _value = value!;
+                  switch(_value){
+                    case 'Placement Schedule':
+                      Navigator.pushReplacementNamed(context, '/placement_cell/placement_cell_home');
+                      break;
+                    case 'Add Placement Record':
+                      Navigator.pushReplacementNamed(context, '/placement_cell/add_placement_record');
+                      break;
+                    case 'Add Event':
+                      Navigator.pushReplacementNamed(context, 'placement_cell/add_event');
+                      break;
+                    case 'Batch Statistics':
+                      Navigator.pushReplacementNamed(context, '/placement_cell/batch_statistics');
+                      break;
+                    case 'Past Records':
+                      Navigator.pushReplacementNamed(context, '/placement_cell/past_records');
+                      break;
+                    default:
+                      break;
+                  }
+
+                });
+              },
+            ),
+          ],
+        ),
+      ),
+        drawer: SideDrawer(),
         body: Column(
           children: [
             Row(
@@ -32,7 +97,7 @@ class _BatchStatisticsState extends State<BatchStatistics> {
                   child: Text('Select Year '),
                 ),
                 DropdownButton<int>(
-                  value: _value,
+                  value: _graphValue,
                   items: <DropdownMenuItem<int>>[
                     DropdownMenuItem(
                       value: 2010,
@@ -88,7 +153,7 @@ class _BatchStatisticsState extends State<BatchStatistics> {
                     ),
                   ],
                   onChanged: (int? value) => {
-                    setState(() => _value = value!)
+                    setState(() => _graphValue = value!)
                   },
       ),
               ],
@@ -112,6 +177,8 @@ class EmptyGraphs extends StatelessWidget{
 }
 
 class StatsCharts extends StatelessWidget{
+  Random rnd = new Random();
+  int next(int min, int max) => min + rnd.nextInt(max - min);
   final List<PlacementData> data = [
     PlacementData(branch: 'CSE', placements: 225, barColor: charts.ColorUtil.fromDartColor(Colors.blueAccent)),
     PlacementData(branch: 'ECE', placements: 125, barColor: charts.ColorUtil.fromDartColor(Colors.redAccent)),

@@ -30,7 +30,31 @@ const kGymkhanaMemberRecords = '/api/gymkhana/members_record';
 String kHealthCentreStudent = "/healthcenter/api/student";
 
 //PlacementCell
-String kPlacementCellRecord = "/placement/api/placementrecord/";
+String kProjects = "/placement/api/projects/";
+String kExperiences = "/placement/api/experiences/";
+String kSkills = "/placement/api/skills/";
+String kHas = "/placement/api/has/";
+String kEducation = "/placement/api/education/";
+String kCourses = "/placement/api/courses/";
+String kConference = "/placement/api/conference/";
+String kPublications = "/placement/api/publications/";
+String kReferences = "/placement/api/references/";
+String kCoAuthor = "/placement/api/coauthor/";
+String kPatent = "/placement/api/patent/";
+String kCoInventor = "/placement/api/coinventor/";
+String kInterest = "/placement/api/interest/";
+String kAchievement = "/placement/api/achievement/";
+String kExtracurricular = "/placement/api/extracurricular/";
+String kMessageOfficer = "/placement/api/messageofficer/";
+String kNotifyStudent = "/placement/api/notifystudent/";
+String kRole = "/placement/api/role/";
+String kCompanyDetails = "/placement/api/companydetails/";
+String kPlacementStatus = "/placement/api/placementstatus/";
+String kPlacementRecord = "/placement/api/placementrecord/";
+String kStudentRecord = "/placement/api/studentrecord/";
+String kChairmanVisit = "/placement/api/chairmanvisit/";
+String kPlacementSchedule = "/placement/api/placementschedule/";
+String kStudentPlacement = "/placement/api/placementrecord/";
 //------------Screens------------
 
 //screens/Academic/Current_Semester

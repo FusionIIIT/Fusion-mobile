@@ -142,7 +142,7 @@ class _SideDrawerState extends State<SideDrawer> {
                         ModulesPadding(line: 'Leave Module'),
                         ModulesPadding(
                             line: 'Placement Module',
-                            pageMover: '/placement_cell/add_placement_record',
+                            pageMover: '/placement_cell/placement_cell_home',
                             isActive: true,
                         ),
                         ModulesPadding(line: 'Visitors Hostel Module'),
