@@ -10,8 +10,7 @@ class ViewApplications extends StatefulWidget {
   _ViewApplicationsState createState() => _ViewApplicationsState();
 }
 
-//A dummy list of sample json returned by backend (this onHoldComplains will bew removed when backend is available)
-final List<Map<String, String>> onHoldComplains = [
+final List<Map<String, String>> awards = [
   {
     "Name": " ",
     "Application ID": " ",
@@ -21,15 +20,11 @@ final List<Map<String, String>> onHoldComplains = [
 ];
 
 class _ViewApplicationsState extends State<ViewApplications> {
-  bool _loading = true;
+  
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _loading == true
-          ? Center(child: CircularProgressIndicator())
-          : listView(),
-    );
+    return listView();
   }
 }
 
@@ -37,43 +32,33 @@ class _ViewApplicationsState extends State<ViewApplications> {
 ListView listView() {
   return ListView(
     children: [
-      new Container(
-        child: new Column(
-          children: [
-            SizedBox(height: 20),
-            Text(
-              "Application Status:",
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4),
-              child: Divider(
-                thickness: 1,
-                color: Colors.black54,
-              ),
-            ),
-          ],
-        ),
-      ),
+      SizedBox(height: 40),
+      ToggleSwitch(
+        minWidth: 800,
+        initialLabelIndex: 0,
+        totalSwitches: 2,
+        activeBgColor: [Colors.orange],
+        activeFgColor: Colors.white,
+        inactiveBgColor: Color.fromARGB(255, 214, 214, 214),
+        inactiveFgColor: Colors.grey[900],
 
-      SizedBox(height: 20),
-      new Container(
-        padding: const EdgeInsets.symmetric(horizontal: 100),
-        child: new Row(
-          children: [
-            ToggleSwitch(
-              minWidth: 90.0,
-              minHeight: 50.0,
-              fontSize: 16.0,
-              activeBgColor: [Colors.orange],
-              activeFgColor: Colors.white,
-              inactiveBgColor: Color.fromARGB(255, 215, 214, 214),
-              inactiveFgColor: Colors.grey[900],
-              totalSwitches: 2,
-              labels: ['Current', 'History'],
+        labels: ['Current','History'],
+        onToggle: (index) {
+          print('switched to: $index');
+        },
+      ),
+      SizedBox(height: 10),
+      Container(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Center(
+              child: Text(
+            "Current Applications",
+            style: TextStyle(
+              fontSize: 20.0,
+              color: Colors.deepOrangeAccent,
             ),
-          ],
+          )),
         ),
       ),
       SizedBox(height: 20),
@@ -114,7 +99,8 @@ ListView listView() {
 }
 
 List<DataRow> awardList() {
-  return onHoldComplains
+  //Get the list of json and map through, to select each json and lay row to the table..
+  return awards
       .map(
         ((element) => DataRow(
               cells: <DataCell>[
