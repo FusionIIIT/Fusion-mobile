@@ -116,7 +116,7 @@ class _InfoCardState extends State<InfoCard> {
               setState(() {
                 try {
                   service.markRead(widget.notification.id!.toString());
-                }catch(e){
+                } catch (e) {
                   print(e);
                 }
               });

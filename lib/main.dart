@@ -35,6 +35,11 @@ import 'package:fusion/screens/Programme_Curriculum/Discipline/discipline.dart';
 import 'package:fusion/screens/Programme_Curriculum/Programme/programme_home_page.dart';
 import 'package:fusion/screens/Programme_Curriculum/Programme_Info/programme_info.dart';
 import 'package:fusion/screens/Programme_Curriculum/programme_curriculum_home.dart';
+import 'package:fusion/screens/RSPC/Patents/patents.dart';
+import 'package:fusion/screens/RSPC/ConsultancyProject/consultancy_project.dart';
+import 'package:fusion/screens/RSPC/ResearchProject/research_project.dart';
+import 'package:fusion/screens/RSPC/ViewProject/consultancy_projects.dart';
+import 'package:fusion/screens/RSPC/ViewProject/research_projects.dart';
 import 'package:fusion/screens/landing_page.dart';
 import 'package:fusion/screens/Healthcenter/healthcentermodule.dart';
 import 'package:fusion/screens/Healthcenter/feedback.dart';
@@ -42,6 +47,7 @@ import 'package:fusion/screens/Healthcenter/viewschedule.dart';
 import 'package:fusion/screens/Healthcenter/history.dart';
 import 'package:fusion/screens/Healthcenter/HealthCenter.dart';
 import 'package:fusion/services/service_locator.dart';
+import 'screens/RSPC/rspc.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -60,7 +66,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MediaQueryData windowData =
-    MediaQueryData.fromWindow(WidgetsBinding.instance.window);
+        MediaQueryData.fromWindow(WidgetsBinding.instance.window);
     windowData = windowData.copyWith(
       textScaleFactor: 1,
     );
@@ -71,10 +77,10 @@ class MyApp extends StatelessWidget {
         title: 'Fusion',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-            // primarySwatch: Colors.blueGrey,
+          // primarySwatch: Colors.blueGrey,
           // colorSchemeSeed: Color(0xFF2085D0),
           colorSchemeSeed: Color(0xFFF36C35),
-            fontFamily: 'Nunito',
+          fontFamily: 'Nunito',
           useMaterial3: true,
         ),
         initialRoute: '/landing',
@@ -127,6 +133,18 @@ class MyApp extends StatelessWidget {
           '/health_center/feedback': (context) => FeedBack(),
           '/health_center/viewschedule': (context) => ViewSchedule(),
           '/health_center/history': (context) => History(),
+        '/rspc': (context) =>
+              RSPCModule(ModalRoute.of(context)!.settings.arguments.toString()),
+          '/rspc/research_project': (context) => AddResearchProject(
+              ModalRoute.of(context)!.settings.arguments.toString()),
+          '/rspc/consultancy_project': (context) => AddConsultancyProject(
+              ModalRoute.of(context)!.settings.arguments.toString()),
+          '/rspc/patents': (context) =>
+              Patents(ModalRoute.of(context)!.settings.arguments.toString()),
+          '/rspc/view_research_project': (context) => ResearchProject(
+              ModalRoute.of(context)!.settings.arguments.toString()),
+          '/rspc/view_consultancy_project': (context) => ConsultancyProject(
+              ModalRoute.of(context)!.settings.arguments.toString()),
         },
       ),
     );

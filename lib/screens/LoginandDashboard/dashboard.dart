@@ -11,6 +11,7 @@ import 'package:fusion/models/dashboard.dart';
 import 'package:fusion/screens/LoginandDashboard/DashboardComponents/cardItems.dart';
 import 'package:fusion/services/dashboard_service.dart';
 import 'package:http/http.dart';
+import 'dart:convert';
 
 class Dashboard extends StatefulWidget {
   static String tag = 'home-page';
@@ -46,9 +47,11 @@ class _DashboardState extends State<Dashboard> {
   getData() async {
     try {
       Response response = await dashboardService.getDashboard();
+
       Response response2 = await profileService.getProfile();
       setState(() {
         data = DashboardData.fromJson(jsonDecode(response.body));
+
         data2 = ProfileData.fromJson(jsonDecode(response2.body));
         _loading = false;
       });

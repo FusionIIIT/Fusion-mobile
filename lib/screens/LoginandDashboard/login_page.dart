@@ -20,7 +20,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-
     final Widget logoWidget = CircleAvatar(
       backgroundColor: Colors.transparent,
       radius: 54.0,
@@ -30,13 +29,16 @@ class _LoginPageState extends State<LoginPage> {
       keyboardType: TextInputType.emailAddress,
       autofocus: false,
       decoration: InputDecoration(
-        label: Text('Username', style: TextStyle(
-          fontSize: 12.0,
-        ),),
+        label: Text(
+          'Username',
+          style: TextStyle(
+            fontSize: 12.0,
+          ),
+        ),
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
         border: OutlineInputBorder(
-          // borderRadius: BorderRadius.circular(32.0),
-        ),
+            // borderRadius: BorderRadius.circular(32.0),
+            ),
       ),
       onChanged: (input) {
         username = input;
@@ -44,11 +46,9 @@ class _LoginPageState extends State<LoginPage> {
       validator: (String? value) {
         if (value?.length == 0) {
           return 'Please enter username';
-        }
-        else if (value?.contains('@') == true) {
+        } else if (value?.contains('@') == true) {
           return 'Please enter username only';
         }
-
       },
       autofillHints: [AutofillHints.username],
     );
@@ -57,13 +57,16 @@ class _LoginPageState extends State<LoginPage> {
       autofocus: false,
       obscureText: true,
       decoration: InputDecoration(
-        label: Text('Password', style: TextStyle(
-          fontSize: 12.0,
-        ),),
+        label: Text(
+          'Password',
+          style: TextStyle(
+            fontSize: 12.0,
+          ),
+        ),
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
         border: OutlineInputBorder(
-          // borderRadius: BorderRadius.circular(32.0),
-        ),
+            // borderRadius: BorderRadius.circular(32.0),
+            ),
       ),
       onChanged: (input) {
         pass = input;
@@ -141,7 +144,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(bottom: 15),
-                    child: emailFormField,
+                  child: emailFormField,
                 ),
                 Padding(
                   padding: EdgeInsets.only(bottom: 15),

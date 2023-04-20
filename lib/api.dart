@@ -29,6 +29,15 @@ const kGymkhanaMemberRecords = '/api/gymkhana/members_record';
 //HealthCentre
 String kHealthCentreStudent = "/healthcenter/api/student";
 
+//RSPC
+
+String kResearchProjectNew = "/research_procedures/api/new_research_project";
+String kConsultantProjectNew =
+    "/research_procedures/api/new_consultant_project";
+String kResearchProjects = "/research_procedures/api/get_research_projects";
+String kConsultancyProjects =
+    "/research_procedures/api/get_consultancy_projects";
+
 //------------Screens------------
 
 //screens/Academic/Current_Semester

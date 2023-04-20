@@ -122,27 +122,39 @@ class _SideDrawerState extends State<SideDrawer> {
                           isActive: true,
                         ),
                         ModulesPadding(
-                            line: 'Gymkhana Module',
-                            pageMover: '/gymkhana_homepage'),
+                          line: 'Gymkhana Module',
+                          pageMover: '/gymkhana_homepage',
+                        ),
+
                         ModulesPadding(
-                            line: 'Establishment Module',
-                            pageMover: '/establishment'),
+                          line: 'Establishment Module',
+                          pageMover: '/establishment',
+                        ),
                         ModulesPadding(
-                            line: 'Library Module',
-                            pageMover: '/library_homepage'),
+                          line: 'Library Module',
+                          pageMover: '/library_homepage',
+                        ),
                         ModulesPadding(line: 'Awards & Scholarship Module'),
                         ModulesPadding(
-                            line: 'Complaint Module', pageMover: '/complaint'),
+                          line: 'Complaint Module',
+                          pageMover: '/complaint',
+                        ),
                         ModulesPadding(line: 'Central Mess Module'),
                         ModulesPadding(line: 'Feeds Module'),
                         ModulesPadding(
                           line: 'Health Center Module',
                           pageMover: '/health_center',
                         ),
+
                         ModulesPadding(line: 'Leave Module'),
                         ModulesPadding(line: 'Placement Module'),
                         ModulesPadding(line: 'Visitors Hostel Module'),
                         ModulesPadding(line: 'File Tracking Module'),
+                        ModulesPadding(
+                          line: 'RSPC Module',
+                          pageMover: '/rspc',
+                          isActive: true,
+                        ),
                       ],
                     ),
                   )

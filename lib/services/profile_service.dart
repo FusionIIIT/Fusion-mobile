@@ -25,6 +25,7 @@ class ProfileService {
         ),
         headers: headers,
       );
+
       if (response.statusCode == 200) {
         print("successfully fetched profile");
         storage_service
@@ -33,6 +34,7 @@ class ProfileService {
       }
       throw Exception('Can\'t load');
     } catch (e) {
+      print(e);
       rethrow;
     }
   }
