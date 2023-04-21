@@ -5,6 +5,7 @@ import 'package:fusion/screens/Complaint/ComplaintHistory/complain_history.dart'
 import 'package:fusion/screens/Complaint/Feedback/feedback.dart';
 import 'package:fusion/screens/Complaint/LodgeComplaint/lodge_complaint.dart';
 import 'package:fusion/screens/Establishment/establishment_home_page.dart';
+import 'package:fusion/screens/Hostelmanagement/hostelmanagement.dart';
 import 'package:fusion/screens/Library/Book_Search.dart';
 import 'package:fusion/screens/Library/dues.dart';
 import 'package:fusion/screens/Library/issued_items.dart';
@@ -41,6 +42,7 @@ import 'package:fusion/screens/Healthcenter/feedback.dart';
 import 'package:fusion/screens/Healthcenter/viewschedule.dart';
 import 'package:fusion/screens/Healthcenter/history.dart';
 import 'package:fusion/screens/Healthcenter/HealthCenter.dart';
+import 'package:fusion/screens/Hostelmanagement/hostelmanagement.dart';
 import 'package:fusion/services/service_locator.dart';
 
 void main() {
@@ -60,7 +62,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MediaQueryData windowData =
-    MediaQueryData.fromWindow(WidgetsBinding.instance.window);
+
+        MediaQueryData.fromWindow(WidgetsBinding.instance.window);
+
     windowData = windowData.copyWith(
       textScaleFactor: 1,
     );
@@ -71,10 +75,12 @@ class MyApp extends StatelessWidget {
         title: 'Fusion',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-            // primarySwatch: Colors.blueGrey,
+
+          // primarySwatch: Colors.blueGrey,
           // colorSchemeSeed: Color(0xFF2085D0),
           colorSchemeSeed: Color(0xFFF36C35),
-            fontFamily: 'Nunito',
+          fontFamily: 'Nunito',
+
           useMaterial3: true,
         ),
         initialRoute: '/landing',
@@ -124,6 +130,9 @@ class MyApp extends StatelessWidget {
           '/health_center': (context) => HealthCenterMod(
               ModalRoute.of(context)!.settings.arguments.toString()),
           '/health_center/healthcenter': (context) => HealthCenter(),
+
+          '/hostel_home': (context) => HostelHome(),
+
           '/health_center/feedback': (context) => FeedBack(),
           '/health_center/viewschedule': (context) => ViewSchedule(),
           '/health_center/history': (context) => History(),
