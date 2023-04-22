@@ -22,9 +22,9 @@ class _CurrentSemesterHomePageState extends State<CurrentSemesterHomePage> {
       length: 5,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.black,
+          backgroundColor: Colors.deepOrangeAccent,
           title: Text(
-            "Current Semester" + ' -> ' + data.details!['user_sem'].toString(),
+            "Current Semester" + ' - ' + data.details!['user_sem'].toString(),
             style: TextStyle(color: Colors.white),
           ),
           actions: <Widget>[
@@ -41,58 +41,91 @@ class _CurrentSemesterHomePageState extends State<CurrentSemesterHomePage> {
               child: Icon(Icons.more_vert),
             ),
           ],
-          bottom: TabBar(
-            isScrollable: true,
-            indicatorColor: Colors.white,
-            indicatorWeight: 6.0,
-            tabs: [
-              Tab(
-                child: Container(
-                  child: Text(
-                    'Semester',
-                  ),
-                ),
-              ),
-              Tab(
-                child: Container(
-                  child: Text(
-                    'Time-Table',
-                  ),
-                ),
-              ),
-              Tab(
-                child: Container(
-                  child: Text(
-                    'Academic Calendar',
-                  ),
-                ),
-              ),
-              Tab(
-                child: Container(
-                  child: Text(
-                    'List of Holidays',
-                  ),
-                ),
-              ),
-              Tab(
-                child: Container(
-                  child: Text(
-                    'Exam time table',
-                  ),
-                ),
-              ),
-            ],
-          ),
         ),
         drawer: SideDrawer(),
-        body: TabBarView(
-          children: [
-            Semester(data: data),
-            TimeTable(),
-            AcademicCalendar(),
-            HolidaysList(),
-            ExamTimeTable(),
-          ],
+        body: Container(
+          child: ListView(
+              shrinkWrap: true,
+              physics: ClampingScrollPhysics(),
+              children: <Widget>[
+                DefaultTabController(
+                  length: 5, // length of tabs
+                  initialIndex: 0,
+                  child: Column(children: <Widget>[
+                    Container(
+                      child: TabBar(
+                        labelColor: Colors.deepOrangeAccent,
+                        unselectedLabelColor: Colors.black,
+                        isScrollable: true,
+                        indicatorColor: Colors.black,
+                        indicatorWeight: 6.0,
+                        tabs: [
+                          Tab(
+                            child: Container(
+                              child: Text(
+                                'Semester',
+                              ),
+                            ),
+                          ),
+                          Tab(
+                            child: Container(
+                              child: Text(
+                                'Time-Table',
+                              ),
+                            ),
+                          ),
+                          Tab(
+                            child: Container(
+                              child: Text(
+                                'Academic Calendar',
+                              ),
+                            ),
+                          ),
+                          Tab(
+                            child: Container(
+                              child: Text(
+                                'List of Holidays',
+                              ),
+                            ),
+                          ),
+                          Tab(
+                            child: Container(
+                              child: Text(
+                                'Exam time table',
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      height: 400, //height of TabBarView
+                      decoration: BoxDecoration(
+                          border: Border(
+                              top: BorderSide(color: Colors.grey, width: 0.5))),
+                      child: TabBarView(
+                        children: <Widget>[
+                          Container(
+                            child: Semester(data: data),
+                          ),
+                          Container(
+                            child: TimeTable(),
+                          ),
+                          Container(
+                            child: AcademicCalendar(),
+                          ),
+                          Container(
+                            child: HolidaysList(),
+                          ),
+                          Container(
+                            child: ExamTimeTable(),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ]),
+                ),
+              ]),
         ),
       ),
     );
