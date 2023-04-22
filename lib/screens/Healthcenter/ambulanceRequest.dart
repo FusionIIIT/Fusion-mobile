@@ -16,7 +16,7 @@ class AmbulanceRequest extends StatefulWidget {
 
 class _AmbulanceRequestState extends State<AmbulanceRequest> {
   int _value = 1;
-  String start_date = '', end_date = '', reason = '', user_id = "20BCS046";
+  String start_date = '', end_date = '', reason = '';
 
   // String? user_id = widget.ambulanceRequesterRollNo;
   // String? worker_id = "";
@@ -78,63 +78,7 @@ class _AmbulanceRequestState extends State<AmbulanceRequest> {
             },
           ),
           // adding time for ambulence request
-          Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
-          // DateTimeFormField(
-          //   decoration: const InputDecoration(
-          //     hintStyle: TextStyle(color: Colors.black45),
-          //     errorStyle: TextStyle(color: Colors.redAccent),
-          //     border: OutlineInputBorder(),
-          //     suffixIcon: Icon(Icons.access_time_rounded),
-          //     labelText: 'From Time',
-          //   ),
-          //   mode: DateTimeFieldPickerMode.time,
-          //   autovalidateMode: AutovalidateMode.always,
-
-          //   //  For time validation -----------> Pradeep
-
-          //   validator: (e) =>
-          //       (e?.day ?? 0) == 1 ? 'Please not the first day' : null,
-          //   onDateSelected: (DateTime value) {
-          //     print(value);
-          //     start_date = value.toString();
-          //   },
-          // ),
-
           // Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
-          // DateTimeFormField(
-          //   decoration: const InputDecoration(
-          //     hintStyle: TextStyle(color: Colors.black45),
-          //     errorStyle: TextStyle(color: Colors.redAccent),
-          //     border: OutlineInputBorder(),
-          //     suffixIcon: Icon(Icons.access_time_rounded),
-          //     labelText: 'To Time',
-          //   ),
-          //   mode: DateTimeFieldPickerMode.time,
-          //   autovalidateMode: AutovalidateMode.always,
-
-          //   //  For time validation -----------> Pradeep
-
-          //   validator: (e) =>
-          //       (e?.day ?? 0) == 1 ? 'Please not the first day' : null,
-          //   onDateSelected: (DateTime value) {
-          //     print(value);
-          //     end_date = value.toString();
-          //   },
-          // ),
-          // Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
-          // TextFormField(
-          //   maxLines: 1,
-          //   // cursorHeight: 30,
-          //   decoration: new InputDecoration(
-          //     labelText: "Picking point",
-          //     fillColor: Colors.white,
-          //     border: new OutlineInputBorder(),
-          //     //fillColor: Colors.green
-          //   ),
-          //   style: new TextStyle(
-          //     fontFamily: "Poppins",
-          //   ),
-          // ),
 
           Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
           TextFormField(
@@ -174,16 +118,16 @@ class _AmbulanceRequestState extends State<AmbulanceRequest> {
                 onPressed: () async {
                   HeathService auth = HeathService();
                   bool lodge = await auth.getAmbulence(
-                    user_id,
+                    // user_id,
                     start_date,
                     end_date,
                     reason,
                   );
-                  print(user_id);
-                  print(start_date);
-                  print(end_date);
-                  print(reason);
-                  print(lodge);
+
+                  // print(start_date);
+                  // print(end_date);
+                  // print(reason);
+                  // print(lodge);
 
                   // TextInput.finishAutofillContext();
                   if (lodge == true) {

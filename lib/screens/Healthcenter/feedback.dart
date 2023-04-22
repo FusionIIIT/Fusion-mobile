@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fusion/services/health_service.dart';
 
 class FeedBack extends StatefulWidget {
   @override
@@ -6,7 +7,7 @@ class FeedBack extends StatefulWidget {
 }
 
 class _FeedBackState extends State<FeedBack> {
-  String feedback = '';
+  String feedback = '', date = '';
 
   @override
   Widget feed = Container(
@@ -26,17 +27,75 @@ class _FeedBackState extends State<FeedBack> {
             fontFamily: "Poppins",
           ),
         ),
+        Padding(padding: EdgeInsets.symmetric(vertical: 20.0)),
         Center(
-          child: FlatButton(
-            //FlatButton ---> TextButton
-            child: Text(
-              'Submit',
-              style: TextStyle(fontSize: 15.0),
+          child: SizedBox(
+            width: 100,
+            height: 40,
+            child: TextButton(
+              child: Text(
+                "Submit",
+                style: TextStyle(fontSize: 20),
+              ),
+
+              // try something new
+
+              onPressed: () async {
+                HeathService auth = HeathService();
+                bool lodge = await auth.postFeedback(
+                  // user_id,
+                  feedback,
+                );
+                print(lodge);
+
+                // TextInput.finishAutofillContext();
+                if (lodge == true) {
+                  return showDialog(
+                    context: context,
+                    builder: (ctx) => AlertDialog(
+                      title: Text("Success"),
+                      content: Text("Ambulance Request Added Successfully"),
+                      actions: <Widget>[
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(ctx).pop();
+                          },
+                          child: Text("okay"),
+                        ),
+                      ],
+                    ),
+                  );
+                } else {
+                  return showDialog(
+                    context: context,
+                    builder: (ctx) => AlertDialog(
+                      title: Text("Failed"),
+                      content: Text("Cannot add Ambulance Request"),
+                      actions: <Widget>[
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(ctx).pop();
+                          },
+                          child: Text("okay"),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+              },
+
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all(Colors.red),
+                backgroundColor: MaterialStateProperty.all(Colors.white),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  side: BorderSide(color: Colors.red),
+                )),
+              ),
             ),
-            color: Colors.deepOrangeAccent,
-            onPressed: () {},
           ),
-        ),
+        )
       ],
     ),
   );

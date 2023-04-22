@@ -13,7 +13,12 @@ class Appointment extends StatefulWidget {
 
 class _AppointmentState extends State<Appointment> {
   int _value = 1;
-  String date = '', drname = '', from_time = '', to_time = '', issues = '';
+  String date = '',
+      drname = '',
+      from_time = '',
+      to_time = '',
+      issues = '',
+      dr_id = '';
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +68,8 @@ class _AppointmentState extends State<Appointment> {
               ],
               onChanged: (value) {
                 setState(() {
-                  // _value = value;
+                  // _value = (int)value;
+                  dr_id = value.toString();
                 });
               }),
           Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
@@ -172,6 +178,7 @@ class _AppointmentState extends State<Appointment> {
                   HeathService auth = HeathService();
                   bool lodge = await auth.doctorAppoinment(
                     // _value,
+                    dr_id,
                     date,
                     from_time,
                     to_time,
