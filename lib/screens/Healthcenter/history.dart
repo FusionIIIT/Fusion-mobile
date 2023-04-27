@@ -11,7 +11,7 @@ class _HistoryState extends State<History> {
   @override
   Widget build(BuildContext context) {
     final HealthData data =
-        ModalRoute.of(context)!.settings.arguments as HealthData;
+    ModalRoute.of(context)!.settings.arguments as HealthData;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -101,18 +101,18 @@ class _HistoryState extends State<History> {
         ]),
         data.complaints != null && data.complaints!.isNotEmpty
             ? TableRow(children: [
-                for (var complaints in data.complaints!)
-                  tableCell2("\n" + complaints["feedback"].toString() + "\n"),
-                for (var complaints in data.complaints!)
-                  tableCell2("\n" + complaints["complaint"].toString() + "\n"),
-                for (var complaints in data.complaints!)
-                  tableCell2("\n" + complaints["date"].toString() + "\n"),
-              ])
+          for (var complaints in data.complaints!)
+            tableCell2("\n" + complaints["feedback"].toString() + "\n"),
+          for (var complaints in data.complaints!)
+            tableCell2("\n" + complaints["complaint"].toString() + "\n"),
+          for (var complaints in data.complaints!)
+            tableCell2("\n" + complaints["date"].toString() + "\n"),
+        ])
             : TableRow(children: [
-                tableCell2("\n" + "NA" + "\n"),
-                tableCell2("\n" + "NA" + "\n"),
-                tableCell2("\n" + "NA" + "\n"),
-              ]),
+          tableCell2("\n" + "NA" + "\n"),
+          tableCell2("\n" + "NA" + "\n"),
+          tableCell2("\n" + "NA" + "\n"),
+        ]),
       ]),
     );
   }
@@ -127,20 +127,11 @@ class _HistoryState extends State<History> {
           tableCell("\nDescription\n"),
           tableCell("\nDate\n"),
         ]),
-        data.appointments != null && data.appointments!.isNotEmpty
-            ? TableRow(children: [
-                tableCell2("\n" + "Name not available" + "\n"),
-                for (var appointments in data.appointments!)
-                  tableCell2(
-                      "\n" + appointments!["description"].toString() + "\n"),
-                for (var appointments in data.appointments!)
-                  tableCell2("\n" + appointments!["date"].toString() + "\n"),
-              ])
-            : TableRow(children: [
-                tableCell2("\n" + "NA" + "\n"),
-                tableCell2("\n" + "NA" + "\n"),
-                tableCell2("\n" + "NA" + "\n"),
-              ]),
+        TableRow(children: [
+          tableCell2("\n" + "NA" + "\n"),
+          tableCell2("\n" + "NA" + "\n"),
+          tableCell2("\n" + "NA" + "\n"),
+        ]),
       ]),
     );
   }
@@ -155,35 +146,35 @@ class _HistoryState extends State<History> {
           tableCell("\nHospital\n"),
           Center(
               child: Column(
-            children: [
-              tableCell("\nAdmit"),
-              tableCell("Date\n"),
-            ],
-          )),
+                children: [
+                  tableCell("\nAdmit"),
+                  tableCell("Date\n"),
+                ],
+              )),
           Center(
               child: Column(
-            children: [
-              tableCell("\nDischarge"),
-              tableCell("Date\n"),
-            ],
-          )),
+                children: [
+                  tableCell("\nDischarge"),
+                  tableCell("Date\n"),
+                ],
+              )),
           tableCell("\nReason\n"),
         ]),
         data.hospitals != null && data.hospitals!.isNotEmpty
             ? TableRow(children: [
-                tableCell2("\n" + "NA" + "\n"),
-                tableCell2("\n" + "NA" + "\n"),
-                tableCell2("\n" + "NA" + "\n"),
-                tableCell2("\n" + "NA" + "\n"),
-                tableCell2("\n" + "NA" + "\n"),
-              ])
+          tableCell2("\n" + "NA" + "\n"),
+          tableCell2("\n" + "NA" + "\n"),
+          tableCell2("\n" + "NA" + "\n"),
+          tableCell2("\n" + "NA" + "\n"),
+          tableCell2("\n" + "NA" + "\n"),
+        ])
             : TableRow(children: [
-                tableCell2("\n" + "NA" + "\n"),
-                tableCell2("\n" + "NA" + "\n"),
-                tableCell2("\n" + "NA" + "\n"),
-                tableCell2("\n" + "NA" + "\n"),
-                tableCell2("\n" + "NA" + "\n"),
-              ]),
+          tableCell2("\n" + "NA" + "\n"),
+          tableCell2("\n" + "NA" + "\n"),
+          tableCell2("\n" + "NA" + "\n"),
+          tableCell2("\n" + "NA" + "\n"),
+          tableCell2("\n" + "NA" + "\n"),
+        ]),
       ]),
     );
   }
@@ -208,17 +199,17 @@ class _HistoryState extends State<History> {
         ]),
         data.ambulances != null && data.ambulances!.isNotEmpty
             ? TableRow(children: [
-                tableCell2("\n" + "NA" + "\n"),
-                tableCell2("\n" + "NA" + "\n"),
-                tableCell2("\n" + "NA" + "\n"),
-                tableCell2("\n" + "NA" + "\n"),
-              ])
+          tableCell2("\n" + "NA" + "\n"),
+          tableCell2("\n" + "NA" + "\n"),
+          tableCell2("\n" + "NA" + "\n"),
+          tableCell2("\n" + "NA" + "\n"),
+        ])
             : TableRow(children: [
-                tableCell2("\n" + "NA" + "\n"),
-                tableCell2("\n" + "NA" + "\n"),
-                tableCell2("\n" + "NA" + "\n"),
-                tableCell2("\n" + "NA" + "\n"),
-              ])
+          tableCell2("\n" + "NA" + "\n"),
+          tableCell2("\n" + "NA" + "\n"),
+          tableCell2("\n" + "NA" + "\n"),
+          tableCell2("\n" + "NA" + "\n"),
+        ])
       ]),
     );
   }
@@ -229,60 +220,66 @@ class _HistoryState extends State<History> {
       padding: EdgeInsets.symmetric(vertical: 15, horizontal: 5),
       child: Table(border: TableBorder.all(color: Colors.black), children: [
         TableRow(children: [
-          tableCell("\nTreated By\n"),
-          if (data.prescription != null && data.prescription!.isNotEmpty)
-            for (var prescription in data.prescription!)
-              tableCell2("\n" + "Name Not available" + "\n")
-          else
-            tableCell2("\n" + "NA" + "\n"),
+          Center(
+              child: Column(
+                children: [
+                  tableCell("\n Treated By"),
+                  // tableCell("Date\n"),
+                ],
+              )),
+          Center(
+              child: Column(
+                children: [
+                  tableCell("\n Date\n"),
+                ],
+              )),
+          Center(
+              child: Column(
+                children: [
+                  tableCell("\nDetail"),
+                  // tableCell("Date\n"),
+                ],
+              )),
+          Center(
+              child: Column(
+                children: [
+                  tableCell("\n Test"),
+                ],
+              )),
+          Center(
+              child: Column(
+                children: [
+                  tableCell("\nMedicine"),
+                  // tableCell("Date\n"),
+                ],
+              )),
+          Center(
+              child: Column(
+                children: [
+                  tableCell("\n No of Days"),
+                  // tableCell("Date\n"),
+                ],
+              )),
+          tableCell("\n No of Times/day\n"),
         ]),
-        TableRow(children: [
-          tableCell("\nDate\n"),
-          if (data.prescription != null && data.prescription!.isNotEmpty)
-            for (var prescription in data.prescription!)
-              tableCell2("\n" + prescription!['date'].toString() + "\n")
-          else
-            tableCell2("\n" + "NA" + "\n"),
-        ]),
-        TableRow(children: [
-          tableCell("\nDetail\n"),
-          if (data.prescription != null && data.prescription!.isNotEmpty)
-            for (var prescription in data.prescription!)
-              tableCell2("\n" + prescription!["details"].toString() + "\n")
-          else
-            tableCell2("\n" + "NA" + "\n"),
-        ]),
-        TableRow(children: [
-          tableCell("\nTest\n"),
-          if (data.prescription != null && data.prescription!.isNotEmpty)
-            for (var prescription in data.prescription!)
-              tableCell2("\n" + prescription!["test"].toString() + "\n")
-          else
-            tableCell2("\n" + "NA" + "\n"),
-        ]),
-        TableRow(children: [
-          tableCell("\nMedicine\n"),
-          if (data.medicines != null && data.medicines!.isNotEmpty)
-            for (var medicines in data.medicines!)
-              tableCell2("\n" + medicines!["medicine_id"].toString() + "\n")
-          else
-            tableCell2("\n" + "NA" + "\n"),
-        ]),
-        TableRow(children: [
-          tableCell("\nNo of Days\n"),
-          if (data.medicines != null && data.medicines!.isNotEmpty)
-            for (var medicines in data.medicines!)
-              tableCell2("\n" + medicines!["days"].toString() + "\n")
-          else
-            tableCell2("\n" + "NA" + "\n"),
-        ]),
-        TableRow(children: [
-          tableCell("\nNo of Times/day\n"),
-          if (data.medicines != null && data.medicines!.isNotEmpty)
-            for (var medicines in data.medicines!)
-              tableCell2("\n" + medicines!["times"].toString() + "\n")
-          else
-            tableCell2("\n" + "NA" + "\n"),
+        data.prescription != null && data.prescription!.isNotEmpty
+            ? TableRow(children: [
+          tableCell2("\n" + "NA" + "\n"),
+          tableCell2("\n" + "NA" + "\n"),
+          tableCell2("\n" + "NA" + "\n"),
+          tableCell2("\n" + "NA" + "\n"),
+          tableCell2("\n" + "NA" + "\n"),
+          tableCell2("\n" + "NA" + "\n"),
+          tableCell2("\n" + "NA" + "\n"),
+        ])
+            : TableRow(children: [
+          tableCell2("\n" + "NA" + "\n"),
+          tableCell2("\n" + "NA" + "\n"),
+          tableCell2("\n" + "NA" + "\n"),
+          tableCell2("\n" + "NA" + "\n"),
+          tableCell2("\n" + "NA" + "\n"),
+          tableCell2("\n" + "NA" + "\n"),
+          tableCell2("\n" + "NA" + "\n"),
         ]),
       ]),
     );

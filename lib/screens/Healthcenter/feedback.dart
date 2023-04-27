@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 
+
 class FeedBack extends StatefulWidget {
   @override
   _FeedBackState createState() => _FeedBackState();
 }
 
 class _FeedBackState extends State<FeedBack> {
+  gender? _genderEnum;
+  Rating? _treatment,_waiting,_maintenance;
   @override
+
   Widget feed = Container(
     padding: EdgeInsets.all(20.0),
     child: Column(
@@ -39,6 +43,8 @@ class _FeedBackState extends State<FeedBack> {
   );
 
   Widget build(BuildContext context) {
+    int _value=1;
+    double iconSize = 40;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -72,6 +78,7 @@ class _FeedBackState extends State<FeedBack> {
                             ],
                           ),
                         ),
+
                         Container(
                             height: 520, //height of TabBarView
                             decoration: BoxDecoration(
