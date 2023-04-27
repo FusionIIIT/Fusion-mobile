@@ -15,6 +15,7 @@ class _AppointmentState extends State<Appointment> {
   int _value = 1;
   String select_date = '', drname = '', from_time = '', to_time = '', issues = '';
 
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -62,6 +63,7 @@ class _AppointmentState extends State<Appointment> {
                   _value = value as int ;
                   if(_value==2) drname= "Dr G.S. Sandhu";
                   else if(_value==3) drname="Dr Preeti Singh";
+
                 });
               }),
           Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
@@ -89,8 +91,7 @@ class _AppointmentState extends State<Appointment> {
             onDateSelected: (DateTime value) {
               // print(value);
               select_date = DateFormat('yyyy-MM-dd').format(value);
-              print(select_date);
-              // date =value;
+
             },
           ),
           Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
@@ -104,8 +105,6 @@ class _AppointmentState extends State<Appointment> {
             ),
             mode: DateTimeFieldPickerMode.time,
             autovalidateMode: AutovalidateMode.always,
-
-            //  For time validation -----------> Pradeep
 
             validator: (e) =>
             (e?.day ?? 0) == 1 ? 'Please not the first day' : null,
@@ -260,6 +259,7 @@ class _AppointmentState extends State<Appointment> {
               ),
             ),
           )
+
         ],
       ),
     );

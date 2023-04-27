@@ -54,6 +54,7 @@ class _AmbulanceRequestState extends State<AmbulanceRequest> {
             },
           ),
           Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
+
           DateTimeFormField(
             decoration: const InputDecoration(
               hintStyle: TextStyle(color: Colors.black45),
@@ -64,6 +65,7 @@ class _AmbulanceRequestState extends State<AmbulanceRequest> {
             ),
             mode: DateTimeFieldPickerMode.date,
             autovalidateMode: AutovalidateMode.always,
+
 
             // initialValue or controller.text can be null, empty or a DateTime string otherwise it will throw an error.
             initialValue: DateTime.now(),
@@ -77,65 +79,7 @@ class _AmbulanceRequestState extends State<AmbulanceRequest> {
               print(end_date);
             },
           ),
-          // adding time for ambulence request
-          Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
-          // DateTimeFormField(
-          //   decoration: const InputDecoration(
-          //     hintStyle: TextStyle(color: Colors.black45),
-          //     errorStyle: TextStyle(color: Colors.redAccent),
-          //     border: OutlineInputBorder(),
-          //     suffixIcon: Icon(Icons.access_time_rounded),
-          //     labelText: 'From Time',
-          //   ),
-          //   mode: DateTimeFieldPickerMode.time,
-          //   autovalidateMode: AutovalidateMode.always,
-
-          //   //  For time validation -----------> Pradeep
-
-          //   validator: (e) =>
-          //       (e?.day ?? 0) == 1 ? 'Please not the first day' : null,
-          //   onDateSelected: (DateTime value) {
-          //     print(value);
-          //     start_date = value.toString();
-          //   },
-          // ),
-
-          // Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
-          // DateTimeFormField(
-          //   decoration: const InputDecoration(
-          //     hintStyle: TextStyle(color: Colors.black45),
-          //     errorStyle: TextStyle(color: Colors.redAccent),
-          //     border: OutlineInputBorder(),
-          //     suffixIcon: Icon(Icons.access_time_rounded),
-          //     labelText: 'To Time',
-          //   ),
-          //   mode: DateTimeFieldPickerMode.time,
-          //   autovalidateMode: AutovalidateMode.always,
-
-          //   //  For time validation -----------> Pradeep
-
-          //   validator: (e) =>
-          //       (e?.day ?? 0) == 1 ? 'Please not the first day' : null,
-          //   onDateSelected: (DateTime value) {
-          //     print(value);
-          //     end_date = value.toString();
-          //   },
-          // ),
-          // Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
-          // TextFormField(
-          //   maxLines: 1,
-          //   // cursorHeight: 30,
-          //   decoration: new InputDecoration(
-          //     labelText: "Picking point",
-          //     fillColor: Colors.white,
-          //     border: new OutlineInputBorder(),
-          //     //fillColor: Colors.green
-          //   ),
-          //   style: new TextStyle(
-          //     fontFamily: "Poppins",
-          //   ),
-          // ),
-
+        
           Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
           TextFormField(
             maxLines: 4,
@@ -179,11 +123,7 @@ class _AmbulanceRequestState extends State<AmbulanceRequest> {
                     end_date,
                     reason,
                   );
-                  // print(user_id);
-                  // print(start_date);
-                  // print(end_date);
-                  // print(reason);
-                  // print(lodge);
+              
 
                   // TextInput.finishAutofillContext();
                   if (lodge == true) {
@@ -221,17 +161,7 @@ class _AmbulanceRequestState extends State<AmbulanceRequest> {
                   }
                 },
 
-                //end something new
-
-                // onPressed: () {
-                //   print('Submitted Successfully ni!');
-                //   // reason = Text(reasonController.text).toString();
-                //   var res = reasonController.text;
-                //   print(res);
-                //   print(reason);
-                //   print(start_date);
-                //   print(end_date);
-                // },
+              
                 style: ButtonStyle(
                   foregroundColor: MaterialStateProperty.all(Colors.red),
                   backgroundColor: MaterialStateProperty.all(Colors.white),
@@ -244,6 +174,7 @@ class _AmbulanceRequestState extends State<AmbulanceRequest> {
               ),
             ),
           )
+
         ],
       ),
     );
