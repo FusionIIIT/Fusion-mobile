@@ -15,7 +15,7 @@ class ComplainHistory extends StatefulWidget {
   _ComplainHistoryState createState() => _ComplainHistoryState();
 }
 
-class _ComplainHistoryState extends State<ComplainHistory> {
+class _ComplainHistoryState extends State<ComplainHistory>{
   bool _loading1 = true;
   //integrating_api
   late StreamController _complaintController;

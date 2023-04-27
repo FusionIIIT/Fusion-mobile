@@ -1,34 +1,53 @@
 import 'package:flutter/material.dart';
-
+import 'package:fusion/models/health.dart';
+import 'package:http/http.dart' as http;
+import 'package:fusion/api.dart';
+import 'dart:convert';
+import 'package:fusion/constants.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
 class ViewSchedule extends StatefulWidget {
   @override
   _ViewScheduleState createState() => _ViewScheduleState();
 }
 
 class _ViewScheduleState extends State<ViewSchedule> {
+   List<Doctor> doctors = [];
   @override
+  void initState() {
+    super.initState();
+    fetchDoctors();
+  }
+  Future<void> fetchDoctors() async {
+    var storage_service = locator<StorageService>();
 
-////////////////////
-  Widget doctorinfo=new Container(
-    color: Colors.white,
-    padding: EdgeInsets.symmetric(vertical: 15,horizontal: 5),
-    child: Table(
-        border: TableBorder.all(color: Colors.black),
-        children: [
-          TableRow(children: [
-            Center(child: Text("\nDoctor Name\n",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),),
-            Center(child: Text("\nSpecialization\n",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),),
-            Center(child: Text("\nPhone\n",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),),
-          ]),
-          TableRow(children: [
-            Center(child: Text("\nNA\n",style: TextStyle(fontSize: 16,)),),
-            Center(child:Text("\nNA\n",style: TextStyle(fontSize: 16)),),
-            Center(child:Text("\nNA\n",style: TextStyle(fontSize: 16,)),),
-          ]),
-        ]),
-  );
-  ///////////
+    if (storage_service.userInDB?.token == null)
+      throw Exception('Token Error');
 
+    Map<String, String> headers = {
+      'Authorization': 'Token ' + (storage_service.userInDB?.token ?? "")
+    };
+    print("fetching details");
+    var client = http.Client();
+    http.Response response = await client.get(
+      Uri.http(
+        getLink(),
+        kHealthCentreStudent, //constant api
+      ),
+      headers: headers,
+    );
+    if (response.statusCode == 200) {
+      setState(() {
+        Map<String, dynamic> data = json.decode(response.body);
+        List<dynamic>doctorsdata = data['doctors'];
+        doctors = (doctorsdata as List).map((data) => Doctor.fromJson(data)).toList();
+        // print(doctors);
+      });
+    } else {
+      throw Exception('Failed to load doctors');
+    }
+    print(doctors);
+  }
 
 ///////////DOCTOR info
   Widget viewschedule=new Container(
@@ -110,7 +129,7 @@ class _ViewScheduleState extends State<ViewSchedule> {
                     ),
                     child: TabBarView(children: <Widget>[
                       viewschedule,
-                      doctorinfo,
+                      doctorinfo(doctors),
                     ])
                 )
               ])
@@ -119,4 +138,37 @@ class _ViewScheduleState extends State<ViewSchedule> {
       ),
     );
   }
+}
+Container doctorinfo(List<dynamic> doctors) {
+  return new Container(
+    color: Colors.white,
+    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 5),
+    child: Table(
+        border: TableBorder.all(color: Colors.black),
+        children: [
+          TableRow(children: [
+            Center(child: Text("\nDoctor Name\n",
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),),
+            Center(child: Text("\nSpecialization\n",
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),),
+            Center(child: Text("\nPhone\n",
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),),
+          ]),
+          ...doctors.map((doctor) =>
+              TableRow(children: [
+                Center(
+                  child: Text("\n${doctor.doctorName}\n",
+                      style: TextStyle(fontSize: 16)),
+                ),
+                Center(
+                  child: Text("\n${doctor.specialization}\n",
+                      style: TextStyle(fontSize: 16)),
+                ),
+                Center(
+                  child: Text("\n${doctor.doctorPhone}\n",
+                      style: TextStyle(fontSize: 16)),
+                ),
+              ])).toList(),
+        ]),
+  );
 }

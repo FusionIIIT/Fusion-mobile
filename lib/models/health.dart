@@ -50,3 +50,37 @@ class HealthData {
     };
   }
 }
+class StudentMedicalHistory {
+  List? medical_history;
+  StudentMedicalHistory({this.medical_history});
+  factory StudentMedicalHistory.fromJson(Map json) {
+    return StudentMedicalHistory(
+      medical_history: json["student_complain"],
+    );
+  }
+}
+class Doctor {
+  final int id;
+  final String doctorName;
+  final String doctorPhone;
+  final String specialization;
+  final bool active;
+
+  Doctor({
+    required this.id,
+    required this.doctorName,
+    required this.doctorPhone,
+    required this.specialization,
+    required this.active,
+  });
+
+  factory Doctor.fromJson(Map<String, dynamic> json) {
+    return Doctor(
+      id: json['id'],
+      doctorName: json['doctor_name'],
+      doctorPhone: json['doctor_phone'],
+      specialization: json['specialization'],
+      active: json['active'],
+    );
+  }
+}
