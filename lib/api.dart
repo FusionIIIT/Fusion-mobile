@@ -1,9 +1,9 @@
 //Server and local links
 String klocalLink = "127.0.0.1:8000";
-String kserverLink = "172.27.16.215:80";
+String kserverLink = "172.27.16.214:80";
 
 //Login Service
-String kAuthUrl = "172.27.16.215:80";
+String kAuthUrl = "172.27.16.214:80";
 String kAuthLogin = "/api/auth/login/";
 
 //Profile Service
@@ -29,6 +29,32 @@ const kGymkhanaMemberRecords = '/api/gymkhana/members_record';
 //HealthCentre
 String kHealthCentreStudent = "/healthcenter/api/student";
 
+//PlacementCell
+String kProjects = "/placement/api/projects/";
+String kExperiences = "/placement/api/experiences/";
+String kSkills = "/placement/api/skills/";
+String kHas = "/placement/api/has/";
+String kEducation = "/placement/api/education/";
+String kCourses = "/placement/api/courses/";
+String kConference = "/placement/api/conference/";
+String kPublications = "/placement/api/publications/";
+String kReferences = "/placement/api/references/";
+String kCoAuthor = "/placement/api/coauthor/";
+String kPatent = "/placement/api/patent/";
+String kCoInventor = "/placement/api/coinventor/";
+String kInterest = "/placement/api/interest/";
+String kAchievement = "/placement/api/achievement/";
+String kExtracurricular = "/placement/api/extracurricular/";
+String kMessageOfficer = "/placement/api/messageofficer/";
+String kNotifyStudent = "/placement/api/notifystudent/";
+String kRole = "/placement/api/role/";
+String kCompanyDetails = "/placement/api/companydetails/";
+String kPlacementStatus = "/placement/api/placementstatus/";
+String kPlacementRecord = "/placement/api/placementrecord/";
+String kStudentRecord = "/placement/api/studentrecord/";
+String kChairmanVisit = "/placement/api/chairmanvisit/";
+String kPlacementSchedule = "/placement/api/placementschedule/";
+String kStudentPlacement = "/placement/api/placementrecord/";
 //------------Screens------------
 
 //screens/Academic/Current_Semester
