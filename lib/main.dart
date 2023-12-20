@@ -48,6 +48,11 @@ import 'package:fusion/screens/Healthcenter/viewschedule.dart';
 import 'package:fusion/screens/Healthcenter/history.dart';
 import 'package:fusion/screens/Healthcenter/HealthCenter.dart';
 import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/screens/Scholarships_Awards/scholarship_awards.dart';
+import 'package:fusion/screens/Scholarships_Awards/AwardCatalogue/award_catalogue.dart';
+import 'package:fusion/screens/Scholarships_Awards/AwardCatalogue/Faculty/invite_application.dart';
+import 'package:fusion/screens/Scholarships_Awards/AwardCatalogue/Faculty/award_catalogue.dart';
+import 'package:fusion/screens/Scholarships_Awards/ApplyForAwards/applyforawards.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -116,6 +121,12 @@ class MyApp extends StatelessWidget {
           '/gymkhana_homepage/polls': (context) => Polls(),
           '/gymkhana_homepage/clubs': (context) => Club(),
           '/gymkhana_homepage/member_records': (context) => Records(),
+          '/scholarship_awards': (context) => ScholarshipAwards(ModalRoute.of(context)!.settings.arguments.toString()),
+        '/scholarship_awards/browse_award_catalogue': (context) => BrowseAwardCatalogue(),
+        '/scholarship_awards/manage_award_catalogue_fac': (context) => ManageAwardCatalogueFaculty(),
+        '/scholarship_awards/invite_application': (context) => InviteApplication(),
+        '/scholarship_awards/apply_for_awards': (context) => ApplyForAwards(),
+
           '/library_homepage': (context) => LibraryHomeScreen(),
           '/library_homepage/book_search': (context) => BookSearch(),
           '/library_homepage/issued_items': (context) => IssuedItems(),
