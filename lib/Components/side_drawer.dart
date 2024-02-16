@@ -122,6 +122,11 @@ class _SideDrawerState extends State<SideDrawer> {
                           isActive: true,
                         ),
                         ModulesPadding(
+                          line: 'Central Mess',
+                          pageMover: '/central_mess_home',
+                          isActive: true,
+                        ),
+                        ModulesPadding(
                             line: 'Gymkhana Module',
                             pageMover: '/gymkhana_homepage'),
                         ModulesPadding(
@@ -133,7 +138,6 @@ class _SideDrawerState extends State<SideDrawer> {
                         ModulesPadding(line: 'Awards & Scholarship Module'),
                         ModulesPadding(
                             line: 'Complaint Module', pageMover: '/complaint'),
-                        ModulesPadding(line: 'Central Mess Module'),
                         ModulesPadding(line: 'Feeds Module'),
                         ModulesPadding(
                           line: 'Health Center Module',
