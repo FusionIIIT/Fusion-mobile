@@ -99,9 +99,9 @@ class _FeedbackMenuState extends State<FeedbackMenu> {
           children: [
             Card(
               elevation: 2.0,
-              margin: EdgeInsets.symmetric(horizontal: 50.0, vertical: 20.0),
+              // margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
               shadowColor: Colors.black,
-              child: Column(
+              child: Row(
                 children: [
                   Container(
                     margin: EdgeInsets.only(top: 20.0),
@@ -114,17 +114,25 @@ class _FeedbackMenuState extends State<FeedbackMenu> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 10.0),
-                  Text(
-                    name,
-                    style: TextStyle(fontSize: 20.0, color: Colors.black),
+                  Column(
+                    children: [
+                      SizedBox(height: 10.0),
+                      Text(
+                        name,
+                        style: TextStyle(
+                            fontSize: 20.0,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w800),
+                      ),
+                      SizedBox(height: 10.0),
+                      Text(
+                        studentType,
+                        style: TextStyle(
+                            fontSize: 20.0, color: Colors.black),
+                      ),
+                      SizedBox(height: 10.0),
+                    ],
                   ),
-                  SizedBox(height: 10.0),
-                  Text(
-                    studentType,
-                    style: TextStyle(fontSize: 15.0, color: Colors.black),
-                  ),
-                  SizedBox(height: 10.0),
                 ],
               ),
             ),
