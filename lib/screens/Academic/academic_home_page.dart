@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/models/profile.dart';
 import 'package:fusion/services/academic_service.dart';
 import 'package:fusion/models/academic.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart';
@@ -167,7 +170,7 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       InkWell(
-                        child: myContainer("Current Semester"),
+                        child: myContainer("View Offered Courses"),
                         onTap: () {
                           Navigator.pushNamed(context,
                               '/academic_home_page/current_semester_home_page',
@@ -175,13 +178,61 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
                         },
                       ),
                       InkWell(
-                        child: myContainer("Registration"),
+                        child: myContainer("Add Course"),
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, '/academic_home_page/add_drop_courses',
+                              arguments: data);
+                        },
+                      ),
+                      InkWell(
+                        child: myContainer("Fill Backlog Form"),
+                        onTap: () {
+                          Navigator.pushNamed(context,
+                              '/academic_home_page/current_semester_home_page',
+                              arguments: data);
+                        },
+                      ),
+                      InkWell(
+                        child: myContainer("Drop/Replace Course"),
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, '/academic_home_page/add_drop_courses',
+                              arguments: data);
+                        },
+                      ),
+                      InkWell(
+                        child: myContainer("Pre Registration"),
                         onTap: () {
                           Navigator.pushNamed(context,
                               '/academic_home_page/registration_home_page',
                               arguments: data);
                         },
                       ),
+                      InkWell(
+                        child: myContainer("Final Registration"),
+                        onTap: () {
+                          Navigator.pushNamed(context,
+                              '/academic_home_page/registration_home_page',
+                              arguments: data);
+                        },
+                      ),
+                      // InkWell(
+                      //   child: myContainer("Current Semester"),
+                      //   onTap: () {
+                      //     Navigator.pushNamed(context,
+                      //         '/academic_home_page/current_semester_home_page',
+                      //         arguments: data);
+                      //   },
+                      // ),
+                      // InkWell(
+                      //   child: myContainer("Registration"),
+                      //   onTap: () {
+                      //     Navigator.pushNamed(context,
+                      //         '/academic_home_page/registration_home_page',
+                      //         arguments: data);
+                      //   },
+                      // ),
                       InkWell(
                         child: myContainer("Check Dues"),
                         onTap: () {
@@ -190,63 +241,13 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
                               arguments: data);
                         },
                       ),
-                      InkWell(
-                        child: myContainer("Apply for Bonafide"),
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, '/academic_home_page/bonafide',
-                              arguments: {
-                                'firstName': data.details!['current_user']
-                                        ['first_name']
-                                    .toString(),
-                                'lastName': data.details!['current_user']
-                                    ['last_name'],
-                                'branch': data.details!['user_branch'],
-                                'roll_no': data.details!['current_user']
-                                    ['username'],
-                              });
-                        },
-                      ),
-                      InkWell(
-                        child: myContainer("Check Attendance"),
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, '/academic_home_page/attendance',
-                              arguments: data);
-                        },
-                      ),
-                      InkWell(
-                        child: myContainer("Branch Change"),
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, '/academic_home_page/branch_change');
-                        },
-                      ),
-                      InkWell(
-                        child: myContainer("Evaluate Teaching Credits"),
-                        //onTap: (){},
-                      ),
-                      InkWell(
-                        child: myContainer("Thesis"),
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, '/academic_home_page/thesis');
-                        },
-                      ),
-                      InkWell(
-                        child: myContainer("View Performance"),
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, '/academic_home_page/performance');
-                        },
-                      ),
-                      InkWell(
-                        child: myContainer("Add/Drop courses"),
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, '/academic_home_page/add_drop_courses');
-                        },
-                      ),
+                      // InkWell(
+                      //   child: myContainer("Add/Drop courses"),
+                      //   onTap: () {
+                      //     Navigator.pushNamed(
+                      //         context, '/academic_home_page/add_drop_courses');
+                      //   },
+                      // ),
                     ],
                   ),
                 ),
