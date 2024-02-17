@@ -46,6 +46,7 @@ import 'package:fusion/screens/Central_Mess/central_mess_home.dart';
 import 'package:fusion/screens/Central_Mess/MessMenu/view_menu.dart';
 import 'package:fusion/screens/Central_Mess/Feedback/feedback_menu.dart';
 import 'package:fusion/screens/Central_Mess/Rebate/rebate_menu.dart';
+import 'package:fusion/screens/Central_Mess/MessBill/mess_bill.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -134,7 +135,8 @@ class MyApp extends StatelessWidget {
           '/central_mess_home': (context) => CentralMessHome(),
           '/central_mess_home/menu':(context)=>ViewMenu(),
           '/central_mess_home/feedback':(context)=>FeedbackMenu(),
-          '/central_mess_home/rebate':(context)=>RebateMenu()
+          '/central_mess_home/rebate':(context)=>RebateMenu(),
+          '/central_mess_home/messBill':(context)=>ViewBill(),
         },
       ),
     );

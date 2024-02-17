@@ -60,7 +60,8 @@ class _FeedbackFormState extends State<FeedbackForm> {
                 setState(() {
                   _value1 = value;
                 });
-              }),
+              }
+            ),
           Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
 
           Text(

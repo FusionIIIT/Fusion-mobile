@@ -7,7 +7,7 @@ class DefaultAppBar {
       iconTheme: IconThemeData(color: Colors.white),
       backgroundColor: kPrimaryColor,
       title: Text(
-        "Dashboard",
+        "Fusion",
         style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
       ),
       actions: <Widget>[
