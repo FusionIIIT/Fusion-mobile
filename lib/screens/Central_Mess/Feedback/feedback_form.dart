@@ -43,15 +43,15 @@ class _FeedbackFormState extends State<FeedbackForm> {
               isExpanded: true,
               hint: Text("-SELECT-"),
               items: [
-                DropdownMenuItem(
+                DropdownMenuItem<String>(
                   child: Text("--SELECT--"),
                   value: null,
                 ),
-                DropdownMenuItem(
+                DropdownMenuItem<String>(
                   child: Text("Mess-1"),
                   value: "mess1",
                 ),
-                DropdownMenuItem(
+                DropdownMenuItem<String>(
                   child: Text("Mess-2"),
                   value: "mess2",
                 ),
@@ -85,15 +85,15 @@ class _FeedbackFormState extends State<FeedbackForm> {
               isExpanded: true,
               hint: Text("-SELECT-"),
               items: [
-                DropdownMenuItem(
+                DropdownMenuItem<String>(
                   child: Text("--SELECT--"),
                   value: null,
                 ),
-                DropdownMenuItem(
+                DropdownMenuItem<String>(
                   child: Text("Cleanliness"),
                   value: "cleanliness",
                 ),
-                DropdownMenuItem(
+                DropdownMenuItem<String>(
                   child: Text("Food Quality"),
                   value: "food_quality",
                 ),
