@@ -90,7 +90,7 @@ class _CentralMessHomeState extends State<CentralMessHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
+      appBar: DefaultAppBar().buildAppBar(titleText: "Central Mess"),
       drawer: SideDrawer(),
       body: _loading == true
           ? Center(child: CircularProgressIndicator())
@@ -99,10 +99,9 @@ class _CentralMessHomeState extends State<CentralMessHome> {
           children: [
             Card(
               elevation: 2.0,
-              margin: EdgeInsets.symmetric(
-                  horizontal: 50.0, vertical: 20.0),
+              // margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
               shadowColor: Colors.black,
-              child: Column(
+              child: Row(
                 children: [
                   Container(
                     margin: EdgeInsets.only(top: 20.0),
@@ -115,24 +114,24 @@ class _CentralMessHomeState extends State<CentralMessHome> {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  Text(
-                    name, //Display name of User
-                    style:
-                    TextStyle(fontSize: 20.0, color: Colors.black),
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  Text(
-                    studentType, // Display Type of User
-                    style:
-                    TextStyle(fontSize: 15.0, color: Colors.black),
-                  ),
-                  SizedBox(
-                    height: 10.0,
+                  Column(
+                    children: [
+                      SizedBox(height: 10.0),
+                      Text(
+                        name,
+                        style: TextStyle(
+                            fontSize: 20.0,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w800),
+                      ),
+                      SizedBox(height: 10.0),
+                      Text(
+                        studentType,
+                        style: TextStyle(
+                            fontSize: 20.0, color: Colors.black),
+                      ),
+                      SizedBox(height: 10.0),
+                    ],
                   ),
                 ],
               ),
@@ -227,19 +226,19 @@ class _CentralMessHomeState extends State<CentralMessHome> {
   }
 }
 
-// // (/mess/vacationFoodApi) Vacation Food Api  - Partially working☑️
+// // (/mess/vacationFoodApi) Vacation Food Api  - Partially working☑
 // // Mess Info Api - Implemented/ Not required ✅
 // // (/mess/rebateApi) Rebate Api - Implemented ✅
 // // (/mess/menuApi ) Menu Api - Implemented ✅
 // // (/mess/paymentsApi) Payments Api - Not Implemented
 // // (/mess/monthlyBillApi) Monthly Bill Api - Not Implemented❌
 // // (/mess/messBillBaseApi) Mess Bill Base Api  - Implemented✅
-// // (/mess/messRegApi) Mess Reg Api - Partially working / De registration needs to be implemented ☑️
+// // (/mess/messRegApi) Mess Reg Api - Partially working / De registration needs to be implemented ☑
 // // (/mess/feedbackApi) Feedback Api - Implemented ✅
 // // (/mess/menuChangeRequestApi) Menu Change Request Api - Implemented ✅
 // // Mess Minutes Api - Not required
 // // Non Veg Api - Not required
-// // (/mess/specialRequestApi) Special Requests Api - Partially working ☑️
+// // (/mess/specialRequestApi) Special Requests Api - Partially working ☑
 // // Mess Meetings Api - Not required
 // // Non Veg Menu Api - Not required
 // // Respond Rebate Request - Not Implemented ❌
