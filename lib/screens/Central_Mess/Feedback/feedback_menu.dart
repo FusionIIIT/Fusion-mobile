@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'feedback_form.dart';
 import 'feedback_history.dart';
+import 'package:fusion/Components/appBar.dart';
+import 'package:fusion/Components/side_drawer.dart';
 
 class FeedbackMenu extends StatefulWidget {
   @override
@@ -12,14 +14,8 @@ class _FeedbackMenuState extends State<FeedbackMenu> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar:AppBar(
-        title: Text(
-          "Feedback",
-          style: TextStyle(
-              fontSize: 20.0, color: Colors.white),
-        ),
-        backgroundColor: Colors.black,
-      ),
+      appBar:DefaultAppBar().buildAppBar(titleText: "Central Mess"),
+      drawer: SideDrawer(),
       body:Container(
         child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
           SizedBox(height: 5.0),

@@ -90,7 +90,7 @@ class _CentralMessHomeState extends State<CentralMessHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
+      appBar: DefaultAppBar().buildAppBar(titleText: "Central Mess"),
       drawer: SideDrawer(),
       body: _loading == true
           ? Center(child: CircularProgressIndicator())
