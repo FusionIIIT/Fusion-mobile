@@ -75,14 +75,18 @@ class _SideDrawerState extends State<SideDrawer> {
               ],
             ),
             ModulesCard(cardLine: 'Dashboard', pageMover: '/dashboard'),
-
-            if(usertype! == "staff") ...[
+            if (usertype! == "staff") ...[
               ModulesCard(
                   cardLine: 'Configure Pre Registration',
                   pageMover: '/configure_pre_registration'),
               ModulesCard(
                   cardLine: 'Configure Final Registration',
                   pageMover: '/configure_final_registration'),
+            ],
+            if (usertype! == "fx") ...[
+              ModulesCard(
+                  cardLine: 'View Assigned Courses',
+                  pageMover: '/view_assigned_courses'),
             ],
             Card(
               color: Colors.black,

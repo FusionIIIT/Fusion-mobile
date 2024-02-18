@@ -21,7 +21,8 @@ String kConfigurePreRegistration =
     "/academic-procedures/api/acad/configure_pre_registration/";
 String kConfigureFinalRegistration =
     "/academic-procedures/api/acad/configure_final_registration/";
-
+String kFacultyGetAssignedCourses =
+    "/academic-procedures/api/fac/view_assigned_courses/";
 
 //Complaint
 String kComplaintService = "/complaint/api/studentcomplain";

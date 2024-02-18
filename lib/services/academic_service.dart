@@ -135,4 +135,32 @@ class AcademicService {
       rethrow;
     }
   }
+
+  Future<http.Response> getAssignedCourses() async {
+    try {
+      var _prefs = await StorageService.getInstance();
+      String token = _prefs!.userInDB?.token ?? "";
+      Map<String, String> headers = {
+        'Authorization': 'Token ' + token,
+        'Content-Type': 'application/json'
+      };
+
+      print("fetching assigned courses");
+      var client = http.Client();
+      http.Response response = await client.get(
+        Uri.http(
+          getLink(),
+          kFacultyGetAssignedCourses, //Constant api path
+        ),
+        headers: headers,
+      );
+      if (response.statusCode != 200) {
+        throw Exception('Can\'t get assigned courses');
+      }
+      print("successfully fetched assigned courses");
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
