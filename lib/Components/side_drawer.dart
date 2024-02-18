@@ -13,6 +13,8 @@ class _SideDrawerState extends State<SideDrawer> {
   int count = 0;
   String? name;
   String? depttype;
+  String? usertype;
+
   @override
   void initState() {
     super.initState();
@@ -23,6 +25,8 @@ class _SideDrawerState extends State<SideDrawer> {
     depttype = service.profileData.profile!['department']!['name'] +
         " " +
         service.profileData.profile!['user_type'];
+
+    usertype = service.profileData.profile!['user_type'];
   }
 
   @override
@@ -70,7 +74,18 @@ class _SideDrawerState extends State<SideDrawer> {
                 ),
               ],
             ),
-            ModulesCard(cardLine: 'DashBoard', pageMover: '/dashboard'),
+
+            ModulesCard(cardLine: 'Dashboard', pageMover: '/dashboard'),
+
+            if(usertype! == "staff") ...[
+              ModulesCard(
+                  cardLine: 'Configre Pre Registration',
+                  pageMover: '/configure_pre_registration'),
+              ModulesCard(
+                  cardLine: 'Configre Final Registration',
+                  pageMover: '/configure_final_registration'),
+            ],
+
             Card(
               color: Colors.black,
               child: GestureDetector(
