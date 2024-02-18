@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:fusion/services/academic_service.dart';
 import 'package:fusion/Components/side_drawer.dart';
 
 class ConfigureFinalRegistration extends StatefulWidget {
@@ -13,6 +12,12 @@ class _ConfigureFinalRegistration extends State<ConfigureFinalRegistration> {
   DateTime? _startDate;
   DateTime? _endDate;
   String? _responseText;
+  late AcademicService academicService;
+
+  void initState() {
+    super.initState();
+    academicService = AcademicService();
+  }
 
   Future<void> _selectStartDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -46,30 +51,11 @@ class _ConfigureFinalRegistration extends State<ConfigureFinalRegistration> {
     if (_startDate == null || _endDate == null) {
       return;
     }
-    // If the form is valid, proceed with API call
-    final startDate = _startDate!.toString();
-    final endDate = _endDate!.toString();
+    final startDate = _startDate!.toString().substring(0, 10);
+    final endDate = _endDate!.toString().substring(0, 10);
 
-
-    // Assuming you have an API endpoint to post the data to
-    final apiUrl = 'YOUR_API_ENDPOINT_HERE';
-    final response = await http.post(
-      Uri.parse(apiUrl),
-      body: json.encode({'start_date': startDate, 'end_date': endDate}),
-      headers: {'Content-Type': 'application/json'},
-    );
-
-    if (response.statusCode == 200) {
-      // Handle success
-      setState(() {
-        _responseText = response.body;
-      });
-    } else {
-      // Handle error
-      print('Failed to post data');
-    }
+    academicService.configureFinalRegistration(startDate, endDate);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -119,24 +105,28 @@ class _ConfigureFinalRegistration extends State<ConfigureFinalRegistration> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-              ListTile(
-                title: Text(
-                  _startDate == null ? 'Select Start Date' : 'Start Date: ${_startDate!.toString().split(" ")[0]}',
-                ),
-                onTap: () => _selectStartDate(context),
-              ),
-              ListTile(
-                title: Text(
-                  _endDate == null ? 'Select End Date' : 'End Date: ${_endDate!.toString().split(" ")[0]}',
-                ),
-                onTap: () => _selectEndDate(context),
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _submitForm,
-                child: Text('Submit'),
-              ),
-            ],
+                  ListTile(
+                    title: Text(
+                      _startDate == null
+                          ? 'Select Start Date'
+                          : 'Start Date: ${_startDate!.toString().split(" ")[0]}',
+                    ),
+                    onTap: () => _selectStartDate(context),
+                  ),
+                  ListTile(
+                    title: Text(
+                      _endDate == null
+                          ? 'Select End Date'
+                          : 'End Date: ${_endDate!.toString().split(" ")[0]}',
+                    ),
+                    onTap: () => _selectEndDate(context),
+                  ),
+                  SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: _submitForm,
+                    child: Text('Submit'),
+                  ),
+                ],
               ),
             )
           ],
