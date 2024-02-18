@@ -13,7 +13,8 @@ String kProfile = "/api/profile/";
 
 //Academic Procedures
 String kAcademicProcedures = "/academic-procedures/api/stu/details";
-String kAcademicCourseList = "/academic-procedures/api/acad/get_course_list/";
+String kAcademicCourseList =
+    "/academic-procedures/api/stu/view_offered_courses/";
 
 //Complaint
 String kComplaintService = "/complaint/api/studentcomplain";

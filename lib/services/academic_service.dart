@@ -33,7 +33,12 @@ class AcademicService {
         'Authorization': 'Token ' + token,
         'Content-Type': 'application/json'
       };
-      final body = {"programme": "B.Tech", "branch": "CSE", "batch": "2018"};
+      final body = {
+        "programme": "B.Tech",
+        "branch": "CSE",
+        "semester": "6",
+        "batch": "2018"
+      };
       final jsonString = json.encode(body);
 
       print("fetching next semester courses list");
