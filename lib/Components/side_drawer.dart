@@ -70,7 +70,12 @@ class _SideDrawerState extends State<SideDrawer> {
                 ),
               ],
             ),
-            ModulesCard(cardLine: 'Configre Pre Registration', pageMover: '/configure_pre_registration'),
+            ModulesCard(
+                cardLine: 'Configre Pre Registration',
+                pageMover: '/configure_pre_registration'),
+            ModulesCard(
+                cardLine: 'Configre Final Registration',
+                pageMover: '/configure_final_registration'),
             ModulesCard(cardLine: 'DashBoard', pageMover: '/dashboard'),
             Card(
               color: Colors.black,

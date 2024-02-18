@@ -3,12 +3,12 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:fusion/Components/side_drawer.dart';
 
-class ConfigurePreRegistration extends StatefulWidget {
+class ConfigureFinalRegistration extends StatefulWidget {
   @override
-  _ConfigurePreRegistration createState() => _ConfigurePreRegistration();
+  _ConfigureFinalRegistration createState() => _ConfigureFinalRegistration();
 }
 
-class _ConfigurePreRegistration extends State<ConfigurePreRegistration> {
+class _ConfigureFinalRegistration extends State<ConfigureFinalRegistration> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController _startDateController = TextEditingController();
   TextEditingController _endDateController = TextEditingController();
@@ -70,7 +70,7 @@ class _ConfigurePreRegistration extends State<ConfigurePreRegistration> {
               Tab(
                 child: Container(
                   child: Text(
-                    'Conf Pre Registration',
+                    'Conf Final Registration',
                   ),
                 ),
               ),
@@ -117,7 +117,6 @@ class _ConfigurePreRegistration extends State<ConfigurePreRegistration> {
                 ],
               ),
             )
-            // FinalRegistration(data: data)
           ],
         ),
       ),

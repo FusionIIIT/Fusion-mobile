@@ -43,6 +43,7 @@ import 'package:fusion/screens/Healthcenter/history.dart';
 import 'package:fusion/screens/Healthcenter/HealthCenter.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/screens/Academic/Acad_Admin/configure_pre_registration.dart';
+import 'package:fusion/screens/Academic/Acad_Admin/configure_final_registration.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -61,7 +62,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MediaQueryData windowData =
-    MediaQueryData.fromWindow(WidgetsBinding.instance.window);
+        MediaQueryData.fromWindow(WidgetsBinding.instance.window);
     windowData = windowData.copyWith(
       textScaleFactor: 1,
     );
@@ -72,10 +73,10 @@ class MyApp extends StatelessWidget {
         title: 'Fusion',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-            // primarySwatch: Colors.blueGrey,
+          // primarySwatch: Colors.blueGrey,
           // colorSchemeSeed: Color(0xFF2085D0),
           colorSchemeSeed: Color(0xFFF36C35),
-            fontFamily: 'Nunito',
+          fontFamily: 'Nunito',
           useMaterial3: true,
         ),
         initialRoute: '/landing',
@@ -83,7 +84,10 @@ class MyApp extends StatelessWidget {
           '/landing': (context) => LandingPage(),
           '/login_page': (context) => LoginPage(),
           '/dashboard': (context) => Dashboard(),
-          '/configure_pre_registration': (context) => ConfigurePreRegistration(), 
+          '/configure_pre_registration': (context) =>
+              ConfigurePreRegistration(),
+          '/configure_final_registration': (context) =>
+              ConfigureFinalRegistration(),
           '/academic_home_page': (context) => AcademicHomePage(
               ModalRoute.of(context)!.settings.arguments.toString()),
           '/academic_home_page/current_semester_home_page': (context) =>
