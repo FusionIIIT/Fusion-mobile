@@ -42,6 +42,7 @@ import 'package:fusion/screens/Healthcenter/viewschedule.dart';
 import 'package:fusion/screens/Healthcenter/history.dart';
 import 'package:fusion/screens/Healthcenter/HealthCenter.dart';
 import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/screens/Academic/Acad_Admin/configure_pre_registration.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -82,6 +83,7 @@ class MyApp extends StatelessWidget {
           '/landing': (context) => LandingPage(),
           '/login_page': (context) => LoginPage(),
           '/dashboard': (context) => Dashboard(),
+          '/configure_pre_registration': (context) => ConfigurePreRegistration(), 
           '/academic_home_page': (context) => AcademicHomePage(
               ModalRoute.of(context)!.settings.arguments.toString()),
           '/academic_home_page/current_semester_home_page': (context) =>
