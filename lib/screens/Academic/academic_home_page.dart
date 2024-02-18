@@ -23,12 +23,29 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
   late StreamController _academicController;
   late AcademicService academicService;
   late AcademicData data;
+  var courseList;
   @override
   void initState() {
     super.initState();
     _academicController = StreamController();
     academicService = AcademicService();
     getAcademicDataStream();
+    getCourseList();
+  }
+
+  getCourseList() async {
+    //print('token-'+widget.token!);
+    try {
+      Response response =
+          await academicService.getRegistrationCourses(widget.token!);
+      setState(() {
+        print(response.body);
+        courseList = response.body;
+        _loading1 = false;
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   getAcademicDataStream() async {
@@ -174,7 +191,7 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
                         onTap: () {
                           Navigator.pushNamed(context,
                               '/academic_home_page/current_semester_home_page',
-                              arguments: data);
+                              arguments: courseList);
                         },
                       ),
                       InkWell(

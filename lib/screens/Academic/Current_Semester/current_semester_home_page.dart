@@ -16,15 +16,17 @@ class CurrentSemesterHomePage extends StatefulWidget {
 class _CurrentSemesterHomePageState extends State<CurrentSemesterHomePage> {
   @override
   Widget build(BuildContext context) {
-    final AcademicData data =
-        ModalRoute.of(context)!.settings.arguments as AcademicData;
+    // final AcademicData data =
+    //     ModalRoute.of(context)!.settings.arguments as AcademicData;
+    final courseList = ModalRoute.of(context)!.settings.arguments;
     return DefaultTabController(
       length: 1,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.black,
           title: Text(
-            "Current Semester" + ' -> ' + data.details!['user_sem'].toString(),
+            "Current Semester",
+            // "Current Semester" + ' -> ' + data.details!['user_sem'].toString(),
             style: TextStyle(color: Colors.white),
           ),
           actions: <Widget>[
@@ -49,37 +51,37 @@ class _CurrentSemesterHomePageState extends State<CurrentSemesterHomePage> {
               Tab(
                 child: Container(
                   child: Text(
-                    'Semester',
+                    'List of Courses',
                   ),
                 ),
               ),
               // Tab(
-                // child: Container(
-                  // child: Text(
-                    // 'Time-Table',
-                  // ),
-                // ),
+              // child: Container(
+              // child: Text(
+              // 'Time-Table',
+              // ),
+              // ),
               // ),
               // Tab(
-                // child: Container(
-                  // child: Text(
-                    // 'Academic Calendar',
-                  // ),
-                // ),
+              // child: Container(
+              // child: Text(
+              // 'Academic Calendar',
+              // ),
+              // ),
               // ),
               // Tab(
-                // child: Container(
-                  // child: Text(
-                    // 'List of Holidays',
-                  // ),
-                // ),
+              // child: Container(
+              // child: Text(
+              // 'List of Holidays',
+              // ),
+              // ),
               // ),
               // Tab(
-                // child: Container(
-                  // child: Text(
-                    // 'Exam time table',
-                  // ),
-                // ),
+              // child: Container(
+              // child: Text(
+              // 'Exam time table',
+              // ),
+              // ),
               // ),
             ],
           ),
@@ -87,7 +89,7 @@ class _CurrentSemesterHomePageState extends State<CurrentSemesterHomePage> {
         drawer: SideDrawer(),
         body: TabBarView(
           children: [
-            Semester(data: data)
+            Semester(courseList: courseList)
             // TimeTable(),Time-T
             // AcademicCalendar(),
             // HolidaysList(),

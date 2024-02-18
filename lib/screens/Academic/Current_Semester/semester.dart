@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:fusion/models/academic.dart';
+import 'package:fusion/services/academic_service.dart';
+import 'package:http/http.dart';
 
 class Semester extends StatefulWidget {
-  final data;
-  const Semester({Key? key, this.data}) : super(key: key);
+  // final data;
+  final courseList;
+  const Semester({Key? key, this.courseList}) : super(key: key);
   @override
   _SemesterState createState() => _SemesterState();
 }
@@ -10,7 +14,8 @@ class Semester extends StatefulWidget {
 class _SemesterState extends State<Semester> {
   @override
   Widget build(BuildContext context) {
-    print(widget.data.currently_registered);
+    // print(widget.data.currently_registered);
+    print(widget.courseList);
     return Container(
       child: SingleChildScrollView(
         scrollDirection: Axis.vertical,
@@ -54,10 +59,10 @@ class _SemesterState extends State<Semester> {
             ),
           ),
           // Text(
-            // "Current CPI - " + ' ' + widget.data.details['cpi'].toString(),
+          // "Current CPI - " + ' ' + widget.data.details['cpi'].toString(),
           // ),
           // Text(
-            // "Current SPI - " + ' ' + widget.data.details['spi'].toString(),
+          // "Current SPI - " + ' ' + widget.data.details['spi'].toString(),
           // ),
         ]),
       ),
