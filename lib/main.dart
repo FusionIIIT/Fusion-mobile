@@ -43,7 +43,7 @@ import 'package:fusion/screens/Healthcenter/history.dart';
 import 'package:fusion/screens/Healthcenter/HealthCenter.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/screens/Central_Mess/central_mess_home.dart';
-import 'package:fusion/screens/Central_Mess/MessMenu/view_menu.dart';
+import 'package:fusion/screens/Central_Mess/MessMenu/mess_menu.dart';
 import 'package:fusion/screens/Central_Mess/Feedback/feedback_menu.dart';
 import 'package:fusion/screens/Central_Mess/Rebate/rebate_menu.dart';
 import 'package:fusion/screens/Central_Mess/MessBill/mess_bill.dart';
@@ -133,7 +133,7 @@ class MyApp extends StatelessWidget {
           '/health_center/viewschedule': (context) => ViewSchedule(),
           '/health_center/history': (context) => History(),
           '/central_mess_home': (context) => CentralMessHome(),
-          '/central_mess_home/menu':(context)=>ViewMenu(),
+          '/central_mess_home/menu':(context)=>MessMenu(),
           '/central_mess_home/feedback':(context)=>FeedbackMenu(),
           '/central_mess_home/rebate':(context)=>RebateMenu(),
           '/central_mess_home/messBill':(context)=>ViewBill(),

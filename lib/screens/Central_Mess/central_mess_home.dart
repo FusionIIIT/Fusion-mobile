@@ -17,7 +17,8 @@ class CentralMessHome extends StatefulWidget {
 class _CentralMessHomeState extends State<CentralMessHome> {
   bool _loading = true;
   late String name;
-  late String studentType;
+  late String userType;
+  late String user;
   late StreamController _dashboardController;
   late DashboardService dashboardService;
   late DashboardData data;
@@ -45,9 +46,10 @@ class _CentralMessHomeState extends State<CentralMessHome> {
         _loading = false;
       });
       name = data2.user!['first_name'] + ' ' + data2.user!['last_name'];
-      studentType = data2.profile!['department']!['name'] +
+      userType = data2.profile!['department']!['name'] +
           '  ' +
           data2.profile!['user_type'];
+      user = data2.profile!['user_type'];
     } catch (e) {
       print(e);
     }
@@ -89,6 +91,8 @@ class _CentralMessHomeState extends State<CentralMessHome> {
 
   @override
   Widget build(BuildContext context) {
+    // user = "caretaker";
+    // user = "warden";
     return Scaffold(
       appBar: DefaultAppBar().buildAppBar(titleText: "Central Mess"),
       drawer: SideDrawer(),
@@ -124,7 +128,7 @@ class _CentralMessHomeState extends State<CentralMessHome> {
                   ),
                   SizedBox(height: 10.0),
                   Text(
-                    studentType,
+                    userType,
                     style: TextStyle(
                         fontSize: 20.0, color: Colors.black),
                   ),
@@ -157,6 +161,7 @@ class _CentralMessHomeState extends State<CentralMessHome> {
                 ),
               ),
             ),
+            user == 'student' ?
             Card(
               elevation: 2.0,
               margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
@@ -210,6 +215,102 @@ class _CentralMessHomeState extends State<CentralMessHome> {
                     child: myContainer("Make Payment"),
                     onTap: () {
                       Navigator.pushNamed(context, '/central_mess_home/payment', arguments: data);
+                    },
+                  ),
+                  SizedBox(height: 30.0),
+                ],
+              ),
+            )
+            : user == 'caretaker' ?
+            Card(
+              elevation: 2.0,
+              margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+              shadowColor: Colors.black,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  InkWell(
+                    child: myContainer("Mess Menu"),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/central_mess_home/menu', arguments: data);
+                    },
+                  ),
+                  InkWell(
+                    child: myContainer("Manage Bill"),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/central_mess_home/manageBill', arguments: data);
+                    },
+                  ),
+                  InkWell(
+                    child: myContainer("Manage Registrations"),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/central_mess_home/registration', arguments: data);
+                    },
+                  ),
+                  InkWell(
+                    child: myContainer("Feedbacks & Suggestions"),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/central_mess_home/feedback', arguments: data);
+                    },
+                  ),
+                  InkWell(
+                    child: myContainer("Announcement"),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/central_mess_home/announcement', arguments: data);
+                    },
+                  ),
+                  InkWell(
+                    child: myContainer("Rebate Requests"),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/central_mess_home/rebateRequest', arguments: data);
+                    },
+                  ),
+                  InkWell(
+                    child: myContainer("Vacation Food"),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/central_mess_home/vacationFood', arguments: data);
+                    },
+                  ),
+                  SizedBox(height: 30.0),
+                ],
+              ),
+            )
+                :
+            Card(
+              elevation: 2.0,
+              margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+              shadowColor: Colors.black,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  InkWell(
+                    child: myContainer("Mess Menu"),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/central_mess_home/menu', arguments: data);
+                    },
+                  ),
+                  InkWell(
+                    child: myContainer("Feedbacks & Suggestions"),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/central_mess_home/feedbacks', arguments: data);
+                    },
+                  ),
+                  InkWell(
+                    child: myContainer("Registrations"),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/central_mess_home/registration', arguments: data);
+                    },
+                  ),
+                  InkWell(
+                    child: myContainer("Announcement"),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/central_mess_home/announcement', arguments: data);
+                    },
+                  ),
+                  InkWell(
+                    child: myContainer("Reports"),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/central_mess_home/report', arguments: data);
                     },
                   ),
                   SizedBox(height: 30.0),
