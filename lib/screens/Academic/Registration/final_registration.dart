@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class TransactionForm extends StatefulWidget {
   @override
@@ -77,12 +78,13 @@ class _TransactionFormState extends State<TransactionForm> {
           child: Form(
             key: _formKey,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Container(
                   color: Colors.black,
                   padding: EdgeInsets.all(10),
                   alignment: Alignment.center,
+                  // padding: EdgeInsets.symmetric(horizo: 20),
                   child: Text(
                     'Transaction Form',
                     style: TextStyle(
@@ -92,41 +94,55 @@ class _TransactionFormState extends State<TransactionForm> {
                   ),
                 ),
                 SizedBox(height: 20),
-                TextFormField(
-                  controller: _transactionIdController,
-                  decoration: InputDecoration(labelText: 'Transaction ID'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter transaction ID';
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(height: 20),
-                TextFormField(
-                  controller: _depositDateController,
-                  readOnly: true,
-                  decoration: InputDecoration(
-                    labelText: 'Deposit Date',
-                    suffixIcon: IconButton(
-                      icon: Icon(Icons.calendar_today),
-                      onPressed: () => _selectDate(context),
-                    ),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter deposit date';
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(height: 20),
-                TextFormField(
+                Container(
+                    padding: EdgeInsets.all(10),
+                    alignment: Alignment.center,
+                    child: TextFormField(
+                      controller: _transactionIdController,
+                      decoration: InputDecoration(labelText: 'Transaction ID'),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter transaction ID';
+                        }
+                        return null;
+                      },
+                    )),
+                Container(
+                    padding: EdgeInsets.all(10),
+                    alignment: Alignment.center,
+                    child: TextFormField(
+                      controller: _depositDateController,
+                      readOnly: true,
+                      decoration: InputDecoration(
+                        labelText: 'Deposit Date',
+                        suffixIcon: IconButton(
+                          icon: Icon(Icons.calendar_today),
+                          onPressed: () => _selectDate(context),
+                        ),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter deposit date';
+                        }
+                        return null;
+                      },
+                    )),
+
+
+                // SizedBox(height: 20),
+                Container(
+                    padding: EdgeInsets.all(10),
+                    alignment: Alignment.center,
+                    child:TextFormField(
                   controller: _utrNumberController,
-                  decoration: InputDecoration(labelText: 'UTR Number (Optional)'),
-                ),
-                SizedBox(height: 20),
-                TextFormField(
+                  decoration:
+                      InputDecoration(labelText: 'UTR Number (Optional)'),
+                )),
+            
+                Container(
+                    padding: EdgeInsets.all(10),
+                    alignment: Alignment.center,
+                    child:TextFormField(
                   controller: _feePaidController,
                   decoration: InputDecoration(labelText: 'Fee Paid'),
                   validator: (value) {
@@ -135,9 +151,12 @@ class _TransactionFormState extends State<TransactionForm> {
                     }
                     return null;
                   },
-                ),
-                SizedBox(height: 20),
-                TextFormField(
+                )),
+                // SizedBox(height: 20),
+                Container(
+                    padding: EdgeInsets.all(10),
+                    alignment: Alignment.center,
+                    child:TextFormField(
                   controller: _actualFeeController,
                   decoration: InputDecoration(labelText: 'Actual Fee'),
                   validator: (value) {
@@ -146,9 +165,12 @@ class _TransactionFormState extends State<TransactionForm> {
                     }
                     return null;
                   },
-                ),
-                SizedBox(height: 20),
-                TextFormField(
+                )),
+                // SizedBox(height: 20),
+                Container(
+                    padding: EdgeInsets.all(10),
+                    alignment: Alignment.center,
+                    child:TextFormField(
                   controller: _reasonController,
                   decoration: InputDecoration(labelText: 'Reason'),
                   validator: (value) {
@@ -157,8 +179,8 @@ class _TransactionFormState extends State<TransactionForm> {
                     }
                     return null;
                   },
-                ),
-                SizedBox(height: 20),
+                )),
+                // SizedBox(height: 20),
                 // Row(
                 //   children: [
                 //     Expanded(
@@ -179,25 +201,25 @@ class _TransactionFormState extends State<TransactionForm> {
                 //     ),
                 //   ],
                 // ),
-                // SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      // Form is valid, proceed with submission
-                      // Implement your submission logic here
-                      // You can access form field values using _transactionIdController.text, _depositDateController.text, etc.
-                      // Example:
-                      print('Transaction ID: ${_transactionIdController.text}');
-                      print('Deposit Date: ${_depositDateController.text}');
-                      print('UTR Number: ${_utrNumberController.text}');
-                      print('Fee Paid: ${_feePaidController.text}');
-                      print('Actual Fee: ${_actualFeeController.text}');
-                      print('Reason: ${_reasonController.text}');
-                      print('Fee Receipt: ${_selectedFile}');
-                    }
-                  },
-                  child: Text('Submit'),
+                SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Handle submit action
+                    },
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.orange[
+                          900]), // Setting background color of button to blue
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 15),
+                      child: Text('Submit',
+                          style: TextStyle(fontSize: 18, color: Colors.white)),
+                    ),
+                  ),
                 ),
+                // SizedBox(height: 20),
               ],
             ),
           ),
