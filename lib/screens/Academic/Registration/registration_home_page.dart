@@ -81,8 +81,9 @@ class _RegistrationHomePageState extends State<RegistrationHomePage> {
           children: [
             Courses(data: data.currently_registered),
             PreRegistration(),
-            FinalRegistration(data: data),
+            // FinalRegistration(data: data),
             ConfigurePreRegistration(),
+            TransactionForm()
             // FinalRegistration(data: data)
           ],
         ),
