@@ -1,235 +1,7 @@
-// import 'package:flutter/material.dart';
-// import 'package:fusion/Components/appBar.dart';
-// import 'package:fusion/Components/side_drawer.dart';
-// import 'dart:async';
-// import 'dart:convert';
-// import 'package:fusion/models/profile.dart';
-// import 'package:fusion/services/profile_service.dart';
-// import 'package:fusion/models/dashboard.dart';
-// import 'package:fusion/services/dashboard_service.dart';
-// import 'package:http/http.dart';
-//
-// class ViewMenu extends StatefulWidget{
-//   @override
-//   _ViewMenuState createState() => _ViewMenuState();
-// }
-//
-// class _ViewMenuState extends State<ViewMenu> {
-//
-//   List<DropdownMenuItem<String>> get chooseMess{
-//     List<DropdownMenuItem<String>> messOptions = [
-//       DropdownMenuItem(child: Text("Central Mess 1"),value: "mess1"),
-//       DropdownMenuItem(child: Text("Central Mess 2"),value: "mess2"),
-//     ];
-//     return messOptions;
-//   }
-//
-//   bool _loading = true;
-//   late String name;
-//   late String studentType;
-//   late StreamController _dashboardController;
-//   late DashboardService dashboardService;
-//   late DashboardData data;
-//   late StreamController _profileController;
-//   late ProfileService profileService;
-//   late ProfileData data2;
-//
-//   @override
-//   void initState() {
-//     super.initState();
-//     _dashboardController = StreamController();
-//     dashboardService = DashboardService();
-//     _profileController = StreamController();
-//     profileService = ProfileService();
-//     getData();
-//   }
-//
-//   getData() async {
-//     try {
-//       Response response = await dashboardService.getDashboard();
-//       Response response2 = await profileService.getProfile();
-//       setState(() {
-//         data = DashboardData.fromJson(jsonDecode(response.body));
-//         data2 = ProfileData.fromJson(jsonDecode(response2.body));
-//         _loading = false;
-//       });
-//       name = data2.user!['first_name'] + ' ' + data2.user!['last_name'];
-//       studentType = data2.profile!['department']!['name'] +
-//           '  ' +
-//           data2.profile!['user_type'];
-//     } catch (e) {
-//       print(e);
-//     }
-//   }
-//
-//   loadData() async {
-//     getData().then((res) {
-//       _dashboardController.add(res);
-//       _profileController.add(res);
-//     });
-//   }
-//
-//   BoxDecoration myBoxDecoration() {
-//     return BoxDecoration(
-//       border: Border.all(color: Colors.deepOrangeAccent, width: 2.0, style: BorderStyle.solid),
-//       borderRadius: BorderRadius.all(Radius.circular(15.0)),
-//     );
-//   }
-//
-//   Text myText(String text) {
-//     return Text(
-//       text,
-//       style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
-//     );
-//   }
-//
-//   Padding myContainer(String text) {
-//     return Padding(
-//       padding: const EdgeInsets.all(8.0),
-//       child: Container(
-//         child: Padding(
-//           padding: const EdgeInsets.all(8.0),
-//           child: myText(text),
-//         ),
-//         decoration: myBoxDecoration(),
-//       ),
-//     );
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//
-//     String? selectedValue;
-//     final _messFormKey = GlobalKey<FormState>();
-//     final ButtonStyle style =
-//     ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w500),
-//         backgroundColor: Colors.blueAccent, shadowColor: Colors.black,);
-//     return Scaffold(
-//       appBar: DefaultAppBar().buildAppBar(),
-//       drawer: SideDrawer(),
-//       body: _loading == true
-//           ? Center(child: CircularProgressIndicator())
-//           : SingleChildScrollView(
-//         child: Column(
-//           children: [
-//             Card(
-//               elevation: 2.0,
-//               margin: EdgeInsets.symmetric(horizontal: 50.0, vertical: 20.0),
-//               shadowColor: Colors.black,
-//               child: Column(
-//                 children: [
-//                   Container(
-//                     margin: EdgeInsets.only(top: 20.0),
-//                     width: 170.0,
-//                     height: 170.0,
-//                     decoration: BoxDecoration(
-//                       image: DecorationImage(
-//                         image: AssetImage('assets/profile_pic.png'),
-//                         fit: BoxFit.cover,
-//                       ),
-//                     ),
-//                   ),
-//                   SizedBox(height: 10.0),
-//                   Text(
-//                     name,
-//                     style: TextStyle(fontSize: 20.0, color: Colors.black),
-//                   ),
-//                   SizedBox(height: 10.0),
-//                   Text(
-//                     studentType,
-//                     style: TextStyle(fontSize: 15.0, color: Colors.black),
-//                   ),
-//                   SizedBox(height: 10.0),
-//                 ],
-//               ),
-//             ),
-//             Padding(
-//               padding: const EdgeInsets.all(8.0),
-//               child: Container(
-//                 child: Padding(
-//                   padding: const EdgeInsets.all(8.0),
-//                   child: Center(
-//                     child: Text(
-//                       "Central Mess",
-//                       style: TextStyle(fontSize: 20.0, color: Colors.white),
-//                     ),
-//                   ),
-//                 ),
-//                 decoration: BoxDecoration(
-//                   color: Colors.deepOrangeAccent,
-//                   boxShadow: [
-//                     BoxShadow(
-//                       color: Colors.black,
-//                       offset: Offset(0.0, 1.0),
-//                       blurRadius: 2.0,
-//                     )
-//                   ],
-//                   borderRadius: BorderRadius.all(Radius.circular(5.0)),
-//                 ),
-//               ),
-//             ),
-//             Padding(
-//                 padding: const EdgeInsets.all(8.0),
-//                 child: Container(
-//                   child: Form(
-//                       key: _messFormKey,
-//                       child: Column(
-//                         mainAxisAlignment: MainAxisAlignment.center,
-//                         children: [
-//                           DropdownButtonFormField(
-//                             // style: ,
-//                               decoration: InputDecoration(
-//                                 enabledBorder: OutlineInputBorder(
-//                                   borderSide: BorderSide(color: Colors.deepOrangeAccent, width: 2),
-//                                   borderRadius: BorderRadius.circular(20),
-//                                 ),
-//                                 // border: OutlineInputBorder(
-//                                 //   borderSide: BorderSide(color: Colors.deepOrangeAccent, width: 2),
-//                                 //   borderRadius: BorderRadius.circular(20),
-//                                 // ),
-//                                 filled: true,
-//                                 fillColor: Colors.white,
-//                               ),
-//                               validator: (value) => value == null ? "Select a mess" : null,
-//                               dropdownColor: Colors.white,
-//                               value: selectedValue,
-//                               onChanged: (String? newValue) {
-//                                 setState(() {
-//                                   selectedValue = newValue!;
-//                                 });
-//                               },
-//                               items: chooseMess),
-//                           ElevatedButton(
-//                               style: style,
-//                               onPressed: () {
-//                                 if (_messFormKey.currentState!.validate()) {
-//                                   //valid flow
-//                                 }
-//                               },
-//                               child: Text("Download"))
-//                         ],
-//                       )
-//                   ),
-//                 ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-//
-
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
 import 'dart:async';
 import 'dart:convert';
-import 'package:fusion/models/profile.dart';
-import 'package:fusion/services/profile_service.dart';
-import 'package:fusion/models/dashboard.dart';
-import 'package:fusion/services/dashboard_service.dart';
-import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 
 class ViewMenu extends StatefulWidget {
   @override
@@ -237,44 +9,9 @@ class ViewMenu extends StatefulWidget {
 }
 
 class _ViewMenuState extends State<ViewMenu> {
-  bool _loading = true;
-  late String name;
-  late String studentType;
-  late StreamController _dashboardController;
-  late DashboardService dashboardService;
-  late DashboardData data;
-  late StreamController _profileController;
-  late ProfileService profileService;
-  late ProfileData data2;
-  String? selectedValue;
+  bool _loading = false, _loadDish = false;
+  String? selectedMess, selectedDay, selectedMeal;
 
-  @override
-  void initState() {
-    super.initState();
-    _dashboardController = StreamController();
-    dashboardService = DashboardService();
-    _profileController = StreamController();
-    profileService = ProfileService();
-    getData();
-  }
-
-  getData() async {
-    try {
-      Response response = await dashboardService.getDashboard();
-      Response response2 = await profileService.getProfile();
-      setState(() {
-        data = DashboardData.fromJson(jsonDecode(response.body));
-        data2 = ProfileData.fromJson(jsonDecode(response2.body));
-        _loading = false;
-      });
-      name = data2.user!['first_name'] + ' ' + data2.user!['last_name'];
-      studentType = data2.profile!['department']!['name'] +
-          '  ' +
-          data2.profile!['user_type'];
-    } catch (e) {
-      print(e);
-    }
-  }
 
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
@@ -304,6 +41,35 @@ class _ViewMenuState extends State<ViewMenu> {
     );
   }
 
+  List<String> dishes = [];
+  Future<void> fetchMenuData() async {
+    final url = Uri.parse("http://172.27.113.207:5000/menu/?mess_option=$selectedMess&day=$selectedDay&meal_time=$selectedMeal");
+    print(url);
+    try {
+      final response = await http.get(url);
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        setState(() {
+          dishes = List<String>.from(data['dishes']);
+          _loadDish = true;
+          print("got dishes info");
+        });
+      } else {
+        throw Exception('Failed to fetch menu data');
+      }
+    } catch (e) {
+      print('Error fetching menu data: $e');
+      // Handle error accordingly
+    }
+  }
+
+
+  @override
+  void initState() {
+    super.initState();
+    // fetchMenuData();
+  }
   @override
   Widget build(BuildContext context) {
     final _messFormKey = GlobalKey<FormState>();
@@ -313,132 +79,156 @@ class _ViewMenuState extends State<ViewMenu> {
       backgroundColor: Colors.white,
       shadowColor: Colors.black,
     );
-    return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(titleText: "Central Mess"),
-      drawer: SideDrawer(),
-      body: _loading == true
-          ? Center(child: CircularProgressIndicator())
-          : SingleChildScrollView(
-        child: Column(
-          children: [
-            Card(
-              elevation: 2.0,
-              // margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-              shadowColor: Colors.black,
-              child: Row(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(top: 20.0),
-                    width: 170.0,
-                    height: 170.0,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('assets/profile_pic.png'),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  Column(
-                    children: [
-                      SizedBox(height: 10.0),
-                      Text(
-                        name,
-                        style: TextStyle(
-                            fontSize: 20.0,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w800),
-                      ),
-                      SizedBox(height: 10.0),
-                      Text(
-                        studentType,
-                        style: TextStyle(
-                            fontSize: 20.0, color: Colors.black),
-                      ),
-                      SizedBox(height: 10.0),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                    child: Text(
-                      "Mess Menu",
-                      style:
-                      TextStyle(fontSize: 20.0, color: Colors.white),
-                    ),
-                  ),
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.deepOrangeAccent,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black,
-                      offset: Offset(0.0, 1.0),
-                      blurRadius: 2.0,
-                    )
-                  ],
-                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                child: Form(
-                  key: _messFormKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      DropdownButtonFormField(
-                        decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.deepOrangeAccent, width: 2),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              child: Form(
+                key: _messFormKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    DropdownButtonFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Select a Mess',
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.deepOrangeAccent, width: 2),
+                          borderRadius: BorderRadius.circular(20),
                         ),
-                        validator: (value) =>
-                        value == null ? "Select a mess" : null,
-                        dropdownColor: Colors.white,
-                        value: selectedValue,
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            selectedValue = newValue!;
-                          });
-                        },
-                        items: [
-                          DropdownMenuItem(
-                              child: Text("Central Mess 1"),
-                              value: "mess1"),
-                          DropdownMenuItem(
-                              child: Text("Central Mess 2"),
-                              value: "mess2"),
-                        ],
+                        filled: true,
+                        fillColor: Colors.white,
                       ),
-                      ElevatedButton(
-                          style: style,
-                          onPressed: () {
-                            if (_messFormKey.currentState!.validate()) {
-                              // Handle valid flow
-                              // print("Selected mess: $selectedValue");
-                              // Now we can perform actions based on the selected mess
-                            }
-                          },
-                          child: Text("Download"))
-                    ],
-                  ),
+                      validator: (value) =>
+                      value == null ? "Select a mess" : null,
+                      dropdownColor: Colors.white,
+                      value: selectedMess,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          selectedMess = newValue!;
+                        });
+                      },
+                      items: [
+                        DropdownMenuItem(
+                            child: Text("Central Mess 1"),
+                            value: "mess1"),
+                        DropdownMenuItem(
+                            child: Text("Central Mess 2"),
+                            value: "mess2"),
+                      ],
+                    ),
+                    SizedBox(height: 30.0),
+                    DropdownButtonFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Select a day',
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.deepOrangeAccent, width: 2),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
+                      validator: (value) =>
+                      value == null ? "Select a day" : null,
+                      dropdownColor: Colors.white,
+                      value: selectedDay,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          selectedDay = newValue!;
+                        });
+                      },
+                      items: [
+                        DropdownMenuItem(
+                            child: Text("Monday"),
+                            value: "Monday"),
+                        DropdownMenuItem(
+                            child: Text("Tuesday"),
+                            value: "Tuesday"),
+                        DropdownMenuItem(
+                            child: Text("Wednesday"),
+                            value: "Wednesday"),
+                        DropdownMenuItem(
+                            child: Text("Thursday"),
+                            value: "Thursday"),
+                        DropdownMenuItem(
+                            child: Text("Friday"),
+                            value: "Friday"),
+                        DropdownMenuItem(
+                            child: Text("Saturday"),
+                            value: "Saturday"),
+                        DropdownMenuItem(
+                            child: Text("Sunday"),
+                            value: "Sunday"),
+
+                      ],
+                    ),
+                    SizedBox(height: 30.0),
+                    DropdownButtonFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Select a Meal',
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.deepOrangeAccent, width: 2),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
+                      validator: (value) =>
+                      value == null ? "Select a meal" : null,
+                      dropdownColor: Colors.white,
+                      value: selectedMeal,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          selectedMeal = newValue!;
+                        });
+                      },
+                      items: [
+                        DropdownMenuItem(
+                            child: Text("Breakfast"),
+                            value: "Breakfast"),
+                        DropdownMenuItem(
+                            child: Text("Lunch"),
+                            value: "Lunch"),
+                        DropdownMenuItem(
+                            child: Text("Dinner"),
+                            value: "Dinner"),
+                      ],
+                    ),
+                    SizedBox(height: 30.0),
+                    ElevatedButton(
+                        style: style,
+                        onPressed: () {
+                          if (_messFormKey.currentState!.validate()) {
+                            // Handle valid flow
+                            // print("Selected mess: $selectedValue");
+                            // Now we can perform actions based on the selected mess
+                            print({selectedDay, selectedMeal, selectedMess});
+                            fetchMenuData();
+                          }
+                        },
+                        child: Text("View Menu"))
+                  ],
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+          _loadDish
+              ? Column(
+            children: dishes.map((dish) => Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                dish,
+                maxLines: 5,
+                style: TextStyle(fontSize: 20.0,),
+              ),
+            )).toList(),
+          )
+              : SizedBox(height: 10.0),
+        ],
       ),
     );
   }

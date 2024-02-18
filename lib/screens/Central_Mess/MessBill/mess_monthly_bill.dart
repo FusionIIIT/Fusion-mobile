@@ -119,7 +119,7 @@ class _MessMonthlyBillState extends State<MessMonthlyBill> {
             text: TextSpan(
               children: [
                 TextSpan(
-                  text: "Monthly Bill for month: ",
+                  text: "Month: ",
                   style: TextStyle(fontSize: 18.0, color: kPrimaryColor),
                 ),
                 TextSpan(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:date_field/date_field.dart';
+import 'dart:math';
+
 
 class MessMonthlyBillHistory extends StatefulWidget {
   @override
@@ -7,7 +9,7 @@ class MessMonthlyBillHistory extends StatefulWidget {
 }
 
 class _MessMonthlyBillHistoryState extends State<MessMonthlyBillHistory> {
-  List<String> _monthlyBillDates = [
+  static List<String> _monthlyBillDates = [
     "Monthly Mess Bill for February successful 2024-02-02",
     "Monthly Mess Bill for February successful 2024-02-02",
     "Mess Monthly Mess Bill for February successful 2024-02-02",
@@ -28,11 +30,11 @@ class _MessMonthlyBillHistoryState extends State<MessMonthlyBillHistory> {
 
   int _pageNumber = 1;
   int _pageSize = 5; // Number of items per page
-  int _totalItems = 20; // Total number of items (for demonstration)
+  int _totalItems = _monthlyBillDates.length; // Total number of items (for demonstration)
 
   List<String> getPaginatedMonthlyBillDates() {
     int startIndex = (_pageNumber - 1) * _pageSize;
-    int endIndex = startIndex + _pageSize;
+    int endIndex = min(_totalItems, startIndex + _pageSize);
     return _monthlyBillDates.sublist(startIndex, endIndex);
   }
 
