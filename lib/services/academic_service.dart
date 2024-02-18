@@ -121,7 +121,7 @@ class AcademicService {
       http.Response response = await client.post(
         Uri.http(
           getLink(),
-          kConfigurePreRegistration, //Constant api path
+          kConfigureFinalRegistration, //Constant api path
         ),
         headers: headers,
         body: jsonString,
