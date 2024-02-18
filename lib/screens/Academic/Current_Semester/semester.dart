@@ -44,21 +44,21 @@ class _SemesterState extends State<Semester> {
                 DataRow(
                   cells: <DataCell>[
                     DataCell(Text("")),
-                    DataCell(Text("")),
-                    DataCell(Text("")),
-                    DataCell(Text("")),
-                    DataCell(Text('')),
+                    DataCell(Text("OE2m07")),
+                    DataCell(Text("Operation Research")),
+                    DataCell(Text("3")),
+                    DataCell(Text("4")),
                   ],
                 ),
               ],
             ),
           ),
-          Text(
-            "Current CPI - " + ' ' + widget.data.details['cpi'].toString(),
-          ),
-          Text(
-            "Current SPI - " + ' ' + widget.data.details['spi'].toString(),
-          ),
+          // Text(
+            // "Current CPI - " + ' ' + widget.data.details['cpi'].toString(),
+          // ),
+          // Text(
+            // "Current SPI - " + ' ' + widget.data.details['spi'].toString(),
+          // ),
         ]),
       ),
     );

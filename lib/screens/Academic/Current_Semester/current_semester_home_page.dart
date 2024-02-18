@@ -19,7 +19,7 @@ class _CurrentSemesterHomePageState extends State<CurrentSemesterHomePage> {
     final AcademicData data =
         ModalRoute.of(context)!.settings.arguments as AcademicData;
     return DefaultTabController(
-      length: 5,
+      length: 1,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.black,
@@ -53,45 +53,45 @@ class _CurrentSemesterHomePageState extends State<CurrentSemesterHomePage> {
                   ),
                 ),
               ),
-              Tab(
-                child: Container(
-                  child: Text(
-                    'Time-Table',
-                  ),
-                ),
-              ),
-              Tab(
-                child: Container(
-                  child: Text(
-                    'Academic Calendar',
-                  ),
-                ),
-              ),
-              Tab(
-                child: Container(
-                  child: Text(
-                    'List of Holidays',
-                  ),
-                ),
-              ),
-              Tab(
-                child: Container(
-                  child: Text(
-                    'Exam time table',
-                  ),
-                ),
-              ),
+              // Tab(
+                // child: Container(
+                  // child: Text(
+                    // 'Time-Table',
+                  // ),
+                // ),
+              // ),
+              // Tab(
+                // child: Container(
+                  // child: Text(
+                    // 'Academic Calendar',
+                  // ),
+                // ),
+              // ),
+              // Tab(
+                // child: Container(
+                  // child: Text(
+                    // 'List of Holidays',
+                  // ),
+                // ),
+              // ),
+              // Tab(
+                // child: Container(
+                  // child: Text(
+                    // 'Exam time table',
+                  // ),
+                // ),
+              // ),
             ],
           ),
         ),
         drawer: SideDrawer(),
         body: TabBarView(
           children: [
-            Semester(data: data),
-            TimeTable(),
-            AcademicCalendar(),
-            HolidaysList(),
-            ExamTimeTable(),
+            Semester(data: data)
+            // TimeTable(),Time-T
+            // AcademicCalendar(),
+            // HolidaysList(),
+            // ExamTimeTable(),
           ],
         ),
       ),
