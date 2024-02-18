@@ -78,10 +78,10 @@ class _SideDrawerState extends State<SideDrawer> {
 
             if(usertype! == "staff") ...[
               ModulesCard(
-                  cardLine: 'Configre Pre Registration',
+                  cardLine: 'Configure Pre Registration',
                   pageMover: '/configure_pre_registration'),
               ModulesCard(
-                  cardLine: 'Configre Final Registration',
+                  cardLine: 'Configure Final Registration',
                   pageMover: '/configure_final_registration'),
             ],
             Card(

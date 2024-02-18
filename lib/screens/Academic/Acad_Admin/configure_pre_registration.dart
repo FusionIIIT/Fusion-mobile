@@ -101,7 +101,7 @@ class _ConfigurePreRegistration extends State<ConfigurePreRegistration> {
               Tab(
                 child: Container(
                   child: Text(
-                    'Conf Pre Registration',
+                    'Configure Pre Registration',
                   ),
                 ),
               ),
@@ -117,47 +117,68 @@ class _ConfigurePreRegistration extends State<ConfigurePreRegistration> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ListTile(
-                    title: Text(
-                      _startDate == null
-                          ? 'Select Start Date'
-                          : 'Start Date: ${_startDate!.toString().split(" ")[0]}',
+                    title: Row(
+                      children: [
+                        Icon(Icons.date_range),
+                        SizedBox(width: 10),
+                        Text(
+                          _startDate == null
+                              ? 'Select Start Date'
+                              : 'Start Date: ${_startDate!.toString().split(" ")[0]}',
+                        ),
+                      ],
                     ),
                     onTap: () => _selectStartDate(context),
                   ),
                   ListTile(
-                    title: Text(
-                      _endDate == null
-                          ? 'Select End Date'
-                          : 'End Date: ${_endDate!.toString().split(" ")[0]}',
+                    title: Row(
+                      children: [
+                        Icon(Icons.date_range),
+                        SizedBox(width: 10),
+                        Text(
+                          _endDate == null
+                              ? 'Select End Date'
+                              : 'End Date: ${_endDate!.toString().split(" ")[0]}',
+                        ),
+                      ],
                     ),
                     onTap: () => _selectEndDate(context),
                   ),
-                  TextFormField(
-                    keyboardType: TextInputType.number,
-                    inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                    ],
-                    decoration: InputDecoration(
-                      labelText: 'Semester Number',
+                  Padding(
+                    padding:
+                        EdgeInsets.all(16.0), // Adjust the padding as needed
+                    child: TextFormField(
+                      keyboardType: TextInputType.number,
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                      ],
+                      decoration: InputDecoration(
+                        labelText: 'Semester Number',
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter semester number';
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        setState(() {
+                          // print(value);
+                          _semesterNumber = int.tryParse(value);
+                        });
+                      },
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter semester number';
-                      }
-                      return null;
-                    },
-                    onChanged: (value) {
-                      setState(() {
-                        // print(value);
-                        _semesterNumber = int.tryParse(value);
-                        ;
-                      });
-                    },
                   ),
                   SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: _submitForm,
-                    child: Text('Submit'),
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: _submitForm,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.orange[800],
+                        foregroundColor: Colors.white,
+                      ),
+                      child: Text('Submit'),
+                    ),
                   ),
                   SizedBox(height: 20),
                   _responseText == null

@@ -97,7 +97,7 @@ class _ConfigureFinalRegistration extends State<ConfigureFinalRegistration> {
               Tab(
                 child: Container(
                   child: Text(
-                    'Conf Final Registration',
+                    'Configure Final Registration',
                   ),
                 ),
               ),
@@ -113,25 +113,43 @@ class _ConfigureFinalRegistration extends State<ConfigureFinalRegistration> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ListTile(
-                    title: Text(
-                      _startDate == null
-                          ? 'Select Start Date'
-                          : 'Start Date: ${_startDate!.toString().split(" ")[0]}',
+                    title: Row(
+                      children: [
+                        Icon(Icons.date_range),
+                        SizedBox(width: 10),
+                        Text(
+                          _startDate == null
+                              ? 'Select Start Date'
+                              : 'Start Date: ${_startDate!.toString().split(" ")[0]}',
+                        ),
+                      ],
                     ),
                     onTap: () => _selectStartDate(context),
                   ),
                   ListTile(
-                    title: Text(
-                      _endDate == null
-                          ? 'Select End Date'
-                          : 'End Date: ${_endDate!.toString().split(" ")[0]}',
+                    title: Row(
+                      children: [
+                        Icon(Icons.date_range),
+                        SizedBox(width: 10),
+                        Text(
+                          _endDate == null
+                              ? 'Select End Date'
+                              : 'End Date: ${_endDate!.toString().split(" ")[0]}',
+                        ),
+                      ],
                     ),
                     onTap: () => _selectEndDate(context),
                   ),
                   SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: _submitForm,
-                    child: Text('Submit'),
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: _submitForm,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.orange[800],
+                        foregroundColor: Colors.white,
+                      ),
+                      child: Text('Submit'),
+                    ),
                   ),
                   SizedBox(height: 20),
                   _responseText == null
