@@ -74,7 +74,6 @@ class _SideDrawerState extends State<SideDrawer> {
                 ),
               ],
             ),
-
             ModulesCard(cardLine: 'Dashboard', pageMover: '/dashboard'),
 
             if(usertype! == "staff") ...[
@@ -85,7 +84,6 @@ class _SideDrawerState extends State<SideDrawer> {
                   cardLine: 'Configre Final Registration',
                   pageMover: '/configure_final_registration'),
             ],
-
             Card(
               color: Colors.black,
               child: GestureDetector(
