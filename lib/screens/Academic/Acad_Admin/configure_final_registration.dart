@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:fusion/services/academic_service.dart';
 import 'package:fusion/Components/side_drawer.dart';
+import 'package:http/http.dart';
 
 class ConfigureFinalRegistration extends StatefulWidget {
   @override
@@ -54,7 +57,11 @@ class _ConfigureFinalRegistration extends State<ConfigureFinalRegistration> {
     final startDate = _startDate!.toString().substring(0, 10);
     final endDate = _endDate!.toString().substring(0, 10);
 
-    academicService.configureFinalRegistration(startDate, endDate);
+    Response response =
+        await academicService.configureFinalRegistration(startDate, endDate);
+    setState(() {
+      _responseText = (jsonDecode(response.body))["message"];
+    });
   }
 
   @override
@@ -126,6 +133,16 @@ class _ConfigureFinalRegistration extends State<ConfigureFinalRegistration> {
                     onPressed: _submitForm,
                     child: Text('Submit'),
                   ),
+                  SizedBox(height: 20),
+                  _responseText == null
+                      ? Container()
+                      : Text(
+                          _responseText!,
+                          style: TextStyle(
+                            color: Colors.green,
+                            fontSize: 20,
+                          ),
+                        ),
                 ],
               ),
             )

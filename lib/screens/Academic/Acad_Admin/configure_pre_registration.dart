@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:fusion/services/academic_service.dart';
 import 'package:fusion/Components/side_drawer.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart';
 
 class ConfigurePreRegistration extends StatefulWidget {
   @override
@@ -58,7 +61,11 @@ class _ConfigurePreRegistration extends State<ConfigurePreRegistration> {
     final endDate = _endDate!.toString().substring(0, 10);
     int semester = _semesterNumber!;
 
-    academicService.configurePreRegistration(startDate, endDate, semester);
+    Response response = await academicService.configurePreRegistration(
+        startDate, endDate, semester);
+    setState(() {
+      _responseText = (jsonDecode(response.body))["message"];
+    });
   }
 
   @override
@@ -152,6 +159,16 @@ class _ConfigurePreRegistration extends State<ConfigurePreRegistration> {
                     onPressed: _submitForm,
                     child: Text('Submit'),
                   ),
+                  SizedBox(height: 20),
+                  _responseText == null
+                      ? Container()
+                      : Text(
+                          _responseText!,
+                          style: TextStyle(
+                            color: Colors.green,
+                            fontSize: 20,
+                          ),
+                        ),
                 ],
               ),
             )
