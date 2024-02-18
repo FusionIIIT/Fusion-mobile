@@ -43,7 +43,7 @@ class _ViewMenuState extends State<ViewMenu> {
 
   List<String> dishes = [];
   Future<void> fetchMenuData() async {
-    final url = Uri.parse("http://127.0.0.1:5000/menu/?mess_option=$selectedMess&day=$selectedDay&meal_time=$selectedMeal");
+    final url = Uri.parse("http://172.27.113.207:5000/menu/?mess_option=$selectedMess&day=$selectedDay&meal_time=$selectedMeal");
     print(url);
     try {
       final response = await http.get(url);
