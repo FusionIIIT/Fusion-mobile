@@ -25,7 +25,7 @@ class _LibraryHomeScreenState extends State<LibraryHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
+      appBar: DefaultAppBar().buildAppBar(context),
       drawer: SideDrawer(),
       body: Column(
         children: [

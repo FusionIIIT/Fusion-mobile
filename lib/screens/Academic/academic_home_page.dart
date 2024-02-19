@@ -81,7 +81,7 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
+      appBar: DefaultAppBar().buildAppBar(context),
       drawer: SideDrawer(),
       body: _loading1 == true
           ? Center(child: CircularProgressIndicator())

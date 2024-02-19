@@ -43,7 +43,7 @@ class _ProgrammeCurriculumHomeState extends State<ProgrammeCurriculumHome> {
   Widget build(BuildContext context) {
     final data = '';
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
+      appBar: DefaultAppBar().buildAppBar(context),
       drawer: SideDrawer(),
       body: ListView(
         shrinkWrap: true,

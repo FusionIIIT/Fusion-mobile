@@ -11,7 +11,7 @@ class _PerformanceState extends State<Performance> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
+      appBar: DefaultAppBar().buildAppBar(context),
       drawer: SideDrawer(),
       body:Container(
         child:SingleChildScrollView(

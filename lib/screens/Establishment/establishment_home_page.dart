@@ -29,7 +29,7 @@ class _EstablishmentState extends State<Establishment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
+      appBar: DefaultAppBar().buildAppBar(context),
       drawer: SideDrawer(),
       body: ListView(
         shrinkWrap: true,
