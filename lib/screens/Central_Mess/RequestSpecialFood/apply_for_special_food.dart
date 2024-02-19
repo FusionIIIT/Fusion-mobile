@@ -75,9 +75,9 @@ class _ApplySpecialFoodState extends State<ApplySpecialFood> {
                       dropdownColor: Colors.white,
                       value: selectedMess,
                       onChanged: (String? newValue) {
-                        setState(() {
+                        // setState(() {
                           selectedMess = newValue!;
-                        });
+                        // });
                       },
                       items: [
                         DropdownMenuItem(
@@ -104,9 +104,8 @@ class _ApplySpecialFoodState extends State<ApplySpecialFood> {
                       validator: (e) =>
                       (e?.day ?? 0) == 1 ? 'Please not the first day' : null,
                       onDateSelected: (DateTime value) {
-                        setState(() {
+
                           selectedDate = value;
-                        });
                       },
                     ),
                     SizedBox(height: 30.0),
@@ -126,9 +125,9 @@ class _ApplySpecialFoodState extends State<ApplySpecialFood> {
                       dropdownColor: Colors.white,
                       value: selectedMeal,
                       onChanged: (String? newValue) {
-                        setState(() {
+                        // setState(() {
                           selectedMeal = newValue!;
-                        });
+                        // });
                       },
                       items: [
                         DropdownMenuItem(
