@@ -112,7 +112,7 @@ class _ComplaintState extends State<Complaint> {
                 ],
               ),
             ),
-            if (data.profile!["user_type"] == "student")
+            if (data.profile!["user_type"] != "student")
               Card(
                 elevation: 2.0,
                 margin:
@@ -240,41 +240,41 @@ class _ComplaintState extends State<Complaint> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          _loading1 = true;
-                          _loading2 = false;
-                          _loading3 = false;
-                          Navigator.pushNamed(
-                              context, '/complaint/lodge_complaint',
-                              arguments: data.user != null
-                                  ? data.user!['username']
-                                  : "null");
-                        });
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Lodge Complaint",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w800,
-                              fontSize: 18,
-                              color: _loading1
-                                  ? Colors.black
-                                  : Colors.black26,
-                            ),
-                          ),
-                          Icon(
-                            Icons.arrow_forward,
-                            color: _loading1
-                                ? Colors.deepOrangeAccent
-                                : Colors.white,
-                          )
-                        ],
-                      ),
-                    ),
+                    // TextButton(
+                    //   onPressed: () {
+                    //     setState(() {
+                    //       _loading1 = true;
+                    //       _loading2 = false;
+                    //       _loading3 = false;
+                    //       Navigator.pushNamed(
+                    //           context, '/complaint/lodge_complaint',
+                    //           arguments: data.user != null
+                    //               ? data.user!['username']
+                    //               : "null");
+                    //     });
+                    //   },
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //     children: [
+                    //       Text(
+                    //         "Lodge Complaint",
+                    //         style: TextStyle(
+                    //           fontWeight: FontWeight.w800,
+                    //           fontSize: 18,
+                    //           color: _loading1
+                    //               ? Colors.black
+                    //               : Colors.black26,
+                    //         ),
+                    //       ),
+                    //       Icon(
+                    //         Icons.arrow_forward,
+                    //         color: _loading1
+                    //             ? Colors.deepOrangeAccent
+                    //             : Colors.white,
+                    //       )
+                    //     ],
+                    //   ),
+                    // ),
                     SizedBox(height: 10),
                     TextButton(
                       onPressed: () {
@@ -319,7 +319,7 @@ class _ComplaintState extends State<Complaint> {
                           _loading3 = true;
                           Navigator.pushNamed(
                             context,
-                            '/complaint/unresolved_complaints',
+                            '/complaint/caretaker/unresolved_complaints',
                           );
                         });
                       },

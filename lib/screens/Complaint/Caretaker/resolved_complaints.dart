@@ -7,12 +7,12 @@ import 'package:http/http.dart';
 
 import 'caretaker_complaints_card.dart';
 
-class UnresolvedComplaints extends StatefulWidget {
+class ResolvedComplaints extends StatefulWidget {
   @override
-  _UnresolvedComplaintsState createState() => _UnresolvedComplaintsState();
+  _ResolvedComplaintsState createState() => _ResolvedComplaintsState();
 }
 
-class _UnresolvedComplaintsState extends State<UnresolvedComplaints> {
+class _ResolvedComplaintsState extends State<ResolvedComplaints> {
   bool _loading = true;
   late StreamController _complaintController;
   late ComplaintService complaintService;
@@ -41,33 +41,33 @@ class _UnresolvedComplaintsState extends State<UnresolvedComplaints> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: Text(
-          "Unresolved Complaints",
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+          title: Text(
+          "Resolved Complaints",
           style: TextStyle(color: Colors.white),
-        ),
-        actions: <Widget>[
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Icon(Icons.search),
-          ),
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Icon(Icons.notifications),
-          ),
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Icon(Icons.more_vert),
-          ),
-        ],
       ),
+        actions: <Widget>[
+        Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Icon(Icons.search),
+        ),
+        Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Icon(Icons.notifications),
+        ),
+        Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Icon(Icons.more_vert),
+        ),
+        ],
+        ),
       body: _loading
           ? Center(child: CircularProgressIndicator())
           : ListView.builder(
         itemCount: data.student_complain!.length,
         itemBuilder: (context, index) {
-          if(data.student_complain![index]['status'] != 2) {
+          if(data.student_complain![index]['status'] == 2 || data.student_complain![index]['status'] == 3) {
             return CaretakerComplaintCard(
               data: data,
               index: index,
