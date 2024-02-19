@@ -1,26 +1,35 @@
 import 'package:flutter/material.dart';
+
 // import 'package:fusion/Components/side_drawer.dart';
 class PreRegistration extends StatefulWidget {
   @override
   _PreRegistrationState createState() => _PreRegistrationState();
 }
+
 class Course {
   String id;
   String name;
   int credits;
   int priority;
 
-  Course({required this.id, required this.name, required this.credits, required this.priority});
+  Course(
+      {required this.id,
+      required this.name,
+      required this.credits,
+      required this.priority});
 }
 
 class _PreRegistrationState extends State<PreRegistration> {
-  final List<Course> courses = List.generate(9, (index) => Course(
-    id: 'ID ${index + 1}',
-    name: 'Course ${index + 1}',
-    credits: (index + 1) * 3,
-    priority: 1,
-  )); // Generate 9 courses with different details
-  List<int> priorities = List.generate(9, (index) => index + 1); // List of priorities from 1 to 9
+  final List<Course> courses = List.generate(
+      9,
+      (index) => Course(
+            id: 'ID ${index + 1}',
+            name: 'Course ${index + 1}',
+            credits: (index + 1) * 3,
+            priority: 1,
+          )); // Generate 9 courses with different details
+  List<int> priorities =
+      List.generate(9, (index) => index + 1); // List of priorities from 1 to 9
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +40,20 @@ class _PreRegistrationState extends State<PreRegistration> {
           'Pre Registration',
           style: TextStyle(color: Colors.white), // Setting text color to white
         ),
+        actions: <Widget>[
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Icon(Icons.search),
+          ),
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Icon(Icons.notifications),
+          ),
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Icon(Icons.more_vert),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -68,7 +91,8 @@ class _PreRegistrationState extends State<PreRegistration> {
                 }).toList(),
               ),
             ),
-            SizedBox(height: 20), // Adding spacing between table and submit button
+            SizedBox(
+                height: 20), // Adding spacing between table and submit button
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: ElevatedButton(
@@ -76,19 +100,18 @@ class _PreRegistrationState extends State<PreRegistration> {
                   // Handle submit action
                 },
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.orange[900]), // Setting background color of button to blue
+                  backgroundColor: MaterialStateProperty.all(Colors.orange[
+                      900]), // Setting background color of button to blue
                 ),
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: 15),
-                  child: Text(
-                    'Submit',
-                    style: TextStyle(fontSize: 18,color: Colors.white)
-
-                  ),
+                  child: Text('Submit',
+                      style: TextStyle(fontSize: 18, color: Colors.white)),
                 ),
               ),
             ),
-            SizedBox(height: 20), // Adding spacing between submit button and bottom
+            SizedBox(
+                height: 20), // Adding spacing between submit button and bottom
           ],
         ),
       ),

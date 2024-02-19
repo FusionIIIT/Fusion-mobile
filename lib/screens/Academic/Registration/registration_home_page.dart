@@ -63,7 +63,7 @@ class _RegistrationHomePageState extends State<RegistrationHomePage> {
         ),
         drawer: SideDrawer(),
         body: TabBarView(
-          children: [PreRegistration(), TransactionForm()],
+          children: [PreRegistration(), FinalRegistration()],
         ),
       ),
     );

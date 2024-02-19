@@ -25,8 +25,6 @@ class _ViewAssignedCourses extends State<ViewAssignedCourses> {
     try {
       Response response = await academicService.getAssignedCourses();
       setState(() {
-        print(response.body);
-        // courseList = response.body;
         courseList = jsonDecode(response.body);
         _loading1 = false;
       });
@@ -125,7 +123,7 @@ class _ViewAssignedCourses extends State<ViewAssignedCourses> {
                                     DataCell(
                                         Text(data['course_type'].toString())),
                                     DataCell(
-                                        Text(data['programmme'].toString())),
+                                        Text(data['programme'].toString())),
                                     DataCell(Text(data['branch'].toString())),
                                     DataCell(Text(data['sem'].toString())),
                                   ]);

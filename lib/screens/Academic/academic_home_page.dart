@@ -19,7 +19,7 @@ class AcademicHomePage extends StatefulWidget {
 }
 
 class _AcademicHomePageState extends State<AcademicHomePage> {
-  bool _loading1 = true;
+  int _loading1 = 2;
   late StreamController _academicController;
   late AcademicService academicService;
   late AcademicData data;
@@ -41,7 +41,7 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
       setState(() {
         print(response.body);
         courseList = response.body;
-        _loading1 = false;
+        _loading1--;
       });
     } catch (e) {
       print(e);
@@ -56,7 +56,7 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
       setState(() {
         print(response.body);
         data = AcademicData.fromJson(jsonDecode(response.body));
-        _loading1 = false;
+        _loading1--;
       });
     } catch (e) {
       print(e);
@@ -103,7 +103,7 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
     return Scaffold(
       appBar: DefaultAppBar().buildAppBar(),
       drawer: SideDrawer(),
-      body: _loading1 == true
+      body: _loading1 != 0
           ? Center(child: CircularProgressIndicator())
           : ListView(
               shrinkWrap: true,
@@ -221,16 +221,16 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
                       InkWell(
                         child: myContainer("Pre Registration"),
                         onTap: () {
-                          Navigator.pushNamed(context,
-                              '/academic_home_page/registration_home_page',
+                          Navigator.pushNamed(
+                              context, '/academic_home_page/pre_registration',
                               arguments: data);
                         },
                       ),
                       InkWell(
                         child: myContainer("Final Registration"),
                         onTap: () {
-                          Navigator.pushNamed(context,
-                              '/academic_home_page/registration_home_page',
+                          Navigator.pushNamed(
+                              context, '/academic_home_page/final_registration',
                               arguments: data);
                         },
                       ),

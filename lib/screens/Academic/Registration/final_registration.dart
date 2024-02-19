@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:fusion/services/academic_service.dart';
 import 'package:http/http.dart';
 
-class TransactionForm extends StatefulWidget {
+class FinalRegistration extends StatefulWidget {
   @override
-  _TransactionFormState createState() => _TransactionFormState();
+  _FinalRegistration createState() => _FinalRegistration();
 }
 
-class _TransactionFormState extends State<TransactionForm> {
+class _FinalRegistration extends State<FinalRegistration> {
   final _formKey = GlobalKey<FormState>();
   String? _responseText;
   late TextEditingController _transactionIdController;
@@ -79,9 +79,9 @@ class _TransactionFormState extends State<TransactionForm> {
       String feePaid = _feePaidController.text;
       String actualFee = _actualFeeController.text;
       String reason = _reasonController.text;
-    
+
       // Perform further actions with the data, such as submitting to an API or saving locally
-    
+
       // Example: Print the data
       print('Transaction ID: $transactionId');
       print('Deposit Date: $depositDate');
@@ -92,7 +92,8 @@ class _TransactionFormState extends State<TransactionForm> {
 
       // You can add your logic here to submit the form data
 
-      Response response = await academicService.finalRegistration(transactionId, depositDate, utrNumber, feePaid, actualFee, reason);
+      Response response = await academicService.finalRegistration(
+          transactionId, depositDate, utrNumber, feePaid, actualFee, reason);
       setState(() {
         _responseText = (jsonDecode(response.body))["message"];
       });
@@ -104,9 +105,27 @@ class _TransactionFormState extends State<TransactionForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('Transaction Form'),
-      // ),
+      appBar: AppBar(
+        backgroundColor: Colors.black, // Setting background color of app bar
+        title: Text(
+          'Final Registration',
+          style: TextStyle(color: Colors.white), // Setting text color to white
+        ),
+        actions: <Widget>[
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Icon(Icons.search),
+          ),
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Icon(Icons.notifications),
+          ),
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Icon(Icons.more_vert),
+          ),
+        ],
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(bottom: 10.0),
@@ -115,19 +134,6 @@ class _TransactionFormState extends State<TransactionForm> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Container(
-                  color: Colors.black,
-                  padding: EdgeInsets.all(10),
-                  alignment: Alignment.center,
-                  // padding: EdgeInsets.symmetric(horizo: 20),
-                  child: Text(
-                    'Transaction Form',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                    ),
-                  ),
-                ),
                 SizedBox(height: 20),
                 Container(
                     padding: EdgeInsets.all(10),
@@ -163,58 +169,57 @@ class _TransactionFormState extends State<TransactionForm> {
                       },
                     )),
 
+                // SizedBox(height: 20),
+                Container(
+                    padding: EdgeInsets.all(10),
+                    alignment: Alignment.center,
+                    child: TextFormField(
+                      controller: _utrNumberController,
+                      decoration:
+                          InputDecoration(labelText: 'UTR Number (Optional)'),
+                    )),
 
+                Container(
+                    padding: EdgeInsets.all(10),
+                    alignment: Alignment.center,
+                    child: TextFormField(
+                      controller: _feePaidController,
+                      decoration: InputDecoration(labelText: 'Fee Paid'),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter fee paid';
+                        }
+                        return null;
+                      },
+                    )),
                 // SizedBox(height: 20),
                 Container(
                     padding: EdgeInsets.all(10),
                     alignment: Alignment.center,
-                    child:TextFormField(
-                  controller: _utrNumberController,
-                  decoration:
-                      InputDecoration(labelText: 'UTR Number (Optional)'),
-                )),
-            
-                Container(
-                    padding: EdgeInsets.all(10),
-                    alignment: Alignment.center,
-                    child:TextFormField(
-                  controller: _feePaidController,
-                  decoration: InputDecoration(labelText: 'Fee Paid'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter fee paid';
-                    }
-                    return null;
-                  },
-                )),
+                    child: TextFormField(
+                      controller: _actualFeeController,
+                      decoration: InputDecoration(labelText: 'Actual Fee'),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter actual fee';
+                        }
+                        return null;
+                      },
+                    )),
                 // SizedBox(height: 20),
                 Container(
                     padding: EdgeInsets.all(10),
                     alignment: Alignment.center,
-                    child:TextFormField(
-                  controller: _actualFeeController,
-                  decoration: InputDecoration(labelText: 'Actual Fee'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter actual fee';
-                    }
-                    return null;
-                  },
-                )),
-                // SizedBox(height: 20),
-                Container(
-                    padding: EdgeInsets.all(10),
-                    alignment: Alignment.center,
-                    child:TextFormField(
-                  controller: _reasonController,
-                  decoration: InputDecoration(labelText: 'Reason'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter reason';
-                    }
-                    return null;
-                  },
-                )),
+                    child: TextFormField(
+                      controller: _reasonController,
+                      decoration: InputDecoration(labelText: 'Reason'),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter reason';
+                        }
+                        return null;
+                      },
+                    )),
                 // SizedBox(height: 20),
                 // Row(
                 //   children: [

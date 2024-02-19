@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:fusion/screens/Academic/Add_Drop_Courses/add_drop_courses.dart';
+import 'package:fusion/screens/Academic/Registration/pre_registration.dart';
+import 'package:fusion/screens/Academic/Registration/final_registration.dart';
 import 'package:fusion/screens/Complaint/ComplaintHistory/complain_history.dart';
 import 'package:fusion/screens/Complaint/Feedback/feedback.dart';
 import 'package:fusion/screens/Complaint/LodgeComplaint/lodge_complaint.dart';
@@ -96,6 +98,10 @@ class MyApp extends StatelessWidget {
               CurrentSemesterHomePage(),
           '/academic_home_page/registration_home_page': (context) =>
               RegistrationHomePage(),
+          '/academic_home_page/pre_registration': (context) =>
+              PreRegistration(),
+          '/academic_home_page/final_registration': (context) =>
+              FinalRegistration(),
           '/academic_home_page/bonafide': (context) => Bonafide(),
           '/academic_home_page/branch_change': (context) => BranchChange(),
           '/academic_home_page/attendance': (context) => Attendance(),
