@@ -58,7 +58,7 @@ class _BranchChangeState extends State<BranchChange> {
   Widget build(BuildContext context) {
     loadDepartmentsList();
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
+      appBar: DefaultAppBar().buildAppBar(context),
       drawer: SideDrawer(),
       body: Container(
           child: Column(

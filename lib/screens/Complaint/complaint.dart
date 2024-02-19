@@ -61,7 +61,7 @@ class _ComplaintState extends State<Complaint> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
+      appBar: DefaultAppBar().buildAppBar(context),
       drawer: SideDrawer(),
       body: _loading == true
           ? Center(child: CircularProgressIndicator())

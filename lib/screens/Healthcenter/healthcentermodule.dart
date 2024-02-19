@@ -93,7 +93,7 @@ class _HealthCenterModState extends State<HealthCenterMod> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
+      appBar: DefaultAppBar().buildAppBar(context),
       drawer: SideDrawer(),
       body: _loading1 == true
           ? Center(

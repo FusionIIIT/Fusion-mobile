@@ -101,7 +101,7 @@ class _AttendanceState extends State<Attendance> {
     }
 
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
+      appBar: DefaultAppBar().buildAppBar(context),
       drawer: SideDrawer(),
       body: Container(
         child: SingleChildScrollView(

@@ -34,7 +34,7 @@ class _BonafideState extends State<Bonafide> {
     final arguments = ModalRoute.of(context)!.settings.arguments as Map;
     loadlist();
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
+      appBar: DefaultAppBar().buildAppBar(context),
       drawer: SideDrawer(),
       body: Container(
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [

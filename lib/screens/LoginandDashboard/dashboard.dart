@@ -81,7 +81,7 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: DefaultAppBar()
-          .buildAppBar(), // This is default app bar used in all modules
+          .buildAppBar(context), // This is default app bar used in all modules
       drawer: SideDrawer(), // This is sideDrawer used in all modules
       body: _loading == true
           ? Center(child: CircularProgressIndicator())
