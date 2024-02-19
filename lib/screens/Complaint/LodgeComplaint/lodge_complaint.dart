@@ -30,8 +30,8 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
     'plumber',
     'garbage',
     'dustbin',
-    'Internet',
-    'Other',
+    'internet',
+    'other',
   ];
   String? location;
   List locationTypeItem = [
@@ -40,10 +40,13 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
     'hall-4',
     'CC1',
     'CC2',
-    'Core Lab',
+    'core_lab',
     'LHTC',
     'NR2',
-    'Rewa Residency',
+    'Rewa_Residency',
+    'Maa Saraswati Hostel',
+    'Nagarjuna Hostel',
+    'Panini Hostel'
   ];
   var service = locator<StorageService>();
   @override
