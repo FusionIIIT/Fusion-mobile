@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:fusion/services/academic_service.dart';
+import 'package:http/http.dart';
 
 class TransactionForm extends StatefulWidget {
   @override
@@ -8,6 +10,7 @@ class TransactionForm extends StatefulWidget {
 
 class _TransactionFormState extends State<TransactionForm> {
   final _formKey = GlobalKey<FormState>();
+  String? _responseText;
   late TextEditingController _transactionIdController;
   late TextEditingController _depositDateController;
   late TextEditingController _utrNumberController;
@@ -16,7 +19,7 @@ class _TransactionFormState extends State<TransactionForm> {
   late TextEditingController _reasonController;
   late TextEditingController _feeReceiptController;
   late DateTime _selectedDate;
-  String? _selectedFile;
+  late AcademicService academicService;
 
   @override
   void initState() {
@@ -29,7 +32,8 @@ class _TransactionFormState extends State<TransactionForm> {
     _reasonController = TextEditingController();
     _feeReceiptController = TextEditingController();
     _selectedDate = DateTime.now();
-    _selectedFile = null;
+    academicService = AcademicService();
+    // _selectedFile = null;
   }
 
   @override
@@ -58,12 +62,43 @@ class _TransactionFormState extends State<TransactionForm> {
       });
   }
 
-  Future<void> _selectFile() async {
-    // Implement file selection logic here (e.g., using file picker package)
-    setState(() {
-      // Set the selected file path
-      _selectedFile = "Selected file path";
-    });
+  // Future<void> _selectFile() async {
+  //   // Implement file selection logic here (e.g., using file picker package)
+  //   setState(() {
+  //     // Set the selected file path
+  //     _selectedFile = "Selected file path";
+  //   });
+  // }
+
+  Future<void> _submitForm() async {
+    if (_formKey.currentState!.validate()) {
+      // Retrieve text data from controllers
+      String transactionId = _transactionIdController.text;
+      String depositDate = _depositDateController.text;
+      String utrNumber = _utrNumberController.text;
+      String feePaid = _feePaidController.text;
+      String actualFee = _actualFeeController.text;
+      String reason = _reasonController.text;
+    
+      // Perform further actions with the data, such as submitting to an API or saving locally
+    
+      // Example: Print the data
+      print('Transaction ID: $transactionId');
+      print('Deposit Date: $depositDate');
+      print('UTR Number: $utrNumber');
+      print('Fee Paid: $feePaid');
+      print('Actual Fee: $actualFee');
+      print('Reason: $reason');
+
+      // You can add your logic here to submit the form data
+
+      Response response = await academicService.finalRegistration(transactionId, depositDate, utrNumber, feePaid, actualFee, reason);
+      setState(() {
+        _responseText = (jsonDecode(response.body))["message"];
+      });
+
+      print(_responseText);
+    }
   }
 
   @override
@@ -74,7 +109,7 @@ class _TransactionFormState extends State<TransactionForm> {
       // ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(0.0),
+          padding: const EdgeInsets.only(bottom: 10.0),
           child: Form(
             key: _formKey,
             child: Column(
@@ -205,15 +240,13 @@ class _TransactionFormState extends State<TransactionForm> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: ElevatedButton(
-                    onPressed: () {
-                      // Handle submit action
-                    },
+                    onPressed: _submitForm,
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(Colors.orange[
                           900]), // Setting background color of button to blue
                     ),
                     child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 15),
+                      padding: EdgeInsets.symmetric(vertical: 10),
                       child: Text('Submit',
                           style: TextStyle(fontSize: 18, color: Colors.white)),
                     ),

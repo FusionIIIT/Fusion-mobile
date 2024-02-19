@@ -136,6 +136,48 @@ class AcademicService {
     }
   }
 
+   Future<http.Response> finalRegistration(String transactionId, String depositDate, String utrNumber, String feePaid,String actualFee, String reason) async {
+    try {
+      var _prefs = await StorageService.getInstance();
+      String token = _prefs!.userInDB?.token ?? "";
+
+      Map<String, String> headers = {
+        'Authorization': 'Token ' + token,
+        'Content-Type': 'application/json'
+      };
+      final body = {
+        'transaction_id': transactionId,
+        'deposit_date': depositDate,
+        'utr_number': utrNumber,
+        'fee_paid': feePaid,
+        'actual_fee': actualFee,
+        'reason': reason,
+        'semester': 5
+      };
+      
+      final jsonString = json.encode(body);
+
+      print("pushing final registration configuration");
+
+      var client = http.Client();
+      http.Response response = await client.post(
+        Uri.http(
+          getLink(),
+          kFinalRegistration, //Constant api path
+        ),
+        headers: headers,
+        body: jsonString,
+      );
+      if (response.statusCode != 200) {
+        throw Exception('Can\'t do final registration');
+      }
+      print("successfully completed final registration");
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<http.Response> getAssignedCourses() async {
     try {
       var _prefs = await StorageService.getInstance();

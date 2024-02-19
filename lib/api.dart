@@ -23,6 +23,7 @@ String kConfigureFinalRegistration =
     "/academic-procedures/api/acad/configure_final_registration/";
 String kFacultyGetAssignedCourses =
     "/academic-procedures/api/fac/view_assigned_courses/";
+String kFinalRegistration = "/academic-procedures/api/stu/final_registration/";
 
 //Complaint
 String kComplaintService = "/complaint/api/studentcomplain";
