@@ -221,9 +221,9 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
                       InkWell(
                         child: myContainer("Fill Backlog Form"),
                         onTap: () {
-                          Navigator.pushNamed(context,
-                              '/academic_home_page/current_semester_home_page',
-                              arguments: data);
+                          // Navigator.pushNamed(context,
+                          //     '/academic_home_page/current_semester_home_page',
+                          //     arguments: data);
                         },
                       ),
                       InkWell(

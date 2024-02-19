@@ -212,4 +212,38 @@ class AcademicService {
       rethrow;
     }
   }
+
+  Future<http.Response> getCourseList(
+      String programme, String branch, String batch) async {
+    try {
+      var _prefs = await StorageService.getInstance();
+      String token = _prefs!.userInDB?.token ?? "";
+      Map<String, String> headers = {
+        'Authorization': 'Token ' + token,
+        'Content-Type': 'application/json'
+      };
+
+      final body = {"programme": programme, "branch": branch, "batch": batch};
+
+      final jsonString = json.encode(body);
+
+      print("fetching courses list");
+      var client = http.Client();
+      http.Response response = await client.post(
+        Uri.http(
+          getLink(),
+          kAcadGetCoursesList, //Constant api path
+        ),
+        headers: headers,
+        body: jsonString,
+      );
+      if (response.statusCode != 200) {
+        throw Exception('Can\'t get courses list');
+      }
+      print("successfully fetched courses list");
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

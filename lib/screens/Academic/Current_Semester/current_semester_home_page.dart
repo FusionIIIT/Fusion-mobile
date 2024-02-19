@@ -19,15 +19,13 @@ class _CurrentSemesterHomePageState extends State<CurrentSemesterHomePage> {
     // final AcademicData data =
     //     ModalRoute.of(context)!.settings.arguments as AcademicData;
     final courseList = ModalRoute.of(context)!.settings.arguments;
-    return DefaultTabController(
-      length: 1,
-      child: Scaffold(
+    return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.black,
+          backgroundColor: Colors.black, // Setting background color of app bar
           title: Text(
-            "Current Semester",
-            // "Current Semester" + ' -> ' + data.details!['user_sem'].toString(),
-            style: TextStyle(color: Colors.white),
+            'Offered Courses',
+            style:
+                TextStyle(color: Colors.white), // Setting text color to white
           ),
           actions: <Widget>[
             Padding(
@@ -43,60 +41,12 @@ class _CurrentSemesterHomePageState extends State<CurrentSemesterHomePage> {
               child: Icon(Icons.more_vert),
             ),
           ],
-          bottom: TabBar(
-            isScrollable: true,
-            indicatorColor: Colors.white,
-            indicatorWeight: 6.0,
-            tabs: [
-              Tab(
-                child: Container(
-                  child: Text(
-                    'List of Courses',
-                  ),
-                ),
-              ),
-              // Tab(
-              // child: Container(
-              // child: Text(
-              // 'Time-Table',
-              // ),
-              // ),
-              // ),
-              // Tab(
-              // child: Container(
-              // child: Text(
-              // 'Academic Calendar',
-              // ),
-              // ),
-              // ),
-              // Tab(
-              // child: Container(
-              // child: Text(
-              // 'List of Holidays',
-              // ),
-              // ),
-              // ),
-              // Tab(
-              // child: Container(
-              // child: Text(
-              // 'Exam time table',
-              // ),
-              // ),
-              // ),
-            ],
-          ),
         ),
-        drawer: SideDrawer(),
-        body: TabBarView(
-          children: [
-            Semester(courseList: courseList)
-            // TimeTable(),Time-T
-            // AcademicCalendar(),
-            // HolidaysList(),
-            // ExamTimeTable(),
-          ],
-        ),
-      ),
-    );
+        body: Semester(courseList: courseList)
+        // TimeTable(),Time-T
+        // AcademicCalendar(),
+        // HolidaysList(),
+        // ExamTimeTable(),
+        );
   }
 }
