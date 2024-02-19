@@ -95,6 +95,7 @@ class _ApplySpecialFoodState extends State<ApplySpecialFood> {
                               color: Colors.deepOrangeAccent, width: 2),
                           borderRadius: BorderRadius.circular(20),
                         ),
+                        suffixIcon: Icon(Icons.event_note),
                         filled: true,
                         fillColor: Colors.white,
                       ),
