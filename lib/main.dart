@@ -82,6 +82,12 @@ import 'package:fusion/screens/Central_Mess/RegistrationDeregistration/manage_re
 import 'package:fusion/screens/Central_Mess/Rebate/respondToRebateRequest.dart';
 import 'package:fusion/screens/Central_Mess/VacationFood/vacation_food_home.dart';
 import 'package:fusion/screens/Central_Mess/Payments/payments_home.dart';
+import 'package:fusion/screens/FileTracking/fts/fts.dart';
+import 'package:fusion/screens/FileTracking/Create_file/create_file.dart';
+import 'package:fusion/screens/FileTracking/View_drafts/view_drafts.dart';
+import 'package:fusion/screens/FileTracking/View_inbox/view_inbox.dart';
+import 'package:fusion/screens/FileTracking/View_outbox/view_outbox.dart';
+import 'package:fusion/screens/FileTracking/Track_file/track_file.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -219,6 +225,12 @@ class MyApp extends StatelessWidget {
           '/central_mess_home/vacationFood' : (context)=>VacationFoodHome(),
           '/central_mess_home/updatePayment' : (context)=>UpdatePaymentHome(),
 
+          '/fts': (context) => RoundedListView(),
+          '/fts/create_file': (context) => CreateFilePage(), // Replace with your Track File page
+          '/fts/view_drafts': (context) => DraftsPage(), // Replace with your Drafts page
+          '/fts/view_inbox': (context) => InboxPage(), // Replace with your Inbox page
+          '/fts/view_outbox': (context) => OutboxPage(), // Replace with your Outbox page
+          '/fts/tack_file': (context) => FileTrackingPage(), // Replace with your Outbox page
         },
       ),
     );
