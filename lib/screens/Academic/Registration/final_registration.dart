@@ -16,7 +16,7 @@ class _FinalRegistration extends State<FinalRegistration> {
   late TextEditingController _utrNumberController;
   late TextEditingController _feePaidController;
   late TextEditingController _actualFeeController;
-  late TextEditingController _reasonController;
+  late TextEditingController _modeController;
   late TextEditingController _feeReceiptController;
   late DateTime _selectedDate;
   late AcademicService academicService;
@@ -29,7 +29,7 @@ class _FinalRegistration extends State<FinalRegistration> {
     _utrNumberController = TextEditingController();
     _feePaidController = TextEditingController();
     _actualFeeController = TextEditingController();
-    _reasonController = TextEditingController();
+    _modeController = TextEditingController();
     _feeReceiptController = TextEditingController();
     _selectedDate = DateTime.now();
     academicService = AcademicService();
@@ -43,7 +43,7 @@ class _FinalRegistration extends State<FinalRegistration> {
     _utrNumberController.dispose();
     _feePaidController.dispose();
     _actualFeeController.dispose();
-    _reasonController.dispose();
+    _modeController.dispose();
     _feeReceiptController.dispose();
     super.dispose();
   }
@@ -78,7 +78,7 @@ class _FinalRegistration extends State<FinalRegistration> {
       String utrNumber = _utrNumberController.text;
       String feePaid = _feePaidController.text;
       String actualFee = _actualFeeController.text;
-      String reason = _reasonController.text;
+      String mode = _modeController.text;
 
       // Perform further actions with the data, such as submitting to an API or saving locally
 
@@ -88,17 +88,15 @@ class _FinalRegistration extends State<FinalRegistration> {
       print('UTR Number: $utrNumber');
       print('Fee Paid: $feePaid');
       print('Actual Fee: $actualFee');
-      print('Reason: $reason');
+      print('Mode: $_modeController');
 
       // You can add your logic here to submit the form data
 
       Response response = await academicService.finalRegistration(
-          transactionId, depositDate, utrNumber, feePaid, actualFee, reason);
+          transactionId, depositDate, utrNumber, feePaid, actualFee, mode);
       setState(() {
         _responseText = (jsonDecode(response.body))["message"];
       });
-
-      print(_responseText);
     }
   }
 
@@ -211,11 +209,11 @@ class _FinalRegistration extends State<FinalRegistration> {
                     padding: EdgeInsets.all(10),
                     alignment: Alignment.center,
                     child: TextFormField(
-                      controller: _reasonController,
-                      decoration: InputDecoration(labelText: 'Reason'),
+                      controller: _modeController,
+                      decoration: InputDecoration(labelText: 'Mode'),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter reason';
+                          return 'Please enter mode of payment';
                         }
                         return null;
                       },
@@ -257,6 +255,16 @@ class _FinalRegistration extends State<FinalRegistration> {
                     ),
                   ),
                 ),
+                SizedBox(height: 20),
+                _responseText == null
+                    ? Container()
+                    : Text(
+                        _responseText!,
+                        style: TextStyle(
+                          color: Colors.green,
+                          fontSize: 20,
+                        ),
+                      ),
                 // SizedBox(height: 20),
               ],
             ),

@@ -195,6 +195,22 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
                         },
                       ),
                       InkWell(
+                        child: myContainer("Final Registration"),
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, '/academic_home_page/final_registration',
+                              arguments: data);
+                        },
+                      ),
+                      InkWell(
+                        child: myContainer("Pre Registration"),
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, '/academic_home_page/pre_registration',
+                              arguments: data);
+                        },
+                      ),
+                      InkWell(
                         child: myContainer("Add Course"),
                         onTap: () {
                           Navigator.pushNamed(
@@ -218,22 +234,6 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
                               arguments: data);
                         },
                       ),
-                      InkWell(
-                        child: myContainer("Pre Registration"),
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, '/academic_home_page/pre_registration',
-                              arguments: data);
-                        },
-                      ),
-                      InkWell(
-                        child: myContainer("Final Registration"),
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, '/academic_home_page/final_registration',
-                              arguments: data);
-                        },
-                      ),
                       // InkWell(
                       //   child: myContainer("Current Semester"),
                       //   onTap: () {
@@ -242,22 +242,6 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
                       //         arguments: data);
                       //   },
                       // ),
-                      // InkWell(
-                      //   child: myContainer("Registration"),
-                      //   onTap: () {
-                      //     Navigator.pushNamed(context,
-                      //         '/academic_home_page/registration_home_page',
-                      //         arguments: data);
-                      //   },
-                      // ),
-                      InkWell(
-                        child: myContainer("Check Dues"),
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, '/academic_home_page/dues',
-                              arguments: data);
-                        },
-                      ),
                       // InkWell(
                       //   child: myContainer("Add/Drop courses"),
                       //   onTap: () {

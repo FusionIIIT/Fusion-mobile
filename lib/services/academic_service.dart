@@ -136,7 +136,13 @@ class AcademicService {
     }
   }
 
-   Future<http.Response> finalRegistration(String transactionId, String depositDate, String utrNumber, String feePaid,String actualFee, String reason) async {
+  Future<http.Response> finalRegistration(
+      String transactionId,
+      String depositDate,
+      String utrNumber,
+      String feePaid,
+      String actualFee,
+      String mode) async {
     try {
       var _prefs = await StorageService.getInstance();
       String token = _prefs!.userInDB?.token ?? "";
@@ -151,10 +157,11 @@ class AcademicService {
         'utr_number': utrNumber,
         'fee_paid': feePaid,
         'actual_fee': actualFee,
-        'reason': reason,
+        'reason': 'feePayment',
+        'mode': mode,
         'semester': 5
       };
-      
+
       final jsonString = json.encode(body);
 
       print("pushing final registration configuration");

@@ -4,15 +4,15 @@ import 'package:fusion/services/academic_service.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
 
-class Semester extends StatefulWidget {
+class CourseList extends StatefulWidget {
   // final data;
   final courseList;
-  const Semester({Key? key, this.courseList}) : super(key: key);
+  const CourseList({Key? key, this.courseList}) : super(key: key);
   @override
-  _SemesterState createState() => _SemesterState();
+  _CourseList createState() => _CourseList();
 }
 
-class _SemesterState extends State<Semester> {
+class _CourseList extends State<CourseList> {
   @override
   Widget build(BuildContext context) {
     List<dynamic> courseList = jsonDecode(widget.courseList);

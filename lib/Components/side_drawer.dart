@@ -77,6 +77,8 @@ class _SideDrawerState extends State<SideDrawer> {
             ModulesCard(cardLine: 'Dashboard', pageMover: '/dashboard'),
             if (usertype! == "staff") ...[
               ModulesCard(
+                  cardLine: 'Course List', pageMover: '/course_list_home_page'),
+              ModulesCard(
                   cardLine: 'Configure Pre Registration',
                   pageMover: '/configure_pre_registration'),
               ModulesCard(
