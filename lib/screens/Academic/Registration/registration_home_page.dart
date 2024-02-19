@@ -65,6 +65,7 @@ class _RegistrationHomePageState extends State<RegistrationHomePage> {
                   ),
                 ),
               ),
+              
             ],
           ),
         ),
