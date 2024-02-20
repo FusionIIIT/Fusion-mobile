@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:fusion/screens/Academic/Add_Drop_Courses/add_drop_courses.dart';
+import 'package:fusion/screens/Academic/Registration/pre_registration.dart';
+import 'package:fusion/screens/Academic/Registration/final_registration.dart';
 import 'package:fusion/screens/Complaint/ComplaintHistory/complain_history.dart';
 import 'package:fusion/screens/Complaint/Feedback/feedback.dart';
 import 'package:fusion/screens/Complaint/LodgeComplaint/lodge_complaint.dart';
@@ -42,6 +44,11 @@ import 'package:fusion/screens/Healthcenter/viewschedule.dart';
 import 'package:fusion/screens/Healthcenter/history.dart';
 import 'package:fusion/screens/Healthcenter/HealthCenter.dart';
 import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/screens/Academic/Acad_Admin/configure_pre_registration.dart';
+import 'package:fusion/screens/Academic/Acad_Admin/configure_final_registration.dart';
+import 'package:fusion/screens/Academic/Acad_Admin/course_list_home_page.dart';
+import 'package:fusion/screens/Academic/Acad_Admin/course_list.dart';
+import 'package:fusion/screens/Academic/Faculty/view_assigned_courses.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -60,7 +67,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MediaQueryData windowData =
-    MediaQueryData.fromWindow(WidgetsBinding.instance.window);
+        MediaQueryData.fromWindow(WidgetsBinding.instance.window);
     windowData = windowData.copyWith(
       textScaleFactor: 1,
     );
@@ -71,10 +78,10 @@ class MyApp extends StatelessWidget {
         title: 'Fusion',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-            // primarySwatch: Colors.blueGrey,
+          // primarySwatch: Colors.blueGrey,
           // colorSchemeSeed: Color(0xFF2085D0),
           colorSchemeSeed: Color(0xFFF36C35),
-            fontFamily: 'Nunito',
+          fontFamily: 'Nunito',
           useMaterial3: true,
         ),
         initialRoute: '/landing',
@@ -82,12 +89,23 @@ class MyApp extends StatelessWidget {
           '/landing': (context) => LandingPage(),
           '/login_page': (context) => LoginPage(),
           '/dashboard': (context) => Dashboard(),
+          '/configure_pre_registration': (context) =>
+              ConfigurePreRegistration(),
+          '/configure_final_registration': (context) =>
+              ConfigureFinalRegistration(),
+          '/course_list_home_page': (context) => CourseListHome(),
+          '/course_list': (context) => CourseList(),
+          '/view_assigned_courses': (context) => ViewAssignedCourses(),
           '/academic_home_page': (context) => AcademicHomePage(
               ModalRoute.of(context)!.settings.arguments.toString()),
           '/academic_home_page/current_semester_home_page': (context) =>
               CurrentSemesterHomePage(),
           '/academic_home_page/registration_home_page': (context) =>
               RegistrationHomePage(),
+          '/academic_home_page/pre_registration': (context) =>
+              PreRegistration(),
+          '/academic_home_page/final_registration': (context) =>
+              FinalRegistration(),
           '/academic_home_page/bonafide': (context) => Bonafide(),
           '/academic_home_page/branch_change': (context) => BranchChange(),
           '/academic_home_page/attendance': (context) => Attendance(),
