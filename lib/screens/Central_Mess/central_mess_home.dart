@@ -87,8 +87,6 @@ class _CentralMessHomeState extends State<CentralMessHome> {
 
   @override
   Widget build(BuildContext context) {
-    // user = "caretaker";
-    // user = "warden";
     return Scaffold(
       appBar: DefaultAppBar().buildAppBar(titleText: "Central Mess"),
       drawer: SideDrawer(),
@@ -189,12 +187,12 @@ class _CentralMessHomeState extends State<CentralMessHome> {
                       Navigator.pushNamed(context, '/central_mess_home/announcement', arguments: data2);
                     },
                   ),
-                  InkWell(
-                    child: myContainer("Register/De-register"),
-                    onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/registration', arguments: data2);
-                    },
-                  ),
+                  // InkWell(
+                  //   child: myContainer("Register/De-register"),
+                  //   onTap: () {
+                  //     Navigator.pushNamed(context, '/central_mess_home/registration', arguments: data2);
+                  //   },
+                  // ),
                   InkWell(
                     child: myContainer("Apply for Rebate"),
                     onTap: () {
@@ -271,7 +269,7 @@ class _CentralMessHomeState extends State<CentralMessHome> {
                 ],
               ),
             )
-                :
+            : user =='warden'  ?
             Card(
               elevation: 2.0,
               margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
@@ -288,7 +286,7 @@ class _CentralMessHomeState extends State<CentralMessHome> {
                   InkWell(
                     child: myContainer("Feedbacks & Suggestions"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/feedbacks', arguments: data2);
+                      Navigator.pushNamed(context, '/central_mess_home/feedback', arguments: data2);
                     },
                   ),
                   InkWell(
@@ -307,6 +305,35 @@ class _CentralMessHomeState extends State<CentralMessHome> {
                     child: myContainer("Reports"),
                     onTap: () {
                       Navigator.pushNamed(context, '/central_mess_home/report', arguments: data2);
+                    },
+                  ),
+                  SizedBox(height: 30.0),
+                ],
+              ),
+            ) :
+            Card(
+              elevation: 2.0,
+              margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+              shadowColor: Colors.black,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  InkWell(
+                    child: myContainer("Mess Menu"),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/central_mess_home/menu', arguments: data2);
+                    },
+                  ),
+                  InkWell(
+                    child: myContainer("Feedbacks & Suggestions"),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/central_mess_home/feedback', arguments: data2);
+                    },
+                  ),
+                  InkWell(
+                    child: myContainer("Announcement"),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/central_mess_home/announcement', arguments: data2);
                     },
                   ),
                   SizedBox(height: 30.0),

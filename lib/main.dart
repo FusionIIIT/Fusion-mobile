@@ -49,6 +49,7 @@ import 'package:fusion/screens/Central_Mess/Rebate/rebate_menu.dart';
 import 'package:fusion/screens/Central_Mess/MessBill/mess_bill.dart';
 import 'package:fusion/screens/Central_Mess/Announcement/announcement.dart';
 import 'package:fusion/screens/Central_Mess/RequestSpecialFood/special_food.dart';
+import 'package:fusion/screens/Central_Mess/RegistrationDeregistration/reg_dereg_homepage.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -141,6 +142,7 @@ class MyApp extends StatelessWidget {
           '/central_mess_home/messBill':(context)=>ViewBill(),
           '/central_mess_home/announcement':(context)=>Announcement(),
           '/central_mess_home/reqSpecialFood':(context)=>SpecialFood(),
+          '/central_mess_home/registration' : (context)=>ManageRegDeReg(),
         },
       ),
     );

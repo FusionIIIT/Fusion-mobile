@@ -16,7 +16,7 @@ class _AnnouncementState extends State<Announcement> {
   void initState() {
     super.initState();
     // Simulating different user types
-    user = "caretaker"; // Change to "caretaker" to see the caretaker view
+    // user = "caretaker"; // Change to "caretaker" to see the caretaker view
   }
 
   @override

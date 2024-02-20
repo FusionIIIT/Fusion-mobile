@@ -3,6 +3,7 @@ import 'view_menu.dart';
 import 'update_menu.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/models/profile.dart';
 
 class MessMenu extends StatefulWidget {
   @override
@@ -13,8 +14,12 @@ class _MessMenuState extends State<MessMenu> {
   String? user;
   @override
   Widget build(BuildContext context) {
-    user = "student";
+    // user = "student";
+    final ProfileData data = ModalRoute.of(context)!.settings.arguments as ProfileData;
+    user = data.profile!['user_type'];
     // user = "caretaker";
+    //user = "warden";
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar:DefaultAppBar().buildAppBar(titleText: "Central Mess"),

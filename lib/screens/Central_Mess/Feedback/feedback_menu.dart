@@ -14,8 +14,6 @@ class _FeedbackMenuState extends State<FeedbackMenu> {
 
   @override
   Widget build(BuildContext context) {
-    user = 'caretaker'; // Assuming 'caretaker' by default
-    user = 'student';
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -27,7 +25,8 @@ class _FeedbackMenuState extends State<FeedbackMenu> {
           children: <Widget>[
             SizedBox(height: 5.0),
             DefaultTabController(
-              length: user == 'caretaker' ? 1 : 2, // Change tab length based on user
+              // length: user == 'caretaker' ? 1 : 2, // Change tab length based on user
+              length: 2,
               initialIndex: 0,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -62,7 +61,7 @@ class _FeedbackMenuState extends State<FeedbackMenu> {
                     ),
                     child: TabBarView(
                       children: <Widget>[
-                        if (user != 'caretaker') FeedbackForm(),
+                        FeedbackForm(),
                         FeedbackHistory(),
                       ],
                     ),
