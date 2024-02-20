@@ -18,6 +18,7 @@ String kCentralMess = "172.27.112.145:8000";
 String kFeedbackEndpoint = "/mess/api/feedbackApi";
 String kMenuEndpoint = "/mess/api/menuApi";
 String kMonthlyBillEndpoint = "/mess/api/monthlyBillApi";
+String kRebateEndpoint = "/mess/api/rebateApi";
 String kMessInfoEndpoint = "/mess/api/messInfoApi";
 
 //Complaint
