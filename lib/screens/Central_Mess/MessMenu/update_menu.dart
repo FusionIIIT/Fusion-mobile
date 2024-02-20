@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-
+import 'package:http/http.dart' as http;
+import 'package:fusion/models/central_mess.dart';
+import 'package:fusion/services/central_mess_services.dart';
 
 class UpdateMenu extends StatefulWidget {
   @override
@@ -7,9 +9,37 @@ class UpdateMenu extends StatefulWidget {
 }
 
 class _UpdateMenuState extends State<UpdateMenu> {
+  CentralMessService _centralMessService = CentralMessService();
+  TextEditingController textController = TextEditingController();
+
   bool _loading = false, _updateDish = false;
+  MessMenu? data;
   String? selectedMess, selectedDay, selectedMeal, dish;
 
+  @override
+  void initState() {
+    super.initState();
+    // _fetchMenuData();
+  }
+
+  void _updateMenuData(data) async {
+    try {
+      http.Response menuItems = await _centralMessService.updateMenu(data);
+      if (menuItems.statusCode == 200) {
+        print('Received the menu');
+      } else {
+        print('Couldn\'t Update');
+      }
+    } catch (e) {
+      print('Error fetching menu: $e');
+    }
+  }
+
+  @override
+  void dispose() {
+    textController.dispose(); // Dispose the controller
+    super.dispose();
+  }
 
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
@@ -112,25 +142,25 @@ class _UpdateMenuState extends State<UpdateMenu> {
                       items: [
                         DropdownMenuItem(
                             child: Text("Monday"),
-                            value: "Monday"),
+                            value: "M"),
                         DropdownMenuItem(
                             child: Text("Tuesday"),
-                            value: "Tuesday"),
+                            value: "T"),
                         DropdownMenuItem(
                             child: Text("Wednesday"),
-                            value: "Wednesday"),
+                            value: "W"),
                         DropdownMenuItem(
                             child: Text("Thursday"),
-                            value: "Thursday"),
+                            value: "TH"),
                         DropdownMenuItem(
                             child: Text("Friday"),
-                            value: "Friday"),
+                            value: "F"),
                         DropdownMenuItem(
                             child: Text("Saturday"),
-                            value: "Saturday"),
+                            value: "S"),
                         DropdownMenuItem(
                             child: Text("Sunday"),
-                            value: "Sunday"),
+                            value: "SU"),
 
                       ],
                     ),
@@ -158,13 +188,13 @@ class _UpdateMenuState extends State<UpdateMenu> {
                       items: [
                         DropdownMenuItem(
                             child: Text("Breakfast"),
-                            value: "Breakfast"),
+                            value: "B"),
                         DropdownMenuItem(
                             child: Text("Lunch"),
-                            value: "Lunch"),
+                            value: "L"),
                         DropdownMenuItem(
                             child: Text("Dinner"),
-                            value: "Dinner"),
+                            value: "D"),
                       ],
                     ),
                     SizedBox(height: 30.0),
@@ -181,11 +211,13 @@ class _UpdateMenuState extends State<UpdateMenu> {
                         filled: true,
                         fillColor: Colors.white,
                       ),
+                      controller: textController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Enter a new dish";
+                        } else {
+                          return null;
                         }
-                        return null;
                       },
                       style: TextStyle(fontSize: 20.0),
                     ),
@@ -195,6 +227,22 @@ class _UpdateMenuState extends State<UpdateMenu> {
                           if (_messFormKey.currentState!.validate()) {
                             // Handle valid flow
                             // print("Selected mess: $selectedValue");
+                            dish = textController.text;
+                            data?.messOption = selectedMess!;
+                            data?.mealTime = selectedDay! + selectedMeal!;
+                            data?.dish = dish!;
+                            // print({selectedMess, selectedDay, selectedMeal, dish});
+                            setState(() {
+                              data = MessMenu(
+                                  messOption: selectedMess!,
+                                  mealTime: selectedDay! + selectedMeal!,
+                                  dish: dish!);
+                            });
+                            // print(data);
+                            _updateMenuData(data);
+                            setState(() {
+                              data = null;
+                            });
                             // Now we can perform actions based on the selected mess
                           }
                         },

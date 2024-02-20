@@ -107,9 +107,9 @@ class Payment {
 }
 
 class MessMenu {
-  final String messOption;
-  final String mealTime;
-  final String dish;
+  late final String messOption;
+  late final String mealTime;
+  late final String dish;
 
   MessMenu({
     required this.messOption,
