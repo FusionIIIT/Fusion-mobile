@@ -6,81 +6,156 @@ class RebateForm extends StatefulWidget {
   _RebateFormState createState() => _RebateFormState();
 }
 
-//int get _value=>_value;
-
 class _RebateFormState extends State<RebateForm> {
-  String?_value1, _value2;
+  bool _loading = false, _updateDish = false;
+  String? reasonForRebate;
+  DateTime? selectedDateStart, selectedDateEnd;
+  final _messFormKey = GlobalKey<FormState>();
+  final _reasonController = TextEditingController();
+
+  BoxDecoration myBoxDecoration() {
+    return BoxDecoration(
+      border: Border.all(
+          color: Colors.deepOrangeAccent, width: 2.0, style: BorderStyle.solid),
+      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+    );
+  }
+
+  Text myText(String text) {
+    return Text(
+      text,
+      style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
+    );
+  }
+
+  Padding myContainer(String text) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: myText(text),
+        ),
+        decoration: myBoxDecoration(),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // color: Colors.red,
-      width: 200,
-      //height: 120,
-      //color: Colors.blue,
-      alignment: Alignment.topCenter,
-      padding: EdgeInsets.all(30.0),
-      child: ListView(
+    final ButtonStyle style = ElevatedButton.styleFrom(
+      textStyle: const TextStyle(
+          fontSize: 20, color: Colors.white, fontWeight: FontWeight.w500),
+      backgroundColor: Colors.white,
+      shadowColor: Colors.black,
+    );
+    return SingleChildScrollView(
+      child: Column(
         children: [
-          Padding(padding: EdgeInsets.symmetric(vertical: 20.0)),
-          DateTimeFormField(
-            decoration: const InputDecoration(
-              hintStyle: TextStyle(color: Colors.black45),
-              errorStyle: TextStyle(color: Colors.redAccent),
-              border: OutlineInputBorder(),
-              suffixIcon: Icon(Icons.event_note),
-              labelText: 'From',
-            ),
-            mode: DateTimeFieldPickerMode.date,
-            autovalidateMode: AutovalidateMode.always,
-            validator: (e) =>
-            (e?.day ?? 0) == 1 ? 'Please not the first day' : null,
-            onDateSelected: (DateTime value) {
-              print(value);
-            },
-          ),
-          Padding(padding: EdgeInsets.symmetric(vertical: 20.0)),
-          DateTimeFormField(
-            decoration: const InputDecoration(
-              hintStyle: TextStyle(color: Colors.black45),
-              errorStyle: TextStyle(color: Colors.redAccent),
-              border: OutlineInputBorder(),
-              suffixIcon: Icon(Icons.event_note),
-              labelText: 'To',
-            ),
-            mode: DateTimeFieldPickerMode.date,
-            autovalidateMode: AutovalidateMode.always,
-            validator: (e) =>
-            (e?.day ?? 0) == 1 ? 'Please not the first day' : null,
-            onDateSelected: (DateTime value) {
-              print(value);
-            },
-          ),
-          Padding(padding: EdgeInsets.symmetric(vertical: 20.0)),
-          TextFormField(
-            maxLines: 4,
-            cursorHeight: 30,
-            decoration: new InputDecoration(
-              labelText: "Reason",
-              fillColor: Colors.white,
-              border: new OutlineInputBorder(),
-              //fillColor: Colors.green
-            ),
-            style: new TextStyle(
-              fontFamily: "Poppins",
-            ),
-          ),
-          Padding(padding: EdgeInsets.symmetric(vertical: 20.0)),
-          Center(
-            child: TextButton(
-              child: Text(
-                'Submit',
-                style: TextStyle(fontSize: 15.0),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              child: Form(
+                key: _messFormKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 30.0),
+                    DateTimeFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Select Start Date',
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.deepOrangeAccent, width: 2),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        suffixIcon: Icon(Icons.event_note),
+                        filled: true,
+                        fillColor: Colors.white,
+                        errorText: _updateDish && selectedDateStart == null
+                            ? 'Please select a start date'
+                            : null,
+                      ),
+                      mode: DateTimeFieldPickerMode.date,
+                      onDateSelected: (DateTime value) {
+                        setState(() {
+                          selectedDateStart = value;
+                        });
+                      },
+                    ),
+                    SizedBox(height: 30.0),
+                    DateTimeFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Select End Date',
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.deepOrangeAccent, width: 2),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        suffixIcon: Icon(Icons.event_note),
+                        filled: true,
+                        fillColor: Colors.white,
+                        errorText: _updateDish && selectedDateEnd == null
+                            ? 'Please select an end date'
+                            : null,
+                      ),
+                      mode: DateTimeFieldPickerMode.date,
+                      onDateSelected: (DateTime value) {
+                        setState(() {
+                          selectedDateEnd = value;
+                        });
+                      },
+                    ),
+                    SizedBox(height: 30.0),
+                    TextFormField(
+                      controller: _reasonController,
+                      maxLines: 4,
+                      cursorHeight: 30,
+                      decoration: InputDecoration(
+                        labelText: 'Reason for Rebate',
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.deepOrangeAccent, width: 2),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
+                        errorText: _updateDish && (reasonForRebate == null || reasonForRebate!.isEmpty)
+                            ? 'Enter a reason for rebate'
+                            : null,
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          reasonForRebate = value;
+                        });
+                      },
+                      style: TextStyle(fontSize: 20.0),
+                    ),
+                    SizedBox(height: 30.0),
+                    ElevatedButton(
+                      style: style,
+                      onPressed: () {
+                        setState(() {
+                          _updateDish = true;
+                        });
+                        if (_messFormKey.currentState!.validate()) {
+                          // Handle valid flow
+                          // Now we can perform actions based on the selected mess
+                        }
+                      },
+                      child: Text("Submit"),
+                    )
+                  ],
+                ),
               ),
-              // color: Colors.deepOrangeAccent,
-              onPressed: () {},
             ),
           ),
+          // updated successfully
+          // _updateDish
+          //     ? Column(
+          //   children:
+          // )
+          //     : SizedBox(height: 10.0),
         ],
       ),
     );
