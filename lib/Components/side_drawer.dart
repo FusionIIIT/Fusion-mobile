@@ -13,6 +13,7 @@ class _SideDrawerState extends State<SideDrawer> {
   int count = 0;
   String? name;
   String? depttype;
+  String? userType;
   @override
   void initState() {
     super.initState();
@@ -23,6 +24,10 @@ class _SideDrawerState extends State<SideDrawer> {
     depttype = service.profileData.profile!['department']!['name'] +
         " " +
         service.profileData.profile!['user_type'];
+    userType = service.profileData.profile!['user_type'];
+    print(name);
+    print(depttype);
+    print(userType);
   }
 
   @override
@@ -119,6 +124,12 @@ class _SideDrawerState extends State<SideDrawer> {
                         ModulesPadding(
                           line: 'Programme Curriculum',
                           pageMover: '/programme_curriculum_home',
+                          isActive: true,
+                        ),
+                        // if (userType == '')
+                        ModulesPadding(
+                          line: "Courses Module",
+                          pageMover: '/registered_courses',
                           isActive: true,
                         ),
                         ModulesPadding(

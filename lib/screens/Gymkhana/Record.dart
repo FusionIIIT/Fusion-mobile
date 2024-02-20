@@ -123,10 +123,10 @@ class Srecord {
   late String Category;
 
   Srecord(
-      {this.Name: "default-name",
-      this.Rollno: "000000",
-      this.Club: "default-club",
-      this.Category: "default-category"});
+      {this.Name = "default-name",
+      this.Rollno = "000000",
+      this.Club = "default-club",
+      this.Category = "default-category"});
 }
 
 var Srecords = <Srecord>[
