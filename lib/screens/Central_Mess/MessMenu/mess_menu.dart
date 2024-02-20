@@ -14,7 +14,6 @@ class _MessMenuState extends State<MessMenu> {
   String? user;
   @override
   Widget build(BuildContext context) {
-    // user = "student";
     final ProfileData data = ModalRoute.of(context)!.settings.arguments as ProfileData;
     user = data.profile!['user_type'];
     // user = "caretaker";

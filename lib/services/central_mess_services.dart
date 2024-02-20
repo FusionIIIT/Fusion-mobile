@@ -111,6 +111,61 @@ class CentralMessService {
     }
   }
 
+  Future<http.Response> updateMenu(MessMenu data) async {
+    try {
+      var storageService = locator<StorageService>();
+      if (storageService.userInDB?.token == null) {
+        throw Exception('Token error');
+      }
+
+      http.Response response0 = await http.post(
+        Uri.http(
+          kCentralMess,
+          kAuthLogin, // Constant API endpoint for authentication
+        ),
+        body: {
+          'username': '21bcs064',
+          'password': 'user@123'
+        },
+      );
+
+      if (response0.statusCode == 200) {
+        Map<String, String> headers = {
+          'Authorization': 'Token ' + json.decode(response0.body)['token'],
+          'Content-Type': 'application/json; charset=UTF-8'
+        };
+
+        Map<String, String> body = {
+          'mess_option': data.messOption,
+          'meal_time': data.mealTime,
+          'dish': data.dish,
+        };
+
+        print("Updating Menu");
+        http.Response response = await http.post(
+          Uri.http(
+            kCentralMess,
+            kMenuEndpoint, //constant api EndPoint
+          ),
+          headers: headers,
+          body: json.encode(body),
+        );
+
+        if (response.statusCode == 200) {
+          print('Menu updated successfully');
+          return response;
+        } else {
+          print(response.statusCode);
+          throw Exception('Failed to update menu');
+        }
+      } else {
+        print(response0.statusCode);
+        throw Exception('Failed to authenticate');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
 
   Future<List<MonthlyBill>> getMonthlyBill() async {
     try {
