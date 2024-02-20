@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
+// import 'dart:async';
+// import 'dart:convert';
+// import 'package:fusion/models/profile.dart';
+// import 'package:fusion/services/profile_service.dart';
+// import 'package:fusion/models/dashboard.dart';
+// import 'package:fusion/services/dashboard_service.dart';
+// import 'package:http/http.dart';
 
 class ProgrammeCurriculumHome extends StatefulWidget {
   @override
@@ -9,6 +16,11 @@ class ProgrammeCurriculumHome extends StatefulWidget {
 }
 
 class _ProgrammeCurriculumHomeState extends State<ProgrammeCurriculumHome> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
         border: new Border.all(
@@ -71,7 +83,7 @@ class _ProgrammeCurriculumHomeState extends State<ProgrammeCurriculumHome> {
                 ),
                 Text(
                   //NAME OF USER
-                  'Arihant Jain',
+                  "Acad_Admin",
                   // data.details!['current_user']['first_name'] +
                   //     ' ' +
                   //     data.details!['current_user']['last_name'],
@@ -81,7 +93,7 @@ class _ProgrammeCurriculumHomeState extends State<ProgrammeCurriculumHome> {
                   height: 10.0,
                 ),
                 Text(
-                  'CSE',
+                  "admin",
                   // data.details!['user_branch'] + ' | ' + "STUDENT",
                   // style: TextStyle(fontSize: 15.0, color: Colors.black),
                 ),
@@ -126,7 +138,7 @@ class _ProgrammeCurriculumHomeState extends State<ProgrammeCurriculumHome> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 InkWell(
-                  child: myContainer("Programmes"),
+                  child: myContainer("Browse Programmes"),
                   onTap: () {
                     Navigator.pushNamed(
                         context, '/programme_curriculum_home/programme',
@@ -134,7 +146,15 @@ class _ProgrammeCurriculumHomeState extends State<ProgrammeCurriculumHome> {
                   },
                 ),
                 InkWell(
-                  child: myContainer("Curriculums"),
+                  child: myContainer("Add Programmes"),
+                  onTap: () {
+                    Navigator.pushNamed(
+                        context, '/programme_curriculum_home/programme_form',
+                        arguments: data);
+                  },
+                ),
+                InkWell(
+                  child: myContainer("Browse Curriculums"),
                   onTap: () {
                     Navigator.pushNamed(
                         context, '/programme_curriculum_home/curriculum',
@@ -142,7 +162,15 @@ class _ProgrammeCurriculumHomeState extends State<ProgrammeCurriculumHome> {
                   },
                 ),
                 InkWell(
-                  child: myContainer("Courses"),
+                  child: myContainer("Add Curriculum"),
+                  onTap: () {
+                    Navigator.pushNamed(
+                        context, '/programme_curriculum_home/curriculum_form',
+                        arguments: data);
+                  },
+                ),
+                InkWell(
+                  child: myContainer("Browse Courses"),
                   onTap: () {
                     Navigator.pushNamed(
                         context, '/programme_curriculum_home/courses',
@@ -150,28 +178,42 @@ class _ProgrammeCurriculumHomeState extends State<ProgrammeCurriculumHome> {
                   },
                 ),
                 InkWell(
-                  child: myContainer("Disciplines"),
+                  child: myContainer("Add Courses"),
+                  onTap: () {
+                    Navigator.pushNamed(
+                        context, '/programme_curriculum_home/courses_form',
+                        arguments: data);
+                  },
+                ),
+                InkWell(
+                  child: myContainer("Browse Disciplines"),
                   onTap: () {
                     Navigator.pushNamed(
                         context, '/programme_curriculum_home/discipline',
                         arguments: data);
-                    // Navigator.pushNamed(
-                    //     context, '/academic_home_page/bonafide',
-                    //     arguments: {
-                    //       'firstName': data.details!['current_user']
-                    //               ['first_name']
-                    //           .toString(),
-                    //       'lastName': data.details!['current_user']
-                    //           ['last_name'],
-                    //       'branch': data.details!['user_branch']
-                    //     });
                   },
                 ),
                 InkWell(
-                  child: myContainer("Batches"),
+                  child: myContainer("Add Disciplines"),
+                  onTap: () {
+                    Navigator.pushNamed(
+                        context, '/programme_curriculum_home/discipline_form',
+                        arguments: data);
+                  },
+                ),
+                InkWell(
+                  child: myContainer("Browse Batches"),
                   onTap: () {
                     Navigator.pushNamed(
                         context, '/programme_curriculum_home/batches',
+                        arguments: data);
+                  },
+                ),
+                InkWell(
+                  child: myContainer("Add Batches"),
+                  onTap: () {
+                    Navigator.pushNamed(
+                        context, '/programme_curriculum_home/batches_form',
                         arguments: data);
                   },
                 ),

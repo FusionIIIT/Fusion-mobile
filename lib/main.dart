@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'dart:async';
 import 'package:fusion/screens/Academic/Add_Drop_Courses/add_drop_courses.dart';
 import 'package:fusion/screens/Complaint/ComplaintHistory/complain_history.dart';
@@ -35,6 +36,12 @@ import 'package:fusion/screens/Programme_Curriculum/Discipline/discipline.dart';
 import 'package:fusion/screens/Programme_Curriculum/Programme/programme_home_page.dart';
 import 'package:fusion/screens/Programme_Curriculum/Programme_Info/programme_info.dart';
 import 'package:fusion/screens/Programme_Curriculum/programme_curriculum_home.dart';
+import 'package:fusion/screens/Programme_Curriculum/Forms/Programme_form/programme_form.dart';
+import 'package:fusion/screens/Programme_Curriculum/Forms/Curriculums_form/curriculums_form.dart';
+import 'package:fusion/screens/Programme_Curriculum/Forms/Batches_form/batches_form.dart';
+import 'package:fusion/screens/Programme_Curriculum/Forms/Courses_form/courses_form.dart';
+import 'package:fusion/screens/Programme_Curriculum/Forms/Discipline_form/discipline_form.dart';
+import 'package:fusion/screens/Programme_Curriculum/Forms/CoursesProposal_form/coursesProposal_form.dart';
 import 'package:fusion/screens/landing_page.dart';
 import 'package:fusion/screens/Healthcenter/healthcentermodule.dart';
 import 'package:fusion/screens/Healthcenter/feedback.dart';
@@ -43,7 +50,8 @@ import 'package:fusion/screens/Healthcenter/history.dart';
 import 'package:fusion/screens/Healthcenter/HealthCenter.dart';
 import 'package:fusion/services/service_locator.dart';
 
-void main() {
+void main() async {
+  await dotenv.load(fileName: ".env");
   WidgetsFlutterBinding.ensureInitialized();
   setupLocator();
   //runApp(MyApp());
@@ -60,7 +68,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MediaQueryData windowData =
-    MediaQueryData.fromWindow(WidgetsBinding.instance.window);
+        MediaQueryData.fromWindow(WidgetsBinding.instance.window);
     windowData = windowData.copyWith(
       textScaleFactor: 1,
     );
@@ -71,10 +79,10 @@ class MyApp extends StatelessWidget {
         title: 'Fusion',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-            // primarySwatch: Colors.blueGrey,
+          // primarySwatch: Colors.blueGrey,
           // colorSchemeSeed: Color(0xFF2085D0),
           colorSchemeSeed: Color(0xFFF36C35),
-            fontFamily: 'Nunito',
+          fontFamily: 'Nunito',
           useMaterial3: true,
         ),
         initialRoute: '/landing',
@@ -99,6 +107,16 @@ class MyApp extends StatelessWidget {
           '/programme_curriculum_home/programme': (context) => Programme(),
           '/programme_curriculum_home/batches': (context) => Batches(),
           '/programme_curriculum_home/discipline': (context) => Discipline(),
+          '/programme_curriculum_home/programme_form': (context) =>
+              ProgrammeForm(),
+          '/programme_curriculum_home/curriculum_form': (context) =>
+              CurriculumForm(),
+          '/programme_curriculum_home/batches_form': (context) => BatchesForm(),
+          '/programme_curriculum_home/courses_form': (context) => CoursesForm(),
+          '/programme_curriculum_home/discipline_form': (context) =>
+              DisciplineForm(),
+          '/programme_curriculum_home/coursesProposal_form': (context) =>
+              CoursesProposalForm(),
           '/programme_curriculum_home/curriculum': (context) => Curriculum(),
           '/programme_curriculum_home/programme_info': (context) =>
               ProgrammeInfo(),
