@@ -15,9 +15,9 @@ class _ThesisHomePageState extends State<ThesisHomePage> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.black,
+          backgroundColor: Colors.deepOrangeAccent,
           title: Text(
-            "FUSION",
+            "Thesis",
             style: TextStyle(color: Colors.white),
           ),
           actions: <Widget>[
@@ -34,34 +34,62 @@ class _ThesisHomePageState extends State<ThesisHomePage> {
               child: Icon(Icons.more_vert),
             ),
           ],
-          bottom: TabBar(
-            isScrollable: true,
-            indicatorColor: Colors.white,
-            indicatorWeight: 6.0,
-            tabs: [
-              Tab(
-                child: Container(
-                  child: Text(
-                    'Registered Thesis',
-                  ),
-                ),
-              ),
-              Tab(
-                child: Container(
-                  child: Text(
-                    'Add Thesis',
-                  ),
-                ),
-              ),
-            ],
-          ),
         ),
+       ],
         drawer: SideDrawer(),
-        body: TabBarView(
-          children: [
-            RegisteredThesis(),
-            AddThesis(),
-          ],
+        body: Container(
+          child: ListView(
+              shrinkWrap: true,
+              physics: ClampingScrollPhysics(),
+              children: <Widget>[
+                DefaultTabController(
+                  length: 5, // length of tabs
+                  initialIndex: 0,
+                  child: Column(children: <Widget>[
+                    Container(
+                      child: TabBar(
+                        labelColor: Colors.deepOrangeAccent,
+                        unselectedLabelColor: Colors.black,
+                        isScrollable: true,
+                        indicatorColor: Colors.black,
+                        indicatorWeight: 6.0,
+                        tabs: [
+                          Tab(
+                            child: Container(
+                              child: Text(
+                                'Registered Thesis',
+                              ),
+                            ),
+                          ),
+                          Tab(
+                            child: Container(
+                              child: Text(
+                                'Add Thesis',
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      height: 400, //height of TabBarView
+                      decoration: BoxDecoration(
+                          border: Border(
+                              top: BorderSide(color: Colors.grey, width: 0.5))),
+                      child: TabBarView(
+                        children: [
+                          Container(
+                            child: RegisteredThesis(),
+                          ),
+                          Container(
+                            child: AddThesis(),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ]),
+                ),
+              ]),
         ),
       ),
     );

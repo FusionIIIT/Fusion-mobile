@@ -24,7 +24,7 @@ class _DuesState extends State<Dues> {
       length: 5,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.black,
+          backgroundColor: Colors.deepOrangeAccent,
           title: Text(
             "Check Dues",
             style: TextStyle(color: Colors.white),
@@ -43,59 +43,92 @@ class _DuesState extends State<Dues> {
               child: Icon(Icons.more_vert),
             ),
           ],
-          //TabBar for a horizontal scrollable tob bar
-          bottom: TabBar(
-            isScrollable: true,
-            indicatorColor: Colors.white,
-            indicatorWeight: 6.0,
-            tabs: [
-              Tab(
-                child: Container(
-                  child: Text(
-                    'Mess Due History',
-                  ),
-                ),
-              ),
-              Tab(
-                child: Container(
-                  child: Text(
-                    'Library Due History',
-                  ),
-                ),
-              ),
-              Tab(
-                child: Container(
-                  child: Text(
-                    'Hostel Due History',
-                  ),
-                ),
-              ),
-              Tab(
-                child: Container(
-                  child: Text(
-                    'Placement Cell due history',
-                  ),
-                ),
-              ),
-              Tab(
-                child: Container(
-                  child: Text(
-                    'Overall',
-                  ),
-                ),
-              ),
-            ],
-          ),
         ),
-        //TabBarView contains all the children to be called when tapped.
-        body: TabBarView(
-          children: [
-            MessDues(),
-            LibraryDues(),
-            HostelDues(),
-            PlaccementDues(),
-            OverallDues()
-          ],
+      
+        body: Container(
+          child: ListView(
+              shrinkWrap: true,
+              physics: ClampingScrollPhysics(),
+              children: <Widget>[
+                DefaultTabController(
+                  length: 5, // length of tabs
+                  initialIndex: 0,
+                  child: Column(children: <Widget>[
+                    Container(
+                      child: TabBar(
+                        labelColor: Colors.deepOrangeAccent,
+                        unselectedLabelColor: Colors.black,
+                        isScrollable: true,
+                        indicatorColor: Colors.black,
+                        indicatorWeight: 6.0,
+                        tabs: [
+                          Tab(
+                            child: Container(
+                              child: Text(
+                                'Mess Due History',
+                              ),
+                            ),
+                          ),
+                          Tab(
+                            child: Container(
+                              child: Text(
+                                'Library Due History',
+                              ),
+                            ),
+                          ),
+                          Tab(
+                            child: Container(
+                              child: Text(
+                                'Hostel Due History',
+                              ),
+                            ),
+                          ),
+                          Tab(
+                            child: Container(
+                              child: Text(
+                                'Placement Cell due history',
+                              ),
+                            ),
+                          ),
+                          Tab(
+                            child: Container(
+                              child: Text(
+                                'Overall',
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      height: 400, //height of TabBarView
+                      decoration: BoxDecoration(
+                          border: Border(
+                              top: BorderSide(color: Colors.grey, width: 0.5))),
+                      //TabBarView contains all the children to be called when tapped.
+                      child: TabBarView(
+                        children: [
+                          Container(
+                            child: MessDues(),
+                          ),
+                          Container(
+                            child: LibraryDues(),
+                          ),
+                          Container(
+                            child: HostelDues(),
+                          ),
+                          Container(
+                            child: PlaccementDues(),
+                          ),
+                          Container(
+                            child: OverallDues(),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ]),
+                ),
+              ]),
         ),
       ),
     );

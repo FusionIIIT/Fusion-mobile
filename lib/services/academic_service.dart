@@ -1,11 +1,20 @@
 import 'package:fusion/api.dart';
 import 'package:fusion/constants.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
 import 'package:http/http.dart' as http;
+
 
 class AcademicService {
   Future<http.Response> getAcademicDetails(String token) async {
     try {
-      Map<String, String> headers = {'Authorization': 'Token ' + token};
+      var storage_service = locator<StorageService>();
+      if (storage_service.userInDB?.token == null)
+        throw Exception('Token error');
+      Map<String, String> headers = {
+        'Authorization': 'Token ' + (storage_service.userInDB?.token ?? "")
+      }; 
+      
       print("fetching Academic Details");
       var client = http.Client();
       http.Response response = await client.get(
