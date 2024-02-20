@@ -10,6 +10,7 @@ class ViewBill extends StatefulWidget {
 }
 
 class _ViewBillState extends State<ViewBill> {
+
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
       border: Border.all(
@@ -37,6 +38,8 @@ class _ViewBillState extends State<ViewBill> {
       ),
     );
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +78,7 @@ class _ViewBillState extends State<ViewBill> {
                     ),
                     child: TabBarView(children: <Widget>[
                       MessMonthlyBill(),
+
                       MessMonthlyBillHistory(),
                     ])
                 )

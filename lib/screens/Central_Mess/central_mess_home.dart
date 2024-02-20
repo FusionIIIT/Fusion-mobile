@@ -5,8 +5,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:fusion/models/profile.dart';
 import 'package:fusion/services/profile_service.dart';
-import 'package:fusion/models/dashboard.dart';
-import 'package:fusion/services/dashboard_service.dart';
 import 'package:http/http.dart';
 
 class CentralMessHome extends StatefulWidget {
@@ -19,18 +17,13 @@ class _CentralMessHomeState extends State<CentralMessHome> {
   late String name;
   late String userType;
   late String user;
-  late StreamController _dashboardController;
-  late DashboardService dashboardService;
-  late DashboardData data;
+  late String student_id;
   late StreamController _profileController;
   late ProfileService profileService;
   late ProfileData data2;
-
   @override
   void initState() {
     super.initState();
-    _dashboardController = StreamController();
-    dashboardService = DashboardService();
     _profileController = StreamController();
     profileService = ProfileService();
     getData();
@@ -38,10 +31,10 @@ class _CentralMessHomeState extends State<CentralMessHome> {
 
   getData() async {
     try {
-      Response response = await dashboardService.getDashboard();
+      // Response response = await dashboardService.getDashboard();
       Response response2 = await profileService.getProfile();
       setState(() {
-        data = DashboardData.fromJson(jsonDecode(response.body));
+        // data = DashboardData.fromJson(jsonDecode(response.body));
         data2 = ProfileData.fromJson(jsonDecode(response2.body));
         _loading = false;
       });
@@ -49,7 +42,10 @@ class _CentralMessHomeState extends State<CentralMessHome> {
       userType = data2.profile!['department']!['name'] +
           '  ' +
           data2.profile!['user_type'];
+      // userType = 'Mess Caretaker';
       user = data2.profile!['user_type'];
+      // user = "caretaker";
+      if(user == 'student') student_id = data2.user!['username'];
     } catch (e) {
       print(e);
     }
@@ -57,7 +53,7 @@ class _CentralMessHomeState extends State<CentralMessHome> {
 
   loadData() async {
     getData().then((res) {
-      _dashboardController.add(res);
+      // _dashboardController.add(res);
       _profileController.add(res);
     });
   }
@@ -172,49 +168,49 @@ class _CentralMessHomeState extends State<CentralMessHome> {
                   InkWell(
                     child: myContainer("Mess Menu"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/menu', arguments: data);
+                      Navigator.pushNamed(context, '/central_mess_home/menu', arguments: data2);
                     },
                   ),
                   InkWell(
                     child: myContainer("Mess Bill"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/messBill', arguments: data);
+                      Navigator.pushNamed(context, '/central_mess_home/messBill', arguments: data2);
                     },
                   ),
                   InkWell(
                     child: myContainer("Feedback"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/feedback', arguments: data);
+                      Navigator.pushNamed(context, '/central_mess_home/feedback', arguments: data2);
                     },
                   ),
                   InkWell(
                     child: myContainer("Announcement"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/announcement', arguments: data);
+                      Navigator.pushNamed(context, '/central_mess_home/announcement', arguments: data2);
                     },
                   ),
                   InkWell(
                     child: myContainer("Register/De-register"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/registration', arguments: data);
+                      Navigator.pushNamed(context, '/central_mess_home/registration', arguments: data2);
                     },
                   ),
                   InkWell(
                     child: myContainer("Apply for Rebate"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/rebate', arguments: data);
+                      Navigator.pushNamed(context, '/central_mess_home/rebate', arguments: data2);
                     },
                   ),
                   InkWell(
                     child: myContainer("Request Special Food"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/reqSpecialFood', arguments: data);
+                      Navigator.pushNamed(context, '/central_mess_home/reqSpecialFood', arguments: data2);
                     },
                   ),
                   InkWell(
                     child: myContainer("Make Payment"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/payment', arguments: data);
+                      Navigator.pushNamed(context, '/central_mess_home/payment', arguments: data2);
                     },
                   ),
                   SizedBox(height: 30.0),
@@ -232,43 +228,43 @@ class _CentralMessHomeState extends State<CentralMessHome> {
                   InkWell(
                     child: myContainer("Mess Menu"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/menu', arguments: data);
+                      Navigator.pushNamed(context, '/central_mess_home/menu', arguments: data2);
                     },
                   ),
                   InkWell(
                     child: myContainer("Manage Bill"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/manageBill', arguments: data);
+                      Navigator.pushNamed(context, '/central_mess_home/manageBill', arguments: data2);
                     },
                   ),
                   InkWell(
                     child: myContainer("Manage Registrations"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/registration', arguments: data);
+                      Navigator.pushNamed(context, '/central_mess_home/registration', arguments: data2);
                     },
                   ),
                   InkWell(
                     child: myContainer("Feedbacks & Suggestions"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/feedback', arguments: data);
+                      Navigator.pushNamed(context, '/central_mess_home/feedback', arguments: data2);
                     },
                   ),
                   InkWell(
                     child: myContainer("Announcement"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/announcement', arguments: data);
+                      Navigator.pushNamed(context, '/central_mess_home/announcement', arguments: data2);
                     },
                   ),
                   InkWell(
                     child: myContainer("Rebate Requests"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/rebateRequest', arguments: data);
+                      Navigator.pushNamed(context, '/central_mess_home/rebateRequest', arguments: data2);
                     },
                   ),
                   InkWell(
                     child: myContainer("Vacation Food"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/vacationFood', arguments: data);
+                      Navigator.pushNamed(context, '/central_mess_home/vacationFood', arguments: data2);
                     },
                   ),
                   SizedBox(height: 30.0),
@@ -286,31 +282,31 @@ class _CentralMessHomeState extends State<CentralMessHome> {
                   InkWell(
                     child: myContainer("Mess Menu"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/menu', arguments: data);
+                      Navigator.pushNamed(context, '/central_mess_home/menu', arguments: data2);
                     },
                   ),
                   InkWell(
                     child: myContainer("Feedbacks & Suggestions"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/feedbacks', arguments: data);
+                      Navigator.pushNamed(context, '/central_mess_home/feedbacks', arguments: data2);
                     },
                   ),
                   InkWell(
                     child: myContainer("Registrations"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/registration', arguments: data);
+                      Navigator.pushNamed(context, '/central_mess_home/registration', arguments: data2);
                     },
                   ),
                   InkWell(
                     child: myContainer("Announcement"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/announcement', arguments: data);
+                      Navigator.pushNamed(context, '/central_mess_home/announcement', arguments: data2);
                     },
                   ),
                   InkWell(
                     child: myContainer("Reports"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/report', arguments: data);
+                      Navigator.pushNamed(context, '/central_mess_home/report', arguments: data2);
                     },
                   ),
                   SizedBox(height: 30.0),

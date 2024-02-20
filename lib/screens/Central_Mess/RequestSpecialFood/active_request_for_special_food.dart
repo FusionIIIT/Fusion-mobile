@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:date_field/date_field.dart';
 
@@ -7,7 +9,7 @@ class ActiveSpecialFoodRequest extends StatefulWidget {
 }
 
 class _ActiveSpecialFoodRequestState extends State<ActiveSpecialFoodRequest> {
-  List<String> _feedbackDates = [
+  static List<String> _feedbackDates = [
     "Mess 1 Cleanliness 2024-02-02",
     "Mess 2 Cleanliness 2024-02-02",
     "Mess 1 Food Quality 2024-02-02",
@@ -37,11 +39,11 @@ class _ActiveSpecialFoodRequestState extends State<ActiveSpecialFoodRequest> {
 
   int _pageNumber = 1;
   int _pageSize = 5; // Number of items per page
-  int _totalItems = 20; // Total number of items (for demonstration)
+  int _totalItems = _feedbackDates.length; // Total number of items (for demonstration)
 
   List<String> getPaginatedFeedbackDates() {
     int startIndex = (_pageNumber - 1) * _pageSize;
-    int endIndex = startIndex + _pageSize;
+    int endIndex = min(_totalItems, startIndex + _pageSize);
     return _feedbackDates.sublist(startIndex, endIndex);
   }
 
