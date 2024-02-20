@@ -13,6 +13,13 @@ String kProfile = "/api/profile/";
 //Academic Procedures
 String kAcademicProcedures = "/academic-procedures/api/stu/";
 
+//Central Mess
+String kCentralMess = "172.27.112.145:8000";
+String kFeedbackEndpoint = "/mess/api/feedbackApi";
+String kMenuEndpoint = "/mess/api/menuApi";
+String kMonthlyBillEndpoint = "/mess/api/monthlyBillApi";
+String kMessInfoEndpoint = "/mess/api/messInfoApi";
+
 //Complaint
 String kComplaintService = "/complaint/api/studentcomplain";
 String kComplaintNew = "/complaint/api/newcomplain";

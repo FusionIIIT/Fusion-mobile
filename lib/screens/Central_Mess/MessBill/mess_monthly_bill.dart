@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/constants.dart';
-import 'package:intl/intl.dart';
+import 'package:fusion/models/central_mess.dart';
+// import 'package:intl/intl.dart';
+import 'package:fusion/services/central_mess_services.dart';
 
 class MessMonthlyBill extends StatefulWidget {
   @override
@@ -8,21 +10,33 @@ class MessMonthlyBill extends StatefulWidget {
 }
 
 class _MessMonthlyBillState extends State<MessMonthlyBill> {
+  CentralMessService _centralMessService = CentralMessService();
+
+  static List<MonthlyBill> _monthlyBillData = [];
+
   bool _loading = true;
   int remBalance = 0;
-  int monthlyBill = 3150, specialReqBill = 0, rebateAmount = 0;
-  int totalBill = 0;
+  // int monthlyBill = 3150, specialReqBill = 0, rebateAmount = 0;
+  // int totalBill = 0;
   // int totalBill = 0 (monthlyBill + specialReqBill - rebateAmount);
 
-  // @override
-  // void initState() {
-    // super.initState();
-    // _dashboardController = StreamController();
-    // dashboardService = DashboardService();
-    // _profileController = StreamController();
-    // profileService = ProfileService();
-    // getData();
-  // }
+  @override
+  void initState() {
+    super.initState();
+    _fetchMonthlyBillData();
+  }
+
+  void _fetchMonthlyBillData() async {
+    try {
+      List<MonthlyBill> monthlyBill = await _centralMessService.getMonthlyBill();
+      setState(() {
+        _monthlyBillData = monthlyBill;
+      });
+      print('Received the bill');
+    } catch (e) {
+      print('Error fetching bill: $e');
+    }
+  }
 
   // getData() async {
   //   try {
@@ -78,8 +92,8 @@ class _MessMonthlyBillState extends State<MessMonthlyBill> {
 
   @override
   Widget build(BuildContext context) {
-    DateTime now = DateTime.now();
-    String currentMonth = DateFormat('MMMM').format(now);
+    // DateTime now = DateTime.now();
+    // String currentMonth = DateFormat('MMMM').format(now);
     return Column(
       children: [
         Padding(
@@ -88,7 +102,7 @@ class _MessMonthlyBillState extends State<MessMonthlyBill> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                "Remaining Balance: + $remBalance Rs",
+                "Due Amount: ₹" + (_monthlyBillData.last.paid ? "0": _monthlyBillData.last.totalBill.toString()),
                 style: TextStyle(fontSize: 20.0, color: Colors.white),
               ),
             ),
@@ -123,7 +137,7 @@ class _MessMonthlyBillState extends State<MessMonthlyBill> {
                   style: TextStyle(fontSize: 18.0, color: kPrimaryColor),
                 ),
                 TextSpan(
-                  text: currentMonth,
+                  text: _monthlyBillData.last.month + " - " + _monthlyBillData.last.year.toString(),
                   style: TextStyle(
                     fontSize: 20.0,
                     color: kPrimaryColor,
@@ -150,26 +164,26 @@ class _MessMonthlyBillState extends State<MessMonthlyBill> {
           rows:  <DataRow>[
             DataRow(
               cells: <DataCell>[
-                DataCell(Text('Monthly Bill:')),
-                DataCell(Text('$monthlyBill Rs')),
+                DataCell(Text('Amount:')),
+                DataCell(Text("₹ " + _monthlyBillData.last.amount.toString())),
               ],
             ),
             DataRow(
               cells: <DataCell>[
-                DataCell(Text('Special Request Bill:')),
-                DataCell(Text('$specialReqBill Rs')),
+                DataCell(Text('Rebate Count:')),
+                DataCell(Text(_monthlyBillData.last.rebateCount.toString())),
               ],
             ),
             DataRow(
               cells: <DataCell>[
                 DataCell(Text('Rebate Amount:')),
-                DataCell(Text('$rebateAmount Rs')),
+                DataCell(Text("₹ " + _monthlyBillData.last.rebateAmount.toString())),
               ],
             ),
             DataRow(
               cells: <DataCell>[
                 DataCell(Text('Total Bill:', style: TextStyle(fontWeight: FontWeight.w800),)),
-                DataCell(Text('$totalBill Rs')),
+                DataCell(Text("₹ " + _monthlyBillData.last.totalBill.toString())),
               ],
             ),
           ],
