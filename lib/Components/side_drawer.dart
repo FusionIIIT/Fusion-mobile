@@ -75,7 +75,7 @@ class _SideDrawerState extends State<SideDrawer> {
                 ),
               ],
             ),
-            ModulesCard(cardLine: 'Dashboard', pageMover: '/iwd/process_request'),
+            ModulesCard(cardLine: 'Dashboard', pageMover: '/dashboard'),
             if (usertype! == "staff") ...[
               ModulesCard(
                   cardLine: 'Generate Course List',
