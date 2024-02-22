@@ -3,7 +3,8 @@ String klocalLink = "127.0.0.1:8000";
 String kserverLink = "172.27.16.214:8000";
 
 //Login Service
-String kAuthUrl = "172.27.16.214:8000";
+// String kAuthUrl = "172.27.16.214:8000";
+String kAuthUrl = "127.0.0.1:8000";
 String kAuthLogin = "/api/auth/login/";
 // String kAuthLogin = "/accounts/login";
 
@@ -11,7 +12,19 @@ String kAuthLogin = "/api/auth/login/";
 String kProfile = "/api/profile/";
 
 //Academic Procedures
-String kAcademicProcedures = "/academic-procedures/api/stu/";
+String kAcademicProcedures = "/academic-procedures/api/stu/details";
+
+String kAcademicCourseList =
+    "/academic-procedures/api/stu/view_offered_courses/";
+
+String kConfigurePreRegistration =
+    "/academic-procedures/api/acad/configure_pre_registration/";
+String kConfigureFinalRegistration =
+    "/academic-procedures/api/acad/configure_final_registration/";
+String kFacultyGetAssignedCourses =
+    "/academic-procedures/api/fac/view_assigned_courses/";
+String kAcadGetCoursesList = "/academic-procedures/api/acad/get_course_list/";
+String kFinalRegistration = "/academic-procedures/api/stu/final_registration/";
 
 //Complaint
 String kComplaintService = "/complaint/api/studentcomplain";

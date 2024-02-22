@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/models/profile.dart';
 import 'package:fusion/services/academic_service.dart';
 import 'package:fusion/models/academic.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart';
@@ -16,16 +19,33 @@ class AcademicHomePage extends StatefulWidget {
 }
 
 class _AcademicHomePageState extends State<AcademicHomePage> {
-  bool _loading1 = true;
+  int _loading1 = 2;
   late StreamController _academicController;
   late AcademicService academicService;
   late AcademicData data;
+  var courseList;
   @override
   void initState() {
     super.initState();
     _academicController = StreamController();
     academicService = AcademicService();
     getAcademicDataStream();
+    getCourseList();
+  }
+
+  getCourseList() async {
+    //print('token-'+widget.token!);
+    try {
+      Response response =
+          await academicService.getRegistrationCourses(widget.token!);
+      setState(() {
+        print(response.body);
+        courseList = response.body;
+        _loading1--;
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   getAcademicDataStream() async {
@@ -36,7 +56,7 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
       setState(() {
         print(response.body);
         data = AcademicData.fromJson(jsonDecode(response.body));
-        _loading1 = false;
+        _loading1--;
       });
     } catch (e) {
       print(e);
@@ -83,7 +103,7 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
     return Scaffold(
       appBar: DefaultAppBar().buildAppBar(),
       drawer: SideDrawer(),
-      body: _loading1 == true
+      body: _loading1 != 0
           ? Center(child: CircularProgressIndicator())
           : ListView(
               shrinkWrap: true,
@@ -167,86 +187,68 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       InkWell(
-                        child: myContainer("Current Semester"),
+                        child: myContainer("View Offered Courses"),
                         onTap: () {
                           Navigator.pushNamed(context,
                               '/academic_home_page/current_semester_home_page',
+                              arguments: courseList);
+                        },
+                      ),
+                      InkWell(
+                        child: myContainer("Final Registration"),
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, '/academic_home_page/final_registration',
                               arguments: data);
                         },
                       ),
                       InkWell(
-                        child: myContainer("Registration"),
+                        child: myContainer("Pre Registration"),
                         onTap: () {
-                          Navigator.pushNamed(context,
-                              '/academic_home_page/registration_home_page',
+                          Navigator.pushNamed(
+                              context, '/academic_home_page/pre_registration',
                               arguments: data);
                         },
                       ),
                       InkWell(
-                        child: myContainer("Check Dues"),
+                        child: myContainer("Add Course"),
                         onTap: () {
                           Navigator.pushNamed(
-                              context, '/academic_home_page/dues',
+                              context, '/academic_home_page/add_drop_courses',
                               arguments: data);
                         },
                       ),
                       InkWell(
-                        child: myContainer("Apply for Bonafide"),
+                        child: myContainer("Fill Backlog Form"),
                         onTap: () {
-                          Navigator.pushNamed(
-                              context, '/academic_home_page/bonafide',
-                              arguments: {
-                                'firstName': data.details!['current_user']
-                                        ['first_name']
-                                    .toString(),
-                                'lastName': data.details!['current_user']
-                                    ['last_name'],
-                                'branch': data.details!['user_branch'],
-                                'roll_no': data.details!['current_user']
-                                    ['username'],
-                              });
+                          // Navigator.pushNamed(context,
+                          //     '/academic_home_page/current_semester_home_page',
+                          //     arguments: data);
                         },
                       ),
                       InkWell(
-                        child: myContainer("Check Attendance"),
+                        child: myContainer("Drop/Replace Course"),
                         onTap: () {
                           Navigator.pushNamed(
-                              context, '/academic_home_page/attendance',
+                              context, '/academic_home_page/add_drop_courses',
                               arguments: data);
                         },
                       ),
-                      InkWell(
-                        child: myContainer("Branch Change"),
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, '/academic_home_page/branch_change');
-                        },
-                      ),
-                      InkWell(
-                        child: myContainer("Evaluate Teaching Credits"),
-                        //onTap: (){},
-                      ),
-                      InkWell(
-                        child: myContainer("Thesis"),
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, '/academic_home_page/thesis');
-                        },
-                      ),
-                      InkWell(
-                        child: myContainer("View Performance"),
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, '/academic_home_page/performance');
-                        },
-                      ),
-                      InkWell(
-                        child: myContainer("Add/Drop courses"),
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, '/academic_home_page/add_drop_courses');
-                        },
-                      ),
+                      // InkWell(
+                      //   child: myContainer("Current Semester"),
+                      //   onTap: () {
+                      //     Navigator.pushNamed(context,
+                      //         '/academic_home_page/current_semester_home_page',
+                      //         arguments: data);
+                      //   },
+                      // ),
+                      // InkWell(
+                      //   child: myContainer("Add/Drop courses"),
+                      //   onTap: () {
+                      //     Navigator.pushNamed(
+                      //         context, '/academic_home_page/add_drop_courses');
+                      //   },
+                      // ),
                     ],
                   ),
                 ),
