@@ -75,10 +75,11 @@ class _SideDrawerState extends State<SideDrawer> {
                 ),
               ],
             ),
-            ModulesCard(cardLine: 'Dashboard', pageMover: '/dashboard'),
+            ModulesCard(cardLine: 'Dashboard', pageMover: '/iwd/process_request'),
             if (usertype! == "staff") ...[
               ModulesCard(
-                  cardLine: 'Course List', pageMover: '/course_list_home_page'),
+                  cardLine: 'Generate Course List',
+                  pageMover: '/course_list_home_page'),
               ModulesCard(
                   cardLine: 'Configure Pre Registration',
                   pageMover: '/configure_pre_registration'),
@@ -135,6 +136,11 @@ class _SideDrawerState extends State<SideDrawer> {
                           ModulesPadding(
                             line: 'Academics Module',
                             pageMover: '/academic_home_page',
+                            isActive: true,
+                          ),
+                          ModulesPadding(
+                            line: 'IWD',
+                            pageMover: '/iwd/home_page',
                             isActive: true,
                           ),
                           ModulesPadding(

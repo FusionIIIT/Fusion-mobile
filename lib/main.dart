@@ -49,6 +49,11 @@ import 'package:fusion/screens/Academic/Acad_Admin/configure_final_registration.
 import 'package:fusion/screens/Academic/Acad_Admin/course_list_home_page.dart';
 import 'package:fusion/screens/Academic/Acad_Admin/course_list.dart';
 import 'package:fusion/screens/Academic/Faculty/view_assigned_courses.dart';
+import 'package:fusion/screens/IWD/FINAL/Complaint_inbox.dart';
+import 'package:fusion/screens/IWD/FINAL/Forwarded_bills.dart';
+import 'package:fusion/screens/IWD/FINAL/Process_Request2.dart';
+import 'package:fusion/screens/IWD/home_page.dart';
+import 'package:fusion/screens/IWD/FINAL/Process_Request.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -145,6 +150,12 @@ class MyApp extends StatelessWidget {
           '/health_center/feedback': (context) => FeedBack(),
           '/health_center/viewschedule': (context) => ViewSchedule(),
           '/health_center/history': (context) => History(),
+          '/iwd/home_page': (context) => IWDHomePage(),
+          '/iwd/process_request': (context) => ProcessRequest(),
+          '/iwd/process_request_2': (context) => ProcessRequest2(),
+          '/iwd/forward_bills': (context) => ForwardedBills(),
+          '/iwd/complaint_inbox': (context) => ComplaintInbox(),
+
         },
       ),
     );
