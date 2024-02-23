@@ -9,12 +9,12 @@ import 'package:fusion/services/gymkhana_service.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
 
-class GymkhanaHomepage extends StatefulWidget {
+class gymkhana_counsellor extends StatefulWidget {
   @override
-  _GymkhanaHomepageState createState() => _GymkhanaHomepageState();
+  _gymkhana_counsellorState createState() => _gymkhana_counsellorState();
 }
 
-class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
+class _gymkhana_counsellorState extends State<gymkhana_counsellor> {
   bool _loading1 = true;
   ProfileData? data;
   late StreamController _gymkhanaController;
@@ -199,7 +199,7 @@ class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
                             height: 10.0,
                           ),
                           Text(
-                            data!.profile!['user_type'],
+                            "Counsellor",
                             style:
                                 TextStyle(fontSize: 15.0, color: Colors.black),
                           ),
@@ -245,26 +245,13 @@ class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          InkWell(
-                            child: myContainer("Apply"),
-                            onTap: () {
-                              Navigator.pushNamed(
-                                  context, '/gymkhana_homepage/apply');
-                            },
-                          ),
-                          InkWell(
-                            child: myContainer("Voting Polls"),
-                            onTap: () {
-                              Navigator.pushNamed(
-                                  context, '/gymkhana_homepage/polls');
-                            },
-                          ),
+                          
                           InkWell(
                             child: myContainer("Club Details"),
                             onTap: () {
                               Navigator.pushNamed(
                                 context,
-                                '/gymkhana_homepage/clubs',
+                                '/gymkhana_counsellor/clubs',
                                 arguments: gymkhanaData,
                               );
                             },
@@ -274,7 +261,27 @@ class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
                             onTap: () {
                               Navigator.pushNamed(
                                 context,
-                                '/gymkhana_homepage/member_records',
+                                '/gymkhana_counsellor/member_records',
+                                arguments: gymkhanaData,
+                              );
+                            },
+                          ),
+                          InkWell(
+                            child: myContainer("View Club Budget"),
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                '/gymkhana_counsellor/budgetdetails',
+                                arguments: gymkhanaData,
+                              );
+                            },
+                          ),
+                          InkWell(
+                            child: myContainer("Update Club Budget"),
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                '/gymkhana_counsellor/updatebudgetcouncellor',
                                 arguments: gymkhanaData,
                               );
                             },

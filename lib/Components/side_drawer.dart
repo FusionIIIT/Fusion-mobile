@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:fusion/main.dart';
+import 'package:fusion/screens/Gymkhana/gymkhana_counsellor.dart';
+import 'package:fusion/screens/Gymkhana/gymkhana_convenor.dart';
+import 'package:fusion/screens/Gymkhana/gymkhana_dean.dart';
 import 'package:fusion/services/login_service.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
-
+import 'package:fusion/screens/LoginandDashboard/dashboard.dart';
 class SideDrawer extends StatefulWidget {
+  final String? designation; // Accept designation as parameter
+  // Constructor with an optional parameter
+  SideDrawer({this.designation = ''});
+
   @override
   _SideDrawerState createState() => _SideDrawerState();
 }
-
 class _SideDrawerState extends State<SideDrawer> {
   bool _loading = false;
   int count = 0;
@@ -26,6 +33,7 @@ class _SideDrawerState extends State<SideDrawer> {
   }
 
   @override
+
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
@@ -58,7 +66,7 @@ class _SideDrawerState extends State<SideDrawer> {
                   height: 10.0,
                 ),
                 Text(
-                  depttype!,
+                  widget.designation!,
                   style: TextStyle(fontSize: 15.0, color: Colors.white),
                 ),
                 Divider(
@@ -121,9 +129,13 @@ class _SideDrawerState extends State<SideDrawer> {
                           pageMover: '/programme_curriculum_home',
                           isActive: true,
                         ),
-                        ModulesPadding(
-                            line: 'Gymkhana Module',
-                            pageMover: '/gymkhana_homepage'),
+                       ModulesPadding(
+                              line: 'Gymkhana Module',
+                              
+                             pageMover: _getGymkhanaPage(),
+                             isActive: true,
+                              ),
+
                         ModulesPadding(
                             line: 'Establishment Module',
                             pageMover: '/establishment'),
@@ -144,6 +156,7 @@ class _SideDrawerState extends State<SideDrawer> {
                         ModulesPadding(line: 'Visitors Hostel Module'),
                         ModulesPadding(line: 'File Tracking Module'),
                       ],
+                      
                     ),
                   )
                 : SizedBox(
@@ -168,12 +181,34 @@ class _SideDrawerState extends State<SideDrawer> {
       ),
     );
   }
+  String _getGymkhanaPage() {
+    // Determine the pageMover based on designation
+    print(widget.designation);
+    if (widget.designation == 'co-ordinator') {
+
+      return '/gymkhana_coordinator';
+    } 
+    else if(widget.designation == 'Counsellor'){
+      return '/gymkhana_counsellor';
+    }
+    else if(widget.designation == 'Convenor'){
+      return '/gymkhana_convenor';
+    }
+    else if(widget.designation == 'Dean Academic'){
+      return '/gymkhana_dean';
+    }
+    
+    else
+    return '/gymkhana_homepage';
+  }
+
 }
 
 class ModulesPadding extends StatelessWidget {
   final String? line;
   final String? pageMover;
   final bool isActive;
+  
   ModulesPadding({this.line, this.pageMover, this.isActive = false});
   @override
   Widget build(BuildContext context) {

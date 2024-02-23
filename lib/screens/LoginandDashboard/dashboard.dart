@@ -10,7 +10,24 @@ import 'package:fusion/Components/side_drawer.dart';
 import 'package:fusion/models/dashboard.dart';
 import 'package:fusion/screens/LoginandDashboard/DashboardComponents/cardItems.dart';
 import 'package:fusion/services/dashboard_service.dart';
+import 'package:fusion/services/updatesession.dart';
 import 'package:http/http.dart';
+
+import '../../services/approvemember.dart';
+import '../../services/clubbudgetservices.dart';
+import '../../services/createpoll.dart';
+import '../../services/deletebudget.dart';
+import '../../services/deleteevent.dart';
+import '../../services/deletesession.dart';
+import '../../services/newclubmember.dart';
+import '../../services/neweventcreate.dart';
+import '../../services/newsessioncreate.dart';
+import '../../services/rejectmember.dart';
+import '../../services/updatebudget.dart';
+import '../../services/updateevent.dart';
+import '../../services/viewbudgetdean.dart';
+import '../../services/viewclubdetails.dart';
+import '../../services/viewmembersrecord.dart';
 
 class Dashboard extends StatefulWidget {
   static String tag = 'home-page';
@@ -26,6 +43,7 @@ class _DashboardState extends State<Dashboard> {
   bool _loading = true;
   late String name;
   late String studentType;
+  late String designation = "student";
   // Stream Controller for API
   late StreamController _dashboardController;
   late DashboardService dashboardService;
@@ -44,6 +62,8 @@ class _DashboardState extends State<Dashboard> {
   }
 
   getData() async {
+    
+
     try {
       Response response = await dashboardService.getDashboard();
       Response response2 = await profileService.getProfile();
@@ -56,6 +76,8 @@ class _DashboardState extends State<Dashboard> {
       studentType = data2.profile!['department']!['name'] +
           '  ' +
           data2.profile!['user_type'];
+      designation = data.designation![0];
+      print(designation);
     } catch (e) {
       print(e);
     }
@@ -82,7 +104,8 @@ class _DashboardState extends State<Dashboard> {
     return Scaffold(
       appBar: DefaultAppBar()
           .buildAppBar(), // This is default app bar used in all modules
-      drawer: SideDrawer(), // This is sideDrawer used in all modules
+      drawer: SideDrawer(designation: designation),
+      // This is sideDrawer used in all modules
       body: _loading == true
           ? Center(child: CircularProgressIndicator())
           : StreamBuilder(
@@ -122,7 +145,7 @@ class _DashboardState extends State<Dashboard> {
                             height: 10.0,
                           ),
                           Text(
-                            studentType, // Display Type of User
+                            designation, // Display Type of User
                             style:
                                 TextStyle(fontSize: 15.0, color: Colors.black),
                           ),
