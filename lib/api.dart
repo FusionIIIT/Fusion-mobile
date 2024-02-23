@@ -5,6 +5,7 @@ String kserverLink = "172.27.16.215:80";
 //Login Service
 String kAuthUrl = "172.27.16.215:80";
 String kAuthLogin = "/api/auth/login/";
+// String kAuthLogin = "/accounts/login";
 
 //Profile Service
 String kProfile = "/api/profile/";
