@@ -29,7 +29,6 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
   }
 
   getAcademicDataStream() async {
-    //print('token-'+widget.token!);
     try {
       Response response =
           await academicService.getAcademicDetails(widget.token!);

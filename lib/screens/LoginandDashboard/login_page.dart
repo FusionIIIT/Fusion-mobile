@@ -23,7 +23,7 @@ class _LoginPageState extends State<LoginPage> {
 
     final Widget logoWidget = CircleAvatar(
       backgroundColor: Colors.transparent,
-      radius: 54.0,
+      radius: 94.0,
       child: Image.asset('assets/logo.jpg'),
     );
     final Widget emailFormField = TextFormField(
