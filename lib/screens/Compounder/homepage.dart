@@ -148,7 +148,7 @@ class _CompounderHomeState extends State<CompounderHome> {
                       padding: const EdgeInsets.all(8.0),
                       child: Center(
                           child: Text(
-                        "Health Center",
+                        "Health Center Module",
                         style: TextStyle(
                           fontSize: 20.0,
                           color: Colors.white,
