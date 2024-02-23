@@ -13,6 +13,7 @@ class _SideDrawerState extends State<SideDrawer> {
   int count = 0;
   String? name;
   String? depttype;
+  String? pageMover;
   @override
   void initState() {
     super.initState();
@@ -23,10 +24,28 @@ class _SideDrawerState extends State<SideDrawer> {
     depttype = service.profileData.profile!['department']!['name'] +
         " " +
         service.profileData.profile!['user_type'];
+    updatePageMover(name);
+  }
+
+  void updatePageMover(String? name) {
+    if (name != null) {
+      if (name.contains('ADITYA')) {
+        pageMover = '/home_rspc';
+      } else if (name.contains('AGASTYA')) {
+        pageMover = '/rspc_home_page'; // Or any other default page mover value
+      } else if (name.contains('ABHISHEK')) {
+        pageMover = '/dean_home';
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final Widget logoWidget = CircleAvatar(
+      backgroundColor: Colors.transparent,
+      radius: 94.0,
+      child: Image.asset('assets/mypic.jpg'),
+    );
     return SafeArea(
       child: Container(
         margin: const EdgeInsets.only(right: 50.0),
@@ -114,6 +133,11 @@ class _SideDrawerState extends State<SideDrawer> {
                         ModulesPadding(
                           line: 'Academics Module',
                           pageMover: '/academic_home_page',
+                          isActive: true,
+                        ),
+                        ModulesPadding(
+                          line: 'RSPC Module',
+                          pageMover: pageMover,
                           isActive: true,
                         ),
                         ModulesPadding(
