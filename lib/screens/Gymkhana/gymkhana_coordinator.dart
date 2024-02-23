@@ -9,12 +9,12 @@ import 'package:fusion/services/gymkhana_service.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
 
-class GymkhanaHomepage extends StatefulWidget {
+class GymkhanaCoordinator extends StatefulWidget {
   @override
-  _GymkhanaHomepageState createState() => _GymkhanaHomepageState();
+  _GymkhanaCoordinatorState createState() => _GymkhanaCoordinatorState();
 }
 
-class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
+class _GymkhanaCoordinatorState extends State<GymkhanaCoordinator> {
   bool _loading1 = true;
   ProfileData? data;
   late StreamController _gymkhanaController;
@@ -199,7 +199,7 @@ class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
                             height: 10.0,
                           ),
                           Text(
-                            data!.profile!['user_type'],
+                            "Club Coordinator",
                             style:
                                 TextStyle(fontSize: 15.0, color: Colors.black),
                           ),
@@ -246,17 +246,10 @@ class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           InkWell(
-                            child: myContainer("Apply"),
-                            onTap: () {
-                              Navigator.pushNamed(
-                                  context, '/gymkhana_homepage/apply');
-                            },
-                          ),
-                          InkWell(
                             child: myContainer("Voting Polls"),
                             onTap: () {
                               Navigator.pushNamed(
-                                  context, '/gymkhana_homepage/polls');
+                                  context, '/gymkhana_coordinator/polls');
                             },
                           ),
                           InkWell(
@@ -264,7 +257,7 @@ class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
                             onTap: () {
                               Navigator.pushNamed(
                                 context,
-                                '/gymkhana_homepage/clubs',
+                                '/gymkhana_coordinator/clubs',
                                 arguments: gymkhanaData,
                               );
                             },
@@ -274,7 +267,88 @@ class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
                             onTap: () {
                               Navigator.pushNamed(
                                 context,
-                                '/gymkhana_homepage/member_records',
+                                '/gymkhana_coordinator/member_records',
+                                arguments: gymkhanaData,
+                              );
+                            },
+                          ),
+                          InkWell(
+                            child: myContainer("New Event"),
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                '/gymkhana_coordinator/new_event',
+                                arguments: gymkhanaData,
+                              );
+                            },
+                          ),
+                          InkWell(
+                            child: myContainer("New Session"),
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                '/gymkhana_coordinator/new_session',
+                                arguments: gymkhanaData,
+                              );
+                            },
+                          ),
+                          InkWell(
+                            child: myContainer("Members Request"),
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                '/gymkhana_coordinator/membersRequest',
+                                arguments: gymkhanaData,
+                              );
+                            },
+                          ),
+                          InkWell(
+                            child: myContainer("Submitted Request"),
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                '/gymkhana_coordinator/SubmittedRequest',
+                                arguments: gymkhanaData,
+                              );
+                            },
+                          ),
+                          InkWell(
+                            child: myContainer("Acitvity calendar"),
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                '/gymkhana_coordinator/activity_calender',
+                                arguments: gymkhanaData,
+                              );
+                            },
+                          ),
+                          InkWell(
+                            child: myContainer("Submit Event Report"),
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                '/gymkhana_coordinator/clubeventreport',
+                                arguments: gymkhanaData,
+                              );
+                            },
+                          ),
+                          InkWell(
+                            child: myContainer("Club Budget Form"),
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                '/gymkhana_coordinator/clubbudgetform',
+                                arguments: gymkhanaData,
+                              );
+                            },
+                          ),
+                          InkWell(
+                            child:
+                                myContainer("Submit Event Report To Convenor"),
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                '/gymkhana_coordinator/submit_event_report_to_convenor',
                                 arguments: gymkhanaData,
                               );
                             },

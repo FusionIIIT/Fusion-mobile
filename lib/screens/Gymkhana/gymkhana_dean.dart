@@ -9,12 +9,12 @@ import 'package:fusion/services/gymkhana_service.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
 
-class GymkhanaHomepage extends StatefulWidget {
+class gymkhana_dean extends StatefulWidget {
   @override
-  _GymkhanaHomepageState createState() => _GymkhanaHomepageState();
+  _gymkhana_deanState createState() => _gymkhana_deanState();
 }
 
-class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
+class _gymkhana_deanState extends State<gymkhana_dean> {
   bool _loading1 = true;
   ProfileData? data;
   late StreamController _gymkhanaController;
@@ -199,7 +199,7 @@ class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
                             height: 10.0,
                           ),
                           Text(
-                            data!.profile!['user_type'],
+                            "Dean Academic",
                             style:
                                 TextStyle(fontSize: 15.0, color: Colors.black),
                           ),
@@ -245,36 +245,15 @@ class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
+                          
+                          
+                          
                           InkWell(
-                            child: myContainer("Apply"),
-                            onTap: () {
-                              Navigator.pushNamed(
-                                  context, '/gymkhana_homepage/apply');
-                            },
-                          ),
-                          InkWell(
-                            child: myContainer("Voting Polls"),
-                            onTap: () {
-                              Navigator.pushNamed(
-                                  context, '/gymkhana_homepage/polls');
-                            },
-                          ),
-                          InkWell(
-                            child: myContainer("Club Details"),
+                            child: myContainer("View Club Budget"),
                             onTap: () {
                               Navigator.pushNamed(
                                 context,
-                                '/gymkhana_homepage/clubs',
-                                arguments: gymkhanaData,
-                              );
-                            },
-                          ),
-                          InkWell(
-                            child: myContainer("Members Record"),
-                            onTap: () {
-                              Navigator.pushNamed(
-                                context,
-                                '/gymkhana_homepage/member_records',
+                                '/gymkhana_dean/budgetdetails',
                                 arguments: gymkhanaData,
                               );
                             },
