@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'dart:ui';
+
 
 class AchievementsMenu extends StatelessWidget {
   final List? achievementData;
@@ -238,7 +238,7 @@ class AchievementsMenu extends StatelessWidget {
                           //Edit Function
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.red,
+                          backgroundColor: Colors.red,
                         ),
                       ),
                     ],

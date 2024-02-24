@@ -13,6 +13,9 @@ String kProfile = "/api/profile/";
 //Academic Procedures
 String kAcademicProcedures = "/academic-procedures/api/stu/";
 
+//Department details
+String kDepartmentAnnouncements = "/dep/api/announcements/";
+
 //Complaint
 String kComplaintService = "/complaint/api/studentcomplain";
 String kComplaintNew = "/complaint/api/newcomplain";

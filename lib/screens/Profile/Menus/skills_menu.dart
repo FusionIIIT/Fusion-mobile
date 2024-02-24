@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'dart:ui';
+
 
 //List of Skill/Technology
 final List<Map<String, String>> listOfColumns = [
@@ -172,7 +172,7 @@ class SkillsMenu extends StatelessWidget {
                           //Edit Function
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.red,
+                          backgroundColor: Colors.red,
                         ),
                       ),
                     ],
