@@ -97,7 +97,7 @@ class _RegisterState extends State<Register> {
 
                           }
                         },
-                        child: Text("DeRegister"))
+                        child: Text("Register"))
                   ],
                 ),
               ),

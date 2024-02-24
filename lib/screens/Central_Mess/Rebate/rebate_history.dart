@@ -12,6 +12,8 @@ class RebateHistory extends StatefulWidget {
 class _RebateHistoryState extends State<RebateHistory> {
   CentralMessService _centralMessService = CentralMessService();
 
+  bool _loading = true;
+
   static List<Rebate> _rebateDates = [
     // "From 2024-02-17 To 2024-02-18",
     // "From 2024-02-16 To 2024-02-17",
@@ -50,6 +52,9 @@ class _RebateHistoryState extends State<RebateHistory> {
         _rebateDates.sort((a, b) => b.appDate.compareTo(a.appDate));
       });
       print('Received Rebates');
+      setState(() {
+        _loading = false;
+      });
     } catch (e) {
       print('Error fetching Rebates: $e');
     }
@@ -72,7 +77,7 @@ class _RebateHistoryState extends State<RebateHistory> {
   Widget build(BuildContext context) {
     List<Rebate> paginatedRebateDates = getPaginatedRebateDates();
 
-    return Column(
+    return _loading == true ? Center(child: CircularProgressIndicator()) : (Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Expanded(
@@ -161,6 +166,6 @@ class _RebateHistoryState extends State<RebateHistory> {
           ],
         ),
       ],
-    );
+    ));
   }
 }

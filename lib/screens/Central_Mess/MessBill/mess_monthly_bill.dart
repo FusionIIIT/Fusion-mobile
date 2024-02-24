@@ -33,6 +33,9 @@ class _MessMonthlyBillState extends State<MessMonthlyBill> {
         _monthlyBillData = monthlyBill;
       });
       print('Received the bill');
+      setState(() {
+        _loading = false;
+      });
     } catch (e) {
       print('Error fetching bill: $e');
     }
@@ -94,7 +97,7 @@ class _MessMonthlyBillState extends State<MessMonthlyBill> {
   Widget build(BuildContext context) {
     // DateTime now = DateTime.now();
     // String currentMonth = DateFormat('MMMM').format(now);
-    return Column(
+    return _loading == true ? Center(child: CircularProgressIndicator()) : (Column(
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -189,6 +192,6 @@ class _MessMonthlyBillState extends State<MessMonthlyBill> {
           ],
         ),
       ],
-    );
+    ));
   }
 }

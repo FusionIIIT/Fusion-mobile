@@ -13,6 +13,8 @@ class FeedbackHistory extends StatefulWidget {
 class _FeedbackHistoryState extends State<FeedbackHistory> {
   CentralMessService _centralMessService = CentralMessService();
 
+  bool _loading = true;
+
   static List<MessFeedback> _feedbackDates = [
     // "Mess 1 Cleanliness 2024-02-02",
     // "Mess 2 Cleanliness 2024-02-02",
@@ -55,6 +57,9 @@ class _FeedbackHistoryState extends State<FeedbackHistory> {
         _feedbackDates.sort((a, b) => b.fdate.compareTo(a.fdate));
       });
       print('Received Feedbacks');
+      setState(() {
+        _loading = false;
+      });
     } catch (e) {
       print('Error fetching feedback: $e');
     }
@@ -78,7 +83,7 @@ class _FeedbackHistoryState extends State<FeedbackHistory> {
   Widget build(BuildContext context) {
     List<MessFeedback> paginatedFeedbackDates = getPaginatedFeedbackDates();
 
-    return Column(
+    return _loading == true ? Center(child: CircularProgressIndicator()) : (Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Expanded(
@@ -166,6 +171,6 @@ class _FeedbackHistoryState extends State<FeedbackHistory> {
           ],
         ),
       ],
-    );
+    ));
   }
 }

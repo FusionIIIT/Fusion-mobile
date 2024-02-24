@@ -144,11 +144,14 @@ class _FeedbackFormState extends State<FeedbackForm> {
                             child: Text("Cleanliness"),
                             value: "Cleanliness"),
                         DropdownMenuItem(
-                            child: Text("Food Quality"),
+                            child: Text("Food"),
                             value: "Food Quality"),
                         DropdownMenuItem(
-                            child: Text("Water Quality"),
-                            value: "Water Quality"),
+                            child: Text("Maintenance"),
+                            value: "Maintenance"),
+                        DropdownMenuItem(
+                            child: Text("Others"),
+                            value: "Others"),
                       ],
                     ),
                     SizedBox(height: 30.0),

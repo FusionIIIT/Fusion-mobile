@@ -27,6 +27,9 @@ class _UpdateMenuState extends State<UpdateMenu> {
       http.Response menuItems = await _centralMessService.updateMenu(data);
       if (menuItems.statusCode == 200) {
         print('Received the menu');
+        setState(() {
+          _updateDish = true;
+        });
       } else {
         print('Couldn\'t Update');
       }
@@ -253,11 +256,14 @@ class _UpdateMenuState extends State<UpdateMenu> {
             ),
           ),
           // updated successfully
-          // _updateDish
-          //     ? Column(
-          //   children:
-          // )
-          //     : SizedBox(height: 10.0),
+          _updateDish
+              ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Menu Updated Successfully"),
+                ]
+              )
+              : SizedBox(height: 10.0),
         ],
       ),
     );
