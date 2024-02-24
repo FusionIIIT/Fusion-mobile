@@ -122,6 +122,11 @@ class _SideDrawerState extends State<SideDrawer> {
                           isActive: true,
                         ),
                         ModulesPadding(
+                          line: 'HR Module',
+                          pageMover: '/hr_homepage',
+                          isActive: true,
+                        ),
+                        ModulesPadding(
                             line: 'Gymkhana Module',
                             pageMover: '/gymkhana_homepage'),
                         ModulesPadding(
