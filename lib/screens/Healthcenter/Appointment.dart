@@ -10,7 +10,6 @@ class Appointment extends StatefulWidget {
 
 class _AppointmentState extends State<Appointment> {
   int _value = 1;
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -134,7 +133,9 @@ class _AppointmentState extends State<Appointment> {
                 'Submit',
                 style: TextStyle(fontSize: 15.0),
               ),
+
               // color: Colors.deepOrangeAccent,
+
               onPressed: () {},
             ),
           ),
