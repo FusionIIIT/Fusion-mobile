@@ -1,16 +1,25 @@
 //Server and local links
 String klocalLink = "127.0.0.1:8000";
-String kserverLink = "172.27.16.215:80";
+String kserverLink = "172.27.16.214:8000";
 
 //Login Service
-String kAuthUrl = "172.27.16.215:80";
+String kAuthUrl = "172.27.16.214:8000";
 String kAuthLogin = "/api/auth/login/";
+// String kAuthLogin = "/accounts/login";
 
 //Profile Service
 String kProfile = "/api/profile/";
 
 //Academic Procedures
 String kAcademicProcedures = "/academic-procedures/api/stu/";
+
+//Central Mess
+String kCentralMess = "172.27.32.237:8000";
+String kFeedbackEndpoint = "/mess/api/feedbackApi";
+String kMenuEndpoint = "/mess/api/menuApi";
+String kMonthlyBillEndpoint = "/mess/api/monthlyBillApi";
+String kRebateEndpoint = "/mess/api/rebateApi";
+String kMessInfoEndpoint = "/mess/api/messInfoApi";
 
 //Complaint
 String kComplaintService = "/complaint/api/studentcomplain";

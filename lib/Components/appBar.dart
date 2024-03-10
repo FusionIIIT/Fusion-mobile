@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:fusion/constants.dart';
 
 class DefaultAppBar {
-  AppBar buildAppBar() {
+  AppBar buildAppBar({String titleText = "Dashboard"}) {
     return AppBar(
       iconTheme: IconThemeData(color: Colors.white),
       backgroundColor: kPrimaryColor,
       title: Text(
-        "Dashboard",
+        titleText,
         style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
       ),
       actions: <Widget>[

@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'Appointment.dart';
-import 'ambulanceRequest.dart';
+import 'rebate_form.dart';
+import 'rebate_history.dart';
+import 'package:fusion/Components/appBar.dart';
+import 'package:fusion/Components/side_drawer.dart';
 
-class HealthCenter extends StatefulWidget {
+class RebateMenu extends StatefulWidget {
   @override
-  _HealthCenterState createState() => _HealthCenterState();
+  _RebateMenuState createState() => _RebateMenuState();
 }
 
-class _HealthCenterState extends State<HealthCenter> {
+class _RebateMenuState extends State<RebateMenu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar:AppBar(
-        title: Text("Health Center"),
-        backgroundColor: Colors.black,
-      ),
+      appBar:DefaultAppBar().buildAppBar(titleText: "Central Mess"),
+      drawer: SideDrawer(),
       body:Container(
         child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
           SizedBox(height: 5.0),
@@ -30,8 +30,8 @@ class _HealthCenterState extends State<HealthCenter> {
                     indicatorColor: Colors.deepOrangeAccent,
                     unselectedLabelColor: Colors.black,
                     tabs: [
-                      Tab(child: Text("Doctor Appointment",style: TextStyle(fontWeight: FontWeight.bold),),),
-                      Tab(child: Text("Ambulance Request",style: TextStyle(fontWeight: FontWeight.bold),),),
+                      Tab(child: Text("Rebate Form",style: TextStyle(fontWeight: FontWeight.bold),),),
+                      Tab(child: Text("Rebate History",style: TextStyle(fontWeight: FontWeight.bold),),),
                     ],
                   ),
                 ),
@@ -41,8 +41,8 @@ class _HealthCenterState extends State<HealthCenter> {
                         border: Border(top: BorderSide(color: Colors.grey, width: 0.5))
                     ),
                     child: TabBarView(children: <Widget>[
-                      Appointment(),
-                      AmbulanceRequest(),
+                      RebateForm(),
+                      RebateHistory(),
 
                     ])
                 )

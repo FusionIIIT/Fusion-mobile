@@ -42,6 +42,14 @@ import 'package:fusion/screens/Healthcenter/viewschedule.dart';
 import 'package:fusion/screens/Healthcenter/history.dart';
 import 'package:fusion/screens/Healthcenter/HealthCenter.dart';
 import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/screens/Central_Mess/central_mess_home.dart';
+import 'package:fusion/screens/Central_Mess/MessMenu/mess_menu.dart';
+import 'package:fusion/screens/Central_Mess/Feedback/feedback_menu.dart';
+import 'package:fusion/screens/Central_Mess/Rebate/rebate_menu.dart';
+import 'package:fusion/screens/Central_Mess/MessBill/mess_bill.dart';
+import 'package:fusion/screens/Central_Mess/Announcement/announcement.dart';
+import 'package:fusion/screens/Central_Mess/RequestSpecialFood/special_food.dart';
+import 'package:fusion/screens/Central_Mess/RegistrationDeregistration/reg_dereg_homepage.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -127,6 +135,14 @@ class MyApp extends StatelessWidget {
           '/health_center/feedback': (context) => FeedBack(),
           '/health_center/viewschedule': (context) => ViewSchedule(),
           '/health_center/history': (context) => History(),
+          '/central_mess_home': (context) => CentralMessHome(),
+          '/central_mess_home/menu':(context)=>MessMenu(),
+          '/central_mess_home/feedback':(context)=>FeedbackMenu(),
+          '/central_mess_home/rebate':(context)=>RebateMenu(),
+          '/central_mess_home/messBill':(context)=>ViewBill(),
+          '/central_mess_home/announcement':(context)=>Announcement(),
+          '/central_mess_home/reqSpecialFood':(context)=>SpecialFood(),
+          '/central_mess_home/registration' : (context)=>ManageRegDeReg(),
         },
       ),
     );
