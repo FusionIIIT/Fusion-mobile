@@ -105,7 +105,7 @@ class _SideDrawerState extends State<SideDrawer> {
             ),
             _loading
                 ? Card(
-                    color: Colors.white,
+                    color: Colors.black,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
