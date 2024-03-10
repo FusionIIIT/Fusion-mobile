@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
 
 // Assuming you have a model class for message or file data
 class OutboxMessage {
@@ -24,23 +27,57 @@ class OutboxPage extends StatefulWidget {
 }
 
 class _OutboxPageState extends State<OutboxPage> {
+  final _designationController = TextEditingController();
   // Example data for two outbox messages
-  List<OutboxMessage> exampleMessages = [
-    OutboxMessage(
-      recipient: "Siddhant",
-      subject: "Project Update",
-      snippet: "The project is on track and we're making good progress...",
-      sentDate: DateTime.now().subtract(Duration(days: 2)),
-      messageType: "Email",
-    ),
-    OutboxMessage(
-      recipient: "Divyansh",
-      subject: "Meeting Reminder",
-      snippet: "Don't forget about the meeting tomorrow at 10 AM...",
-      sentDate: DateTime.now().subtract(Duration(days: 1)),
-      messageType: "Chat",
-    ),
-  ];
+  Future<void> _submitForm() async {
+  try {
+    // Validate required fields
+    if (_designationController.text?.isEmpty == true) {
+      throw Exception('Designation required.');
+    }
+
+    // Retrieve token securely (replace with appropriate mechanism)
+
+    var storageService = locator<StorageService>();
+    if (storageService.userInDB?.token == null) {
+      throw Exception('Token Error');
+    }
+
+    Map<String, String> headers = {
+      'Authorization': 'Token ' + (storageService.userInDB?.token ?? ""),
+      'Content-Type': 'application/json'
+    };
+
+    // Prepare query parameters
+    final queryParams = {
+      'username': '21BCS013',
+      'designation': _designationController.text,
+      'src_module': 'filetracking',
+    };
+
+    // Construct URL with encoded query parameters
+    final Uri url = Uri.http('10.0.2.2:8000', '/filetracking/api/outbox/', queryParams);
+
+    final client = http.Client();
+
+    // Make GET request
+    final response = await client.get(url, headers: headers);
+
+    // Handle response
+    if (response.statusCode == 200) {
+      // Assuming the response body directly contains inbox data (no parsing needed)
+      final outboxData = response.body;
+      print(outboxData); // Print the inbox data for debugging or logging
+      // Use the inboxData to display or process the fetched inbox files in your UI
+    } else {
+      // Handle error (e.g., print error message)
+      print('Error fetching inbox data: ${response.statusCode}');
+    }
+  } catch (e) {
+    // Handle other exceptions (e.g., network errors, token errors)
+    print('An error occurred: $e');
+  }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -48,90 +85,47 @@ class _OutboxPageState extends State<OutboxPage> {
       appBar: AppBar(
         title: Text('Outbox'),
       ),
-      body: ListView.builder(
-        itemCount: exampleMessages.length, // Use length of exampleMessages
-        itemBuilder: (context, index) {
-          final message = exampleMessages[index];
-          return CustomListItem(
-            message: message,
-            onTap: () {
-              // Handle message tap (e.g., navigate to details page)
-            },
-          );
-        },
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+     
+
+            // Divider
+            Divider(thickness: 1.0, color: Colors.grey[300]),
+
+            // Form content
+            Column(
+              children: [
+                // Title field (require
+                // Designation field
+                TextField(
+                  controller: _designationController,
+                  decoration: InputDecoration(
+                    labelText: 'View As',
+                  ),
+                ),
+
+                // Send button
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () async {
+                      await _submitForm(
+                      
+                      );
+                    },
+                    child: Text('View'),
+                                      ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
-class CustomListItem extends StatelessWidget {
-  final OutboxMessage message;
-  final void Function() onTap;
-
-  const CustomListItem({Key? key, required this.message, required this.onTap})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-  return ListTile(
-    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-    leading: CircleAvatar(
-      backgroundColor: Colors.grey[200],
-      child: Text(
-        message.recipient[0].toUpperCase(),
-        style: TextStyle(color: Colors.white, fontSize: 16),
-      ),
-    ),
-    title: Text(
-      message.recipient,
-      style: TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.bold,
-      ),
-    ),
-    subtitle: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          message.subject,
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        SizedBox(height: 4),
-        Text(
-          message.snippet,
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(
-            fontSize: 12,
-            color: Colors.grey[600],
-          ),
-        ),
-      ],
-    ),
-    trailing: Wrap(
-      spacing: 8,
-      children: [
-        TextButton(
-          onPressed: () {
-            // Handle view file action
-          },
-          child: Text(
-            'View File',
-            style: TextStyle(
-              color: Color.fromARGB(255, 241, 114, 3),
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ),
-      ],
-    ),
-    onTap: onTap, // Handle item tap (e.g., navigate to details page)
-  );
-}
-
-
-}

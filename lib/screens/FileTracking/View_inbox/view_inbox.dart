@@ -1,46 +1,90 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
-// Assuming you have a model class for inbox message data
+import 'package:flutter/material.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
+import 'package:http/http.dart' as http;
+
+
 class InboxMessage {
   final String sender;
   final String subject;
   final String snippet;
   final DateTime timestamp;
-  // ... other message data properties
 
   InboxMessage({
     required this.sender,
     required this.subject,
     required this.snippet,
     required this.timestamp,
-    // ... other required or optional properties
   });
 }
 
 class InboxPage extends StatefulWidget {
+
+  final String username;
+  InboxPage({required this.username});
+
   @override
   _InboxPageState createState() => _InboxPageState();
 }
 
 class _InboxPageState extends State<InboxPage> {
-  Future<List<InboxMessage>> _fetchInboxMessages() async {
-    // Replace with your actual logic to fetch inbox messages
-    // Simulate data fetching (replace with your API call or service)
-    return [
-      InboxMessage(
-        sender: "University Administration",
-        subject: "Important Announcement",
-        snippet: "Regarding upcoming semester registration...",
-        timestamp: DateTime.now().subtract(Duration(days: 2)),
-      ),
-      InboxMessage(
-        sender: "Department of CS",
-        subject: "Course Materials Update",
-        snippet: "New materials uploaded for Data Structures...",
-        timestamp: DateTime.now().subtract(Duration(hours: 1)),
-      ),
-    ];
+  final _designationController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
   }
+
+Future<void> _submitForm() async {
+  try {
+    if (_designationController.text?.isEmpty == true) {
+      throw Exception('Designation required.');
+    }
+
+    var storageService = locator<StorageService>();
+    if (storageService.userInDB?.token == null) {
+      throw Exception('Token Error');
+    }
+
+    Map<String, String> headers = {
+      'Authorization': 'Token ' + (storageService.userInDB?.token ?? ""),
+      'Content-Type': 'application/json'
+    };
+  
+    // Prepare query parameters
+    final queryParams = {
+      'username': widget.username,
+      'designation': _designationController.text,
+      'src_module': 'filetracking',
+    };
+
+    print(headers['Authorization']);
+    // Construct URL with encoded query parameters
+    final Uri url = Uri.http('10.0.2.2:8000', '/filetracking/api/inbox/', queryParams);
+
+    final client = http.Client();
+
+    // Make GET request
+    final response = await client.get(url, headers: headers);
+
+    // Handle response
+    if (response.statusCode == 200) {
+      // Assuming the response body directly contains inbox data (no parsing needed)
+      var inboxData = response.body;
+      print(inboxData);
+      // Print the inbox data for debugging or logging
+      // Use the inboxData to display or process the fetched inbox files in your UI
+    } else {
+      // Handle error (e.g., print error message)
+      print('Error fetching inbox data: ${response.statusCode}');
+    }
+  } catch (e) {
+    // Handle other exceptions (e.g., network errors, token errors)
+    print('An error occurred: $e');
+  }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -48,41 +92,46 @@ class _InboxPageState extends State<InboxPage> {
       appBar: AppBar(
         title: Text('Inbox'),
       ),
-      body: FutureBuilder<List<InboxMessage>>(
-        future: _fetchInboxMessages(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            final messages = snapshot.data!;
-            return ListView.builder(
-              itemCount: messages.length,
-              itemBuilder: (context, index) {
-                final message = messages[index];
-                return ListTile(
-                  leading: CircleAvatar(
-                    backgroundColor: Colors.grey[200], // Placeholder for sender avatar
-                    child: Text(message.sender[0].toUpperCase()), // Initials from sender name
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+     
+
+            // Divider
+            Divider(thickness: 1.0, color: Colors.grey[300]),
+
+            // Form content
+            Column(
+              children: [
+                // Title field (require
+                // Designation field
+                TextField(
+                  controller: _designationController,
+                  decoration: InputDecoration(
+                    labelText: 'View As',
                   ),
-                  title: Text(message.subject),
-                  subtitle: Text(message.snippet),
-                  trailing: Text(message.timestamp.toString()),
-                  onTap: () {
-                    // Handle message item tap (e.g., open details page)
-                    Navigator.pushNamed(
-                      context,
-                      '/fts/view_message', // Replace with your message details page route
-                      arguments: message, // Pass the message object for details
-                    );
-                  },
-                );
-              },
-            );
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error fetching inbox messages: ${snapshot.error}'));
-          } else {
-            return Center(child: CircularProgressIndicator());
-          }
-        },
+                ),
+
+                // Send button
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () async {
+                      await _submitForm(
+                      );
+                    },
+                    child: Text('View'),
+                                      ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
 }
+
