@@ -7,7 +7,7 @@ class ApplySpecialFood extends StatefulWidget {
 }
 
 class _ApplySpecialFoodState extends State<ApplySpecialFood> {
-  bool _loading = false, _updateDish = false;
+  bool _loading = false;
   String? selectedMess, selectedMeal, dish;
   DateTime? selectedDate;
 
@@ -84,6 +84,8 @@ class _ApplySpecialFoodState extends State<ApplySpecialFood> {
                             child: Text("Central Mess 1"), value: "mess1"),
                         DropdownMenuItem(
                             child: Text("Central Mess 2"), value: "mess2"),
+                        DropdownMenuItem(
+                            child: Text("All"), value: "all"),
                       ],
                     ),
                     SizedBox(height: 30.0),
@@ -104,9 +106,9 @@ class _ApplySpecialFoodState extends State<ApplySpecialFood> {
                       validator: (e) =>
                       (e?.day ?? 0) == 1 ? 'Please not the first day' : null,
                       onDateSelected: (DateTime value) {
-
                           selectedDate = value;
                       },
+                        firstDate: DateTime.now()
                     ),
                     SizedBox(height: 30.0),
                     DropdownButtonFormField(
@@ -156,8 +158,14 @@ class _ApplySpecialFoodState extends State<ApplySpecialFood> {
                         }
                         return null;
                       },
+                      onChanged: (String? newValue) {
+                        // setState(() {
+                        dish = newValue!;
+                        // });
+                      },
                       style: TextStyle(fontSize: 20.0),
                     ),
+                    SizedBox(height: 30.0),
                     ElevatedButton(
                         style: style,
                         onPressed: () {

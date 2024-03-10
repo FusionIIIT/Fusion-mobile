@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:fusion/models/central_mess.dart';
 import 'package:fusion/services/central_mess_services.dart';
+import 'package:date_field/date_field.dart';
+import 'package:intl/intl.dart';
 
 class DeRegister extends StatefulWidget {
   @override
@@ -15,7 +17,7 @@ class _DeRegisterState extends State<DeRegister> {
 
   bool _loading = false, _deregister = false;
   String? selectedStudentId;
-
+  DateTime? deregisterDate;
 
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
@@ -70,24 +72,28 @@ class _DeRegisterState extends State<DeRegister> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    TextFormField(
+                    SizedBox(height: 10.0),
+                    DateTimeFormField(
                       decoration: InputDecoration(
-                        labelText: 'Enter a roll number',
+                        suffixIcon: Icon(Icons.event_note),
+                        labelText: 'Deregister From',
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colors.deepOrangeAccent, width: 2),
+                          borderSide:
+                          BorderSide(color: Colors.deepOrangeAccent, width: 2),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         filled: true,
                         fillColor: Colors.white,
                       ),
-                      validator: (value) =>
-                      value == null ? "Enter roll number" : null,
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          selectedStudentId = newValue!;
-                        });
+                      mode: DateTimeFieldPickerMode.date,
+                      autovalidateMode: AutovalidateMode.always,
+                      initialValue: DateTime.now(), // Set initial date
+                      validator: (e) =>
+                      e == null ? 'Please select a date' : null,
+                      onDateSelected: (DateTime value) {
+                        deregisterDate = value;
                       },
+                      firstDate: DateTime.now(), // Allow dates starting from tomorrow
                     ),
                     SizedBox(height: 30.0),
                     ElevatedButton(

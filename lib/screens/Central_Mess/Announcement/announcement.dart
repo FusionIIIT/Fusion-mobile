@@ -3,6 +3,7 @@ import 'make_announcement.dart';
 import 'announcement_history.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/models/profile.dart';
 
 class Announcement extends StatefulWidget {
   @override
@@ -10,8 +11,6 @@ class Announcement extends StatefulWidget {
 }
 
 class _AnnouncementState extends State<Announcement> {
-  String? user;
-
   @override
   void initState() {
     super.initState();
@@ -21,6 +20,9 @@ class _AnnouncementState extends State<Announcement> {
 
   @override
   Widget build(BuildContext context) {
+    final ProfileData data = ModalRoute.of(context)!.settings.arguments as ProfileData;
+    String? user = data.profile!['user_type'];
+    // user = "caretaker";
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: DefaultAppBar().buildAppBar(titleText: "Central Mess"),
@@ -43,7 +45,7 @@ class _AnnouncementState extends State<Announcement> {
                       unselectedLabelColor: Colors.black,
                       tabs: [
 
-                        if (user == "caretaker")
+                        if (user == "caretaker" || user == "warden")
                           Tab(
                             child: Text(
                               "Make Announcement",
@@ -69,7 +71,7 @@ class _AnnouncementState extends State<Announcement> {
                     child: TabBarView(
                       children: <Widget>[
 
-                        if (user == "caretaker") MakeAnnouncement(),
+                        if (user == "caretaker" || user == "warden") MakeAnnouncement(),
                         AnnouncementHistory(),
                       ],
                     ),

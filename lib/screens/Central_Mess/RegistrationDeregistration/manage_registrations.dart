@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:fusion/models/central_mess.dart';
 import 'package:fusion/services/central_mess_services.dart';
-// import 'package:file_picker/file_picker.dart';
 
 class ManageRegistrations extends StatefulWidget {
   @override
@@ -14,11 +13,9 @@ class ManageRegistrations extends StatefulWidget {
 class _ManageRegistrationsState extends State<ManageRegistrations> {
   CentralMessService _centralMessService = CentralMessService();
 
-  bool _loading = false, _uploadExcel = false;
+  bool _loading = false;
   String? selectedMess, selectedProgramme, selectedBranch;
   String? selectedBatch;
-  // int? selectedBatch;
-  late String? _filePath;
 
 
   BoxDecoration myBoxDecoration() {
@@ -53,22 +50,7 @@ class _ManageRegistrationsState extends State<ManageRegistrations> {
   void initState() {
     super.initState();
   }
-  // Future<void> _openFileExplorer() async {
-  //   try {
-  //     FilePickerResult? result = await FilePicker.platform.pickFiles(
-  //       type: FileType.custom,
-  //       allowedExtensions: ['xlsx', 'xls'], // Specify allowed file extensions
-  //     );
-  //
-  //     if (result != null) {
-  //       setState(() {
-  //         _filePath = result.files.single.path;
-  //       });
-  //     }
-  //   } catch (e) {
-  //     print('Error picking file: $e');
-  //   }
-  // }
+
   @override
   Widget build(BuildContext context) {
     final _messFormKey = GlobalKey<FormState>();
@@ -239,24 +221,6 @@ class _ManageRegistrationsState extends State<ManageRegistrations> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              "OR",
-              style: const TextStyle(
-                  fontSize: 20, color: Colors.black, fontWeight: FontWeight.w500),
-            ),
-          ),
-          SizedBox(height: 30.0),
-          ElevatedButton(
-            onPressed: () {
-              // _openFileExplorer();
-            },
-            child: Text('Upload Excel File'),
-          ),
-
-          // Display selected file path
-          // Text(_filePath ?? 'No file selected'),
         ],
       ),
     );

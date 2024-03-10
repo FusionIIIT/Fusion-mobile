@@ -42,9 +42,9 @@ class _CentralMessHomeState extends State<CentralMessHome> {
       userType = data2.profile!['department']!['name'] +
           '  ' +
           data2.profile!['user_type'];
-      // userType = 'Mess Caretaker';
       user = data2.profile!['user_type'];
       // user = "caretaker";
+      // user = "warden";
       if(user == 'student') student_id = data2.user!['username'];
     } catch (e) {
       print(e);
@@ -187,12 +187,12 @@ class _CentralMessHomeState extends State<CentralMessHome> {
                       Navigator.pushNamed(context, '/central_mess_home/announcement', arguments: data2);
                     },
                   ),
-                  // InkWell(
-                  //   child: myContainer("Register/De-register"),
-                  //   onTap: () {
-                  //     Navigator.pushNamed(context, '/central_mess_home/registration', arguments: data2);
-                  //   },
-                  // ),
+                  InkWell(
+                    child: myContainer(user=="student" ? "Register/De-register" : "Manage Registrations"),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/central_mess_home/registration', arguments: data2);
+                    },
+                  ),
                   InkWell(
                     child: myContainer("Apply for Rebate"),
                     onTap: () {

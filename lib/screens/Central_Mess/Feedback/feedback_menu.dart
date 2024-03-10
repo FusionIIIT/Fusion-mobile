@@ -3,6 +3,7 @@ import 'feedback_form.dart';
 import 'feedback_history.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/models/profile.dart';
 
 class FeedbackMenu extends StatefulWidget {
   @override
@@ -10,11 +11,12 @@ class FeedbackMenu extends StatefulWidget {
 }
 
 class _FeedbackMenuState extends State<FeedbackMenu> {
-  String? user;
 
   @override
   Widget build(BuildContext context) {
-
+    final ProfileData data = ModalRoute.of(context)!.settings.arguments as ProfileData;
+    String? user = data.profile!['user_type'];
+    // user = "caretaker";
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: DefaultAppBar().buildAppBar(titleText: "Central Mess"),
@@ -63,6 +65,7 @@ class _FeedbackMenuState extends State<FeedbackMenu> {
                       children: <Widget>[
                         FeedbackForm(),
                         FeedbackHistory(),
+                        // FeedbackHistory(),
                       ],
                     ),
                   )

@@ -7,8 +7,8 @@ class MakeAnnouncement extends StatefulWidget {
 }
 
 class _MakeAnnouncementState extends State<MakeAnnouncement> {
-  bool _loading = false, _SubmitDish = false;
-  String? selectedMess, selectedDay, selectedMeal, dish;
+  bool _loading = false;
+  String? selectedMess, selectedMeal;
   DateTime? selectedDate;
 
   BoxDecoration myBoxDecoration() {
@@ -47,11 +47,8 @@ class _MakeAnnouncementState extends State<MakeAnnouncement> {
     final _messFormKey = GlobalKey<FormState>();
     final ButtonStyle style = ElevatedButton.styleFrom(
       textStyle: const TextStyle(
-        fontSize: 20,
-        color: Colors.white,
-        fontWeight: FontWeight.w500,
-      ),
-      backgroundColor: Colors.deepOrangeAccent,
+          fontSize: 20, color: Colors.white, fontWeight: FontWeight.w500),
+      backgroundColor: Colors.white,
       shadowColor: Colors.black,
     );
     return SingleChildScrollView(
@@ -90,6 +87,8 @@ class _MakeAnnouncementState extends State<MakeAnnouncement> {
                             child: Text("Central Mess 1"), value: "mess1"),
                         DropdownMenuItem(
                             child: Text("Central Mess 2"), value: "mess2"),
+                        DropdownMenuItem(
+                            child: Text("All"), value: "all"),
                       ],
                     ),
                     SizedBox(height: 30.0),
@@ -113,6 +112,7 @@ class _MakeAnnouncementState extends State<MakeAnnouncement> {
                       onDateSelected: (DateTime value) {
                           selectedDate = value;
                       },
+                        firstDate: DateTime.now()
                     ),
 
                     SizedBox(height: 30.0),
@@ -168,6 +168,7 @@ class _MakeAnnouncementState extends State<MakeAnnouncement> {
                       },
                       style: TextStyle(fontSize: 20.0),
                     ),
+                    SizedBox(height: 20.0),
                     ElevatedButton(
                       style: style,
                       onPressed: () {

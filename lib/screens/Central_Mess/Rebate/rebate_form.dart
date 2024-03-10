@@ -82,6 +82,7 @@ class _RebateFormState extends State<RebateForm> {
                           selectedDateStart = value;
                         });
                       },
+                        firstDate: DateTime.now()
                     ),
                     SizedBox(height: 30.0),
                     DateTimeFormField(
@@ -105,6 +106,7 @@ class _RebateFormState extends State<RebateForm> {
                           selectedDateEnd = value;
                         });
                       },
+                        firstDate: DateTime.now()
                     ),
                     SizedBox(height: 30.0),
                     TextFormField(

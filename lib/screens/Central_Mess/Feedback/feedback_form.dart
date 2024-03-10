@@ -8,8 +8,8 @@ class FeedbackForm extends StatefulWidget {
 }
 
 class _FeedbackFormState extends State<FeedbackForm> {
-  bool _loading = false, _SubmitDish = false;
-  String? selectedMess, selectedDay, selectedMeal, dish;
+  bool _loading = false;
+  String? selectedMess, feedbackType;
   DateTime? selectedDate;
 
 
@@ -108,12 +108,13 @@ class _FeedbackFormState extends State<FeedbackForm> {
                       mode: DateTimeFieldPickerMode.date,
                       autovalidateMode: AutovalidateMode.always,
                       validator: (e) =>
-                      (e?.day ?? 0) == 1 ? 'Please not the first day' : null,
+                      (e?.day ?? 0) == 1 ? 'Please select a date' : null,
                       onDateSelected: (DateTime value) {
                         setState(() {
                           selectedDate = value;
                         });
                       },
+                        firstDate: DateTime.now()
                     ),
 
 
@@ -133,10 +134,10 @@ class _FeedbackFormState extends State<FeedbackForm> {
                       validator: (value) =>
                       value == null ? "Type of Feedback" : null,
                       dropdownColor: Colors.white,
-                      value: selectedMeal,
+                      value: feedbackType,
                       onChanged: (String? newValue) {
                         setState(() {
-                          selectedMeal = newValue!;
+                          feedbackType = newValue!;
                         });
                       },
                       items: [
@@ -176,6 +177,7 @@ class _FeedbackFormState extends State<FeedbackForm> {
                       },
                       style: TextStyle(fontSize: 20.0),
                     ),
+                    SizedBox(height: 30.0),
                     ElevatedButton(
                         style: style,
                         onPressed: () {

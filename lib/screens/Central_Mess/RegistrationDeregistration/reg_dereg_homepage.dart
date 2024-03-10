@@ -13,6 +13,7 @@ class ManageRegDeReg extends StatefulWidget {
 
 class _ManageRegDeRegState extends State<ManageRegDeReg> {
   String? user;
+  bool? isRegistered = false;
   @override
   Widget build(BuildContext context) {
     final ProfileData data = ModalRoute.of(context)!.settings.arguments as ProfileData;
@@ -27,7 +28,7 @@ class _ManageRegDeRegState extends State<ManageRegDeReg> {
         child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
           SizedBox(height: 5.0),
           DefaultTabController(
-              length:  3, // length of tabs
+              length:  1, // length of tabs
               initialIndex: 0,
               child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
                 Container(
@@ -37,9 +38,27 @@ class _ManageRegDeRegState extends State<ManageRegDeReg> {
                     indicatorColor: Colors.deepOrangeAccent,
                     unselectedLabelColor: Colors.black,
                     tabs: [
-                      Tab(child: Text("Manage Registrations",style: TextStyle(fontWeight: FontWeight.bold),),),
-                      Tab(child: Text("Register",style: TextStyle(fontWeight: FontWeight.bold),),),
-                      Tab(child: Text("De-Register",style: TextStyle(fontWeight: FontWeight.bold),),),
+                      if (user == "caretaker" || user == "warden")
+                        Tab(
+                          child: Text(
+                            "Manage Registrations",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      if (user == "student" && isRegistered==false)
+                        Tab(
+                          child: Text(
+                            "Register",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      if (user == "student" && isRegistered==true)
+                        Tab(
+                          child: Text(
+                            "De-Register",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
                     ],
                   ),
                 ),
@@ -48,11 +67,19 @@ class _ManageRegDeRegState extends State<ManageRegDeReg> {
                     decoration: BoxDecoration(
                         border: Border(top: BorderSide(color: Colors.grey, width: 0.5))
                     ),
-                    child: TabBarView(children: <Widget>[
-                      ManageRegistrations(),
-                      Register(),
-                      DeRegister(),
-                    ])
+                    child:  TabBarView(
+                      children: <Widget>[
+                        if (user == "student" && isRegistered==false) ...[
+                          Register(),
+                        ],
+                        if (user == "student" && isRegistered==true) ...[
+                          DeRegister(),
+                        ],
+                        if (user != "student") ...[
+                          ManageRegistrations(),
+                        ],
+                      ],
+                    )
                 )
               ])
           ),
