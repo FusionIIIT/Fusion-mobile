@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/constants.dart';
+
+import '../../services/service_locator.dart';
+import '../../services/storage_service.dart';
 
 class ProgrammeCurriculumHome extends StatefulWidget {
   @override
@@ -9,39 +13,14 @@ class ProgrammeCurriculumHome extends StatefulWidget {
 }
 
 class _ProgrammeCurriculumHomeState extends State<ProgrammeCurriculumHome> {
-  BoxDecoration myBoxDecoration() {
-    return BoxDecoration(
-        border: new Border.all(
-          color: Colors.deepOrangeAccent,
-          width: 2.0,
-          style: BorderStyle.solid,
-        ),
-        borderRadius: new BorderRadius.all(new Radius.circular(15.0)));
-  }
-
-  Text myText(String text) {
-    return Text(
-      text,
-      style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
-    );
-  }
-
-  Padding myContainer(String text) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: myText(text),
-        ),
-        decoration: myBoxDecoration(),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final data = '';
+    var service = locator<StorageService>();
+    var name = service.profileData.user!["first_name"] +
+        " " +
+        service.profileData.user!["last_name"];
+    var depttype = service.profileData.profile!['department']!['name'];
     return Scaffold(
       appBar: DefaultAppBar().buildAppBar(),
       drawer: SideDrawer(),
@@ -71,19 +50,14 @@ class _ProgrammeCurriculumHomeState extends State<ProgrammeCurriculumHome> {
                 ),
                 Text(
                   //NAME OF USER
-                  'Arihant Jain',
-                  // data.details!['current_user']['first_name'] +
-                  //     ' ' +
-                  //     data.details!['current_user']['last_name'],
+                  name,
                   style: TextStyle(fontSize: 20.0, color: Colors.black),
                 ),
                 SizedBox(
                   height: 10.0,
                 ),
                 Text(
-                  'CSE',
-                  // data.details!['user_branch'] + ' | ' + "STUDENT",
-                  // style: TextStyle(fontSize: 15.0, color: Colors.black),
+                  depttype,
                 ),
                 SizedBox(
                   height: 10.0,
@@ -106,10 +80,10 @@ class _ProgrammeCurriculumHomeState extends State<ProgrammeCurriculumHome> {
                 )),
               ),
               decoration: new BoxDecoration(
-                color: Colors.deepOrangeAccent,
+                color: Color.fromRGBO(182, 87, 0, 1),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black,
+                    color: Color.fromRGBO(182, 87, 0, 1),
                     offset: Offset(0.0, 1.0),
                     blurRadius: 2.0,
                   )
@@ -118,67 +92,115 @@ class _ProgrammeCurriculumHomeState extends State<ProgrammeCurriculumHome> {
               ),
             ),
           ),
-          Card(
-            elevation: 2.0,
-            margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-            shadowColor: Colors.black,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                InkWell(
-                  child: myContainer("Programmes"),
-                  onTap: () {
-                    Navigator.pushNamed(
-                        context, '/programme_curriculum_home/programme',
-                        arguments: data);
-                  },
-                ),
-                InkWell(
-                  child: myContainer("Curriculums"),
-                  onTap: () {
-                    Navigator.pushNamed(
-                        context, '/programme_curriculum_home/curriculum',
-                        arguments: data);
-                  },
-                ),
-                InkWell(
-                  child: myContainer("Courses"),
-                  onTap: () {
-                    Navigator.pushNamed(
-                        context, '/programme_curriculum_home/courses',
-                        arguments: data);
-                  },
-                ),
-                InkWell(
-                  child: myContainer("Disciplines"),
-                  onTap: () {
-                    Navigator.pushNamed(
-                        context, '/programme_curriculum_home/discipline',
-                        arguments: data);
-                    // Navigator.pushNamed(
-                    //     context, '/academic_home_page/bonafide',
-                    //     arguments: {
-                    //       'firstName': data.details!['current_user']
-                    //               ['first_name']
-                    //           .toString(),
-                    //       'lastName': data.details!['current_user']
-                    //           ['last_name'],
-                    //       'branch': data.details!['user_branch']
-                    //     });
-                  },
-                ),
-                InkWell(
-                  child: myContainer("Batches"),
-                  onTap: () {
-                    Navigator.pushNamed(
-                        context, '/programme_curriculum_home/batches',
-                        arguments: data);
-                  },
-                ),
-              ],
-            ),
-          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              CardWidget(
+                data: data,
+                fieldName: 'Programmes',
+                url: '/programme_curriculum_home/programme',
+                icon: Icons.menu_book_sharp,
+              ),
+              CardWidget(
+                data: data,
+                fieldName: 'Curriculums',
+                url: '/programme_curriculum_home/curriculum',
+                icon: Icons.local_library_sharp,
+              ),
+              CardWidget(
+                data: data,
+                fieldName: 'Courses',
+                url: '/programme_curriculum_home/courses',
+                icon: Icons.book,
+              ),
+              CardWidget(
+                data: data,
+                fieldName: 'Disciplines',
+                url: '/programme_curriculum_home/discipline',
+                icon: Icons.school_sharp,
+              ),
+              CardWidget(
+                  data: data,
+                  fieldName: 'Batches',
+                  url: '/programme_curriculum_home/batches',
+                  icon: Icons.group_work_sharp),
+            ],
+          )
         ],
+      ),
+    );
+  }
+}
+
+class CardWidget extends StatelessWidget {
+  const CardWidget({
+    Key? key,
+    required this.data,
+    required this.fieldName,
+    required this.url,
+    required this.icon,
+  }) : super(key: key);
+
+  final String data;
+  final String fieldName;
+  final String url;
+  final IconData icon;
+  BoxDecoration myBoxDecoration() {
+    return BoxDecoration(
+        // border: new Border.all(
+        //   color: kPrimaryColor,
+        //   width: 2.0,
+        //   style: BorderStyle.solid,
+        // ),
+        borderRadius: new BorderRadius.all(new Radius.circular(15.0)));
+  }
+
+  Text myText(String text) {
+    return Text(
+      text,
+      style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
+    );
+  }
+
+  Padding myContainer(String text) {
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Icon(icon),
+              Container(
+                margin: EdgeInsets.only(left: 8.0),
+                child: myText(text),
+                decoration: myBoxDecoration(),
+              ),
+            ],
+          ),
+          Icon(Icons.chevron_right),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 2.0,
+      margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+      shadowColor: Colors.black,
+      child: InkWell(
+        child: myContainer(fieldName),
+        onTap: () {
+          Navigator.pushNamed(
+            context,
+            url,
+            arguments: data,
+          );
+        },
       ),
     );
   }

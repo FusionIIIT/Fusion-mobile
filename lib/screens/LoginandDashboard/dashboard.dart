@@ -133,6 +133,7 @@ class _DashboardState extends State<Dashboard> {
                       ),
                     ),
                     Card(
+                      margin: EdgeInsets.only(left: 8.0, right: 8.0),
                       color: Colors.black,
                       child: Padding(
                         padding: const EdgeInsets.all(10.0),

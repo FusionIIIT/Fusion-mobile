@@ -66,7 +66,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MediaQueryData windowData =
-    MediaQueryData.fromWindow(WidgetsBinding.instance.window);
+        MediaQueryData.fromWindow(WidgetsBinding.instance.window);
     windowData = windowData.copyWith(
       textScaleFactor: 1,
     );
@@ -77,10 +77,16 @@ class MyApp extends StatelessWidget {
         title: 'Fusion',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+<<<<<<< HEAD
+          // primarySwatch: Colors.blueGrey,
+          colorSchemeSeed: Color(0xFF2085D0),
+          fontFamily: 'Nunito',
+=======
             // primarySwatch: Colors.blueGrey,
           // colorSchemeSeed: Color(0xFF2085D0),
           colorSchemeSeed: Color(0xFFF36C35),
             fontFamily: 'Nunito',
+>>>>>>> 1505674033beac7ab77dc5a54cdda87def08d9ea
           useMaterial3: true,
         ),
         initialRoute: '/landing',
