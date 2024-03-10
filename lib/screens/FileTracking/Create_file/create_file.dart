@@ -1,4 +1,16 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:core';
+import 'package:fusion/api.dart';
+import 'package:fusion/constants.dart';
+
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CreateFilePage extends StatefulWidget {
   @override
@@ -9,33 +21,145 @@ class _CreateFilePageState extends State<CreateFilePage> {
   // Form controllers
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
-  final _attachController = TextEditingController();
-  final _remarksController = TextEditingController();
+  final _sendAsController = TextEditingController();
   final _forwardToController = TextEditingController();
   final _designationController = TextEditingController();
 
-  // Submit form with placeholder logic
-  Future<void> _submitForm() async {
-    // Handle form data validation and submission (replace with your logic)
-    if (_titleController.text.isEmpty || _descriptionController.text.isEmpty) {
-      print('Error: Title and Description are required.');
-      return;
+  // API endpoint
+  // static const String _apiUrl = '172.27.16.214:8000/filetracking/api/file/';
+
+  // Submit form with POST API call and store data locally
+Future<void> _submitForm(
+) async {
+  try {
+    // Validate required fields
+    if (_titleController.text?.isEmpty == true || _descriptionController.text?.isEmpty == true) {
+      throw Exception('Title and description are required.');
     }
 
-    print('Form data:');
-    print('Title: ${_titleController.text}');
-    print('Description: ${_descriptionController.text}');
-    print('Remarks: ${_remarksController.text}');
-    print('Forward To: ${_forwardToController.text}');
-    print('Designation: ${_designationController.text}');
+    // Retrieve token securely (replace with appropriate mechanism)
+    // final token = await _retrieveToken();
 
-    // Clear form fields after submission
-    _titleController.clear();
-    _descriptionController.clear();
-    _remarksController.clear();
-    _forwardToController.clear();
-    _designationController.clear();
+    // Prepare headers
+    var storageService = locator<StorageService>();
+    if (storageService.userInDB?.token == null) {
+      throw Exception('Token Error');
+    }
+
+    Map<String, String> headers = {
+      'Authorization': 'Token ' + (storageService.userInDB?.token ?? ""),
+      'Content-Type': 'application/json'
+    };
+
+    // Prepare request body
+    final data = jsonEncode({
+      'subject': _titleController.text,
+      // 'remarks': _remarksController.text, (Assuming not used)
+      'designation': _sendAsController.text, // Replace with appropriate value
+      'receiver_username': _forwardToController.text,
+      'receiver_designation': _designationController.text,
+      'description': _descriptionController.text,
+    });
+
+    // Make POST request
+
+    final client = http.Client();
+    client.post(
+      Uri.http('10.0.2.2:8000', '/filetracking/api/file/'),
+      headers: headers,
+      body: data,
+    ).then((response) {
+      print(response.statusCode);
+    }).catchError((error) {
+      print(error);
+    });
+    // Handle response
+    // print(response.statusCode);
+    // if (response.statusCode == HttpStatus.created) {
+    //   // Handle successful file creation (e.g., show success message)
+    //   print('File created successfully!');
+    // } else {
+    //   // Handle other status codes (e.g., show error message)
+    //   final errorMessage = await _parseErrorMessage(response);
+    //   print('Error: $errorMessage');
+    // }
+  } catch (e) {
+    // Handle other exceptions (e.g., network errors, token errors)
+    print('An error occurred: $e');
   }
+}
+
+Future<void> _draftForm(
+) async {
+  try {
+    // Validate required fields
+    if (_titleController.text?.isEmpty == true || _descriptionController.text?.isEmpty == true) {
+      throw Exception('Title and description are required.');
+    }
+
+    // Retrieve token securely (replace with appropriate mechanism)
+    // final token = await _retrieveToken();
+
+    // Prepare headers
+    var storageService = locator<StorageService>();
+    if (storageService.userInDB?.token == null) {
+      throw Exception('Token Error');
+    }
+
+    Map<String, String> headers = {
+      'Authorization': 'Token ' + (storageService.userInDB?.token ?? ""),
+      'Content-Type': 'application/json'
+    };
+
+    // Prepare request body
+    final data = jsonEncode({
+      'file_extra_JSON':{
+      'subject': _titleController.text,
+      },
+      // 'remarks': _remarksController.text, (Assuming not used)
+      'uploader': '21BCS078', // Replace with appropriate value
+      'uploader_designation': _sendAsController.text, // Replace with appropriate value
+      'src_module': 'filetracking'
+    });
+
+    // Make POST request
+
+    final client = http.Client();
+    client.post(
+      Uri.http('10.0.2.2:8000', '/filetracking/api/createdraft/'),
+      headers: headers,
+      body: data,
+    ).then((response) {
+      print(response.statusCode);
+    }).catchError((error) {
+      print(error);
+    });
+    // Handle response
+    // print(response.statusCode);
+    // if (response.statusCode == HttpStatus.created) {
+    //   // Handle successful file creation (e.g., show success message)
+    //   print('File created successfully!');
+    // } else {
+    //   // Handle other status codes (e.g., show error message)
+    //   final errorMessage = await _parseErrorMessage(response);
+    //   print('Error: $errorMessage');
+    // }
+  } catch (e) {
+    // Handle other exceptions (e.g., network errors, token errors)
+    print('An error occurred: $e');
+  }
+}
+
+Future<String> _parseErrorMessage(http.Response response) async {
+  // Implement your error parsing logic here (e.g., from JSON response body)
+  try {
+    final decodedResponse = jsonDecode(response.body);
+    return decodedResponse['message'] ?? 'Unknown error';
+  } catch (error) {
+    return 'Failed to parse error message';
+  }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -52,42 +176,6 @@ class _CreateFilePageState extends State<CreateFilePage> {
               padding: const EdgeInsets.all(16.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // TODO: Add your user profile image and details
-                  CircleAvatar(
-                    radius: 30.0,
-                  ),
-                  SizedBox(width: 16.0),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // TODO: Replace with user name and designation
-                      Text(
-                        "Rohit Sharma",
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        "21BCS329",
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        "Designation",
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
               ),
             ),
 
@@ -97,59 +185,59 @@ class _CreateFilePageState extends State<CreateFilePage> {
             // Form content
             Column(
               children: [
-                // Title field
+                // Title field (required)
                 TextField(
                   controller: _titleController,
                   decoration: InputDecoration(
-                    labelText: 'Title',
-                    // errorText: _titleController.text.isEmpty ? 'Required' : null,
+                    labelText: 'Title*',
+                    errorText: _titleController.text.isEmpty ? 'Required' : null,
                   ),
                 ),
 
-                // Description field
+                // Description field (required)
                 TextField(
                   controller: _descriptionController,
                   decoration: InputDecoration(
-                    labelText: 'Description',
+                    labelText: 'Description*',
                     // errorText: _descriptionController.text.isEmpty ? 'Required' : null,
                   ),
                 ),
 
                 // Attach field
-               Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  // Text 'Attach File'
-                  Text('Attach File'),
-                  SizedBox(width: 16.0), // Add spacing between text and button
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    // Text 'Attach File'
+                    Text('Attach File'),
+                    SizedBox(width: 16.0), // Add spacing between text and button
 
-                  // ElevatedButton with 'Upload' text
-                  ElevatedButton(
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          title: Text('File Attachment'),
-                          content: Text('File attachment is not currently supported in this web app.'),
-                          actions: [
-                            TextButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: Text('OK'),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                    child: Text('Upload'),
-                  ),
-                ],
-              ),
+                    // ElevatedButton with informative text
+                    ElevatedButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: Text('File Attachment'),
+                            content: Text('File attachment is not currently supported in this web app.'),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: Text('OK'),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                      child: Text('Browse'), // Changed text to "Browse"
+                    ),
+                  ],
+                ),
 
                 // Remarks field
                 TextField(
-                  controller: _remarksController,
+                  controller: _sendAsController,
                   decoration: InputDecoration(
-                    labelText: 'Remarks',
+                    labelText: 'Send as',
                   ),
                 ),
 
@@ -170,9 +258,26 @@ class _CreateFilePageState extends State<CreateFilePage> {
                 ),
 
                 // Send button
-                ElevatedButton(
-                  onPressed: _submitForm,
-                  child: Text('Send'),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () async {
+                      await _submitForm(
+                      );
+                    },
+                    child: Text('Send'),
+                                      ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        // Handle "Draft" functionality (implementation optional)
+                        await _draftForm(
+
+                          );
+                      },
+                      child: Text('Draft'),
+                    ),
+                  ],
                 ),
               ],
             ),

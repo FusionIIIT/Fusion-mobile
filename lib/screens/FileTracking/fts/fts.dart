@@ -5,11 +5,27 @@ import 'package:fusion/screens/FileTracking/Create_file/create_file.dart';
 import 'package:fusion/screens/FileTracking/View_drafts/view_drafts.dart'; 
 import 'package:fusion/screens/FileTracking/View_inbox/view_inbox.dart'; 
 import 'package:fusion/screens/FileTracking/View_outbox/view_outbox.dart'; 
-import 'package:fusion/screens/FileTracking/Track_file/track_file.dart'; 
+import 'package:fusion/screens/FileTracking/Track_file/track_file.dart';
+import 'package:shared_preferences/shared_preferences.dart'; 
+
+class UserService {
+  Future<String> getUsername() async {
+    final prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('username');
+    return username ?? '';
+  }
+}
 
 class RoundedListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
+    Future<String> getUsername() async {
+      final userService = UserService();
+      final username = await userService.getUsername();
+      return username;
+    }
+
     return Scaffold(
       appBar: DefaultAppBar().buildAppBar(),
       drawer: SideDrawer(),
@@ -29,7 +45,7 @@ class RoundedListView extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Rohit Sharma", style: TextStyle(fontSize: 18.0,color: Colors.grey, fontWeight: FontWeight.bold,     decoration: TextDecoration.none,
+                    Text("PP", style: TextStyle(fontSize: 18.0,color: Colors.grey, fontWeight: FontWeight.bold,     decoration: TextDecoration.none,
 )),
                     Text("21BCS329", style: TextStyle(fontSize: 14.0, color: Colors.grey,     decoration: TextDecoration.none,
 )),
@@ -72,12 +88,15 @@ class RoundedListView extends StatelessWidget {
                           items[index]),
                         IconButton(
                           icon: Icon(Icons.chevron_right),
-                          onPressed: () {
+                          onPressed: () async {
+                            final username = await getUsername();
+                            print(username);
                             switch (paths[index]) {
                               case '/create_file':
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(builder: (context) => CreateFilePage()),
+
                                 );
                                 break;
                               case '/view_drafts':
@@ -90,7 +109,7 @@ class RoundedListView extends StatelessWidget {
                                 // Navigate to your "Inbox" page here
                                  Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => InboxPage()),
+                                  MaterialPageRoute(builder: (context) => InboxPage(username: username)),
                                 );
                                 break;
                               case '/track_file':

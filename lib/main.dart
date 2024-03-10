@@ -48,6 +48,15 @@ import 'package:fusion/screens/FileTracking/View_drafts/view_drafts.dart';
 import 'package:fusion/screens/FileTracking/View_inbox/view_inbox.dart';
 import 'package:fusion/screens/FileTracking/View_outbox/view_outbox.dart';
 import 'package:fusion/screens/FileTracking/Track_file/track_file.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class UserService {
+  Future<String> getUsername() async {
+    final prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('username');
+    return username ?? '';
+  }
+}
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -63,6 +72,13 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+
+  Future<String> getUsername() async {
+    final userService = UserService();
+    final username = await userService.getUsername();
+    return username;
+  }
+
   @override
   Widget build(BuildContext context) {
     MediaQueryData windowData =
@@ -134,11 +150,11 @@ class MyApp extends StatelessWidget {
           '/health_center/viewschedule': (context) => ViewSchedule(),
           '/health_center/history': (context) => History(),
           '/fts': (context) => RoundedListView(),
-          '/fts/create_file': (context) => CreateFilePage(), // Replace with your Track File page
-          '/fts/view_drafts': (context) => DraftsPage(), // Replace with your Drafts page
-          '/fts/view_inbox': (context) => InboxPage(), // Replace with your Inbox page
-          '/fts/view_outbox': (context) => OutboxPage(), // Replace with your Outbox page
-          '/fts/tack_file': (context) => FileTrackingPage(), // Replace with your Outbox page
+          '/fts/create_file': (context) => CreateFilePage(), 
+          '/fts/view_drafts': (context) => DraftsPage(), 
+          // '/fts/view_inbox': (context) => InboxPage(), 
+          '/fts/view_outbox': (context) => OutboxPage(),
+          '/fts/tack_file': (context) => FileTrackingPage(),
         },
       ),
     );
