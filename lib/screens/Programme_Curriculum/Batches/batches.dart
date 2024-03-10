@@ -32,6 +32,7 @@ class _BatchesState extends State<Batches> {
   @override
   void initState() {
     // TODO: implement initState
+
     _loadCSV();
   }
 
@@ -54,58 +55,114 @@ class _BatchesState extends State<Batches> {
             }
           };
           return DefaultTabController(
-            length: 2,
+            length: 3,
             child: Scaffold(
-              appBar: AppBar(
-                backgroundColor: Colors.black,
-                title: Text(
-                  "FUSION",
-                  style: TextStyle(color: Colors.white),
-                ),
-                actions: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Icon(Icons.search),
+                appBar: AppBar(
+                  iconTheme: IconThemeData(color: Colors.white),
+                  backgroundColor: Colors.black,
+                  title: Text(
+                    "Fusion",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
                   ),
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Icon(Icons.notifications),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Icon(Icons.more_vert),
-                  ),
-                ],
-                bottom: TabBar(
-                  isScrollable: true,
-                  indicatorColor: Colors.white,
-                  indicatorWeight: 6.0,
-                  tabs: [
-                    Tab(
-                      child: Container(
-                        child: Text(
-                          'Batches',
-                        ),
-                      ),
+                  actions: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Icon(Icons.search),
                     ),
-                    Tab(
-                      child: Container(
-                        child: Text(
-                          'Finished Batches',
-                        ),
-                      ),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Icon(Icons.notifications),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Icon(Icons.more_vert),
                     ),
                   ],
                 ),
-              ),
-              drawer: SideDrawer(),
-              body: TabBarView(
-                children: [
-                  BatchTabComponent(data: data_CurrentBatches),
-                  BatchTabComponent(data: data_FinishedBatches),
-                ],
-              ),
-            ),
+                drawer: SideDrawer(),
+                body: Column(
+                  children: [
+                    Card(
+                      elevation: 2.0,
+                      margin: EdgeInsets.symmetric(
+                          horizontal: 50.0, vertical: 20.0),
+                      shadowColor: Colors.black,
+                      child: Column(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(top: 20.0),
+                            width: 130.0,
+                            height: 120.0,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage('assets/unknown.jpg'),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 6.0,
+                          ),
+                          Text(
+                            //NAME OF USER
+                            'Arihant Jain',
+                            // data.details!['current_user']['first_name'] +
+                            //     ' ' +
+                            //     data.details!['current_user']['last_name'],
+                            style:
+                                TextStyle(fontSize: 20.0, color: Colors.black),
+                          ),
+                          SizedBox(
+                            height: 6.0,
+                          ),
+                          Text(
+                            'CSE',
+                            // data.details!['user_branch'] + ' | ' + "STUDENT",
+                            // style: TextStyle(fontSize: 15.0, color: Colors.black),
+                          ),
+                          SizedBox(
+                            height: 3.0,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      child: TabBar(
+                        // controller: tabController,
+                        isScrollable: true,
+                        labelColor: Colors.orange.shade300,
+                        unselectedLabelColor: Colors.black,
+                        indicatorColor: Colors.orange.shade300,
+                        indicatorWeight: 3.0,
+                        tabs: [
+                          Tab(
+                            child: Text(
+                              'Batches',
+                            ),
+                          ),
+                          Tab(
+                            child: Text(
+                              'Finished Batches',
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: TabBarView(
+                        //controller: tabController,
+                        children: [
+                          BatchTabComponent(data: data_CurrentBatches),
+                          BatchTabComponent(data: data_FinishedBatches),
+                        ],
+                      ),
+                    ),
+                  ],
+                )),
           );
         });
   }
