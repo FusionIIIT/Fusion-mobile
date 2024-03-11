@@ -2,10 +2,14 @@
 String klocalLink = "127.0.0.1:8000";
 String kserverLink = "172.27.16.214:8000";
 
+// String kserverLink = "127.0.0.1:8000";
+
 //Login Service
 String kAuthUrl = "172.27.16.214:8000";
 String kAuthLogin = "/api/auth/login/";
 // String kAuthLogin = "/accounts/login";
+
+// String kAuthUrl = "127.0.0.1:8000";
 
 //Profile Service
 String kProfile = "/api/profile/";
@@ -29,6 +33,13 @@ const kGymkhanaMemberRecords = '/api/gymkhana/members_record';
 
 //HealthCentre
 String kHealthCentreStudent = "/healthcenter/api/student";
+
+
+//Examination
+String kRegisteredStudentDetails = "/examination/api/registered_student_details";
+String kUpdateGrade = "/examination/api/update_hidden_grade/";
+String kVerifyAuthenticator = "/examination/api/update_authenticator/";
+String kCheckAllAuthenticators = "/examination/api/check_all_authenticators/";
 
 //------------Screens------------
 
