@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:date_field/date_field.dart';
+// import 'package:date_field/date_field.dart';
 import 'dart:math';
 
 
@@ -25,7 +25,7 @@ class _MessMonthlyBillHistoryState extends State<MessMonthlyBillHistory> {
     // Add more dates as needed
   ];
 
-  String? _value1, _value2;
+  // String? _value1, _value2;
   int? _currentlyExpandedIndex;
 
   int _pageNumber = 1;
@@ -36,6 +36,13 @@ class _MessMonthlyBillHistoryState extends State<MessMonthlyBillHistory> {
     int startIndex = (_pageNumber - 1) * _pageSize;
     int endIndex = min(_totalItems, startIndex + _pageSize);
     return _monthlyBillDates.sublist(startIndex, endIndex);
+  }
+
+  BoxDecoration myBoxDecoration() {
+    return BoxDecoration(
+      border: Border.all(color: Colors.deepOrangeAccent, width: 2.0, style: BorderStyle.solid),
+      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+    );
   }
 
   @override
@@ -52,46 +59,57 @@ class _MessMonthlyBillHistoryState extends State<MessMonthlyBillHistory> {
               final int serialNumber =
                   index + 1 + (_pageNumber - 1) * _pageSize;
               String date = paginatedMonthlyBillDates[index];
-              return ExpansionTile(
-                key: UniqueKey(), // Use UniqueKey to force rebuild the widget
-                initiallyExpanded: index == _currentlyExpandedIndex,
-                onExpansionChanged: (bool isExpanded) {
-                  setState(() {
-                    if (isExpanded) {
-                      _currentlyExpandedIndex = index;
-                    } else {
-                      _currentlyExpandedIndex = null;
-                    }
-                  });
-                },
-                title: Text(
-                  "$serialNumber. $date",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
-                        IgnorePointer(
-                          ignoring: true, // Set to true to disable user interaction
-                          child: TextFormField(
-                            maxLines: 4,
-                            cursorHeight: 30,
-                            decoration: InputDecoration(
-                              labelText: "Payment Details",
-                              border: OutlineInputBorder(),
-                            ),
-                            style: TextStyle(fontFamily: "Poppins"),
-                          ),
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: InkWell(
+                      child: ExpansionTile(
+                        key: UniqueKey(), // Use UniqueKey to force rebuild the widget
+                        initiallyExpanded: index == _currentlyExpandedIndex,
+                        onExpansionChanged: (bool isExpanded) {
+                          setState(() {
+                            if (isExpanded) {
+                              _currentlyExpandedIndex = index;
+                            } else {
+                              _currentlyExpandedIndex = null;
+                            }
+                          });
+                        },
+                        title: Text(
+                          "$serialNumber. $date",
+                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                         ),
-                        Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
-                      ],
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
+                                IgnorePointer(
+                                  ignoring: true, // Set to true to disable user interaction
+                                  child: TextFormField(
+                                    maxLines: 4,
+                                    cursorHeight: 30,
+                                    decoration: InputDecoration(
+                                      labelText: "Payment Details",
+                                      border: OutlineInputBorder(),
+                                    ),
+                                    style: TextStyle(fontFamily: "Poppins"),
+                                  ),
+                                ),
+                                Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ],
+                  decoration: myBoxDecoration(),
+                ),
               );
             },
           ),

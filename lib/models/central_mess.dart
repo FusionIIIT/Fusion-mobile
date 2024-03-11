@@ -295,15 +295,15 @@ class MenuChangeRequest {
 }
 
 class MessFeedback {
-  final String studentId;
-  final String mess;
-  final int messRating;
-  final DateTime fdate;
-  final String description;
-  final String feedbackType;
+  late final String? studentId;
+  late final String mess;
+  late final int messRating;
+  late final DateTime fdate;
+  late final String description;
+  late final String feedbackType;
 
   MessFeedback({
-    required this.studentId,
+    this.studentId,
     required this.mess,
     required this.messRating,
     required this.fdate,

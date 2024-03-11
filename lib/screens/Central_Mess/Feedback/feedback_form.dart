@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:date_field/date_field.dart';
-
+import 'package:fusion/services/central_mess_services.dart';
+import 'package:fusion/models/central_mess.dart';
 
 class FeedbackForm extends StatefulWidget {
   @override
@@ -8,10 +10,43 @@ class FeedbackForm extends StatefulWidget {
 }
 
 class _FeedbackFormState extends State<FeedbackForm> {
-  bool _loading = false;
-  String? selectedMess, feedbackType;
+
+  CentralMessService _centralMessService = CentralMessService();
+  TextEditingController textController = TextEditingController();
+
+  bool _loading = false, _sentFeedback = false, _sendFeedback = false;
+  MessFeedback? data;
+  String? selectedMess, selectedDay, selectedFeedbackType, description;
+
   DateTime? selectedDate;
 
+  @override
+  void initState() {
+    super.initState();
+    // _fetchFeedbackData();
+  }
+
+  void _sendFeedbackData(data) async {
+    try {
+      http.Response menuItems = await _centralMessService.sendFeedback(data);
+      if (menuItems.statusCode == 200) {
+        print('Sent the feedback');
+        setState(() {
+          _sentFeedback = true;
+        });
+      } else {
+        print('Couldn\'t send');
+      }
+    } catch (e) {
+      print('Error sending Feedback: $e');
+    }
+  }
+
+  @override
+  void dispose() {
+    textController.dispose(); // Dispose the controller
+    super.dispose();
+  }
 
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
@@ -94,21 +129,25 @@ class _FeedbackFormState extends State<FeedbackForm> {
 
                     DateTimeFormField(
                       decoration: InputDecoration(
-                        labelText: 'Select a Date',
+                        labelText: 'Select Start Date',
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                               color: Colors.deepOrangeAccent, width: 2),
                           borderRadius: BorderRadius.circular(20),
-
                         ),
                         suffixIcon: Icon(Icons.event_note),
                         filled: true,
                         fillColor: Colors.white,
+                        errorText: _sendFeedback && selectedDate == null
+                            ? 'Please select a start date'
+                            : null,
                       ),
                       mode: DateTimeFieldPickerMode.date,
+
                       autovalidateMode: AutovalidateMode.always,
                       validator: (e) =>
                       (e?.day ?? 0) == 1 ? 'Please select a date' : null,
+
                       onDateSelected: (DateTime value) {
                         setState(() {
                           selectedDate = value;
@@ -134,10 +173,12 @@ class _FeedbackFormState extends State<FeedbackForm> {
                       validator: (value) =>
                       value == null ? "Type of Feedback" : null,
                       dropdownColor: Colors.white,
-                      value: feedbackType,
+
+                      value: selectedFeedbackType,
                       onChanged: (String? newValue) {
                         setState(() {
-                          feedbackType = newValue!;
+                          selectedFeedbackType = newValue!;
+
                         });
                       },
                       items: [
@@ -169,6 +210,7 @@ class _FeedbackFormState extends State<FeedbackForm> {
                         filled: true,
                         fillColor: Colors.white,
                       ),
+                      controller: textController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Feedback";
@@ -183,7 +225,24 @@ class _FeedbackFormState extends State<FeedbackForm> {
                         onPressed: () {
                           if (_messFormKey.currentState!.validate()) {
                             // Handle valid flow
-                            // print("Selected mess: $selectedValue");
+                            // print({selectedMess, selectedDate, selectedFeedbackType, textController.text});
+                            // data?.mess = selectedMess!;
+                            // data?.fdate = selectedDate!;
+                            // data?.feedbackType = selectedFeedbackType!;
+                            // data?.description = textController.text;
+                            setState(() {
+                              data = MessFeedback(
+                                  mess: selectedMess!,
+                                  messRating: 5,
+                                  fdate: selectedDate!,
+                                  description: textController.text,
+                                  feedbackType: selectedFeedbackType!,
+                              );
+                            });
+                            _sendFeedbackData(data);
+                            setState(() {
+                              data = null;
+                            });
                             // Now we can perform actions based on the selected mess
                           }
                         },
@@ -193,12 +252,15 @@ class _FeedbackFormState extends State<FeedbackForm> {
               ),
             ),
           ),
-          // Submitd successfully
-          // _SubmitDish
-          //     ? Column(
-          //   children:
-          // )
-          //     : SizedBox(height: 10.0),
+          // Submitted successfully
+          _sentFeedback
+              ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("Feedback sent Successfully"),
+            ],
+          )
+              : SizedBox(height: 10.0),
         ],
       ),
     );

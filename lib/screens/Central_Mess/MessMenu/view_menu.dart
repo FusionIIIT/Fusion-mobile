@@ -16,6 +16,25 @@ class _ViewMenuState extends State<ViewMenu> {
   bool _loading = false, _loadDish = false;
   String? selectedMess, selectedDay, selectedMeal;
 
+  List<List<String>> mat = [
+    ["MB", "ML", "MD"],
+    ["TB", "TL", "TD"],
+    ["WB", "WL", "WD"],
+    ["THB", "THL", "THD"],
+    ["FB", "FL", "FD"],
+    ["SB", "SL", "SD"],
+    ["SUB", "SUL", "SUD"],
+  ];
+
+  Map<int, String> week = {
+    1: "Monday",
+    2: "Tuesday",
+    3: "Wednesday",
+    4: "Thursday",
+    5: "Friday",
+    6: "Saturday",
+    7: "Sunday",
+  };
 
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
@@ -101,9 +120,6 @@ class _ViewMenuState extends State<ViewMenu> {
       shadowColor: Colors.black,
     );
     return SingleChildScrollView(
-      child: Column(
-        children: [
-          Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
               child: Form(
@@ -130,6 +146,7 @@ class _ViewMenuState extends State<ViewMenu> {
                         setState(() {
                           selectedMess = newValue!;
                         });
+                        _fetchMenuData();
                       },
                       items: [
                         DropdownMenuItem(
@@ -141,116 +158,81 @@ class _ViewMenuState extends State<ViewMenu> {
                       ],
                     ),
                     SizedBox(height: 30.0),
-                    DropdownButtonFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Select a day',
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colors.deepOrangeAccent, width: 2),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
-                      ),
-                      validator: (value) =>
-                      value == null ? "Select a day" : null,
-                      dropdownColor: Colors.white,
-                      value: selectedDay,
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          selectedDay = newValue!;
-                        });
-                      },
-                      items: [
-                        DropdownMenuItem(
-                            child: Text("Monday"),
-                            value: "M"),
-                        DropdownMenuItem(
-                            child: Text("Tuesday"),
-                            value: "T"),
-                        DropdownMenuItem(
-                            child: Text("Wednesday"),
-                            value: "W"),
-                        DropdownMenuItem(
-                            child: Text("Thursday"),
-                            value: "TH"),
-                        DropdownMenuItem(
-                            child: Text("Friday"),
-                            value: "F"),
-                        DropdownMenuItem(
-                            child: Text("Saturday"),
-                            value: "S"),
-                        DropdownMenuItem(
-                            child: Text("Sunday"),
-                            value: "SU"),
 
-                      ],
-                    ),
-                    SizedBox(height: 30.0),
-                    DropdownButtonFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Select a Meal',
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colors.deepOrangeAccent, width: 2),
-                          borderRadius: BorderRadius.circular(20),
+                _loadDish
+                  ? SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Table(
+                      border: TableBorder.all(),
+                      children: [
+                        TableRow(
+                          children: [
+                            TableCell(
+                                child: Center(
+                                  child: Text('Day/Meal', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+                                )
+                            ),
+                            TableCell(
+                                child: Center(
+                                  child: Text('Breakfast', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+                                )
+                            ),
+                            TableCell(
+                                child: Center(
+                                  child: Text('Lunch', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+                                )
+                            ),
+                            TableCell(
+                                child: Center(
+                                  child: Text('Dinner', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+                                )
+                            ),
+                          ],
                         ),
-                        filled: true,
-                        fillColor: Colors.white,
-                      ),
-                      validator: (value) =>
-                      value == null ? "Select a meal" : null,
-                      dropdownColor: Colors.white,
-                      value: selectedMeal,
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          selectedMeal = newValue!;
-                        });
-                      },
-                      items: [
-                        DropdownMenuItem(
-                            child: Text("Breakfast"),
-                            value: "B"),
-                        DropdownMenuItem(
-                            child: Text("Lunch"),
-                            value: "L"),
-                        DropdownMenuItem(
-                            child: Text("Dinner"),
-                            value: "D"),
+                        for (int i = 0; i < 7; i++)
+                          TableRow(
+                            children: [
+                              TableCell(
+                                child: Center(
+                                  child: Text(week[i+1]!, style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
+                                ),
+                              ),
+                              for (int j = 0; j < 3; j++)
+                                TableCell(
+                                  child: Center(
+                                    child: Text(_menuItems.where( (item) => ( (item.messOption == selectedMess) && (item.mealTime == mat[i][j]) ) ).first.dish),
+                                    // child: Text(mat[i][j]),
+                                  ),
+                                ),
+                            ],
+                          ),
                       ],
                     ),
                     SizedBox(height: 30.0),
-                    ElevatedButton(
-                        style: style,
-                        onPressed: () {
-                          if (_messFormKey.currentState!.validate()) {
-                            // Handle valid flow
-                            // print("Selected mess: $selectedValue");
-                            // Now we can perform actions based on the selected mess
-                            // print({selectedDay, selectedMeal, selectedMess});
-                            _fetchMenuData();
-                          }
-                        },
-                        child: Text("View Menu"))
-                  ],
-                ),
-              ),
+              ],
             ),
-          ),
-          _loadDish
-              ? Column(
-            children: _menuItems.where((item)=> ((item.messOption == selectedMess) && (item.mealTime == (selectedDay)!+(selectedMeal)!) )).first.dish.split(',').map((menuItem) => Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                menuItem,
-                maxLines: 5,
-                style: TextStyle(fontSize: 20.0,),
-              ),
-            )).toList(),
-          )
-              : SizedBox(height: 10.0),
-        ],
-      ),
-    );
+                ) : Center(child: CircularProgressIndicator()),
+            ],
+            ),
+            ),
+            ),
+            );
+
+          // _loadDish
+          //     ? Column(
+          //   children: _menuItems.where((item)=> ((item.messOption == selectedMess) && (item.mealTime == (selectedDay)!+(selectedMeal)!) )).first.dish.split(',').map((menuItem) => Padding(
+          //     padding: const EdgeInsets.all(8.0),
+          //     child: Text(
+          //       menuItem,
+          //       maxLines: 5,
+          //       style: TextStyle(fontSize: 20.0,),
+          //     ),
+          //   )).toList(),
+          // )
+          //     : SizedBox(height: 10.0),
+    //     ],
+    //   ),
+    // ) : Center(child: CircularProgressIndicator());
   }
 }

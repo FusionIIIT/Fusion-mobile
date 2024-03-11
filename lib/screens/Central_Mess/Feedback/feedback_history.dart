@@ -79,12 +79,19 @@ class _FeedbackHistoryState extends State<FeedbackHistory> {
     return _feedbackDates.sublist(startIndex, endIndex);
   }
 
+  BoxDecoration myBoxDecoration() {
+    return BoxDecoration(
+      border: Border.all(color: Colors.deepOrangeAccent, width: 2.0, style: BorderStyle.solid),
+      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     List<MessFeedback> paginatedFeedbackDates = getPaginatedFeedbackDates();
 
     return _loading == true ? Center(child: CircularProgressIndicator()) : (Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         Expanded(
           child: ListView.builder(
@@ -93,51 +100,62 @@ class _FeedbackHistoryState extends State<FeedbackHistory> {
               final int serialNumber =
                   index + 1 + (_pageNumber - 1) * _pageSize;
               MessFeedback date = paginatedFeedbackDates[index];
-              return ExpansionTile(
-                key: UniqueKey(), // Use UniqueKey to force rebuild the widget
-                initiallyExpanded: index == _currentlyExpandedIndex,
-                onExpansionChanged: (bool isExpanded) {
-                  setState(() {
-                    if (isExpanded) {
-                      _currentlyExpandedIndex = index;
-                    } else {
-                      _currentlyExpandedIndex = null;
-                    }
-                  });
-                },
-                title: Text(
-                  "$serialNumber. " + " [Mess: " + date.mess + "] [Type: " + date.feedbackType + "]",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                ),
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
-                        IgnorePointer(
-                          ignoring: true, // Set to true to disable user interaction
-                          child: TextFormField(
-                            maxLines: 4,
-                            cursorHeight: 30,
-                            initialValue: date.description,
-                            decoration: InputDecoration(
-                              labelText: "Feedback Details",
-                              border: OutlineInputBorder(),
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: InkWell(
+                      child: ExpansionTile(
+                        key: UniqueKey(), // Use UniqueKey to force rebuild the widget
+                        initiallyExpanded: index == _currentlyExpandedIndex,
+                        onExpansionChanged: (bool isExpanded) {
+                          setState(() {
+                            if (isExpanded) {
+                              _currentlyExpandedIndex = index;
+                            } else {
+                              _currentlyExpandedIndex = null;
+                            }
+                          });
+                        },
+                        title: Text(
+                          "$serialNumber. " + " [Mess: " + date.mess + "]\n[Type: " + date.feedbackType + "]",
+                          style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                        ),
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
+                                IgnorePointer(
+                                  ignoring: true, // Set to true to disable user interaction
+                                  child: TextFormField(
+                                    maxLines: 4,
+                                    cursorHeight: 30,
+                                    initialValue: date.description,
+                                    decoration: InputDecoration(
+                                      labelText: "Feedback Details",
+                                      border: OutlineInputBorder(),
+                                    ),
+                                    style: TextStyle(fontFamily: "Poppins"),
+                                  ),
+                                ),
+                                Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
+                                Text(
+                                  date.fdate.toString(),
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                              ],
                             ),
-                            style: TextStyle(fontFamily: "Poppins"),
                           ),
-                        ),
-                        Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
-                        Text(
-                          date.fdate.toString(),
-                          style: TextStyle(fontSize: 12),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ],
+                  decoration: myBoxDecoration(),
+                ),
               );
             },
           ),

@@ -92,8 +92,8 @@ class _CentralMessHomeState extends State<CentralMessHome> {
       drawer: SideDrawer(),
       body: _loading == true
           ? Center(child: CircularProgressIndicator())
-          : SingleChildScrollView(
-        child: Column(
+          : ListView(
+          scrollDirection: Axis.vertical,
           children: [
             Card(
               elevation: 2.0,
@@ -342,7 +342,6 @@ class _CentralMessHomeState extends State<CentralMessHome> {
             ),
           ],
         ),
-      ),
     );
   }
 }

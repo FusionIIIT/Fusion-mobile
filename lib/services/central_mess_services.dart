@@ -83,14 +83,16 @@ class CentralMessService {
           'Content-Type': 'application/json; charset=UTF-8'
         };
 
-        Map<String, String> body = {
-          'mess_option': data.mess,
-          'feedback_type': data.feedbackType,
+        Map<String, dynamic> body = {
+          'student_id': '21BCS064',
+          'mess': data.mess,
+          'type': data.feedbackType,
           'fdate': data.fdate.toString(),
-          'description': data.description,
+          'desc': data.description,
+          'mess_rating': 5,
         };
 
-        print("Updating Menu");
+        print("Sending Feedback");
         http.Response response = await http.post(
           Uri.http(
             kCentralMess,
@@ -101,11 +103,11 @@ class CentralMessService {
         );
 
         if (response.statusCode == 200) {
-          print('Menu updated successfully');
+          print('Feedback sent successfully');
           return response;
         } else {
           print(response.statusCode);
-          throw Exception('Failed to update menu');
+          throw Exception('Failed to send feedback');
         }
       } else {
         print(response0.statusCode);
