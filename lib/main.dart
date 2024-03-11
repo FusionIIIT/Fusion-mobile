@@ -131,6 +131,9 @@ class MyApp extends StatelessWidget {
           '/health_center/feedback': (context) => FeedBack(),
           '/health_center/viewschedule': (context) => ViewSchedule(),
           '/health_center/history': (context) => History(),
+          
+          
+          
           '/examination': (context) => ExaminationHomePage(
               ModalRoute.of(context)!.settings.arguments.toString()),
           '/examination/verify_result': (context) => VerifyResult(),

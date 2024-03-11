@@ -5,6 +5,7 @@ import 'package:fusion/models/academic.dart';
 import 'package:fusion/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+
 class StorageService with ChangeNotifier {
   static StorageService? _instance;
   static SharedPreferences? _sharedPreferences;
