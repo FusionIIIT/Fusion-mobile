@@ -3,12 +3,12 @@ import 'package:fusion/Components/side_drawer.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
-class CoursesForm extends StatefulWidget {
+class Coursesupdate extends StatefulWidget {
   @override
-  _CoursesFormState createState() => _CoursesFormState();
+  _Courseupdate createState() => _Courseupdate();
 }
 
-class _CoursesFormState extends State<CoursesForm> {
+class _Courseupdate extends State<Coursesupdate> {
   final _formKey = GlobalKey<FormState>();
   var courseCode = "";
   var courseName = "";
@@ -48,7 +48,6 @@ class _CoursesFormState extends State<CoursesForm> {
   final percentQuiz2Controller = TextEditingController();
   final percentLabEvaluationController = TextEditingController();
 
-  // this is one method to create a notification .....
   void _showSnackbar(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -118,7 +117,7 @@ class _CoursesFormState extends State<CoursesForm> {
     if (response.statusCode == 200 && response1.statusCode == 200) {
       print('Data sent successfully');
       print('Response: ${response.body}');
-      _showSnackbar(context, 'Course added successfully');
+      _showSnackbar(context, 'Batch Updated successfully');
     } else {
       print('Failed to send data. Error: ${response.reasonPhrase}');
     }
@@ -150,7 +149,31 @@ class _CoursesFormState extends State<CoursesForm> {
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
-    double targetHeight = 0.8 * screenHeight; // 80% of screen height
+    double targetHeight = 0.8 * screenHeight;
+    print(
+        "Right now Update form    BWFHVWKVBKABWKJBVJAJBVJ,SBJBVJMHWAVRJUSBVKSVJMSBMBSJHJMH");
+    final arguments = ModalRoute.of(context)?.settings.arguments as Map;
+    print(arguments['e'][0][1]);
+
+    courseCodeController.text = arguments['e'][0][1];
+    courseNameController.text = arguments['e'][1][1];
+    creditController.text = arguments['e'][2][1].toString();
+    lectureHoursController.text = arguments['e'][3][1].toString();
+    tutorialHoursController.text = arguments['e'][4][1].toString();
+    practicalHoursController.text = arguments['e'][5][1].toString();
+    discussionHoursController.text = arguments['e'][6][1].toString();
+    projectHoursController.text = arguments['e'][7][1].toString();
+    preRequisitesController.text = arguments['e'][8][1].toString();
+    syllabusController.text = arguments['e'][9][1].toString();
+    referenceBooksController.text = arguments['e'][10][1].toString();
+    percentCourseAttendanceController.text = arguments['e'][11][1].toString();
+    percentEndSemController.text = arguments['e'][12][1].toString();
+    percentMidSemController.text = arguments['e'][13][1].toString();
+    percentProjectController.text = arguments['e'][14][1].toString();
+    percentQuiz1Controller.text = arguments['e'][15][1].toString();
+    percentQuiz2Controller.text = arguments['e'][16][1].toString();
+    percentLabEvaluationController.text = arguments['e'][17][1].toString();
+    // courseCodeController..readOnly = false;
 
     return Scaffold(
       appBar: AppBar(
@@ -183,7 +206,7 @@ class _CoursesFormState extends State<CoursesForm> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                'Add Course',
+                'Update Course',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -198,6 +221,7 @@ class _CoursesFormState extends State<CoursesForm> {
                 child: Column(
                   children: [
                     TextFormField(
+                      readOnly: true,
                       decoration: InputDecoration(
                         labelText: 'Course Code: ',
                         labelStyle: TextStyle(fontSize: 20),
@@ -560,7 +584,8 @@ class _CoursesFormState extends State<CoursesForm> {
                                 percentQuiz1,
                                 percentQuiz2,
                                 percentLabEvaluation);
-                            _showSnackbar(context, 'Course added successfully');
+                            _showSnackbar(
+                                context, 'Course Updated successfully');
 
                             // printing values in the terminal .....
                             print("Course Code: $courseCode");

@@ -3,12 +3,12 @@ import 'package:fusion/Components/side_drawer.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
-class CoursesForm extends StatefulWidget {
+class CoursesProposalApprove extends StatefulWidget {
   @override
-  _CoursesFormState createState() => _CoursesFormState();
+  _CourseProposalApprove createState() => _CourseProposalApprove();
 }
 
-class _CoursesFormState extends State<CoursesForm> {
+class _CourseProposalApprove extends State<CoursesProposalApprove> {
   final _formKey = GlobalKey<FormState>();
   var courseCode = "";
   var courseName = "";
@@ -28,6 +28,8 @@ class _CoursesFormState extends State<CoursesForm> {
   var percentQuiz1 = 0;
   var percentQuiz2 = 0;
   var percentLabEvaluation = 0;
+  var proposedby = "";
+  var status = "";
 
   final courseCodeController = TextEditingController();
   final courseNameController = TextEditingController();
@@ -47,8 +49,9 @@ class _CoursesFormState extends State<CoursesForm> {
   final percentQuiz1Controller = TextEditingController();
   final percentQuiz2Controller = TextEditingController();
   final percentLabEvaluationController = TextEditingController();
+  final proposedbyController = TextEditingController();
+  final statusController = TextEditingController();
 
-  // this is one method to create a notification .....
   void _showSnackbar(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -65,7 +68,7 @@ class _CoursesFormState extends State<CoursesForm> {
       int credit,
       int lecture_hours,
       int tutorial_hours,
-      int pratical_hours,
+      int practical_hours,
       int discussion_hours,
       int project_hours,
       String pre_requisits,
@@ -77,12 +80,14 @@ class _CoursesFormState extends State<CoursesForm> {
       int percent_project,
       int percent_quiz_1,
       int percent_quiz_2,
-      int percent_lab_evaluation) async {
+      int percent_lab_evaluation,
+      String proposedby,
+      String status) async {
     var url =
-        'https://script.google.com/macros/s/AKfycbzYHOnBC4Wfyj2usAKlnJjnq8eOk0JmRk6vFAo4tecdlKJrqJoFrrfxTvxlJ62E536wEA/exec';
+        'https://script.google.com/macros/s/AKfycbzp1LzaPD6F_MJYyk-nCUY64GhyhkKjuOOwi5nj6pyt2wqlOWMavmoB-6V0As-RDj-u/exec';
 
     var url1 =
-        'https://script.google.com/macros/s/AKfycbyEK8qhhtHYnGVmTW7DRHx8jn5U0qJvy94qKezkH4qpy3LU7nWIyZQm7Gln1AN5RImSzw/exec';
+        'https://script.google.com/macros/s/AKfycbw0oi0VyhdlZ97ENHdUW8iQXNjpZZ4Yb42fl0sIbCFLED3tygO7aRM6VX_02afff6ImNg/exec';
 
     var body = {'code': code, 'name': name, 'credit': credit};
 
@@ -92,10 +97,10 @@ class _CoursesFormState extends State<CoursesForm> {
       'credit': credit,
       'lecture_hours': lecture_hours,
       'tutorial_hours': tutorial_hours,
-      'pratical_hours': pratical_hours,
+      'practical_hours': practical_hours,
       'discussion_hours': discussion_hours,
       'project_hours': project_hours,
-      'pre_requisits': pre_requisits,
+      'pre_requisites': pre_requisits,
       'syllabus': syllabus,
       'ref_books': ref_books,
       'percent_course_attendance': percent_course_attendance,
@@ -104,7 +109,9 @@ class _CoursesFormState extends State<CoursesForm> {
       'percent_project': percent_project,
       'percent_quiz_1': percent_quiz_1,
       'percent_quiz_2': percent_quiz_2,
-      'percent_lab_evaluation': percent_lab_evaluation
+      'percent_lab_evaluation': percent_lab_evaluation,
+      'proposedby': proposedby,
+      'status': status
     };
 
     var response = await http.post(Uri.parse(url),
@@ -118,7 +125,7 @@ class _CoursesFormState extends State<CoursesForm> {
     if (response.statusCode == 200 && response1.statusCode == 200) {
       print('Data sent successfully');
       print('Response: ${response.body}');
-      _showSnackbar(context, 'Course added successfully');
+      _showSnackbar(context, 'Course Proposal Updated successfully');
     } else {
       print('Failed to send data. Error: ${response.reasonPhrase}');
     }
@@ -144,13 +151,41 @@ class _CoursesFormState extends State<CoursesForm> {
     percentQuiz1Controller.dispose();
     percentQuiz2Controller.dispose();
     percentLabEvaluationController.dispose();
+    proposedbyController.dispose();
+    statusController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
-    double targetHeight = 0.8 * screenHeight; // 80% of screen height
+    double targetHeight = 0.8 * screenHeight;
+    print(
+        "Right now Update form    BWFHVWKVBKABWKJBVJAJBVJ,SBJBVJMHWAVRJUSBVKSVJMSBMBSJHJMH");
+    final arguments = ModalRoute.of(context)?.settings.arguments as Map;
+    print(arguments['e'][18][1]);
+
+    courseCodeController.text = arguments['e'][0][1];
+    courseNameController.text = arguments['e'][1][1];
+    creditController.text = arguments['e'][2][1].toString();
+    lectureHoursController.text = arguments['e'][3][1].toString();
+    tutorialHoursController.text = arguments['e'][4][1].toString();
+    practicalHoursController.text = arguments['e'][5][1].toString();
+    discussionHoursController.text = arguments['e'][6][1].toString();
+    projectHoursController.text = arguments['e'][7][1].toString();
+    preRequisitesController.text = arguments['e'][8][1].toString();
+    syllabusController.text = arguments['e'][9][1].toString();
+    referenceBooksController.text = arguments['e'][10][1].toString();
+    percentCourseAttendanceController.text = arguments['e'][11][1].toString();
+    percentEndSemController.text = arguments['e'][12][1].toString();
+    percentMidSemController.text = arguments['e'][13][1].toString();
+    percentProjectController.text = arguments['e'][14][1].toString();
+    percentQuiz1Controller.text = arguments['e'][15][1].toString();
+    percentQuiz2Controller.text = arguments['e'][16][1].toString();
+    percentLabEvaluationController.text = arguments['e'][17][1].toString();
+    proposedbyController.text = arguments['e'][18][1].toString();
+    statusController.text = arguments['e'][19][1].toString();
+    // courseCodeController..readOnly = false;
 
     return Scaffold(
       appBar: AppBar(
@@ -183,7 +218,7 @@ class _CoursesFormState extends State<CoursesForm> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                'Add Course',
+                'Update Course',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -198,6 +233,7 @@ class _CoursesFormState extends State<CoursesForm> {
                 child: Column(
                   children: [
                     TextFormField(
+                      readOnly: true,
                       decoration: InputDecoration(
                         labelText: 'Course Code: ',
                         labelStyle: TextStyle(fontSize: 20),
@@ -215,6 +251,7 @@ class _CoursesFormState extends State<CoursesForm> {
                       },
                     ),
                     TextFormField(
+                      readOnly: true,
                       decoration: InputDecoration(
                         labelText: 'Course Name: ',
                         labelStyle: TextStyle(fontSize: 20),
@@ -232,6 +269,7 @@ class _CoursesFormState extends State<CoursesForm> {
                       },
                     ),
                     TextFormField(
+                      readOnly: true,
                       decoration: InputDecoration(
                         labelText: 'Credit: ',
                         labelStyle: TextStyle(fontSize: 20),
@@ -253,6 +291,7 @@ class _CoursesFormState extends State<CoursesForm> {
                       },
                     ),
                     TextFormField(
+                      readOnly: true,
                       decoration: InputDecoration(
                         labelText: 'Lecture Hours: ',
                         labelStyle: TextStyle(fontSize: 20),
@@ -270,6 +309,7 @@ class _CoursesFormState extends State<CoursesForm> {
                       },
                     ),
                     TextFormField(
+                      readOnly: true,
                       decoration: InputDecoration(
                         labelText: 'Tutorial Hours: ',
                         labelStyle: TextStyle(fontSize: 20),
@@ -287,6 +327,7 @@ class _CoursesFormState extends State<CoursesForm> {
                       },
                     ),
                     TextFormField(
+                      readOnly: true,
                       decoration: InputDecoration(
                         labelText: 'Practical Hours: ',
                         labelStyle: TextStyle(fontSize: 20),
@@ -304,6 +345,7 @@ class _CoursesFormState extends State<CoursesForm> {
                       },
                     ),
                     TextFormField(
+                      readOnly: true,
                       decoration: InputDecoration(
                         labelText: 'Discussion Hours: ',
                         labelStyle: TextStyle(fontSize: 20),
@@ -321,6 +363,7 @@ class _CoursesFormState extends State<CoursesForm> {
                       },
                     ),
                     TextFormField(
+                      readOnly: true,
                       decoration: InputDecoration(
                         labelText: 'Project Hours: ',
                         labelStyle: TextStyle(fontSize: 20),
@@ -338,6 +381,7 @@ class _CoursesFormState extends State<CoursesForm> {
                       },
                     ),
                     TextFormField(
+                      readOnly: true,
                       decoration: InputDecoration(
                         labelText: 'Pre-requisites: ',
                         labelStyle: TextStyle(fontSize: 20),
@@ -353,6 +397,7 @@ class _CoursesFormState extends State<CoursesForm> {
                       },
                     ),
                     TextFormField(
+                      readOnly: true,
                       decoration: InputDecoration(
                         labelText: 'Syllabus: ',
                         labelStyle: TextStyle(fontSize: 20),
@@ -368,6 +413,7 @@ class _CoursesFormState extends State<CoursesForm> {
                       },
                     ),
                     TextFormField(
+                      readOnly: true,
                       decoration: InputDecoration(
                         labelText: 'Reference Books: ',
                         labelStyle: TextStyle(fontSize: 20),
@@ -383,6 +429,7 @@ class _CoursesFormState extends State<CoursesForm> {
                       },
                     ),
                     TextFormField(
+                      readOnly: true,
                       decoration: InputDecoration(
                         labelText: 'Percent Course Attendance: ',
                         labelStyle: TextStyle(fontSize: 20),
@@ -400,6 +447,7 @@ class _CoursesFormState extends State<CoursesForm> {
                       },
                     ),
                     TextFormField(
+                      readOnly: true,
                       decoration: InputDecoration(
                         labelText: 'Percent End Semester: ',
                         labelStyle: TextStyle(fontSize: 20),
@@ -417,6 +465,7 @@ class _CoursesFormState extends State<CoursesForm> {
                       },
                     ),
                     TextFormField(
+                      readOnly: true,
                       decoration: InputDecoration(
                         labelText: 'Percent Mid Semester: ',
                         labelStyle: TextStyle(fontSize: 20),
@@ -434,6 +483,7 @@ class _CoursesFormState extends State<CoursesForm> {
                       },
                     ),
                     TextFormField(
+                      readOnly: true,
                       decoration: InputDecoration(
                         labelText: 'Percent Project: ',
                         labelStyle: TextStyle(fontSize: 20),
@@ -451,6 +501,7 @@ class _CoursesFormState extends State<CoursesForm> {
                       },
                     ),
                     TextFormField(
+                      readOnly: true,
                       decoration: InputDecoration(
                         labelText: 'Percent Quiz 1: ',
                         labelStyle: TextStyle(fontSize: 20),
@@ -468,6 +519,7 @@ class _CoursesFormState extends State<CoursesForm> {
                       },
                     ),
                     TextFormField(
+                      readOnly: true,
                       decoration: InputDecoration(
                         labelText: 'Percent Quiz 2: ',
                         labelStyle: TextStyle(fontSize: 20),
@@ -485,6 +537,7 @@ class _CoursesFormState extends State<CoursesForm> {
                       },
                     ),
                     TextFormField(
+                      readOnly: true,
                       decoration: InputDecoration(
                         labelText: 'Percent Lab Evaluation: ',
                         labelStyle: TextStyle(fontSize: 20),
@@ -494,6 +547,42 @@ class _CoursesFormState extends State<CoursesForm> {
                         ),
                       ),
                       controller: percentLabEvaluationController,
+                      keyboardType:
+                          TextInputType.number, // Set keyboard type to number
+                      validator: (value) {
+                        // Add validation for percent lab evaluation
+                        return null;
+                      },
+                    ),
+                    TextFormField(
+                      readOnly: true,
+                      decoration: InputDecoration(
+                        labelText: 'Course Proposed By: ',
+                        labelStyle: TextStyle(fontSize: 20),
+                        errorStyle: TextStyle(
+                          color: Colors.redAccent,
+                          fontSize: 15,
+                        ),
+                      ),
+                      controller: proposedbyController,
+                      keyboardType:
+                          TextInputType.number, // Set keyboard type to number
+                      validator: (value) {
+                        // Add validation for percent lab evaluation
+                        return null;
+                      },
+                    ),
+                    TextFormField(
+                      readOnly: true,
+                      decoration: InputDecoration(
+                        labelText: 'Status: ',
+                        labelStyle: TextStyle(fontSize: 20),
+                        errorStyle: TextStyle(
+                          color: Colors.redAccent,
+                          fontSize: 15,
+                        ),
+                      ),
+                      controller: statusController,
                       keyboardType:
                           TextInputType.number, // Set keyboard type to number
                       validator: (value) {
@@ -539,6 +628,8 @@ class _CoursesFormState extends State<CoursesForm> {
                                 int.parse(percentQuiz2Controller.text);
                             percentLabEvaluation =
                                 int.parse(percentLabEvaluationController.text);
+                            proposedby = proposedbyController.text;
+                            status = statusController.text;
 
                             sendData(
                                 context,
@@ -559,8 +650,11 @@ class _CoursesFormState extends State<CoursesForm> {
                                 percentProject,
                                 percentQuiz1,
                                 percentQuiz2,
-                                percentLabEvaluation);
-                            _showSnackbar(context, 'Course added successfully');
+                                percentLabEvaluation,
+                                proposedby,
+                                "Approved");
+                            _showSnackbar(
+                                context, 'Course Approved successfully');
 
                             // printing values in the terminal .....
                             print("Course Code: $courseCode");
@@ -602,6 +696,8 @@ class _CoursesFormState extends State<CoursesForm> {
                             percentQuiz1Controller.clear();
                             percentQuiz2Controller.clear();
                             percentLabEvaluationController.clear();
+                            proposedbyController.clear();
+                            statusController.clear();
                             // Show Snackbar when form is submitted successfully
                             // _showSnackbar(context);
                           });

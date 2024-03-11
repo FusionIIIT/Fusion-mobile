@@ -6,16 +6,21 @@ import 'package:fusion/services/profile_service.dart';
 import 'package:fusion/models/dashboard.dart';
 import 'package:fusion/services/dashboard_service.dart';
 import 'package:http/http.dart';
+import 'dart:convert' as convert;
+import 'package:http/http.dart' as http;
 
-class CourseInfoTabComponent extends StatefulWidget {
+class CourseProposalsInfoTabComponent extends StatefulWidget {
   final data;
-  const CourseInfoTabComponent({Key? key, this.data}) : super(key: key);
+  const CourseProposalsInfoTabComponent({Key? key, this.data})
+      : super(key: key);
 
   @override
-  _CourseInfoTabComponentState createState() => _CourseInfoTabComponentState();
+  _CourseProposalsInfoTabComponentState createState() =>
+      _CourseProposalsInfoTabComponentState();
 }
 
-class _CourseInfoTabComponentState extends State<CourseInfoTabComponent> {
+class _CourseProposalsInfoTabComponentState
+    extends State<CourseProposalsInfoTabComponent> {
   late String name = "";
   late String studentType = "";
   late String userType = "";
@@ -33,6 +38,85 @@ class _CourseInfoTabComponentState extends State<CourseInfoTabComponent> {
   late String? column2;
   var rows;
   var columns;
+
+  void _showSnackbar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        duration: Duration(seconds: 4),
+      ),
+    );
+  }
+
+  void sendData(
+      BuildContext context,
+      String code,
+      String name,
+      int credit,
+      int lecture_hours,
+      int tutorial_hours,
+      int practical_hours,
+      int discussion_hours,
+      int project_hours,
+      String pre_requisits,
+      String syllabus,
+      String ref_books,
+      int percent_course_attendance,
+      int percent_endsem,
+      int percent_midsem,
+      int percent_project,
+      int percent_quiz_1,
+      int percent_quiz_2,
+      int percent_lab_evaluation,
+      String proposedby,
+      String status) async {
+    var url =
+        'https://script.google.com/macros/s/AKfycbzp1LzaPD6F_MJYyk-nCUY64GhyhkKjuOOwi5nj6pyt2wqlOWMavmoB-6V0As-RDj-u/exec';
+
+    var url1 =
+        'https://script.google.com/macros/s/AKfycbw0oi0VyhdlZ97ENHdUW8iQXNjpZZ4Yb42fl0sIbCFLED3tygO7aRM6VX_02afff6ImNg/exec';
+
+    var body = {'code': code, 'name': name, 'credit': credit};
+
+    var body1 = {
+      'code': code,
+      'name': name,
+      'credit': credit,
+      'lecture_hours': lecture_hours,
+      'tutorial_hours': tutorial_hours,
+      'practical_hours': practical_hours,
+      'discussion_hours': discussion_hours,
+      'project_hours': project_hours,
+      'pre_requisites': pre_requisits,
+      'syllabus': syllabus,
+      'ref_books': ref_books,
+      'percent_course_attendance': percent_course_attendance,
+      'percent_endsem': percent_endsem,
+      'percent_midsem': percent_midsem,
+      'percent_project': percent_project,
+      'percent_quiz_1': percent_quiz_1,
+      'percent_quiz_2': percent_quiz_2,
+      'percent_lab_evaluation': percent_lab_evaluation,
+      'proposedby': proposedby,
+      'status': status
+    };
+
+    var response = await http.post(Uri.parse(url),
+        headers: {'Content-Type': 'application/json'},
+        body: convert.jsonEncode(body));
+
+    var response1 = await http.post(Uri.parse(url1),
+        headers: {'Content-Type': 'application/json'},
+        body: convert.jsonEncode(body1));
+
+    if (response.statusCode == 200 && response1.statusCode == 200) {
+      print('Data sent successfully');
+      print('Response: ${response.body}');
+      _showSnackbar(context, 'Course Approved successfully');
+    } else {
+      print('Failed to send data. Error: ${response.reasonPhrase}');
+    }
+  }
 
   @override
   void initState() {
@@ -77,6 +161,7 @@ class _CourseInfoTabComponentState extends State<CourseInfoTabComponent> {
 
   @override
   Widget build(BuildContext context) {
+    // print(rows[18][1]);
     return Container(
       child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
@@ -94,16 +179,29 @@ class _CourseInfoTabComponentState extends State<CourseInfoTabComponent> {
                   rows: tabRowList(),
                 ),
                 Visibility(
-                  visible: userType != 'student',
+                  visible: (userType != 'student' && rows[18][1] == name),
                   child: ElevatedButton(
                     onPressed: () => {
-                      Navigator.pushNamed(
-                          context, '/programme_curriculum_home/courses_update',
+                      Navigator.pushNamed(context,
+                          '/programme_curriculum_home/coursesProposalUpdate_form',
                           arguments: {'e': rows})
                     },
                     child: Text('Update'),
                   ),
                 ),
+                SizedBox(height: 20),
+                Visibility(
+                  visible: (userType != 'student' && rows[18][1] == name),
+                  child: ElevatedButton(
+                    onPressed: () => {
+                      Navigator.pushNamed(context,
+                          '/programme_curriculum_home/coursesProposalApprove_form',
+                          arguments: {'e': rows})
+                    },
+                    child: Text('Approve'),
+                  ),
+                ),
+                SizedBox(height: 20)
               ],
             ),
           )),

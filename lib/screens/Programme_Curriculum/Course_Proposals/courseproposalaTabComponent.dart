@@ -7,15 +7,17 @@ import 'package:fusion/models/dashboard.dart';
 import 'package:fusion/services/dashboard_service.dart';
 import 'package:http/http.dart';
 
-class TabCurriculum extends StatefulWidget {
+class CourseProposalsTabComponent extends StatefulWidget {
   final data;
-  const TabCurriculum({Key? key, this.data}) : super(key: key);
+  const CourseProposalsTabComponent({Key? key, this.data}) : super(key: key);
 
   @override
-  _TabCurriculumState createState() => _TabCurriculumState();
+  _CourseProposalsTabComponentState createState() =>
+      _CourseProposalsTabComponentState();
 }
 
-class _TabCurriculumState extends State<TabCurriculum> {
+class _CourseProposalsTabComponentState
+    extends State<CourseProposalsTabComponent> {
   late String name = "";
   late String studentType = "";
   late String userType = "";
@@ -77,21 +79,20 @@ class _TabCurriculumState extends State<TabCurriculum> {
   Widget build(BuildContext context) {
     return Container(
       child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        //Component to lay table on the page
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: DataTable(
-            // headingRowColor:
-            //     MaterialStateColor.resolveWith((states) => Colors.blue),
-            dataRowHeight: 80.0,
-            columnSpacing: 25.0,
-            columns: tabColumnList(),
-            rows: tabRowList(),
-            // rows: [],
-          ),
-        ),
-      ),
+          scrollDirection: Axis.horizontal,
+          //Component to lay table on the page
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: DataTable(
+              // headingRowColor:
+              //     MaterialStateColor.resolveWith((states) => Colors.blue),
+              dataRowHeight: 80.0,
+              columnSpacing: 15.0,
+              columns: tabColumnList(),
+              rows: tabRowList(),
+              // rows: [],
+            ),
+          )),
     );
   }
 
@@ -103,23 +104,27 @@ class _TabCurriculumState extends State<TabCurriculum> {
         .map(
           (el) {
             return DataColumn(
-                label: Text(el.toString().toUpperCase(),
-                    style:
-                        TextStyle(fontSize: 13, fontWeight: FontWeight.bold)));
+              label: Text(
+                el.toString().toUpperCase(),
+                style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+              ),
+            );
           },
         )
         .toList()
         .cast<DataColumn>();
 
-    print(userType);
-    if (userType != 'student') {
-      data.add(DataColumn(
-        label: Text(
-          'Update',
-          style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
-        ),
-      ));
-    }
+    // Add a column for the button
+    // print(userType);
+    // if (userType != 'student') {
+    //   data.add(DataColumn(
+    //     label: Text(
+    //       'Update',
+    //       style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+    //     ),
+    //   ));
+    // }
+
     return data;
   }
 
@@ -132,9 +137,10 @@ class _TabCurriculumState extends State<TabCurriculum> {
             List<DataCell> cells = el.map<DataCell>((e) {
               return DataCell(
                 GestureDetector(
-                  onTap: () {
-                    // Action for GestureDetector
-                    print('Data tapped: $e');
+                  onTap: () => {
+                    Navigator.pushNamed(context,
+                        '/programme_curriculum_home/course_proposals_info',
+                        arguments: {'e': e})
                   },
                   child: Container(
                     width: 200,
@@ -145,27 +151,20 @@ class _TabCurriculumState extends State<TabCurriculum> {
             }).toList();
 
             // Add a button cell at the end of the row
-            if (userType != 'student') {
-              cells.add(DataCell(
-                GestureDetector(
-                  onTap: () {
-                    // Action for button press
-                    print('Button pressed for ${el.join(", ")}');
-                  },
-                  child: Container(
-                    width: 200,
-                    child: ElevatedButton(
-                      onPressed: () => {
-                        Navigator.pushNamed(context,
-                            '/programme_curriculum_home/curriculum_update',
-                            arguments: {'e': el})
-                      },
-                      child: Text('Update'),
-                    ),
-                  ),
-                ),
-              ));
-            }
+            // if (userType != 'student') {
+            //   cells.add(DataCell(
+            //     GestureDetector(
+            //       onTap: () => {print("Pushed")},
+            //       child: Container(
+            //         width: 200,
+            //         child: ElevatedButton(
+            //           onPressed: () => {print("el: $el")},
+            //           child: Text('Update'),
+            //         ),
+            //       ),
+            //     ),
+            //   ));
+            // }
 
             return DataRow(cells: cells);
           },
@@ -175,3 +174,33 @@ class _TabCurriculumState extends State<TabCurriculum> {
     return data;
   }
 }
+
+  // List<DataRow> tabRowList() {
+  //   //Get the list of json and map through, to select each json and lay row to the table..
+  //   List<DataRow> data = [];
+  //   data = rows
+  //       .map(
+  //         (el) {
+  //           return DataRow(
+  //             cells: el
+  //                 .map((e) => DataCell(GestureDetector(
+  //                       onTap: () => {
+  //                         Navigator.pushNamed(context,
+  //                             '/programme_curriculum_home/courses_info',
+  //                             arguments: {'e': e})
+  //                       },
+  //                       child: Container(
+  //                           //SET width
+  //                           constraints: BoxConstraints(maxWidth: 200),
+  //                           child: Text(e.toString())),
+  //                     )))
+  //                 .toList()
+  //                 .cast<DataCell>(),
+  //           );
+  //         },
+  //       )
+  //       .toList()
+  //       .cast<DataRow>();
+  //   return data;
+  // }
+// }
