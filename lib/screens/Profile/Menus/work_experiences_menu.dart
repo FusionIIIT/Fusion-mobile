@@ -440,7 +440,7 @@ class WorkExperiencesMenu extends StatelessWidget {
                         onPressed: () => {
                           //Edit Function
                         },
-                        style: ElevatedButton.styleFrom(primary: Colors.red),
+                        style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
                       ),
                     ],
                   ),
@@ -805,7 +805,7 @@ class WorkExperiencesMenu extends StatelessWidget {
                         onPressed: () => {
                           //Edit Function
                         },
-                        style: ElevatedButton.styleFrom(primary: Colors.red),
+                        style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
                       ),
                     ],
                   ),
