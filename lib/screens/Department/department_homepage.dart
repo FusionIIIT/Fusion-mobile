@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'package:fusion/screens/Department/facilities.dart';
 import 'package:http/http.dart';
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/appBar.dart';
@@ -163,6 +164,31 @@ class _DepartmentScreenState extends State<DepartmentScreen> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            FacilitiesPage(),
+                                      ),
+                                    );
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 16, horizontal: 20),
+                                    child: Text('Facilities',
+                                        style: TextStyle(fontSize: 20)),
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    foregroundColor: Colors.white,
+                                    backgroundColor: customColor,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(22),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 14),
                                 ElevatedButton(
                                   onPressed: () {
                                     Navigator.push(

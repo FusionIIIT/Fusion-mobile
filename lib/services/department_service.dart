@@ -53,7 +53,7 @@ class DepartmentService {
         Uri.http(getLink(), kDepartmentAnnouncements),
         headers: headers,
       );
-
+      // print(headers);
       print('Response Status Code: ${response.statusCode}');
       print('Response Body: ${response.body}');
 

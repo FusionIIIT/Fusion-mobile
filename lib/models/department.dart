@@ -188,7 +188,7 @@ class Announcement {
   Map<String, dynamic> toJson() {
     return {
       'maker_id': maker_id,
-      'announcementDate': ann_date,
+      'ann_date': ann_date,
       'message': message,
       'batch': batch,
       'department': department,
