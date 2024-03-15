@@ -4,14 +4,8 @@ import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/models/profile.dart';
 import 'package:fusion/services/profile_service.dart';
 import 'package:http/http.dart';
-import 'ComplaintHistory/complain_history.dart';
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/side_drawer.dart';
-import 'dart:ui';
-import 'package:fusion/services/storage_service.dart';
-import 'LodgeComplaint/lodge_complaint.dart';
-import 'Feedback/feedback.dart';
-import 'package:provider/provider.dart';
 
 class Complaint extends StatefulWidget {
   String? token;
@@ -230,7 +224,7 @@ class _ComplaintState extends State<Complaint> {
                   ],
                 ),
               )
-            else if (data.profile!["user_type"] == "student")
+            else if (data.profile!["user_type"] == "caretaker")
               Card(
                 // Widget for caretaker
                 elevation: 2.0,
@@ -348,7 +342,7 @@ class _ComplaintState extends State<Complaint> {
                   ],
                 ),
               )
-            else if (data.profile!["user_type"] == "faculty")
+            else if (data.profile!["user_type"] == "student")
                 Card(
                   // Widget for staff
                   elevation: 2.0,
@@ -364,7 +358,7 @@ class _ComplaintState extends State<Complaint> {
                             _loading1 = true;
                             _loading2 = false;
                             _loading3 = false;
-                            Navigator.pushNamed(context, '/complaint/supe',
+                            Navigator.pushNamed(context, '/complaint/lodge_complaint',
                                 arguments: data.user != null
                                     ? data.user!['username']
                                     : "null");
@@ -401,7 +395,7 @@ class _ComplaintState extends State<Complaint> {
                             _loading3 = false;
                             Navigator.pushNamed(
                               context,
-                              '/complaint/supervisor/view_caretaker',
+                              '/complaint/caretaker/view_caretaker',
                             );
                           });
                         },
@@ -436,7 +430,7 @@ class _ComplaintState extends State<Complaint> {
                             _loading3 = true;
                             Navigator.pushNamed(
                               context,
-                              '/complaint/supervisor/resolved_complaints',
+                              '/complaint/caretaker/resolved_complaints',
                             );
                           });
                         },
@@ -470,7 +464,7 @@ class _ComplaintState extends State<Complaint> {
                             _loading3 = true;
                             Navigator.pushNamed(
                               context,
-                              '/complaint/supervisor/unresolved_complaints',
+                              '/complaint/caretaker/unresolved_complaints',
                             );
                           });
                         },

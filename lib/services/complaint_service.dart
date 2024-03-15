@@ -1,4 +1,4 @@
-// import 'dart:convert';
+import 'dart:convert';
 import 'dart:core';
 import 'package:fusion/api.dart';
 import 'package:fusion/constants.dart';
@@ -9,13 +9,13 @@ import 'package:http/http.dart' as http;
 class ComplaintService {
   Future<http.Response> getComplaint() async {
     try {
-      var storage_service = locator<StorageService>();
+      var storageService = locator<StorageService>();
 
-      if (storage_service.userInDB?.token == null)
+      if (storageService.userInDB?.token == null)
         throw Exception('Token Error');
 
       Map<String, String> headers = {
-        'Authorization': 'Token ' + (storage_service.userInDB?.token ?? "")
+        'Authorization': 'Token ' + (storageService.userInDB?.token ?? "")
       };
       print("fetching complaints");
       var client = http.Client();
@@ -71,12 +71,12 @@ class ComplaintService {
         "complainer": complainer!,
         "worker_id": worker_id!,
       };
-      var storage_service = locator<StorageService>();
-      if (storage_service.userInDB?.token == null)
+      var storageService = locator<StorageService>();
+      if (storageService.userInDB?.token == null)
         throw Exception('Token Error');
 
       Map<String, String> headers = {
-        'Authorization': 'Token ' + (storage_service.userInDB?.token ?? "")
+        'Authorization': 'Token ' + (storageService.userInDB?.token ?? "")
       };
 
       var client = http.Client();
@@ -132,12 +132,12 @@ class ComplaintService {
         "comment": comment!,
         "complainer": complainer!,
       };
-      var storage_service = locator<StorageService>();
-      if (storage_service.userInDB?.token == null)
+      var storageService = locator<StorageService>();
+      if (storageService.userInDB?.token == null)
         throw Exception('Token Error');
 
       Map<String, String> headers = {
-        'Authorization': 'Token ' + (storage_service.userInDB?.token ?? "")
+        'Authorization': 'Token ' + (storageService.userInDB?.token ?? "")
       };
 
       var client = http.Client();
@@ -158,12 +158,12 @@ class ComplaintService {
 
   Future<bool> deleteComplaint(int? id) async {
     try {
-      var storage_service = locator<StorageService>();
-      if (storage_service.userInDB?.token == null)
+      var storageService = locator<StorageService>();
+      if (storageService.userInDB?.token == null)
         throw Exception('Token Error');
 
       Map<String, String> headers = {
-        'Authorization': 'Token ' + (storage_service.userInDB?.token ?? "")
+        'Authorization': 'Token ' + (storageService.userInDB?.token ?? "")
       };
       var client = http.Client();
       print(id);
@@ -177,6 +177,34 @@ class ComplaintService {
       // print(response.statusCode);
       if (response.statusCode == 404) return true;
       return false;
+    } catch (e) {
+      rethrow;
+    }
+  }
+  Future<http.Response> getCaretaker() async {
+    try {
+      var storageService = locator<StorageService>();
+
+      if (storageService.userInDB!.token == null)
+        throw Exception('Token Error');
+
+      Map<String, String> headers = {
+        'Authorization': 'Token ' + (storageService.userInDB!.token ?? "")
+      };
+      print("fetching complaints");
+      var client = http.Client();
+      http.Response response = await client.get(
+        Uri.http(
+          getLink(),
+          kViewCaretaker, //constant api path
+        ),
+        headers: headers,
+      );
+      if (response!.statusCode == 200) {
+        print("successfully fetched complaints");
+        return response;
+      }
+      throw Exception('Can\'t load');
     } catch (e) {
       rethrow;
     }

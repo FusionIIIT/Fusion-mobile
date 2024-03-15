@@ -21,7 +21,8 @@ class _CaretakerComplaintCardState extends State<CaretakerComplaintCard> {
   @override
   Widget build(BuildContext context) {
     int flag = 0;
-    bool isNotResolved = widget.data!.student_complain![widget.index!]['status'] == 0;
+    bool isNotResolved =
+        widget.data!.student_complain![widget.index!]['status'] == 0;
     return GestureDetector(
       onTap: () {
         //print("Hello");
@@ -70,83 +71,86 @@ class _CaretakerComplaintCardState extends State<CaretakerComplaintCard> {
                 style: TextStyle(fontSize: 17, letterSpacing: 1.5),
               ),
               SizedBox(height: 5),
-              Visibility (
+              Visibility(
                 visible: isNotResolved,
                 child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  ElevatedButton(
-                    onPressed: () async {
-                      showDialog(
-                        context: context,
-                        builder: (ctx) => AlertDialog(
-                          title: Text("Warning"),
-                          content: Text("Are you sure the complaint is resolved?"),
-                          actions: <Widget>[
-                            ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text("Cancel"),
-                            ),
-                            ElevatedButton(
-                              onPressed: () async {
-                                // Mark complaint as resolved
-                                // ...
-                              },
-                              child: Text("Resolve"),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.check,
-                          size: 25,
-                        ),
-                        Text("  Mark as resolved"),
-                      ],
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () async {
+                        showDialog(
+                          context: context,
+                          builder: (ctx) => AlertDialog(
+                            title: Text("Warning"),
+                            content:
+                                Text("Are you sure the complaint is resolved?"),
+                            actions: <Widget>[
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text("Cancel"),
+                              ),
+                              ElevatedButton(
+                                onPressed: () async {
+                                  // Mark complaint as resolved
+                                  // ...
+                                },
+                                child: Text("Resolve"),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.check,
+                            size: 25,
+                          ),
+                          Text("  Mark as resolved"),
+                        ],
+                      ),
                     ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () async {
-                      showDialog(
-                        context: context,
-                        builder: (ctx) => AlertDialog(
-                          title: Text("Warning"),
-                          content: Text("Are you sure you want to decline the complaint?"),
-                          actions: <Widget>[
-                            ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text("Cancel"),
-                            ),
-                            ElevatedButton(
-                              onPressed: () async {
-                                // Delete complaint
-                                // ...
-                              },
-                              child: Text("Decline"),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.delete,
-                          size: 25,
-                        ),
-                        Text("  Decline"),
-                      ],
+                    ElevatedButton(
+                      onPressed: () async {
+                        showDialog(
+                          context: context,
+                          builder: (ctx) => AlertDialog(
+                            title: Text("Warning"),
+                            content: Text(
+                                "Are you sure you want to decline the complaint?"),
+                            actions: <Widget>[
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text("Cancel"),
+                              ),
+                              ElevatedButton(
+                                onPressed: () async {
+                                  // Delete complaint
+                                  // ...
+                                },
+                                child: Text("Decline"),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.delete,
+                            size: 25,
+                          ),
+                          Text("  Decline"),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
