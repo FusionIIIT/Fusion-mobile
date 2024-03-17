@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:date_field/date_field.dart';
+import 'package:http/http.dart' as http;
+import 'package:fusion/services/central_mess_services.dart';
+import 'package:fusion/models/central_mess.dart';
 
 class RebateForm extends StatefulWidget {
   @override
@@ -7,11 +10,44 @@ class RebateForm extends StatefulWidget {
 }
 
 class _RebateFormState extends State<RebateForm> {
-  bool _loading = false, _updateDish = false;
-  String? reasonForRebate;
+
+  CentralMessService _centralMessService = CentralMessService();
+  TextEditingController textController = TextEditingController();
+
+  bool _loading = false, _sentRequest = false, _updateDish = false;
+  Rebate? data;
+  String? reasonForRebate, selectedType;
   DateTime? selectedDateStart, selectedDateEnd;
+  
   final _messFormKey = GlobalKey<FormState>();
   final _reasonController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void _sendRebateRequestData(data) async {
+    try {
+      http.Response menuItems = await _centralMessService.sendRebateRequest(data);
+      if (menuItems.statusCode == 200) {
+        print('Sent the Rebate request');
+        setState(() {
+          _sentRequest = true;
+        });
+      } else {
+        print('Couldn\'t send');
+      }
+    } catch (e) {
+      print('Error sending Rebate Request: $e');
+    }
+  }
+
+  @override
+  void dispose() {
+    textController.dispose(); // Dispose the controller
+    super.dispose();
+  }
 
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
@@ -60,6 +96,36 @@ class _RebateFormState extends State<RebateForm> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    SizedBox(height: 30.0),
+                    DropdownButtonFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Select Leave Type',
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.deepOrangeAccent, width: 2),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
+                      validator: (value) =>
+                      value == null ? "Select a day" : null,
+                      dropdownColor: Colors.white,
+                      value: selectedType,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          selectedType = newValue!;
+                        });
+                      },
+                      items: [
+                        DropdownMenuItem(
+                            child: Text("Vacation"),
+                            value: "vacation"),
+                        DropdownMenuItem(
+                            child: Text("Casual"),
+                            value: "casual"),
+                      ],
+                    ),
                     SizedBox(height: 30.0),
                     DateTimeFormField(
                       decoration: InputDecoration(
@@ -142,6 +208,22 @@ class _RebateFormState extends State<RebateForm> {
                         });
                         if (_messFormKey.currentState!.validate()) {
                           // Handle valid flow
+                          print({selectedType, selectedDateStart, selectedDateEnd, _reasonController.text, DateTime.now()});
+                          setState(() {
+                            data = Rebate(
+                                // studentId: studentId,
+                                startDate: selectedDateStart!,
+                                endDate: selectedDateEnd!,
+                                purpose: _reasonController.text,
+                                status: "1",
+                                appDate: DateTime.now(),
+                                leaveType: selectedType!,
+                            );
+                            _sendRebateRequestData(data);
+                            setState(() {
+                              data = null;
+                            });
+                          });
                           // Now we can perform actions based on the selected mess
                         }
                       },
@@ -153,11 +235,14 @@ class _RebateFormState extends State<RebateForm> {
             ),
           ),
           // updated successfully
-          // _updateDish
-          //     ? Column(
-          //   children:
-          // )
-          //     : SizedBox(height: 10.0),
+          _sentRequest
+              ? Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("Rebate Request sent Successfully"),
+            ],
+          )
+              : SizedBox(height: 10.0),
         ],
       ),
     );

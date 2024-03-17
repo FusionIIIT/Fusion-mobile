@@ -72,7 +72,7 @@ class _ViewBillState extends State<ViewBill> {
                   ),
                 ),
                 Container(
-                    height: 520, //height of TabBarView
+                    height: 590, //height of TabBarView
                     decoration: BoxDecoration(
                         border: Border(top: BorderSide(color: Colors.grey, width: 0.5))
                     ),

@@ -132,6 +132,13 @@ class _RebateHistoryState extends State<RebateHistory> {
                       ],
                     ),
                   ),
+                Row(
+                 crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(IconData(0xe159, fontFamily: 'MaterialIcons')),
+                    Text(" Accepted"),
+                  ],
+                )
                 ],
               );
             },

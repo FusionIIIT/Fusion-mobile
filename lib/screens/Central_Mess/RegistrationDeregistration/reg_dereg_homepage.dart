@@ -18,7 +18,7 @@ class _ManageRegDeRegState extends State<ManageRegDeReg> {
   Widget build(BuildContext context) {
     final ProfileData data = ModalRoute.of(context)!.settings.arguments as ProfileData;
     user = data.profile!['user_type'];
-    // user = "caretaker";
+    user = "caretaker";
     //user = "warden";
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -63,7 +63,7 @@ class _ManageRegDeRegState extends State<ManageRegDeReg> {
                   ),
                 ),
                 Container(
-                    height: 520, //height of TabBarView
+                    height: 590, //height of TabBarView
                     decoration: BoxDecoration(
                         border: Border(top: BorderSide(color: Colors.grey, width: 0.5))
                     ),

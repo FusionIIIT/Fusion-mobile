@@ -127,7 +127,7 @@ class MessMenu {
 }
 
 class Rebate {
-  final String studentId;
+  final String? studentId;
   final DateTime startDate;
   final DateTime endDate;
   final String purpose;
@@ -136,7 +136,7 @@ class Rebate {
   final String leaveType;
 
   Rebate({
-    required this.studentId,
+    this.studentId,
     required this.startDate,
     required this.endDate,
     required this.purpose,
@@ -188,14 +188,14 @@ class VacationFood {
 }
 
 class SpecialRequest {
-  final String studentId;
-  final DateTime startDate;
-  final DateTime endDate;
-  final String request;
-  final String status;
-  final String item1;
-  final String item2;
-  final DateTime appDate;
+  late final String studentId;
+  late final DateTime startDate;
+  late final DateTime endDate;
+  late final String request;
+  late final String status;
+  late final String item1;
+  late final String item2;
+  late final DateTime appDate;
 
   SpecialRequest({
     required this.studentId,

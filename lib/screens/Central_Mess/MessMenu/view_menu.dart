@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:fusion/models/central_mess.dart';
 import 'package:fusion/services/central_mess_services.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:fusion/services/pdf_service.dart';
 
 class ViewMenu extends StatefulWidget {
   @override
@@ -12,8 +11,9 @@ class ViewMenu extends StatefulWidget {
 
 class _ViewMenuState extends State<ViewMenu> {
   CentralMessService _centralMessService = CentralMessService();
+  PdfService _pdfService = PdfService();
 
-  bool _loading = false, _loadDish = false;
+  bool _loadDish = false;
   String? selectedMess, selectedDay, selectedMeal;
 
   List<List<String>> mat = [
@@ -64,29 +64,6 @@ class _ViewMenuState extends State<ViewMenu> {
     );
   }
 
-  // List<String> dishes = [];
-  // Future<void> fetchMenuData() async {
-  //   final url = Uri.parse("http://172.27.113.207:5000/menu/?mess_option=$selectedMess&day=$selectedDay&meal_time=$selectedMeal");
-  //   print(url);
-  //   try {
-  //     final response = await http.get(url);
-  //     print(response.statusCode);
-  //     if (response.statusCode == 200) {
-  //       final data = json.decode(response.body);
-  //       setState(() {
-  //         dishes = List<String>.from(data['dishes']);
-  //         _loadDish = true;
-  //         print("got dishes info");
-  //       });
-  //     } else {
-  //       throw Exception('Failed to fetch menu data');
-  //     }
-  //   } catch (e) {
-  //     print('Error fetching menu data: $e');
-  //     // Handle error accordingly
-  //   }
-  // }
-
   List<MessMenu> _menuItems = [];
 
 
@@ -112,6 +89,83 @@ class _ViewMenuState extends State<ViewMenu> {
 
   @override
   Widget build(BuildContext context) {
+
+    const double columnWidth1 = 80.0, columnWidth2 = 100.0;
+    late final pw.Widget customWidget = pw.Column(
+      crossAxisAlignment: pw.CrossAxisAlignment.start,
+      children: [
+        pw.SizedBox(height: 15.0),
+        pw.Center(
+          child: pw.Text(selectedMess == "mess1" ? "Mess 1" : "Mess 2", style: pw.TextStyle(fontSize: 18, fontWeight: pw.FontWeight.bold),),
+        ),
+        pw.SizedBox(height: 30.0),
+        pw.Table(
+          border: pw.TableBorder.all(),
+          columnWidths: {
+            0: pw.FixedColumnWidth(columnWidth1), // Day/Meal column
+            1: pw.FixedColumnWidth(columnWidth2), // Breakfast column
+            2: pw.FixedColumnWidth(columnWidth2), // Lunch column
+            3: pw.FixedColumnWidth(columnWidth2), // Dinner column
+          },
+          children: [
+            pw.TableRow(
+              children: [
+                pw.Container(
+                    alignment: pw.Alignment.center,
+                    padding: pw.EdgeInsets.all(5),
+                    child: pw.Center(
+                      child: pw.Text('Day/Meal', style: pw.TextStyle(fontSize: 14, fontWeight: pw.FontWeight.bold),),
+                    )
+                  ),
+                  pw.Container(
+                    alignment: pw.Alignment.center,
+                    padding: pw.EdgeInsets.all(5),
+                    child: pw.Center(
+                      child: pw.Text('Breakfast', style: pw.TextStyle(fontSize: 14, fontWeight: pw.FontWeight.bold),),
+                    )
+                  ),
+                  pw.Container(
+                    alignment: pw.Alignment.center,
+                    padding: pw.EdgeInsets.all(5),
+                    child: pw.Center(
+                      child: pw.Text('Lunch', style: pw.TextStyle(fontSize: 14, fontWeight: pw.FontWeight.bold),),
+                    )
+                  ),
+                  pw.Container(
+                    alignment: pw.Alignment.center,
+                    padding: pw.EdgeInsets.all(5),
+                    child: pw.Center(
+                      child: pw.Text('Dinner', style: pw.TextStyle(fontSize: 14, fontWeight: pw.FontWeight.bold),),
+                    )
+                ),
+              ],
+            ),
+            for (int i = 0; i < 7; i++)
+              pw.TableRow(
+                children: [
+                  pw.Container(
+                  alignment: pw.Alignment.center,
+                  padding: pw.EdgeInsets.all(5),
+                    child: pw.Center(
+                      child: pw.Text(week[i+1]!, style: pw.TextStyle(fontSize: 14, fontWeight: pw.FontWeight.bold),),
+                    ),
+                  ),
+                  for (int j = 0; j < 3; j++)
+                    pw.Container(
+                      alignment: pw.Alignment.center,
+                      padding: pw.EdgeInsets.all(5),
+                      child: pw.Center(
+                        child: pw.Text(_menuItems.where( (item) => ( (item.messOption == selectedMess) && (item.mealTime == mat[i][j]) ) ).first.dish, style: pw.TextStyle(fontSize: 12)),
+                        // child: Text(mat[i][j]),
+                      ),
+                    ),
+                ],
+              ),
+          ],
+        )
+      ],
+    );
+
     final _messFormKey = GlobalKey<FormState>();
     final ButtonStyle style = ElevatedButton.styleFrom(
       textStyle: const TextStyle(
@@ -170,22 +224,22 @@ class _ViewMenuState extends State<ViewMenu> {
                           children: [
                             TableCell(
                                 child: Center(
-                                  child: Text('Day/Meal', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+                                  child: Text('Day/Meal', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),),
                                 )
                             ),
                             TableCell(
                                 child: Center(
-                                  child: Text('Breakfast', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+                                  child: Text('Breakfast', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),),
                                 )
                             ),
                             TableCell(
                                 child: Center(
-                                  child: Text('Lunch', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+                                  child: Text('Lunch', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),),
                                 )
                             ),
                             TableCell(
                                 child: Center(
-                                  child: Text('Dinner', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+                                  child: Text('Dinner', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),),
                                 )
                             ),
                           ],
@@ -195,13 +249,13 @@ class _ViewMenuState extends State<ViewMenu> {
                             children: [
                               TableCell(
                                 child: Center(
-                                  child: Text(week[i+1]!, style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
+                                  child: Text(week[i+1]!, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),),
                                 ),
                               ),
                               for (int j = 0; j < 3; j++)
                                 TableCell(
                                   child: Center(
-                                    child: Text(_menuItems.where( (item) => ( (item.messOption == selectedMess) && (item.mealTime == mat[i][j]) ) ).first.dish),
+                                    child: Text(_menuItems.where( (item) => ( (item.messOption == selectedMess) && (item.mealTime == mat[i][j]) ) ).first.dish, style: TextStyle(fontSize: 12)),
                                     // child: Text(mat[i][j]),
                                   ),
                                 ),
@@ -210,7 +264,16 @@ class _ViewMenuState extends State<ViewMenu> {
                       ],
                     ),
                     SizedBox(height: 30.0),
-              ],
+                    ElevatedButton(
+                      onPressed: () async {
+                        final data = await _pdfService.generatePdf(customWidget: customWidget, heading: "Central Mess");
+                        _pdfService.savePdfFile("Mess-Menu", data);
+                      },
+                      // onPressed: (){},
+                      child: Text('Download as PDF'),
+                    ),
+
+                  ],
             ),
                 ) : Center(child: CircularProgressIndicator()),
             ],
