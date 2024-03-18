@@ -319,57 +319,41 @@ class CentralMessService {
     }
   }
 
-  // Future<List<Rebate>> getRebate() async {
-  //   try {
-  //     var storageService = locator<StorageService>();
-  //     if (storageService.userInDB?.token == null) {
-  //       throw Exception('Token error');
-  //     }
-  //
-  //     Map<String, String> body = {
-  //       'username': '21bcs064',
-  //       'password': 'user@123'
-  //     };
-  //
-  //     http.Response response0 = await http.post(
-  //       Uri.http(
-  //         kCentralMess,
-  //         kAuthLogin, //constant api EndPoint
-  //       ),
-  //       body: body,
-  //     );
-  //
-  //     if (response0.statusCode == 200) {
-  //       Map<String, String> headers = {
-  //         'Authorization': 'Token ' + json.decode(response0.body)['token']
-  //       };
-  //
-  //       print("fetching rebate");
-  //       http.Response response = await http.get(
-  //         Uri.http(
-  //           kCentralMess,
-  //           kRebateEndpoint, //constant api EndPoint
-  //         ),
-  //         headers: headers,
-  //       );
-  //
-  //       if (response.statusCode == 200) {
-  //         Iterable rebateList = json.decode(response.body)['payload'];
-  //         return rebateList.map((model) => Rebate.fromJson(model)).toList();
-  //       } else {
-  //         print(response.statusCode);
-  //         throw Exception('Failed to load rebate');
-  //       }
-  //
-  //     } else {
-  //       print(response0.statusCode);
-  //       throw Exception('Failed to Authorize');
-  //     }
-  //
-  //   } catch (e) {
-  //     rethrow;
-  //   }
-  // }
+  Future<List<SpecialRequest>> getSpecialRequest() async {
+    try {
+      http.Response response0 = await initAuth();
+
+      if (response0.statusCode == 200) {
+        Map<String, String> headers = {
+          'Authorization': 'Token ' + json.decode(response0.body)['token']
+        };
+
+        print("fetching special request");
+        http.Response response = await http.get(
+          Uri.http(
+            kCentralMess,
+            kSpecialRequestEndpoint, //constant api EndPoint
+          ),
+          headers: headers,
+        );
+
+        if (response.statusCode == 200) {
+          Iterable specialRequestList = json.decode(response.body)['payload'];
+          return specialRequestList.map((model) => SpecialRequest.fromJson(model)).toList();
+        } else {
+          print(response.statusCode);
+          throw Exception('Failed to load special request');
+        }
+
+      } else {
+        print(response0.statusCode);
+        throw Exception('Failed to Authorize');
+      }
+
+    } catch (e) {
+      rethrow;
+    }
+  }
 
   // Future<http.Response> getMessInfo() async {
   //   try {

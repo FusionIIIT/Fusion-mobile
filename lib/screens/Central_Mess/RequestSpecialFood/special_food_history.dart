@@ -1,7 +1,8 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:date_field/date_field.dart';
+import 'package:fusion/models/central_mess.dart';
+import 'package:fusion/services/central_mess_services.dart';
+import 'package:fusion/models/profile.dart';
 
 class HistoryOfSpecialFood extends StatefulWidget {
   @override
@@ -9,133 +10,84 @@ class HistoryOfSpecialFood extends StatefulWidget {
 }
 
 class _HistoryOfSpecialFoodState extends State<HistoryOfSpecialFood> {
-  static List<String> _feedbackDates = [
-    "Mess 1 Cleanliness 2024-02-02",
-    "Mess 2 Cleanliness 2024-02-02",
-    "Mess 1 Food Quality 2024-02-02",
-    "Mess 2 Food Quality 2024-02-02",
-    "Mess 1 Cleanliness 2024-01-26",
-    "Mess 2 Cleanliness 2024-01-26",
-    "Mess 1 Food Quality 2024-01-26",
-    "Mess 2 Food Quality 2024-01-26",
-    "Mess 1 Cleanliness 2024-01-19",
-    "Mess 2 Cleanliness 2024-01-19",
-    "Mess 1 Food Quality 2024-01-19",
-    "Mess 2 Food Quality 2024-01-19",
-    "Mess 1 Cleanliness 2024-01-12",
-    "Mess 2 Cleanliness 2024-01-12",
-    "Mess 1 Food Quality 2024-01-12",
-    "Mess 2 Food Quality 2024-01-12",
-    "Mess 1 Cleanliness 2024-01-05",
-    "Mess 2 Cleanliness 2024-01-05",
-    "Mess 1 Food Quality 2024-01-05",
-    "Mess 2 Food Quality 2024-01-05",
-    "Mess 2 Food Quality 2024-01-05",
-    "Mess 2 Food Quality 2024-01-05",
-    // Add more dates as needed
-  ];
+  CentralMessService _centralMessService = CentralMessService();
 
+  bool _loading = true;
 
-  String? _value1, _value2;
-  int? _currentlyExpandedIndex;
+  static List<SpecialRequest> _specialRequests = [];
 
-  int _pageNumber = 1;
-  int _pageSize = 5; // Number of items per page
-  int _totalItems = _feedbackDates.length; // Total number of items (for demonstration)
+  @override
+  void initState() {
+    super.initState();
+    _fetchSpecialRequests(); // Fetch feedback data when the widget initializes
+  }
 
-  List<String> getPaginatedFeedbackDates() {
-    int startIndex = (_pageNumber - 1) * _pageSize;
-    int endIndex = min(_totalItems, startIndex + _pageSize);
-    return _feedbackDates.sublist(startIndex, endIndex);
+  void _fetchSpecialRequests() async {
+    try {
+      List<SpecialRequest> rebateDates = await _centralMessService.getSpecialRequest();
+      setState(() {
+        _specialRequests = rebateDates;
+        _specialRequests.sort((a, b) => b.appDate.compareTo(a.appDate));
+      });
+      print('Received Special Requests');
+      setState(() {
+        _loading = false;
+      });
+    } catch (e) {
+      print('Error fetching Special Requests: $e');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    List<String> paginatedFeedbackDates = getPaginatedFeedbackDates();
+    final ProfileData data = ModalRoute.of(context)!.settings.arguments as ProfileData;
+    String user = data.profile!['user_type'];
+    user = "caretaker";
+    // user = "warden";
+    final List<SpecialRequest> _modifiedSpecialRequests = (user == "student") ? _specialRequests.where((element) => (element.studentId == data.profile!['id'])).toList()
+        : (user == "caretaker") ? _specialRequests.where((element) => (element.status != "1")).toList()
+        : _specialRequests;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Expanded(
-          child: ListView.builder(
-            itemCount: paginatedFeedbackDates.length,
-            itemBuilder: (BuildContext context, int index) {
-              final int serialNumber =
-                  index + 1 + (_pageNumber - 1) * _pageSize;
-              String date = paginatedFeedbackDates[index];
-              return ExpansionTile(
-                key: UniqueKey(), // Use UniqueKey to force rebuild the widget
-                initiallyExpanded: index == _currentlyExpandedIndex,
-                onExpansionChanged: (bool isExpanded) {
-                  setState(() {
-                    if (isExpanded) {
-                      _currentlyExpandedIndex = index;
-                    } else {
-                      _currentlyExpandedIndex = null;
-                    }
-                  });
-                },
-                title: Text(
-                  "$serialNumber. $date",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
-                        IgnorePointer(
-                          ignoring: true, // Set to true to disable user interaction
-                          child: TextFormField(
-                            maxLines: 4,
-                            cursorHeight: 30,
-                            decoration: InputDecoration(
-                              labelText: "Feedback Details",
-                              border: OutlineInputBorder(),
-                            ),
-                            style: TextStyle(fontFamily: "Poppins"),
-                          ),
-                        ),
-                        Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
-                      ],
-                    ),
-                  ),
+    return _loading == true ? Center(child: CircularProgressIndicator()) : (SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child:Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: DataTable(
+                columns: [
+                  DataColumn(label: Text('S. No.', style: TextStyle(fontWeight: FontWeight.bold))),
+                  DataColumn(label: Text('Date(yyyy-mm-dd)', style: TextStyle(fontWeight: FontWeight.bold))),
+                  DataColumn(label: Text('Student ID', style: TextStyle(fontWeight: FontWeight.bold))),
+                  DataColumn(label: Text('Start Date', style: TextStyle(fontWeight: FontWeight.bold))),
+                  DataColumn(label: Text('End Date', style: TextStyle(fontWeight: FontWeight.bold))),
+                  DataColumn(label: Text('Request', style: TextStyle(fontWeight: FontWeight.bold))),
+                  DataColumn(label: Text('Item', style: TextStyle(fontWeight: FontWeight.bold))),
+                  DataColumn(label: Text('Meal Time', style: TextStyle(fontWeight: FontWeight.bold))),
+                  DataColumn(label: Text('Status', style: TextStyle(fontWeight: FontWeight.bold))),
                 ],
-              );
-            },
-          ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: _pageNumber > 1
-                  ? () {
-                setState(() {
-                  _pageNumber--;
-                  _currentlyExpandedIndex = null;
-                });
-              }
-                  : null,
-            ),
-            Text('Page $_pageNumber of ${(_totalItems / _pageSize).ceil()}'),
-            IconButton(
-              icon: Icon(Icons.arrow_forward),
-              onPressed: _pageNumber < (_totalItems / _pageSize).ceil()
-                  ? () {
-                setState(() {
-                  _pageNumber++;
-                  _currentlyExpandedIndex = null;
-                });
-              }
-                  : null,
+                rows: List.generate(
+                  _modifiedSpecialRequests.length,
+                      (index) => DataRow(cells: [
+                    DataCell(Text((index + 1).toString()+".")),
+                    DataCell(Text(_modifiedSpecialRequests[index].appDate.toString().substring(0, 10))),
+                    DataCell(Text(_modifiedSpecialRequests[index].studentId?? 'N/A')),
+                    DataCell(Text(_modifiedSpecialRequests[index].startDate.toString().substring(0, 10))),
+                    DataCell(Text(_modifiedSpecialRequests[index].endDate.toString().substring(0, 10))),
+                    DataCell(Text(_modifiedSpecialRequests[index].request?? 'N/A')),
+                    DataCell(Text(_modifiedSpecialRequests[index].item1?? 'N/A')),
+                    DataCell(Text(_modifiedSpecialRequests[index].item2?? 'N/A')),
+                    DataCell(Text(_modifiedSpecialRequests[index].status == "0" ? "Rejected" : _modifiedSpecialRequests[index].status == "1" ? "Pending" : "Accepted")),
+                  ]),
+                ),
+              ),
             ),
           ],
         ),
-      ],
-    );
+      ),
+    ));
   }
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fusion/models/profile.dart';
+import 'package:fusion/screens/Central_Mess/Rebate/respondToRebateRequest.dart';
 import 'rebate_form.dart';
 import 'rebate_history.dart';
 import 'package:fusion/Components/appBar.dart';
@@ -12,6 +14,10 @@ class RebateMenu extends StatefulWidget {
 class _RebateMenuState extends State<RebateMenu> {
   @override
   Widget build(BuildContext context) {
+    final ProfileData data = ModalRoute.of(context)!.settings.arguments as ProfileData;
+    String? user = data.profile!['user_type'];
+    user = "caretaker";
+    // user = "warden";
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar:DefaultAppBar().buildAppBar(titleText: "Central Mess"),
@@ -30,7 +36,8 @@ class _RebateMenuState extends State<RebateMenu> {
                     indicatorColor: Colors.deepOrangeAccent,
                     unselectedLabelColor: Colors.black,
                     tabs: [
-                      Tab(child: Text("Rebate Form",style: TextStyle(fontWeight: FontWeight.bold),),),
+                      if (user == 'student') Tab(child: Text("Rebate Form",style: TextStyle(fontWeight: FontWeight.bold),),),
+                      if (user == 'caretaker') Tab(child: Text("Rebate Requests",style: TextStyle(fontWeight: FontWeight.bold),),),
                       Tab(child: Text("Rebate History",style: TextStyle(fontWeight: FontWeight.bold),),),
                     ],
                   ),
@@ -41,7 +48,8 @@ class _RebateMenuState extends State<RebateMenu> {
                         border: Border(top: BorderSide(color: Colors.grey, width: 0.5))
                     ),
                     child: TabBarView(children: <Widget>[
-                      RebateForm(),
+                      if (user == 'student') RebateForm(),
+                      if (user == 'caretaker') RespondToRebateRequest(),
                       RebateHistory(),
 
                     ])

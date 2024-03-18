@@ -194,7 +194,7 @@ class _CentralMessHomeState extends State<CentralMessHome> {
                     },
                   ),
                   InkWell(
-                    child: myContainer("Apply for Rebate"),
+                    child: myContainer("Rebate"),
                     onTap: () {
                       Navigator.pushNamed(context, '/central_mess_home/rebate', arguments: data2);
                     },
@@ -232,7 +232,7 @@ class _CentralMessHomeState extends State<CentralMessHome> {
                   InkWell(
                     child: myContainer("Manage Bill"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/manageBill', arguments: data2);
+                      Navigator.pushNamed(context, '/central_mess_home/messBill', arguments: data2);
                     },
                   ),
                   InkWell(
@@ -254,9 +254,9 @@ class _CentralMessHomeState extends State<CentralMessHome> {
                     },
                   ),
                   InkWell(
-                    child: myContainer("Rebate Requests"),
+                    child: myContainer("Rebate"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/rebateRequest', arguments: data2);
+                      Navigator.pushNamed(context, '/central_mess_home/rebate', arguments: data2);
                     },
                   ),
                   InkWell(

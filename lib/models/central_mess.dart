@@ -188,14 +188,14 @@ class VacationFood {
 }
 
 class SpecialRequest {
-  late final String studentId;
-  late final DateTime startDate;
-  late final DateTime endDate;
-  late final String request;
-  late final String status;
-  late final String item1;
-  late final String item2;
-  late final DateTime appDate;
+  final String? studentId;
+  final DateTime startDate;
+  final DateTime endDate;
+  final String? request;
+  final String? status;
+  final String? item1;
+  final String? item2;
+  final DateTime appDate;
 
   SpecialRequest({
     required this.studentId,

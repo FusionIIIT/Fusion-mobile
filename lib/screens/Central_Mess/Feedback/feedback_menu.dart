@@ -16,7 +16,7 @@ class _FeedbackMenuState extends State<FeedbackMenu> {
   Widget build(BuildContext context) {
     final ProfileData data = ModalRoute.of(context)!.settings.arguments as ProfileData;
     String? user = data.profile!['user_type'];
-    // user = "caretaker";
+    user = "caretaker";
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: DefaultAppBar().buildAppBar(titleText: "Central Mess"),
@@ -27,8 +27,8 @@ class _FeedbackMenuState extends State<FeedbackMenu> {
           children: <Widget>[
             SizedBox(height: 5.0),
             DefaultTabController(
-              // length: user == 'caretaker' ? 1 : 2, // Change tab length based on user
-              length: 2,
+              length: user == 'caretaker' ? 1 : 2, // Change tab length based on user
+              // length: 2,
               initialIndex: 0,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -63,9 +63,8 @@ class _FeedbackMenuState extends State<FeedbackMenu> {
                     ),
                     child: TabBarView(
                       children: <Widget>[
-                        FeedbackForm(),
+                        if (user != 'caretaker') FeedbackForm(),
                         FeedbackHistory(),
-                        // FeedbackHistory(),
                       ],
                     ),
                   )
