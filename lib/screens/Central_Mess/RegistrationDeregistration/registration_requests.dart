@@ -1,12 +1,12 @@
 
 import 'package:flutter/material.dart';
 
-class ActiveSpecialFoodRequest extends StatefulWidget {
+class RegistrationRequests extends StatefulWidget {
   @override
-  _ActiveSpecialFoodRequestState createState() => _ActiveSpecialFoodRequestState();
+  _RegistrationRequestsState createState() => _RegistrationRequestsState();
 }
 
-class _ActiveSpecialFoodRequestState extends State<ActiveSpecialFoodRequest> {
+class _RegistrationRequestsState extends State<RegistrationRequests> {
 
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
@@ -36,36 +36,44 @@ class _ActiveSpecialFoodRequestState extends State<ActiveSpecialFoodRequest> {
     );
   }
   String? status;
-  List<Map<String, String>> tableData = [
+  List<Map<String, dynamic>> tableData = [
     {
-      'Date': '2023-12-01',
-      'Student Id': 'S12345',
-      'Request Dates': '2023-11-28 to 2023-12-02',
-      'Food': 'Vegetarian',
-      'Purpose': 'Attending workshop',
-      'accept/reject': 'Accept',
+      'Student Id': '21BCS128',
+      'Transaction No': 'T001',
+      'Image': 'image_url_1',
+      'Amount': '12000',
+      'Remark': 'No remarks',
+      'Mess': 'Mess1',
+      'Accept/Reject': 'Accepted',
     },
     {
-      'Date': '2023-12-05',
-      'Student Id': 'S67890',
-      'Request Dates': '2023-12-03 to 2023-12-07',
-      'Food': 'Non-Vegetarian',
-      'Purpose': 'Medical check-up',
-      'accept/reject': 'Reject',
+      'Student Id': '21BCS064',
+      'Transaction No': 'T002',
+      'Image': 'image_url_2',
+      'Amount': '15000',
+      'Remark': 'Out of tokens',
+      'Mess': 'Mess2',
+      'Accept/Reject': 'Rejected',
     },
     {
-      'Date': '2023-12-10',
-      'Student Id': 'S24680',
-      'Request Dates': '2023-12-08 to 2023-12-12',
-      'Food': 'Vegan',
-      'Purpose': 'Visiting family',
-      'accept/reject': 'Accept',
+      'Student Id': '21BCS133',
+      'Transaction No': 'T002',
+      'Image': 'image_url_2',
+      'Amount': '15000',
+      'Remark': 'Out of tokens',
+      'Mess': 'Mess1',
+      'Accept/Reject': 'Accepted',
     },
   ];
-    List<Map<String, String>> dropdownItems = [
-      {"text": "Accept", "value": "accepted"},
-      {"text": "Reject", "value": "rejected"},
-    ];
+
+  List<Map<String, String>> statusDropDownItems = [
+    {"text": "Accept", "value": "accepted"},
+    {"text": "Reject", "value": "rejected"},
+  ];
+  List<Map<String, String>> menuDropDownItems = [
+    {"text": "Mess 1", "value": "mess1"},
+    {"text": "Mess 2", "value": "mess2"},
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -125,14 +133,57 @@ class _ActiveSpecialFoodRequestState extends State<ActiveSpecialFoodRequest> {
                     status = newValue!;
                   });
                 },
-                items: dropdownItems.map((item) {
+                items: statusDropDownItems.map((item) {
                   return DropdownMenuItem(
                     child: Text(item["text"]!),
                     value: item["value"],
                   );
                 }).toList(),
               ),
-
+            );
+          } else if (key.toLowerCase() == 'remark') {
+            return DataCell(
+              TextField(
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                  hintText: 'Enter remark (optional)',
+                  border: OutlineInputBorder(),
+                ),
+                onChanged: (value) {
+                  data['Remark'] = value;
+                },
+              ),
+            );
+          }else if (key.toLowerCase() == 'mess') {
+            return DataCell(
+              DropdownButtonFormField<String>(
+                decoration: InputDecoration(
+                  labelText: status != null ? null : 'Select',
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.deepOrangeAccent,
+                      width: 2,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
+                ),
+                validator: (value) => value == null ? "Select" : null,
+                dropdownColor: Colors.white,
+                value: status,
+                onChanged: (String? newValue) {
+                  setState(() {
+                    status = newValue!;
+                  });
+                },
+                items: menuDropDownItems.map((item) {
+                  return DropdownMenuItem(
+                    child: Text(item["text"]!),
+                    value: item["value"],
+                  );
+                }).toList(),
+              ),
             );
           } else {
             return DataCell(

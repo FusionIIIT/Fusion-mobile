@@ -1,12 +1,12 @@
 
 import 'package:flutter/material.dart';
 
-class ActiveSpecialFoodRequest extends StatefulWidget {
+class DeRegistrationRequests extends StatefulWidget {
   @override
-  _ActiveSpecialFoodRequestState createState() => _ActiveSpecialFoodRequestState();
+  _DeRegistrationRequestsState createState() => _DeRegistrationRequestsState();
 }
 
-class _ActiveSpecialFoodRequestState extends State<ActiveSpecialFoodRequest> {
+class _DeRegistrationRequestsState extends State<DeRegistrationRequests> {
 
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
@@ -36,36 +36,31 @@ class _ActiveSpecialFoodRequestState extends State<ActiveSpecialFoodRequest> {
     );
   }
   String? status;
-  List<Map<String, String>> tableData = [
+  List<Map<String, dynamic>> tableData = [
     {
-      'Date': '2023-12-01',
-      'Student Id': 'S12345',
-      'Request Dates': '2023-11-28 to 2023-12-02',
-      'Food': 'Vegetarian',
-      'Purpose': 'Attending workshop',
-      'accept/reject': 'Accept',
+      'Student Id': '21BCS128',
+      'Mess': 'Mess1',
+      'Remark': 'No remarks',
+      'Accept/Reject': 'Accepted',
     },
     {
-      'Date': '2023-12-05',
-      'Student Id': 'S67890',
-      'Request Dates': '2023-12-03 to 2023-12-07',
-      'Food': 'Non-Vegetarian',
-      'Purpose': 'Medical check-up',
-      'accept/reject': 'Reject',
+      'Student Id': '21BCS064',
+      'Mess': 'Mess2',
+      'Remark': 'Out of tokens',
+      'Accept/Reject': 'Rejected',
     },
     {
-      'Date': '2023-12-10',
-      'Student Id': 'S24680',
-      'Request Dates': '2023-12-08 to 2023-12-12',
-      'Food': 'Vegan',
-      'Purpose': 'Visiting family',
-      'accept/reject': 'Accept',
+      'Student Id': '21BCS133',
+      'Mess': 'Mess1',
+      'Remark': 'Out of tokens',
+      'Accept/Reject': 'Accepted',
     },
   ];
-    List<Map<String, String>> dropdownItems = [
-      {"text": "Accept", "value": "accepted"},
-      {"text": "Reject", "value": "rejected"},
-    ];
+
+  List<Map<String, String>> statusDropDownItems = [
+    {"text": "Accept", "value": "accepted"},
+    {"text": "Reject", "value": "rejected"},
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -125,16 +120,28 @@ class _ActiveSpecialFoodRequestState extends State<ActiveSpecialFoodRequest> {
                     status = newValue!;
                   });
                 },
-                items: dropdownItems.map((item) {
+                items: statusDropDownItems.map((item) {
                   return DropdownMenuItem(
                     child: Text(item["text"]!),
                     value: item["value"],
                   );
                 }).toList(),
               ),
-
             );
-          } else {
+          } else if (key.toLowerCase() == 'remark') {
+            return DataCell(
+              TextField(
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                  hintText: 'Remark (optional)',
+                  border: OutlineInputBorder(),
+                ),
+                onChanged: (value) {
+                  data['Remark'] = value;
+                },
+              ),
+            );
+          }else {
             return DataCell(
               Padding(
                 padding: EdgeInsets.all(4),

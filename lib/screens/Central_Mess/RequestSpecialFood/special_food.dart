@@ -16,7 +16,7 @@ class _SpecialFoodState extends State<SpecialFood> {
   @override
   Widget build(BuildContext context) {
     user = "student";
-    // user = "caretaker";
+    user = "caretaker";
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: DefaultAppBar().buildAppBar(titleText: "Central Mess"),
@@ -48,7 +48,7 @@ class _SpecialFoodState extends State<SpecialFood> {
                         ),
                         Tab(
                           child: Text(
-                            "Special Food History",
+                            "Requests History",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -56,13 +56,13 @@ class _SpecialFoodState extends State<SpecialFood> {
                           : [
                         Tab(
                           child: Text(
-                            "Active Request For Special Food",
+                            "Active Requests For Special Food",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),
                         Tab(
                           child: Text(
-                            "Special Food History",
+                            "Requests History",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),

@@ -1,7 +1,5 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:date_field/date_field.dart';
 
 class HistoryOfSpecialFood extends StatefulWidget {
   @override
@@ -9,133 +7,107 @@ class HistoryOfSpecialFood extends StatefulWidget {
 }
 
 class _HistoryOfSpecialFoodState extends State<HistoryOfSpecialFood> {
-  static List<String> _feedbackDates = [
-    "Mess 1 Cleanliness 2024-02-02",
-    "Mess 2 Cleanliness 2024-02-02",
-    "Mess 1 Food Quality 2024-02-02",
-    "Mess 2 Food Quality 2024-02-02",
-    "Mess 1 Cleanliness 2024-01-26",
-    "Mess 2 Cleanliness 2024-01-26",
-    "Mess 1 Food Quality 2024-01-26",
-    "Mess 2 Food Quality 2024-01-26",
-    "Mess 1 Cleanliness 2024-01-19",
-    "Mess 2 Cleanliness 2024-01-19",
-    "Mess 1 Food Quality 2024-01-19",
-    "Mess 2 Food Quality 2024-01-19",
-    "Mess 1 Cleanliness 2024-01-12",
-    "Mess 2 Cleanliness 2024-01-12",
-    "Mess 1 Food Quality 2024-01-12",
-    "Mess 2 Food Quality 2024-01-12",
-    "Mess 1 Cleanliness 2024-01-05",
-    "Mess 2 Cleanliness 2024-01-05",
-    "Mess 1 Food Quality 2024-01-05",
-    "Mess 2 Food Quality 2024-01-05",
-    "Mess 2 Food Quality 2024-01-05",
-    "Mess 2 Food Quality 2024-01-05",
-    // Add more dates as needed
+
+  BoxDecoration myBoxDecoration() {
+    return BoxDecoration(
+      border: Border.all(
+          color: Colors.deepOrangeAccent, width: 2.0, style: BorderStyle.solid),
+      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+    );
+  }
+
+  Text myText(String text) {
+    return Text(
+      text,
+      style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w500),
+    );
+  }
+
+  Padding myContainer(String text) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: myText(text),
+        ),
+        decoration: myBoxDecoration(),
+      ),
+    );
+  }
+
+  List<Map<String, String>> tableData = [
+    {
+      'Date': '2023-12-01',
+      'Student Id': 'S12345',
+      'Request Dates': '2023-11-28 to 2023-12-02',
+      'Food': 'Vegetarian',
+      'Purpose': 'Attending workshop',
+      'accept/reject': 'Accepted',
+    },
+    {
+      'Date': '2023-12-05',
+      'Student Id': 'S67890',
+      'Request Dates': '2023-12-03 to 2023-12-07',
+      'Food': 'Non-Vegetarian',
+      'Purpose': 'Medical check-up',
+      'accept/reject': 'Rejected',
+    },
+    {
+      'Date': '2023-12-10',
+      'Student Id': 'S24680',
+      'Request Dates': '2023-12-08 to 2023-12-12',
+      'Food': 'Vegan',
+      'Purpose': 'Visiting family',
+      'accept/reject': 'Accepted',
+    },
   ];
 
 
-  String? _value1, _value2;
-  int? _currentlyExpandedIndex;
-
-  int _pageNumber = 1;
-  int _pageSize = 5; // Number of items per page
-  int _totalItems = _feedbackDates.length; // Total number of items (for demonstration)
-
-  List<String> getPaginatedFeedbackDates() {
-    int startIndex = (_pageNumber - 1) * _pageSize;
-    int endIndex = min(_totalItems, startIndex + _pageSize);
-    return _feedbackDates.sublist(startIndex, endIndex);
-  }
-
   @override
   Widget build(BuildContext context) {
-    List<String> paginatedFeedbackDates = getPaginatedFeedbackDates();
+    final ButtonStyle style = ElevatedButton.styleFrom(
+      textStyle: const TextStyle(
+          fontSize: 20, color: Colors.white, fontWeight: FontWeight.w500),
+      backgroundColor: Colors.white,
+      shadowColor: Colors.black,
+    );
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Expanded(
-          child: ListView.builder(
-            itemCount: paginatedFeedbackDates.length,
-            itemBuilder: (BuildContext context, int index) {
-              final int serialNumber =
-                  index + 1 + (_pageNumber - 1) * _pageSize;
-              String date = paginatedFeedbackDates[index];
-              return ExpansionTile(
-                key: UniqueKey(), // Use UniqueKey to force rebuild the widget
-                initiallyExpanded: index == _currentlyExpandedIndex,
-                onExpansionChanged: (bool isExpanded) {
-                  setState(() {
-                    if (isExpanded) {
-                      _currentlyExpandedIndex = index;
-                    } else {
-                      _currentlyExpandedIndex = null;
-                    }
-                  });
-                },
-                title: Text(
-                  "$serialNumber. $date",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
-                        IgnorePointer(
-                          ignoring: true, // Set to true to disable user interaction
-                          child: TextFormField(
-                            maxLines: 4,
-                            cursorHeight: 30,
-                            decoration: InputDecoration(
-                              labelText: "Feedback Details",
-                              border: OutlineInputBorder(),
-                            ),
-                            style: TextStyle(fontFamily: "Poppins"),
-                          ),
-                        ),
-                        Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
-                      ],
-                    ),
-                  ),
-                ],
-              );
-            },
-          ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: _pageNumber > 1
-                  ? () {
-                setState(() {
-                  _pageNumber--;
-                  _currentlyExpandedIndex = null;
-                });
-              }
-                  : null,
-            ),
-            Text('Page $_pageNumber of ${(_totalItems / _pageSize).ceil()}'),
-            IconButton(
-              icon: Icon(Icons.arrow_forward),
-              onPressed: _pageNumber < (_totalItems / _pageSize).ceil()
-                  ? () {
-                setState(() {
-                  _pageNumber++;
-                  _currentlyExpandedIndex = null;
-                });
-              }
-                  : null,
-            ),
-          ],
-        ),
-      ],
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: DataTable(
+        columnSpacing: 12,
+        horizontalMargin: 8,
+        columns: buildTableHeader(),
+        rows: buildTableRows(),
+      ),
     );
   }
+
+  List<DataColumn> buildTableHeader() {
+    return tableData.first.keys.map((key) {
+      return DataColumn(
+        label: Text(
+          key,
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
+      );
+    }).toList();
+  }
+
+  List<DataRow> buildTableRows() {
+    return tableData.map((data) {
+      return DataRow(
+        cells: data.keys.map((key) {
+          return DataCell(
+            Padding(
+              padding: EdgeInsets.all(4),
+              child: Text(data[key]!),
+            ),
+          );
+        }).toList(),
+      );
+    }).toList();
+  }
 }
+

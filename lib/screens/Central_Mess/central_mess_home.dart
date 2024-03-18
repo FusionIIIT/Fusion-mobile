@@ -43,7 +43,7 @@ class _CentralMessHomeState extends State<CentralMessHome> {
           '  ' +
           data2.profile!['user_type'];
       user = data2.profile!['user_type'];
-      // user = "caretaker";
+      user = "caretaker";
       // user = "warden";
       if(user == 'student') student_id = data2.user!['username'];
     } catch (e) {
@@ -257,6 +257,12 @@ class _CentralMessHomeState extends State<CentralMessHome> {
                     child: myContainer("Rebate Requests"),
                     onTap: () {
                       Navigator.pushNamed(context, '/central_mess_home/rebateRequest', arguments: data2);
+                    },
+                  ),
+                  InkWell(
+                    child: myContainer("Special Food Requests"),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/central_mess_home/reqSpecialFood', arguments: data2);
                     },
                   ),
                   InkWell(
