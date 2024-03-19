@@ -56,10 +56,9 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
   String? details;
   @override
   Widget build(BuildContext context) {
-    DateTime? complaint_finish = DateTime.now();
+    DateTime? complaintFinish = DateTime.now();
     DateFormat formatter = DateFormat('yyyy-MM-dd');
-    String formattedDate = formatter.format(complaint_finish);
-    print(formattedDate);
+    String formattedDate = formatter.format(complaintFinish);
     String? status = "0";
     String? remarks = "On-Hold";
     String? flag = "0";
@@ -67,7 +66,7 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
     String? feedback = "";
     String? comment = "None";
     String? complainer = widget.complainerRollNo;
-    String? worker_id = "";
+    String? workerId = "";
 
 
     return Scaffold(
@@ -205,12 +204,12 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
                   setState(() {
                     specific_location = input;
                   });
-                  print("$specific_location, $input");
                 },
                 validator: (String? value) {
                   if (value!.isEmpty) {
                     return 'Please enter specific_location';
                   }
+                  return null;
                 },
               ),
               SizedBox(
@@ -242,6 +241,7 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
                   if (value!.isEmpty) {
                     return 'Please enter details';
                   }
+                  return null;
                 },
               ),
               SizedBox(
@@ -284,7 +284,7 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
                         formattedDate,
                         complaint_type!,
                         location!,
-                        specific_location,
+                        specificLocation,
                         details!,
                         status,
                         remarks,
