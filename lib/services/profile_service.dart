@@ -25,6 +25,7 @@ class ProfileService {
         ),
         headers: headers,
       );
+      print(response.body);
       if (response.statusCode == 200) {
         print("successfully fetched profile");
         storage_service
