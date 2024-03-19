@@ -59,7 +59,6 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
     DateTime? complaintFinish = DateTime.now();
     DateFormat formatter = DateFormat('yyyy-MM-dd');
     String formattedDate = formatter.format(complaintFinish);
-    print(formattedDate);
     String? status = "0";
     String? remarks = "On-Hold";
     String? flag = "0";
@@ -205,7 +204,6 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
                   setState(() {
                     specific_location = input;
                   });
-                  print("$specific_location, $input");
                 },
                 validator: (String? value) {
                   if (value!.isEmpty) {
