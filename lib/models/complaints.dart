@@ -36,4 +36,16 @@ class ComplaintDataUserStudent {
   }
 }
 
+class CaretakerData {
+  List? caretakers;
+
+  CaretakerData({this.caretakers});
+
+  factory CaretakerData.fromJson(Map json) {
+    return CaretakerData(
+      caretakers: json["caretakers"],
+    );
+  }
+}
+
 class LodgeComplaintData {}
