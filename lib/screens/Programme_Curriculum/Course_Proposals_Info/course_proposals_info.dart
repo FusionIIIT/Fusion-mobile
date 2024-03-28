@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:fusion/Components/side_drawer.dart';
 // import 'package:fusion/models/academic.dart';
 // import 'package:csv/csv.dart';
-import 'package:fusion/screens/Programme_Curriculum/Courses_Info/courseInfoTabComponent.dart';
+import 'package:fusion/screens/Programme_Curriculum/Course_Proposals_Info/course_proposals_infoTabComponent.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
-class CoursesInfo extends StatefulWidget {
+class CoursesProposalInfo extends StatefulWidget {
   @override
-  _CoursesInfoState createState() => _CoursesInfoState();
+  _CoursesProposalInfoState createState() => _CoursesProposalInfoState();
 }
 
-class _CoursesInfoState extends State<CoursesInfo> {
+class _CoursesProposalInfoState extends State<CoursesProposalInfo> {
   List<List<dynamic>> _courseList = [];
   List<dynamic> _selectedCourse = [];
   List<List<dynamic>> _courseList_api = [];
@@ -25,7 +25,7 @@ class _CoursesInfoState extends State<CoursesInfo> {
     //     const CsvToListConverter().convert(_allCourses);
 
     final String course_code_api =
-        "https://script.google.com/macros/s/AKfycbyEK8qhhtHYnGVmTW7DRHx8jn5U0qJvy94qKezkH4qpy3LU7nWIyZQm7Gln1AN5RImSzw/exec";
+        "https://script.google.com/macros/s/AKfycbw0oi0VyhdlZ97ENHdUW8iQXNjpZZ4Yb42fl0sIbCFLED3tygO7aRM6VX_02afff6ImNg/exec";
     final http.Response response_course_code =
         await http.get(Uri.parse(course_code_api));
 
@@ -51,6 +51,8 @@ class _CoursesInfoState extends State<CoursesInfo> {
           'percent_quiz_1',
           'percent_quiz_2',
           'percent_lab_evaluation',
+          'course_proposedby',
+          'status'
         ],
         ...data
             .map((item) => [
@@ -71,7 +73,9 @@ class _CoursesInfoState extends State<CoursesInfo> {
                   item['percent_project'],
                   item['percent_quiz_1'],
                   item['percent_quiz_2'],
-                  item['percent_lab_evaluation']
+                  item['percent_lab_evaluation'],
+                  item['course_proposedby'],
+                  item['status']
                 ])
             .toList(),
       ];
@@ -178,7 +182,7 @@ class _CoursesInfoState extends State<CoursesInfo> {
               drawer: SideDrawer(),
               body: TabBarView(
                 children: [
-                  CourseInfoTabComponent(data: info_data),
+                  CourseProposalsInfoTabComponent(data: info_data),
                 ],
               ),
             ),

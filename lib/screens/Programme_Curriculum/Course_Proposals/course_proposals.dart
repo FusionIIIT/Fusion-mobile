@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 // import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
-import 'courseTabComponent.dart';
+import 'courseproposalaTabComponent.dart';
 // import 'package:flutter/services.dart' show rootBundle;
 
 // import 'package:csv/csv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
-class Courses extends StatefulWidget {
+class CourseProposals extends StatefulWidget {
   @override
-  State<Courses> createState() => _CoursesState();
+  State<CourseProposals> createState() => _CourseProposalState();
 }
 
-class _CoursesState extends State<Courses> {
+class _CourseProposalState extends State<CourseProposals> {
   List<List<dynamic>> _courseList = [];
   List<List<dynamic>> _courseList_api = [];
 
@@ -22,7 +22,7 @@ class _CoursesState extends State<Courses> {
     // List<List<dynamic>> _list = const CsvToListConverter().convert(_courseData);
 
     final String course_api =
-        "https://script.google.com/macros/s/AKfycbzYHOnBC4Wfyj2usAKlnJjnq8eOk0JmRk6vFAo4tecdlKJrqJoFrrfxTvxlJ62E536wEA/exec";
+        "https://script.google.com/macros/s/AKfycbzp1LzaPD6F_MJYyk-nCUY64GhyhkKjuOOwi5nj6pyt2wqlOWMavmoB-6V0As-RDj-u/exec";
     final http.Response response_course = await http.get(Uri.parse(course_api));
 
     if (response_course.statusCode == 200) {
@@ -30,8 +30,7 @@ class _CoursesState extends State<Courses> {
       _courseList_api = [
         ['Course Code', 'Course Name', 'credits'],
         ...data
-            .map((item) =>
-                [item['Course Code'], item['Course Name'], item['credits']])
+            .map((item) => [item['code'], item['name'], item['credit']])
             .toList(),
       ];
     } else {
@@ -106,7 +105,7 @@ class _CoursesState extends State<Courses> {
                 drawer: SideDrawer(),
                 body: TabBarView(
                   children: [
-                    CourseTabComponent(data: data_Courses),
+                    CourseProposalsTabComponent(data: data_Courses),
                   ],
                 ),
               ));
