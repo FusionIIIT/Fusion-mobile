@@ -1,5 +1,8 @@
 
 import 'package:flutter/material.dart';
+import 'package:fusion/models/central_mess.dart';
+import 'package:fusion/services/central_mess_services.dart';
+import 'package:fusion/models/profile.dart';
 
 class HistoryOfSpecialFood extends StatefulWidget {
   @override
@@ -8,106 +11,86 @@ class HistoryOfSpecialFood extends StatefulWidget {
 
 class _HistoryOfSpecialFoodState extends State<HistoryOfSpecialFood> {
 
-  BoxDecoration myBoxDecoration() {
-    return BoxDecoration(
-      border: Border.all(
-          color: Colors.deepOrangeAccent, width: 2.0, style: BorderStyle.solid),
-      borderRadius: BorderRadius.all(Radius.circular(15.0)),
-    );
+  CentralMessService _centralMessService = CentralMessService();
+
+  bool _loading = true;
+
+  static List<SpecialRequest> _specialRequests = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchSpecialRequests(); // Fetch feedback data when the widget initializes
   }
 
-  Text myText(String text) {
-    return Text(
-      text,
-      style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w500),
-    );
+  void _fetchSpecialRequests() async {
+    try {
+      List<SpecialRequest> rebateDates = await _centralMessService.getSpecialRequest();
+      setState(() {
+        _specialRequests = rebateDates;
+        _specialRequests.sort((a, b) => b.appDate.compareTo(a.appDate));
+      });
+      print('Received Special Requests');
+      setState(() {
+        _loading = false;
+      });
+    } catch (e) {
+      print('Error fetching Special Requests: $e');
+    }
   }
-
-  Padding myContainer(String text) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: myText(text),
-        ),
-        decoration: myBoxDecoration(),
-      ),
-    );
-  }
-
-  List<Map<String, String>> tableData = [
-    {
-      'Date': '2023-12-01',
-      'Student Id': 'S12345',
-      'Request Dates': '2023-11-28 to 2023-12-02',
-      'Food': 'Vegetarian',
-      'Purpose': 'Attending workshop',
-      'accept/reject': 'Accepted',
-    },
-    {
-      'Date': '2023-12-05',
-      'Student Id': 'S67890',
-      'Request Dates': '2023-12-03 to 2023-12-07',
-      'Food': 'Non-Vegetarian',
-      'Purpose': 'Medical check-up',
-      'accept/reject': 'Rejected',
-    },
-    {
-      'Date': '2023-12-10',
-      'Student Id': 'S24680',
-      'Request Dates': '2023-12-08 to 2023-12-12',
-      'Food': 'Vegan',
-      'Purpose': 'Visiting family',
-      'accept/reject': 'Accepted',
-    },
-  ];
-
 
   @override
   Widget build(BuildContext context) {
-    final ButtonStyle style = ElevatedButton.styleFrom(
-      textStyle: const TextStyle(
-          fontSize: 20, color: Colors.white, fontWeight: FontWeight.w500),
-      backgroundColor: Colors.white,
-      shadowColor: Colors.black,
-    );
+    final ProfileData data = ModalRoute.of(context)!.settings.arguments as ProfileData;
+    String user = data.profile!['user_type'];
+    user = user.toLowerCase();
+    user = "caretaker";
+    // user = "warden";
+    final List<SpecialRequest> _modifiedSpecialRequests = (user == "student") ? _specialRequests.where((element) => (element.studentId == data.profile!['id'])).toList()
+        : (user == "caretaker") ? _specialRequests.where((element) => (element.status != "1")).toList()
+        : _specialRequests;
 
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: DataTable(
-        columnSpacing: 12,
-        horizontalMargin: 8,
-        columns: buildTableHeader(),
-        rows: buildTableRows(),
-      ),
-    );
-  }
-
-  List<DataColumn> buildTableHeader() {
-    return tableData.first.keys.map((key) {
-      return DataColumn(
-        label: Text(
-          key,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        ),
-      );
-    }).toList();
-  }
-
-  List<DataRow> buildTableRows() {
-    return tableData.map((data) {
-      return DataRow(
-        cells: data.keys.map((key) {
-          return DataCell(
-            Padding(
-              padding: EdgeInsets.all(4),
-              child: Text(data[key]!),
+    return _loading == true ? Center(child: CircularProgressIndicator()) : (SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child:Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: DataTable(
+                columns: [
+                  DataColumn(label: Text('S. No.', style: TextStyle(fontWeight: FontWeight.bold))),
+                  DataColumn(label: Text('Date(yyyy-mm-dd)', style: TextStyle(fontWeight: FontWeight.bold))),
+                  DataColumn(label: Text('Student ID', style: TextStyle(fontWeight: FontWeight.bold))),
+                  DataColumn(label: Text('Start Date', style: TextStyle(fontWeight: FontWeight.bold))),
+                  DataColumn(label: Text('End Date', style: TextStyle(fontWeight: FontWeight.bold))),
+                  DataColumn(label: Text('Request', style: TextStyle(fontWeight: FontWeight.bold))),
+                  DataColumn(label: Text('Item', style: TextStyle(fontWeight: FontWeight.bold))),
+                  DataColumn(label: Text('Meal Time', style: TextStyle(fontWeight: FontWeight.bold))),
+                  DataColumn(label: Text('Status', style: TextStyle(fontWeight: FontWeight.bold))),
+                ],
+                rows: List.generate(
+                  _modifiedSpecialRequests.length,
+                      (index) => DataRow(cells: [
+                    DataCell(Text((index + 1).toString()+".")),
+                    DataCell(Text(_modifiedSpecialRequests[index].appDate.toString().substring(0, 10))),
+                    DataCell(Text(_modifiedSpecialRequests[index].studentId?? 'N/A')),
+                    DataCell(Text(_modifiedSpecialRequests[index].startDate.toString().substring(0, 10))),
+                    DataCell(Text(_modifiedSpecialRequests[index].endDate.toString().substring(0, 10))),
+                    DataCell(Text(_modifiedSpecialRequests[index].request?? 'N/A')),
+                    DataCell(Text(_modifiedSpecialRequests[index].item1?? 'N/A')),
+                    DataCell(Text(_modifiedSpecialRequests[index].item2?? 'N/A')),
+                    DataCell(Text(_modifiedSpecialRequests[index].status == "0" ? "Rejected" : _modifiedSpecialRequests[index].status == "1" ? "Pending" : "Accepted")),
+                  ]),
+                ),
+              ),
             ),
-          );
-        }).toList(),
-      );
-    }).toList();
+          ],
+        ),
+      ),
+    ));
   }
 }
 

@@ -129,7 +129,7 @@ class _ApplySpecialFoodState extends State<ApplySpecialFood> {
                       value: selectedMess,
                       onChanged: (String? newValue) {
                         // setState(() {
-                          selectedMess = newValue!;
+                        selectedMess = newValue!;
                         // });
                       },
                       items: menuDropDownItems.map((item) {
@@ -189,7 +189,7 @@ class _ApplySpecialFoodState extends State<ApplySpecialFood> {
                       },
                       onChanged: (String? newValue) {
                         // setState(() {
-                          purpose = newValue!;
+                        purpose = newValue!;
                         // });
                       },
                       style: TextStyle(fontSize: 20.0),

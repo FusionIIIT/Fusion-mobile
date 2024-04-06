@@ -1,15 +1,14 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:fusion/models/central_mess.dart';
 import 'package:fusion/services/central_mess_services.dart';
 import 'package:fusion/models/profile.dart';
 
-class RebateHistory extends StatefulWidget {
+class RespondToRebateRequest extends StatefulWidget {
   @override
-  _RebateHistoryState createState() => _RebateHistoryState();
+  _RespondToRebateRequestState createState() => _RespondToRebateRequestState();
 }
 
-class _RebateHistoryState extends State<RebateHistory> {
+class _RespondToRebateRequestState extends State<RespondToRebateRequest> {
   CentralMessService _centralMessService = CentralMessService();
 
   bool _loading = true;
@@ -38,18 +37,12 @@ class _RebateHistoryState extends State<RebateHistory> {
     }
   }
 
-  // String? _value1, _value2;
-  int? _currentlyExpandedIndex;
+  String? status ;
 
-  int _pageNumber = 1;
-  int _pageSize = 5; // Number of items per page
-  int _totalItems = _rebateDates.length; // Total number of items (for demonstration)
-
-  List<Rebate> getPaginatedRebateDates() {
-    int startIndex = (_pageNumber - 1) * _pageSize;
-    int endIndex = min(_totalItems, startIndex + _pageSize);
-    return _rebateDates.sublist(startIndex, endIndex);
-  }
+  List<Map<String, String>> statusDropDownItems = [
+    {"text": "Accept", "value": "2"},
+    {"text": "Reject", "value": "0"},
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +51,7 @@ class _RebateHistoryState extends State<RebateHistory> {
     user = "caretaker";
     // user = "warden";
     final List<Rebate> _modifiedRebateDates = (user == "student") ? _rebateDates.where((element) => (element.studentId == data.profile!['id'])).toList()
-        : (user == "caretaker") ? _rebateDates.where((element) => (element.status != "1")).toList()
+        : (user == "caretaker") ? _rebateDates.where((element) => (element.status == "1")).toList()
         : _rebateDates;
 
     return _loading == true ? Center(child: CircularProgressIndicator()) : (SingleChildScrollView(
@@ -79,7 +72,8 @@ class _RebateHistoryState extends State<RebateHistory> {
                   DataColumn(label: Text('Purpose', style: TextStyle(fontWeight: FontWeight.bold))),
                   DataColumn(label: Text('Start Date', style: TextStyle(fontWeight: FontWeight.bold))),
                   DataColumn(label: Text('End Date', style: TextStyle(fontWeight: FontWeight.bold))),
-                  DataColumn(label: Text('Status', style: TextStyle(fontWeight: FontWeight.bold))),
+                  DataColumn(label: Text('Action', style: TextStyle(fontWeight: FontWeight.bold))),
+                  DataColumn(label: Text('Remarks', style: TextStyle(fontWeight: FontWeight.bold))),
                 ],
                 rows: List.generate(
                   _modifiedRebateDates.length,
@@ -91,7 +85,49 @@ class _RebateHistoryState extends State<RebateHistory> {
                     DataCell(Text(_modifiedRebateDates[index].purpose)),
                     DataCell(Text(_modifiedRebateDates[index].startDate.toString().substring(0, 10))),
                     DataCell(Text(_modifiedRebateDates[index].endDate.toString().substring(0, 10))),
-                    DataCell(Text(_modifiedRebateDates[index].status == "0" ? "Rejected" : _modifiedRebateDates[index].status == "1" ? "Pending" : "Accepted")),
+                    // DataCell(Text(_modifiedRebateDates[index].status == "0" ? "Rejected" : _modifiedRebateDates[index].status == "1" ? "Pending" : "Accepted")),
+                    DataCell(
+                      DropdownButtonFormField<String>(
+                        decoration: InputDecoration(
+                          labelText: status != null ? null : 'Select',
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.deepOrangeAccent,
+                              width: 2,
+                            ),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          filled: true,
+                          fillColor: Colors.white,
+                        ),
+                        validator: (value) => value == null ? "Select" : null,
+                        dropdownColor: Colors.white,
+                        value: status,
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            status = newValue!;
+                          });
+                        },
+                        items: statusDropDownItems.map((item) {
+                          return DropdownMenuItem(
+                            child: Text(item["text"]!),
+                            value: item["value"],
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                    DataCell(
+                      TextField(
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                          hintText: 'Enter remark (optional)',
+                          border: OutlineInputBorder(),
+                        ),
+                        onChanged: (value) {
+                          // data['Remark'] = value;
+                        },
+                      ),
+                    ),
                   ]),
                 ),
               ),
