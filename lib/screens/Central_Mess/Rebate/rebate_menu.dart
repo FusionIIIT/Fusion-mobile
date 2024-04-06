@@ -3,6 +3,7 @@ import 'rebate_form.dart';
 import 'rebate_history.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/models/profile.dart';
 
 class RebateMenu extends StatefulWidget {
   @override
@@ -12,6 +13,10 @@ class RebateMenu extends StatefulWidget {
 class _RebateMenuState extends State<RebateMenu> {
   @override
   Widget build(BuildContext context) {
+    final ProfileData data = ModalRoute.of(context)!.settings.arguments as ProfileData;
+    String user = data.profile!['user_type'];
+    user = user.toLowerCase();
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar:DefaultAppBar().buildAppBar(titleText: "Central Mess"),

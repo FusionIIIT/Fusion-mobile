@@ -11,11 +11,11 @@ class MessMenu extends StatefulWidget {
 }
 
 class _MessMenuState extends State<MessMenu> {
-  String? user;
   @override
   Widget build(BuildContext context) {
     final ProfileData data = ModalRoute.of(context)!.settings.arguments as ProfileData;
-    user = data.profile!['user_type'];
+    String user = data.profile!['user_type'];
+    user = user.toLowerCase();
     // user = "caretaker";
     //user = "warden";
 

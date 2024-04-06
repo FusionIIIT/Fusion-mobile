@@ -14,12 +14,12 @@ class ManageRegDeReg extends StatefulWidget {
 }
 
 class _ManageRegDeRegState extends State<ManageRegDeReg> {
-  String? user;
   bool? isRegistered = false;
   @override
   Widget build(BuildContext context) {
     final ProfileData data = ModalRoute.of(context)!.settings.arguments as ProfileData;
-    user = data.profile!['user_type'];
+    String user = data.profile!['user_type'];
+    user = user.toLowerCase();
     user = "caretaker";
     //user = "warden";
     return Scaffold(

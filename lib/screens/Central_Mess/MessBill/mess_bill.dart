@@ -3,6 +3,7 @@ import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
 import 'mess_bill_history.dart';
 import 'mess_monthly_bill.dart';
+import 'package:fusion/models/profile.dart';
 
 class ViewBill extends StatefulWidget {
   @override
@@ -49,6 +50,10 @@ class _ViewBillState extends State<ViewBill> {
       backgroundColor: Colors.white,
       shadowColor: Colors.black,
     );
+    final ProfileData data = ModalRoute.of(context)!.settings.arguments as ProfileData;
+    String user = data.profile!['user_type'];
+    user = user.toLowerCase();
+
     return Scaffold(
       appBar: DefaultAppBar().buildAppBar(titleText: "Central Mess"),
       drawer: SideDrawer(),
