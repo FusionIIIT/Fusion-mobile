@@ -114,6 +114,7 @@ class _SideDrawerState extends State<SideDrawer> {
                         ModulesPadding(
                           line: 'Academics Module',
                           pageMover: '/academic_home_page',
+                          isActive: true,
                         ),
                         ModulesPadding(
                           line: 'Programme Curriculum',
@@ -131,7 +132,7 @@ class _SideDrawerState extends State<SideDrawer> {
                             pageMover: '/library_homepage'),
                         ModulesPadding(line: 'Awards & Scholarship Module'),
                         ModulesPadding(
-                            line: 'Complaint Module', pageMover: '/complaint' , isActive: true,),
+                            line: 'Complaint Module', pageMover: '/complaint'),
                         ModulesPadding(line: 'Central Mess Module'),
                         ModulesPadding(line: 'Feeds Module'),
                         ModulesPadding(
