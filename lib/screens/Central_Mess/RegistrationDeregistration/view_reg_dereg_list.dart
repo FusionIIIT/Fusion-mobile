@@ -1,22 +1,14 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:fusion/models/central_mess.dart';
-import 'package:fusion/services/central_mess_services.dart';
 
-class ViewList extends StatefulWidget {
+class ViewRegDeRegBillList extends StatefulWidget {
   @override
-  _ViewListState createState() => _ViewListState();
+  _ViewRegDeRegBillListState createState() => _ViewRegDeRegBillListState();
 }
 
-class _ViewListState extends State<ViewList> {
-  CentralMessService _centralMessService = CentralMessService();
-
-  bool _loading = false;
-  String? selectedMess, selectedProgramme, selectedStatus;
-  String? selectedBatch;
-
+class _ViewRegDeRegBillListState extends State<ViewRegDeRegBillList> {
+//   bool _loading = false;
+  String? selectedMess, selectedProgramme, selectedStatus, selectedBatch;
+  String? studentId;
 
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
@@ -51,25 +43,26 @@ class _ViewListState extends State<ViewList> {
     super.initState();
   }
 
-  List<Map<String, String>> programmeDropdownItems = [
-    {"text": "B.Tech", "value": "B.Tech"},
-    {"text": "M.Tech", "value": "M.Tech"},
-    {"text": "PHD", "value": "PHD"},
-    {"text": "All", "value": "All"},
+  List<Map<String, String>> messDropDownItems = [
+    {"text": "Mess 1", "value": "mess1"},
+    {"text": "Mess 2", "value": "mess2"},
   ];
-  List<Map<String, String>> batchDropdownItems = [
+  List<Map<String, String>> batchDropDownItems = [
     {"text": "2021", "value": "2021"},
     {"text": "2022", "value": "2022"},
     {"text": "2023", "value": "2023"},
     {"text": "2024", "value": "2024"},
+    {"text": "2025", "value": "2025"},
   ];
-  List<Map<String, String>> statusDropdownItems = [
-    {"text": "Accept", "value": "Accept"},
-    {"text": "Reject", "value": "Reject"},
+  List<Map<String, String>> programmeDropDownItems = [
+    {"text": "B.Tech", "value": "btech"},
+    {"text": "M.Tech", "value": "mtech"},
+    {"text": "PHD", "value": "phd"},
+    {"text": "B.Des", "value": "bdes"},
   ];
-  List<Map<String, String>> messDropdownItems = [
-    {"text": "Mess 1", "value": "mess1"},
-    {"text": "Mess 2", "value": "mess2"},
+  List<Map<String, String>> statusDropDownItems = [
+    {"text": "Registered", "value": "registered"},
+    {"text": "Deregistered", "value": "deregistered"},
   ];
 
   @override
@@ -94,7 +87,35 @@ class _ViewListState extends State<ViewList> {
                   children: [
                     DropdownButtonFormField(
                       decoration: InputDecoration(
-                        labelText: 'Select a Programme',
+                        labelText: 'Select status',
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.deepOrangeAccent, width: 2),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
+                      validator: (value) =>
+                      value == null ? "Select status" : null,
+                      dropdownColor: Colors.white,
+                      value: selectedProgramme,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          selectedProgramme = newValue!;
+                        });
+                      },
+                      items: statusDropDownItems.map((item) {
+                        return DropdownMenuItem(
+                          child: Text(item["text"]!),
+                          value: item["value"],
+                        );
+                      }).toList(),
+                    ),
+                    SizedBox(height: 10.0),
+                    DropdownButtonFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Select a programme',
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                               color: Colors.deepOrangeAccent, width: 2),
@@ -106,48 +127,20 @@ class _ViewListState extends State<ViewList> {
                       validator: (value) =>
                       value == null ? "Select a programme" : null,
                       dropdownColor: Colors.white,
-                      value: selectedProgramme,
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          selectedProgramme = newValue!;
-                        });
-                      },
-                      items: programmeDropdownItems.map((item) {
-                        return DropdownMenuItem(
-                          child: Text(item["text"]!),
-                          value: item["value"],
-                        );
-                      }).toList(),
-                    ),
-                    SizedBox(height: 30.0),
-                    DropdownButtonFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Select a Batch',
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colors.deepOrangeAccent, width: 2),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
-                      ),
-                      validator: (value) =>
-                      value == null ? "Select a batch" : null,
-                      dropdownColor: Colors.white,
                       value: selectedBatch,
                       onChanged: (String? newValue) {
                         setState(() {
                           selectedBatch = newValue!;
                         });
                       },
-                      items: batchDropdownItems.map((item) {
+                      items: programmeDropDownItems.map((item) {
                         return DropdownMenuItem(
                           child: Text(item["text"]!),
                           value: item["value"],
                         );
                       }).toList(),
                     ),
-                    SizedBox(height: 30.0),
+                    SizedBox(height: 10.0),
                     DropdownButtonFormField(
                       decoration: InputDecoration(
                         labelText: 'Select a Mess',
@@ -168,48 +161,18 @@ class _ViewListState extends State<ViewList> {
                           selectedMess = newValue!;
                         });
                       },
-                      items: messDropdownItems.map((item) {
+                      items: messDropDownItems.map((item) {
                         return DropdownMenuItem(
                           child: Text(item["text"]!),
                           value: item["value"],
                         );
                       }).toList(),
                     ),
-                    SizedBox(height: 30.0),
-                    DropdownButtonFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Select a Mess',
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colors.deepOrangeAccent, width: 2),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
-                      ),
-                      validator: (value) =>
-                      value == null ? "Select a mess" : null,
-                      dropdownColor: Colors.white,
-                      value: selectedStatus,
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          selectedStatus = newValue!;
-                        });
-                      },
-                      items: statusDropdownItems.map((item) {
-                        return DropdownMenuItem(
-                          child: Text(item["text"]!),
-                          value: item["value"],
-                        );
-                      }).toList(),
-                    ),
-                    SizedBox(height: 30.0),
+                    SizedBox(height: 10.0),
                     ElevatedButton(
                         style: style,
                         onPressed: () {
-                          if (_messFormKey.currentState!.validate()) {
-                            
-                          }
+                          if (_messFormKey.currentState!.validate()) {}
                         },
                         child: Text("Filter"))
                   ],
@@ -217,6 +180,50 @@ class _ViewListState extends State<ViewList> {
               ),
             ),
           ),
+          SizedBox(height: 30.0),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              child: Form(
+                key: _messFormKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextFormField(
+                      maxLines: 1,
+                      cursorHeight: 20,
+                      decoration: InputDecoration(
+                        labelText: 'Enter a StudentId',
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.deepOrangeAccent, width: 2),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
+                        errorText: (studentId == null || studentId!.isEmpty)
+                            ? 'Enter a studentId'
+                            : null,
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          studentId = value;
+                        });
+                      },
+                      style: TextStyle(fontSize: 20.0),
+                    ),
+                    SizedBox(height: 10.0),
+                    ElevatedButton(
+                        style: style,
+                        onPressed: () {
+                          if (_messFormKey.currentState!.validate()) {}
+                        },
+                        child: Text("Search"))
+                  ],
+                ),
+              ),
+            ),
+          )
         ],
       ),
     );

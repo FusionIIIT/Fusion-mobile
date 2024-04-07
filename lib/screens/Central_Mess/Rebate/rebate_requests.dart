@@ -45,8 +45,8 @@ class _RebateRequestsState extends State<RebateRequests> {
       'Purpose': 'Library',
       'From': '10:00 AM',
       'To': '12:00 PM',
-      'Approve': 'Yes',
       'Remark': 'No remarks',
+      'Approve': 'Yes',
     },
     {
       'Date': '2023-12-01',
@@ -55,8 +55,8 @@ class _RebateRequestsState extends State<RebateRequests> {
       'Purpose': 'Library and I cant go home so that I have done',
       'From': '10:00 AM',
       'To': '12:00 PM',
-      'Approve': 'Yes',
       'Remark': 'No remarks',
+      'Approve': 'Yes',
     },
   ];
 

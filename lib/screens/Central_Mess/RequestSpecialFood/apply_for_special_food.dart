@@ -183,7 +183,7 @@ class _ApplySpecialFoodState extends State<ApplySpecialFood> {
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return "Enter a new foodItem";
+                          return "Enter a purpose";
                         }
                         return null;
                       },

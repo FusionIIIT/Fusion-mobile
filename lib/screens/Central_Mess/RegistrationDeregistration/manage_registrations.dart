@@ -51,6 +51,27 @@ class _ManageRegistrationsState extends State<ManageRegistrations> {
     super.initState();
   }
 
+  List<Map<String, String>> messDropDownItems = [
+    {"text": "Mess 1", "value": "mess1"},
+    {"text": "Mess 2", "value": "mess2"},
+  ];
+  List<Map<String, String>> batchDropDownItems = [
+    {"text": "2021", "value": "2021"},
+    {"text": "2022", "value": "2022"},
+    {"text": "2023", "value": "2023"},
+    {"text": "2024", "value": "2024"},
+    {"text": "2025", "value": "2025"},
+  ];
+  List<Map<String, String>> programmeDropDownItems = [
+    {"text": "B.Tech", "value": "btech"},
+    {"text": "M.Tech", "value": "mtech"},
+    {"text": "PHD", "value": "phd"},
+    {"text": "B.Des", "value": "bdes"},
+  ];
+  List<Map<String, String>> statusDropDownItems = [
+    {"text": "Registered", "value": "registered"},
+    {"text": "Deregistered", "value": "deregistered"},
+  ];
   @override
   Widget build(BuildContext context) {
     final _messFormKey = GlobalKey<FormState>();
@@ -91,19 +112,14 @@ class _ManageRegistrationsState extends State<ManageRegistrations> {
                           selectedProgramme = newValue!;
                         });
                       },
-                      items: [
-                        DropdownMenuItem(
-                            child: Text("B.Tech"),
-                            value: "B.Tech"),
-                        DropdownMenuItem(
-                            child: Text("M.Tech"),
-                            value: "M.Tech"),
-                        DropdownMenuItem(
-                            child: Text("B.Des"),
-                            value: "B.Des"),
-                      ],
+                      items: programmeDropDownItems.map((item) {
+                        return DropdownMenuItem(
+                          child: Text(item["text"]!),
+                          value: item["value"],
+                        );
+                      }).toList(),
                     ),
-                    SizedBox(height: 30.0),
+                    SizedBox(height: 10.0),
                     DropdownButtonFormField(
                       decoration: InputDecoration(
                         labelText: 'Select a Batch',
@@ -124,22 +140,14 @@ class _ManageRegistrationsState extends State<ManageRegistrations> {
                           selectedBatch = newValue!;
                         });
                       },
-                      items: [
-                        DropdownMenuItem(
-                            child: Text("2021"),
-                            value: "2021"),
-                        DropdownMenuItem(
-                            child: Text("2022"),
-                            value: "2022"),
-                        DropdownMenuItem(
-                            child: Text("2023"),
-                            value: "2023"),
-                        DropdownMenuItem(
-                            child: Text("2024"),
-                            value: "2024"),
-                      ],
+                      items: batchDropDownItems.map((item) {
+                        return DropdownMenuItem(
+                          child: Text(item["text"]!),
+                          value: item["value"],
+                        );
+                      }).toList(),
                     ),
-                    SizedBox(height: 30.0),
+                    SizedBox(height: 10.0),
                     DropdownButtonFormField(
                       decoration: InputDecoration(
                         labelText: 'Select a Branch',
@@ -178,7 +186,7 @@ class _ManageRegistrationsState extends State<ManageRegistrations> {
                             value: "Design"),
                       ],
                     ),
-                    SizedBox(height: 30.0),
+                    SizedBox(height: 10.0),
                     DropdownButtonFormField(
                       decoration: InputDecoration(
                         labelText: 'Select a Mess',
@@ -199,14 +207,12 @@ class _ManageRegistrationsState extends State<ManageRegistrations> {
                           selectedMess = newValue!;
                         });
                       },
-                      items: [
-                        DropdownMenuItem(
-                            child: Text("Central Mess 1"),
-                            value: "mess1"),
-                        DropdownMenuItem(
-                            child: Text("Central Mess 2"),
-                            value: "mess2"),
-                      ],
+                      items: messDropDownItems.map((item) {
+                        return DropdownMenuItem(
+                          child: Text(item["text"]!),
+                          value: item["value"],
+                        );
+                      }).toList(),
                     ),
                     SizedBox(height: 30.0),
                     ElevatedButton(
