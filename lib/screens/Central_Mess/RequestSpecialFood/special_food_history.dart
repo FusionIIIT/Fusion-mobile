@@ -1,4 +1,4 @@
-import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:fusion/models/central_mess.dart';
 import 'package:fusion/services/central_mess_services.dart';
@@ -10,6 +10,7 @@ class HistoryOfSpecialFood extends StatefulWidget {
 }
 
 class _HistoryOfSpecialFoodState extends State<HistoryOfSpecialFood> {
+
   CentralMessService _centralMessService = CentralMessService();
 
   bool _loading = true;
@@ -42,6 +43,7 @@ class _HistoryOfSpecialFoodState extends State<HistoryOfSpecialFood> {
   Widget build(BuildContext context) {
     final ProfileData data = ModalRoute.of(context)!.settings.arguments as ProfileData;
     String user = data.profile!['user_type'];
+    user = user.toLowerCase();
     user = "caretaker";
     // user = "warden";
     final List<SpecialRequest> _modifiedSpecialRequests = (user == "student") ? _specialRequests.where((element) => (element.studentId == data.profile!['id'])).toList()
@@ -91,3 +93,4 @@ class _HistoryOfSpecialFoodState extends State<HistoryOfSpecialFood> {
     ));
   }
 }
+

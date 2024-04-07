@@ -3,13 +3,17 @@ import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
 import 'mess_bill_history.dart';
 import 'mess_monthly_bill.dart';
+import 'update_monthly_bill.dart';
+import 'view_student_bills.dart';
+import 'search_student_bills.dart';
+import 'package:fusion/models/profile.dart';
 
-class ViewBill extends StatefulWidget {
+class ManageBill extends StatefulWidget {
   @override
-  _ViewBillState createState() => _ViewBillState();
+  _ManageBillState createState() => _ManageBillState();
 }
 
-class _ViewBillState extends State<ViewBill> {
+class _ManageBillState extends State<ManageBill> {
 
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
@@ -49,6 +53,11 @@ class _ViewBillState extends State<ViewBill> {
       backgroundColor: Colors.white,
       shadowColor: Colors.black,
     );
+    final ProfileData data = ModalRoute.of(context)!.settings.arguments as ProfileData;
+    String user = data.profile!['user_type'];
+    user = user.toLowerCase();
+    user = "caretaker";
+
     return Scaffold(
       appBar: DefaultAppBar().buildAppBar(titleText: "Central Mess"),
       drawer: SideDrawer(),
@@ -56,7 +65,7 @@ class _ViewBillState extends State<ViewBill> {
         child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
           SizedBox(height: 5.0),
           DefaultTabController(
-              length: 2, // length of tabs
+              length: user == "student" ? 2 : 3, // length of tabs
               initialIndex: 0,
               child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
                 Container(
@@ -66,8 +75,17 @@ class _ViewBillState extends State<ViewBill> {
                     indicatorColor: Colors.deepOrangeAccent,
                     unselectedLabelColor: Colors.black,
                     tabs: [
-                      Tab(child: Text("Monthly Bill",style: TextStyle(fontWeight: FontWeight.bold),),),
-                      Tab(child: Text("Bill History",style: TextStyle(fontWeight: FontWeight.bold),),),
+                      if (user == "student")
+                        ...[
+                          Tab(child: Text("Monthly Bill",style: TextStyle(fontWeight: FontWeight.bold),),),
+                          Tab(child: Text("Bill History",style: TextStyle(fontWeight: FontWeight.bold),),),
+                        ],
+                      if (user == "caretaker" || user=="warden")
+                        ...[
+                          Tab(child: Text("Update Monthly Bill",style: TextStyle(fontWeight: FontWeight.bold),),),
+                          Tab(child: Text("View Student Bills",style: TextStyle(fontWeight: FontWeight.bold),),),
+                          Tab(child: Text("Search Student Bill",style: TextStyle(fontWeight: FontWeight.bold),),),
+                        ]
                     ],
                   ),
                 ),
@@ -77,9 +95,15 @@ class _ViewBillState extends State<ViewBill> {
                         border: Border(top: BorderSide(color: Colors.grey, width: 0.5))
                     ),
                     child: TabBarView(children: <Widget>[
-                      MessMonthlyBill(),
-
-                      MessMonthlyBillHistory(),
+                      if(user == "student") ...[
+                        MessMonthlyBill(),
+                        MessMonthlyBillHistory(),
+                      ],
+                      if(user=="caretaker" || user=="warden") ...[
+                        UpdateMonthlyBill(),
+                        ViewStudentBill(),
+                        SearchStudentBill(),
+                      ]
                     ])
                 )
               ])

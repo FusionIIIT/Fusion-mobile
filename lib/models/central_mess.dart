@@ -201,7 +201,7 @@ class SpecialRequest {
   final DateTime appDate;
 
   SpecialRequest({
-    required this.studentId,
+    this.studentId,
     required this.startDate,
     required this.endDate,
     required this.request,

@@ -21,8 +21,8 @@ class _AnnouncementState extends State<Announcement> {
   @override
   Widget build(BuildContext context) {
     final ProfileData data = ModalRoute.of(context)!.settings.arguments as ProfileData;
-    String? user = data.profile!['user_type'];
-    // user = "caretaker";
+    String user = data.profile!['user_type'];
+    user = user.toLowerCase();
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: DefaultAppBar().buildAppBar(titleText: "Central Mess"),

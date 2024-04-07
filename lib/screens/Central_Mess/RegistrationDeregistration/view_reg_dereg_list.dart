@@ -1,22 +1,14 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:fusion/models/central_mess.dart';
-import 'package:fusion/services/central_mess_services.dart';
 
-class ManageRegistrations extends StatefulWidget {
+class ViewRegDeRegBillList extends StatefulWidget {
   @override
-  _ManageRegistrationsState createState() => _ManageRegistrationsState();
+  _ViewRegDeRegBillListState createState() => _ViewRegDeRegBillListState();
 }
 
-class _ManageRegistrationsState extends State<ManageRegistrations> {
-  CentralMessService _centralMessService = CentralMessService();
-
-  bool _loading = false;
-  String? selectedMess, selectedProgramme, selectedBranch;
-  String? selectedBatch;
-
+class _ViewRegDeRegBillListState extends State<ViewRegDeRegBillList> {
+//   bool _loading = false;
+  String? selectedMess, selectedProgramme, selectedStatus, selectedBatch;
+  String? studentId;
 
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
@@ -72,6 +64,7 @@ class _ManageRegistrationsState extends State<ManageRegistrations> {
     {"text": "Registered", "value": "registered"},
     {"text": "Deregistered", "value": "deregistered"},
   ];
+
   @override
   Widget build(BuildContext context) {
     final _messFormKey = GlobalKey<FormState>();
@@ -94,7 +87,35 @@ class _ManageRegistrationsState extends State<ManageRegistrations> {
                   children: [
                     DropdownButtonFormField(
                       decoration: InputDecoration(
-                        labelText: 'Select a Programme',
+                        labelText: 'Select status',
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.deepOrangeAccent, width: 2),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
+                      validator: (value) =>
+                      value == null ? "Select status" : null,
+                      dropdownColor: Colors.white,
+                      value: selectedProgramme,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          selectedProgramme = newValue!;
+                        });
+                      },
+                      items: statusDropDownItems.map((item) {
+                        return DropdownMenuItem(
+                          child: Text(item["text"]!),
+                          value: item["value"],
+                        );
+                      }).toList(),
+                    ),
+                    SizedBox(height: 10.0),
+                    DropdownButtonFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Select a programme',
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                               color: Colors.deepOrangeAccent, width: 2),
@@ -106,10 +127,10 @@ class _ManageRegistrationsState extends State<ManageRegistrations> {
                       validator: (value) =>
                       value == null ? "Select a programme" : null,
                       dropdownColor: Colors.white,
-                      value: selectedProgramme,
+                      value: selectedBatch,
                       onChanged: (String? newValue) {
                         setState(() {
-                          selectedProgramme = newValue!;
+                          selectedBatch = newValue!;
                         });
                       },
                       items: programmeDropDownItems.map((item) {
@@ -118,73 +139,6 @@ class _ManageRegistrationsState extends State<ManageRegistrations> {
                           value: item["value"],
                         );
                       }).toList(),
-                    ),
-                    SizedBox(height: 10.0),
-                    DropdownButtonFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Select a Batch',
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colors.deepOrangeAccent, width: 2),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
-                      ),
-                      validator: (value) =>
-                      value == null ? "Select a batch" : null,
-                      dropdownColor: Colors.white,
-                      value: selectedBatch,
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          selectedBatch = newValue!;
-                        });
-                      },
-                      items: batchDropDownItems.map((item) {
-                        return DropdownMenuItem(
-                          child: Text(item["text"]!),
-                          value: item["value"],
-                        );
-                      }).toList(),
-                    ),
-                    SizedBox(height: 10.0),
-                    DropdownButtonFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Select a Branch',
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colors.deepOrangeAccent, width: 2),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
-                      ),
-                      validator: (value) =>
-                      value == null ? "Select a branch" : null,
-                      dropdownColor: Colors.white,
-                      value: selectedBranch,
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          selectedBranch = newValue!;
-                        });
-                      },
-                      items: [
-                        DropdownMenuItem(
-                            child: Text("CSE"),
-                            value: "CSE"),
-                        DropdownMenuItem(
-                            child: Text("ECE"),
-                            value: "ECE"),
-                        DropdownMenuItem(
-                            child: Text("ME"),
-                            value: "ME"),
-                        DropdownMenuItem(
-                            child: Text("SM"),
-                            value: "SM"),
-                        DropdownMenuItem(
-                            child: Text("Design"),
-                            value: "Design"),
-                      ],
                     ),
                     SizedBox(height: 10.0),
                     DropdownButtonFormField(
@@ -214,19 +168,62 @@ class _ManageRegistrationsState extends State<ManageRegistrations> {
                         );
                       }).toList(),
                     ),
-                    SizedBox(height: 30.0),
+                    SizedBox(height: 10.0),
                     ElevatedButton(
                         style: style,
                         onPressed: () {
-                          if (_messFormKey.currentState!.validate()) {
-                          }
+                          if (_messFormKey.currentState!.validate()) {}
                         },
-                        child: Text("Update"))
+                        child: Text("Filter"))
                   ],
                 ),
               ),
             ),
           ),
+          SizedBox(height: 30.0),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              child: Form(
+                key: _messFormKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextFormField(
+                      maxLines: 1,
+                      cursorHeight: 20,
+                      decoration: InputDecoration(
+                        labelText: 'Enter a StudentId',
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.deepOrangeAccent, width: 2),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
+                        errorText: (studentId == null || studentId!.isEmpty)
+                            ? 'Enter a studentId'
+                            : null,
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          studentId = value;
+                        });
+                      },
+                      style: TextStyle(fontSize: 20.0),
+                    ),
+                    SizedBox(height: 10.0),
+                    ElevatedButton(
+                        style: style,
+                        onPressed: () {
+                          if (_messFormKey.currentState!.validate()) {}
+                        },
+                        child: Text("Search"))
+                  ],
+                ),
+              ),
+            ),
+          )
         ],
       ),
     );

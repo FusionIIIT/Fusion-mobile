@@ -449,6 +449,53 @@ class CentralMessService {
     }
   }
 
+  Future<http.Response> sendSpecialRequest(SpecialRequest data) async {
+    try {
+      http.Response response0 = await initAuth();
+
+      if (response0.statusCode == 200) {
+        Map<String, String> headers = {
+          'Authorization': 'Token ' + json.decode(response0.body)['token'],
+          'Content-Type': 'application/json; charset=UTF-8'
+        };
+
+        Map<String, dynamic> body = {
+          'student_id': '21BCS064',
+          'item1': data.item1,
+          'item2': data.item2,
+          'app_date': data.appDate.toString().substring(0, 10),
+          'status': data.status,
+          'request': data.request,
+          'start_date': data.startDate.toString().substring(0, 10),
+          'end_date': data.endDate.toString().substring(0, 10),
+        };
+
+        print("Sending Special Request");
+        http.Response response = await http.post(
+          Uri.http(
+            kCentralMess,
+            kSpecialRequestEndpoint, //constant api EndPoint
+          ),
+          headers: headers,
+          body: json.encode(body),
+        );
+
+        if (response.statusCode == 200) {
+          print('Special Request sent successfully');
+          return response;
+        } else {
+          print(response.statusCode);
+          throw Exception('Failed to send special request');
+        }
+      } else {
+        print(response0.statusCode);
+        throw Exception('Failed to authenticate');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<http.Response> updateSpecialRequest(SpecialRequest data) async {
     try {
       http.Response response0 = await initAuth();
