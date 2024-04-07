@@ -16,6 +16,7 @@ String kProfile = "/api/profile/";
 String kAcademicProcedures = "/academic-procedures/api/stu/";
 
 //Central Mess
+
 // String kCentralMess = "172.27.38.197:8000";
 String kCentralMess = "172.27.71.115:8000";
 String kFeedbackEndpoint = "/mess/api/feedbackApi";

@@ -218,6 +218,7 @@ class _RebateFormState extends State<RebateForm> {
                                 status: "1",
                                 appDate: DateTime.now(),
                                 leaveType: selectedType!,
+                                rebateRemark: "",
                             );
                             _sendRebateRequestData(data);
                             setState(() {

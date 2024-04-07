@@ -134,6 +134,7 @@ class Rebate {
   final String status;
   final DateTime appDate;
   final String leaveType;
+  final String rebateRemark;
 
   Rebate({
     this.studentId,
@@ -143,6 +144,7 @@ class Rebate {
     required this.status,
     required this.appDate,
     required this.leaveType,
+    required this.rebateRemark,
   });
 
   factory Rebate.fromJson(Map<String, dynamic> json) {
@@ -154,6 +156,7 @@ class Rebate {
       status: json['status'],
       appDate: DateTime.parse(json['app_date']),
       leaveType: json['leave_type'],
+      rebateRemark: json['rebate_remark']
     );
   }
 }
@@ -301,6 +304,7 @@ class MessFeedback {
   late final DateTime fdate;
   late final String description;
   late final String feedbackType;
+  late final String? feedbackRemark;
 
   MessFeedback({
     this.studentId,
@@ -309,6 +313,7 @@ class MessFeedback {
     required this.fdate,
     required this.description,
     required this.feedbackType,
+    this.feedbackRemark,
   });
 
   factory MessFeedback.fromJson(Map<String, dynamic> json) {
@@ -319,6 +324,7 @@ class MessFeedback {
       fdate: DateTime.parse(json['fdate']),
       description: json['description'],
       feedbackType: json['feedback_type'],
+      feedbackRemark: json['feedback_remark'],
     );
   }
 }
