@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:date_field/date_field.dart';
+import 'package:fusion/services/central_mess_services.dart';
+import 'package:fusion/models/central_mess.dart';
 
 class ApplySpecialFood extends StatefulWidget {
   @override
@@ -7,9 +10,39 @@ class ApplySpecialFood extends StatefulWidget {
 }
 
 class _ApplySpecialFoodState extends State<ApplySpecialFood> {
+
+  CentralMessService _centralMessService = CentralMessService();
+  TextEditingController textController = TextEditingController();
+
   bool _loading = false, _requestSent = false;
+  SpecialRequest? data;
   String? selectedMess, mealTime, foodItem, purpose;
   DateTime? fromDate, toDate;
+
+  final _messFormKey = GlobalKey<FormState>();
+  final _purposeController = TextEditingController();
+
+  void _sendSpecialRequestData(data) async {
+    try {
+      http.Response menuItems = await _centralMessService.sendSpecialRequest(data);
+      if (menuItems.statusCode == 200) {
+        print('Sent the special request');
+        setState(() {
+          _requestSent = true;
+        });
+      } else {
+        print('Couldn\'t send');
+      }
+    } catch (e) {
+      print('Error sending Special Request: $e');
+    }
+  }
+
+  @override
+  void dispose() {
+    textController.dispose(); // Dispose the controller
+    super.dispose();
+  }
 
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
@@ -50,7 +83,7 @@ class _ApplySpecialFoodState extends State<ApplySpecialFood> {
 
   @override
   Widget build(BuildContext context) {
-    final _messFormKey = GlobalKey<FormState>();
+
     final ButtonStyle style = ElevatedButton.styleFrom(
       textStyle: const TextStyle(
           fontSize: 20, color: Colors.white, fontWeight: FontWeight.w500),
@@ -157,7 +190,7 @@ class _ApplySpecialFoodState extends State<ApplySpecialFood> {
                       value: mealTime,
                       onChanged: (String? newValue) {
                         // setState(() {
-                          mealTime = newValue!;
+                        mealTime = newValue!;
                         // });
                       },
                       items: mealTimeDropDownItems.map((item) {
@@ -195,6 +228,7 @@ class _ApplySpecialFoodState extends State<ApplySpecialFood> {
                       style: TextStyle(fontSize: 20.0),
                     ),SizedBox(height: 10.0),
                     TextFormField(
+                      controller: _purposeController,
                       maxLines: 3,
                       cursorHeight: 30,
                       decoration: InputDecoration(
@@ -228,6 +262,23 @@ class _ApplySpecialFoodState extends State<ApplySpecialFood> {
                             // Handle valid flow
                             // print("Selected mess: $selectedValue");
                             // Now we can perform actions based on the selected mess
+
+                            // print({fromDate, toDate, purpose, foodItem, mealTime});
+                            setState(() {
+                              data = SpecialRequest(
+                                startDate: fromDate!,
+                                endDate: toDate!,
+                                request: purpose!,
+                                status: "1",
+                                item1: foodItem!,
+                                item2: mealTime!,
+                                appDate: DateTime.now(),
+                              );
+                              _sendSpecialRequestData(data);
+                              setState(() {
+                                data = null;
+                              });
+                            });
                           }
                         },
                         child: Text("Request"))
@@ -241,7 +292,7 @@ class _ApplySpecialFoodState extends State<ApplySpecialFood> {
               ? Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Feedback sent Successfully"),
+              Text("Special Request sent Successfully"),
             ],
           )
               : SizedBox(height: 10.0),
