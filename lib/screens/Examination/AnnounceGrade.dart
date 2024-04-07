@@ -177,13 +177,8 @@ class _AnnounceGradeState extends State<AnnounceGrade> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildDropdown('Curriculum', curriculumTypeItem),
-            SizedBox(height: 20),
 
             _buildDropdown('Batch', batchTypeItem),
-            SizedBox(height: 20),
-
-            _buildDropdown('Branch', branchTypeItem),
             SizedBox(height: 20),
 
             _buildDropdown('Semester', semesterTypeItem),

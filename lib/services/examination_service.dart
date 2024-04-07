@@ -75,4 +75,41 @@ class ExaminationService {
       rethrow;
     }
   }
+
+  Future<void> updateAuthenticator(String course, int year, int authenticatorNumber) async {
+  try {
+    var storageService = locator<StorageService>();
+
+    if (storageService.userInDB?.token == null)
+      throw Exception('Token Error');
+
+    Map<String, String> headers = {
+      'Authorization': 'Token ' + (storageService.userInDB?.token ?? "")
+    };
+
+    http.Response response = await http.patch(
+      Uri.http(
+        getLink(),
+        kUpdateAuthenticator,
+      ),
+      headers: headers,
+      body: {
+    'course_id': course,
+    'year': year.toString(),
+    'authenticator_number': authenticatorNumber.toString()
+  },
+    );
+
+    if (response.statusCode == 200) {
+      // Authenticator toggled successfully
+      print('Authenticator $authenticatorNumber toggled successfully for the year $year and course id $course');
+    } else {
+      throw Exception('Failed to toggle authenticator');
+    }
+  } catch (e) {
+    rethrow;
+  }
+}
+
+
 }

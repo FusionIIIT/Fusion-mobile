@@ -9,14 +9,19 @@ class VerifyResult extends StatefulWidget {
 }
 
 class _VerifyResultState extends State<VerifyResult> {
-  String? _curriculumValue;
+  String? _yearValue;
   String? _batchValue;
   String? _branchValue;
   String? _semesterValue;
   int? _courseId; // Course ID variable
+  String? _courseName;
   bool isVerified = false;
+  bool authenticator1 = false;
+  bool authenticator2 = false;
+  bool authenticator3 = false;
 
   TextEditingController _courseIdController = TextEditingController();
+  TextEditingController _courseController = TextEditingController();
 
   List<dynamic> _registeredStudents = [];
   final int _displayLimit = 10;
@@ -24,8 +29,8 @@ class _VerifyResultState extends State<VerifyResult> {
   void _handleDropdownChange(String dropdownName, String? value) {
     setState(() {
       switch (dropdownName) {
-        case 'Curriculum':
-          _curriculumValue = value;
+        case 'Year':
+          _yearValue = value;
           break;
         case 'Batch':
           _batchValue = value;
@@ -107,10 +112,39 @@ class _VerifyResultState extends State<VerifyResult> {
     );
   }
 
+  Future<void> _updateAuthenticators() async {
+  try {
+    // Create an instance of ExaminationService
+    ExaminationService examService = ExaminationService();
+
+    // Make API call to update authenticators based on checkbox state
+    // You need to pass the checked state of each authenticator
+    int _year = int.parse(_yearValue!);
+    print('Course Name: $_courseName, Year: $_year, Authenticator 1: $authenticator1, Authenticator 2: $authenticator2, Authenticator 3: $authenticator3');
+
+    if (authenticator1) {
+      await examService.updateAuthenticator(_courseName!, _year, 1);
+    }
+    if (authenticator2) {
+      await examService.updateAuthenticator(_courseName!, _year, 2);
+    }
+    if (authenticator3) {
+      await examService.updateAuthenticator(_courseName!, _year, 3);
+    }
+
+    // Handle success
+    print('Authenticators updated successfully');
+  } catch (e) {
+    // Handle error
+    print('Error updating authenticators: $e');
+  }
+}
+
+
   String? _getValueByName(String name) {
     switch (name) {
-      case 'Curriculum':
-        return _curriculumValue;
+      case 'Year':
+        return _yearValue;
       case 'Batch':
         return _batchValue;
       case 'Branch':
@@ -122,12 +156,12 @@ class _VerifyResultState extends State<VerifyResult> {
     }
   }
 
-  List<String> curriculumTypeItem = [
-    'B Tech',
-    'B Des',
-    'M Tech',
-    'M Des',
-    'PHD',
+  List<String> YearTypeItem = [
+    '2020',
+    '2021',
+    '2022',
+    '2023',
+    '2024'
   ];
 
   List<String> batchTypeItem = [
@@ -167,12 +201,13 @@ class _VerifyResultState extends State<VerifyResult> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildDropdown('Curriculum', curriculumTypeItem),
+              _buildDropdown('Year', YearTypeItem),
               SizedBox(height: 20),
               _buildDropdown('Batch', batchTypeItem),
               SizedBox(height: 20),
-              _buildDropdown('Branch', branchTypeItem),
-              SizedBox(height: 20),
+              // _buildDropdown('Branch', branchTypeItem),
+              // SizedBox(height: 20),
+              
               _buildDropdown('Semester', semesterTypeItem),
               SizedBox(height: 20),
               Text('Course Id',
@@ -255,6 +290,16 @@ class _VerifyResultState extends State<VerifyResult> {
                 ),
               ),
 
+              SizedBox(height: 10),
+              TextField(
+                controller: _courseController,
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(
+                  labelText: 'Enter Course',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+
               SizedBox(height: 20),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 16),
@@ -262,8 +307,54 @@ class _VerifyResultState extends State<VerifyResult> {
                     ? Text("Result is verified")
                     : Text("Result is not yet verified"),
               ),
-              SizedBox(height: 20),
-              createButton(buttonText: 'Verify', onPressed: () {}),
+               SizedBox(height: 20),
+              createButton(
+                buttonText: 'Verify',
+                onPressed: () {
+                  _courseName = _courseController.text;
+                  // Handle verification process here
+                  if (authenticator1 || authenticator2 || authenticator3) {
+                    // At least one authenticator checked, proceed with verification
+                    _updateAuthenticators(); // Call function to update authenticators
+                    print("Verification successful");
+                  } else {
+                    // No authenticator checked
+                    print("Please check at least one authenticator");
+                  }
+                },
+              ),
+
+              // Add checkboxes for authenticators
+              CheckboxListTile(
+                title: Text('Authenticator 1'),
+                value: authenticator1,
+                onChanged: (value) {
+                  setState(() {
+                    authenticator1 = value!;
+                  });
+                },
+              ),
+
+              CheckboxListTile(
+                title: Text('Authenticator 2'),
+                value: authenticator2,
+                onChanged: (value) {
+                  setState(() {
+                    authenticator2 = value!;
+                  });
+                },
+              ),
+
+
+               CheckboxListTile(
+                title: Text('Authenticator 3'),
+                value: authenticator3,
+                onChanged: (value) {
+                  setState(() {
+                    authenticator3 = value!;
+                  });
+                },
+              ),
             ],
           ),
         ),
