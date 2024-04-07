@@ -35,6 +35,7 @@ import 'package:fusion/screens/Programme_Curriculum/Discipline/discipline.dart';
 import 'package:fusion/screens/Programme_Curriculum/Programme/programme_home_page.dart';
 import 'package:fusion/screens/Programme_Curriculum/Programme_Info/programme_info.dart';
 import 'package:fusion/screens/Programme_Curriculum/programme_curriculum_home.dart';
+import 'package:fusion/screens/PurchaseStore/Indenter_View.dart';
 import 'package:fusion/screens/landing_page.dart';
 import 'package:fusion/screens/Healthcenter/healthcentermodule.dart';
 import 'package:fusion/screens/Healthcenter/feedback.dart';
@@ -42,6 +43,25 @@ import 'package:fusion/screens/Healthcenter/viewschedule.dart';
 import 'package:fusion/screens/Healthcenter/history.dart';
 import 'package:fusion/screens/Healthcenter/HealthCenter.dart';
 import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/screens/PurchaseStore/purchase_store_homepage.dart';
+import 'package:fusion/screens/PurchaseStore/Approved_Request.dart';
+import 'package:fusion/screens/PurchaseStore/Audit_Bill.dart';
+import 'package:fusion/screens/PurchaseStore/Global_STOCK.dart';
+// import 'package:fusion/screens/PurchaseStore/Indent_form.dart';
+import 'package:fusion/screens/PurchaseStore/Process_Bill.dart';
+import 'package:fusion/screens/PurchaseStore/Rejected_Request.dart';
+import 'package:fusion/screens/PurchaseStore/Saved_indent.dart';
+import 'package:fusion/screens/PurchaseStore/Transfer_Funds.dart';
+import 'package:fusion/screens/PurchaseStore/filed_Indent.dart';
+import 'package:fusion/screens/PurchaseStore/inbox.dart';
+import 'package:fusion/screens/PurchaseStore/new_request.dart';
+import 'package:fusion/screens/PurchaseStore/pending.dart';
+import 'package:fusion/screens/PurchaseStore/admin_homepage.dart';
+import 'package:fusion/screens/PurchaseStore/ps_admin.dart';
+import 'package:fusion/screens/PurchaseStore/head_homepage.dart';
+import 'package:fusion/screens/PurchaseStore/indent_form.dart';
+import 'package:fusion/screens/PurchaseStore/pending.dart';
+import 'package:fusion/screens/PurchaseStore/flow_chart.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -60,7 +80,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MediaQueryData windowData =
-    MediaQueryData.fromWindow(WidgetsBinding.instance.window);
+        MediaQueryData.fromWindow(WidgetsBinding.instance.window);
     windowData = windowData.copyWith(
       textScaleFactor: 1,
     );
@@ -71,10 +91,10 @@ class MyApp extends StatelessWidget {
         title: 'Fusion',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-            // primarySwatch: Colors.blueGrey,
+          // primarySwatch: Colors.blueGrey,
           // colorSchemeSeed: Color(0xFF2085D0),
           colorSchemeSeed: Color(0xFFF36C35),
-            fontFamily: 'Nunito',
+          fontFamily: 'Nunito',
           useMaterial3: true,
         ),
         initialRoute: '/landing',
@@ -127,6 +147,27 @@ class MyApp extends StatelessWidget {
           '/health_center/feedback': (context) => FeedBack(),
           '/health_center/viewschedule': (context) => ViewSchedule(),
           '/health_center/history': (context) => History(),
+          '/purchase_store_homepage': (context) => FlowChartPage(),
+          // '/purchase_store/indent_form': (context) => IndentForm(),
+          '/purchase_store/indent_form': (context) => IndentForm(),
+
+          '/purchase_store/inbox': (context) => Inbox(),
+          '/purchase_store/saved_indent': (context) => SavedIndent(),
+          '/purchase_store/filed_indent': (context) => FiledIndent(),
+          '/purchase_store/': (context) => PurchaseStoreHomePage(),
+          '/purchase_store/new_request': (context) => NewRequest(),
+          '/purchase_store/pending': (context) => Pending(),
+          '/purchase_store/approved': (context) => ApprovedRequest(),
+          '/purchase_store/rejected': (context) => RejectedRequest(),
+          '/purchase_store/audit': (context) => AuditBill(),
+          '/purchase_store/process_bill': (context) => ProcessBill(),
+          '/purchase_store/global_stock': (context) => GlobalStock(),
+          '/purchase_store/transfer_funds': (context) => TransferFunds(),
+          '/purchase_store/employee': (context) => PurchaseStoreHomePage(),
+          '/purchase_store/admin': (context) => adminHomePage(),
+          '/purchase_store/psadmin': (context) => psadminPage(),
+          '/purchase_store/head': (context) => headHomePage(),
+          '/purchase_store/indent_view': (context) => IndentView(),
         },
       ),
     );
