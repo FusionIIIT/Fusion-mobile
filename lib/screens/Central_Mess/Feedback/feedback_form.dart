@@ -125,40 +125,33 @@ class _FeedbackFormState extends State<FeedbackForm> {
                             value: "mess2"),
                       ],
                     ),
-                    SizedBox(height: 30.0),
+                    SizedBox(height: 10.0),
 
                     DateTimeFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Select Start Date',
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colors.deepOrangeAccent, width: 2),
-                          borderRadius: BorderRadius.circular(20),
+                        decoration: InputDecoration(
+                          labelText: 'Select date',
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Colors.deepOrangeAccent, width: 2),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          suffixIcon: Icon(Icons.event_note),
+                          filled: true,
+                          fillColor: Colors.white,
                         ),
-                        suffixIcon: Icon(Icons.event_note),
-                        filled: true,
-                        fillColor: Colors.white,
-                        errorText: _sendFeedback && selectedDate == null
-                            ? 'Please select a start date'
-                            : null,
-                      ),
-                      mode: DateTimeFieldPickerMode.date,
-
-                      autovalidateMode: AutovalidateMode.always,
-                      validator: (e) =>
-                      (e?.day ?? 0) == 1 ? 'Please select a date' : null,
-
-                      onDateSelected: (DateTime value) {
-                        setState(() {
+                        mode: DateTimeFieldPickerMode.date,
+                        autovalidateMode: AutovalidateMode.always,
+                        validator: (e) =>
+                        (e?.day ?? 0) == 1 ? 'Select  date' : null,
+                        onDateSelected: (DateTime value) {
                           selectedDate = value;
-                        });
-                      },
+                        },
                         firstDate: DateTime.now()
                     ),
 
 
 
-                    SizedBox(height: 30.0),
+                    SizedBox(height: 10.0),
                     DropdownButtonFormField(
                       decoration: InputDecoration(
                         labelText: 'Type of Feedback',
@@ -196,7 +189,7 @@ class _FeedbackFormState extends State<FeedbackForm> {
                             value: "Others"),
                       ],
                     ),
-                    SizedBox(height: 30.0),
+                    SizedBox(height: 10.0),
                     TextFormField(
                       maxLines: 4,
                       cursorHeight: 30,

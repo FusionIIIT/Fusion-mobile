@@ -16,10 +16,6 @@ class _MessMonthlyBillState extends State<MessMonthlyBill> {
 
   bool _loading = true;
   int remBalance = 0;
-  // int monthlyBill = 3150, specialReqBill = 0, rebateAmount = 0;
-  // int totalBill = 0;
-  // int totalBill = 0 (monthlyBill + specialReqBill - rebateAmount);
-
   @override
   void initState() {
     super.initState();
@@ -40,31 +36,6 @@ class _MessMonthlyBillState extends State<MessMonthlyBill> {
       print('Error fetching bill: $e');
     }
   }
-
-  // getData() async {
-  //   try {
-  //     Response response = await dashboardService.getDashboard();
-  //     Response response2 = await profileService.getProfile();
-  //     setState(() {
-  //       data = DashboardData.fromJson(jsonDecode(response.body));
-  //       data2 = ProfileData.fromJson(jsonDecode(response2.body));
-  //       _loading = false;
-  //     });
-  //     name = data2.user!['first_name'] + ' ' + data2.user!['last_name'];
-  //     studentType = data2.profile!['department']!['name'] +
-  //         '  ' +
-  //         data2.profile!['user_type'];
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
-
-  // loadData() async {
-  //   getData().then((res) {
-  //     _dashboardController.add(res);
-  //     _profileController.add(res);
-  //   });
-  // }
 
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(

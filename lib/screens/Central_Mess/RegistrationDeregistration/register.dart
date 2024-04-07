@@ -113,7 +113,7 @@ class _RegisterState extends State<Register> {
                       },
                       firstDate: DateTime.now(), // Disable previous dates
                     ),
-                    SizedBox(height: 30.0),
+                    SizedBox(height: 10.0),
                     DateTimeFormField(
                       decoration: InputDecoration(
                         suffixIcon: Icon(Icons.event_note),
@@ -134,7 +134,7 @@ class _RegisterState extends State<Register> {
                         paymentDate = value;
                       }, // Disable previous dates
                     ),
-                    SizedBox(height: 30.0),
+                    SizedBox(height: 10.0),
                     TextFormField(
                       maxLines: 1,
                       cursorHeight: 30,
@@ -158,9 +158,9 @@ class _RegisterState extends State<Register> {
                         }
                         return null;
                       },
-                      style: TextStyle(fontSize: 20.0),
+                      style: TextStyle(fontSize: 18.0),
                     ),
-                    SizedBox(height: 30.0),
+                    SizedBox(height: 10.0),
                     TextFormField(
                       readOnly: true, // Make the text field read-only
                       onTap: _openFileExplorer, // Open file explorer when tapped

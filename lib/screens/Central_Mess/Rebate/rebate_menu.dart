@@ -18,7 +18,7 @@ class _RebateMenuState extends State<RebateMenu> {
     final ProfileData data = ModalRoute.of(context)!.settings.arguments as ProfileData;
     String user = data.profile!['user_type'];
     user = user.toLowerCase();
-    user = "caretaker";
+    // user = "caretaker";
     // user = "warden";
     return Scaffold(
       resizeToAvoidBottomInset: false,

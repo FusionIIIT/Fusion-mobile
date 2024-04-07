@@ -44,7 +44,7 @@ class _HistoryOfSpecialFoodState extends State<HistoryOfSpecialFood> {
     final ProfileData data = ModalRoute.of(context)!.settings.arguments as ProfileData;
     String user = data.profile!['user_type'];
     user = user.toLowerCase();
-    user = "caretaker";
+    // user = "caretaker";
     // user = "warden";
     final List<SpecialRequest> _modifiedSpecialRequests = (user == "student") ? _specialRequests.where((element) => (element.studentId == data.profile!['id'])).toList()
         : (user == "caretaker") ? _specialRequests.where((element) => (element.status != "1")).toList()
@@ -60,6 +60,8 @@ class _HistoryOfSpecialFoodState extends State<HistoryOfSpecialFood> {
             SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: DataTable(
+                columnSpacing: 14,
+                horizontalMargin: 8,
                 columns: [
                   DataColumn(label: Text('S. No.', style: TextStyle(fontWeight: FontWeight.bold))),
                   DataColumn(label: Text('Date(yyyy-mm-dd)', style: TextStyle(fontWeight: FontWeight.bold))),

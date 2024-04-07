@@ -64,6 +64,8 @@ class _RespondToRebateRequestState extends State<RespondToRebateRequest> {
             SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: DataTable(
+                columnSpacing: 14,
+                horizontalMargin: 8,
                 columns: [
                   DataColumn(label: Text('S. No.', style: TextStyle(fontWeight: FontWeight.bold))),
                   DataColumn(label: Text('Date(yyyy-mm-dd)', style: TextStyle(fontWeight: FontWeight.bold))),
@@ -72,8 +74,8 @@ class _RespondToRebateRequestState extends State<RespondToRebateRequest> {
                   DataColumn(label: Text('Purpose', style: TextStyle(fontWeight: FontWeight.bold))),
                   DataColumn(label: Text('Start Date', style: TextStyle(fontWeight: FontWeight.bold))),
                   DataColumn(label: Text('End Date', style: TextStyle(fontWeight: FontWeight.bold))),
-                  DataColumn(label: Text('Action', style: TextStyle(fontWeight: FontWeight.bold))),
                   DataColumn(label: Text('Remarks', style: TextStyle(fontWeight: FontWeight.bold))),
+                  DataColumn(label: Text('Action', style: TextStyle(fontWeight: FontWeight.bold))),
                 ],
                 rows: List.generate(
                   _modifiedRebateDates.length,
@@ -86,6 +88,18 @@ class _RespondToRebateRequestState extends State<RespondToRebateRequest> {
                     DataCell(Text(_modifiedRebateDates[index].startDate.toString().substring(0, 10))),
                     DataCell(Text(_modifiedRebateDates[index].endDate.toString().substring(0, 10))),
                     // DataCell(Text(_modifiedRebateDates[index].status == "0" ? "Rejected" : _modifiedRebateDates[index].status == "1" ? "Pending" : "Accepted")),
+                        DataCell(
+                          TextField(
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                              hintText: 'Enter remark (optional)',
+                              border: OutlineInputBorder(),
+                            ),
+                            onChanged: (value) {
+                              // data['Remark'] = value;
+                            },
+                          ),
+                        ),
                     DataCell(
                       DropdownButtonFormField<String>(
                         decoration: InputDecoration(
@@ -114,18 +128,6 @@ class _RespondToRebateRequestState extends State<RespondToRebateRequest> {
                             value: item["value"],
                           );
                         }).toList(),
-                      ),
-                    ),
-                    DataCell(
-                      TextField(
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                          hintText: 'Enter remark (optional)',
-                          border: OutlineInputBorder(),
-                        ),
-                        onChanged: (value) {
-                          // data['Remark'] = value;
-                        },
                       ),
                     ),
                   ]),

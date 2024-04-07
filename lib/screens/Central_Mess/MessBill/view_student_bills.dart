@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:fusion/services/central_mess_services.dart';
+import 'package:fusion/models/profile.dart';
+import 'package:fusion/models/central_mess.dart';
 
 class ViewStudentBill extends StatefulWidget {
   @override
@@ -6,8 +9,34 @@ class ViewStudentBill extends StatefulWidget {
 }
 
 class _ViewStudentBillState extends State<ViewStudentBill> {
+  CentralMessService _centralMessService = CentralMessService();
+
+  static List<MonthlyBill> _monthlyBillData = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchMonthlyBillData();
+  }
+
+  void _fetchMonthlyBillData() async {
+    try {
+      List<MonthlyBill> monthlyBill = await _centralMessService.getMonthlyBill();
+      setState(() {
+        _monthlyBillData = monthlyBill;
+      });
+      print('Received the bill');
+      setState(() {
+        _loading = false;
+      });
+    } catch (e) {
+      print('Error fetching bill: $e');
+    }
+  }
   bool _loading = false;
   String? selectedMess, selectedProgramme, selectedStatus, selectedBatch;
+  late String reqStudentId;
+  List<Map<String, String>> billData = [], paymentData = [];
 
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
@@ -35,11 +64,6 @@ class _ViewStudentBillState extends State<ViewStudentBill> {
         decoration: myBoxDecoration(),
       ),
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
   }
 
   List<Map<String, String>> messDropDownItems = [
@@ -83,24 +107,32 @@ class _ViewStudentBillState extends State<ViewStudentBill> {
       'View payments': '',
     },
   ];
-  List<Map<String, String>> billData = [
-    {
-      'Month': 'March',
-      'Year': '2024',
-      'Amount': '3150',
-      'Rebate Count': '0',
-      'Rebate Amount': '0',
-      'Total Amount': '3150',
-    },
-  ];
-  List<Map<String, String>> paymentData = [
-    {
-      'Month': 'March',
-      'Year': '2024',
-      'Amount Paid': '12000',
-    },
-  ];
 
+  void setMonthlyBillData(){
+    billData = _monthlyBillData
+        .where((bill) => bill.studentId.toLowerCase() == reqStudentId) // Use reqStudentId here
+        .map((bill) => {
+      'Month': bill.month.toString(),
+      'Year': bill.year.toString(),
+      'Amount': bill.amount.toString(),
+      'Rebate Count': bill.rebateCount.toString(),
+      'Rebate Amount': bill.rebateAmount.toString(),
+      'Total Amount': bill.totalBill.toString(),
+    }).toList();
+
+    billData.sort((a, b) {
+      int yearComparison = b['Year']!.compareTo(a['Year']!);
+      if (yearComparison != 0) {
+        return yearComparison;
+      }
+      List<String> monthNames = [
+        'December', 'November', 'October', 'September', 'August', 'July', 'June', 'May', 'April', 'March', 'February', 'January'
+      ];
+      int aMonth = monthNames.indexOf(a['Month']!) + 1;
+      int bMonth = monthNames.indexOf(b['Month']!) + 1;
+      return aMonth.compareTo(bMonth);
+    });
+  }
   @override
   Widget build(BuildContext context) {
     final _messFormKey = GlobalKey<FormState>();
@@ -113,6 +145,7 @@ class _ViewStudentBillState extends State<ViewStudentBill> {
     return SingleChildScrollView(
       child: Column(
         children: [
+          SizedBox(height: 10.0),
           Padding(
             padding: const EdgeInsets.all(4.0),
             child: Container(
@@ -231,7 +264,7 @@ class _ViewStudentBillState extends State<ViewStudentBill> {
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: DataTable(
-                columnSpacing: 12,
+                columnSpacing: 14,
                 horizontalMargin: 8,
                 columns: buildTableHeader(tableData),
                 rows: buildTableRows(tableData),
@@ -255,50 +288,70 @@ class _ViewStudentBillState extends State<ViewStudentBill> {
   }
 
   List<DataRow> buildTableRows(List<Map<String, String>> tableData) {
-    return tableData.map((data) {
-      return DataRow(
-        cells: data.keys.map((key) {
-          if (key.toLowerCase() == 'view bills') {
-            return DataCell(
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      // _showDialog('View Bills', data); // use this data to fetch information
-                      _showDialog('View Bills', billData); // use this data to fetch information
-                    },
-                    child: Text('View bills'),
-                  ),
-                ],
-              ),
-            );
-          } else if (key.toLowerCase() == "view payments") {
-            return DataCell(
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      _showDialog('View Payments', paymentData); // use data to fetch information
-                      // _showDialog('View Payments', data); // use data to fetch information
-                    },
-                    child: Text('View Payments'),
-                  ),
-                ],
-              ),
-            );
-          } else {
-            return DataCell(
+    if (tableData.isNotEmpty) {
+      return tableData.map((data) {
+        return DataRow(
+          cells: data.keys.map((key) {
+            if (key.toLowerCase() == 'view bills') {
+              return DataCell(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        // _showDialog('View Bills', data); // use this data to fetch information
+                        reqStudentId = data['studentId']!;
+                        setMonthlyBillData();
+                        _showDialog('View Bills',
+                            billData); // use this data to fetch information
+                      },
+                      child: Text('View bills'),
+                    ),
+                  ],
+                ),
+              );
+            } else if (key.toLowerCase() == "view payments") {
+              return DataCell(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        _showDialog('View Payments',
+                            paymentData); // use data to fetch information
+                        reqStudentId = data['studentId']!;
+                        // _showDialog('View Payments', data); // use data to fetch information
+                      },
+                      child: Text('View Payments'),
+                    ),
+                  ],
+                ),
+              );
+            } else {
+              return DataCell(
+                Padding(
+                  padding: EdgeInsets.all(4),
+                  child: Text(data[key]!),
+                ),
+              );
+            }
+          }).toList(),
+        );
+      }).toList();
+    }else{
+      return [
+        DataRow(
+          cells: [
+            DataCell(
               Padding(
                 padding: EdgeInsets.all(4),
-                child: Text(data[key]!),
+                child: Text("No records found!!!"),
               ),
-            );
-          }
-        }).toList(),
-      );
-    }).toList();
+            ),
+          ],
+        ),
+      ];
+    }
   }
   void _showDialog(String title, List<Map<String, String>> data) {
     showDialog(

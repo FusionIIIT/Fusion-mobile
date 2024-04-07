@@ -64,6 +64,8 @@ class _FeedbackHistoryState extends State<FeedbackHistory> {
             SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: DataTable(
+                columnSpacing: 14,
+                horizontalMargin: 8,
                 columns: [
                   DataColumn(label: Text('S. No.', style: TextStyle(fontWeight: FontWeight.bold))),
                   DataColumn(label: Text('Student ID', style: TextStyle(fontWeight: FontWeight.bold))),

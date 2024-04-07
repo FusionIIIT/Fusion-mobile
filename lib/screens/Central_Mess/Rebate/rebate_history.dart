@@ -71,6 +71,8 @@ class _RebateHistoryState extends State<RebateHistory> {
             SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: DataTable(
+                columnSpacing: 14,
+                horizontalMargin: 8,
                 columns: [
                   DataColumn(label: Text('S. No.', style: TextStyle(fontWeight: FontWeight.bold))),
                   DataColumn(label: Text('Date(yyyy-mm-dd)', style: TextStyle(fontWeight: FontWeight.bold))),

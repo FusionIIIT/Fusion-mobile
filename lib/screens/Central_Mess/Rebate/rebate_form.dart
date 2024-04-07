@@ -96,7 +96,7 @@ class _RebateFormState extends State<RebateForm> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(height: 30.0),
+                    SizedBox(height: 10.0),
                     DropdownButtonFormField(
                       decoration: InputDecoration(
                         labelText: 'Select Leave Type',
@@ -126,7 +126,7 @@ class _RebateFormState extends State<RebateForm> {
                             value: "casual"),
                       ],
                     ),
-                    SizedBox(height: 30.0),
+                    SizedBox(height: 10.0),
                     DateTimeFormField(
                       decoration: InputDecoration(
                         labelText: 'Select Start Date',
@@ -150,7 +150,7 @@ class _RebateFormState extends State<RebateForm> {
                       },
                         firstDate: DateTime.now()
                     ),
-                    SizedBox(height: 30.0),
+                    SizedBox(height: 10.0),
                     DateTimeFormField(
                       decoration: InputDecoration(
                         labelText: 'Select End Date',
@@ -174,7 +174,7 @@ class _RebateFormState extends State<RebateForm> {
                       },
                         firstDate: DateTime.now()
                     ),
-                    SizedBox(height: 30.0),
+                    SizedBox(height: 10.0),
                     TextFormField(
                       controller: _reasonController,
                       maxLines: 4,
