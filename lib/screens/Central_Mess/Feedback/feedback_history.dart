@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fusion/models/central_mess.dart';
 import 'package:fusion/services/central_mess_services.dart';
 import 'package:fusion/models/profile.dart';
-
+import 'package:http/http.dart' as http;
 
 class FeedbackHistory extends StatefulWidget {
   @override
@@ -12,8 +12,8 @@ class FeedbackHistory extends StatefulWidget {
 class _FeedbackHistoryState extends State<FeedbackHistory> {
   CentralMessService _centralMessService = CentralMessService();
 
-  bool _loading = true;
-
+  bool _loading = true, _requestSent = false;
+  MessFeedback? feedbackData;
   static List<MessFeedback> _feedbackDates = [];
 
   @override
@@ -37,6 +37,24 @@ class _FeedbackHistoryState extends State<FeedbackHistory> {
       print('Error fetching feedback: $e');
     }
   }
+
+  void _updateFeedbackRequestData(data) async {
+    try {
+      http.Response menuItems = await _centralMessService.updateFeedbackRequest(data);
+      if (menuItems.statusCode == 200) {
+        print('Updated the Feedback request');
+        setState(() {
+          _requestSent = true;
+        });
+      } else {
+        print('Couldn\'t send');
+      }
+    } catch (e) {
+      print('Error updating Feedback Request: $e');
+    }
+  }
+
+  String? remark;
 
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
@@ -72,6 +90,7 @@ class _FeedbackHistoryState extends State<FeedbackHistory> {
                   DataColumn(label: Text('Date', style: TextStyle(fontWeight: FontWeight.bold))),
                   DataColumn(label: Text('Description', style: TextStyle(fontWeight: FontWeight.bold))),
                   DataColumn(label: Text('Feedback Type', style: TextStyle(fontWeight: FontWeight.bold))),
+                  DataColumn(label: Text('Remarks', style: TextStyle(fontWeight: FontWeight.bold))),
                 ],
                 rows: List.generate(
                   _modifiedFeedbackDates.length,
@@ -83,6 +102,37 @@ class _FeedbackHistoryState extends State<FeedbackHistory> {
                         DataCell(Text(_modifiedFeedbackDates[index].fdate.toString().substring(0, 10))),
                         DataCell(Text(_modifiedFeedbackDates[index].description)),
                         DataCell(Text(_modifiedFeedbackDates[index].feedbackType)),
+                        DataCell((user == 'student') ? Text(_modifiedFeedbackDates[index].feedbackRemark?? 'N/A')
+                            :TextField(
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 4, horizontal: 8),
+                            hintText: _modifiedFeedbackDates[index].feedbackRemark?? 'N/A',
+                            border: OutlineInputBorder(),
+                          ),
+                          onChanged: (String? value) {
+                            // setState(() {
+                            remark = value!;
+                            // });
+
+                            // print({remark, _modifiedFeedbackDates[index].studentId});
+
+                            setState(() {
+                              feedbackData = MessFeedback(
+                                  mess: _modifiedFeedbackDates[index].mess,
+                                  messRating: _modifiedFeedbackDates[index].messRating,
+                                  fdate: _modifiedFeedbackDates[index].fdate,
+                                  description: _modifiedFeedbackDates[index].description,
+                                  feedbackType: _modifiedFeedbackDates[index].feedbackType,
+                                  feedbackRemark: remark,
+                              );
+                              _updateFeedbackRequestData(feedbackData);
+                              if (_requestSent) {
+                                initState();
+                              }
+                            });
+                          },
+                        ),),
                   ]),
                 ),
               ),

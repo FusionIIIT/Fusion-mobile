@@ -4,6 +4,7 @@ import 'special_food_history.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
 import 'active_request_for_special_food.dart';
+import 'package:fusion/models/profile.dart';
 
 class SpecialFood extends StatefulWidget {
   @override
@@ -11,12 +12,13 @@ class SpecialFood extends StatefulWidget {
 }
 
 class _SpecialFoodState extends State<SpecialFood> {
-  String? user;
-
   @override
   Widget build(BuildContext context) {
-    user = "student";
-    // user = "caretaker";
+    final ProfileData data = ModalRoute.of(context)!.settings.arguments as ProfileData;
+    String user = data.profile!['user_type'];
+    user = user.toLowerCase();
+    user = 'caretaker';
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: DefaultAppBar().buildAppBar(titleText: "Central Mess"),
@@ -48,7 +50,7 @@ class _SpecialFoodState extends State<SpecialFood> {
                         ),
                         Tab(
                           child: Text(
-                            "Special Food History",
+                            "Requests History",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -56,13 +58,13 @@ class _SpecialFoodState extends State<SpecialFood> {
                           : [
                         Tab(
                           child: Text(
-                            "Active Request For Special Food",
+                            "Active Requests For Special Food",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),
                         Tab(
                           child: Text(
-                            "Special Food History",
+                            "Requests History",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),

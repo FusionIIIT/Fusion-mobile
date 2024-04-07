@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fusion/models/central_mess.dart';
 import 'package:fusion/services/central_mess_services.dart';
 import 'package:fusion/models/profile.dart';
+import 'package:http/http.dart' as http;
 
 class RespondToRebateRequest extends StatefulWidget {
   @override
@@ -11,7 +12,8 @@ class RespondToRebateRequest extends StatefulWidget {
 class _RespondToRebateRequestState extends State<RespondToRebateRequest> {
   CentralMessService _centralMessService = CentralMessService();
 
-  bool _loading = true;
+  bool _loading = true, _requestSent = false;
+  Rebate? rebateData;
 
   static List<Rebate> _rebateDates = [];
 
@@ -37,7 +39,23 @@ class _RespondToRebateRequestState extends State<RespondToRebateRequest> {
     }
   }
 
-  String? status ;
+  void _updateRebateRequestData(data) async {
+    try {
+      http.Response menuItems = await _centralMessService.updateRebateRequest(data);
+      if (menuItems.statusCode == 200) {
+        print('Updated the rebate request');
+        setState(() {
+          _requestSent = true;
+        });
+      } else {
+        print('Couldn\'t send');
+      }
+    } catch (e) {
+      print('Error updating Rebate Request: $e');
+    }
+  }
+
+  String? status, remark ;
 
   List<Map<String, String>> statusDropDownItems = [
     {"text": "Accept", "value": "2"},
@@ -72,8 +90,8 @@ class _RespondToRebateRequestState extends State<RespondToRebateRequest> {
                   DataColumn(label: Text('Purpose', style: TextStyle(fontWeight: FontWeight.bold))),
                   DataColumn(label: Text('Start Date', style: TextStyle(fontWeight: FontWeight.bold))),
                   DataColumn(label: Text('End Date', style: TextStyle(fontWeight: FontWeight.bold))),
-                  DataColumn(label: Text('Action', style: TextStyle(fontWeight: FontWeight.bold))),
                   DataColumn(label: Text('Remarks', style: TextStyle(fontWeight: FontWeight.bold))),
+                  DataColumn(label: Text('Action', style: TextStyle(fontWeight: FontWeight.bold))),
                 ],
                 rows: List.generate(
                   _modifiedRebateDates.length,
@@ -86,6 +104,22 @@ class _RespondToRebateRequestState extends State<RespondToRebateRequest> {
                     DataCell(Text(_modifiedRebateDates[index].startDate.toString().substring(0, 10))),
                     DataCell(Text(_modifiedRebateDates[index].endDate.toString().substring(0, 10))),
                     // DataCell(Text(_modifiedRebateDates[index].status == "0" ? "Rejected" : _modifiedRebateDates[index].status == "1" ? "Pending" : "Accepted")),
+                    DataCell(
+                      TextField(
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 4, horizontal: 8),
+                          hintText: 'Enter remark (optional)',
+                          border: OutlineInputBorder(),
+                        ),
+                        onChanged: (String? value) {
+                          // setState(() {
+                          remark = value!;
+                          // });
+                          // data['Remark'] = value;
+                        },
+                      ),
+                    ),
                     DataCell(
                       DropdownButtonFormField<String>(
                         decoration: InputDecoration(
@@ -107,6 +141,22 @@ class _RespondToRebateRequestState extends State<RespondToRebateRequest> {
                           setState(() {
                             status = newValue!;
                           });
+                          // print({status, _modifiedRebateDates[index].leaveType, remark});
+                          setState(() {
+                            rebateData = Rebate(
+                                startDate: _modifiedRebateDates[index].startDate,
+                                endDate: _modifiedRebateDates[index].endDate,
+                                purpose: _modifiedRebateDates[index].purpose,
+                                status: status!,
+                                appDate: _modifiedRebateDates[index].appDate,
+                                leaveType: _modifiedRebateDates[index].leaveType,
+                                rebateRemark: _modifiedRebateDates[index].rebateRemark
+                            );
+                            _updateRebateRequestData(rebateData);
+                            if (_requestSent == true) {
+                              initState();
+                            }
+                          });
                         },
                         items: statusDropDownItems.map((item) {
                           return DropdownMenuItem(
@@ -114,18 +164,6 @@ class _RespondToRebateRequestState extends State<RespondToRebateRequest> {
                             value: item["value"],
                           );
                         }).toList(),
-                      ),
-                    ),
-                    DataCell(
-                      TextField(
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                          hintText: 'Enter remark (optional)',
-                          border: OutlineInputBorder(),
-                        ),
-                        onChanged: (value) {
-                          // data['Remark'] = value;
-                        },
                       ),
                     ),
                   ]),

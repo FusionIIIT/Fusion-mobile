@@ -43,7 +43,8 @@ class _CentralMessHomeState extends State<CentralMessHome> {
           '  ' +
           data2.profile!['user_type'];
       user = data2.profile!['user_type'];
-      // user = "caretaker";
+      user = user.toLowerCase();
+      user = "caretaker";
       // user = "warden";
       if(user == 'student') student_id = data2.user!['username'];
     } catch (e) {
@@ -260,6 +261,12 @@ class _CentralMessHomeState extends State<CentralMessHome> {
                     },
                   ),
                   InkWell(
+                    child: myContainer("Special Food Requests"),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/central_mess_home/reqSpecialFood', arguments: data2);
+                    },
+                  ),
+                  InkWell(
                     child: myContainer("Vacation Food"),
                     onTap: () {
                       Navigator.pushNamed(context, '/central_mess_home/vacationFood', arguments: data2);
@@ -346,21 +353,3 @@ class _CentralMessHomeState extends State<CentralMessHome> {
   }
 }
 
-// // (/mess/vacationFoodApi) Vacation Food Api  - Partially working☑
-// // Mess Info Api - Implemented/ Not required ✅
-// // (/mess/rebateApi) Rebate Api - Implemented ✅
-// // (/mess/menuApi ) Menu Api - Implemented ✅
-// // (/mess/paymentsApi) Payments Api - Not Implemented
-// // (/mess/monthlyBillApi) Monthly Bill Api - Not Implemented❌
-// // (/mess/messBillBaseApi) Mess Bill Base Api  - Implemented✅
-// // (/mess/messRegApi) Mess Reg Api - Partially working / De registration needs to be implemented ☑
-// // (/mess/feedbackApi) Feedback Api - Implemented ✅
-// // (/mess/menuChangeRequestApi) Menu Change Request Api - Implemented ✅
-// // Mess Minutes Api - Not required
-// // Non Veg Api - Not required
-// // (/mess/specialRequestApi) Special Requests Api - Partially working ☑
-// // Mess Meetings Api - Not required
-// // Non Veg Menu Api - Not required
-// // Respond Rebate Request - Not Implemented ❌
-// // Announcements Api - Not Implemented ❌
-// // Generate reports Api - Not Implemented ❌
