@@ -242,11 +242,11 @@ class MyApp extends StatelessWidget {
           '/central_mess_home/updatePayment' : (context)=>UpdatePaymentHome(),
 
           '/fts': (context) => RoundedListView(),
-          '/fts/create_file': (context) => CreateFilePage(), 
-          '/fts/view_drafts': (context) => DraftsPage(), 
+          // '/fts/create_file': (context) => CreateFilePage(), 
+          // '/fts/view_drafts': (context) => DraftsPage(), 
           // '/fts/view_inbox': (context) => InboxPage(), 
-          '/fts/view_outbox': (context) => OutboxPage(),
-          '/fts/tack_file': (context) => FileTrackingPage(),
+          // '/fts/view_outbox': (context) => OutboxPage(),
+          // '/fts/tack_file': (context) => FileTrackingPage(),
         },
       ),
     );
