@@ -5,14 +5,11 @@ import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'dart:core';
-import 'package:fusion/api.dart';
-import 'package:fusion/constants.dart';
-
-
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CreateFilePage extends StatefulWidget {
+  final String username;
+  CreateFilePage({required this.username});
   @override
   _CreateFilePageState createState() => _CreateFilePageState();
 }
@@ -25,80 +22,67 @@ class _CreateFilePageState extends State<CreateFilePage> {
   final _forwardToController = TextEditingController();
   final _designationController = TextEditingController();
 
-  // API endpoint
-  // static const String _apiUrl = '172.27.16.214:8000/filetracking/api/file/';
+  Future<void> _submitForm() async {
+    try {
+      // Validate required fields
+      if (_titleController.text?.isEmpty == true ||
+          _descriptionController.text?.isEmpty == true) {
+        throw Exception('Title and description are required.');
+      }
 
-  // Submit form with POST API call and store data locally
-Future<void> _submitForm(
-) async {
-  try {
-    // Validate required fields
-    if (_titleController.text?.isEmpty == true || _descriptionController.text?.isEmpty == true) {
-      throw Exception('Title and description are required.');
+      // Prepare headers
+      var storageService = locator<StorageService>();
+      if (storageService.userInDB?.token == null) {
+        throw Exception('Token Error');
+      }
+
+      Map<String, String> headers = {
+        'Authorization': 'Token ' + (storageService.userInDB?.token ?? ""),
+        'Content-Type': 'application/json'
+      };
+
+      // Prepare request body
+      final data = jsonEncode({
+        'subject': _titleController.text,
+        'designation': _sendAsController.text,
+        'receiver_username': _forwardToController.text,
+        'receiver_designation': _designationController.text,
+        'description': _descriptionController.text,
+      });
+
+      // Make POST request
+      final response = await http.post(
+        Uri.http('10.0.2.2:8000', '/filetracking/api/file/'),
+        headers: headers,
+        body: data,
+      );
+
+      // Handle response
+      if (response.statusCode == HttpStatus.created) {
+        // Show success message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('File sent'),
+            backgroundColor: Colors.green,
+          ),
+        );
+      } else {
+        // Handle other status codes (e.g., show error message)
+        final errorMessage = await _parseErrorMessage(response);
+        print('Error: $errorMessage');
+      }
+    } catch (e) {
+      // Handle other exceptions
+      print('An error occurred: $e');
     }
-
-    // Retrieve token securely (replace with appropriate mechanism)
-    // final token = await _retrieveToken();
-
-    // Prepare headers
-    var storageService = locator<StorageService>();
-    if (storageService.userInDB?.token == null) {
-      throw Exception('Token Error');
-    }
-
-    Map<String, String> headers = {
-      'Authorization': 'Token ' + (storageService.userInDB?.token ?? ""),
-      'Content-Type': 'application/json'
-    };
-
-    // Prepare request body
-    final data = jsonEncode({
-      'subject': _titleController.text,
-      // 'remarks': _remarksController.text, (Assuming not used)
-      'designation': _sendAsController.text, // Replace with appropriate value
-      'receiver_username': _forwardToController.text,
-      'receiver_designation': _designationController.text,
-      'description': _descriptionController.text,
-    });
-
-    // Make POST request
-
-    final client = http.Client();
-    client.post(
-      Uri.http('10.0.2.2:8000', '/filetracking/api/file/'),
-      headers: headers,
-      body: data,
-    ).then((response) {
-      print(response.statusCode);
-    }).catchError((error) {
-      print(error);
-    });
-    // Handle response
-    // print(response.statusCode);
-    // if (response.statusCode == HttpStatus.created) {
-    //   // Handle successful file creation (e.g., show success message)
-    //   print('File created successfully!');
-    // } else {
-    //   // Handle other status codes (e.g., show error message)
-    //   final errorMessage = await _parseErrorMessage(response);
-    //   print('Error: $errorMessage');
-    // }
-  } catch (e) {
-    // Handle other exceptions (e.g., network errors, token errors)
-    print('An error occurred: $e');
   }
-}
 
-Future<void> _draftForm(
-) async {
+  Future<void> _draftForm() async {
   try {
     // Validate required fields
-    if (_titleController.text?.isEmpty == true || _descriptionController.text?.isEmpty == true) {
-      throw Exception('Title and description are required.');
+    if (_titleController.text?.isEmpty == true) {
+      throw Exception('Title is required.');
     }
-
-    // Retrieve token securely (replace with appropriate mechanism)
-    // final token = await _retrieveToken();
 
     // Prepare headers
     var storageService = locator<StorageService>();
@@ -112,54 +96,50 @@ Future<void> _draftForm(
     };
 
     // Prepare request body
+    print(_titleController.text);
     final data = jsonEncode({
-      'file_extra_JSON':{
       'subject': _titleController.text,
-      },
-      // 'remarks': _remarksController.text, (Assuming not used)
-      'uploader': '21BCS078', // Replace with appropriate value
-      'uploader_designation': _sendAsController.text, // Replace with appropriate value
+      'uploader': widget.username,
+      'uploader_designation': _sendAsController.text,
       'src_module': 'filetracking'
     });
-
     // Make POST request
-
-    final client = http.Client();
-    client.post(
+    final response = await http.post(
       Uri.http('10.0.2.2:8000', '/filetracking/api/createdraft/'),
       headers: headers,
       body: data,
-    ).then((response) {
-      print(response.statusCode);
-    }).catchError((error) {
-      print(error);
-    });
+    );
+
     // Handle response
-    // print(response.statusCode);
-    // if (response.statusCode == HttpStatus.created) {
-    //   // Handle successful file creation (e.g., show success message)
-    //   print('File created successfully!');
-    // } else {
-    //   // Handle other status codes (e.g., show error message)
-    //   final errorMessage = await _parseErrorMessage(response);
-    //   print('Error: $errorMessage');
-    // }
+    if (response.statusCode == HttpStatus.created) {
+      // Show success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Draft saved'),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } else {
+      // Handle other status codes (e.g., show error message)
+      final errorMessage = await _parseErrorMessage(response);
+      print('Error: $errorMessage');
+    }
   } catch (e) {
-    // Handle other exceptions (e.g., network errors, token errors)
+    // Handle other exceptions
     print('An error occurred: $e');
   }
 }
 
-Future<String> _parseErrorMessage(http.Response response) async {
-  // Implement your error parsing logic here (e.g., from JSON response body)
-  try {
-    final decodedResponse = jsonDecode(response.body);
-    return decodedResponse['message'] ?? 'Unknown error';
-  } catch (error) {
-    return 'Failed to parse error message';
-  }
-}
 
+  Future<String> _parseErrorMessage(http.Response response) async {
+    // Implement your error parsing logic here (e.g., from JSON response body)
+    try {
+      final decodedResponse = jsonDecode(response.body);
+      return decodedResponse['message'] ?? 'Unknown error';
+    } catch (error) {
+      return 'Failed to parse error message';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -171,14 +151,6 @@ Future<String> _parseErrorMessage(http.Response response) async {
         padding: EdgeInsets.all(16.0),
         child: Column(
           children: [
-            // User profile view (adapt from your previous code)
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-              ),
-            ),
-
             // Divider
             Divider(thickness: 1.0, color: Colors.grey[300]),
 
@@ -190,7 +162,8 @@ Future<String> _parseErrorMessage(http.Response response) async {
                   controller: _titleController,
                   decoration: InputDecoration(
                     labelText: 'Title*',
-                    errorText: _titleController.text.isEmpty ? 'Required' : null,
+                    errorText:
+                        _titleController.text.isEmpty ? 'Required' : null,
                   ),
                 ),
 
@@ -199,7 +172,6 @@ Future<String> _parseErrorMessage(http.Response response) async {
                   controller: _descriptionController,
                   decoration: InputDecoration(
                     labelText: 'Description*',
-                    // errorText: _descriptionController.text.isEmpty ? 'Required' : null,
                   ),
                 ),
 
@@ -218,7 +190,8 @@ Future<String> _parseErrorMessage(http.Response response) async {
                           context: context,
                           builder: (context) => AlertDialog(
                             title: Text('File Attachment'),
-                            content: Text('File attachment is not currently supported in this web app.'),
+                            content: Text(
+                                'File attachment is not currently supported in this web app.'),
                             actions: [
                               TextButton(
                                 onPressed: () => Navigator.pop(context),
@@ -263,17 +236,13 @@ Future<String> _parseErrorMessage(http.Response response) async {
                   children: [
                     ElevatedButton(
                       onPressed: () async {
-                      await _submitForm(
-                      );
-                    },
-                    child: Text('Send'),
-                                      ),
+                        await _submitForm();
+                      },
+                      child: Text('Send'),
+                    ),
                     ElevatedButton(
                       onPressed: () async {
-                        // Handle "Draft" functionality (implementation optional)
-                        await _draftForm(
-
-                          );
+                        await _draftForm();
                       },
                       child: Text('Draft'),
                     ),

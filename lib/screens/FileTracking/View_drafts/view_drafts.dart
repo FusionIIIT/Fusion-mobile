@@ -1,82 +1,207 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
+import 'package:http/http.dart' as http;
+import '../View_File/view_draftfile.dart';
 
-// Assuming you have a model class for drafted files
 class DraftFileData {
   final String id;
-  final String name;
-  final String description;
-  // No need for createdAt since we won't display it
 
   DraftFileData({
     required this.id,
-    required this.name,
-    required this.description,
   });
 }
 
 class DraftsPage extends StatefulWidget {
+  final String username;
+
+  DraftsPage({required this.username});
+
   @override
   _DraftsPageState createState() => _DraftsPageState();
 }
 
 class _DraftsPageState extends State<DraftsPage> {
-  // Replace with your actual logic to fetch draft files
-  Future<List<DraftFileData>> _fetchDrafts() async {
-    // Simulate data fetching (replace with your API call or service)
-    return [
-      DraftFileData(
-        id: "draft1",
-        name: "Important Document",
-        description: "Draft for meeting agenda",
-      ),
-      DraftFileData(
-        id: "draft2",
-        name: "Personal Notes",
-        description: "Unpublished thoughts and ideas",
-      ),
-    ];
+  final TextEditingController _designationController = TextEditingController();
+  List<String> fileIDsList = [];
+  List<dynamic> jsonData = [];
+  String? errorMessage;
+
+  @override
+  void dispose() {
+    _designationController.dispose();
+    super.dispose();
   }
+
+  Future<void> _fetchDrafts() async {
+    try {
+      var storageService = locator<StorageService>();
+      if (storageService.userInDB?.token == null) {
+        throw Exception('Token Error');
+      }
+
+      final Map<String, String> headers = {
+        'Authorization': 'Token ' + (storageService.userInDB?.token ?? ""),
+        'Content-Type': 'application/json'
+      };
+
+      final queryParams = {
+        'username': widget.username,
+        'designation': _designationController.text,
+        'src_module': 'filetracking',
+      };
+
+      final Uri url = Uri.http('10.0.2.2:8000', '/filetracking/api/draft/', queryParams);
+
+      final client = http.Client();
+      final response = await client.get(url, headers: headers);
+
+      if (response.statusCode == 200) {
+        jsonData = json.decode(response.body);
+        print(response.body);
+        // Extract file IDs
+        List<String> fileIDs = jsonData.map((data) => data['id'].toString()).toList();
+
+        // Update the UI with file IDs
+        setState(() {
+          fileIDsList = fileIDs;
+          errorMessage = null;
+        });
+      } else {
+        setState(() {
+          errorMessage = 'Error fetching draft files: ${response.reasonPhrase}';
+        });
+      }
+    } catch (error) {
+      setState(() {
+        errorMessage = 'An error occurred: $error';
+      });
+    }
+  }
+
+  Future<void> _deleteDraft(String id) async {
+  try {
+    var storageService = locator<StorageService>();
+    if (storageService.userInDB?.token == null) {
+      throw Exception('Token Error');
+    }
+
+    final Map<String, String> headers = {
+      'Authorization': 'Token ' + (storageService.userInDB?.token ?? ""),
+      'Content-Type': 'application/json'
+    };
+
+    final Uri url = Uri.http('10.0.2.2:8000', '/filetracking/api/file/$id/');
+
+    final client = http.Client();
+    final response = await client.delete(url, headers: headers);
+
+    if (response.statusCode == 204) {
+      // Draft file deleted successfully, refresh the list
+      await _fetchDrafts();
+      
+      // Show success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Draft file deleted successfully'),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } else {
+      throw Exception('Failed to delete draft file: ${response.reasonPhrase}');
+    }
+  } catch (error) {
+    setState(() {
+      errorMessage = 'An error occurred while deleting draft file: $error';
+    });
+  }
+}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Drafts'),
+        title: Text('Draft'),
       ),
-      body: FutureBuilder<List<DraftFileData>>(
-        future: _fetchDrafts(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            final drafts = snapshot.data!;
-            return ListView.builder(
-              itemCount: drafts.length,
-              itemBuilder: (context, index) {
-                final draft = drafts[index];
-                return ListTile(
-                  title: Text(draft.name),
-                  subtitle: Text(draft.description),
-                  // Removed date and time
-                  trailing: IconButton(
-                    icon: Icon(Icons.delete),
-                    onPressed: () {
-                      // Handle draft deletion (e.g., show confirmation dialog)
-                      // Your logic to delete the draft (API call, service)
-                      // Update the list if deletion is successful
-                    },
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            // Divider
+            Divider(thickness: 1.0, color: Colors.grey[300]),
+
+            // Form content
+            Column(
+              children: [
+                // Designation field
+                TextField(
+                  controller: _designationController,
+                  decoration: InputDecoration(
+                    labelText: 'View As',
                   ),
-                  onTap: () {
-                    // Handle draft item tap (e.g., open editor or view details)
-                    Navigator.pushNamed(context, '/fts/view_drafts', arguments: draft);
-                  },
+                ),
+
+                // Send button
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () async {
+                        await _fetchDrafts();
+                      },
+                      child: Text('View'),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            if (errorMessage != null)
+              Text(
+                errorMessage!,
+                style: TextStyle(color: Colors.red),
+              ),
+
+            // Display file IDs and buttons
+            Column(
+              children: fileIDsList.map((fileID) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('File ID: $fileID'),
+                      Row(
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              // Handle view button pressed
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ViewDraftFilePage(draftDetails: jsonData[fileIDsList.indexOf(fileID)]),
+                                ),
+                              );
+                            },
+                            child: Text('View'),
+                          ),
+                          SizedBox(width: 8),
+                          TextButton(
+                            onPressed: () {
+                              // Handle delete button pressed
+                              _deleteDraft(fileID);
+                            },
+                            child: Text('Delete'),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 );
-              },
-            );
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error fetching drafts: ${snapshot.error}'));
-          } else {
-            return Center(child: CircularProgressIndicator());
-          }
-        },
+              }).toList(),
+            ),
+          ],
+        ),
       ),
     );
   }

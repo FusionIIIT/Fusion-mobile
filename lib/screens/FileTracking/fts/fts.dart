@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
 import 'package:fusion/screens/FileTracking/Create_file/create_file.dart';
-import 'package:fusion/screens/FileTracking/View_drafts/view_drafts.dart'; 
-import 'package:fusion/screens/FileTracking/View_inbox/view_inbox.dart'; 
-import 'package:fusion/screens/FileTracking/View_outbox/view_outbox.dart'; 
+import 'package:fusion/screens/FileTracking/View_drafts/view_drafts.dart';
+import 'package:fusion/screens/FileTracking/View_inbox/view_inbox.dart';
+import 'package:fusion/screens/FileTracking/View_outbox/view_outbox.dart';
 import 'package:fusion/screens/FileTracking/Track_file/track_file.dart';
-import 'package:shared_preferences/shared_preferences.dart'; 
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserService {
   Future<String> getUsername() async {
@@ -19,7 +19,6 @@ class UserService {
 class RoundedListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     Future<String> getUsername() async {
       final userService = UserService();
       final username = await userService.getUsername();
@@ -31,28 +30,41 @@ class RoundedListView extends StatelessWidget {
       drawer: SideDrawer(),
       body: Column(
         children: [
-          // User profile view (modify as needed)
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircleAvatar(
-                  backgroundImage: NetworkImage("https://picsum.photos/id/237/200/300"),
-                  radius: 30.0,
-                ),
-                SizedBox(width: 16.0),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("PP", style: TextStyle(fontSize: 18.0,color: Colors.grey, fontWeight: FontWeight.bold,     decoration: TextDecoration.none,
-)),
-                    Text("21BCS329", style: TextStyle(fontSize: 14.0, color: Colors.grey,     decoration: TextDecoration.none,
-)),
-                  ],
-                ),
-              ],
-            ),
+          FutureBuilder(
+            future: getUsername(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return CircularProgressIndicator(); // Show loading indicator while fetching username
+              } else if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              } else {
+                final username = snapshot.data.toString();
+                return Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      
+                      SizedBox(width: 16.0),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            username, // Display fetched username
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              color: Colors.grey,
+                              fontWeight: FontWeight.bold,
+                              decoration: TextDecoration.none,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              }
+            },
           ),
 
           // Divider
@@ -63,7 +75,7 @@ class RoundedListView extends StatelessWidget {
             shrinkWrap: true, // Prevent scrolling
             itemCount: 5,
             itemBuilder: (context, index) {
-              final items = ['Compose File', 'Drafts', 'Track File', 'Outbox', 'Inbox'];
+              final items = ['Compose File', 'Drafts', 'Archive', 'Outbox', 'Inbox'];
               final paths = [
                 '/create_file', // Path for Compose File
                 '/view_drafts', // Path for Drafts
@@ -84,46 +96,40 @@ class RoundedListView extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          items[index]),
+                        Text(items[index]),
                         IconButton(
                           icon: Icon(Icons.chevron_right),
                           onPressed: () async {
                             final username = await getUsername();
-                            print(username);
                             switch (paths[index]) {
                               case '/create_file':
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => CreateFilePage()),
-
+                                  MaterialPageRoute(builder: (context) => CreateFilePage(username: username)),
                                 );
                                 break;
                               case '/view_drafts':
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => DraftsPage()),
+                                  MaterialPageRoute(builder: (context) => DraftsPage(username: username)),
                                 );
                                 break;
                               case '/view_inbox':
-                                // Navigate to your "Inbox" page here
-                                 Navigator.push(
+                                Navigator.push(
                                   context,
                                   MaterialPageRoute(builder: (context) => InboxPage(username: username)),
                                 );
                                 break;
                               case '/track_file':
-                                // Navigate to your "Track File" page here
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(builder: (context) => FileTrackingPage()),
                                 );
                                 break;
                               case '/view_outbox':
-                                // Navigate to your "Outbox" page here
-                                 Navigator.push(
+                                Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => OutboxPage()),
+                                  MaterialPageRoute(builder: (context) => OutboxPage(username: username)),
                                 );
                                 break;
                             }
