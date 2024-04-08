@@ -29,6 +29,7 @@ class _ApplyForCPDAadvState extends State<ApplyForCPDAadv> {
   TextEditingController _amountRequiredController = TextEditingController();
   TextEditingController _purposeController = TextEditingController();
   TextEditingController _advanceDueController = TextEditingController();
+  TextEditingController _receiverNameController = TextEditingController();
   late StreamController _profileController;
   late ProfileService profileService;
   late ProfileData datap;
@@ -67,6 +68,10 @@ class _ApplyForCPDAadvState extends State<ApplyForCPDAadv> {
     print(datap.profile);
     print((datap.profile)!['id']);
     print(datap.profile!['user_type']);
+    setState(() {
+      _nameController.text = datap.user!['first_name'];
+      _designationController.text = datap.profile!['user_type'];
+    });
   }
 
   void submitForm() async {
@@ -82,8 +87,10 @@ class _ApplyForCPDAadvState extends State<ApplyForCPDAadv> {
       "purpose": _purposeController.text,
       "advanceDueAdjustment": _advanceDueController.text,
       "submissionDate": DateTime.now().toIso8601String().substring(0, 10),
+      "created_by": datap.user!['id'].toString(),
     };
     Map<String, String> userInfo = {
+      "receiver_name": _receiverNameController.text,
       "uploader_name": datap.user!['username'],
       "uploader_designation": datap.profile!['user_type'],
     };
@@ -137,6 +144,16 @@ class _ApplyForCPDAadvState extends State<ApplyForCPDAadv> {
                       maxLength: 50,
                       decoration: const InputDecoration(
                         label: Text('Designation'),
+                      ),
+                      validator: (value) {
+                        return 'Demo...';
+                      },
+                    ),
+                    TextFormField(
+                      controller: _receiverNameController,
+                      maxLength: 50,
+                      decoration: const InputDecoration(
+                        label: Text('Receiver\'s Name '),
                       ),
                       validator: (value) {
                         return 'Demo...';

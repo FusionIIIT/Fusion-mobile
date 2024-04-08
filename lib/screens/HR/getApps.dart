@@ -21,7 +21,7 @@ class GetApplications {
   late ProfileData data;
   var service;
 
-   _profileController = StreamController();
+    _profileController = StreamController();
     profileService = ProfileService();
     service = locator<StorageService>();
     try {

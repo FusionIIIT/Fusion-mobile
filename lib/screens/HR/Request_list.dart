@@ -13,7 +13,6 @@ import 'package:fusion/Components/side_drawer.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
 import 'package:fusion/models/profile.dart';
-import 'package:fusion/services/profile_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:fusion/api.dart';
 import 'package:fusion/constants.dart';
@@ -137,6 +136,9 @@ class _RequestListpageState extends State<RequestListPage> {
                       // Or some other widget
                     }
                     final cardData = displayData[index];
+
+                    final type = cardData['file_extra_JSON']
+                        .substring(7, cardData['file_extra_JSON'].length - 1);
                     return Card(
                       elevation: 3,
                       child: ListTile(
@@ -145,7 +147,7 @@ class _RequestListpageState extends State<RequestListPage> {
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         subtitle: Text(
-                          'Type: ${cardData['designation']}',
+                          'Type: ${type}',
                           style: TextStyle(fontStyle: FontStyle.italic),
                         ),
                         trailing: ElevatedButton(
