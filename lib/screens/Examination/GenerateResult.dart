@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fusion/Components/CustomAppBar.dart';
 import 'package:fusion/constants.dart';
 import 'package:fusion/services/examination_service.dart';
+import 'dart:math';
 
 class GenerateResult extends StatefulWidget {
   const GenerateResult({Key? key}) : super(key: key);
@@ -15,13 +16,13 @@ class _GenerateResultState extends State<GenerateResult> {
   String? _batchValue;
   String? _branchValue;
   String? _semesterValue;
-  int? _courseId; // Course ID variable
+  String? _programmeValue; // Added
+  String? _specializationValue;
   bool isVerified = false;
-
-  TextEditingController _courseIdController = TextEditingController();
 
   List<dynamic> _registeredStudents = [];
   final int _displayLimit = 10;
+  String? _selectedStudentId;
 
   void _handleDropdownChange(String dropdownName, String? value) {
     setState(() {
@@ -37,6 +38,12 @@ class _GenerateResultState extends State<GenerateResult> {
           break;
         case 'Semester':
           _semesterValue = value;
+          break;
+        case 'Programme':
+          _programmeValue = value;
+          break;
+        case 'Specialization':
+          _specializationValue = value;
           break;
       }
     });
@@ -119,16 +126,20 @@ class _GenerateResultState extends State<GenerateResult> {
         return _branchValue;
       case 'Semester':
         return _semesterValue;
+      case 'Programme': // Added
+        return _programmeValue; // Added
+      case 'Specialization': // Added
+        return _specializationValue;
       default:
         return null;
     }
   }
 
   List<String> curriculumTypeItem = [
-    'B Tech',
-    'B Des',
-    'M Tech',
-    'M Des',
+    'B.Tech',
+    'B.Des',
+    'M.Tech',
+    'M.Des',
     'PHD',
   ];
 
@@ -140,11 +151,11 @@ class _GenerateResultState extends State<GenerateResult> {
   ];
 
   List<String> branchTypeItem = [
-    'Branch CSE',
-    'Branch ECE',
-    'Branch ME',
-    'Branch SM',
-    'Branch DS',
+    'CSE',
+    'ECE',
+    'ME',
+    'SM',
+    'DS',
   ];
 
   List<String> semesterTypeItem = [
@@ -157,6 +168,13 @@ class _GenerateResultState extends State<GenerateResult> {
     'Semester 7',
     'Semester 8',
   ];
+
+  final Random _random = Random();
+  String _getGrade() {
+    List<String> grades = ['A', 'B', 'C', 'D', 'E', 'F', 'O'];
+    return grades[_random.nextInt(grades.length)];
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -171,93 +189,69 @@ class _GenerateResultState extends State<GenerateResult> {
             children: [
               _buildDropdown('Batch', batchTypeItem),
               SizedBox(height: 20),
-              _buildDropdown('Semester', semesterTypeItem),
+              _buildDropdown('Programme', curriculumTypeItem),
               SizedBox(height: 20),
-              Text(
-                'Course Id',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 10),
-              TextField(
-                controller: _courseIdController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  labelText: 'Enter Course Id',
-                  border: OutlineInputBorder(),
-                ),
-              ),
+              _buildDropdown('Specialization', branchTypeItem),
               SizedBox(height: 20),
+
               createButton(
                 buttonText: 'Search',
                 onPressed: () async {
-                  // Parse Course Id to integer
-                  _courseId = int.tryParse(_courseIdController.text);
-                  print((_courseId != null ? _courseId.toString() : ""));
+                  try {
+                    // Call the generateTranscriptForm API
+                    print('Programme: $_programmeValue');
+                    print('Batch: $_batchValue');
+                    print('Specialization: $_specializationValue');
+                    ExaminationService examService = ExaminationService();
+                    List<Map<String, dynamic>> generatedData =
+                        await examService.generateTranscriptForm(
+                            _programmeValue!,
+                            int.parse(_batchValue!),
+                            _specializationValue!);
 
-                  if (_courseId != null) {
-                    try {
-                      // Create an instance of ExaminationService
-                      ExaminationService examService = ExaminationService();
+                    // Update the UI with the generated transcript form data
+                    setState(() {
+                      _registeredStudents = generatedData;
+                      // Update any other UI elements as needed
+                    });
 
-                      bool allAuthenticated =
-                          await examService.checkAllAuthenticators(69, 2024);
-                      // Call getRegisteredStudents to fetch student details
-                      List<dynamic> registeredStudents =
-                          await examService.getRegisteredStudents(_courseId!);
-
-
-                      // Do something with the registered students data
-                      setState(() {
-                        _registeredStudents = registeredStudents;
-                        isVerified = allAuthenticated;
-                        
-                      });
-                    } catch (e) {
-                      print('Error fetching registered students: $e');
-                    }
+                    // Print the generated data for debugging
+                    print('Generated data: $generatedData');
+                    // Success message
+                    print('Transcript form generated successfully!');
+                  } catch (e) {
+                    // Handle API call errors
+                    print('Error generating transcript form: $e');
                   }
                 },
                 showSearchIcon: true,
               ),
+
               SizedBox(height: 20),
-              
-              
+
               Text(
                 'Registered Students',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 10),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: DataTable(
-                    columns: [
-                      DataColumn(label: Text('ID')),
-                      DataColumn(label: Text('Working Year')),
-                      DataColumn(label: Text('Student ID')),
-                      DataColumn(label: Text('Semester ID')),
-                      DataColumn(label: Text('Course ID')),
-                      DataColumn(label: Text('Course Slot ID')),
-                    ],
-                    rows: _registeredStudents
-                        .take(_displayLimit)
-                        .map((student) => DataRow(
-                              cells: [
-                                DataCell(Text(student['id'].toString())),
-                                DataCell(Text(student['working_year'] ?? '')),
-                                DataCell(Text(student['student_id'])),
-                                DataCell(
-                                    Text(student['semester_id'].toString())),
-                                DataCell(Text(student['course_id'].toString())),
-                                DataCell(Text(student['course_slot_id'] ?? '')),
-                              ],
-                            ))
-                        .toList(),
-                  ),
-                ),
-              ),
 
+              // Dropdown to see all _registeredStudents after it is set
+              SizedBox(height: 10),
+              DropdownButton<String>(
+                value: _selectedStudentId,
+                hint: Text('Select Student'),
+                onChanged: (String? value) {
+                  setState(() {
+                    _selectedStudentId = value;
+                  });
+                },
+                items: _registeredStudents
+                    .map<DropdownMenuItem<String>>((student) {
+                  return DropdownMenuItem<String>(
+                    value: student['pk'].toString(),
+                    child: Text(student['pk'].toString()),
+                  );
+                }).toList(),
+              ),
 
               SizedBox(height: 20),
               Container(
@@ -267,7 +261,73 @@ class _GenerateResultState extends State<GenerateResult> {
                     : Text("Result is not yet verified"),
               ),
               SizedBox(height: 20),
-              createButton(buttonText: 'Generate', onPressed: () {}),
+
+
+
+
+createButton(
+  buttonText: 'Generate',
+  onPressed: () async {
+    try {
+      // Call the API to generate transcript data
+      ExaminationService examService = ExaminationService();
+      Map<String, dynamic> transcriptData =
+          await examService.generateTranscript(_selectedStudentId!);
+
+      // Extract the list of maps containing course data
+      List<Map<String, dynamic>> coursesData =
+          List<Map<String, dynamic>>.from(transcriptData['courses_grades']);
+
+      // Display the course_id_id from each map
+      setState(() {
+        // Assuming _transcriptData is a state variable to store the transcript data
+        // Assign the received transcript data to the state variable
+        // _transcriptData = coursesData;
+
+        // Extract and display course_id_id
+        List<int> courseIds = coursesData
+            .map<int>((data) => data['course_id_id'] as int)
+            .toList();
+
+        // Display the courseIds in a table
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Course IDs'),
+              content: SingleChildScrollView(
+                child: DataTable(
+                  columns: <DataColumn>[
+                    DataColumn(label: Text('Index')),
+                    DataColumn(label: Text('Course ID')),
+                    DataColumn(label: Text('Grade'))
+                  ],
+                  rows: courseIds
+                      .asMap()
+                      .entries
+                      .map<DataRow>((entry) => DataRow(
+                            cells: [
+                              DataCell(Text(entry.key.toString())),
+                              DataCell(Text(entry.value.toString())),
+                              DataCell(Text(_getGrade()))
+                            ],
+                          ))
+                      .toList(),
+                ),
+              ),
+            );
+          },
+        );
+      });
+    } catch (e) {
+      // Handle any errors that occur during the API call
+      print('Error generating transcript: $e');
+    }
+  },
+)
+
+
+
 
             ],
           ),
