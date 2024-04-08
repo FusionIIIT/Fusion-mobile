@@ -67,8 +67,8 @@ class _RegistrationRequestsState extends State<RegistrationRequests> {
   ];
 
   List<Map<String, String>> statusDropDownItems = [
-    {"text": "Accept", "value": "accepted"},
-    {"text": "Reject", "value": "rejected"},
+    {"text": "Accept", "value": "2"},
+    {"text": "Reject", "value": "0"},
   ];
   List<Map<String, String>> menuDropDownItems = [
     {"text": "Mess 1", "value": "mess1"},

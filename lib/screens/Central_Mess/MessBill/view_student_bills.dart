@@ -277,14 +277,26 @@ class _ViewStudentBillState extends State<ViewStudentBill> {
     );
   }
   List<DataColumn> buildTableHeader(List<Map<String, String>> tableData) {
-    return tableData.first.keys.map((key) {
-      return DataColumn(
-        label: Text(
-          key,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+    if (tableData.isNotEmpty) {
+      return tableData.first.keys.map((key) {
+        return DataColumn(
+          label: Text(
+            key,
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+        );
+      }).toList();
+    } else {
+      // Return a default DataColumn if tableData is empty
+      return [
+        DataColumn(
+          label: Text(
+            'No Records Found!',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
         ),
-      );
-    }).toList();
+      ];
+    }
   }
 
   List<DataRow> buildTableRows(List<Map<String, String>> tableData) {

@@ -84,85 +84,112 @@ class _RebateRequestsState extends State<RebateRequests> {
               },
               child: Text("Accept All Requests"),
             ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: DataTable(
-                    columnSpacing: 12,
-                    horizontalMargin: 8,
-                    columns: buildTableHeader(),
-                    rows: buildTableRows(),
-                  ),
-            ),
+            // SingleChildScrollView(
+            //   scrollDirection: Axis.horizontal,
+            //   child: DataTable(
+            //         columnSpacing: 12,
+            //         horizontalMargin: 8,
+                    // columns: buildTableHeader(),
+                    // rows: buildTableRows(),
+                  // ),
+            // ),
           ],
         ),
       ),
     );
   }
 
-  List<DataColumn> buildTableHeader() {
-    return tableData.first.keys.map((key) {
-      return DataColumn(
-        label: Text(
-          key,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+  List<DataColumn> buildTableHeader(List<Map<String, String>> tableData) {
+    if (tableData.isNotEmpty) {
+      return tableData.first.keys.map((key) {
+        return DataColumn(
+          label: Text(
+            key,
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+        );
+      }).toList();
+    } else {
+      // Return a default DataColumn if tableData is empty
+      return [
+        DataColumn(
+          label: Text(
+            'No Records Found!',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
         ),
-      );
-    }).toList();
+      ];
+    }
   }
 
-  List<DataRow> buildTableRows() {
-    return tableData.map((data) {
-      return DataRow(
-        cells: data.keys.map((key) {
-          if (key.toLowerCase() == 'approve') {
-            return DataCell(
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      // Handle Accept action
-                      // Call API post method
-                      // Remove item from list
-                    },
-                    child: Text('Accept'),
-                  ),
-                  SizedBox(width: 10),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Handle Reject action
-                      // Call API post method
-                      // Remove item from list
-                    },
-                    child: Text('Reject'),
-                  ),
-                ],
-              ),
-            );
-          } else if (key == 'Remark') {
-            return DataCell(
-              TextField(
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                  hintText: 'Enter remark (optional)',
-                  border: OutlineInputBorder(),
+  List<DataRow> buildTableRows(List<Map<String, String>> tableData) {
+    if(tableData.isNotEmpty){
+      return tableData.map((data) {
+        return DataRow(
+          cells: data.keys.map((key) {
+            if (key.toLowerCase() == 'approve') {
+              return DataCell(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        // Handle Accept action
+                        // Call API post method
+                        // Remove item from list
+                      },
+                      child: Text('Accept'),
+                    ),
+                    SizedBox(width: 10),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Handle Reject action
+                        // Call API post method
+                        // Remove item from list
+                      },
+                      child: Text('Reject'),
+                    ),
+                  ],
                 ),
-                onChanged: (value) {
-                  data['Remark'] = value;
-                },
-              ),
-            );
-          } else {
-            return DataCell(
+              );
+            } else if (key == 'Remark') {
+              return DataCell(
+                TextField(
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                    hintText: 'Enter remark (optional)',
+                    border: OutlineInputBorder(),
+                  ),
+                  onChanged: (value) {
+                    data['Remark'] = value;
+                  },
+                ),
+              );
+            } else {
+              return DataCell(
+                Padding(
+                  padding: EdgeInsets.all(4),
+                  child: Text(data[key]!),
+                ),
+              );
+            }
+          }).toList(),
+        );
+      }).toList();
+    }else{
+      return [
+        DataRow(
+          cells: [
+            DataCell(
               Padding(
                 padding: EdgeInsets.all(4),
-                child: Text(data[key]!),
+                child: Text("No records found!!!"),
               ),
-            );
-          }
-        }).toList(),
-      );
-    }).toList();
+            ),
+          ],
+        ),
+      ];
+    }
   }
 }
 
