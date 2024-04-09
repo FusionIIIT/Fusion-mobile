@@ -169,8 +169,7 @@ class _DepartmentScreenState extends State<DepartmentScreen> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) =>
-                                            FacilitiesPage(),
+                                        builder: (context) => FacilitiesPage(),
                                       ),
                                     );
                                   },

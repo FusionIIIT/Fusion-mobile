@@ -12,7 +12,7 @@ class Announcement {
   final String batch;
   final String department;
   final String message;
-  final String upload_announncement;
+  final String? upload_announncement;
 
   Announcement({
     required this.ann_date,
@@ -21,7 +21,7 @@ class Announcement {
     required this.batch,
     required this.department,
     required this.message,
-    required this.upload_announncement,
+    this.upload_announncement,
   });
 
   factory Announcement.fromJson(Map<String, dynamic> json) {
@@ -53,9 +53,8 @@ class DepartmentService {
         Uri.http(getLink(), kDepartmentAnnouncements),
         headers: headers,
       );
-      // print(headers);
-      print('Response Status Code: ${response.statusCode}');
-      print('Response Body: ${response.body}');
+      // print('Response Status Code: ${response.statusCode}');
+      // print('Response Body: ${response.body}');
 
       if (response.statusCode == 200) {
         return response;

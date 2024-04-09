@@ -162,7 +162,7 @@ class Announcement {
   final String batch;
   final String department;
   final String programme;
-  final String upload_announcement;
+  final String? upload_announcement;
 
   Announcement({
     required this.maker_id,
@@ -171,7 +171,7 @@ class Announcement {
     required this.batch,
     required this.department,
     required this.programme,
-    required this.upload_announcement,
+    this.upload_announcement,
   });
   factory Announcement.fromJson(Map<String, dynamic> json) {
     return Announcement(

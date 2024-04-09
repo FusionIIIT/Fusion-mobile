@@ -19,10 +19,10 @@ class BrowseAnnouncementScreen extends StatefulWidget {
 class _BrowseAnnouncementScreenState extends State<BrowseAnnouncementScreen> {
   ProfileData? data;
   final DepartmentService _departmentService = DepartmentService();
-  final StreamController<List<Map<String, String>>> _announcementsController =
-      StreamController<List<Map<String, String>>>();
+  final StreamController<List<Announcement>> _announcementsController =
+      StreamController<List<Announcement>>();
 
-  Stream<List<Map<String, String>>> get announcementsStream =>
+  Stream<List<Announcement>> get announcementsStream =>
       _announcementsController.stream;
 
   @override
@@ -47,16 +47,7 @@ class _BrowseAnnouncementScreenState extends State<BrowseAnnouncementScreen> {
       }).toList();
       print('Announcements: $announcements');
 
-      _announcementsController.add(announcements.map((announcement) {
-        return {
-          'ann_date': announcement.ann_date,
-          'maker_id': announcement.maker_id,
-          'programme': announcement.programme,
-          'batch': announcement.batch,
-          'message': announcement.message,
-          'upload_announcement': announcement.upload_announncement,
-        };
-      }).toList());
+      _announcementsController.add(announcements.toList());
     } catch (error) {
       print('Error loading announcements: $error');
     }
@@ -117,7 +108,7 @@ class _BrowseAnnouncementScreenState extends State<BrowseAnnouncementScreen> {
             ),
           ),
           Expanded(
-            child: StreamBuilder<List<Map<String, String>>>(
+            child: StreamBuilder<List<Announcement>>(
               stream: announcementsStream,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
@@ -174,14 +165,14 @@ class _BrowseAnnouncementScreenState extends State<BrowseAnnouncementScreen> {
                               (announcement) => DataRow(
                                 cells: [
                                   DataCell(
-                                      Text(announcement['ann_date'] ?? '')),
+                                      Text(announcement.ann_date)),
                                   DataCell(
-                                      Text(announcement['maker_id'] ?? '')),
+                                      Text(announcement.maker_id)),
                                   DataCell(
-                                      Text(announcement['programme'] ?? '')),
-                                  DataCell(Text(announcement['batch'] ?? '')),
-                                  DataCell(Text(announcement['message'] ?? '')),
-                                  DataCell(Text(announcement['file'] ?? '')),
+                                      Text(announcement.programme)),
+                                  DataCell(Text(announcement.batch)),
+                                  DataCell(Text(announcement.message)),
+                                  DataCell(Text(announcement.upload_announncement ?? '')),
                                 ],
                               ),
                             )
