@@ -19,6 +19,7 @@ class _ProgrammeCurriculumHomeState extends State<ProgrammeCurriculumHome> {
   late String name = "";
   late String studentType = "";
   late String userType = "";
+  late List<dynamic> userdesg = [];
   // Stream Controller for API
   late StreamController _dashboardController;
   late DashboardService dashboardService;
@@ -52,6 +53,8 @@ class _ProgrammeCurriculumHomeState extends State<ProgrammeCurriculumHome> {
           '  ' +
           data2.profile!['user_type'];
       userType = data2.profile!['user_type'];
+      userdesg = data.designation!;
+      print(userdesg);
       print("this is name: $name");
       print("this is UserType: $userType");
     } catch (e) {

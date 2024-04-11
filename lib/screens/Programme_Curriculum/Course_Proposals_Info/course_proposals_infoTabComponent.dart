@@ -24,6 +24,7 @@ class _CourseProposalsInfoTabComponentState
   late String name = "";
   late String studentType = "";
   late String userType = "";
+  late List<dynamic> userdesg = [];
   // Stream Controller for API
   late StreamController _dashboardController;
   late DashboardService dashboardService;
@@ -145,6 +146,8 @@ class _CourseProposalsInfoTabComponentState
           '  ' +
           data2.profile!['user_type'];
       userType = data2.profile!['user_type'];
+      userdesg = data.designation!;
+      print(userdesg);
       print("this is name: $name");
       print("this is UserType: $userType");
     } catch (e) {
@@ -191,7 +194,9 @@ class _CourseProposalsInfoTabComponentState
                 ),
                 SizedBox(height: 20),
                 Visibility(
-                  visible: (userType != 'student' && rows[18][1] == name),
+                  visible: (userType != 'student' &&
+                      userdesg.contains('Dean Academic') &&
+                      rows[19][1] != "Approved"),
                   child: ElevatedButton(
                     onPressed: () => {
                       Navigator.pushNamed(context,
