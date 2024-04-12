@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fusion/models/central_mess.dart';
+import 'package:fusion/models/central_mess.dart';
+import 'package:fusion/services/central_mess_services.dart';
+import 'package:fusion/models/profile.dart';
+import 'package:http/http.dart' as http;
 
 class UpdateMonthlyBill extends StatefulWidget {
   @override
@@ -6,8 +11,46 @@ class UpdateMonthlyBill extends StatefulWidget {
 }
 
 class _UpdateMonthlyBillState extends State<UpdateMonthlyBill> {
-//   bool _loading = false;
-  int? amount = 0;
+
+  CentralMessService _centralMessService = CentralMessService();
+
+  bool _loading = true, _sentRequest = false;
+  static List <MessBillBase> _messBillBase = [];
+  int? amount = 0, amount1 = 0;
+  MessBillBase? data;
+
+  void _fetchMonthlyBillData() async {
+    try {
+      List<MessBillBase> messBillBase = await _centralMessService.getMessBillBase();
+      setState(() {
+        _messBillBase = messBillBase;
+        _messBillBase.sort((a, b) => b.timestamp.compareTo(a.timestamp));
+        amount1 = _messBillBase[0].billAmount;
+      });
+      print('Received the bill amount');
+      setState(() {
+        _loading = false;
+      });
+    } catch (e) {
+      print('Error fetching bill amount : $e');
+    }
+  }
+
+  void _updateMessBillBaseData(data) async {
+    try {
+      http.Response menuItems = await _centralMessService.updateMessBillBase(data);
+      if (menuItems.statusCode == 200) {
+        print('Updated the Bill amount');
+        setState(() {
+          _sentRequest = true;
+        });
+      } else {
+        print('Couldn\'t update');
+      }
+    } catch (e) {
+      print('Error updating Bill Amount: $e');
+    }
+  }
 
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
@@ -40,6 +83,7 @@ class _UpdateMonthlyBillState extends State<UpdateMonthlyBill> {
   @override
   void initState() {
     super.initState();
+    _fetchMonthlyBillData();
   }
 
   @override
@@ -63,6 +107,34 @@ class _UpdateMonthlyBillState extends State<UpdateMonthlyBill> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    _loading ? Center(child: CircularProgressIndicator())
+                    : TextFormField(
+                      maxLines: 1,
+                      cursorHeight: 30,
+                      decoration: InputDecoration(
+                        labelText: 'Current Bill Amount',
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.deepOrangeAccent, width: 2),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
+                      keyboardType: TextInputType.number,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Enter new monthly amount bill";
+                        } else {
+                          amount1 = int.tryParse(value);
+                          return null;
+                        }
+                      },
+                      style: TextStyle(fontSize: 20.0),
+                      readOnly: true,
+                      initialValue: amount1!.toString(),
+                    ),
+                    SizedBox(height: 10.0),
                     TextFormField(
                       maxLines: 1,
                       cursorHeight: 30,
@@ -91,7 +163,20 @@ class _UpdateMonthlyBillState extends State<UpdateMonthlyBill> {
                     ElevatedButton(
                         style: style,
                         onPressed: () {
-                          if (_messFormKey.currentState!.validate()) {}
+                          if (_messFormKey.currentState!.validate()) {
+                            print({amount, amount1});
+                            setState(() {
+                              data = MessBillBase(
+                                timestamp: DateTime.now(),
+                                billAmount: amount!,
+                              );
+                              _updateMessBillBaseData(data);
+                              setState(() {
+                                amount1 = amount;
+                                data = null;
+                              });
+                            });
+                          }
                         },
                         child: Text("Update"))
                   ],

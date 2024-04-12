@@ -1,11 +1,11 @@
 //Server and local links
 String klocalLink = "127.0.0.1:8000";
-// String kserverLink = "172.27.16.214:8000";
-String kserverLink = "172.27.38.18:8000";
+String kserverLink = "172.27.16.214:8000";
+// String kserverLink = "172.27.71.115:8000";
 
 //Login Service
-// String kAuthUrl = "172.27.16.214:8000";
-String kAuthUrl = "172.27.38.18:8000";
+String kAuthUrl = "172.27.16.214:8000";
+// String kAuthUrl = "172.27.71.115:8000";
 String kAuthLogin = "/api/auth/login/";
 // String kAuthLogin = "/accounts/login";
 
@@ -18,9 +18,10 @@ String kAcademicProcedures = "/academic-procedures/api/stu/";
 //Central Mess
 
 // String kCentralMess = "172.27.38.197:8000";
-String kCentralMess = "172.27.38.18:8000";
+String kCentralMess = "30a6-14-139-241-214.ngrok-free.app";
 String kFeedbackEndpoint = "/mess/api/feedbackApi";
 String kMenuEndpoint = "/mess/api/menuApi";
+String kMessBillBase = "/mess/api/messBillBaseApi";
 String kMonthlyBillEndpoint = "/mess/api/monthlyBillApi";
 String kRebateEndpoint = "/mess/api/rebateApi";
 String kSpecialRequestEndpoint = "/mess/api/specialRequestApi";

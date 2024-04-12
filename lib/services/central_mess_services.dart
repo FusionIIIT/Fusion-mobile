@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:fusion/constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:fusion/api.dart';
 // import 'package:fusion/constants.dart';
@@ -12,6 +13,38 @@ import 'package:fusion/services/profile_service.dart';
 class CentralMessService {
 
   ProfileService _profileService = ProfileService();
+
+  Future<List<dynamic>> getDesignations() async {
+    try {
+      var storageService = locator<StorageService>();
+      if (storageService.userInDB?.token == null) {
+        throw Exception('Token error');
+      }
+
+      http.Response response2 = await _profileService.getProfile();
+      ProfileData _profileData =
+          await ProfileData.fromJson(jsonDecode(response2.body));
+
+      Map<String, String> body = {
+        'username': await _profileData.user!['username'],
+        'password': 'user@123'
+      };
+
+      http.Response response0 = await http.post(
+        Uri.http(
+          getLink(),
+          kAuthLogin, //constant api EndPoint
+        ),
+        body: body,
+      );
+      var designations = json.decode(response0.body)['designations'];
+      print('Designations: $designations');
+
+      return designations;
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 
   Future<http.Response> initAuth() async {
     try {
@@ -237,6 +270,83 @@ class CentralMessService {
         } else {
           print(response.statusCode);
           throw Exception('Failed to update menu');
+        }
+      } else {
+        print(response0.statusCode);
+        throw Exception('Failed to authenticate');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<MessBillBase>> getMessBillBase() async {
+    try {
+      http.Response response0 = await initAuth();
+
+      if (response0.statusCode == 200) {
+        Map<String, String> headers = {
+          'Authorization': 'Token ' + json.decode(response0.body)['token']
+        };
+
+        print("fetching Bill Amount");
+        http.Response response = await http.get(
+          Uri.http(
+            kCentralMess,
+            kMessBillBase, //constant api EndPoint
+          ),
+          headers: headers,
+        );
+
+        if (response.statusCode == 200) {
+          Iterable billList = json.decode(response.body)['payload'];
+          return billList.map((model) => MessBillBase.fromJson(model)).toList();
+        } else {
+          print(response.statusCode);
+          throw Exception('Failed to load Bill Amount');
+        }
+
+      } else {
+        print(response0.statusCode);
+        throw Exception('Failed to Authorize');
+      }
+
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<http.Response> updateMessBillBase(MessBillBase data) async {
+    try {
+      http.Response response0 = await initAuth();
+
+      if (response0.statusCode == 200) {
+        Map<String, String> headers = {
+          'Authorization': 'Token ' + json.decode(response0.body)['token'],
+          'Content-Type': 'application/json; charset=UTF-8'
+        };
+
+        Map<String, dynamic> body = {
+          'bill_amount' : data.billAmount,
+          'app_date' : data.timestamp.toString().substring(0, 10)
+        };
+
+        print("Updating Bill Amount");
+        http.Response response = await http.post(
+          Uri.http(
+            kCentralMess,
+            kMessBillBase, //constant api EndPoint
+          ),
+          headers: headers,
+          body: json.encode(body),
+        );
+
+        if (response.statusCode == 200) {
+          print('Bill Amount updated successfully');
+          return response;
+        } else {
+          print(response.statusCode);
+          throw Exception('Failed to update bill amount');
         }
       } else {
         print(response0.statusCode);

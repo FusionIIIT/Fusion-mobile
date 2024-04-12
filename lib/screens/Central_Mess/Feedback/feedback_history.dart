@@ -66,10 +66,12 @@ class _FeedbackHistoryState extends State<FeedbackHistory> {
   @override
   Widget build(BuildContext context) {
 
-    final ProfileData data = ModalRoute.of(context)!.settings.arguments as ProfileData;
-    String user = data.profile!['user_type'];
-    user = "caretaker";
-    // user = "warden";
+    Map<String, dynamic>? arguments = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    ProfileData data = ProfileData.fromJson(arguments?['profileData']);
+    String? user = arguments?['user'];
+    user = user?.toLowerCase();
+    // user = "caretaker";
+    //user = "warden";
     final List<MessFeedback> _modifiedFeedbackDates = (user == "student") ? _feedbackDates.where((element) => (element.studentId == data.profile!['id'])).toList() : _feedbackDates;
 
     return _loading == true ? Center(child: CircularProgressIndicator()) : (SingleChildScrollView(
@@ -121,6 +123,7 @@ class _FeedbackHistoryState extends State<FeedbackHistory> {
 
                             setState(() {
                               feedbackData = MessFeedback(
+                                  studentId: _modifiedFeedbackDates[index].studentId,
                                   mess: _modifiedFeedbackDates[index].mess,
                                   messRating: _modifiedFeedbackDates[index].messRating,
                                   fdate: _modifiedFeedbackDates[index].fdate,

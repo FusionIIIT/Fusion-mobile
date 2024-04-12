@@ -246,10 +246,13 @@ class _RespondToRebateRequestState extends State<RespondToRebateRequest> {
 
   @override
   Widget build(BuildContext context) {
-    final ProfileData data = ModalRoute.of(context)!.settings.arguments as ProfileData;
-    String user = data.profile!['user_type'];
-    user = "caretaker";
-    // user = "warden";
+    Map<String, dynamic>? arguments =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    ProfileData data = ProfileData.fromJson(arguments?['profileData']);
+    String? user = arguments?['user'];
+    user = user?.toLowerCase();
+    // user = "caretaker";
+    //user = "warden";
     final List<Rebate> _modifiedRebateDates = (user == "student") ? _rebateDates.where((element) => (element.studentId == data.profile!['id'])).toList()
         : (user == "caretaker") ? _rebateDates.where((element) => (element.status == "1")).toList()
         : _rebateDates;

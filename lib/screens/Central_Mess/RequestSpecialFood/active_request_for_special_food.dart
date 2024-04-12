@@ -66,14 +66,13 @@ class _ActiveSpecialFoodRequestState extends State<ActiveSpecialFoodRequest> {
 
   @override
   Widget build(BuildContext context) {
-    final ProfileData data = ModalRoute
-        .of(context)!
-        .settings
-        .arguments as ProfileData;
-    String user = data.profile!['user_type'];
-    user = user.toLowerCase();
-    user = "caretaker";
-    // user = "warden";
+    Map<String, dynamic>? arguments =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    ProfileData data = ProfileData.fromJson(arguments?['profileData']);
+    String? user = arguments?['user'];
+    user = user?.toLowerCase();
+    // user = "caretaker";
+    //user = "warden";
     List<SpecialRequest> _modifiedSpecialRequests = (user == "student")
         ? _specialRequests.where((element) =>
     (element.studentId == data.profile!['id'])).toList()
@@ -93,6 +92,8 @@ class _ActiveSpecialFoodRequestState extends State<ActiveSpecialFoodRequest> {
             SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: DataTable(
+                columnSpacing: 14,
+                horizontalMargin: 8,
                 columns: [
                   DataColumn(label: Text(
                       'S. No.', style: TextStyle(fontWeight: FontWeight.bold))),
@@ -159,19 +160,14 @@ class _ActiveSpecialFoodRequestState extends State<ActiveSpecialFoodRequest> {
                               // print({_modifiedSpecialRequests[index].studentId, status, _modifiedSpecialRequests[index].item1});
                               setState(() {
                                 specialData = SpecialRequest(
-                                  studentId: _modifiedSpecialRequests[index]
-                                      .studentId,
-                                  startDate: _modifiedSpecialRequests[index]
-                                      .startDate!,
-                                  endDate: _modifiedSpecialRequests[index]
-                                      .endDate!,
-                                  request: _modifiedSpecialRequests[index]
-                                      .request,
+                                  studentId: _modifiedSpecialRequests[index].studentId,
+                                  startDate: _modifiedSpecialRequests[index].startDate!,
+                                  endDate: _modifiedSpecialRequests[index].endDate!,
+                                  request: _modifiedSpecialRequests[index].request,
                                   status: status,
                                   item1: _modifiedSpecialRequests[index].item1!,
                                   item2: _modifiedSpecialRequests[index].item2!,
-                                  appDate: _modifiedSpecialRequests[index]
-                                      .appDate!,
+                                  appDate: _modifiedSpecialRequests[index].appDate!,
                                 );
                                 _updateSpecialRequestData(specialData);
                                 if (_requestSent == true) {

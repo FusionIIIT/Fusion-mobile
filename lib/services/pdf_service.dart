@@ -39,9 +39,9 @@ class PdfService {
                 ),
                 customWidget
               ]);
-          return pw.Center(
-              child: pw.Text("Hello World!")
-          );
+          // return pw.Center(
+          //     child: pw.Text("Hello World!")
+          // );
         }));
     return pdf.save();
   }

@@ -14,10 +14,13 @@ class SpecialFood extends StatefulWidget {
 class _SpecialFoodState extends State<SpecialFood> {
   @override
   Widget build(BuildContext context) {
-    final ProfileData data = ModalRoute.of(context)!.settings.arguments as ProfileData;
-    String user = data.profile!['user_type'];
-    user = user.toLowerCase();
+    Map<String, dynamic>? arguments =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    ProfileData data = ProfileData.fromJson(arguments?['profileData']);
+    String? user = arguments?['user'];
+    user = user?.toLowerCase();
     // user = "caretaker";
+    //user = "warden";
 
     return Scaffold(
       resizeToAvoidBottomInset: false,

@@ -14,11 +14,12 @@ class _FeedbackMenuState extends State<FeedbackMenu> {
 
   @override
   Widget build(BuildContext context) {
-    final ProfileData data = ModalRoute.of(context)!.settings.arguments as ProfileData;
-
-    String user = data.profile!['user_type'];
-    user = user.toLowerCase();
-    user = "caretaker";
+    Map<String, dynamic>? arguments =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    String? user = arguments?['user'];
+    user = user?.toLowerCase();
+    // user = "caretaker";
+    //user = "warden";
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -43,7 +44,7 @@ class _FeedbackMenuState extends State<FeedbackMenu> {
                       indicatorColor: Colors.deepOrangeAccent,
                       unselectedLabelColor: Colors.black,
                       tabs: [
-                        if (user != 'caretaker')
+                        if (user != 'caretaker' && user != 'warden')
                           Tab(
                             child: Text(
                               "Feedback Form",
@@ -66,7 +67,7 @@ class _FeedbackMenuState extends State<FeedbackMenu> {
                     ),
                     child: TabBarView(
                       children: <Widget>[
-                        if (user != 'caretaker') FeedbackForm(),
+                        if (user != 'caretaker' && user != 'warden') FeedbackForm(),
                         FeedbackHistory(),
                       ],
                     ),

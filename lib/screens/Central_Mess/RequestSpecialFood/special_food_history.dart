@@ -41,11 +41,13 @@ class _HistoryOfSpecialFoodState extends State<HistoryOfSpecialFood> {
 
   @override
   Widget build(BuildContext context) {
-    final ProfileData data = ModalRoute.of(context)!.settings.arguments as ProfileData;
-    String user = data.profile!['user_type'];
-    user = user.toLowerCase();
+    Map<String, dynamic>? arguments =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    ProfileData data = ProfileData.fromJson(arguments?['profileData']);
+    String? user = arguments?['user'];
+    user = user?.toLowerCase();
     // user = "caretaker";
-    // user = "warden";
+    //user = "warden";
     final List<SpecialRequest> _modifiedSpecialRequests = (user == "student") ? _specialRequests.where((element) => (element.studentId == data.profile!['id'])).toList()
         : (user == "caretaker") ? _specialRequests.where((element) => (element.status != "1")).toList()
         : _specialRequests;
