@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+ import 'package:flutter/material.dart';
 import 'package:fusion/Components/CustomAppBar.dart';
 import 'package:fusion/constants.dart';
 import 'package:fusion/services/examination_service.dart';
@@ -186,14 +186,14 @@ class _CourseAuthenticationState extends State<CourseAuthentication> {
   ];
 
   List<String> semesterTypeItem = [
-    'Semester 1',
-    'Semester 2',
-    'Semester 3',
-    'Semester 4',
-    'Semester 5',
-    'Semester 6',
-    'Semester 7',
-    'Semester 8',
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
   ];
 
 

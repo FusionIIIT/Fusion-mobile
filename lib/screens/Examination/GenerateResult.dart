@@ -4,6 +4,10 @@ import 'package:fusion/constants.dart';
 import 'package:fusion/services/examination_service.dart';
 import 'dart:math';
 
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
+import './TranscriptScreen.dart';
+
 class GenerateResult extends StatefulWidget {
   const GenerateResult({Key? key}) : super(key: key);
 
@@ -159,14 +163,14 @@ class _GenerateResultState extends State<GenerateResult> {
   ];
 
   List<String> semesterTypeItem = [
-    'Semester 1',
-    'Semester 2',
-    'Semester 3',
-    'Semester 4',
-    'Semester 5',
-    'Semester 6',
-    'Semester 7',
-    'Semester 8',
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
   ];
 
   final Random _random = Random();
@@ -174,6 +178,29 @@ class _GenerateResultState extends State<GenerateResult> {
     List<String> grades = ['A', 'B', 'C', 'D', 'E', 'F', 'O'];
     return grades[_random.nextInt(grades.length)];
   }
+
+
+
+  void _downloadTranscript(List<String> courseIds, List<String> grades) async {
+  // Get the directory for the app's documents
+  Directory appDocumentsDirectory = await getApplicationDocumentsDirectory();
+  String appDocumentsPath = appDocumentsDirectory.path;
+
+  // Create a new file in the documents directory
+  File transcriptFile = File('$appDocumentsPath/transcript.txt');
+
+  // Write transcript data to the file
+  String transcriptContent = '';
+  for (int i = 0; i < courseIds.length; i++) {
+    transcriptContent += 'Course ID: ${courseIds[i]}, Grade: ${grades[i]}\n';
+  }
+  await transcriptFile.writeAsString(transcriptContent);
+
+  // Show a confirmation message
+  print('Transcript downloaded successfully');
+}
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -226,7 +253,7 @@ class _GenerateResultState extends State<GenerateResult> {
                 showSearchIcon: true,
               ),
 
-              SizedBox(height: 20),
+              SizedBox(height: 20), 
 
               Text(
                 'Registered Students',
@@ -253,6 +280,9 @@ class _GenerateResultState extends State<GenerateResult> {
               ),
 
               SizedBox(height: 20),
+
+              _buildDropdown('Semester', semesterTypeItem),
+
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 child: isVerified
@@ -261,88 +291,54 @@ class _GenerateResultState extends State<GenerateResult> {
               ),
               SizedBox(height: 20),
 
-              createButton(
-                buttonText: 'Generate',
-                onPressed: () async {
-                  try {
-                    // Call the API to generate transcript data
-                    ExaminationService examService = ExaminationService();
-                    Map<String, dynamic> transcriptData = await examService
-                        .generateTranscript(_selectedStudentId!);
 
-                    // Extract the list of maps containing course data
-                    List<Map<String, dynamic>> coursesData =
-                        List<Map<String, dynamic>>.from(
-                            transcriptData['courses_grades']);
 
-                    // Display the course_id_id from each map
-                    setState(() {
-                      // Assuming _transcriptData is a state variable to store the transcript data
-                      // Assign the received transcript data to the state variable
-                      // _transcriptData = coursesData;
 
-                      // Extract and display course_id_id
-                      List<int> courseIds = coursesData
-                          .map<int>((data) => data['course_id_id'] as int)
-                          .toList();
 
-                      print(courseIds);
-                      // Create a list to hold the future grades
-                      List<Future<String>> gradeFutures = [];
 
-                      // Retrieve grades for each course ID
-                      courseIds.forEach((courseId) {
-                        // Make an API query to get the grade for the current course ID
-                        gradeFutures.add(examService.getGradesForCourse(
-                            courseId: courseId,
-                            batch: _batchValue!,
-                            programme: _programmeValue!,
-                            specialization: _specializationValue!,
-                            selectedStudentId: _selectedStudentId!));
-                      });
 
-                      // Wait for all grade queries to complete
-                      Future.wait(gradeFutures).then((List<String> grades) {
-                        // Display the courseIds and their corresponding grades in a table
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text('Course IDs and Grades'),
-                              content: SingleChildScrollView(
-                                child: DataTable(
-                                  columns: <DataColumn>[
-                                    DataColumn(label: Text('Index')),
-                                    DataColumn(label: Text('Course ID')),
-                                    DataColumn(label: Text('Grade'))
-                                  ],
-                                  rows: List<DataRow>.generate(
-                                    courseIds.length,
-                                    (index) => DataRow(
-                                      cells: [
-                                        DataCell(Text(index.toString())),
-                                        DataCell(
-                                            Text(courseIds[index].toString())),
-                                        DataCell(Text(grades[index])),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                      }).catchError((error) {
-                        // Handle errors from grade queries
-                        print('Error retrieving grades: $error');
-                      });
-                    });
-                  } catch (e) {
-                    // Handle any errors that occur during the API call
-                    print('Error generating transcript: $e');
-                  }
-                },
-              )
+
+
+
+
+createButton(
+  buttonText: 'Generate',
+  onPressed: () async {
+    try {
+      // Call the API to generate transcript data
+      ExaminationService examService = ExaminationService();
+      Map<String, dynamic> transcriptData = await examService.generateTranscript(_selectedStudentId!, _semesterValue!);
+
+      // Extract the list of maps containing course data
+      List<Map<String, dynamic>> coursesData = List<Map<String, dynamic>>.from(transcriptData['transcript'] ?? []);
+
+      // Extract additional student information with default values if null
+      String studentRollNo = transcriptData['student_roll_no'] ?? _selectedStudentId;
+      String semester = transcriptData['semester'] ?? _semesterValue;
+      String spi = transcriptData['spi'] ?? 'N/A';
+      String cpi = transcriptData['cpi'] ?? 'N/A';
+
+      // Navigate to a new screen to display the transcript
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => TranscriptScreen(
+            coursesData: coursesData,
+            studentRollNo: studentRollNo,
+            semester: semester,
+            spi: spi,
+            cpi: cpi,
+          ),
+        ),
+      );
+    } catch (e) {
+      // Handle any errors that occur during the API call
+      print('Error generating transcript: $e');
+      // You can show an error message here
+    }
+  },
+)
+
             ],
           ),
         ),

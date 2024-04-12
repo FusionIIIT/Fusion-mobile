@@ -80,87 +80,169 @@ class ExaminationService {
     }
   }
 
-  Future<List<Map<String, dynamic>>> generateTranscriptForm(
-      String programme, int batch, String specialization) async {
-    print(programme);
-    print(batch);
-    print(specialization);
+  // Future<List<Map<String, dynamic>>> generateTranscriptForm(
+  //     String programme, int batch, String specialization) async {
+  //   print(programme);
+  //   print(batch);
+  //   print(specialization);
 
-    try {
-      var storageService = locator<StorageService>();
+  //   try {
+  //     var storageService = locator<StorageService>();
 
-      if (storageService.userInDB?.token == null) {
-        throw Exception('Token Error');
-      }
+  //     if (storageService.userInDB?.token == null) {
+  //       throw Exception('Token Error');
+  //     }
 
-      Map<String, String> headers = {
-        'Authorization': 'Token ' + (storageService.userInDB?.token ?? "")
-      };
+  //     Map<String, String> headers = {
+  //       'Authorization': 'Token ' + (storageService.userInDB?.token ?? "")
+  //     };
 
-      http.Response response = await http.post(
-        Uri.parse(
-            'http://localhost:8000/examination/api/generate_transcript_form/'),
-        headers: headers,
-        body: {
-          'programme': programme,
-          'batch': batch.toString(),
-          'specialization': specialization,
-        },
-      );
+  //     http.Response response = await http.post(
+  //       Uri.parse(
+  //           'http://localhost:8000/examination/api/generate_transcript_form/'),
+  //       headers: headers,
+  //       body: {
+  //         'programme': programme,
+  //         'batch': batch.toString(),
+  //         'specialization': specialization,
+  //       },
+  //     );
 
-      if (response.statusCode == 200) {
-        // Parse the JSON response
-        List<dynamic> studentsData = jsonDecode(response.body)['students'];
+  //     if (response.statusCode == 200) {
+  //       // Parse the JSON response
+  //       List<dynamic> studentsData = jsonDecode(response.body)['students'];
 
-        // Convert the list of dynamic to List<Map<String, dynamic>>
-        List<Map<String, dynamic>> studentsList =
-            List<Map<String, dynamic>>.from(studentsData);
+  //       // Convert the list of dynamic to List<Map<String, dynamic>>
+  //       List<Map<String, dynamic>> studentsList =
+  //           List<Map<String, dynamic>>.from(studentsData);
 
-        // Print the list of students for debugging
-        // print('List of students: $studentsList');
+  //       // Print the list of students for debugging
+  //       // print('List of students: $studentsList');
 
-        return studentsList;
-      } else {
-        throw Exception('Failed to generate transcript form');
-      }
-    } catch (e) {
-      rethrow;
+  //       return studentsList;
+  //     } else {
+  //       throw Exception('Failed to generate transcript form');
+  //     }
+  //   } catch (e) {
+  //     rethrow;
+  //   }
+  // }
+
+
+  Future<List<Map<String, dynamic>>> generateTranscriptForm(String programme, int batch, String specialization) async {
+  try {
+    var storageService = locator<StorageService>();
+
+    if (storageService.userInDB?.token == null) {
+      throw Exception('Token Error');
     }
-  }
 
-  Future<Map<String, dynamic>> generateTranscript(String studentId) async {
-    try {
-      var storageService = locator<StorageService>();
-      if (storageService.userInDB?.token == null) {
-        throw Exception('Token Error');
-      }
+    Map<String, String> headers = {
+      'Authorization': 'Token ${storageService.userInDB?.token ?? ""}'
+    };
 
-      Map<String, String> headers = {
-        'Authorization': 'Token ' + (storageService.userInDB?.token ?? "")
-      };
+    http.Response response = await http.post(
+      Uri.parse(getLink() + kGenerateTranscriptForm), // Corrected the URI construction
+      headers: headers,
+      body: {
+        'programme': programme,
+        'batch': batch.toString(),
+        'specialization': specialization,
+      },
+    );
 
-      http.Response response = await http.post(
-        Uri.parse('http://localhost:8000/examination/api/generate_transcript/'),
-        headers: headers,
-        body: {'student': studentId},
-      );
+    if (response.statusCode == 200) {
+      // Parse the JSON response
+      List<dynamic> studentsData = jsonDecode(response.body)['students'];
 
-      if (response.statusCode == 200) {
-        // Parse the JSON response directly into a Map<String, dynamic>
-        Map<String, dynamic> data = jsonDecode(response.body);
-        // Extract the courses grades from the response
-        List<dynamic> coursesGrades = data['courses_grades'];
-        // Return the courses grades
-        print(coursesGrades);
-        return {'courses_grades': coursesGrades};
-      } else {
-        print(response.body); // Print the response body for debugging
-        throw Exception('Failed to generate transcript');
-      }
-    } catch (e) {
-      throw Exception('Failed to connect to the server');
+      // Convert the list of dynamic to List<Map<String, dynamic>>
+      List<Map<String, dynamic>> studentsList = List<Map<String, dynamic>>.from(studentsData);
+
+      // Print the list of students for debugging
+      // print('List of students: $studentsList');
+
+      return studentsList;
+    } else {
+      throw Exception('Failed to generate transcript form');
     }
+  } catch (e) {
+    rethrow;
   }
+}
+
+
+
+
+
+  // Future<Map<String, dynamic>> generateTranscript(
+  //     String studentId, String semester) async {
+  //   try {
+  //     var storageService = locator<StorageService>();
+  //     if (storageService.userInDB?.token == null) {
+  //       throw Exception('Token Error');
+  //     }
+
+  //     Map<String, String> headers = {
+  //       'Authorization': 'Token ' + (storageService.userInDB?.token ?? "")
+  //     };
+
+  //     http.Response response = await http.post(
+  //       Uri.parse('http://localhost:8000/examination/api/generate_transcript/'),
+  //       headers: headers,
+  //       body: {
+  //         'student_id': studentId,
+  //         'semester': semester, // Include the semester parameter
+  //       },
+  //     );
+
+  //     if (response.statusCode == 200) {
+  //       // Parse the JSON response directly into a Map<String, dynamic>
+  //       Map<String, dynamic> data = jsonDecode(response.body);
+  //       // Extract the transcript data from the response
+  //       List<dynamic> transcript = data['transcript'];
+  //       // Return the transcript data
+  //       print(transcript);
+  //       return {'transcript': transcript};
+  //     } else {
+  //       print(response.body); // Print the response body for debugging
+  //       throw Exception('Failed to generate transcript');
+  //     }
+  //   } catch (e) {
+  //     throw Exception('Failed to connect to the server');
+  //   }
+  // }
+
+Future<Map<String, dynamic>> generateTranscript(String studentId, String semester) async {
+  try {
+    var storageService = locator<StorageService>();
+    if (storageService.userInDB?.token == null) {
+      throw Exception('Token Error');
+    }
+
+    Map<String, String> headers = {
+      'Authorization': 'Token ${storageService.userInDB?.token ?? ""}'
+    };
+
+    http.Response response = await http.post(
+      Uri.parse(getLink() + kGenerateTranscript), // Corrected the URI construction
+      headers: headers,
+      body: {
+        'student_id': studentId,
+        'semester': semester, // Include the semester parameter
+      },
+    );
+
+    if (response.statusCode == 200) {
+      // Assuming response body is in JSON format, you can decode it
+      Map<String, dynamic> data = json.decode(response.body);
+      return data;
+    } else {
+      throw Exception('Failed to load transcript');
+    }
+  } catch (e) {
+    throw Exception('Error: $e');
+  }
+}
 
   Future<String> getGradesForCourse({
     required int courseId,
@@ -269,7 +351,7 @@ class ExaminationService {
       var response = await http.patch(
         Uri.http(
           getLink(),
-          '/examination/api/update_authenticator/',
+          kUpdateAuthenticator,
         ),
         headers: headers,
         body: {
@@ -331,6 +413,45 @@ class ExaminationService {
     } catch (e) {
       // Handle errors
       print('Error updating grades: $e');
+      rethrow;
+    }
+  }
+
+  Future<List<dynamic>> getRegisteredStudentsRollNo(
+      int courseId, String year) async {
+    try {
+      var storageService = locator<StorageService>();
+
+      if (storageService.userInDB?.token == null) {
+        throw Exception('Token Error');
+      }
+
+      Map<String, String> headers = {
+        'Authorization': 'Token ${storageService.userInDB?.token ?? ""}'
+      };
+
+      http.Response response = await http.post(
+        Uri.http(
+          getLink(),
+          kRegisteredStudentDetailsAndRollNo,
+        ),
+        headers: headers,
+        body: {
+          'course_id': courseId.toString(),
+          'year': year,
+        },
+      );
+
+      // print(response.body);
+      if (response.statusCode == 200) {
+        // Parse the response body (assuming it's JSON)
+        var data = jsonDecode(response.body);
+        // Return the list of registered students' roll numbers
+        return data['registrations'];
+      } else {
+        throw Exception('Failed to fetch registered students');
+      }
+    } catch (e) {
       rethrow;
     }
   }
