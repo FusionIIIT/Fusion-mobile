@@ -653,6 +653,132 @@ class CentralMessService {
     }
   }
 
+  Future<List<VacationFood>> getVacationFoodRequest() async {
+    try {
+      http.Response response0 = await initAuth();
+
+      if (response0.statusCode == 200) {
+        Map<String, String> headers = {
+          'Authorization': 'Token ' + json.decode(response0.body)['token']
+        };
+
+        print("fetching Vacation Food request");
+        http.Response response = await http.get(
+          Uri.http(
+            kCentralMess,
+            kVacationFoodRequestEndpoint, //constant api EndPoint
+          ),
+          headers: headers,
+        );
+
+        if (response.statusCode == 200) {
+          Iterable VacationFoodRequestList = json.decode(response.body)['payload'];
+          return VacationFoodRequestList.map((model) => VacationFood.fromJson(model)).toList();
+        } else {
+          print(response.statusCode);
+          throw Exception('Failed to load vacation food request');
+        }
+
+      } else {
+        print(response0.statusCode);
+        throw Exception('Failed to Authorize');
+      }
+
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<http.Response> sendVacationFoodRequest(VacationFood data) async {
+    try {
+      http.Response response0 = await initAuth();
+
+      if (response0.statusCode == 200) {
+        Map<String, String> headers = {
+          'Authorization': 'Token ' + json.decode(response0.body)['token'],
+          'Content-Type': 'application/json; charset=UTF-8'
+        };
+
+        Map<String, dynamic> body = {
+          'student_id': '21BCS064',
+          'app_date': data.appDate.toString().substring(0, 10),
+          'status': data.status,
+          'purpose': data.purpose,
+          'start_date': data.startDate.toString().substring(0, 10),
+          'end_date': data.endDate.toString().substring(0, 10),
+        };
+
+        print("Sending Vacation Food Request");
+        http.Response response = await http.post(
+          Uri.http(
+            kCentralMess,
+            kVacationFoodRequestEndpoint, //constant api EndPoint
+          ),
+          headers: headers,
+          body: json.encode(body),
+        );
+
+        if (response.statusCode == 200) {
+          print('Vacation Food Request sent successfully');
+          return response;
+        } else {
+          print(response.statusCode);
+          throw Exception('Failed to send vacation food request');
+        }
+      } else {
+        print(response0.statusCode);
+        throw Exception('Failed to authenticate');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<http.Response> updateVacationFoodRequest(VacationFood data) async {
+    try {
+      http.Response response0 = await initAuth();
+
+      if (response0.statusCode == 200) {
+        Map<String, String> headers = {
+          'Authorization': 'Token ' + json.decode(response0.body)['token'],
+          'Content-Type': 'application/json; charset=UTF-8'
+        };
+
+        Map<String, dynamic> body = {
+          'student_id': data.studentId,
+          'app_date' : data.appDate.toString().substring(0, 10),
+          'status' : data.status,
+          'purpose' : data.purpose,
+          'start_date': data.startDate.toString().substring(0, 10),
+          'end_date': data.endDate.toString().substring(0, 10),
+        };
+
+        print("Updating Vacation Food Request");
+        http.Response response = await http.put(
+          Uri.http(
+            kCentralMess,
+            kVacationFoodRequestEndpoint, //constant api EndPoint
+          ),
+          headers: headers,
+          body: json.encode(body),
+        );
+
+        if (response.statusCode == 200) {
+          print('Vacation Food Request updated successfully');
+          return response;
+        } else {
+          print(response.statusCode);
+          throw Exception('Failed to update vacation food request');
+        }
+      } else {
+        print(response0.statusCode);
+        throw Exception('Failed to authenticate');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
 
 // TODO: Add more methods for other Central Mess APIs as needed
 }

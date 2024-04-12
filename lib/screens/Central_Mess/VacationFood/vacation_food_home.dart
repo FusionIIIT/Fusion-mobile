@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:fusion/screens/Central_Mess/VacationFood/vacation_food_history.dart';
+import 'apply_for_vacation_food.dart';
+import 'vacation_food_history.dart';
+import 'vacation_food_requests.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
 import 'package:fusion/models/profile.dart';
-import 'vacation_food_requests.dart';
-import 'apply_for_vacation_food.dart';
 
 class VacationFoodHome extends StatefulWidget {
   @override
@@ -11,7 +13,6 @@ class VacationFoodHome extends StatefulWidget {
 }
 
 class _VacationFoodHomeState extends State<VacationFoodHome> {
-  bool? isRegistered = false;
   @override
   Widget build(BuildContext context) {
     Map<String, dynamic>? arguments =
@@ -21,62 +22,84 @@ class _VacationFoodHomeState extends State<VacationFoodHome> {
     user = user?.toLowerCase();
     // user = "caretaker";
     //user = "warden";
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar:DefaultAppBar().buildAppBar(titleText: "Central Mess"),
+      appBar: DefaultAppBar().buildAppBar(titleText: "Central Mess"),
       drawer: SideDrawer(),
-      body:Container(
-        child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
-          SizedBox(height: 5.0),
-          DefaultTabController(
-              length:  1,
+      body: Container(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            SizedBox(height: 5.0),
+            DefaultTabController(
+              length: 2, // length of tabs
               initialIndex: 0,
-              child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
-                Container(
-                  //color: Colors.deepOrangeAccent,
-                  child: TabBar(
-                    labelColor: Colors.deepOrange,
-                    indicatorColor: Colors.deepOrangeAccent,
-                    unselectedLabelColor: Colors.black,
-                    tabs: [
-                      if (user == "caretaker")
-                        ...[
-                          Tab(
-                            child: Text(
-                              "Vacation Food Requests",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ],
-                      if (user == "student")
-                        Tab(
-                          child: Text(
-                            "Apply for Vacation Food",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                    ],
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Container(
+                    //color: Colors.deepOrangeAccent,
+                    child: TabBar(
+                      labelColor: Colors.deepOrange,
+                      indicatorColor: Colors.deepOrangeAccent,
+                      unselectedLabelColor: Colors.black,
+                      tabs: user == 'student'
+                          ? [
+                              Tab(
+                                child: Text(
+                                  "Request For Vacation Food",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Tab(
+                                child: Text(
+                                  "Requests History",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ]
+                          : [
+                              Tab(
+                                child: Text(
+                                  "Active Requests For Vacation Food",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Tab(
+                                child: Text(
+                                  "Requests History",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ],
+                    ),
                   ),
-                ),
-                Container(
+                  Container(
                     height: 590, //height of TabBarView
                     decoration: BoxDecoration(
-                        border: Border(top: BorderSide(color: Colors.grey, width: 0.5))
+                      border: Border(
+                          top: BorderSide(color: Colors.grey, width: 0.5)),
                     ),
-                    child:  TabBarView(
-                      children: <Widget>[
-                        if (user == "student") ...[
-                          VacationFoodForm(),
-                        ],
-                        if (user == "caretaker") ...[
-                          VacationFoodRequests(),
-                        ],
-                      ],
-                    )
-                )
-              ])
-          ),
-        ]),
+                    child: user == 'student'
+                        ? TabBarView(
+                            children: <Widget>[
+                              VacationFoodForm(),
+                              HistoryOfVactionFood(),
+                            ],
+                          )
+                        : TabBarView(
+                            children: <Widget>[
+                              VacationFoodRequest(),
+                              HistoryOfVactionFood(),
+                            ],
+                          ),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

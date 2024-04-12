@@ -15,7 +15,7 @@ class _VacationFoodFormState extends State<VacationFoodForm> {
   TextEditingController textController = TextEditingController();
 
   bool _loading = false, _sentRequest = false, _updateDish = false;
-  // Vacation? data;
+  VacationFood? data;
   String? purpose, selectedMess;
   DateTime? selectedDateStart, selectedDateEnd;
 
@@ -27,21 +27,21 @@ class _VacationFoodFormState extends State<VacationFoodForm> {
     super.initState();
   }
 
-  // void _sendVacationRequestData(data) async {
-  //   try {
-  //     http.Response menuItems = await _centralMessService.sendVacationRequest(data);
-  //     if (menuItems.statusCode == 200) {
-  //       print('Sent the Vacation request');
-  //       setState(() {
-  //         _sentRequest = true;
-  //       });
-  //     } else {
-  //       print('Couldn\'t send');
-  //     }
-  //   } catch (e) {
-  //     print('Error sending Vacation Request: $e');
-  //   }
-  // }
+  void _sendVacationFoodRequestData(data) async {
+    try {
+      http.Response menuItems = await _centralMessService.sendVacationFoodRequest(data);
+      if (menuItems.statusCode == 200) {
+        print('Sent the Vacation Food request');
+        setState(() {
+          _sentRequest = true;
+        });
+      } else {
+        print('Couldn\'t send');
+      }
+    } catch (e) {
+      print('Error sending Vacation Food Request: $e');
+    }
+  }
 
   @override
   void dispose() {
@@ -210,22 +210,20 @@ class _VacationFoodFormState extends State<VacationFoodForm> {
                         });
                         if (_messFormKey.currentState!.validate()) {
                           // Handle valid flow
-                          print({selectedMess, selectedDateStart, selectedDateEnd, _vacationController.text, DateTime.now()});
+                          // print({selectedMess, selectedDateStart, selectedDateEnd, _vacationController.text, DateTime.now()});
                           setState(() {
-                            // data = Vacation(
-                            //   // studentId: studentId,
-                            //   startDate: selectedDateStart!,
-                            //   endDate: selectedDateEnd!,
-                            //   purpose: _vacationController.text,
-                            //   status: "1",
-                            //   appDate: DateTime.now(),
-                            //   leaveType: selectedMess!,
-                            //   VacationRemark: "",
-                            // );
-                            // _sendVacationRequestData(data);
-                            // setState(() {
-                            //   data = null;
-                            // });
+                            data = VacationFood(
+                              // studentId: studentId,
+                              startDate: selectedDateStart!,
+                              endDate: selectedDateEnd!,
+                              purpose: _vacationController.text,
+                              status: "1",
+                              appDate: DateTime.now(),
+                            );
+                            _sendVacationFoodRequestData(data);
+                            setState(() {
+                              data = null;
+                            });
                           });
                           // Now we can perform actions based on the selected mess
                         }
@@ -242,7 +240,7 @@ class _VacationFoodFormState extends State<VacationFoodForm> {
               ? Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Vacation Request sent Successfully"),
+              Text("Vacation Food Request sent Successfully"),
             ],
           )
               : SizedBox(height: 10.0),

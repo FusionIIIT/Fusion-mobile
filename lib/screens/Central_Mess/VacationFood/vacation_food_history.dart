@@ -2,19 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:fusion/models/central_mess.dart';
 import 'package:fusion/services/central_mess_services.dart';
 import 'package:fusion/models/profile.dart';
-import 'package:http/http.dart' as http;
 
-class VacationFoodRequest extends StatefulWidget {
+class HistoryOfVactionFood extends StatefulWidget {
   @override
-  _VacationFoodRequestState createState() =>
-      _VacationFoodRequestState();
+  _HistoryOfVactionFoodState createState() => _HistoryOfVactionFoodState();
 }
 
-class _VacationFoodRequestState extends State<VacationFoodRequest> {
+class _HistoryOfVactionFoodState extends State<HistoryOfVactionFood> {
   CentralMessService _centralMessService = CentralMessService();
 
-  bool _loading = true, _requestSent = false;
-  VacationFood? vacationFoodData;
+  bool _loading = true;
 
   static List<VacationFood> _vacationFoodRequests = [];
 
@@ -41,30 +38,6 @@ class _VacationFoodRequestState extends State<VacationFoodRequest> {
     }
   }
 
-  void _updateVacationFoodRequestData(data) async {
-    try {
-      http.Response menuItems =
-          await _centralMessService.updateVacationFoodRequest(data);
-      if (menuItems.statusCode == 200) {
-        print('Updated the Vacation Food request');
-        setState(() {
-          _requestSent = true;
-        });
-      } else {
-        print('Couldn\'t send');
-      }
-    } catch (e) {
-      print('Error updating vacation food Request: $e');
-    }
-  }
-
-  String? status;
-
-  List<Map<String, String>> statusDropDownItems = [
-    {"text": "Accept", "value": "2"},
-    {"text": "Reject", "value": "0"},
-  ];
-
   @override
   Widget build(BuildContext context) {
     Map<String, dynamic>? arguments =
@@ -74,13 +47,13 @@ class _VacationFoodRequestState extends State<VacationFoodRequest> {
     user = user?.toLowerCase();
     // user = "caretaker";
     //user = "warden";
-    List<VacationFood> _modifiedVacationFoodRequests = (user == "student")
+    final List<VacationFood> _modifiedVacationFoodRequests = (user == "student")
         ? _vacationFoodRequests
             .where((element) => (element.studentId == data.profile!['id']))
             .toList()
         : (user == "caretaker")
             ? _vacationFoodRequests
-                .where((element) => (element.status == "1"))
+                .where((element) => (element.status != "1"))
                 .toList()
             : _vacationFoodRequests;
 
@@ -118,7 +91,7 @@ class _VacationFoodRequestState extends State<VacationFoodRequest> {
                             label: Text('Purpose',
                                 style: TextStyle(fontWeight: FontWeight.bold))),
                         DataColumn(
-                            label: Text('Action',
+                            label: Text('Status',
                                 style: TextStyle(fontWeight: FontWeight.bold))),
                       ],
                       rows: List.generate(
@@ -143,57 +116,13 @@ class _VacationFoodRequestState extends State<VacationFoodRequest> {
                           DataCell(Text(
                               _modifiedVacationFoodRequests[index].purpose ??
                                   'N/A')),
-                          DataCell(
-                            DropdownButtonFormField<String>(
-                              decoration: InputDecoration(
-                                labelText: status != null ? null : 'Select',
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.deepOrangeAccent,
-                                    width: 2,
-                                  ),
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                filled: true,
-                                fillColor: Colors.white,
-                              ),
-                              validator: (value) =>
-                                  value == null ? "Select" : null,
-                              dropdownColor: Colors.white,
-                              value: status,
-                              onChanged: (String? newValue) {
-                                setState(() {
-                                  status = newValue!;
-                                });
-                                // print({_modifiedVacationFoodRequests[index].studentId, status, _modifiedVacationFoodRequests[index].item1});
-                                setState(() {
-                                  vacationFoodData = VacationFood(
-                                    studentId: _modifiedVacationFoodRequests[index]
-                                        .studentId,
-                                    startDate: _modifiedVacationFoodRequests[index]
-                                        .startDate!,
-                                    endDate: _modifiedVacationFoodRequests[index]
-                                        .endDate!,
-                                    purpose:
-                                        _modifiedVacationFoodRequests[index].purpose,
-                                    status: status,
-                                    appDate: _modifiedVacationFoodRequests[index]
-                                        .appDate!,
-                                  );
-                                  _updateVacationFoodRequestData(vacationFoodData);
-                                  if (_requestSent == true) {
-                                    initState();
-                                  }
-                                });
-                              },
-                              items: statusDropDownItems.map((item) {
-                                return DropdownMenuItem(
-                                  child: Text(item["text"]!),
-                                  value: item["value"],
-                                );
-                              }).toList(),
-                            ),
-                          ),
+                          DataCell(Text(_modifiedVacationFoodRequests[index]
+                                      .status ==
+                                  "0"
+                              ? "Rejected"
+                              : _modifiedVacationFoodRequests[index].status == "1"
+                                  ? "Pending"
+                                  : "Accepted")),
                         ]),
                       ),
                     ),

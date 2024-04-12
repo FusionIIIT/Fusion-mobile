@@ -162,15 +162,15 @@ class Rebate {
 }
 
 class VacationFood {
-  final String studentId;
+  final String? studentId;
   final DateTime startDate;
   final DateTime endDate;
-  final String purpose;
-  final String status;
+  final String? purpose;
+  final String? status;
   final DateTime appDate;
 
   VacationFood({
-    required this.studentId,
+    this.studentId,
     required this.startDate,
     required this.endDate,
     required this.purpose,

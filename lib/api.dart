@@ -25,6 +25,7 @@ String kMessBillBase = "/mess/api/messBillBaseApi";
 String kMonthlyBillEndpoint = "/mess/api/monthlyBillApi";
 String kRebateEndpoint = "/mess/api/rebateApi";
 String kSpecialRequestEndpoint = "/mess/api/specialRequestApi";
+String kVacationFoodRequestEndpoint = "/mess/api/vacationFoodApi";
 String kMessInfoEndpoint = "/mess/api/messInfoApi";
 
 //Complaint
