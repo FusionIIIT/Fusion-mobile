@@ -186,9 +186,23 @@ class _ExaminationHomePageState extends State<ExaminationHomePage> {
                       //   },
                       // ),
                       InkWell(
-                        child: myContainer("Verify Grades"),
+                        child: myContainer("Submit Grades"),
                         onTap: () {
-                          Navigator.pushNamed(context, '/examination/verify_result',
+                          Navigator.pushNamed(context, '/examination/submit_grade',
+                              arguments: data);
+                        },
+                      ),
+                      InkWell(
+                        child: myContainer("Moderate Grades"),
+                        onTap: () {
+                          Navigator.pushNamed(context, '/examination/moderate_grade',
+                              arguments: data);
+                        },
+                      ),
+                      InkWell(
+                        child: myContainer("Course Authentication"),
+                        onTap: () {
+                          Navigator.pushNamed(context, '/examination/course_authentication',
                               arguments: data);
                         },
                       ),

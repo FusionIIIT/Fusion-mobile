@@ -3,12 +3,12 @@ import 'package:fusion/Components/CustomAppBar.dart';
 import 'package:fusion/constants.dart';
 import 'package:fusion/services/examination_service.dart';
 
-class VerifyResult extends StatefulWidget {
+class CourseAuthentication extends StatefulWidget {
   @override
-  _VerifyResultState createState() => _VerifyResultState();
+  _CourseAuthenticationState createState() => _CourseAuthenticationState();
 }
 
-class _VerifyResultState extends State<VerifyResult> {
+class _CourseAuthenticationState extends State<CourseAuthentication> {
   String? _yearValue;
   String? _batchValue;
   String? _branchValue;
@@ -19,9 +19,10 @@ class _VerifyResultState extends State<VerifyResult> {
   bool authenticator1 = false;
   bool authenticator2 = false;
   bool authenticator3 = false;
-
+  String? _courseValue;
   TextEditingController _courseIdController = TextEditingController();
   TextEditingController _courseController = TextEditingController();
+  List<Map<String, dynamic>> courses = [];
 
   List<dynamic> _registeredStudents = [];
   final int _displayLimit = 10;
@@ -40,6 +41,9 @@ class _VerifyResultState extends State<VerifyResult> {
           break;
         case 'Semester':
           _semesterValue = value;
+          break;
+        case 'Course': 
+          _courseValue = value;
           break;
       }
     });
@@ -119,17 +123,17 @@ class _VerifyResultState extends State<VerifyResult> {
 
     // Make API call to update authenticators based on checkbox state
     // You need to pass the checked state of each authenticator
-    int _year = int.parse(_yearValue!);
-    print('Course Name: $_courseName, Year: $_year, Authenticator 1: $authenticator1, Authenticator 2: $authenticator2, Authenticator 3: $authenticator3');
+    int? _courseId = courseIdFromValue(_courseValue!);
+    
 
     if (authenticator1) {
-      await examService.updateAuthenticator(_courseName!, _year, 1);
+      await examService.updateAuthenticator(_courseId!, _yearValue!, 1);
     }
     if (authenticator2) {
-      await examService.updateAuthenticator(_courseName!, _year, 2);
+      await examService.updateAuthenticator(_courseId!, _yearValue!, 2);
     }
     if (authenticator3) {
-      await examService.updateAuthenticator(_courseName!, _year, 3);
+      await examService.updateAuthenticator(_courseId!, _yearValue!, 3);
     }
 
     // Handle success
@@ -151,6 +155,8 @@ class _VerifyResultState extends State<VerifyResult> {
         return _branchValue;
       case 'Semester':
         return _semesterValue;
+      case 'Course':
+        return _courseValue;
       default:
         return null;
     }
@@ -190,10 +196,51 @@ class _VerifyResultState extends State<VerifyResult> {
     'Semester 8',
   ];
 
+
+  List<String> courseTypeItem = []; 
+    // Method to fetch course items from backend
+void _fetchCourseItems() async {
+  try {
+    // Call your backend service method to fetch course items
+    courses = await ExaminationService().getCourseItems();
+    
+    setState(() {
+      // Update courseTypeItem with fetched courses' names
+      courseTypeItem = courses.map<String>((course) => course['name']).toList();
+    });
+  } catch (e) {
+    print('Error fetching course items: $e');
+  }
+}
+
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchCourseItems(); // Fetch course items when widget initializes
+  }
+
+  int? courseIdFromValue(String selectedValue) {
+  // Iterate through the courses list
+  
+  print(selectedValue);
+  for (var course in courses) {
+    // Check if the name of the course matches the selected value
+    if (course['name'] == selectedValue) {
+      // If a match is found, return the ID of the course
+      print(course['id']);
+      return course['id'];
+    }
+  }
+  // If no match is found, return null
+  return null;
+}
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(titleText: "Verify Result").buildAppBar(),
+      appBar: CustomAppBar(titleText: "Course Authentication").buildAppBar(),
       body: SingleChildScrollView(
         child: Container(
           alignment: Alignment.topCenter,
@@ -210,95 +257,11 @@ class _VerifyResultState extends State<VerifyResult> {
               
               _buildDropdown('Semester', semesterTypeItem),
               SizedBox(height: 20),
-              Text('Course Id',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              SizedBox(height: 10),
-              TextField(
-                controller: _courseIdController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  labelText: 'Enter Course Id',
-                  border: OutlineInputBorder(),
-                ),
-              ),
+              _buildDropdown('Course', courseTypeItem),
+              
               SizedBox(height: 20),
-              createButton(
-                buttonText: 'Search',
-                onPressed: () async {
-                  // Parse Course Id to integer
-                  _courseId = int.tryParse(_courseIdController.text);
-                  print((_courseId != null ? _courseId.toString() : ""));
-
-                  if (_courseId != null) {
-                    try {
-                      // Create an instance of ExaminationService
-                      ExaminationService examService = ExaminationService();
-
-                      bool allAuthenticated = await examService.checkAllAuthenticators(69, 2024);
-
-                      print(allAuthenticated);
-                      // Call getRegisteredStudents to fetch student details
-                      List<dynamic> registeredStudents =
-                          await examService.getRegisteredStudents(_courseId!);
-
-                      // Do something with the registered students data
-                      setState(() {
-                        _registeredStudents = registeredStudents;
-                        isVerified = allAuthenticated;
-                      });
-                    } catch (e) {
-                      print('Error fetching registered students: $e');
-                    }
-                  }
-                },
-                showSearchIcon: true,
-              ),
-
-              // Display registered students data in a table
-              SizedBox(height: 20),
-              Text('Registered Students',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              SizedBox(height: 10),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: DataTable(
-                    columns: [
-                      DataColumn(label: Text('ID')),
-                      DataColumn(label: Text('Working Year')),
-                      DataColumn(label: Text('Student ID')),
-                      DataColumn(label: Text('Semester ID')),
-                      DataColumn(label: Text('Course ID')),
-                      DataColumn(label: Text('Course Slot ID')),
-                    ],
-                    rows: _registeredStudents
-                        .take(_displayLimit)
-                        .map((student) => DataRow(
-                              cells: [
-                                DataCell(Text(student['id'].toString())),
-                                DataCell(Text(student['working_year'] ?? '')),
-                                DataCell(Text(student['student_id'])),
-                                DataCell(
-                                    Text(student['semester_id'].toString())),
-                                DataCell(Text(student['course_id'].toString())),
-                                DataCell(Text(student['course_slot_id'] ?? '')),
-                              ],
-                            ))
-                        .toList(),
-                  ),
-                ),
-              ),
-
-              SizedBox(height: 10),
-              TextField(
-                controller: _courseController,
-                keyboardType: TextInputType.text,
-                decoration: InputDecoration(
-                  labelText: 'Enter Course',
-                  border: OutlineInputBorder(),
-                ),
-              ),
+              
+              
 
               SizedBox(height: 20),
               Container(
@@ -308,22 +271,6 @@ class _VerifyResultState extends State<VerifyResult> {
                     : Text("Result is not yet verified"),
               ),
                SizedBox(height: 20),
-              createButton(
-                buttonText: 'Verify',
-                onPressed: () {
-                  _courseName = _courseController.text;
-                  // Handle verification process here
-                  if (authenticator1 || authenticator2 || authenticator3) {
-                    // At least one authenticator checked, proceed with verification
-                    _updateAuthenticators(); // Call function to update authenticators
-                    print("Verification successful");
-                  } else {
-                    // No authenticator checked
-                    print("Please check at least one authenticator");
-                  }
-                },
-              ),
-
               // Add checkboxes for authenticators
               CheckboxListTile(
                 title: Text('Authenticator 1'),
@@ -353,6 +300,24 @@ class _VerifyResultState extends State<VerifyResult> {
                   setState(() {
                     authenticator3 = value!;
                   });
+                },
+              ),
+
+
+               SizedBox(height: 20),
+              createButton(
+                buttonText: 'Verify',
+                onPressed: () {
+                  _courseName = _courseController.text;
+                  // Handle verification process here
+                  if (authenticator1 || authenticator2 || authenticator3) {
+                    // At least one authenticator checked, proceed with verification
+                    _updateAuthenticators(); // Call function to update authenticators
+                    print("Verification successful");
+                  } else {
+                    // No authenticator checked
+                    print("Please check at least one authenticator");
+                  }
                 },
               ),
             ],

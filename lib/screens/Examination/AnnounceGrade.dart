@@ -13,9 +13,11 @@ class AnnounceGrade extends StatefulWidget {
 class _AnnounceGradeState extends State<AnnounceGrade> {
   String? _curriculumValue;
   String? _batchValue;
-  String? _branchValue;
+  String? _departmentValue;
   String? _semesterValue;
   bool isVerified = false;
+  String? _programmeValue;
+  TextEditingController messageController = TextEditingController();
 
   void _handleDropdownChange(String dropdownName, String? value) {
     setState(() {
@@ -26,11 +28,14 @@ class _AnnounceGradeState extends State<AnnounceGrade> {
         case 'Batch':
           _batchValue = value;
           break;
-        case 'Branch':
-          _branchValue = value;
+        case 'Department':
+          _departmentValue = value;
           break;
         case 'Semester':
           _semesterValue = value;
+          break;
+        case 'Programme':
+          _programmeValue = value;
           break;
       }
     });
@@ -109,10 +114,12 @@ class _AnnounceGradeState extends State<AnnounceGrade> {
         return _curriculumValue;
       case 'Batch':
         return _batchValue;
-      case 'Branch':
-        return _branchValue;
+      case 'Department':
+        return _departmentValue;
       case 'Semester':
         return _semesterValue;
+      case 'Programme':
+        return _programmeValue;
       default:
         return null;
     }
@@ -133,12 +140,12 @@ class _AnnounceGradeState extends State<AnnounceGrade> {
     '2023',
   ];
 
-  List<String> branchTypeItem = [
-    'Branch CSE',
-    'Branch ECE',
-    'Branch ME',
-    'Branch SM',
-    'Branch DS',
+  List<String> departmentTypeItem = [
+    'CSE',
+    'ECE',
+    'ME',
+    'SM',
+    'DS',
   ];
 
   List<String> semesterTypeItem = [
@@ -151,20 +158,53 @@ class _AnnounceGradeState extends State<AnnounceGrade> {
     'Semester 7',
     'Semester 8',
   ];
-  
-  
+
   @override
   void initState() {
     super.initState();
-    _announceGrade(); 
+    _announceGrade();
   }
 
   void _announceGrade() async {
     ExaminationService examService = ExaminationService();
-    bool allAuthenticated = await examService.checkAllAuthenticators(69, 2024);
+    
+    bool allAuthenticated = await examService.checkAllAuthenticators(69, "2024");
     setState(() {
       isVerified = allAuthenticated;
     });
+  }
+
+  void _showAnnouncementResultDialog(bool success) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(success ? 'Announced' : 'Not Announced'),
+          content: success
+              ? Text('Grade announced successfully.')
+              : Text('Failed to announce grade.'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                if (success) {
+                  // Clear input fields after successful announcement
+                  setState(() {
+                    _curriculumValue = null;
+                    _batchValue = null;
+                    _departmentValue = null;
+                    _semesterValue = null;
+                    _programmeValue = null;
+                    messageController.clear();
+                  });
+                }
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -177,13 +217,34 @@ class _AnnounceGradeState extends State<AnnounceGrade> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
             _buildDropdown('Batch', batchTypeItem),
             SizedBox(height: 20),
 
-            _buildDropdown('Semester', semesterTypeItem),
+            _buildDropdown('Curriculum', curriculumTypeItem),
             SizedBox(height: 20),
-            
+
+            _buildDropdown('Department', departmentTypeItem),
+            SizedBox(height: 20),
+
+            Text(
+              'Message',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 10),
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: TextField(
+                controller: messageController,
+                decoration: InputDecoration(
+                  hintText: 'Type your message here...',
+                  border: OutlineInputBorder(),
+                ),
+                maxLines: 3,
+              ),
+            ),
+
+            SizedBox(height: 20),
 
             Container(
               padding: EdgeInsets.symmetric(horizontal: 16),
@@ -193,7 +254,17 @@ class _AnnounceGradeState extends State<AnnounceGrade> {
             ),
 
             SizedBox(height: 20),
-            createButton(buttonText: 'Announce', onPressed: () {}),
+            createButton(
+              buttonText: 'Announce',
+              onPressed: () {
+                // Simulating the announcement process with a delay
+                
+                Future.delayed(Duration(seconds: 2), () {
+                  bool success = true; // Change to false if announcement fails
+                  _showAnnouncementResultDialog(success);
+                });
+              },
+            ),
           ],
         ),
       ),

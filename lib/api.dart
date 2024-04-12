@@ -38,7 +38,9 @@ String kRegisteredStudentDetails = "/examination/api/registered_student_details"
 String kUpdateGrade = "/examination/api/update_hidden_grade/";
 String kUpdateAuthenticator = "/examination/api/update_authenticator/";
 String kCheckAllAuthenticators = "/examination/api/check_all_authenticators/";
-
+String kGradesForCourseEndpoint = "/examination/api/getGrade";
+String kCourseDetails = "/examination/api/get_course_names/";
+String kUpdateGradesEndpoint = "/examination/api/update_grades/";
 //------------Screens------------
 
 //screens/Academic/Current_Semester

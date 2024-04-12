@@ -175,7 +175,6 @@ class _GenerateResultState extends State<GenerateResult> {
     return grades[_random.nextInt(grades.length)];
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -262,73 +261,88 @@ class _GenerateResultState extends State<GenerateResult> {
               ),
               SizedBox(height: 20),
 
+              createButton(
+                buttonText: 'Generate',
+                onPressed: () async {
+                  try {
+                    // Call the API to generate transcript data
+                    ExaminationService examService = ExaminationService();
+                    Map<String, dynamic> transcriptData = await examService
+                        .generateTranscript(_selectedStudentId!);
 
+                    // Extract the list of maps containing course data
+                    List<Map<String, dynamic>> coursesData =
+                        List<Map<String, dynamic>>.from(
+                            transcriptData['courses_grades']);
 
+                    // Display the course_id_id from each map
+                    setState(() {
+                      // Assuming _transcriptData is a state variable to store the transcript data
+                      // Assign the received transcript data to the state variable
+                      // _transcriptData = coursesData;
 
-createButton(
-  buttonText: 'Generate',
-  onPressed: () async {
-    try {
-      // Call the API to generate transcript data
-      ExaminationService examService = ExaminationService();
-      Map<String, dynamic> transcriptData =
-          await examService.generateTranscript(_selectedStudentId!);
+                      // Extract and display course_id_id
+                      List<int> courseIds = coursesData
+                          .map<int>((data) => data['course_id_id'] as int)
+                          .toList();
 
-      // Extract the list of maps containing course data
-      List<Map<String, dynamic>> coursesData =
-          List<Map<String, dynamic>>.from(transcriptData['courses_grades']);
+                      print(courseIds);
+                      // Create a list to hold the future grades
+                      List<Future<String>> gradeFutures = [];
 
-      // Display the course_id_id from each map
-      setState(() {
-        // Assuming _transcriptData is a state variable to store the transcript data
-        // Assign the received transcript data to the state variable
-        // _transcriptData = coursesData;
+                      // Retrieve grades for each course ID
+                      courseIds.forEach((courseId) {
+                        // Make an API query to get the grade for the current course ID
+                        gradeFutures.add(examService.getGradesForCourse(
+                            courseId: courseId,
+                            batch: _batchValue!,
+                            programme: _programmeValue!,
+                            specialization: _specializationValue!,
+                            selectedStudentId: _selectedStudentId!));
+                      });
 
-        // Extract and display course_id_id
-        List<int> courseIds = coursesData
-            .map<int>((data) => data['course_id_id'] as int)
-            .toList();
-
-        // Display the courseIds in a table
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text('Course IDs'),
-              content: SingleChildScrollView(
-                child: DataTable(
-                  columns: <DataColumn>[
-                    DataColumn(label: Text('Index')),
-                    DataColumn(label: Text('Course ID')),
-                    DataColumn(label: Text('Grade'))
-                  ],
-                  rows: courseIds
-                      .asMap()
-                      .entries
-                      .map<DataRow>((entry) => DataRow(
-                            cells: [
-                              DataCell(Text(entry.key.toString())),
-                              DataCell(Text(entry.value.toString())),
-                              DataCell(Text(_getGrade()))
-                            ],
-                          ))
-                      .toList(),
-                ),
-              ),
-            );
-          },
-        );
-      });
-    } catch (e) {
-      // Handle any errors that occur during the API call
-      print('Error generating transcript: $e');
-    }
-  },
-)
-
-
-
-
+                      // Wait for all grade queries to complete
+                      Future.wait(gradeFutures).then((List<String> grades) {
+                        // Display the courseIds and their corresponding grades in a table
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('Course IDs and Grades'),
+                              content: SingleChildScrollView(
+                                child: DataTable(
+                                  columns: <DataColumn>[
+                                    DataColumn(label: Text('Index')),
+                                    DataColumn(label: Text('Course ID')),
+                                    DataColumn(label: Text('Grade'))
+                                  ],
+                                  rows: List<DataRow>.generate(
+                                    courseIds.length,
+                                    (index) => DataRow(
+                                      cells: [
+                                        DataCell(Text(index.toString())),
+                                        DataCell(
+                                            Text(courseIds[index].toString())),
+                                        DataCell(Text(grades[index])),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      }).catchError((error) {
+                        // Handle errors from grade queries
+                        print('Error retrieving grades: $error');
+                      });
+                    });
+                  } catch (e) {
+                    // Handle any errors that occur during the API call
+                    print('Error generating transcript: $e');
+                  }
+                },
+              )
             ],
           ),
         ),
