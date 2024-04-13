@@ -1,4 +1,5 @@
-
+import 'package:fusion/models/central_mess.dart';
+import 'package:fusion/services/central_mess_services.dart';
 import 'package:flutter/material.dart';
 
 class RegistrationRequests extends StatefulWidget {
@@ -7,6 +8,35 @@ class RegistrationRequests extends StatefulWidget {
 }
 
 class _RegistrationRequestsState extends State<RegistrationRequests> {
+
+  CentralMessService _centralMessService = CentralMessService();
+
+  bool _loading = true;
+  RegistrationRequest? registrationData;
+  static List<RegistrationRequest> _registrationRequests = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchRegistrationRequest();
+  }
+
+  void _fetchRegistrationRequest() async {
+    try {
+      List<RegistrationRequest> registrationRequests =
+          await _centralMessService.getRegistrationRequest();
+      setState(() {
+        _registrationRequests = registrationRequests;
+        _registrationRequests.sort((a, b) => b.startDate.compareTo(a.startDate));
+      });
+      print('Received Registrations');
+      setState(() {
+        _loading = false;
+      });
+    } catch (e) {
+      print('Error fetching registrations: $e');
+    }
+  }
 
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
@@ -84,7 +114,9 @@ class _RegistrationRequestsState extends State<RegistrationRequests> {
       shadowColor: Colors.black,
     );
 
-    return SingleChildScrollView(
+    return _loading == true
+        ? Center(child: CircularProgressIndicator())
+        : (SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: DataTable(
         columnSpacing: 12,
@@ -92,11 +124,11 @@ class _RegistrationRequestsState extends State<RegistrationRequests> {
         columns: buildTableHeader(),
         rows: buildTableRows(),
       ),
-    );
+    ));
   }
 
   List<DataColumn> buildTableHeader() {
-    return tableData.first.keys.map((key) {
+    return _registrationRequests.first.getKeysToDisplay().map((key) {
       return DataColumn(
         label: Text(
           key,
@@ -107,10 +139,10 @@ class _RegistrationRequestsState extends State<RegistrationRequests> {
   }
 
   List<DataRow> buildTableRows() {
-    return tableData.map((data) {
+    return _registrationRequests.map((data) {
       return DataRow(
-        cells: data.keys.map((key) {
-          if (key.toLowerCase() == 'accept/reject') {
+        cells: data.toMap().keys.map((key) {
+          if (key.toLowerCase() == 'status') {
             return DataCell(
               DropdownButtonFormField<String>(
                 decoration: InputDecoration(
@@ -141,7 +173,7 @@ class _RegistrationRequestsState extends State<RegistrationRequests> {
                 }).toList(),
               ),
             );
-          } else if (key.toLowerCase() == 'remark') {
+          } else if (key.toLowerCase() == 'registrationremark') {
             return DataCell(
               TextField(
                 decoration: InputDecoration(
@@ -150,46 +182,49 @@ class _RegistrationRequestsState extends State<RegistrationRequests> {
                   border: OutlineInputBorder(),
                 ),
                 onChanged: (value) {
-                  data['Remark'] = value;
-                },
-              ),
-            );
-          }else if (key.toLowerCase() == 'mess') {
-            return DataCell(
-              DropdownButtonFormField<String>(
-                decoration: InputDecoration(
-                  labelText: status != null ? null : 'Select',
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.deepOrangeAccent,
-                      width: 2,
-                    ),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  filled: true,
-                  fillColor: Colors.white,
-                ),
-                validator: (value) => value == null ? "Select" : null,
-                dropdownColor: Colors.white,
-                value: status,
-                onChanged: (String? newValue) {
                   setState(() {
-                    status = newValue!;
+                    data.registrationRemark = value;
                   });
                 },
-                items: menuDropDownItems.map((item) {
-                  return DropdownMenuItem(
-                    child: Text(item["text"]!),
-                    value: item["value"],
-                  );
-                }).toList(),
               ),
             );
+          // }else if (key.toLowerCase() == 'mess') {
+          //   return DataCell(
+          //     DropdownButtonFormField<String>(
+          //       decoration: InputDecoration(
+          //         labelText: status != null ? null : 'Select',
+          //         enabledBorder: OutlineInputBorder(
+          //           borderSide: BorderSide(
+          //             color: Colors.deepOrangeAccent,
+          //             width: 2,
+          //           ),
+          //           borderRadius: BorderRadius.circular(20),
+          //         ),
+          //         filled: true,
+          //         fillColor: Colors.white,
+          //       ),
+          //       validator: (value) => value == null ? "Select" : null,
+          //       dropdownColor: Colors.white,
+          //       value: status,
+          //       onChanged: (String? newValue) {
+          //         setState(() {
+          //           status = newValue!;
+          //         });
+          //       },
+          //       items: menuDropDownItems.map((item) {
+          //         return DropdownMenuItem(
+          //           child: Text(item["text"]!),
+          //           value: item["value"],
+          //         );
+          //       }).toList(),
+          //     ),
+          //   );
           } else {
+            var value = data.toMap()[key];
             return DataCell(
               Padding(
                 padding: EdgeInsets.all(4),
-                child: Text(data[key]!),
+                child: Text(value.toString()),
               ),
             );
           }

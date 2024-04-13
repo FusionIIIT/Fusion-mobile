@@ -3,7 +3,6 @@ import 'feedback_form.dart';
 import 'feedback_history.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
-import 'package:fusion/models/profile.dart';
 
 class FeedbackMenu extends StatefulWidget {
   @override

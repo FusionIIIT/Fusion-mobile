@@ -1,4 +1,5 @@
-
+import 'package:fusion/models/central_mess.dart';
+import 'package:fusion/services/central_mess_services.dart';
 import 'package:flutter/material.dart';
 
 class DeRegistrationRequests extends StatefulWidget {
@@ -7,6 +8,36 @@ class DeRegistrationRequests extends StatefulWidget {
 }
 
 class _DeRegistrationRequestsState extends State<DeRegistrationRequests> {
+
+  CentralMessService _centralMessService = CentralMessService();
+
+  bool _loading = true;
+  DeregistrationRequest? deregistrationData;
+  static List<DeregistrationRequest> _deregistrationRequests = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchDeregistrationRequest();
+  }
+
+  void _fetchDeregistrationRequest() async {
+    try {
+      List<DeregistrationRequest> deregistrationRequests =
+          await _centralMessService.getDeregistrationRequest();
+      setState(() {
+        _deregistrationRequests = deregistrationRequests;
+        // _deregistrationRequests
+        //     .sort((a, b) => b.startDate.compareTo(a.startDate));
+      });
+      print('Received Deregistrations');
+      setState(() {
+        _loading = false;
+      });
+    } catch (e) {
+      print('Error fetching deregistrations: $e');
+    }
+  }
 
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
@@ -71,7 +102,9 @@ class _DeRegistrationRequestsState extends State<DeRegistrationRequests> {
       shadowColor: Colors.black,
     );
 
-    return SingleChildScrollView(
+    return _loading == true
+        ? Center(child: CircularProgressIndicator())
+        : (SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: DataTable(
         columnSpacing: 12,
@@ -79,11 +112,11 @@ class _DeRegistrationRequestsState extends State<DeRegistrationRequests> {
         columns: buildTableHeader(),
         rows: buildTableRows(),
       ),
-    );
+    ));
   }
 
   List<DataColumn> buildTableHeader() {
-    return tableData.first.keys.map((key) {
+    return _deregistrationRequests.first.getKeysToDisplay().map((key) {
       return DataColumn(
         label: Text(
           key,
@@ -94,10 +127,10 @@ class _DeRegistrationRequestsState extends State<DeRegistrationRequests> {
   }
 
   List<DataRow> buildTableRows() {
-    return tableData.map((data) {
+    return _deregistrationRequests.map((data) {
       return DataRow(
-        cells: data.keys.map((key) {
-          if (key.toLowerCase() == 'accept/reject') {
+        cells: data.toMap().keys.map((key) {
+          if (key.toLowerCase() == 'status') {
             return DataCell(
               DropdownButtonFormField<String>(
                 decoration: InputDecoration(
@@ -128,7 +161,7 @@ class _DeRegistrationRequestsState extends State<DeRegistrationRequests> {
                 }).toList(),
               ),
             );
-          } else if (key.toLowerCase() == 'remark') {
+          } else if (key.toLowerCase() == 'deregistrationremark') {
             return DataCell(
               TextField(
                 decoration: InputDecoration(
@@ -137,15 +170,16 @@ class _DeRegistrationRequestsState extends State<DeRegistrationRequests> {
                   border: OutlineInputBorder(),
                 ),
                 onChanged: (value) {
-                  data['Remark'] = value;
+                  data.deregistrationRemark = value;
                 },
               ),
             );
           }else {
+            var value = data.toMap()[key];
             return DataCell(
               Padding(
                 padding: EdgeInsets.all(4),
-                child: Text(data[key]!),
+                child: Text(value.toString()),
               ),
             );
           }

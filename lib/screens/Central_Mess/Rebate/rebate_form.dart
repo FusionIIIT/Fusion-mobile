@@ -14,7 +14,7 @@ class _RebateFormState extends State<RebateForm> {
   CentralMessService _centralMessService = CentralMessService();
   TextEditingController textController = TextEditingController();
 
-  bool _loading = false, _sentRequest = false, _updateDish = false;
+  bool _sentRequest = false, _updateDish = false;
   Rebate? data;
   String? reasonForRebate, selectedType;
   DateTime? selectedDateStart, selectedDateEnd;

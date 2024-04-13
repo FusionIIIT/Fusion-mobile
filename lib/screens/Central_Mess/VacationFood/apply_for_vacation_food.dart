@@ -14,7 +14,7 @@ class _VacationFoodFormState extends State<VacationFoodForm> {
   CentralMessService _centralMessService = CentralMessService();
   TextEditingController textController = TextEditingController();
 
-  bool _loading = false, _sentRequest = false, _updateDish = false;
+  bool _sentRequest = false, _updateDish = false;
   VacationFood? data;
   String? purpose, selectedMess;
   DateTime? selectedDateStart, selectedDateEnd;

@@ -12,7 +12,7 @@ class _UpdateMenuState extends State<UpdateMenu> {
   CentralMessService _centralMessService = CentralMessService();
   TextEditingController textController = TextEditingController();
 
-  bool _loading = false, _updateDish = false;
+  bool _updateDish = false;
   MessMenu? data;
   String? selectedMess, selectedDay, selectedMeal, dish;
 

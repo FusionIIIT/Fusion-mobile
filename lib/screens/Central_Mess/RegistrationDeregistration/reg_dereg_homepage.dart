@@ -32,7 +32,7 @@ class _ManageRegDeRegState extends State<ManageRegDeReg> {
         child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
           SizedBox(height: 5.0),
           DefaultTabController(
-              length:  user == "student" ? 1 : 4, // length of tabs
+              length:  user == "student" ? 1 : 3, // length of tabs
               initialIndex: 0,
               child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
                 Container(

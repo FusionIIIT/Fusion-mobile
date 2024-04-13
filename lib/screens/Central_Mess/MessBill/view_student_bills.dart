@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/services/central_mess_services.dart';
-import 'package:fusion/models/profile.dart';
 import 'package:fusion/models/central_mess.dart';
 
 class ViewStudentBill extends StatefulWidget {

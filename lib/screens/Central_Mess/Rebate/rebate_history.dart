@@ -39,7 +39,7 @@ class _RebateHistoryState extends State<RebateHistory> {
   }
 
   // String? _value1, _value2;
-  int? _currentlyExpandedIndex;
+  // int? _currentlyExpandedIndex;
 
   int _pageNumber = 1;
   int _pageSize = 5; // Number of items per page

@@ -14,7 +14,7 @@ class _ApplySpecialFoodState extends State<ApplySpecialFood> {
   CentralMessService _centralMessService = CentralMessService();
   TextEditingController textController = TextEditingController();
 
-  bool _loading = false, _requestSent = false;
+  bool _requestSent = false;
   SpecialRequest? data;
   String? selectedMess, mealTime, foodItem, purpose;
   DateTime? fromDate, toDate;

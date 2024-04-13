@@ -161,13 +161,13 @@ class _ActiveSpecialFoodRequestState extends State<ActiveSpecialFoodRequest> {
                               setState(() {
                                 specialData = SpecialRequest(
                                   studentId: _modifiedSpecialRequests[index].studentId,
-                                  startDate: _modifiedSpecialRequests[index].startDate!,
-                                  endDate: _modifiedSpecialRequests[index].endDate!,
+                                  startDate: _modifiedSpecialRequests[index].startDate,
+                                  endDate: _modifiedSpecialRequests[index].endDate,
                                   request: _modifiedSpecialRequests[index].request,
                                   status: status,
                                   item1: _modifiedSpecialRequests[index].item1!,
                                   item2: _modifiedSpecialRequests[index].item2!,
-                                  appDate: _modifiedSpecialRequests[index].appDate!,
+                                  appDate: _modifiedSpecialRequests[index].appDate,
                                 );
                                 _updateSpecialRequestData(specialData);
                                 if (_requestSent == true) {

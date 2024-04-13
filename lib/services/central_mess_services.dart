@@ -779,6 +779,77 @@ class CentralMessService {
     }
   }
 
+  Future<List<RegistrationRequest>> getRegistrationRequest() async {
+    try {
+      http.Response response0 = await initAuth();
+
+      if (response0.statusCode == 200) {
+        Map<String, String> headers = {
+          'Authorization': 'Token ' + json.decode(response0.body)['token']
+        };
+
+        print("fetching Registration request");
+        http.Response response = await http.get(
+          Uri.http(
+            kCentralMess,
+            kRegistrationRequestEndpoint, //constant api EndPoint
+          ),
+          headers: headers,
+        );
+
+        if (response.statusCode == 200) {
+          Iterable RegistrationRequestList =
+              json.decode(response.body)['payload'];
+          return RegistrationRequestList.map(
+              (model) => RegistrationRequest.fromJson(model)).toList();
+        } else {
+          print(response.statusCode);
+          throw Exception('Failed to load registration request');
+        }
+      } else {
+        print(response0.statusCode);
+        throw Exception('Failed to Authorize');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+  
+  Future<List<DeregistrationRequest>> getDeregistrationRequest() async {
+    try {
+      http.Response response0 = await initAuth();
+
+      if (response0.statusCode == 200) {
+        Map<String, String> headers = {
+          'Authorization': 'Token ' + json.decode(response0.body)['token']
+        };
+
+        print("fetching Deregistration request");
+        http.Response response = await http.get(
+          Uri.http(
+            kCentralMess,
+            kDeregistrationRequestEndpoint, //constant api EndPoint
+          ),
+          headers: headers,
+        );
+
+        if (response.statusCode == 200) {
+          Iterable DeregistrationRequestList =
+              json.decode(response.body)['payload'];
+          return DeregistrationRequestList.map(
+              (model) => DeregistrationRequest.fromJson(model)).toList();
+        } else {
+          print(response.statusCode);
+          throw Exception('Failed to load deregistration request');
+        }
+      } else {
+        print(response0.statusCode);
+        throw Exception('Failed to Authorize');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
 
 // TODO: Add more methods for other Central Mess APIs as needed
 }

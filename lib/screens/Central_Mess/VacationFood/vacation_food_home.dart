@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/screens/Central_Mess/VacationFood/vacation_food_history.dart';
 import 'apply_for_vacation_food.dart';
 import 'vacation_food_history.dart';
 import 'vacation_food_requests.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
-import 'package:fusion/models/profile.dart';
 
 class VacationFoodHome extends StatefulWidget {
   @override
@@ -17,7 +15,6 @@ class _VacationFoodHomeState extends State<VacationFoodHome> {
   Widget build(BuildContext context) {
     Map<String, dynamic>? arguments =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
-    ProfileData data = ProfileData.fromJson(arguments?['profileData']);
     String? user = arguments?['user'];
     user = user?.toLowerCase();
     // user = "caretaker";

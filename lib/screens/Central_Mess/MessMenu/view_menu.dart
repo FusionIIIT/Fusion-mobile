@@ -167,12 +167,12 @@ class _ViewMenuState extends State<ViewMenu> {
     );
 
     final _messFormKey = GlobalKey<FormState>();
-    final ButtonStyle style = ElevatedButton.styleFrom(
-      textStyle: const TextStyle(
-          fontSize: 20, color: Colors.white, fontWeight: FontWeight.w500),
-      backgroundColor: Colors.white,
-      shadowColor: Colors.black,
-    );
+    // final ButtonStyle style = ElevatedButton.styleFrom(
+    //   textStyle: const TextStyle(
+    //       fontSize: 20, color: Colors.white, fontWeight: FontWeight.w500),
+    //   backgroundColor: Colors.white,
+    //   shadowColor: Colors.black,
+    // );
     return SingleChildScrollView(
             padding: const EdgeInsets.all(8.0),
             child: Container(

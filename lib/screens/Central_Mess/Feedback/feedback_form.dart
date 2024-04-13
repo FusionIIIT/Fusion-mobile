@@ -14,7 +14,7 @@ class _FeedbackFormState extends State<FeedbackForm> {
   CentralMessService _centralMessService = CentralMessService();
   TextEditingController textController = TextEditingController();
 
-  bool _loading = false, _sentFeedback = false, _sendFeedback = false;
+  bool _sentFeedback = false;
   MessFeedback? data;
   String? selectedMess, selectedDay, selectedFeedbackType, description;
 

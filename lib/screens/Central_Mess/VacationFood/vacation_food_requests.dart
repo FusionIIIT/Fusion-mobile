@@ -171,14 +171,14 @@ class _VacationFoodRequestState extends State<VacationFoodRequest> {
                                     studentId: _modifiedVacationFoodRequests[index]
                                         .studentId,
                                     startDate: _modifiedVacationFoodRequests[index]
-                                        .startDate!,
+                                        .startDate,
                                     endDate: _modifiedVacationFoodRequests[index]
-                                        .endDate!,
+                                        .endDate,
                                     purpose:
                                         _modifiedVacationFoodRequests[index].purpose,
                                     status: status,
                                     appDate: _modifiedVacationFoodRequests[index]
-                                        .appDate!,
+                                        .appDate,
                                   );
                                   _updateVacationFoodRequestData(vacationFoodData);
                                   if (_requestSent == true) {

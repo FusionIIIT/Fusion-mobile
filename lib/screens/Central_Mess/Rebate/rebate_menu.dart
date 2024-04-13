@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/models/profile.dart';
 import 'package:fusion/screens/Central_Mess/Rebate/respondToRebateRequest.dart';
 import 'rebate_form.dart';
 import 'rebate_history.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
-import 'package:fusion/models/profile.dart';
 
 class RebateMenu extends StatefulWidget {
   @override
@@ -17,7 +15,6 @@ class _RebateMenuState extends State<RebateMenu> {
   Widget build(BuildContext context) {
     Map<String, dynamic>? arguments =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
-    ProfileData data = ProfileData.fromJson(arguments?['profileData']);
     String? user = arguments?['user'];
     user = user?.toLowerCase();
     // user = "caretaker";

@@ -3,7 +3,6 @@ import 'view_menu.dart';
 import 'update_menu.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
-import 'package:fusion/models/profile.dart';
 
 class MessMenu extends StatefulWidget {
   @override

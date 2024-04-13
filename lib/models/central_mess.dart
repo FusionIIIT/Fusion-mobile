@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 
 class MessInfo {
   final String studentId;
@@ -325,6 +324,162 @@ class MessFeedback {
       description: json['description'],
       feedbackType: json['feedback_type'],
       feedbackRemark: json['feedback_remark'],
+    );
+  }
+}
+
+class RegistrationRequest {
+  final String? studentId;
+  final String txnNo;
+  final String? img;
+  final int amount;
+  final String? status;
+  String? registrationRemark;
+  final DateTime startDate;
+
+  RegistrationRequest({
+    this.studentId,
+    required this.txnNo,
+    this.img,
+    required this.amount,
+    this.status,
+    this.registrationRemark,
+    required this.startDate,
+  });
+
+  factory RegistrationRequest.fromJson(Map<String, dynamic> json) {
+    return RegistrationRequest(
+      studentId: json['student_id'],
+      txnNo: json['Txn_no'],
+      img: json['img'],
+      amount: json['amount'],
+      status: json['status'],
+      registrationRemark: json['registration_remark'],
+      startDate: DateTime.parse(json['start_date']),
+    );
+  }
+
+  List<String> getKeysToDisplay() {
+    return [
+      'Student Id',
+      'Transaction No',
+      'Image',
+      'Amount',
+      'Status',
+      'Remark',
+      'Start Date'
+    ];
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'studentId': studentId,
+      'txnNo': txnNo,
+      'img': img,
+      'amount': amount,
+      'status': status,
+      'registrationRemark': registrationRemark,
+      'startDate': startDate,
+    };
+  }
+}
+
+class RegMain {
+  final String? studentId;
+  final String program;
+  final String currentMessStatus;
+  final int balance;
+  final String messOption;
+
+  RegMain({
+    this.studentId,
+    required this.program,
+    required this.currentMessStatus,
+    required this.balance,
+    required this.messOption,
+  });
+
+  factory RegMain.fromJson(Map<String, dynamic> json) {
+    return RegMain(
+      studentId: json['student_id'],
+      program: json['program'],
+      currentMessStatus: json['current_mess_status'],
+      balance: json['balance'],
+      messOption: json['mess_option'],
+    );
+  }
+}
+
+class RegRecords {
+  final String? studentId;
+  final DateTime startDate;
+  final DateTime? endDate;
+
+  RegRecords({
+    this.studentId,
+    required this.startDate,
+    required this.endDate,
+  });
+
+  factory RegRecords.fromJson(Map<String, dynamic> json) {
+    return RegRecords(
+      studentId: json['student_id'],
+      startDate: DateTime.parse(json['start_date']),
+      endDate:
+          json['end_date'] != null ? DateTime.parse(json['end_date']) : null,
+    );
+  }
+}
+
+class DeregistrationRequest {
+  final String? studentId;
+  final String? status;
+  String? deregistrationRemark;
+
+  DeregistrationRequest({
+    this.studentId,
+    this.status,
+    this.deregistrationRemark,
+  });
+
+  factory DeregistrationRequest.fromJson(Map<String, dynamic> json) {
+    return DeregistrationRequest(
+      studentId: json['student_id'],
+      status: json['status'],
+      deregistrationRemark: json['deregistration_remark'],
+    );
+  }
+
+  List<String> getKeysToDisplay() {
+    return [
+      'Student Id',
+      'Status',
+      'Remark',
+    ];
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'studentId': studentId,
+      'status': status,
+      'deregistrationRemark': deregistrationRemark,
+    };
+  }
+}
+
+class SemDates {
+  final DateTime startDate;
+  final DateTime endDate;
+
+  SemDates({
+    required this.startDate,
+    required this.endDate,
+  });
+
+  factory SemDates.fromJson(Map<String, dynamic> json) {
+    return SemDates(
+      startDate: DateTime.parse(json['start_date']),
+      endDate: DateTime.parse(json['end_date']),
     );
   }
 }
