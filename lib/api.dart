@@ -1,12 +1,12 @@
 //Server and local links
 String klocalLink = "127.0.0.1:8000";
-String kserverLink = "172.27.39.179:8000";
+String kserverLink = "172.27.113.117:8000";
 // String kserverLink = "172.27.16.214:8000";
 
 //Login Service
-// String kAuthUrl = "172.27.16.214:8000";
-String kAuthUrl = "172.27.39.179:8000";
+String kAuthUrl = "172.27.113.117:8000";
 String kAuthLogin = "/api/auth/login/";
+// String kAuthUrl = "172.27.16.214:8000";
 // String kAuthLogin = "/accounts/login";
 
 //Profile Service
@@ -16,9 +16,9 @@ String kProfile = "/api/profile/";
 String kAcademicProcedures = "/academic-procedures/api/stu/";
 
 //Department details
+String kFacView = "/dep/api/fac-view/";
 String kDepartmentAnnouncements = "/dep/api/announcements/";
 // String kDepMainAnnouncements = "/dep/api/dep-main/";
-// String kFacView = "/dep/api/fac-view/";
 
 //Complaint
 String kComplaintService = "/complaint/api/studentcomplain";

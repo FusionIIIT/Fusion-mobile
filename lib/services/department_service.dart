@@ -1,4 +1,6 @@
 // import 'dart:convert';
+import 'dart:convert';
+
 import 'package:fusion/api.dart';
 import 'package:fusion/constants.dart';
 import 'package:http/http.dart' as http;
@@ -12,7 +14,7 @@ class Announcement {
   final String batch;
   final String department;
   final String message;
-  final String? upload_announncement;
+  final String? upload_announcement;
 
   Announcement({
     required this.ann_date,
@@ -21,7 +23,7 @@ class Announcement {
     required this.batch,
     required this.department,
     required this.message,
-    this.upload_announncement,
+    this.upload_announcement,
   });
 
   factory Announcement.fromJson(Map<String, dynamic> json) {
@@ -32,7 +34,7 @@ class Announcement {
       batch: json['batch'],
       department: json['department'],
       message: json['message'],
-      upload_announncement: json['upload_announncement'],
+      upload_announcement: json['upload_announcement'],
     );
   }
 }
@@ -47,14 +49,11 @@ class DepartmentService {
       Map<String, String> headers = {
         'Authorization': 'Token ' + (storage_service.userInDB?.token ?? "")
       };
-
-      var client = http.Client();
-      http.Response response = await client.get(
+      print(headers);
+      http.Response response = await http.get(
         Uri.http(getLink(), kDepartmentAnnouncements),
         headers: headers,
       );
-      // print('Response Status Code: ${response.statusCode}');
-      // print('Response Body: ${response.body}');
 
       if (response.statusCode == 200) {
         return response;
@@ -64,6 +63,58 @@ class DepartmentService {
     } catch (e) {
       print('Error in getAnnouncements: $e');
       rethrow;
+    }
+  }
+
+  Future<http.Response> getFacViewAnnouncements() async {
+    try {
+      var storage_service = locator<StorageService>();
+      if (storage_service.userInDB?.token == null)
+        throw Exception('Token Error');
+
+      Map<String, String> headers = {
+        'Authorization': 'Token ' + (storage_service.userInDB?.token ?? "")
+      };
+
+      http.Response response = await http.get(
+        Uri.http(getLink(), kFacView),
+        headers: headers,
+      );
+
+      if (response.statusCode == 200) {
+        return response;
+      } else {
+        throw Exception('Failed to load announcements');
+      }
+    } catch (e) {
+      print('Error in getAnnouncements: $e');
+      rethrow;
+    }
+  }
+
+  Future<void> createAnnouncement(Map<String, dynamic> announcementData) async {
+    try {
+      var storageService = locator<StorageService>();
+      if (storageService.userInDB?.token == null)
+        throw Exception('Token Error');
+
+      Map<String, String> headers = {
+        'Authorization': 'Token ' + (storageService.userInDB?.token ?? ""),
+        'Content-Type': 'application/json',
+      };
+
+      http.Response response = await http.post(
+          Uri.http(getLink(), kDepartmentAnnouncements),
+          headers: headers,
+          body: jsonEncode(announcementData));
+
+      if (response.statusCode == 200) {
+        print('Announcement created successfully');
+      } else {
+        print('Failed to create announcement. Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Exception occurred while creating announcement: $e');
     }
   }
 }

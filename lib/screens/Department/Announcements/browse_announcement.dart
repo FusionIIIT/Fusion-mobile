@@ -34,20 +34,64 @@ class _BrowseAnnouncementScreenState extends State<BrowseAnnouncementScreen> {
   }
 
   void _loadAnnouncements() async {
+    String? userRole = data?.profile?['user_type'];
+    print(userRole);
     try {
-      http.Response jsonResponse = await _departmentService.getAnnouncements();
+      if (userRole == 'student') {
+        try {
+          http.Response jsonResponse =
+              await _departmentService.getAnnouncements();
+          List<dynamic> jsonData = json.decode(jsonResponse.body);
+          List<Announcement> announcements = jsonData.map((item) {
+            return Announcement.fromJson(item);
+          }).toList();
 
-      print('API Response Status Code: ${jsonResponse.statusCode}');
-      print('API Response Body: ${jsonResponse.body}');
+          _announcementsController.add(announcements.toList());
+        } catch (error) {
+          print('Error loading announcements: $error');
+        }
+      } else if (userRole == 'faculty') {
+        try {
+          http.Response jsonResponse =
+              await _departmentService.getFacViewAnnouncements();
+          Map<String, dynamic> jsonData = json.decode(jsonResponse.body);
+          List<dynamic> announcementsData = jsonData['announcements'] ?? [];
+          List<Announcement> announcements = [];
+          for (var list in announcementsData) {
+            if (list is List) {
+              for (var item in list) {
+                if (item is Map<String, dynamic>) {
+                  announcements.add(Announcement.fromJson(item));
+                }
+              }
+            }
+          }
+          print('Announcements: $announcements');
 
-      List<dynamic> jsonData = json.decode(jsonResponse.body);
+          _announcementsController.add(announcements.toList());
+        } catch (error) {
+          print('Error loading announcements: $error');
+        }
+      } else if (userRole == 'admin') {
+        try {
+          http.Response jsonResponse =
+              await _departmentService.getAnnouncements();
+          print('API Response Status Code: ${jsonResponse.statusCode}');
+          print('API Response Body: ${jsonResponse.body}');
+          List<dynamic> jsonData = json.decode(jsonResponse.body);
+          List<Announcement> announcements = jsonData.map((item) {
+            return Announcement.fromJson(item);
+          }).toList();
+          print('Announcements: $announcements');
 
-      List<Announcement> announcements = jsonData.map((item) {
-        return Announcement.fromJson(item);
-      }).toList();
-      print('Announcements: $announcements');
-
-      _announcementsController.add(announcements.toList());
+          _announcementsController.add(announcements.toList());
+        } catch (error) {
+          print('Error loading announcements: $error');
+        }
+      } else {
+        // Handle other cases or unknown roles
+        return;
+      }
     } catch (error) {
       print('Error loading announcements: $error');
     }
@@ -76,7 +120,7 @@ class _BrowseAnnouncementScreenState extends State<BrowseAnnouncementScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  if (userRole != null && userRole != 'student')
+                  if (userRole == 'faculty' || userRole != 'student')
                     ElevatedButton(
                       onPressed: () {
                         Navigator.push(
@@ -164,15 +208,13 @@ class _BrowseAnnouncementScreenState extends State<BrowseAnnouncementScreen> {
                             .map(
                               (announcement) => DataRow(
                                 cells: [
-                                  DataCell(
-                                      Text(announcement.ann_date)),
-                                  DataCell(
-                                      Text(announcement.maker_id)),
-                                  DataCell(
-                                      Text(announcement.programme)),
+                                  DataCell(Text(announcement.ann_date)),
+                                  DataCell(Text(announcement.maker_id)),
+                                  DataCell(Text(announcement.programme)),
                                   DataCell(Text(announcement.batch)),
                                   DataCell(Text(announcement.message)),
-                                  DataCell(Text(announcement.upload_announncement ?? '')),
+                                  DataCell(Text(
+                                      announcement.upload_announcement ?? '')),
                                 ],
                               ),
                             )

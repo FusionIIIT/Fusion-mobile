@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:fusion/services/department_service.dart';
 
 class MakeAnnouncementScreen extends StatefulWidget {
   @override
@@ -10,31 +11,37 @@ class MakeAnnouncementScreen extends StatefulWidget {
 
 class _MakeAnnouncementScreenState extends State<MakeAnnouncementScreen> {
   List<Map<String, String>> announcements = [];
-
-  // Add a GlobalKey<FormState> to manage the form state
   final _formKey = GlobalKey<FormState>();
-
-  // Define data for dropdowns with placeholder items
-  List<String?> programmeTypes = [null, 'B.Tech', 'M.Tech', 'Ph.D'];
+  List<String?> programmeTypes = [null, 'All', 'B.Tech', 'M.Tech', 'Ph.D'];
+  List<String?> departmentTypes = [null, 'All', 'CSE', 'ECE', 'ME', 'SM'];
   List<String?> batches = [
     null,
+    'All',
     'First Year',
     'Second Year',
     'Third Year',
     'Fourth Year'
   ];
-  List<String?> departmentTypes = [null, 'CSE', 'ECE', 'ME', 'SM'];
 
-  // Selected values for dropdowns
   String? selectedProgrammeType;
   String? selectedBatch;
   String? selectedDepartmentType;
-
-  // Warning messages for required fields
   String? programmeWarning;
   String? departmentWarning;
-
   String selectedFilePath = 'No file chosen';
+  TextEditingController announcementDetailsController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    announcementDetailsController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    announcementDetailsController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,12 +78,6 @@ class _MakeAnnouncementScreenState extends State<MakeAnnouncementScreen> {
                           programmeWarning = null;
                           departmentWarning = null;
                         });
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => MakeAnnouncementScreen(),
-                        //   ),
-                        // );
                       },
                       child: Text(
                         'Make Announcement',
@@ -87,8 +88,6 @@ class _MakeAnnouncementScreenState extends State<MakeAnnouncementScreen> {
                 ),
               ),
             ),
-
-            // Form
             Container(
               margin: EdgeInsets.all(20.0),
               padding: EdgeInsets.all(20.0),
@@ -159,8 +158,7 @@ class _MakeAnnouncementScreenState extends State<MakeAnnouncementScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          margin: EdgeInsets.only(
-                              left: 8), // Adjust the left margin as needed
+                          margin: EdgeInsets.only(left: 8),
                           child: Text(
                             'Attach Files(pdf, jpeg, jpg, png):',
                             style: TextStyle(fontSize: 16),
@@ -172,7 +170,6 @@ class _MakeAnnouncementScreenState extends State<MakeAnnouncementScreen> {
                             children: [
                               ElevatedButton(
                                 onPressed: () {
-                                  // Open custom file picker dialog
                                   _showFilePickerDialog(context);
                                 },
                                 child: Text('Choose File'),
@@ -187,26 +184,8 @@ class _MakeAnnouncementScreenState extends State<MakeAnnouncementScreen> {
                     SizedBox(height: 16),
                     ElevatedButton(
                       onPressed: () {
-                        // Validate the form before submission
                         if (_formKey.currentState!.validate()) {
-                          // Form is valid, handle submission
-                          if (selectedProgrammeType == null) {
-                            setState(() {
-                              programmeWarning = 'This field is required';
-                            });
-                          }
-                          if (selectedDepartmentType == null) {
-                            setState(() {
-                              departmentWarning = 'This field is required';
-                            });
-                          }
-                          if (selectedProgrammeType != null &&
-                              selectedDepartmentType != null) {
-                            print('Programme Type: $selectedProgrammeType');
-                            print('Batch: $selectedBatch');
-                            print('Department Type: $selectedDepartmentType');
-                            print('Selected File: $selectedFilePath');
-                          }
+                          submitForm();
                         }
                       },
                       child: Text('Publish'),
@@ -222,7 +201,6 @@ class _MakeAnnouncementScreenState extends State<MakeAnnouncementScreen> {
     );
   }
 
-  // Custom file picker dialog
   Future<void> _showFilePickerDialog(BuildContext context) async {
     try {
       FilePickerResult? result =
@@ -238,6 +216,33 @@ class _MakeAnnouncementScreenState extends State<MakeAnnouncementScreen> {
     } catch (e) {
       print("Error picking file: $e");
     }
+  }
+
+  Future<void> submitForm() async {
+    if (selectedProgrammeType == null) {
+      setState(() {
+        programmeWarning = 'This field is required';
+      });
+      return;
+    }
+    if (selectedDepartmentType == null) {
+      setState(() {
+        departmentWarning = 'This field is required';
+      });
+      return;
+    }
+
+    Map<String, dynamic> announcementData = {
+      'maker_id': 'your_maker_id_value_here',
+      'programme': selectedProgrammeType!,
+      'batch': selectedBatch ?? '',
+      'department': selectedDepartmentType!,
+      'message': announcementDetailsController.text,
+      'upload_announncement': selectedFilePath,
+    };
+    await DepartmentService().createAnnouncement(announcementData).then((_) =>
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Announcement created successfully !"))));
   }
 
   Widget buildDropdown(String label, List<String?> items, String? selectedValue,
@@ -262,8 +267,7 @@ class _MakeAnnouncementScreenState extends State<MakeAnnouncementScreen> {
           decoration: InputDecoration(
             border: OutlineInputBorder(),
             contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-            fillColor: Color.fromARGB(
-                255, 245, 242, 242), // Background color for dropdown
+            fillColor: Color.fromARGB(255, 245, 242, 242),
             filled: true,
           ),
           child: DropdownButtonHideUnderline(
