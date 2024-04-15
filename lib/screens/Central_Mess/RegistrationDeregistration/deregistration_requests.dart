@@ -26,7 +26,7 @@ class _DeRegistrationRequestsState extends State<DeRegistrationRequests> {
       List<DeregistrationRequest> deregistrationRequests =
           await _centralMessService.getDeregistrationRequest();
       setState(() {
-        _deregistrationRequests = deregistrationRequests;
+        _deregistrationRequests = deregistrationRequests.where((element) => element.status == "pending").toList();
         // _deregistrationRequests
         //     .sort((a, b) => b.startDate.compareTo(a.startDate));
       });
@@ -95,12 +95,12 @@ class _DeRegistrationRequestsState extends State<DeRegistrationRequests> {
 
   @override
   Widget build(BuildContext context) {
-    final ButtonStyle style = ElevatedButton.styleFrom(
-      textStyle: const TextStyle(
-          fontSize: 20, color: Colors.white, fontWeight: FontWeight.w500),
-      backgroundColor: Colors.white,
-      shadowColor: Colors.black,
-    );
+    // final ButtonStyle style = ElevatedButton.styleFrom(
+    //   textStyle: const TextStyle(
+    //       fontSize: 20, color: Colors.white, fontWeight: FontWeight.w500),
+    //   backgroundColor: Colors.white,
+    //   shadowColor: Colors.black,
+    // );
 
     return _loading == true
         ? Center(child: CircularProgressIndicator())

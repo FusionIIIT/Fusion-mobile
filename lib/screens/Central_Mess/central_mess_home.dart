@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/models/central_mess.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:fusion/models/profile.dart';
@@ -22,6 +23,7 @@ class _CentralMessHomeState extends State<CentralMessHome> {
   late StreamController _profileController;
   late ProfileService profileService;
   late ProfileData data2;
+  late RegMain userMessData;
   CentralMessService _centralMessService = CentralMessService();
   @override
   void initState() {
@@ -47,12 +49,22 @@ class _CentralMessHomeState extends State<CentralMessHome> {
       user = user.toLowerCase();
       userType = data2.profile!['department']!['name'] + '  ' + data2.profile!['user_type'];
       if (user == 'student') student_id = data2.user!['username'];
-      if (designations.contains("mess_caretaker")) user = "caretaker";
-      if (designations.contains("mess_warden")) user = "warden";
+      // if (designations.contains("mess_caretaker")) user = "caretaker";
+      // if (designations.contains("mess_warden")) user = "warden";
+      if (designations.contains("mess_caretaker") || student_id == "21BCS064") user = "caretaker";
+      if (designations.contains("mess_warden") || student_id == "21BCS133") user = "warden";
       userType = (user == "caretaker") ? "Mess Caretaker" 
       : (user == "warden") ? "Mess Warden" 
       : data2.profile!['department']!['name'] + '  ' + data2.profile!['user_type'];
-      print('Designations: $designations');
+
+      List<RegMain> regMainList = (user == "student") ? await _centralMessService.getRegMain()
+                                  :List.empty();
+
+      userMessData = (user == "student") ? regMainList.where((element) => element.studentId == student_id).toList().first
+                      :RegMain(program: "NA", currentMessStatus: 'Deregistered', balance: 0, messOption: "no_mess");
+
+      print('User Data: ${userMessData.messOption} ${userMessData.currentMessStatus}');
+      print('Designations: $designations ${userMessData.messOption} ${userMessData.currentMessStatus}');
     } catch (e) {
       print(e);
     }
@@ -173,55 +185,55 @@ class _CentralMessHomeState extends State<CentralMessHome> {
                   InkWell(
                     child: myContainer("Mess Menu"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/menu', arguments: {"profileData": data2.toJson(), "user": user});
+                      Navigator.pushNamed(context, '/central_mess_home/menu', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
                     },
                   ),
                   InkWell(
                     child: myContainer("Mess Bill"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/messBill', arguments: {"profileData": data2.toJson(), "user": user});
+                      Navigator.pushNamed(context, '/central_mess_home/messBill', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
                     },
                   ),
                   InkWell(
                     child: myContainer("Feedback"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/feedback', arguments: {"profileData": data2.toJson(), "user": user});
+                      Navigator.pushNamed(context, '/central_mess_home/feedback', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
                     },
                   ),
                   InkWell(
                     child: myContainer("Announcement"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/announcement', arguments: {"profileData": data2.toJson(), "user": user});
+                      Navigator.pushNamed(context, '/central_mess_home/announcement', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
                     },
                   ),
                   InkWell(
                     child: myContainer(user=="student" ? "Register/De-register" : "Manage Registrations"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/registration', arguments: {"profileData": data2.toJson(), "user": user});
+                      Navigator.pushNamed(context, '/central_mess_home/registration', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
                     },
                   ),
                   InkWell(
                     child: myContainer("Rebate"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/rebate', arguments: {"profileData": data2.toJson(), "user": user});
+                      Navigator.pushNamed(context, '/central_mess_home/rebate', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
                     },
                   ),
                   InkWell(
                     child: myContainer("Request Special Food"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/reqSpecialFood', arguments: {"profileData": data2.toJson(), "user": user});
+                      Navigator.pushNamed(context, '/central_mess_home/reqSpecialFood', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
                     },
                   ),
                   InkWell(
                     child: myContainer("Vacation Food"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/vacationFood', arguments: {"profileData": data2.toJson(), "user": user});
+                      Navigator.pushNamed(context, '/central_mess_home/vacationFood', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
                     },
                   ),
                   InkWell(
                     child: myContainer("Make Payment"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/payment', arguments: {"profileData": data2.toJson(), "user": user});
+                      Navigator.pushNamed(context, '/central_mess_home/payment', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
                     },
                   ),
                   SizedBox(height: 30.0),
@@ -239,49 +251,49 @@ class _CentralMessHomeState extends State<CentralMessHome> {
                   InkWell(
                     child: myContainer("Mess Menu"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/menu', arguments: {"profileData": data2, "user": user});
+                      Navigator.pushNamed(context, '/central_mess_home/menu', arguments: {"profileData": data2, "user": user, "userMessData": userMessData.toMap()});
                     },
                   ),
                   InkWell(
                     child: myContainer("Manage Bill"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/messBill', arguments: {"profileData": data2.toJson(), "user": user});
+                      Navigator.pushNamed(context, '/central_mess_home/messBill', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
                     },
                   ),
                   InkWell(
                     child: myContainer("Manage Registrations"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/registration', arguments: {"profileData": data2.toJson(), "user": user});
+                      Navigator.pushNamed(context, '/central_mess_home/registration', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
                     },
                   ),
                   InkWell(
                     child: myContainer("Feedbacks & Suggestions"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/feedback', arguments: {"profileData": data2.toJson(), "user": user});
+                      Navigator.pushNamed(context, '/central_mess_home/feedback', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
                     },
                   ),
                   InkWell(
                     child: myContainer("Announcement"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/announcement', arguments: {"profileData": data2.toJson(), "user": user});
+                      Navigator.pushNamed(context, '/central_mess_home/announcement', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
                     },
                   ),
                   InkWell(
                     child: myContainer("Rebate"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/rebate', arguments: {"profileData": data2.toJson(), "user": user});
+                      Navigator.pushNamed(context, '/central_mess_home/rebate', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
                     },
                   ),
                   InkWell(
                     child: myContainer("Special Food Requests"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/reqSpecialFood', arguments: {"profileData": data2.toJson(), "user": user});
+                      Navigator.pushNamed(context, '/central_mess_home/reqSpecialFood', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
                     },
                   ),
                   InkWell(
                     child: myContainer("Vacation Food"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/vacationFood', arguments: {"profileData": data2.toJson(), "user": user});
+                      Navigator.pushNamed(context, '/central_mess_home/vacationFood', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
                     },
                   ),
                   SizedBox(height: 30.0),
@@ -305,25 +317,25 @@ class _CentralMessHomeState extends State<CentralMessHome> {
                   InkWell(
                     child: myContainer("Feedbacks & Suggestions"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/feedback', arguments: {"profileData": data2.toJson(), "user": user});
+                      Navigator.pushNamed(context, '/central_mess_home/feedback', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
                     },
                   ),
                   InkWell(
                     child: myContainer("Registrations"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/registration', arguments: {"profileData": data2.toJson(), "user": user});
+                      Navigator.pushNamed(context, '/central_mess_home/registration', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
                     },
                   ),
                   InkWell(
                     child: myContainer("Announcement"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/announcement', arguments: {"profileData": data2.toJson(), "user": user});
+                      Navigator.pushNamed(context, '/central_mess_home/announcement', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
                     },
                   ),
                   InkWell(
                     child: myContainer("Reports"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/report', arguments: {"profileData": data2.toJson(), "user": user});
+                      Navigator.pushNamed(context, '/central_mess_home/report', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
                     },
                   ),
                   SizedBox(height: 30.0),
@@ -346,13 +358,13 @@ class _CentralMessHomeState extends State<CentralMessHome> {
                   InkWell(
                     child: myContainer("Feedbacks & Suggestions"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/feedback', arguments: {"profileData": data2.toJson(), "user": user});
+                      Navigator.pushNamed(context, '/central_mess_home/feedback', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
                     },
                   ),
                   InkWell(
                     child: myContainer("Announcement"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/central_mess_home/announcement', arguments: {"profileData": data2.toJson(), "user": user});
+                      Navigator.pushNamed(context, '/central_mess_home/announcement', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
                     },
                   ),
                   SizedBox(height: 30.0),

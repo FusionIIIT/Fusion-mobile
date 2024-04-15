@@ -121,7 +121,7 @@ class _UpdateMenuState extends State<UpdateMenu> {
                             value: "mess2"),
                       ],
                     ),
-                    SizedBox(height: 30.0),
+                    SizedBox(height: 10.0),
                     DropdownButtonFormField(
                       decoration: InputDecoration(
                         labelText: 'Select a day',
@@ -167,7 +167,7 @@ class _UpdateMenuState extends State<UpdateMenu> {
 
                       ],
                     ),
-                    SizedBox(height: 30.0),
+                    SizedBox(height: 10.0),
                     DropdownButtonFormField(
                       decoration: InputDecoration(
                         labelText: 'Select a Meal',
@@ -200,7 +200,7 @@ class _UpdateMenuState extends State<UpdateMenu> {
                             value: "D"),
                       ],
                     ),
-                    SizedBox(height: 30.0),
+                    SizedBox(height: 10.0),
                     TextFormField(
                       maxLines: 4,
                       cursorHeight: 30,

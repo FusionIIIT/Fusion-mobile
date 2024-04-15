@@ -814,6 +814,50 @@ class CentralMessService {
       rethrow;
     }
   }
+
+  Future<http.Response> sendRegistrationRequest(RegistrationRequest data) async {
+    try {
+      http.Response response0 = await initAuth();
+
+      if (response0.statusCode == 200) {
+        Map<String, String> headers = {
+          'Authorization': 'Token ' + json.decode(response0.body)['token'],
+          'Content-Type': 'application/json; charset=UTF-8'
+        };
+
+        Map<String, dynamic> body = {
+          'student_id': '21BCS064',
+          'img': data.img,
+          'Txn_No': data.txnNo,
+          'start_date': data.startDate.toString().substring(0, 10),
+          'amount': data.amount,
+        };
+
+        print("Sending Registration Request");
+        http.Response response = await http.post(
+          Uri.http(
+            kCentralMess,
+            kRegistrationRequestEndpoint, //constant api EndPoint
+          ),
+          headers: headers,
+          body: json.encode(body),
+        );
+
+        if (response.statusCode == 200) {
+          print('Registration Request sent successfully');
+          return response;
+        } else {
+          print(response.statusCode);
+          throw Exception('Failed to send registration request');
+        }
+      } else {
+        print(response0.statusCode);
+        throw Exception('Failed to authenticate');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
   
   Future<List<DeregistrationRequest>> getDeregistrationRequest() async {
     try {
@@ -850,6 +894,78 @@ class CentralMessService {
       rethrow;
     }
   }
+
+  Future<List<RegMain>> getRegMain() async {
+    try {
+      http.Response response0 = await initAuth();
+
+      if (response0.statusCode == 200) {
+        Map<String, String> headers = {
+          'Authorization': 'Token ' + json.decode(response0.body)['token']
+        };
+
+        print("fetching Main Registration records");
+        http.Response response = await http.get(
+          Uri.http(
+            kCentralMess,
+            kRegMainEndpoint, //constant api EndPoint
+          ),
+          headers: headers,
+        );
+
+        if (response.statusCode == 200) {
+          Iterable RegMainList =
+              json.decode(response.body)['payload'];
+          return RegMainList.map(
+              (model) => RegMain.fromJson(model)).toList();
+        } else {
+          print(response.statusCode);
+          throw Exception('Failed to load main registration records');
+        }
+      } else {
+        print(response0.statusCode);
+        throw Exception('Failed to Authorize');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  // Future<List<MessInfo>> getMessInfo() async {
+  //   try {
+  //     http.Response response0 = await initAuth();
+
+  //     if (response0.statusCode == 200) {
+  //       Map<String, String> headers = {
+  //         'Authorization': 'Token ' + json.decode(response0.body)['token']
+  //       };
+
+  //       print("fetching Mess Info");
+  //       http.Response response = await http.get(
+  //         Uri.http(
+  //           kCentralMess,
+  //           kMessInfoEndpoint, //constant api EndPoint
+  //         ),
+  //         headers: headers,
+  //       );
+
+  //       if (response.statusCode == 200) {
+  //         Iterable MessInfoList =
+  //             json.decode(response.body)['payload'];
+  //         return MessInfoList.map(
+  //             (model) => MessInfo.fromJson(model)).toList();
+  //       } else {
+  //         print(response.statusCode);
+  //         throw Exception('Failed to load mess info');
+  //       }
+  //     } else {
+  //       print(response0.statusCode);
+  //       throw Exception('Failed to Authorize');
+  //     }
+  //   } catch (e) {
+  //     rethrow;
+  //   }
+  // }
 
 // TODO: Add more methods for other Central Mess APIs as needed
 }

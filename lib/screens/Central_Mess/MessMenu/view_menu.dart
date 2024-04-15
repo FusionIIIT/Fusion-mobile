@@ -5,6 +5,11 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:fusion/services/pdf_service.dart';
 
 class ViewMenu extends StatefulWidget {
+
+  final Map<String, dynamic> userMessData;
+  final String? user;
+  ViewMenu({required this.userMessData, required this.user});
+
   @override
   _ViewMenuState createState() => _ViewMenuState();
 }
@@ -14,6 +19,8 @@ class _ViewMenuState extends State<ViewMenu> {
   PdfService _pdfService = PdfService();
 
   bool _loadDish = false;
+  // Map<String, dynamic> umd = widget.userMessData;
+  // String? s = widget.user;
   String? selectedMess, selectedDay, selectedMeal;
 
   List<List<String>> mat = [

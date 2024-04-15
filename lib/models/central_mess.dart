@@ -365,9 +365,9 @@ class RegistrationRequest {
       'Transaction No',
       'Image',
       'Amount',
-      'Status',
+      'Start Date',
       'Remark',
-      'Start Date'
+      'Status',
     ];
   }
 
@@ -377,9 +377,9 @@ class RegistrationRequest {
       'txnNo': txnNo,
       'img': img,
       'amount': amount,
-      'status': status,
-      'registrationRemark': registrationRemark,
       'startDate': startDate,
+      'registrationRemark': registrationRemark,
+      'status': status,
     };
   }
 }
@@ -407,6 +407,16 @@ class RegMain {
       balance: json['balance'],
       messOption: json['mess_option'],
     );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'student_id': studentId,
+      'program': program,
+      'current_mess_status': currentMessStatus,
+      'balance': balance,
+      'mess_option': messOption,
+    };
   }
 }
 
@@ -453,16 +463,16 @@ class DeregistrationRequest {
   List<String> getKeysToDisplay() {
     return [
       'Student Id',
-      'Status',
       'Remark',
+      'Status',
     ];
   }
 
   Map<String, dynamic> toMap() {
     return {
       'studentId': studentId,
-      'status': status,
       'deregistrationRemark': deregistrationRemark,
+      'status': status,
     };
   }
 }

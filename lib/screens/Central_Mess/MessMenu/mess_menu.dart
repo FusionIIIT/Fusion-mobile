@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fusion/models/central_mess.dart';
 import 'view_menu.dart';
 import 'update_menu.dart';
 import 'package:fusion/Components/appBar.dart';
@@ -18,6 +19,7 @@ class _MessMenuState extends State<MessMenu> {
     user = user?.toLowerCase();
     // user = "caretaker";
     //user = "warden";
+    Map<String, dynamic> userMessData = arguments?['userMessData'];
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -54,7 +56,7 @@ class _MessMenuState extends State<MessMenu> {
                         border: Border(top: BorderSide(color: Colors.grey, width: 0.5))
                     ),
                     child: TabBarView(children: <Widget>[
-                      ViewMenu(),
+                      ViewMenu(userMessData: userMessData, user: user),
                       if (user != 'student') // Conditionally render "Update Menu" tab
                         UpdateMenu(),
 

@@ -26,7 +26,7 @@ class _RegistrationRequestsState extends State<RegistrationRequests> {
       List<RegistrationRequest> registrationRequests =
           await _centralMessService.getRegistrationRequest();
       setState(() {
-        _registrationRequests = registrationRequests;
+        _registrationRequests = registrationRequests.where((element) => element.status == "pending").toList();
         _registrationRequests.sort((a, b) => b.startDate.compareTo(a.startDate));
       });
       print('Received Registrations');
@@ -107,12 +107,12 @@ class _RegistrationRequestsState extends State<RegistrationRequests> {
 
   @override
   Widget build(BuildContext context) {
-    final ButtonStyle style = ElevatedButton.styleFrom(
-      textStyle: const TextStyle(
-          fontSize: 20, color: Colors.white, fontWeight: FontWeight.w500),
-      backgroundColor: Colors.white,
-      shadowColor: Colors.black,
-    );
+    // final ButtonStyle style = ElevatedButton.styleFrom(
+    //   textStyle: const TextStyle(
+    //       fontSize: 20, color: Colors.white, fontWeight: FontWeight.w500),
+    //   backgroundColor: Colors.white,
+    //   shadowColor: Colors.black,
+    // );
 
     return _loading == true
         ? Center(child: CircularProgressIndicator())
