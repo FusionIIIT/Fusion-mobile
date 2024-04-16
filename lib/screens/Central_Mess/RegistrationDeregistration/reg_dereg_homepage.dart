@@ -14,7 +14,6 @@ class ManageRegDeReg extends StatefulWidget {
 }
 
 class _ManageRegDeRegState extends State<ManageRegDeReg> {
-  bool? isRegistered = false;
   @override
   Widget build(BuildContext context) {
     Map<String, dynamic>? arguments =
@@ -24,6 +23,9 @@ class _ManageRegDeRegState extends State<ManageRegDeReg> {
     user = user?.toLowerCase();
     // user = "caretaker";
     //user = "warden";
+    var userMessData = arguments?['userMessData'];
+    bool? isRegistered = (user == 'student' && userMessData?['current_mess_status'] == 'Registered');
+    // print('$userMessData, $isRegistered');
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar:DefaultAppBar().buildAppBar(titleText: "Central Mess"),

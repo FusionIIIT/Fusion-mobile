@@ -4,7 +4,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:http_parser/http_parser.dart';
 import 'package:fusion/models/central_mess.dart';
 import 'package:fusion/services/central_mess_services.dart';
 import 'package:date_field/date_field.dart';
@@ -34,9 +33,9 @@ class _RegisterState extends State<Register> {
   void _sendRegistrationlRequestData(data) async {
     try {
       print({data.startDate, data.amount, data.txnNo, data.img});
-      http.Response menuItems =
+      http.Response registrationRequest =
           await _centralMessService.sendRegistrationRequest(data);
-      if (menuItems.statusCode == 200) {
+      if (registrationRequest.statusCode == 200) {
         print('Sent the register request');
         setState(() {
           _register = true;
@@ -55,48 +54,6 @@ class _RegisterState extends State<Register> {
       return base64Encode(fileBytes);
     // });
   }
-
-  // Future<void> _submitForm() async {
-  //   setState(() {
-  //     _loading = true;
-  //   });
-
-  //   try {
-
-  //     var uri = Uri.https(kCentralMess, kRegistrationRequestEndpoint);
-  //     var request = http.MultipartRequest('POST', uri);
-
-  //     request.headers.addAll({
-  //       'Authorization': 'Token $token',
-  //     });
-
-  //     // Add form fields
-  //     request.fields['start_date'] = data.registerDate.toString();
-  //     request.fields['Txn_no'] = data.txnNoController.text.toString();
-  //     request.fields['amount'] = amountController.text.toString();
-  //     request.fields['student_id'] = "21BCS128";
-
-  //     // Add file
-  //     if (_filePath != null) {
-  //       var file = await http.MultipartFile.fromPath('img', _filePath!);
-  //       request.files.add(file);
-  //     }
-
-  //     var response = await request.send();
-
-  //     if (response.statusCode == 200) {
-  //       print('File uploaded successfully');
-  //     } else {
-  //       print('Failed to upload file');
-  //     }
-  //   } catch (e) {
-  //     print('Error uploading file: $e');
-  //   }
-
-  //   setState(() {
-  //     _loading = false;
-  //   });
-  // }
 
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
@@ -195,6 +152,29 @@ class _RegisterState extends State<Register> {
                       firstDate: DateTime.now(), // Disable previous dates
                     ),
                     SizedBox(height: 10.0),
+                    DateTimeFormField(
+                      decoration: InputDecoration(
+                        suffixIcon: Icon(Icons.event_note),
+                        labelText: 'Payment Date',
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.deepOrangeAccent, width: 2),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
+                      mode: DateTimeFieldPickerMode.date,
+                      autovalidateMode: AutovalidateMode.always,
+                      initialValue: DateTime.now(), // Set initial date
+                      validator: (e) => e == null ? 'Please select a date' : null,
+                      onDateSelected: (DateTime value) {
+                        paymentDate = value;
+                      },
+                      firstDate: DateTime.now(), // Disable previous dates
+                    ),
+                    SizedBox(height: 10.0),
                     TextFormField(
                       maxLines: 1,
                       cursorHeight: 30,
@@ -276,13 +256,14 @@ class _RegisterState extends State<Register> {
                           if (_messFormKey.currentState!.validate()) {
                             if (_filePath != null) {
                               // Convert the selected image to base64
-                              print({registerDate, txnNoController.text, amountController.text, _fileBase64});
+                              // print({registerDate, paymentDate, txnNoController.text, amountController.text, _fileBase64});
                               setState(() {
                                 data = RegistrationRequest(
-                                    img: _fileBase64, 
+                                    img: _filePath, 
                                     txnNo: txnNoController.text, 
                                     amount: int.tryParse(amountController.text)!, 
                                     startDate: registerDate!,
+                                    paymentDate: paymentDate!,
                                 );
                                 _sendRegistrationlRequestData(data);
                                 setState(() {

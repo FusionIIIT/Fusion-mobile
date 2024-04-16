@@ -23,7 +23,7 @@ class _CentralMessHomeState extends State<CentralMessHome> {
   late StreamController _profileController;
   late ProfileService profileService;
   late ProfileData data2;
-  late RegMain userMessData;
+  RegMain userMessData = RegMain(program: "NA", currentMessStatus: 'Deregistered', balance: 0, messOption: "no_mess");
   CentralMessService _centralMessService = CentralMessService();
   @override
   void initState() {
@@ -36,32 +36,37 @@ class _CentralMessHomeState extends State<CentralMessHome> {
   getData() async {
     try {
       // Response response = await dashboardService.getDashboard();
+      Map<String,String> data = {
+                                  'type':'filter', 
+                                  'mess_option': 'all',
+                                  'program': 'all',
+                                  'status': 'all',
+                                };
       Response response2 = await profileService.getProfile();
       List<dynamic> designations = await _centralMessService.getDesignations();
+      List<RegMain> regMainList = await _centralMessService.getRegMain(data);
       setState(() {
         // data = DashboardData.fromJson(jsonDecode(response.body));
         data2 = ProfileData.fromJson(jsonDecode(response2.body));
         _loading = false;
       });
-      student_id = data2.user!['username'];
-      name = data2.user!['first_name'] + ' ' + data2.user!['last_name'];
-      user = data2.profile!['user_type'];
-      user = user.toLowerCase();
-      userType = data2.profile!['department']!['name'] + '  ' + data2.profile!['user_type'];
-      if (user == 'student') student_id = data2.user!['username'];
-      // if (designations.contains("mess_caretaker")) user = "caretaker";
-      // if (designations.contains("mess_warden")) user = "warden";
-      if (designations.contains("mess_caretaker") || student_id == "21BCS064") user = "caretaker";
-      if (designations.contains("mess_warden") || student_id == "21BCS133") user = "warden";
-      userType = (user == "caretaker") ? "Mess Caretaker" 
-      : (user == "warden") ? "Mess Warden" 
-      : data2.profile!['department']!['name'] + '  ' + data2.profile!['user_type'];
-
-      List<RegMain> regMainList = (user == "student") ? await _centralMessService.getRegMain()
-                                  :List.empty();
-
-      userMessData = (user == "student") ? regMainList.where((element) => element.studentId == student_id).toList().first
-                      :RegMain(program: "NA", currentMessStatus: 'Deregistered', balance: 0, messOption: "no_mess");
+      setState(() {
+        student_id = data2.user!['username'];
+        name = data2.user!['first_name'] + ' ' + data2.user!['last_name'];
+        user = data2.profile!['user_type'];
+        user = user.toLowerCase();
+        userType = data2.profile!['department']!['name'] + '  ' + data2.profile!['user_type'];
+        if (user == 'student') student_id = data2.user!['username'];
+        // if (designations.contains("mess_caretaker")) user = "caretaker";
+        // if (designations.contains("mess_warden")) user = "warden";
+        if (designations.contains("mess_caretaker") || student_id == "21BCS064") user = "caretaker";
+        if (designations.contains("mess_warden") || student_id == "21BCS133") user = "warden";
+        userType = (user == "caretaker") ? "Mess Caretaker" 
+        : (user == "warden") ? "Mess Warden" 
+        : data2.profile!['department']!['name'] + '  ' + data2.profile!['user_type'];
+        userMessData = (user == "student") ? regMainList.firstWhere((element) => element.studentId == student_id, orElse: () => RegMain(program: "NA", currentMessStatus: 'Deregistered', balance: 0, messOption: "no_mess"))
+                            : RegMain(program: "NA", currentMessStatus: 'Deregistered', balance: 0, messOption: "no_mess");
+      });
 
       print('User Data: ${userMessData.messOption} ${userMessData.currentMessStatus}');
       print('Designations: $designations ${userMessData.messOption} ${userMessData.currentMessStatus}');

@@ -336,6 +336,7 @@ class RegistrationRequest {
   final String? status;
   String? registrationRemark;
   final DateTime startDate;
+  final DateTime paymentDate;
 
   RegistrationRequest({
     this.studentId,
@@ -345,6 +346,7 @@ class RegistrationRequest {
     this.status,
     this.registrationRemark,
     required this.startDate,
+    required this.paymentDate,
   });
 
   factory RegistrationRequest.fromJson(Map<String, dynamic> json) {
@@ -356,6 +358,7 @@ class RegistrationRequest {
       status: json['status'],
       registrationRemark: json['registration_remark'],
       startDate: DateTime.parse(json['start_date']),
+      paymentDate: DateTime.parse(json['payment_date']),
     );
   }
 
@@ -366,6 +369,7 @@ class RegistrationRequest {
       'Image',
       'Amount',
       'Start Date',
+      'Payment Date',
       'Remark',
       'Status',
     ];
@@ -378,6 +382,7 @@ class RegistrationRequest {
       'img': img,
       'amount': amount,
       'startDate': startDate,
+      'paymentDate': paymentDate,
       'registrationRemark': registrationRemark,
       'status': status,
     };
@@ -444,11 +449,13 @@ class RegRecords {
 class DeregistrationRequest {
   final String? studentId;
   final String? status;
+  final DateTime endDate;
   String? deregistrationRemark;
 
   DeregistrationRequest({
     this.studentId,
     this.status,
+    required this.endDate,
     this.deregistrationRemark,
   });
 
@@ -456,6 +463,7 @@ class DeregistrationRequest {
     return DeregistrationRequest(
       studentId: json['student_id'],
       status: json['status'],
+      endDate: DateTime.parse(json['end_date']),
       deregistrationRemark: json['deregistration_remark'],
     );
   }
@@ -463,6 +471,7 @@ class DeregistrationRequest {
   List<String> getKeysToDisplay() {
     return [
       'Student Id',
+      'End Date',
       'Remark',
       'Status',
     ];
@@ -471,6 +480,7 @@ class DeregistrationRequest {
   Map<String, dynamic> toMap() {
     return {
       'studentId': studentId,
+      'endDate': endDate,
       'deregistrationRemark': deregistrationRemark,
       'status': status,
     };

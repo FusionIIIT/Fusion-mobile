@@ -91,7 +91,7 @@ class _MakeAnnouncementState extends State<MakeAnnouncement> {
                             child: Text("All"), value: "all"),
                       ],
                     ),
-                    SizedBox(height: 30.0),
+                    SizedBox(height: 10.0),
                     DateTimeFormField(
                       decoration: InputDecoration(
                         suffixIcon: Icon(Icons.event_note),
@@ -115,7 +115,7 @@ class _MakeAnnouncementState extends State<MakeAnnouncement> {
                         firstDate: DateTime.now()
                     ),
 
-                    SizedBox(height: 30.0),
+                    SizedBox(height: 10.0),
                     DropdownButtonFormField(
                       decoration: InputDecoration(
                         labelText: 'Subject of Announcement',
@@ -146,7 +146,7 @@ class _MakeAnnouncementState extends State<MakeAnnouncement> {
                         DropdownMenuItem(child: Text("Other"), value: "Other"),
                       ],
                     ),
-                    SizedBox(height: 30.0),
+                    SizedBox(height: 10.0),
                     TextFormField(
                       maxLines: 4,
                       cursorHeight: 30,

@@ -1,6 +1,8 @@
+import 'package:fusion/api.dart';
 import 'package:fusion/models/central_mess.dart';
 import 'package:fusion/services/central_mess_services.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RegistrationRequests extends StatefulWidget {
   @override
@@ -128,6 +130,16 @@ class _RegistrationRequestsState extends State<RegistrationRequests> {
   }
 
   List<DataColumn> buildTableHeader() {
+    if (_registrationRequests.length <= 0) {
+      return [
+        DataColumn(
+          label: Text(
+            'No Pending Requests!',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+        ),
+      ];
+    }
     return _registrationRequests.first.getKeysToDisplay().map((key) {
       return DataColumn(
         label: Text(
@@ -142,7 +154,24 @@ class _RegistrationRequestsState extends State<RegistrationRequests> {
     return _registrationRequests.map((data) {
       return DataRow(
         cells: data.toMap().keys.map((key) {
-          if (key.toLowerCase() == 'status') {
+          if (key.toLowerCase() == 'img') {
+            var imageUrl = Uri.http(kCentralMess, 'mess${data.toMap()[key]}');
+            return DataCell(
+              InkWell(
+                child: DefaultTextStyle(
+                  style: TextStyle(color: Color.fromARGB(255, 33, 93, 243)),
+                  child: Text('View Image'),
+                ),
+                onTap: () async {
+                  if (await canLaunchUrl(imageUrl)) {
+                    await launchUrl(imageUrl);
+                  } else {
+                    print('Could not launch $imageUrl');
+                  }
+                },
+              ),
+            );
+          } else if (key.toLowerCase() == 'status') {
             return DataCell(
               DropdownButtonFormField<String>(
                 decoration: InputDecoration(

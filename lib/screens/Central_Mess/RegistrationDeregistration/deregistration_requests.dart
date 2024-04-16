@@ -116,6 +116,16 @@ class _DeRegistrationRequestsState extends State<DeRegistrationRequests> {
   }
 
   List<DataColumn> buildTableHeader() {
+    if (_deregistrationRequests.length <= 0) {
+      return [
+        DataColumn(
+          label: Text(
+            'No Pending Requests!',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+        ),
+      ];
+    }
     return _deregistrationRequests.first.getKeysToDisplay().map((key) {
       return DataColumn(
         label: Text(
@@ -127,6 +137,20 @@ class _DeRegistrationRequestsState extends State<DeRegistrationRequests> {
   }
 
   List<DataRow> buildTableRows() {
+    // if (_deregistrationRequests.length <= 0) {
+    //   return [
+    //     DataRow(
+    //       cells: [
+    //         DataCell(
+    //           Padding(
+    //             padding: EdgeInsets.all(4),
+    //             child: Text("No records found!!!"),
+    //           ),
+    //         ),
+    //       ],
+    //     ),
+    //   ];
+    // }
     return _deregistrationRequests.map((data) {
       return DataRow(
         cells: data.toMap().keys.map((key) {

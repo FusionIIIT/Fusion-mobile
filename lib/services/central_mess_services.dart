@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:fusion/constants.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 import 'package:fusion/api.dart';
 // import 'package:fusion/constants.dart';
 import 'package:fusion/models/central_mess.dart';
@@ -820,34 +821,39 @@ class CentralMessService {
       http.Response response0 = await initAuth();
 
       if (response0.statusCode == 200) {
-        Map<String, String> headers = {
-          'Authorization': 'Token ' + json.decode(response0.body)['token'],
-          'Content-Type': 'application/json; charset=UTF-8'
-        };
 
-        Map<String, dynamic> body = {
-          'student_id': '21BCS064',
-          'img': data.img,
-          'Txn_No': data.txnNo,
-          'start_date': data.startDate.toString().substring(0, 10),
-          'amount': data.amount,
-        };
+        http.Response response2 = await _profileService.getProfile();
+        ProfileData _profileData = await ProfileData.fromJson(jsonDecode(response2.body));
 
-        print("Sending Registration Request");
-        http.Response response = await http.post(
-          Uri.http(
-            kCentralMess,
-            kRegistrationRequestEndpoint, //constant api EndPoint
-          ),
-          headers: headers,
-          body: json.encode(body),
-        );
+        var uri = Uri.https(kCentralMess, kRegistrationRequestEndpoint);
+        var request = http.MultipartRequest('POST', uri);
+
+        request.headers.addAll({
+          'Authorization': 'Token ${json.decode(response0.body)['token']}',
+        });
+
+        // Add form fields
+        request.fields['start_date'] = data.startDate.toString().substring(0, 10);
+        request.fields['payment_date'] = data.startDate.toString().substring(0, 10);
+        request.fields['Txn_no'] = data.txnNo.toString();
+        request.fields['amount'] = data.amount.toString();
+        request.fields['student_id'] = await _profileData.user!['username'];
+
+        // Add file
+        if (data.img != null) {
+          var file = await http.MultipartFile.fromPath('img', data.img!,contentType: MediaType('image', 'jpeg'));
+          request.files.add(file);
+        }
+
+        var response = await request.send();
 
         if (response.statusCode == 200) {
           print('Registration Request sent successfully');
-          return response;
+          return await http.Response.fromStream(response);
         } else {
           print(response.statusCode);
+          response.stream.transform(utf8.decoder).listen((value) {
+          print(value);});
           throw Exception('Failed to send registration request');
         }
       } else {
@@ -895,31 +901,88 @@ class CentralMessService {
     }
   }
 
-  Future<List<RegMain>> getRegMain() async {
+    Future<http.Response> sendDeregistrationRequest(DeregistrationRequest data) async {
     try {
       http.Response response0 = await initAuth();
 
       if (response0.statusCode == 200) {
         Map<String, String> headers = {
-          'Authorization': 'Token ' + json.decode(response0.body)['token']
+          'Authorization': 'Token ' + json.decode(response0.body)['token'],
+          'Content-Type': 'application/json; charset=UTF-8'
+        };
+
+        Map<String, dynamic> body = {
+          'student_id': '21BCS064',
+          'end_date': data.endDate.toString().substring(0, 10),
+        };
+
+        print("Sending Deregistration Request");
+        http.Response response = await http.post(
+          Uri.http(
+            kCentralMess,
+            kDeregistrationRequestEndpoint, //constant api EndPoint
+          ),
+          headers: headers,
+          body: json.encode(body),
+        );
+
+        if (response.statusCode == 200) {
+          print('Deregistration Request sent successfully');
+          return response;
+        } else {
+          print(response.statusCode);
+          throw Exception('Failed to send deregistration request');
+        }
+      } else {
+        print(response0.statusCode);
+        throw Exception('Failed to authenticate');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<RegMain>> getRegMain(Map<String, String> data) async {
+    try {
+      http.Response response0 = await initAuth();
+
+      if (response0.statusCode == 200) {
+        Map<String, String> headers = {
+          'Authorization': 'Token ' + json.decode(response0.body)['token'],
+          'Content-Type': 'application/json; charset=UTF-8'
+        };
+
+        Map<String, dynamic> body = {
+          'type': data['type'],
+          'status': data['status'],
+          'program': data['program'],
+          'mess_option': data['mess_option'],
+          'student_id': data?['student_id'],
         };
 
         print("fetching Main Registration records");
-        http.Response response = await http.get(
+        http.Response response = await http.post(
           Uri.http(
             kCentralMess,
             kRegMainEndpoint, //constant api EndPoint
           ),
           headers: headers,
+          body: json.encode(body),
         );
 
         if (response.statusCode == 200) {
-          Iterable RegMainList =
+          Iterable RegMainList;
+          if (data['type'] == 'search') {
+            RegMainList =
+              json.decode(response.body)['payload'].toList();
+          }
+          RegMainList =
               json.decode(response.body)['payload'];
           return RegMainList.map(
               (model) => RegMain.fromJson(model)).toList();
         } else {
           print(response.statusCode);
+          print(response.body.toString());
           throw Exception('Failed to load main registration records');
         }
       } else {

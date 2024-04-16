@@ -85,7 +85,7 @@ class _ViewMenuState extends State<ViewMenu> {
     try {
       List<MessMenu> menuItems = await _centralMessService.getMenu();
       setState(() {
-        _menuItems = menuItems;
+        _menuItems = menuItems.reversed.toList();
         _loadDish = true;
       });
       print('Received the menu');
@@ -162,7 +162,7 @@ class _ViewMenuState extends State<ViewMenu> {
                       alignment: pw.Alignment.center,
                       padding: pw.EdgeInsets.all(5),
                       child: pw.Center(
-                        child: pw.Text(_menuItems.where( (item) => ( (item.messOption == selectedMess) && (item.mealTime == mat[i][j]) ) ).first.dish, style: pw.TextStyle(fontSize: 12)),
+                        child: pw.Text(_menuItems.where( (item) => ( (item.messOption == selectedMess) && (item.mealTime == mat[i][j]) ) ).last.dish, style: pw.TextStyle(fontSize: 12)),
                         // child: Text(mat[i][j]),
                       ),
                     ),

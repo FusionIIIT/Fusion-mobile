@@ -29,7 +29,7 @@ String kVacationFoodRequestEndpoint = "/mess/api/vacationFoodApi";
 String kMessInfoEndpoint = "/mess/api/messInfoApi";
 String kRegistrationRequestEndpoint = "/mess/api/registrationRequestApi";
 String kDeregistrationRequestEndpoint = "/mess/api/deRegistrationRequestApi";
-String kRegMainEndpoint = "/mess/api/regMainApi";
+String kRegMainEndpoint = "/mess/api/get_mess_students";
 
 //Complaint
 String kComplaintService = "/complaint/api/studentcomplain";
