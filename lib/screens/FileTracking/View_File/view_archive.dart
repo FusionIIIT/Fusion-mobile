@@ -9,7 +9,7 @@ class MessageDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Outbox File Details'),
+        title: Text('Archived File Details'),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16.0),
