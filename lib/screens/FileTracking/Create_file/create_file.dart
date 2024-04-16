@@ -6,6 +6,7 @@ import 'package:fusion/services/storage_service.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:file_picker/file_picker.dart';
 
 class CreateFilePage extends StatefulWidget {
   final String username;
@@ -23,59 +24,63 @@ class _CreateFilePageState extends State<CreateFilePage> {
   final _designationController = TextEditingController();
 
   Future<void> _submitForm() async {
-    try {
-      // Validate required fields
-      if (_titleController.text?.isEmpty == true ||
-          _descriptionController.text?.isEmpty == true) {
-        throw Exception('Title and description are required.');
-      }
+  try {
+    // Validate required fields
+    if (_titleController.text?.isEmpty == true ||
+        _descriptionController.text?.isEmpty == true) {
+      throw Exception('Title and description are required.');
+    }
 
-      // Prepare headers
-      var storageService = locator<StorageService>();
-      if (storageService.userInDB?.token == null) {
-        throw Exception('Token Error');
-      }
+    // Prepare headers
+    var storageService = locator<StorageService>();
+    if (storageService.userInDB?.token == null) {
+      throw Exception('Token Error');
+    }
 
-      Map<String, String> headers = {
-        'Authorization': 'Token ' + (storageService.userInDB?.token ?? ""),
-        'Content-Type': 'application/json'
-      };
+    Map<String, String> headers = {
+      'Authorization': 'Token ' + (storageService.userInDB?.token ?? ""),
+      'Content-Type': 'application/json'
+    };
 
-      // Prepare request body
-      final data = jsonEncode({
-        'subject': _titleController.text,
-        'designation': _sendAsController.text,
-        'receiver_username': _forwardToController.text,
-        'receiver_designation': _designationController.text,
-        'description': _descriptionController.text,
-      });
+    // Prepare request body
+    final data = jsonEncode({
+      'subject': _titleController.text,
+      'designation': _sendAsController.text,
+      'receiver_username': _forwardToController.text,
+      'receiver_designation': _designationController.text,
+      'description': _descriptionController.text,
+    });
 
-      // Make POST request
-      final response = await http.post(
-        Uri.http('10.0.2.2:8000', '/filetracking/api/file/'),
-        headers: headers,
-        body: data,
+    // Make POST request
+    final response = await http.post(
+      Uri.http('10.0.2.2:8000', '/filetracking/api/file/'),
+      headers: headers,
+      body: data,
+    );
+
+    // Handle response
+    if (response.statusCode == HttpStatus.created) {
+      // Show success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('File sent'),
+          backgroundColor: Colors.green,
+        ),
       );
 
-      // Handle response
-      if (response.statusCode == HttpStatus.created) {
-        // Show success message
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('File sent'),
-            backgroundColor: Colors.green,
-          ),
-        );
-      } else {
-        // Handle other status codes (e.g., show error message)
-        final errorMessage = await _parseErrorMessage(response);
-        print('Error: $errorMessage');
-      }
-    } catch (e) {
-      // Handle other exceptions
-      print('An error occurred: $e');
+      // Close current page and go back to outbox page
+      Navigator.pop(context);
+    } else {
+      // Handle other status codes (e.g., show error message)
+      final errorMessage = await _parseErrorMessage(response);
+      print('Error: $errorMessage');
     }
+  } catch (e) {
+    // Handle other exceptions
+    print('An error occurred: $e');
   }
+}
+
 
   Future<void> _draftForm() async {
   try {
@@ -99,6 +104,7 @@ class _CreateFilePageState extends State<CreateFilePage> {
     print(_titleController.text);
     final data = jsonEncode({
       'subject': _titleController.text,
+      'description': _descriptionController.text,
       'uploader': widget.username,
       'uploader_designation': _sendAsController.text,
       'src_module': 'filetracking'
@@ -119,6 +125,7 @@ class _CreateFilePageState extends State<CreateFilePage> {
           backgroundColor: Colors.green,
         ),
       );
+      Navigator.pop(context);
     } else {
       // Handle other status codes (e.g., show error message)
       final errorMessage = await _parseErrorMessage(response);

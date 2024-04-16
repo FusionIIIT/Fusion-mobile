@@ -3,6 +3,7 @@ import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
 import 'package:fusion/screens/FileTracking/Create_file/create_file.dart';
 import 'package:fusion/screens/FileTracking/View_drafts/view_drafts.dart';
+import 'package:fusion/screens/FileTracking/Archive_File/archive_file.dart';
 import 'package:fusion/screens/FileTracking/View_inbox/view_inbox.dart';
 import 'package:fusion/screens/FileTracking/View_outbox/view_outbox.dart';
 import 'package:fusion/screens/FileTracking/Track_file/track_file.dart';
@@ -77,11 +78,11 @@ class RoundedListView extends StatelessWidget {
             itemBuilder: (context, index) {
               final items = ['Compose File', 'Drafts', 'Archive', 'Outbox', 'Inbox'];
               final paths = [
-                '/create_file', // Path for Compose File
-                '/view_drafts', // Path for Drafts
-                '/track_file', // Path for Track File
-                '/view_outbox', // Path for Outbox
-                '/view_inbox', // Path for Inbox
+                '/create_file', 
+                '/view_drafts', 
+                '/archive_file',
+                '/view_outbox', 
+                '/view_inbox', 
               ];
 
               return Padding(
@@ -120,10 +121,10 @@ class RoundedListView extends StatelessWidget {
                                   MaterialPageRoute(builder: (context) => InboxPage(username: username)),
                                 );
                                 break;
-                              case '/track_file':
+                              case '/archive_file':
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => FileTrackingPage()),
+                                  MaterialPageRoute(builder: (context) => ArchivePage(username: username,)),
                                 );
                                 break;
                               case '/view_outbox':

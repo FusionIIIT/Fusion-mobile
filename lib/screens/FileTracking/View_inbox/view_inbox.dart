@@ -98,96 +98,83 @@ class _InboxPageState extends State<InboxPage> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Inbox'),
-      ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            // Divider
-            Divider(thickness: 1.0, color: Colors.grey[300]),
+ @override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: Text('Inbox'),
+    ),
+    body: SingleChildScrollView(
+      padding: EdgeInsets.all(16.0),
+      child: Column(
+        children: [
+          // Divider
+          Divider(thickness: 1.0, color: Colors.grey[300]),
 
-            // Form content
-            Column(
-              children: [
-                // Designation field
-                TextField(
-                  controller: _designationController,
-                  decoration: InputDecoration(
-                    labelText: 'View As',
-                  ),
+          // Form content
+          Column(
+            children: [
+              // Designation field
+              TextField(
+                controller: _designationController,
+                decoration: InputDecoration(
+                  labelText: 'View As',
                 ),
+              ),
 
-                // Send button
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              // Send button
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: () async {
+                      await _submitForm();
+                    },
+                    child: Text('View'),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          if (errorMessage != null)
+            Text(
+              errorMessage!,
+              style: TextStyle(color: Colors.red),
+            ),
+
+          // Display file IDs and buttons
+          Column(
+            children: fileIDsList.map((fileID) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    ElevatedButton(
-                      onPressed: () async {
-                        await _submitForm();
+                    Text('File ID: $fileID'),
+                    TextButton(
+                      onPressed: () {
+                        print(jsonData[fileIDsList.indexOf(fileID)]);
+                        // Handle view button pressed
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MessageDetailPage(
+                              messageDetails: jsonData[fileIDsList.indexOf(fileID)],
+                              username: widget.username,
+                            ),
+                          ),
+                        );
                       },
                       child: Text('View'),
                     ),
                   ],
                 ),
-              ],
-            ),
-            if (errorMessage != null)
-              Text(
-                errorMessage!,
-                style: TextStyle(color: Colors.red),
-              ),
-
-            // Display file IDs and buttons
-            Column(
-              children: fileIDsList.map((fileID) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('File ID: $fileID'),
-                      Row(
-                        children: [
-                          TextButton(
-                            onPressed: () {
-                              print(jsonData[fileIDsList.indexOf(fileID)]);
-                              // Handle view button pressed
-                              Navigator.push( context,
-                                MaterialPageRoute(
-                                  builder: (context) => MessageDetailPage(messageDetails: jsonData[fileIDsList.indexOf(fileID)]),
-                                ),
-                              );
-                            },
-                            child: Text('View'),
-                          ),
-                          SizedBox(width: 8),
-                          TextButton(
-                            onPressed: () {
-                              print(jsonData[fileIDsList.indexOf(fileID)]);
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ForwardFilePage(fileDetails: jsonData[fileIDsList.indexOf(fileID)]),
-                                ),
-                              );
-                            },
-                            child: Text('Forward'),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                );
-              }).toList(),
-            ),
-          ],
-        ),
+              );
+            }).toList(),
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
 }

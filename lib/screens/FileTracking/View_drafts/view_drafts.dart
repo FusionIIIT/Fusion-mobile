@@ -80,6 +80,14 @@ class _DraftsPageState extends State<DraftsPage> {
     }
   }
 
+  void _deleteDraftAndUpdateList(String id) async {
+  // Call the function to delete the draft
+  await _deleteDraft(id);
+  // Fetch the drafts again to update the list
+  await _fetchDrafts();
+}
+  
+
   Future<void> _deleteDraft(String id) async {
   try {
     var storageService = locator<StorageService>();
@@ -177,11 +185,14 @@ class _DraftsPageState extends State<DraftsPage> {
                             onPressed: () {
                               // Handle view button pressed
                               Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ViewDraftFilePage(draftDetails: jsonData[fileIDsList.indexOf(fileID)]),
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ViewDraftFilePage(
+                                  draftDetails: jsonData[fileIDsList.indexOf(fileID)],
+                                  onDelete: _deleteDraftAndUpdateList,
                                 ),
-                              );
+                              ),
+                            );
                             },
                             child: Text('View'),
                           ),
