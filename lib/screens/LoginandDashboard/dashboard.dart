@@ -16,10 +16,10 @@ class Dashboard extends StatefulWidget {
   static String tag = 'home-page';
   Dashboard();
   @override
-  _DashboardState createState() => _DashboardState();
+  DashboardState createState() => DashboardState();
 }
 
-class _DashboardState extends State<Dashboard> {
+class DashboardState extends State<Dashboard> {
   bool _notificationsBool = true;
   bool _newsBool = false;
   bool _announcementsBool = false;
