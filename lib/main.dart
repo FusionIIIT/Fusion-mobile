@@ -12,6 +12,7 @@ import 'package:fusion/screens/Compounder/medicalReimbursement.dart';
 import 'package:fusion/screens/Compounder/pathologistSchedule.dart';
 import 'package:fusion/screens/Compounder/patientLog.dart';
 import 'package:fusion/screens/Establishment/establishment_home_page.dart';
+import 'package:fusion/screens/Healthcenter/medicalprofile.dart';
 import 'package:fusion/screens/Healthcenter/reimbursement.dart';
 import 'package:fusion/screens/Healthcenter/view_announcement.dart';
 import 'package:fusion/screens/Library/Book_Search.dart';
@@ -138,6 +139,7 @@ class MyApp extends StatelessWidget {
           '/health_center/history': (context) => HealthRecordsPage(),
           '/health_center/announcement': (context) => ViewAnnouncementPage(),
           '/health_center/reimbursement': (context) => ReimbursementFormPage(),
+          '/health_center/medicalprofile': (context) => MedicalProfilePage(),
 
           '/compounder/home': (context) => CompounderHome(),
           '/compounder/doctor_schedule': (context) => DoctorAvailabilityPage(),
@@ -147,6 +149,7 @@ class MyApp extends StatelessWidget {
           '/compounder/inventory': (context) => HealthCenterInventoryPage(),
           '/compounder/reimbursement': (context) => ReimbursementPage(),
           '/compounder/patient_log': (context) => HomePage(),
+        
         },
       ),
     );

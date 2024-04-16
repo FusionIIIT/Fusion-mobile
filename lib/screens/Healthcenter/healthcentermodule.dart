@@ -177,6 +177,14 @@ class _HealthCenterModState extends State<HealthCenterMod> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       InkWell(
+                        child: myContainer("Medical Profile"),
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, '/health_center/medicalprofile',
+                              arguments: data);
+                        },
+                      ),
+                        InkWell(
                         child: myContainer("Announcements"),
                         onTap: () {
                           Navigator.pushNamed(
