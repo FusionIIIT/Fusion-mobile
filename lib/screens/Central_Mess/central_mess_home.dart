@@ -64,11 +64,11 @@ class _CentralMessHomeState extends State<CentralMessHome> {
         userType = (user == "caretaker") ? "Mess Caretaker" 
         : (user == "warden") ? "Mess Warden" 
         : data2.profile!['department']!['name'] + '  ' + data2.profile!['user_type'];
-        userMessData = (user == "student") ? regMainList.firstWhere((element) => element.studentId == student_id, orElse: () => RegMain(program: "NA", currentMessStatus: 'Deregistered', balance: 0, messOption: "no_mess"))
-                            : RegMain(program: "NA", currentMessStatus: 'Deregistered', balance: 0, messOption: "no_mess");
+        userMessData = (user == "student") ? regMainList.firstWhere((element) => element.studentId == student_id, orElse: () => RegMain(program: "NA", currentMessStatus: 'Deregistered', balance: 0, messOption: "no_mess", studentId: student_id))
+                            : RegMain(program: "NA", currentMessStatus: 'Deregistered', balance: 0, messOption: "no_mess", studentId: student_id);
       });
-
-      print('User Data: ${userMessData.messOption} ${userMessData.currentMessStatus}');
+      // print(student_id);
+      print('User Data: ${userMessData.messOption} ${userMessData.currentMessStatus} ${userMessData.studentId}');
       print('Designations: $designations ${userMessData.messOption} ${userMessData.currentMessStatus}');
     } catch (e) {
       print(e);

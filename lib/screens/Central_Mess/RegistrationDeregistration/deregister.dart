@@ -18,6 +18,24 @@ class _DeRegisterState extends State<DeRegister> {
   bool _loading = false, _deregister = false;
   String? selectedStudentId;
   DateTime? deregisterDate;
+  DeregistrationRequest? data;
+
+    void _sendDeregistrationlRequestData(data) async {
+    try {
+      http.Response registrationRequest =
+          await _centralMessService.sendDeregistrationRequest(data);
+      if (registrationRequest.statusCode == 200) {
+        print('Sent the deregister request');
+        setState(() {
+          _deregister = true;
+        });
+      } else {
+        print('Couldn\'t send');
+      }
+    } catch (e) {
+      print('Error sending Deregistration Request: $e');
+    }
+  }
 
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
@@ -100,7 +118,16 @@ class _DeRegisterState extends State<DeRegister> {
                         style: style,
                         onPressed: () {
                           if (_messFormKey.currentState!.validate()) {
-                            
+                            // print({deregisterDate});
+                            setState(() {
+                              data = DeregistrationRequest(
+                                endDate: deregisterDate!,
+                              );
+                              _sendDeregistrationlRequestData(data);
+                              setState(() {
+                                data = null;
+                              });
+                            });
                           }
                         },
                         child: Text("DeRegister"))
@@ -109,6 +136,14 @@ class _DeRegisterState extends State<DeRegister> {
               ),
             ),
           ),
+          _deregister
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Deregistration Request sent Successfully"),
+                  ],
+                )
+              : SizedBox(height: 10.0),
         ],
       ),
     );

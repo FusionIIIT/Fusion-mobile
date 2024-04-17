@@ -32,7 +32,6 @@ class _RegisterState extends State<Register> {
 
   void _sendRegistrationlRequestData(data) async {
     try {
-      print({data.startDate, data.amount, data.txnNo, data.img});
       http.Response registrationRequest =
           await _centralMessService.sendRegistrationRequest(data);
       if (registrationRequest.statusCode == 200) {
@@ -44,7 +43,7 @@ class _RegisterState extends State<Register> {
         print('Couldn\'t send');
       }
     } catch (e) {
-      print('Error sending Register Request: $e');
+      print('Error sending Registration Request: $e');
     }
   }
 
