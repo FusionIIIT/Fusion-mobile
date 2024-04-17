@@ -125,39 +125,13 @@ class _AnnounceGradeState extends State<AnnounceGrade> {
     }
   }
 
-  List<String> curriculumTypeItem = [
-    'B Tech',
-    'B Des',
-    'M Tech',
-    'M Des',
-    'PHD',
-  ];
+  List<String> curriculumTypeItem = [ 'B Tech','B Des','M Tech','M Des','PHD'];
 
-  List<String> batchTypeItem = [
-    '2020',
-    '2021',
-    '2022',
-    '2023',
-  ];
+  List<String> batchTypeItem = [ '2017', '2018', '2019', '2020', '2021', '2022', '2023'];
 
-  List<String> departmentTypeItem = [
-    'CSE',
-    'ECE',
-    'ME',
-    'SM',
-    'DS',
-  ];
+  List<String> departmentTypeItem = [ 'CSE', 'ECE', 'ME', 'SM', 'DS', 'ALL'];
 
-  List<String> semesterTypeItem = [
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-  ];
+  List<String> semesterTypeItem = ['1','2','3','4','5','6','7','8'];
 
   @override
   void initState() {

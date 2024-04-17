@@ -157,6 +157,7 @@ class _SubmitGradeState extends State<SubmitGrade> {
     'ME',
     'SM',
     'DS',
+    ''
   ];
 
   List<String> semesterTypeItem = [
@@ -228,6 +229,7 @@ class _SubmitGradeState extends State<SubmitGrade> {
               SizedBox(height: 20),
               _buildDropdown('Course', courseTypeItem),
               SizedBox(height: 20),
+              _buildDropdown('Semester', semesterTypeItem),
               createButton(
                 buttonText: 'Search',
                 onPressed: () async {
@@ -311,7 +313,7 @@ class _SubmitGradeState extends State<SubmitGrade> {
                         // Ensure _courseId is not null before using it
                           print(student['roll_no']);
                             print( _courseId.toString());
-                            print( student['semester']?? '0');
+                            print( _semesterValue);
                             print(_yearValue);
                             print(student['grade'] ??'NA');
                             print(student['total_marks']??'0');
@@ -321,10 +323,11 @@ class _SubmitGradeState extends State<SubmitGrade> {
                               
                             'roll_no': student['roll_no'],
                             'course_id': _courseId.toString(),
-                            'semester_id': student['semester'] ?? '0',
+                            'semester_id': _semesterValue,
                             'year': _yearValue,
                             'grade': student['grade']??'NA',
                             'total_marks': student['total_marks']??'0',
+                            
                           };
                         } else {
                           // Handle the case where _courseId is null

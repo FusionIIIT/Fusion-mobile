@@ -446,7 +446,7 @@ class ExaminationService {
       http.Response response = await http.patch(
         Uri.http(
           getLink(),
-          '/examination/api/submit_grades/',
+          kSubmitGrade,
         ),
         headers: headers,
         body: requestBodyJson, // Pass the request body as JSON
@@ -525,7 +525,7 @@ class ExaminationService {
       var response = await http.post(
         Uri.http(
           getLink(),
-          '/examination/api/get_auth_status/',
+          kGetAuthStatus,
         ),
         headers: headers,
         body: {
@@ -570,7 +570,7 @@ class ExaminationService {
       };
 
       http.Response response = await http.post(
-        Uri.http(getLink(), '/examination/api/announce/'),
+        Uri.http(getLink(), kAnnounce),
         headers: headers,
         body: {
           'batch': batch,

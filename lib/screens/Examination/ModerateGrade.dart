@@ -129,7 +129,7 @@ class _ModerateGradeState extends State<ModerateGrade> {
 
   List<String> YearTypeItem = ['2020', '2021', '2022', '2023', '2024'];
 
-  List<String> batchTypeItem = ['2020', '2021', '2022', '2023'];
+  List<String> batchTypeItem = [ '2017', '2018', '2019', '2020', '2021', '2022', '2023'];
 
   List<String> branchTypeItem = [
     'Branch CSE',

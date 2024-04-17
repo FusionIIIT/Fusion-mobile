@@ -147,12 +147,7 @@ class _GenerateResultState extends State<GenerateResult> {
     'PHD',
   ];
 
-  List<String> batchTypeItem = [
-    '2020',
-    '2021',
-    '2022',
-    '2023',
-  ];
+  List<String> batchTypeItem = [ '2017', '2018', '2019', '2020', '2021', '2022', '2023'];
 
   List<String> branchTypeItem = [
     'CSE',
