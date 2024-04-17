@@ -15,33 +15,38 @@ class CentralMessService {
 
   ProfileService _profileService = ProfileService();
 
-  Future<List<dynamic>> getDesignations() async {
+  Future<List<String>> getDesignations() async {
     try {
-      var storageService = locator<StorageService>();
-      if (storageService.userInDB?.token == null) {
-        throw Exception('Token error');
-      }
-
-      http.Response response2 = await _profileService.getProfile();
-      ProfileData _profileData =
-      await ProfileData.fromJson(jsonDecode(response2.body));
-
-      Map<String, String> body = {
-        'username': await _profileData.user!['username'],
-        'password': 'user@123'
-      };
-
-      http.Response response0 = await http.post(
-        Uri.http(
-          getLink(),
-          kAuthLogin, //constant api EndPoint
-        ),
-        body: body,
-      );
-      var designations = json.decode(response0.body)['designations'];
-      print('Designations: $designations');
-
+      // var storageService = locator<StorageService>();
+      // if (storageService.userInDB?.token == null) {
+      //   throw Exception('Token error');
+      // }
+      //
+      // http.Response response2 = await _profileService.getProfile();
+      // ProfileData _profileData =
+      // await ProfileData.fromJson(jsonDecode(response2.body));
+      //
+      // Map<String, String> body = {
+      //   'username': await _profileData.user!['username'],
+      //   'password': 'user@123'
+      // };
+      //
+      // http.Response response0 = await http.post(
+      //   Uri.http(
+      //     getLink(),
+      //     kAuthLogin, //constant api EndPoint
+      //   ),
+      //   body: body,
+      // );
+      // var designations = json.decode(response0.body)['designations'];
+      // print('Designations: $designations');
+      //
+      // return designations;
+      var storageService = await StorageService.getInstance();
+      List<String> designations = storageService!.getFromDisk('designations');
+      print(designations);
       return designations;
+
     } catch (e) {
       throw Exception(e);
     }
@@ -53,6 +58,7 @@ class CentralMessService {
       if (storageService.userInDB?.token == null) {
         throw Exception('Token error');
       }
+
 
       http.Response response2 = await _profileService.getProfile();
       ProfileData _profileData = await ProfileData.fromJson(jsonDecode(response2.body));

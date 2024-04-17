@@ -57,9 +57,8 @@ class _MessMenuState extends State<MessMenu> {
                     ),
                     child: TabBarView(children: <Widget>[
                       ViewMenu(userMessData: userMessData, user: user),
-                      if (user == 'caretaker') // Conditionally render "Update Menu" tab
+                      if (user == 'caretaker')
                         UpdateMenu(),
-
                     ])
                 )
               ])
