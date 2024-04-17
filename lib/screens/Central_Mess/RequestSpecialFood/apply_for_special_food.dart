@@ -12,65 +12,80 @@ class ApplySpecialFood extends StatefulWidget {
 class _ApplySpecialFoodState extends State<ApplySpecialFood> {
 
   CentralMessService _centralMessService = CentralMessService();
-  TextEditingController textController = TextEditingController();
 
-  bool _requestSent = false;
+  bool _requestSent = false, _loading = false;
   SpecialRequest? data;
   String? selectedMess, mealTime, foodItem, purpose;
-  DateTime? fromDate, toDate;
+  late DateTime fromDate, toDate;
 
   final _messFormKey = GlobalKey<FormState>();
   final _purposeController = TextEditingController();
+  final _foodItemController = TextEditingController();
 
-  void _sendSpecialRequestData(data) async {
+  void _sendSpecialRequestData(SpecialRequest data) async {
     try {
+      setState(() {
+        _loading = true; // Set loading state to true before sending request
+      });
       http.Response menuItems = await _centralMessService.sendSpecialRequest(data);
       if (menuItems.statusCode == 200) {
         print('Sent the special request');
         setState(() {
           _requestSent = true;
+          _loading = false; // Set loading state to false after successful request
+          // Reset all fields after successful submission
+          selectedMess = null;
+          mealTime = null;
+          fromDate = DateTime.now();
+          toDate = DateTime.now();
+          purpose = null;
+          foodItem = null;
+          _purposeController.clear();
+          _foodItemController.clear();
         });
+        _showSuccessSnackbar();
       } else {
         print('Couldn\'t send');
+        setState(() {
+          _loading = false; // Set loading state to false after failed request
+        });
+        _showFailureSnackbar();
       }
     } catch (e) {
       print('Error sending Special Request: $e');
+      setState(() {
+        _loading = false; // Set loading state to false if there's an error
+      });
+      _showFailureSnackbar();
     }
   }
 
-  @override
-  void dispose() {
-    textController.dispose(); // Dispose the controller
-    super.dispose();
-  }
-
-  BoxDecoration myBoxDecoration() {
-    return BoxDecoration(
-      border: Border.all(
-          color: Colors.deepOrangeAccent, width: 2.0, style: BorderStyle.solid),
-      borderRadius: BorderRadius.all(Radius.circular(15.0)),
-    );
-  }
-
-  Text myText(String text) {
-    return Text(
-      text,
-      style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
-    );
-  }
-
-  Padding myContainer(String text) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: myText(text),
+  void _showSuccessSnackbar() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          'Special Request Sent Successfully',
+          style: TextStyle(color: Colors.white),
         ),
-        decoration: myBoxDecoration(),
+        duration: Duration(seconds: 5),
+        backgroundColor: Colors.green, // Set background color to green for success
       ),
     );
   }
+
+  void _showFailureSnackbar() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          'Failed to send Special Request. Please try again later.',
+          style: TextStyle(color: Colors.white),
+        ),
+        duration: Duration(seconds: 5),
+        backgroundColor: Colors.red, // Set background color to red for failure
+      ),
+    );
+  }
+
   List<Map<String, String>> menuDropDownItems = [
     {"text": "Mess 1", "value": "mess1"},
     {"text": "Mess 2", "value": "mess2"},
@@ -80,6 +95,12 @@ class _ApplySpecialFoodState extends State<ApplySpecialFood> {
     {"text": "Lunch", "value": "Lunch"},
     {"text": "Dinner", "value": "Dinner"},
   ];
+
+  @override
+  void dispose() {
+    _purposeController.dispose(); // Dispose the controller
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,47 +123,47 @@ class _ApplySpecialFoodState extends State<ApplySpecialFood> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     DateTimeFormField(
-                        decoration: InputDecoration(
-                          labelText: 'From Date',
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.deepOrangeAccent, width: 2),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          suffixIcon: Icon(Icons.event_note),
-                          filled: true,
-                          fillColor: Colors.white,
+                      decoration: InputDecoration(
+                        labelText: 'From date',
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.deepOrangeAccent, width: 2),
+                          borderRadius: BorderRadius.circular(20),
                         ),
-                        mode: DateTimeFieldPickerMode.date,
-                        autovalidateMode: AutovalidateMode.always,
-                        validator: (e) =>
-                        (e?.day ?? 0) == 1 ? 'Select from date' : null,
-                        onDateSelected: (DateTime value) {
-                          fromDate = value;
-                        },
-                        firstDate: DateTime.now()
+                        suffixIcon: Icon(Icons.event_note),
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
+                      mode: DateTimeFieldPickerMode.date,
+                      autovalidateMode: AutovalidateMode.always,
+                      validator: (e) =>
+                      (e?.day ?? 0) == 1 ? 'Select from date' : null,
+                      onDateSelected: (DateTime value) {
+                        fromDate = value;
+                      },
+                      firstDate: DateTime.now(),
                     ),
                     SizedBox(height: 10.0),
                     DateTimeFormField(
-                        decoration: InputDecoration(
-                          labelText: 'To Date',
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.deepOrangeAccent, width: 2),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          suffixIcon: Icon(Icons.event_note),
-                          filled: true,
-                          fillColor: Colors.white,
+                      decoration: InputDecoration(
+                        labelText: 'To date',
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.deepOrangeAccent, width: 2),
+                          borderRadius: BorderRadius.circular(20),
                         ),
-                        mode: DateTimeFieldPickerMode.date,
-                        autovalidateMode: AutovalidateMode.always,
-                        validator: (e) =>
-                        (e?.day ?? 0) == 1 ? 'Select to date' : null,
-                        onDateSelected: (DateTime value) {
-                          toDate = value;
-                        },
-                        firstDate: DateTime.now()
+                        suffixIcon: Icon(Icons.event_note),
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
+                      mode: DateTimeFieldPickerMode.date,
+                      autovalidateMode: AutovalidateMode.always,
+                      validator: (e) =>
+                      (e?.day ?? 0) == 1 ? 'Select to date' : null,
+                      onDateSelected: (DateTime value) {
+                        toDate = value;
+                      },
+                      firstDate: DateTime.now(),
                     ),
                     SizedBox(height: 10.0),
                     DropdownButtonFormField(
@@ -161,9 +182,9 @@ class _ApplySpecialFoodState extends State<ApplySpecialFood> {
                       dropdownColor: Colors.white,
                       value: selectedMess,
                       onChanged: (String? newValue) {
-                        // setState(() {
-                        selectedMess = newValue!;
-                        // });
+                        setState(() {
+                          selectedMess = newValue!;
+                        });
                       },
                       items: menuDropDownItems.map((item) {
                         return DropdownMenuItem(
@@ -189,9 +210,9 @@ class _ApplySpecialFoodState extends State<ApplySpecialFood> {
                       dropdownColor: Colors.white,
                       value: mealTime,
                       onChanged: (String? newValue) {
-                        // setState(() {
-                        mealTime = newValue!;
-                        // });
+                        setState(() {
+                          mealTime = newValue!;
+                        });
                       },
                       items: mealTimeDropDownItems.map((item) {
                         return DropdownMenuItem(
@@ -202,6 +223,7 @@ class _ApplySpecialFoodState extends State<ApplySpecialFood> {
                     ),
                     SizedBox(height: 10.0),
                     TextFormField(
+                      controller: _purposeController,
                       maxLines: 1,
                       cursorHeight: 30,
                       decoration: InputDecoration(
@@ -221,14 +243,14 @@ class _ApplySpecialFoodState extends State<ApplySpecialFood> {
                         return null;
                       },
                       onChanged: (String? newValue) {
-                        // setState(() {
-                        purpose = newValue!;
-                        // });
+                        setState(() {
+                          purpose = newValue!;
+                        });
                       },
                       style: TextStyle(fontSize: 20.0),
                     ),SizedBox(height: 10.0),
                     TextFormField(
-                      controller: _purposeController,
+                      controller: _foodItemController,
                       maxLines: 3,
                       cursorHeight: 30,
                       decoration: InputDecoration(
@@ -248,54 +270,45 @@ class _ApplySpecialFoodState extends State<ApplySpecialFood> {
                         return null;
                       },
                       onChanged: (String? newValue) {
-                        // setState(() {
-                        foodItem = newValue!;
-                        // });
+                        setState(() {
+                          foodItem = newValue!;
+                        });
                       },
                       style: TextStyle(fontSize: 20.0),
                     ),
                     SizedBox(height: 30.0),
                     ElevatedButton(
-                        style: style,
-                        onPressed: () {
-                          if (_messFormKey.currentState!.validate()) {
-                            // Handle valid flow
-                            // print("Selected mess: $selectedValue");
-                            // Now we can perform actions based on the selected mess
-
-                            // print({fromDate, toDate, purpose, foodItem, mealTime});
-                            setState(() {
-                              data = SpecialRequest(
-                                startDate: fromDate!,
-                                endDate: toDate!,
-                                request: purpose!,
-                                status: "1",
-                                item1: foodItem!,
-                                item2: mealTime!,
-                                appDate: DateTime.now(),
-                              );
-                              _sendSpecialRequestData(data);
-                              setState(() {
-                                data = null;
-                              });
-                            });
-                          }
-                        },
-                        child: Text("Request"))
+                      style: style,
+                      onPressed: _loading
+                          ? null
+                          : () {
+                        if (_messFormKey.currentState!.validate()) {
+                          // Handle valid flow
+                          data = SpecialRequest(
+                            startDate: fromDate,
+                            endDate: toDate,
+                            request: purpose!,
+                            status: "1",
+                            item1: foodItem!,
+                            item2: mealTime!,
+                            appDate: DateTime.now(),
+                          );
+                          _sendSpecialRequestData(data!);
+                        }
+                      },
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Text("Request"),
+                          if (_loading) CircularProgressIndicator(),
+                        ],
+                      ),
+                    )
                   ],
                 ),
               ),
             ),
           ),
-          // updated successfully
-          _requestSent
-              ? Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text("Special Request sent Successfully"),
-            ],
-          )
-              : SizedBox(height: 10.0),
         ],
       ),
     );

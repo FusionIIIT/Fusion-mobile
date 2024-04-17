@@ -235,15 +235,6 @@ class _VacationFoodFormState extends State<VacationFoodForm> {
               ),
             ),
           ),
-          // updated successfully
-          _sentRequest
-              ? Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text("Vacation Food Request sent Successfully"),
-            ],
-          )
-              : SizedBox(height: 10.0),
         ],
       ),
     );

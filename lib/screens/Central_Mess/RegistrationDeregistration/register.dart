@@ -30,23 +30,60 @@ class _RegisterState extends State<Register> {
 
   RegistrationRequest? data;
 
-  void _sendRegistrationlRequestData(data) async {
+  void _showSuccessSnackbar() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          'Special Request Sent Successfully',
+          style: TextStyle(color: Colors.white),
+        ),
+        duration: Duration(seconds: 5),
+        backgroundColor: Colors.green, // Set background color to green for success
+      ),
+    );
+  }
+
+  void _showFailureSnackbar() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          'Failed to send Special Request. Please try again later.',
+          style: TextStyle(color: Colors.white),
+        ),
+        duration: Duration(seconds: 5),
+        backgroundColor: Colors.red, // Set background color to red for failure
+      ),
+    );
+  }
+
+  void _sendRegistrationRequestData(data) async {
     try {
       print({data.startDate, data.amount, data.txnNo, data.img});
-      http.Response registrationRequest =
-          await _centralMessService.sendRegistrationRequest(data);
+      http.Response registrationRequest = await _centralMessService.sendRegistrationRequest(data);
       if (registrationRequest.statusCode == 200) {
         print('Sent the register request');
         setState(() {
           _register = true;
+          // Reset fields to null after successful submission
+          amountController.clear();
+          txnNoController.clear();
+          registerDate = null;
+          paymentDate = null;
+          _filePath = null;
+          _fileBase64 = null;
         });
+        _showSuccessSnackbar();
       } else {
         print('Couldn\'t send');
+        _showFailureSnackbar();
       }
     } catch (e) {
       print('Error sending Register Request: $e');
+      _showFailureSnackbar();
     }
   }
+
+
 
   Future<String> _convertFileToBase64(String filePath) async {
     List<int> fileBytes = await File(filePath).readAsBytes();
@@ -128,7 +165,15 @@ class _RegisterState extends State<Register> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(height: 10.0),
+                    // SizedBox(height: 10.0),
+                    _register
+                        ? Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Registration Request sent Successfully"),
+                      ],
+                    )
+                        : SizedBox(height: 10.0),
                     DateTimeFormField(
                       decoration: InputDecoration(
                         suffixIcon: Icon(Icons.event_note),
@@ -251,45 +296,50 @@ class _RegisterState extends State<Register> {
                     ),
                     SizedBox(height: 30.0),
                     ElevatedButton(
-                        style: style,
-                        onPressed: () async {
-                          if (_messFormKey.currentState!.validate()) {
-                            if (_filePath != null) {
+                      style: style,
+                      onPressed: _loading ? null : () async {
+                        if (_messFormKey.currentState!.validate()) {
+                          if (_filePath != null) {
+                            setState(() {
+                              _loading = true; // Set loading to true when registration process starts
+                            });
+                            try {
                               // Convert the selected image to base64
-                              // print({registerDate, paymentDate, txnNoController.text, amountController.text, _fileBase64});
+                              data = RegistrationRequest(
+                                img: _filePath,
+                                txnNo: txnNoController.text,
+                                amount: int.tryParse(amountController.text)!,
+                                startDate: registerDate!,
+                                paymentDate: paymentDate!,
+                              );
+                              // Send registration request
+                              _sendRegistrationRequestData(data);
+                            } catch (e) {
+                              // Handle error
+                              print('Error sending registration request: $e');
                               setState(() {
-                                data = RegistrationRequest(
-                                    img: _filePath, 
-                                    txnNo: txnNoController.text, 
-                                    amount: int.tryParse(amountController.text)!, 
-                                    startDate: registerDate!,
-                                    paymentDate: paymentDate!,
-                                );
-                                _sendRegistrationlRequestData(data);
-                                setState(() {
-                                  data = null;
-                                });
+                                _loading = false; // Set loading to false when registration process fails
                               });
-                            } else {
-                              // Handle case when no image is selected
-                              print("No file selected");
                             }
+                          } else {
+                            // Handle case when no image is selected
+                            print("No file selected");
                           }
-                        },
-                        child: Text("Register"))
+                        }
+                      },
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Text("Register"),
+                          if (_loading) CircularProgressIndicator(), // Show CircularProgressIndicator when loading
+                        ],
+                      ),
+                    )
                   ],
                 ),
               ),
             ),
           ),
-          _register
-              ? Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("Registration Request sent Successfully"),
-                  ],
-                )
-              : SizedBox(height: 10.0),
         ],
       ),
     );

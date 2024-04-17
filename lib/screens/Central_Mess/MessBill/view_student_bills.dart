@@ -330,7 +330,7 @@ class _ViewStudentBillState extends State<ViewStudentBill> {
                       onPressed: () {
                         _showDialog('View Payments',
                             paymentData); // use data to fetch information
-                        reqStudentId = data['studentId']!;
+                            reqStudentId = data['studentId']!;
                         // _showDialog('View Payments', data); // use data to fetch information
                       },
                       child: Text('View Payments'),

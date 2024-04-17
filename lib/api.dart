@@ -17,8 +17,8 @@ String kAcademicProcedures = "/academic-procedures/api/stu/";
 
 //Central Mess
 
-String kCentralMess = "172.27.16.214:8000";
-// String kCentralMess = "touching-vervet-terminally.ngrok-free.app";
+// String kCentralMess = "172.27.16.214:8000";
+String kCentralMess = "touching-vervet-terminally.ngrok-free.app";
 String kFeedbackEndpoint = "/mess/api/feedbackApi";
 String kMenuEndpoint = "/mess/api/menuApi";
 String kMessBillBase = "/mess/api/messBillBaseApi";

@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:date_field/date_field.dart';
@@ -10,10 +11,10 @@ class FeedbackForm extends StatefulWidget {
 }
 
 class _FeedbackFormState extends State<FeedbackForm> {
-
   CentralMessService _centralMessService = CentralMessService();
   TextEditingController textController = TextEditingController();
 
+  bool _loading = false; // Added _loading variable
   bool _sentFeedback = false;
   MessFeedback? data;
   String? selectedMess, selectedDay, selectedFeedbackType, description;
@@ -28,17 +29,32 @@ class _FeedbackFormState extends State<FeedbackForm> {
 
   void _sendFeedbackData(data) async {
     try {
+      setState(() {
+        _loading = true; // Set loading state to true before sending request
+      });
+
       http.Response menuItems = await _centralMessService.sendFeedback(data);
       if (menuItems.statusCode == 200) {
         print('Sent the feedback');
         setState(() {
+          // Reset form fields after successful submission
           _sentFeedback = true;
+          selectedMess = null;
+          selectedDate = null;
+          selectedFeedbackType = null;
+          textController.text = '';
         });
+        _showSuccessSnackbar();
       } else {
         print('Couldn\'t send');
       }
     } catch (e) {
       print('Error sending Feedback: $e');
+      _showFailureSnackbar();
+    } finally {
+      setState(() {
+        _loading = false; // Set loading state to false after request completion
+      });
     }
   }
 
@@ -72,6 +88,32 @@ class _FeedbackFormState extends State<FeedbackForm> {
           child: myText(text),
         ),
         decoration: myBoxDecoration(),
+      ),
+    );
+  }
+
+  void _showSuccessSnackbar() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          'Feedback Submitted Successfully',
+          style: TextStyle(color: Colors.white),
+        ),
+        duration: Duration(seconds: 5),
+        backgroundColor: Colors.green, // Set background color to green for success
+      ),
+    );
+  }
+
+  void _showFailureSnackbar() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          'Failed to submit Feedback. Please try again later.',
+          style: TextStyle(color: Colors.white),
+        ),
+        duration: Duration(seconds: 5),
+        backgroundColor: Colors.red, // Set background color to red for failure
       ),
     );
   }
@@ -126,31 +168,27 @@ class _FeedbackFormState extends State<FeedbackForm> {
                       ],
                     ),
                     SizedBox(height: 10.0),
-
                     DateTimeFormField(
-                        decoration: InputDecoration(
-                          labelText: 'Select date',
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.deepOrangeAccent, width: 2),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          suffixIcon: Icon(Icons.event_note),
-                          filled: true,
-                          fillColor: Colors.white,
+                      decoration: InputDecoration(
+                        labelText: 'Select date',
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.deepOrangeAccent, width: 2),
+                          borderRadius: BorderRadius.circular(20),
                         ),
-                        mode: DateTimeFieldPickerMode.date,
-                        autovalidateMode: AutovalidateMode.always,
-                        validator: (e) =>
-                        (e?.day ?? 0) == 1 ? 'Select  date' : null,
-                        onDateSelected: (DateTime value) {
-                          selectedDate = value;
-                        },
-                        firstDate: DateTime.now()
+                        suffixIcon: Icon(Icons.event_note),
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
+                      mode: DateTimeFieldPickerMode.date,
+                      autovalidateMode: AutovalidateMode.always,
+                      validator: (e) =>
+                      (e?.day ?? 0) == 1 ? 'Select  date' : null,
+                      onDateSelected: (DateTime value) {
+                        selectedDate = value;
+                      },
+                      firstDate: DateTime.now(),
                     ),
-
-
-
                     SizedBox(height: 10.0),
                     DropdownButtonFormField(
                       decoration: InputDecoration(
@@ -166,27 +204,20 @@ class _FeedbackFormState extends State<FeedbackForm> {
                       validator: (value) =>
                       value == null ? "Type of Feedback" : null,
                       dropdownColor: Colors.white,
-
                       value: selectedFeedbackType,
                       onChanged: (String? newValue) {
                         setState(() {
                           selectedFeedbackType = newValue!;
-
                         });
                       },
                       items: [
                         DropdownMenuItem(
-                            child: Text("Cleanliness"),
-                            value: "Cleanliness"),
+                            child: Text("Cleanliness"), value: "Cleanliness"),
                         DropdownMenuItem(
-                            child: Text("Food"),
-                            value: "Food Quality"),
+                            child: Text("Food Quality"), value: "Food Quality"),
                         DropdownMenuItem(
-                            child: Text("Maintenance"),
-                            value: "Maintenance"),
-                        DropdownMenuItem(
-                            child: Text("Others"),
-                            value: "Others"),
+                            child: Text("Maintenance"), value: "Maintenance"),
+                        DropdownMenuItem(child: Text("Others"), value: "Others"),
                       ],
                     ),
                     SizedBox(height: 10.0),
@@ -214,46 +245,35 @@ class _FeedbackFormState extends State<FeedbackForm> {
                     ),
                     SizedBox(height: 30.0),
                     ElevatedButton(
-                        style: style,
-                        onPressed: () {
-                          if (_messFormKey.currentState!.validate()) {
-                            // Handle valid flow
-                            // print({selectedMess, selectedDate, selectedFeedbackType, textController.text});
-                            // data?.mess = selectedMess!;
-                            // data?.fdate = selectedDate!;
-                            // data?.feedbackType = selectedFeedbackType!;
-                            // data?.description = textController.text;
-                            setState(() {
-                              data = MessFeedback(
-                                  mess: selectedMess!,
-                                  messRating: 5,
-                                  fdate: selectedDate!,
-                                  description: textController.text,
-                                  feedbackType: selectedFeedbackType!,
-                              );
-                            });
-                            _sendFeedbackData(data);
-                            setState(() {
-                              data = null;
-                            });
-                            // Now we can perform actions based on the selected mess
-                          }
-                        },
-                        child: Text("Submit"))
+                      style: style,
+                      onPressed: () {
+                        if (_messFormKey.currentState!.validate()) {
+                          setState(() {
+                            data = MessFeedback(
+                              mess: selectedMess!,
+                              messRating: 5,
+                              fdate: selectedDate!,
+                              description: textController.text,
+                              feedbackType: selectedFeedbackType!,
+                            );
+                          });
+                          _sendFeedbackData(data);
+                        }
+                      },
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Text("Request"),
+                          if (_loading) CircularProgressIndicator(),
+                        ],
+                      ),
+
+                    )
                   ],
                 ),
               ),
             ),
           ),
-          // Submitted successfully
-          _sentFeedback
-              ? Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text("Feedback sent Successfully"),
-            ],
-          )
-              : SizedBox(height: 10.0),
         ],
       ),
     );

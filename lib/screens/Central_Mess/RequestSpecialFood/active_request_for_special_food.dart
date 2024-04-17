@@ -40,21 +40,44 @@ class _ActiveSpecialFoodRequestState extends State<ActiveSpecialFoodRequest> {
       print('Error fetching Special Requests: $e');
     }
   }
+  void _showSnackbar(String message, Color backgroundColor) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          style: TextStyle(color: Colors.white),
+        ),
+        duration: Duration(seconds: 5),
+        backgroundColor: backgroundColor,
+      ),
+    );
+  }
 
   void _updateSpecialRequestData(data) async {
+    setState(() {
+      _loading = true;
+    });
+
     try {
-      http.Response menuItems = await _centralMessService.updateSpecialRequest(data);
-      if (menuItems.statusCode == 200) {
+      http.Response response = await _centralMessService.updateSpecialRequest(data);
+      if (response.statusCode == 200) {
         print('Updated the special request');
-        setState(() {
-          _requestSent = true;
-        });
+          setState(() {
+            _requestSent = true;
+          });
+        _showSnackbar('Special request updated successfully', Colors.green);
       } else {
-        print('Couldn\'t send');
+        print('Couldn\'t update');
+        _showSnackbar('Failed to update special request. Please try again later.', Colors.red);
       }
     } catch (e) {
       print('Error updating Special Request: $e');
+      _showSnackbar('Error updating special request: $e', Colors.red);
     }
+    _fetchSpecialRequests();
+    setState(() {
+      _loading = false;
+    });
   }
 
   String? status ;
@@ -71,8 +94,6 @@ class _ActiveSpecialFoodRequestState extends State<ActiveSpecialFoodRequest> {
     ProfileData data = ProfileData.fromJson(arguments?['profileData']);
     String? user = arguments?['user'];
     user = user?.toLowerCase();
-    // user = "caretaker";
-    //user = "warden";
     List<SpecialRequest> _modifiedSpecialRequests = (user == "student")
         ? _specialRequests.where((element) =>
     (element.studentId == data.profile!['id'])).toList()
@@ -170,9 +191,6 @@ class _ActiveSpecialFoodRequestState extends State<ActiveSpecialFoodRequest> {
                                   appDate: _modifiedSpecialRequests[index].appDate,
                                 );
                                 _updateSpecialRequestData(specialData);
-                                if (_requestSent == true) {
-                                  initState();
-                                }
                               });
                             },
                             items: statusDropDownItems.map((item) {

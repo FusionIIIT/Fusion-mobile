@@ -174,12 +174,7 @@ class _ViewMenuState extends State<ViewMenu> {
     );
 
     final _messFormKey = GlobalKey<FormState>();
-    // final ButtonStyle style = ElevatedButton.styleFrom(
-    //   textStyle: const TextStyle(
-    //       fontSize: 20, color: Colors.white, fontWeight: FontWeight.w500),
-    //   backgroundColor: Colors.white,
-    //   shadowColor: Colors.black,
-    // );
+
     return SingleChildScrollView(
             padding: const EdgeInsets.all(8.0),
             child: Container(
@@ -281,28 +276,12 @@ class _ViewMenuState extends State<ViewMenu> {
                     ),
 
                   ],
-            ),
+                  ),
                 ) : Center(child: CircularProgressIndicator()),
-            ],
+                ],
             ),
+              ),
             ),
-            ),
-            );
-
-          // _loadDish
-          //     ? Column(
-          //   children: _menuItems.where((item)=> ((item.messOption == selectedMess) && (item.mealTime == (selectedDay)!+(selectedMeal)!) )).first.dish.split(',').map((menuItem) => Padding(
-          //     padding: const EdgeInsets.all(8.0),
-          //     child: Text(
-          //       menuItem,
-          //       maxLines: 5,
-          //       style: TextStyle(fontSize: 20.0,),
-          //     ),
-          //   )).toList(),
-          // )
-          //     : SizedBox(height: 10.0),
-    //     ],
-    //   ),
-    // ) : Center(child: CircularProgressIndicator());
+    );
   }
 }

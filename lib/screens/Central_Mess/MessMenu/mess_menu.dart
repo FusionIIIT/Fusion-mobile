@@ -29,7 +29,7 @@ class _MessMenuState extends State<MessMenu> {
         child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
           SizedBox(height: 5.0),
           DefaultTabController(
-              length: user == 'student' ? 1 : 2, // length of tabs
+              length: (user == 'student' || user== 'warden') ? 1 : 2, // length of tabs
               initialIndex: 0,
               child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
                 Container(
@@ -40,7 +40,7 @@ class _MessMenuState extends State<MessMenu> {
                     unselectedLabelColor: Colors.black,
                     tabs: [
                       Tab(child: Text("View Menu",style: TextStyle(fontWeight: FontWeight.bold),),),
-                      if (user != 'student') // Conditionally render "Update Menu" tab
+                      if (user == 'caretaker') // Conditionally render "Update Menu" tab
                         Tab(
                           child: Text(
                             "Update Menu",
@@ -57,7 +57,7 @@ class _MessMenuState extends State<MessMenu> {
                     ),
                     child: TabBarView(children: <Widget>[
                       ViewMenu(userMessData: userMessData, user: user),
-                      if (user != 'student') // Conditionally render "Update Menu" tab
+                      if (user == 'caretaker') // Conditionally render "Update Menu" tab
                         UpdateMenu(),
 
                     ])

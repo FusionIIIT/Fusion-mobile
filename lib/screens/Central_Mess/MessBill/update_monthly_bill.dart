@@ -38,19 +38,43 @@ class _UpdateMonthlyBillState extends State<UpdateMonthlyBill> {
 
   void _updateMessBillBaseData(data) async {
     try {
+      setState(() {
+        _loading = true; // Set loading state to true before sending request
+      });
       http.Response menuItems = await _centralMessService.updateMessBillBase(data);
       if (menuItems.statusCode == 200) {
         print('Updated the Bill amount');
         setState(() {
           _sentRequest = true;
         });
+        _showSnackbar('Bill amount updated successfully', Colors.green);
       } else {
         print('Couldn\'t update');
+        _showSnackbar('Failed to update bill amount. Please try again later.', Colors.red);
       }
     } catch (e) {
       print('Error updating Bill Amount: $e');
+      _showSnackbar('Error updating bill amount: $e', Colors.red);
+    } finally {
+      setState(() {
+        _loading = false; // Set loading state to false after the request is completed
+      });
     }
   }
+  void _showSnackbar(String message, Color backgroundColor) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          style: TextStyle(color: Colors.white),
+        ),
+        duration: Duration(seconds: 5),
+        backgroundColor: backgroundColor,
+      ),
+    );
+  }
+
+
 
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(

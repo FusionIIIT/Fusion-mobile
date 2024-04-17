@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:date_field/date_field.dart';
 
@@ -7,9 +8,12 @@ class MakeAnnouncement extends StatefulWidget {
 }
 
 class _MakeAnnouncementState extends State<MakeAnnouncement> {
+  final _announcementTextController = TextEditingController();
   bool _loading = false;
-  String? selectedMess, selectedMeal;
+  String? selectedMess, selectedMeal, announcementText;
   DateTime? selectedDate;
+
+  final _messFormKey = GlobalKey<FormState>();
 
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
@@ -42,9 +46,56 @@ class _MakeAnnouncementState extends State<MakeAnnouncement> {
     );
   }
 
+  void _submitAnnouncement() {
+    if (_messFormKey.currentState!.validate()) {
+      setState(() {
+        _loading = true; // Set loading state to true before sending request
+      });
+
+      // Simulate API call or perform other actions here
+      Future.delayed(Duration(seconds: 2), () {
+        // Reset fields after successful submission
+        setState(() {
+          selectedMess = null;
+          selectedMeal = null;
+          selectedDate = null;
+          announcementText = null;
+          _loading = false; // Set loading state to false after successful request
+          _announcementTextController.clear();
+        });
+        _showSuccessSnackbar();
+      });
+    }
+  }
+
+  void _showSuccessSnackbar() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          'Announcement Submitted Successfully',
+          style: TextStyle(color: Colors.white),
+        ),
+        duration: Duration(seconds: 5),
+        backgroundColor: Colors.green, // Set background color to green for success
+      ),
+    );
+  }
+
+  void _showFailureSnackbar() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          'Failed to send Special Request. Please try again later.',
+          style: TextStyle(color: Colors.white),
+        ),
+        duration: Duration(seconds: 5),
+        backgroundColor: Colors.red, // Set background color to red for failure
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final _messFormKey = GlobalKey<FormState>();
     final ButtonStyle style = ElevatedButton.styleFrom(
       textStyle: const TextStyle(
           fontSize: 20, color: Colors.white, fontWeight: FontWeight.w500),
@@ -78,9 +129,9 @@ class _MakeAnnouncementState extends State<MakeAnnouncement> {
                       dropdownColor: Colors.white,
                       value: selectedMess,
                       onChanged: (String? newValue) {
-                        // setState(() {
-                          selectedMess = newValue!;
-                        // });
+                        setState(() {
+                          selectedMess = newValue; // Update selectedMess
+                        });
                       },
                       items: [
                         DropdownMenuItem(
@@ -94,27 +145,25 @@ class _MakeAnnouncementState extends State<MakeAnnouncement> {
                     SizedBox(height: 10.0),
                     DateTimeFormField(
                       decoration: InputDecoration(
-                        suffixIcon: Icon(Icons.event_note),
-                        labelText: 'Select a Date',
+                        labelText: 'Select date',
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                               color: Colors.deepOrangeAccent, width: 2),
                           borderRadius: BorderRadius.circular(20),
                         ),
-
+                        suffixIcon: Icon(Icons.event_note),
                         filled: true,
                         fillColor: Colors.white,
                       ),
                       mode: DateTimeFieldPickerMode.date,
                       autovalidateMode: AutovalidateMode.always,
-                      initialValue: DateTime.now(), // Set initial date
-                      validator: (e) => e == null ? 'Please select a date' : null,
+                      validator: (e) =>
+                      (e?.day ?? 0) == 1 ? 'Select date' : null,
                       onDateSelected: (DateTime value) {
-                          selectedDate = value;
+                        selectedDate = value;
                       },
-                        firstDate: DateTime.now()
+                      firstDate: DateTime.now(),
                     ),
-
                     SizedBox(height: 10.0),
                     DropdownButtonFormField(
                       decoration: InputDecoration(
@@ -132,9 +181,9 @@ class _MakeAnnouncementState extends State<MakeAnnouncement> {
                       dropdownColor: Colors.white,
                       value: selectedMeal,
                       onChanged: (String? newValue) {
-                        // setState(() {
-                          selectedMeal = newValue!;
-                        // });
+                        setState(() {
+                          selectedMeal = newValue; // Update selectedMeal
+                        });
                       },
                       items: [
                         DropdownMenuItem(
@@ -148,6 +197,7 @@ class _MakeAnnouncementState extends State<MakeAnnouncement> {
                     ),
                     SizedBox(height: 10.0),
                     TextFormField(
+                      controller: _announcementTextController,
                       maxLines: 4,
                       cursorHeight: 30,
                       decoration: InputDecoration(
@@ -166,19 +216,24 @@ class _MakeAnnouncementState extends State<MakeAnnouncement> {
                         }
                         return null;
                       },
+                      onChanged: (value) {
+                        setState(() {
+                          announcementText = value; // Update announcementText
+                        });
+                      },
                       style: TextStyle(fontSize: 20.0),
                     ),
-                    SizedBox(height: 20.0),
+                    SizedBox(height: 30.0,),
                     ElevatedButton(
                       style: style,
-                      onPressed: () {
-                        if (_messFormKey.currentState!.validate()) {
-                          // Handle valid flow
-                          // print("Selected mess: $selectedValue");
-                          // Now we can perform actions based on the selected mess
-                        }
-                      },
-                      child: Text("Submit"),
+                      onPressed: _loading ? null : _submitAnnouncement,
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Text("Submit"),
+                          if (_loading) CircularProgressIndicator(),
+                        ],
+                      ),
                     )
                   ],
                 ),
@@ -190,3 +245,4 @@ class _MakeAnnouncementState extends State<MakeAnnouncement> {
     );
   }
 }
+
