@@ -18,7 +18,7 @@ class _SideDrawerState extends State<SideDrawer> {
   void initState() {
     super.initState();
     var service = locator<StorageService>();
-     isAdmin = service.profileData.user!['username']=='vkjain';
+     isAdmin = service.profileData.user!['username']=='ntripathi';
      print(isAdmin);
     name = service.profileData.user!["first_name"] +
         " " +
