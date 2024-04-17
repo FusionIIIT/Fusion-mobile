@@ -15,7 +15,7 @@ class _ManageRegistrationsState extends State<ManageRegistrations> {
 
   bool _loading = false;
   String? selectedMess, selectedProgramme, selectedBranch;
-  String? selectedBatch;
+  String? selectedBatch, selectedStatus;
 
 
   BoxDecoration myBoxDecoration() {
@@ -122,7 +122,7 @@ class _ManageRegistrationsState extends State<ManageRegistrations> {
                     SizedBox(height: 10.0),
                     DropdownButtonFormField(
                       decoration: InputDecoration(
-                        labelText: 'Select a Batch',
+                        labelText: 'Select status',
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                               color: Colors.deepOrangeAccent, width: 2),
@@ -132,59 +132,20 @@ class _ManageRegistrationsState extends State<ManageRegistrations> {
                         fillColor: Colors.white,
                       ),
                       validator: (value) =>
-                      value == null ? "Select a batch" : null,
+                      value == null ? "Select status" : null,
                       dropdownColor: Colors.white,
-                      value: selectedBatch,
+                      value: selectedStatus,
                       onChanged: (String? newValue) {
                         setState(() {
-                          selectedBatch = newValue!;
+                          selectedStatus = newValue!;
                         });
                       },
-                      items: batchDropDownItems.map((item) {
+                      items: statusDropDownItems.map((item) {
                         return DropdownMenuItem(
                           child: Text(item["text"]!),
                           value: item["value"],
                         );
                       }).toList(),
-                    ),
-                    SizedBox(height: 10.0),
-                    DropdownButtonFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Select a Branch',
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colors.deepOrangeAccent, width: 2),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
-                      ),
-                      validator: (value) =>
-                      value == null ? "Select a branch" : null,
-                      dropdownColor: Colors.white,
-                      value: selectedBranch,
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          selectedBranch = newValue!;
-                        });
-                      },
-                      items: [
-                        DropdownMenuItem(
-                            child: Text("CSE"),
-                            value: "CSE"),
-                        DropdownMenuItem(
-                            child: Text("ECE"),
-                            value: "ECE"),
-                        DropdownMenuItem(
-                            child: Text("ME"),
-                            value: "ME"),
-                        DropdownMenuItem(
-                            child: Text("SM"),
-                            value: "SM"),
-                        DropdownMenuItem(
-                            child: Text("Design"),
-                            value: "Design"),
-                      ],
                     ),
                     SizedBox(height: 10.0),
                     DropdownButtonFormField(
@@ -217,11 +178,19 @@ class _ManageRegistrationsState extends State<ManageRegistrations> {
                     SizedBox(height: 30.0),
                     ElevatedButton(
                         style: style,
-                        onPressed: () {
+                        onPressed: _loading ? null : () {
                           if (_messFormKey.currentState!.validate()) {
                           }
                         },
-                        child: Text("Update"))
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Text("Filter"),
+                          if (_loading)
+                            CircularProgressIndicator(),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),

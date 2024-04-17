@@ -335,11 +335,11 @@ class _CentralMessHomeState extends State<CentralMessHome> {
                     InkWell(
                       child: myContainer("Manage Registrations" ),
                       onTap: () {
-                        Navigator.pushNamed(context, '/central_mess_home/registration', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
+                        Navigator.pushNamed(context, '/central_mess_home/manageRegistration', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
                       },
                     ),
                     InkWell(
-                      child: myContainer("Feedback"),
+                      child: myContainer(user == "student" ? "Feedback" : "View Feedback"),
                       onTap: () {
                         Navigator.pushNamed(context, '/central_mess_home/feedback',
                             arguments: {

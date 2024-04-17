@@ -85,9 +85,9 @@ class _ManageBillState extends State<ManageBill> {
                         ],
                       if (user == "caretaker" || user=="warden")
                         ...[
-                          Tab(child: Text("Update Monthly Bill",style: TextStyle(fontWeight: FontWeight.bold),),),
+                          Tab(child: Text("Bill Base",style: TextStyle(fontWeight: FontWeight.bold),),),
                           Tab(child: Text("View Student Bills",style: TextStyle(fontWeight: FontWeight.bold),),),
-                          Tab(child: Text("Search Student Bill",style: TextStyle(fontWeight: FontWeight.bold),),),
+                          Tab(child: Text("Update Student Bill",style: TextStyle(fontWeight: FontWeight.bold),),),
                         ]
                     ],
                   ),

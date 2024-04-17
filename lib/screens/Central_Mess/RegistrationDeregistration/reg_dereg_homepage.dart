@@ -7,15 +7,14 @@ import 'register.dart';
 import 'deregister.dart';
 import 'registration_requests.dart';
 import 'deregistration_requests.dart';
-import 'manage_registrations.dart';
 import 'package:fusion/models/profile.dart';
 
-class ManageRegDeReg extends StatefulWidget {
+class RegDeReg extends StatefulWidget {
   @override
-  _ManageRegDeRegState createState() => _ManageRegDeRegState();
+  _RegDeRegState createState() => _RegDeRegState();
 }
 
-class _ManageRegDeRegState extends State<ManageRegDeReg> {
+class _RegDeRegState extends State<RegDeReg> {
   @override
   Widget build(BuildContext context) {
     Map<String, dynamic>? arguments =
@@ -36,7 +35,7 @@ class _ManageRegDeRegState extends State<ManageRegDeReg> {
         child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
           SizedBox(height: 5.0),
           DefaultTabController(
-              length:  user == "student" ? 2 : 3, // length of tabs
+              length:  2, // length of tabs
               initialIndex: 0,
               child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
                 Container(
@@ -46,7 +45,7 @@ class _ManageRegDeRegState extends State<ManageRegDeReg> {
                     indicatorColor: Colors.deepOrangeAccent,
                     unselectedLabelColor: Colors.black,
                     tabs: [
-                      if (user == "caretaker" || user == "warden")
+                      if (user == "caretaker")
                         ...[
                           Tab(
                             child: Text(
@@ -57,12 +56,6 @@ class _ManageRegDeRegState extends State<ManageRegDeReg> {
                           Tab(
                             child: Text(
                               "De-registration Requests",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Tab(
-                            child: Text(
-                              "Manage Registrations",
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                           ),
@@ -117,10 +110,9 @@ class _ManageRegDeRegState extends State<ManageRegDeReg> {
                           DeRegister(),
                           DeRegistrationHistory(userMessData: userMessData),
                         ],
-                        if (user != "student") ...[
+                        if (user =="caretaker") ...[
                           RegistrationRequests(),
                           DeRegistrationRequests(),
-                          ManageRegistrations(),
                         ],
                       ],
                     )

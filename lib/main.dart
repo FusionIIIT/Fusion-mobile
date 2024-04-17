@@ -50,6 +50,7 @@ import 'package:fusion/screens/Central_Mess/MessBill/mess_bill_home.dart';
 import 'package:fusion/screens/Central_Mess/Announcement/announcement.dart';
 import 'package:fusion/screens/Central_Mess/RequestSpecialFood/special_food_home.dart';
 import 'package:fusion/screens/Central_Mess/RegistrationDeregistration/reg_dereg_homepage.dart';
+import 'package:fusion/screens/Central_Mess/RegistrationDeregistration/manage_registration_homepage.dart';
 import 'package:fusion/screens/Central_Mess/Rebate/rebate_requests.dart';
 import 'package:fusion/screens/Central_Mess/VacationFood/vacation_food_home.dart';
 
@@ -144,7 +145,8 @@ class MyApp extends StatelessWidget {
           '/central_mess_home/messBill':(context)=>ManageBill(),
           '/central_mess_home/announcement':(context)=>Announcement(),
           '/central_mess_home/reqSpecialFood':(context)=>SpecialFood(),
-          '/central_mess_home/registration' : (context)=>ManageRegDeReg(),
+          '/central_mess_home/registration' : (context)=>RegDeReg(),
+          '/central_mess_home/manageRegistration' : (context)=>ManageRegDeRegHomepage(),
           '/central_mess_home/rebateRequest': (context)=>RebateRequests(),
           '/central_mess_home/vacationFood' : (context)=>VacationFoodHome(),
         },

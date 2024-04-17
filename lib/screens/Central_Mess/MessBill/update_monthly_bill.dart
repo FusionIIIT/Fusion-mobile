@@ -14,7 +14,7 @@ class _UpdateMonthlyBillState extends State<UpdateMonthlyBill> {
 
   CentralMessService _centralMessService = CentralMessService();
 
-  bool _loading = true, _sentRequest = false;
+  bool _loading = true, _sentRequest = false, _updateBill = false;
   static List <MessBillBase> _messBillBase = [];
   int? amount = 0, amount1 = 0;
   MessBillBase? data;
@@ -39,7 +39,8 @@ class _UpdateMonthlyBillState extends State<UpdateMonthlyBill> {
   void _updateMessBillBaseData(data) async {
     try {
       setState(() {
-        _loading = true; // Set loading state to true before sending request
+        _loading = true;// Set loading state to true before sending request
+        _updateBill = true;
       });
       http.Response menuItems = await _centralMessService.updateMessBillBase(data);
       if (menuItems.statusCode == 200) {
@@ -58,8 +59,10 @@ class _UpdateMonthlyBillState extends State<UpdateMonthlyBill> {
     } finally {
       setState(() {
         _loading = false; // Set loading state to false after the request is completed
+        _updateBill = false;
       });
     }
+    _fetchMonthlyBillData();
   }
   void _showSnackbar(String message, Color backgroundColor) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -186,7 +189,7 @@ class _UpdateMonthlyBillState extends State<UpdateMonthlyBill> {
                     SizedBox(height: 10.0),
                     ElevatedButton(
                         style: style,
-                        onPressed: () {
+                        onPressed: _updateBill ? null : () {
                           if (_messFormKey.currentState!.validate()) {
                             print({amount, amount1});
                             setState(() {
@@ -194,15 +197,23 @@ class _UpdateMonthlyBillState extends State<UpdateMonthlyBill> {
                                 timestamp: DateTime.now(),
                                 billAmount: amount!,
                               );
+                              _updateBill = true;
                               _updateMessBillBaseData(data);
                               setState(() {
-                                amount1 = amount;
                                 data = null;
                               });
                             });
                           }
                         },
-                        child: Text("Update"))
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Text("Update"),
+                          if (_updateBill)
+                            CircularProgressIndicator(),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
