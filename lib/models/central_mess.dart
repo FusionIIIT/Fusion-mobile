@@ -335,6 +335,7 @@ class RegistrationRequest {
   final int amount;
   final String? status;
   String? registrationRemark;
+  String? messOption;
   final DateTime startDate;
   final DateTime paymentDate;
 
@@ -345,6 +346,7 @@ class RegistrationRequest {
     required this.amount,
     this.status,
     this.registrationRemark,
+    this.messOption,
     required this.startDate,
     required this.paymentDate,
   });
@@ -357,6 +359,7 @@ class RegistrationRequest {
       amount: json['amount'],
       status: json['status'],
       registrationRemark: json['registration_remark'],
+      messOption: json['mess_option'],
       startDate: DateTime.parse(json['start_date']),
       paymentDate: DateTime.parse(json['payment_date']),
     );
@@ -370,6 +373,7 @@ class RegistrationRequest {
       'Amount',
       'Start Date',
       'Payment Date',
+      'Mess',
       'Remark',
       'Status',
     ];
@@ -383,6 +387,7 @@ class RegistrationRequest {
       'amount': amount,
       'startDate': startDate,
       'paymentDate': paymentDate,
+      'messOption': messOption,
       'registrationRemark': registrationRemark,
       'status': status,
     };

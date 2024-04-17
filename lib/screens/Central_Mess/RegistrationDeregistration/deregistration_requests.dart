@@ -1,6 +1,7 @@
 import 'package:fusion/models/central_mess.dart';
 import 'package:fusion/services/central_mess_services.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class DeRegistrationRequests extends StatefulWidget {
   @override
@@ -11,9 +12,10 @@ class _DeRegistrationRequestsState extends State<DeRegistrationRequests> {
 
   CentralMessService _centralMessService = CentralMessService();
 
-  bool _loading = true;
+  bool _loading = true, _requestSent = false;
   DeregistrationRequest? deregistrationData;
   static List<DeregistrationRequest> _deregistrationRequests = [];
+  DeregistrationRequest? deregData;
 
   @override
   void initState() {
@@ -37,6 +39,50 @@ class _DeRegistrationRequestsState extends State<DeRegistrationRequests> {
     } catch (e) {
       print('Error fetching deregistrations: $e');
     }
+  }
+
+  void _showSnackbar(String message, Color backgroundColor) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          style: TextStyle(color: Colors.white),
+        ),
+        duration: Duration(seconds: 5),
+        backgroundColor: backgroundColor,
+      ),
+    );
+  }
+
+  void _updateDeregistrationRequestData(data) async {
+    setState(() {
+      _loading = true;
+    });
+
+    try {
+      http.Response response =
+          await _centralMessService.updateDeregistrationRequest(data);
+      if (response.statusCode == 200) {
+        print('Updated the Deregistration request');
+        setState(() {
+          _requestSent = true;
+        });
+        _showSnackbar(
+            'Deregistration request updated successfully', Colors.green);
+      } else {
+        print('Couldn\'t update');
+        _showSnackbar(
+            'Failed to update Deregistration request. Please try again later.',
+            Colors.red);
+      }
+    } catch (e) {
+      print('Error updating deregistration Request: $e');
+      _showSnackbar('Error updating Deregistration request: $e', Colors.red);
+    }
+    _fetchDeregistrationRequest();
+    setState(() {
+      _loading = false;
+    });
   }
 
   BoxDecoration myBoxDecoration() {
@@ -89,8 +135,8 @@ class _DeRegistrationRequestsState extends State<DeRegistrationRequests> {
   ];
 
   List<Map<String, String>> statusDropDownItems = [
-    {"text": "Accept", "value": "accepted"},
-    {"text": "Reject", "value": "rejected"},
+    {"text": "Accept", "value": "accept"},
+    {"text": "Reject", "value": "reject"},
   ];
 
   @override
@@ -176,6 +222,15 @@ class _DeRegistrationRequestsState extends State<DeRegistrationRequests> {
                   setState(() {
                     status = newValue!;
                   });
+                  setState(() {
+                    deregData = DeregistrationRequest(
+                        studentId: data.studentId,
+                        endDate: data.endDate,
+                        deregistrationRemark: data.deregistrationRemark,
+                        status: status);
+                  });
+                  print(deregData?.toMap());
+                  _updateDeregistrationRequestData(deregData!);
                 },
                 items: statusDropDownItems.map((item) {
                   return DropdownMenuItem(
@@ -196,6 +251,14 @@ class _DeRegistrationRequestsState extends State<DeRegistrationRequests> {
                 onChanged: (value) {
                   data.deregistrationRemark = value;
                 },
+              ),
+            );
+          } else if (key.toLowerCase() == 'enddate') {
+            var value = data.toMap()[key];
+            return DataCell(
+              Padding(
+                padding: EdgeInsets.all(4),
+                child: Text(value.toString().substring(0, 10)),
               ),
             );
           }else {

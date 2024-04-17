@@ -77,6 +77,7 @@ class _CentralMessHomeState extends State<CentralMessHome> {
                             : RegMain(program: "NA", currentMessStatus: 'Deregistered', balance: 0, messOption: "no_mess", studentId: student_id);
       });
       // print(student_id);
+      regMainList.forEach((element) => print({'${element.studentId} ${element.currentMessStatus}'}));
       print('User Data: ${userMessData.messOption} ${userMessData.currentMessStatus} ${userMessData.studentId}');
       print('Designations: $designations ${userMessData.messOption} ${userMessData.currentMessStatus}');
     } catch (e) {

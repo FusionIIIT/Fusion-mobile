@@ -866,6 +866,54 @@ class CentralMessService {
     }
   }
 
+  Future<http.Response> updateRegistrationRequest(RegistrationRequest data) async {
+    try {
+      http.Response response0 = await initAuth();
+
+      if (response0.statusCode == 200) {
+        Map<String, String> headers = {
+          'Authorization': 'Token ' + json.decode(response0.body)['token'],
+          'Content-Type': 'application/json; charset=UTF-8'
+        };
+
+        Map<String, dynamic> body = {
+          'student_id': data.studentId,
+          'Txn_no': data.txnNo,
+          'amount': data.amount,
+          'img': data.img,
+          'start_date': data.startDate.toString().substring(0, 10),
+          'registration_remark': data.registrationRemark,
+          'status': data.status,
+          'mess_option': data.messOption,
+          'payment_date': data.paymentDate.toString().substring(0, 10),
+        };
+
+        print("Updating Vacation Food Request");
+        http.Response response = await http.put(
+          Uri.http(
+            kCentralMess,
+            kRegistrationRequestEndpoint, //constant api EndPoint
+          ),
+          headers: headers,
+          body: json.encode(body),
+        );
+
+        if (response.statusCode == 200) {
+          print('Registration Request updated successfully');
+          return response;
+        } else {
+          print(response.statusCode);
+          throw Exception('Failed to update registration request');
+        }
+      } else {
+        print(response0.statusCode);
+        throw Exception('Failed to authenticate');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+  
   Future<List<DeregistrationRequest>> getDeregistrationRequest() async {
     try {
       http.Response response0 = await initAuth();
@@ -937,6 +985,50 @@ class CentralMessService {
         } else {
           print(response.statusCode);
           throw Exception('Failed to send deregistration request');
+        }
+      } else {
+        print(response0.statusCode);
+        throw Exception('Failed to authenticate');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<http.Response> updateDeregistrationRequest(DeregistrationRequest data) async {
+    try {
+      http.Response response0 = await initAuth();
+
+      if (response0.statusCode == 200) {
+
+        Map<String, String> headers = {
+          'Authorization': 'Token ' + json.decode(response0.body)['token'],
+          'Content-Type': 'application/json; charset=UTF-8'
+        };
+
+        Map<String, dynamic> body = {
+          'student_id': data.studentId,
+          'end_date': data.endDate.toString().substring(0, 10),
+          'status': data.status,
+          'deregistration_remark': data.deregistrationRemark,
+        };
+
+        print("Updating Deregistration Request");
+        http.Response response = await http.put(
+          Uri.http(
+            kCentralMess,
+            kDeregistrationRequestEndpoint, //constant api EndPoint
+          ),
+          headers: headers,
+          body: json.encode(body),
+        );
+
+        if (response.statusCode == 200) {
+          print('Deregistration Request updated successfully');
+          return response;
+        } else {
+          print(response.statusCode);
+          throw Exception('Failed to update deregistration request');
         }
       } else {
         print(response0.statusCode);
