@@ -86,22 +86,78 @@ class MonthlyBill {
       paid: json['paid'],
     );
   }
+
+  List<String> getKeysToDisplay() {
+    return [
+      'Student Id',
+      'Month',
+      'Year',
+      'Amount',
+      'Rebate Count',
+      'Rebate Amount',
+      'Total Bill',
+      'Paid',
+    ];
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'studentId': studentId,
+      'month': month,
+      'year': year,
+      'amount': amount,
+      'rebateCount': rebateCount,
+      'rebateAmount': rebateAmount,
+      'totalBill': totalBill,
+      'paid': paid,
+    };
+  }
 }
+
 
 class Payment {
   final String studentId;
+  final String paymentMonth;
+  final int paymentYear;
+  final DateTime paymentDate;
   final int amountPaid;
 
   Payment({
     required this.studentId,
+    required this.paymentMonth,
+    required this.paymentYear,
+    required this.paymentDate,
     required this.amountPaid,
   });
 
   factory Payment.fromJson(Map<String, dynamic> json) {
     return Payment(
       studentId: json['student_id'],
+      paymentMonth: json['payment_month'],
+      paymentYear: json['payment_year'],
+      paymentDate: DateTime.parse(json['payment_date']),
       amountPaid: json['amount_paid'],
     );
+  }
+
+  List<String> getKeysToDisplay() {
+    return [
+      'Student Id',
+      'Payment Month',
+      'Payment Year',
+      'Payment Date',
+      'Amount Paid',
+    ];
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'studentId': studentId,
+      'paymentMonth': paymentMonth,
+      'paymentYear': paymentYear,
+      'paymentDate': paymentDate.toString(),
+      'amountPaid': amountPaid,
+    };
   }
 }
 

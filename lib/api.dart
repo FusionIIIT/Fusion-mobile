@@ -23,6 +23,7 @@ String kFeedbackEndpoint = "/mess/api/feedbackApi";
 String kMenuEndpoint = "/mess/api/menuApi";
 String kMessBillBase = "/mess/api/messBillBaseApi";
 String kMonthlyBillEndpoint = "/mess/api/monthlyBillApi";
+String kMonthlyPaymentEndpoint = "/mess/api/paymentsApi";
 String kRebateEndpoint = "/mess/api/rebateApi";
 String kSpecialRequestEndpoint = "/mess/api/specialRequestApi";
 String kVacationFoodRequestEndpoint = "/mess/api/vacationFoodApi";

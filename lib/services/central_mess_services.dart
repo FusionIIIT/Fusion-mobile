@@ -395,6 +395,42 @@ class CentralMessService {
     }
   }
 
+  Future<List<Payment>> getPayments() async {
+    try {
+      http.Response response0 = await initAuth();
+
+      if (response0.statusCode == 200) {
+        Map<String, String> headers = {
+          'Authorization': 'Token ' + json.decode(response0.body)['token']
+        };
+
+        print("fetching Payment");
+        http.Response response = await http.get(
+          Uri.http(
+            kCentralMess,
+            kMonthlyPaymentEndpoint, //constant api EndPoint
+          ),
+          headers: headers,
+        );
+
+        if (response.statusCode == 200) {
+          Iterable paymentList = json.decode(response.body)['payload'];
+          return paymentList.map((model) => Payment.fromJson(model)).toList();
+        } else {
+          print(response.statusCode);
+          throw Exception('Failed to load payments');
+        }
+
+      } else {
+        print(response0.statusCode);
+        throw Exception('Failed to Authorize ${json.decode(response0.body).toString()}');
+      }
+
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<List<Rebate>> getRebate() async {
     try {
       http.Response response0 = await initAuth();
@@ -1081,6 +1117,47 @@ class CentralMessService {
           print(response.statusCode);
           print(response.body.toString());
           throw Exception('Failed to load main registration records');
+        }
+      } else {
+        print(response0.statusCode);
+        throw Exception('Failed to Authorize ${json.decode(response0.body).toString()}');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> getAllDetails(String studentId) async {
+    try {
+      http.Response response0 = await initAuth();
+
+      if (response0.statusCode == 200) {
+        Map<String, String> headers = {
+          'Authorization': 'Token ' + json.decode(response0.body)['token'],
+          'Content-Type': 'application/json; charset=UTF-8'
+        };
+
+        Map<String, dynamic> body = {
+          'student_id': studentId,
+        };
+
+        print("fetching all details of $studentId");
+        http.Response response = await http.post(
+          Uri.http(
+            kCentralMess,
+            kRegMainEndpoint, //constant api EndPoint
+          ),
+          headers: headers,
+          body: json.encode(body),
+        );
+
+        if (response.statusCode == 200) {
+          Map<String, dynamic> allDetails = json.decode(response.body)['payload'];
+          return allDetails;
+        } else {
+          print(response.statusCode);
+          print(response.body.toString());
+          throw Exception('Failed to load all details of $studentId');
         }
       } else {
         print(response0.statusCode);
