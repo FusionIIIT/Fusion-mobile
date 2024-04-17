@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/api.dart';
-import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
-import 'package:http/http.dart' as http;
 import 'package:fusion/models/central_mess.dart';
 import 'package:fusion/services/central_mess_services.dart';
 import 'package:date_field/date_field.dart';
 import 'package:flutter/services.dart';
 import 'package:file_picker/file_picker.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
+import 'package:http/http.dart' as http;
 
 class Register extends StatefulWidget {
   @override
@@ -16,29 +15,26 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-
   String? _fileBase64;
-
   CentralMessService _centralMessService = CentralMessService();
-
   bool _loading = false, _register = false;
   int? amount;
   String? selectedStudentId, txnNo;
   DateTime? registerDate, paymentDate;
   final amountController = TextEditingController();
   final txnNoController = TextEditingController();
-
   RegistrationRequest? data;
+  String? _filePath;
 
   void _showSuccessSnackbar() {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          'Special Request Sent Successfully',
+          'Registration Request Sent Successfully',
           style: TextStyle(color: Colors.white),
         ),
         duration: Duration(seconds: 5),
-        backgroundColor: Colors.green, // Set background color to green for success
+        backgroundColor: Colors.green,
       ),
     );
   }
@@ -47,19 +43,24 @@ class _RegisterState extends State<Register> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          'Failed to send Special Request. Please try again later.',
+          'Failed to send Registration Request. Please try again later.',
           style: TextStyle(color: Colors.white),
         ),
         duration: Duration(seconds: 5),
-        backgroundColor: Colors.red, // Set background color to red for failure
+        backgroundColor: Colors.red,
       ),
     );
   }
 
-  void _sendRegistrationRequestData(data) async {
+  void _sendRegistrationRequestData(RegistrationRequest data) async {
+    setState(() {
+      _loading = true;
+    });
     try {
       print({data.startDate, data.amount, data.txnNo, data.img});
-      http.Response registrationRequest = await _centralMessService.sendRegistrationRequest(data);
+      http.Response registrationRequest =
+      await _centralMessService.sendRegistrationRequest(data);
+
       if (registrationRequest.statusCode == 200) {
         print('Sent the register request');
         setState(() {
@@ -81,21 +82,23 @@ class _RegisterState extends State<Register> {
       print('Error sending Register Request: $e');
       _showFailureSnackbar();
     }
+    setState(() {
+      _loading = false;
+    });
   }
-
-
 
   Future<String> _convertFileToBase64(String filePath) async {
     List<int> fileBytes = await File(filePath).readAsBytes();
-    // setState(() {
-      return base64Encode(fileBytes);
-    // });
+    return base64Encode(fileBytes);
   }
 
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
       border: Border.all(
-          color: Colors.deepOrangeAccent, width: 2.0, style: BorderStyle.solid),
+        color: Colors.deepOrangeAccent,
+        width: 2.0,
+        style: BorderStyle.solid,
+      ),
       borderRadius: BorderRadius.all(Radius.circular(15.0)),
     );
   }
@@ -120,17 +123,11 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  @override
-  void initState() {
-    super.initState();
-  }
-  String? _filePath;
-
   void _openFileExplorer() async {
     try {
       FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
-        allowedExtensions: ['pdf', 'jpg', 'jpeg', 'png'], // Allow PDF, JPG, JPEG, PNG files
+        allowedExtensions: ['pdf', 'jpg', 'jpeg', 'png'],
       );
 
       if (result != null) {
@@ -145,12 +142,16 @@ class _RegisterState extends State<Register> {
       print("Error picking file: $e");
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final _messFormKey = GlobalKey<FormState>();
     final ButtonStyle style = ElevatedButton.styleFrom(
       textStyle: const TextStyle(
-          fontSize: 20, color: Colors.white, fontWeight: FontWeight.w500),
+        fontSize: 20,
+        color: Colors.white,
+        fontWeight: FontWeight.w500,
+      ),
       backgroundColor: Colors.white,
       shadowColor: Colors.black,
     );
@@ -165,15 +166,7 @@ class _RegisterState extends State<Register> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // SizedBox(height: 10.0),
-                    _register
-                        ? Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("Registration Request sent Successfully"),
-                      ],
-                    )
-                        : SizedBox(height: 10.0),
+                    SizedBox(height: 10.0),
                     DateTimeFormField(
                       decoration: InputDecoration(
                         suffixIcon: Icon(Icons.event_note),
@@ -183,18 +176,18 @@ class _RegisterState extends State<Register> {
                               color: Colors.deepOrangeAccent, width: 2),
                           borderRadius: BorderRadius.circular(20),
                         ),
-
                         filled: true,
                         fillColor: Colors.white,
                       ),
                       mode: DateTimeFieldPickerMode.date,
-                      autovalidateMode: AutovalidateMode.always,
-                      initialValue: DateTime.now(), // Set initial date
-                      validator: (e) => e == null ? 'Please select a date' : null,
+                      // autovalidateMode: AutovalidateMode.always,
+                      // initialValue: DateTime.now(),
+                      validator: (e) =>
+                      e == null ? 'Please select a date' : null,
                       onDateSelected: (DateTime value) {
                         registerDate = value;
                       },
-                      firstDate: DateTime.now(), // Disable previous dates
+                      firstDate: DateTime.now(),
                     ),
                     SizedBox(height: 10.0),
                     DateTimeFormField(
@@ -206,26 +199,25 @@ class _RegisterState extends State<Register> {
                               color: Colors.deepOrangeAccent, width: 2),
                           borderRadius: BorderRadius.circular(20),
                         ),
-
                         filled: true,
                         fillColor: Colors.white,
                       ),
                       mode: DateTimeFieldPickerMode.date,
-                      autovalidateMode: AutovalidateMode.always,
-                      initialValue: DateTime.now(), // Set initial date
-                      validator: (e) => e == null ? 'Please select a date' : null,
+                      // autovalidateMode: AutovalidateMode.always,
+                      // initialValue: DateTime.now(),
+                      validator: (e) =>
+                      e == null ? 'Please select a date' : null,
                       onDateSelected: (DateTime value) {
                         paymentDate = value;
                       },
-                      firstDate: DateTime.now(), // Disable previous dates
                     ),
                     SizedBox(height: 10.0),
                     TextFormField(
                       maxLines: 1,
                       cursorHeight: 30,
-                      keyboardType: TextInputType.number, // Set the keyboard type to accept numbers
+                      keyboardType: TextInputType.number,
                       inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.digitsOnly // Allow only digits
+                        FilteringTextInputFormatter.digitsOnly
                       ],
                       decoration: InputDecoration(
                         labelText: 'Amount Paid',
@@ -241,7 +233,6 @@ class _RegisterState extends State<Register> {
                         if (value == null || value.isEmpty) {
                           return "Please enter amount paid";
                         }
-                        // return null;
                       },
                       controller: amountController,
                       onSaved: (newValue) {
@@ -267,7 +258,6 @@ class _RegisterState extends State<Register> {
                         if (value == null || value.isEmpty) {
                           return "Please enter Transaction No.";
                         }
-                        // return null;
                       },
                       controller: txnNoController,
                       onSaved: (newValue) {
@@ -277,8 +267,8 @@ class _RegisterState extends State<Register> {
                     ),
                     SizedBox(height: 10.0),
                     TextFormField(
-                      readOnly: true, // Make the text field read-only
-                      onTap: _openFileExplorer, // Open file explorer when tapped
+                      readOnly: true,
+                      onTap: _openFileExplorer,
                       decoration: InputDecoration(
                         labelText: 'Upload Screenshot/Receipt',
                         suffixIcon: Icon(Icons.attach_file),
@@ -291,38 +281,38 @@ class _RegisterState extends State<Register> {
                         fillColor: Colors.white,
                       ),
                       controller: TextEditingController(
-                        text: _filePath ?? '', // Display selected file path
+                        text: _filePath ?? '',
                       ),
                     ),
                     SizedBox(height: 30.0),
                     ElevatedButton(
                       style: style,
-                      onPressed: _loading ? null : () async {
+                      onPressed: _loading
+                          ? null
+                          : () async {
                         if (_messFormKey.currentState!.validate()) {
                           if (_filePath != null) {
                             setState(() {
-                              _loading = true; // Set loading to true when registration process starts
+                              _loading = true;
                             });
                             try {
-                              // Convert the selected image to base64
                               data = RegistrationRequest(
                                 img: _filePath,
                                 txnNo: txnNoController.text,
-                                amount: int.tryParse(amountController.text)!,
+                                amount:
+                                int.tryParse(amountController.text)!,
                                 startDate: registerDate!,
                                 paymentDate: paymentDate!,
                               );
-                              // Send registration request
-                              _sendRegistrationRequestData(data);
+                                _sendRegistrationRequestData(data!);
                             } catch (e) {
-                              // Handle error
-                              print('Error sending registration request: $e');
+                              print(
+                                  'Error sending registration request: $e');
                               setState(() {
-                                _loading = false; // Set loading to false when registration process fails
+                                _loading = false;
                               });
                             }
                           } else {
-                            // Handle case when no image is selected
                             print("No file selected");
                           }
                         }
@@ -331,7 +321,8 @@ class _RegisterState extends State<Register> {
                         alignment: Alignment.center,
                         children: [
                           Text("Register"),
-                          if (_loading) CircularProgressIndicator(), // Show CircularProgressIndicator when loading
+                          if (_loading)
+                            CircularProgressIndicator(),
                         ],
                       ),
                     )

@@ -67,38 +67,18 @@ class _CentralMessHomeState extends State<CentralMessHome> {
             '  ' +
             data2.profile!['user_type'];
         if (user == 'student') student_id = data2.user!['username'];
-        // if (designations.contains("mess_caretaker")) user = "caretaker";
-        // if (designations.contains("mess_warden")) user = "warden";
-        if (designations.contains("mess_caretaker") ||
-            student_id == "21BCS064") user = "caretaker";
-        if (designations.contains("mess_warden") ||
-            student_id == "21BCS133") user = "warden";
-        userType = (user == "caretaker")
-            ? "Mess Caretaker"
-            : (user == "warden")
-            ? "Mess Warden"
-            : data2.profile!['department']!['name'] +
-            '  ' +
-            data2.profile!['user_type'];
-        userMessData = (user == "student")
-            ? regMainList.firstWhere(
-                (element) => element.studentId == student_id,
-            orElse: () => RegMain(
-                program: "NA",
-                currentMessStatus: 'Deregistered',
-                balance: 0,
-                messOption: "no_mess"))
-            : RegMain(
-            program: "NA",
-            currentMessStatus: 'Deregistered',
-            balance: 0,
-            messOption: "no_mess");
-      });
 
-      print(
-          'User Data: ${userMessData.messOption} ${userMessData.currentMessStatus}');
-      print(
-          'Designations: $designations ${userMessData.messOption} ${userMessData.currentMessStatus}');
+        if (designations.contains("mess_caretaker") || student_id == "21BCS064") user = "caretaker";
+        if (designations.contains("mess_warden") || student_id == "21BCS133") user = "warden";
+        userType = (user == "caretaker") ? "Mess Caretaker" 
+        : (user == "warden") ? "Mess Warden" 
+        : data2.profile!['department']!['name'] + '  ' + data2.profile!['user_type'];
+        userMessData = (user == "student") ? regMainList.firstWhere((element) => element.studentId == student_id, orElse: () => RegMain(program: "NA", currentMessStatus: 'Deregistered', balance: 0, messOption: "no_mess", studentId: student_id))
+                            : RegMain(program: "NA", currentMessStatus: 'Deregistered', balance: 0, messOption: "no_mess", studentId: student_id);
+      });
+      // print(student_id);
+      print('User Data: ${userMessData.messOption} ${userMessData.currentMessStatus} ${userMessData.studentId}');
+      print('Designations: $designations ${userMessData.messOption} ${userMessData.currentMessStatus}');
     } catch (e) {
       print(e);
     }

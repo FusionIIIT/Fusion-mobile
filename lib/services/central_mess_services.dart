@@ -24,7 +24,7 @@ class CentralMessService {
 
       http.Response response2 = await _profileService.getProfile();
       ProfileData _profileData =
-          await ProfileData.fromJson(jsonDecode(response2.body));
+      await ProfileData.fromJson(jsonDecode(response2.body));
 
       Map<String, String> body = {
         'username': await _profileData.user!['username'],
@@ -104,7 +104,7 @@ class CentralMessService {
 
       } else {
         print(response0.statusCode);
-        throw Exception('Failed to Authorize');
+        throw Exception('Failed to Authorize ${json.decode(response0.body).toString()}');
       }
 
     } catch (e) {
@@ -146,6 +146,7 @@ class CentralMessService {
           return response;
         } else {
           print(response.statusCode);
+          print(json.decode(response.body));
           throw Exception('Failed to send feedback');
         }
       } else {
@@ -231,7 +232,7 @@ class CentralMessService {
 
       } else {
         print(response0.statusCode);
-        throw Exception('Failed to Authorize');
+        throw Exception('Failed to Authorize ${json.decode(response0.body).toString()}');
       }
 
     } catch (e) {
@@ -309,7 +310,7 @@ class CentralMessService {
 
       } else {
         print(response0.statusCode);
-        throw Exception('Failed to Authorize');
+        throw Exception('Failed to Authorize ${json.decode(response0.body).toString()}');
       }
 
     } catch (e) {
@@ -386,7 +387,7 @@ class CentralMessService {
 
       } else {
         print(response0.statusCode);
-        throw Exception('Failed to Authorize');
+        throw Exception('Failed to Authorize ${json.decode(response0.body).toString()}');
       }
 
     } catch (e) {
@@ -422,7 +423,7 @@ class CentralMessService {
 
       } else {
         print(response0.statusCode);
-        throw Exception('Failed to Authorize');
+        throw Exception('Failed to Authorize ${json.decode(response0.body).toString()}');
       }
 
     } catch (e) {
@@ -552,7 +553,7 @@ class CentralMessService {
 
       } else {
         print(response0.statusCode);
-        throw Exception('Failed to Authorize');
+        throw Exception('Failed to Authorize ${json.decode(response0.body).toString()}');
       }
 
     } catch (e) {
@@ -682,7 +683,7 @@ class CentralMessService {
 
       } else {
         print(response0.statusCode);
-        throw Exception('Failed to Authorize');
+        throw Exception('Failed to Authorize ${json.decode(response0.body).toString()}');
       }
 
     } catch (e) {
@@ -800,16 +801,16 @@ class CentralMessService {
 
         if (response.statusCode == 200) {
           Iterable RegistrationRequestList =
-              json.decode(response.body)['payload'];
+          json.decode(response.body)['payload'];
           return RegistrationRequestList.map(
-              (model) => RegistrationRequest.fromJson(model)).toList();
+                  (model) => RegistrationRequest.fromJson(model)).toList();
         } else {
           print(response.statusCode);
           throw Exception('Failed to load registration request');
         }
       } else {
         print(response0.statusCode);
-        throw Exception('Failed to Authorize');
+        throw Exception('Failed to Authorize ${json.decode(response0.body).toString()}');
       }
     } catch (e) {
       rethrow;
@@ -853,7 +854,7 @@ class CentralMessService {
         } else {
           print(response.statusCode);
           response.stream.transform(utf8.decoder).listen((value) {
-          print(value);});
+            print(value);});
           throw Exception('Failed to send registration request');
         }
       } else {
@@ -864,7 +865,7 @@ class CentralMessService {
       rethrow;
     }
   }
-  
+
   Future<List<DeregistrationRequest>> getDeregistrationRequest() async {
     try {
       http.Response response0 = await initAuth();
@@ -885,34 +886,38 @@ class CentralMessService {
 
         if (response.statusCode == 200) {
           Iterable DeregistrationRequestList =
-              json.decode(response.body)['payload'];
+          json.decode(response.body)['payload'];
           return DeregistrationRequestList.map(
-              (model) => DeregistrationRequest.fromJson(model)).toList();
+                  (model) => DeregistrationRequest.fromJson(model)).toList();
         } else {
           print(response.statusCode);
           throw Exception('Failed to load deregistration request');
         }
       } else {
         print(response0.statusCode);
-        throw Exception('Failed to Authorize');
+        throw Exception('Failed to Authorize ${json.decode(response0.body).toString()}');
       }
     } catch (e) {
       rethrow;
     }
   }
 
-    Future<http.Response> sendDeregistrationRequest(DeregistrationRequest data) async {
+  Future<http.Response> sendDeregistrationRequest(DeregistrationRequest data) async {
     try {
       http.Response response0 = await initAuth();
 
       if (response0.statusCode == 200) {
+
+        http.Response response2 = await _profileService.getProfile();
+        ProfileData _profileData = await ProfileData.fromJson(jsonDecode(response2.body));
+
         Map<String, String> headers = {
           'Authorization': 'Token ' + json.decode(response0.body)['token'],
           'Content-Type': 'application/json; charset=UTF-8'
         };
 
         Map<String, dynamic> body = {
-          'student_id': '21BCS064',
+          'student_id': await _profileData.user!['username'],
           'end_date': data.endDate.toString().substring(0, 10),
         };
 
@@ -974,12 +979,12 @@ class CentralMessService {
           Iterable RegMainList;
           if (data['type'] == 'search') {
             RegMainList =
-              json.decode(response.body)['payload'].toList();
+                json.decode(response.body)['payload'].toList();
           }
           RegMainList =
-              json.decode(response.body)['payload'];
+          json.decode(response.body)['payload'];
           return RegMainList.map(
-              (model) => RegMain.fromJson(model)).toList();
+                  (model) => RegMain.fromJson(model)).toList();
         } else {
           print(response.statusCode);
           print(response.body.toString());
@@ -987,48 +992,47 @@ class CentralMessService {
         }
       } else {
         print(response0.statusCode);
-        throw Exception('Failed to Authorize');
+        throw Exception('Failed to Authorize ${json.decode(response0.body).toString()}');
       }
     } catch (e) {
       rethrow;
     }
   }
 
-  // Future<List<MessInfo>> getMessInfo() async {
-  //   try {
-  //     http.Response response0 = await initAuth();
+// Future<List<MessInfo>> getMessInfo() async {
+//   try {
+//     http.Response response0 = await initAuth();
 
-  //     if (response0.statusCode == 200) {
-  //       Map<String, String> headers = {
-  //         'Authorization': 'Token ' + json.decode(response0.body)['token']
-  //       };
+//     if (response0.statusCode == 200) {
+//       Map<String, String> headers = {
+//         'Authorization': 'Token ' + json.decode(response0.body)['token']
+//       };
 
-  //       print("fetching Mess Info");
-  //       http.Response response = await http.get(
-  //         Uri.http(
-  //           kCentralMess,
-  //           kMessInfoEndpoint, //constant api EndPoint
-  //         ),
-  //         headers: headers,
-  //       );
+//       print("fetching Mess Info");
+//       http.Response response = await http.get(
+//         Uri.http(
+//           kCentralMess,
+//           kMessInfoEndpoint, //constant api EndPoint
+//         ),
+//         headers: headers,
+//       );
 
-  //       if (response.statusCode == 200) {
-  //         Iterable MessInfoList =
-  //             json.decode(response.body)['payload'];
-  //         return MessInfoList.map(
-  //             (model) => MessInfo.fromJson(model)).toList();
-  //       } else {
-  //         print(response.statusCode);
-  //         throw Exception('Failed to load mess info');
-  //       }
-  //     } else {
-  //       print(response0.statusCode);
-  //       throw Exception('Failed to Authorize');
-  //     }
-  //   } catch (e) {
-  //     rethrow;
-  //   }
-  // }
+//       if (response.statusCode == 200) {
+//         Iterable MessInfoList =
+//             json.decode(response.body)['payload'];
+//         return MessInfoList.map(
+//             (model) => MessInfo.fromJson(model)).toList();
+//       } else {
+//         print(response.statusCode);
+//         throw Exception('Failed to load mess info');
+//       }
+//     } else {
+//       print(response0.statusCode);
+//       throw Exception('Failed to Authorize ${json.decode(response0.body).toString()}');
+//     }
+//   } catch (e) {
+//     rethrow;
+//   }
+// }
 
-// TODO: Add more methods for other Central Mess APIs as needed
 }

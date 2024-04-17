@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/screens/Central_Mess/RegistrationDeregistration/deregistration_history.dart';
+import 'package:fusion/screens/Central_Mess/RegistrationDeregistration/registration_history.dart';
 import 'register.dart';
 import 'deregister.dart';
 import 'registration_requests.dart';
@@ -34,7 +36,7 @@ class _ManageRegDeRegState extends State<ManageRegDeReg> {
         child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
           SizedBox(height: 5.0),
           DefaultTabController(
-              length:  user == "student" ? 1 : 3, // length of tabs
+              length:  user == "student" ? 2 : 3, // length of tabs
               initialIndex: 0,
               child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
                 Container(
@@ -66,19 +68,37 @@ class _ManageRegDeRegState extends State<ManageRegDeReg> {
                           ),
                         ],
                       if (user == "student" && isRegistered == false)
-                        Tab(
-                          child: Text(
-                            "Register",
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                        ...[
+                            Tab(
+                              child: Text(
+                                "Registration",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ),
+
+                            Tab(
+                            child: Text(
+                              "Registration Status",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
                           ),
-                        ),
+                        ],
                       if (user == "student" && isRegistered == true)
-                        Tab(
-                          child: Text(
-                            "De-Register",
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                        ...[
+                            Tab(
+                              child: Text(
+                                "Deregistration",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ),
+
+                            Tab(
+                            child: Text(
+                              "Deregistration Status",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
                           ),
-                        ),
+                        ],
                     ],
                   ),
                 ),
@@ -91,9 +111,11 @@ class _ManageRegDeRegState extends State<ManageRegDeReg> {
                       children: <Widget>[
                         if (user == "student" && isRegistered==false) ...[
                           Register(),
+                          RegistrationHistory(userMessData: userMessData),
                         ],
                         if (user == "student" && isRegistered==true) ...[
                           DeRegister(),
+                          DeRegistrationHistory(userMessData: userMessData),
                         ],
                         if (user != "student") ...[
                           RegistrationRequests(),

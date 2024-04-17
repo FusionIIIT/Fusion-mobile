@@ -135,7 +135,7 @@ class _ApplySpecialFoodState extends State<ApplySpecialFood> {
                         fillColor: Colors.white,
                       ),
                       mode: DateTimeFieldPickerMode.date,
-                      autovalidateMode: AutovalidateMode.always,
+                      // autovalidateMode: AutovalidateMode.always,
                       validator: (e) =>
                       (e?.day ?? 0) == 1 ? 'Select from date' : null,
                       onDateSelected: (DateTime value) {
@@ -157,7 +157,7 @@ class _ApplySpecialFoodState extends State<ApplySpecialFood> {
                         fillColor: Colors.white,
                       ),
                       mode: DateTimeFieldPickerMode.date,
-                      autovalidateMode: AutovalidateMode.always,
+                      // autovalidateMode: AutovalidateMode.always,
                       validator: (e) =>
                       (e?.day ?? 0) == 1 ? 'Select to date' : null,
                       onDateSelected: (DateTime value) {

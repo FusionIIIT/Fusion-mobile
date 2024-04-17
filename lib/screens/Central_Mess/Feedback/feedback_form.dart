@@ -246,7 +246,7 @@ class _FeedbackFormState extends State<FeedbackForm> {
                     SizedBox(height: 30.0),
                     ElevatedButton(
                       style: style,
-                      onPressed: () {
+                      onPressed: _loading ? null : () {
                         if (_messFormKey.currentState!.validate()) {
                           setState(() {
                             data = MessFeedback(

@@ -18,6 +18,58 @@ class _DeRegisterState extends State<DeRegister> {
   bool _loading = false, _deregister = false;
   String? selectedStudentId;
   DateTime? deregisterDate;
+  DeregistrationRequest? data;
+
+  void _showSuccessSnackbar() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          'DeRegistration Request Sent Successfully',
+          style: TextStyle(color: Colors.white),
+        ),
+        duration: Duration(seconds: 5),
+        backgroundColor: Colors.green,
+      ),
+    );
+  }
+
+  void _showFailureSnackbar() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          'Failed to send DeRegistration Request. Please try again later.',
+          style: TextStyle(color: Colors.white),
+        ),
+        duration: Duration(seconds: 5),
+        backgroundColor: Colors.red,
+      ),
+    );
+  }
+    void _sendDeregistrationlRequestData(data) async {
+    setState(() {
+      _loading = true;
+    });
+    try {
+      http.Response registrationRequest =
+          await _centralMessService.sendDeregistrationRequest(data);
+      if (registrationRequest.statusCode == 200) {
+        print('Sent the deregister request');
+        setState(() {
+          _deregister = true;
+        });
+        _showSuccessSnackbar();
+      } else {
+        print('Couldn\'t send');
+        _showFailureSnackbar();
+      }
+    } catch (e) {
+      print('Error sending Deregistration Request: $e');
+      _showFailureSnackbar();
+    }
+    setState(() {
+      _loading = false;
+    });
+  }
 
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
@@ -86,24 +138,41 @@ class _DeRegisterState extends State<DeRegister> {
                         fillColor: Colors.white,
                       ),
                       mode: DateTimeFieldPickerMode.date,
-                      autovalidateMode: AutovalidateMode.always,
-                      initialValue: DateTime.now(), // Set initial date
+                      // autovalidateMode: AutovalidateMode.always,
+                      // initialValue: DateTime.now(), // Set initial date
                       validator: (e) =>
                       e == null ? 'Please select a date' : null,
                       onDateSelected: (DateTime value) {
                         deregisterDate = value;
                       },
-                      firstDate: DateTime.now(), // Allow dates starting from tomorrow
+                      firstDate: DateTime.now()  , // Allow dates starting from tomorrow
                     ),
                     SizedBox(height: 30.0),
                     ElevatedButton(
                         style: style,
-                        onPressed: () {
+                        onPressed: _loading ? null : () {
                           if (_messFormKey.currentState!.validate()) {
-                            
+                            // print({deregisterDate});
+                            setState(() {
+                              data = DeregistrationRequest(
+                                endDate: deregisterDate!,
+                              );
+                              _sendDeregistrationlRequestData(data);
+                              setState(() {
+                                data = null;
+                              });
+                            });
                           }
                         },
-                        child: Text("DeRegister"))
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Text("DeRegister"),
+                          if (_loading)
+                            CircularProgressIndicator(),
+                        ],
+                      ),
+                    )
                   ],
                 ),
               ),

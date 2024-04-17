@@ -35,7 +35,7 @@ class _MessMonthlyBillHistoryState extends State<MessMonthlyBillHistory> {
       print('Error fetching bill: $e');
     }
   }
-  bool _loading = false;
+  bool _loading = true;
   late String reqStudentId; // Declare reqStudentId here
 
   @override
@@ -77,7 +77,6 @@ class _MessMonthlyBillHistoryState extends State<MessMonthlyBillHistory> {
 
   @override
   Widget build(BuildContext context) {
-    _loading = true;
     List<Map<String, String>> billData = _monthlyBillData
         .where((bill) => bill.studentId.toLowerCase() == reqStudentId.toLowerCase()) // Use reqStudentId here
         .map((bill) => {
@@ -105,8 +104,11 @@ class _MessMonthlyBillHistoryState extends State<MessMonthlyBillHistory> {
     return SingleChildScrollView(
       child: Column(
         children: [
+          SizedBox(height: 10.0,),
+
           _loading
-              ? Container(
+              ? CircularProgressIndicator() :
+          Container(
             decoration: BoxDecoration(
               border: Border.all(
                 color: Colors.grey,
@@ -123,7 +125,6 @@ class _MessMonthlyBillHistoryState extends State<MessMonthlyBillHistory> {
               ),
             ),
           )
-              : SizedBox(height: 10.0),
         ],
       ),
     );
