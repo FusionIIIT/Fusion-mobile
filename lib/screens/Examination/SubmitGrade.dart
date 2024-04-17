@@ -139,7 +139,7 @@ class _SubmitGradeState extends State<SubmitGrade> {
     }
   }
 
-  List<String> YearTypeItem = ['2020', '2021', '2022', '2023', '2024'];
+  List<String> YearTypeItem = ['2019' , '2020', '2021', '2022', '2023', '2024'];
 
   List<String> batchTypeItem = ['2020', '2021', '2022', '2023'];
 
@@ -208,149 +208,142 @@ class _SubmitGradeState extends State<SubmitGrade> {
     // If no match is found, return null
     return null;
   }
+
   void _retrieveCourseId() {
-  _courseId = courseIdFromValue(_courseValue!);
-}
+    _courseId = courseIdFromValue(_courseValue!);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     appBar: CustomAppBar(titleText: "Submit Grade").buildAppBar(),
-    body: SingleChildScrollView(
-      child: Container(
-        alignment: Alignment.topCenter,
-        padding: EdgeInsets.all(30.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildDropdown('Year', YearTypeItem),
-            SizedBox(height: 20),
-            _buildDropdown('Course', courseTypeItem),
-            SizedBox(height: 20),
-            createButton(
-              buttonText: 'Search',
-              onPressed: () async {
-                int? _courseId = courseIdFromValue(_courseValue!);
-                if (_courseId != null) {
-                  try {
-                    ExaminationService examService = ExaminationService();
+      appBar: CustomAppBar(titleText: "Submit Grade").buildAppBar(),
+      body: SingleChildScrollView(
+        child: Container(
+          alignment: Alignment.topCenter,
+          padding: EdgeInsets.all(30.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildDropdown('Year', YearTypeItem),
+              SizedBox(height: 20),
+              _buildDropdown('Course', courseTypeItem),
+              SizedBox(height: 20),
+              createButton(
+                buttonText: 'Search',
+                onPressed: () async {
+                  int? _courseId = courseIdFromValue(_courseValue!);
+                  if (_courseId != null) {
+                    try {
+                      ExaminationService examService = ExaminationService();
 
-                    // Fetch all data
-                    List<dynamic> registeredStudents =
-                        await examService.getRegisteredStudentsRollNo(
-                            _courseId, _yearValue!);
+                      // Fetch all data
+                      List<dynamic> registeredStudents = await examService
+                          .getRegisteredStudentsRollNo(_courseId, _yearValue!);
 
+                      setState(() {
+                        _registeredStudents = registeredStudents;
 
-                    setState(() {
-                      _registeredStudents = registeredStudents;
-
-                      // print("DEBUG:$_registeredStudents");
-                    });
-                  } catch (e) {
-                    print('Error fetching registered students: $e');
+                        // print("DEBUG:$_registeredStudents");
+                      });
+                    } catch (e) {
+                      print('Error fetching registered students: $e');
+                    }
                   }
-                }
-              },
-              showSearchIcon: true,
-            ),
-            SizedBox(height: 20),
+                },
+                showSearchIcon: true,
+              ),
+              SizedBox(height: 20),
 
+              Text(
+                'Registered Students',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 10),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: DataTable(
+                    columns: [
+                      DataColumn(label: Text('ID')),
+                      DataColumn(label: Text('Grade')),
+                      DataColumn(label: Text('Marks')),
+                      // Removed the DataColumn for "Year"
+                    ],
+                    rows:
+                        _registeredStudents.take(_displayLimit).map((student) {
+                      TextEditingController gradeController =
+                          TextEditingController(text: student['grade']);
+                      TextEditingController marksController =
+                          TextEditingController(text: student['total_marks']);
+                      return DataRow(cells: [
+                        DataCell(Text(student['roll_no'].toString())),
+                        DataCell(TextField(
+                          controller: gradeController,
+                          onChanged: (value) {
+                            student['grade'] = value;
+                          },
+                        )),
+                        DataCell(TextField(
+                          controller: marksController,
+                          onChanged: (value) {
+                            student['total_marks'] = value;
+                          },
+                        )),
+                        // Removed the DataCell for "Year"
+                      ]);
+                    }).toList(),
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
 
+              // Call _retrieveCourseId before invoking the 'Save' action
+              createButton(
+                  buttonText: 'Save',
+                  onPressed: () async {
+                    // Ensure courseId is retrieved before saving
+                    _retrieveCourseId();
+                    // print(_registeredStudents);
+                    try {
+                      List<Map<String, dynamic>> updatedStudentsData =
+                          _registeredStudents.map((student) {
+                        // Ensure _courseId is not null before using it
+                          print(student['roll_no']);
+                            print( _courseId.toString());
+                            print( student['semester']?? '0');
+                            print(_yearValue);
+                            print(student['grade'] ??'NA');
+                            print(student['total_marks']??'0');
+                            
+                        if (_courseId != null) {
+                          return {
+                              
+                            'roll_no': student['roll_no'],
+                            'course_id': _courseId.toString(),
+                            'semester_id': student['semester'] ?? '0',
+                            'year': _yearValue,
+                            'grade': student['grade']??'NA',
+                            'total_marks': student['total_marks']??'0',
+                          };
+                        } else {
+                          // Handle the case where _courseId is null
+                          throw Exception("Course ID is null");
+                        }
+                      }).toList();
 
+                      // Make API call to save updated student data
+                      ExaminationService examinationService =
+                          ExaminationService();
+                      await examinationService
+                          .submitGades(updatedStudentsData);
 
-
-
-Text(
-  'Registered Students',
-  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-),
-SizedBox(height: 10),
-SingleChildScrollView(
-  scrollDirection: Axis.horizontal,
-  child: SingleChildScrollView(
-    scrollDirection: Axis.vertical,
-    child: DataTable(
-      columns: [
-        DataColumn(label: Text('ID')),
-        DataColumn(label: Text('Grade')),
-        DataColumn(label: Text('Marks')),
-        // Removed the DataColumn for "Year"
-      ],
-      rows: _registeredStudents
-          .take(_displayLimit)
-          .map((student) {
-        TextEditingController gradeController =
-            TextEditingController(text: student['grade']);
-        TextEditingController marksController =
-            TextEditingController(text: student['marks']);
-        return DataRow(cells: [
-          DataCell(Text(student['roll_no'].toString())),
-          DataCell(TextField(
-            controller: gradeController,
-            onChanged: (value) {
-              student['grade'] = value;
-            },
-          )),
-          DataCell(TextField(
-            controller: marksController,
-            onChanged: (value) {
-              student['marks'] = value;
-            },
-          )),
-          // Removed the DataCell for "Year"
-        ]);
-      }).toList(),
-    ),
-  ),
-),
-SizedBox(height: 20),
-
-
-
-
-
-
-
-
-
-
-            // Call _retrieveCourseId before invoking the 'Save' action
-createButton(
-  buttonText: 'Save',
-  onPressed: () async {
-    // Ensure courseId is retrieved before saving
-    _retrieveCourseId();
-    
-    try {
-      List<Map<String, dynamic>> updatedStudentsData =
-          _registeredStudents.map((student) {
-        // Ensure _courseId is not null before using it
-        if (_courseId != null) {
-          return {
-            'roll_no': student['roll_no'],
-            'course_id': _courseId.toString(),
-            'semester_id': student['semester']!,
-            'year': student['year'],
-            'grade': student['grade'],
-            'total_marks': student['total_marks'],
-          };
-        } else {
-          // Handle the case where _courseId is null
-          throw Exception("Course ID is null");
-        }
-      }).toList();
-      
-      // Make API call to save updated student data
-      ExaminationService examinationService = ExaminationService();
-      await examinationService.updateGrades(updatedStudentsData);
-
-      // Show success message or perform other actions upon successful save
-    } catch (e) {
-      print('Error saving student grades: $e');
-      // Handle error, show error message, or perform other actions
-    }
-  }
-)
+                      // Show success message or perform other actions upon successful save
+                    } catch (e) {
+                      print('Error saving student grades: $e');
+                      // Handle error, show error message, or perform other actions
+                    }
+                  })
             ],
           ),
         ),

@@ -10,17 +10,15 @@ import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
 import 'package:http/http.dart';
 
-
 class ExaminationHomePage extends StatefulWidget {
   String? token;
   ExaminationHomePage(this.token);
 
   @override
-  _ExaminationHomePageState createState ()=> _ExaminationHomePageState();
+  _ExaminationHomePageState createState() => _ExaminationHomePageState();
 }
 
 class _ExaminationHomePageState extends State<ExaminationHomePage> {
-
   bool _loading1 = true;
   late StreamController _healthController;
   late HeathService healthService;
@@ -31,29 +29,32 @@ class _ExaminationHomePageState extends State<ExaminationHomePage> {
   void initState() {
     super.initState();
     var service = locator<StorageService>();
-    name = service.profileData.user!["first_name"] +  " " +  service.profileData.user!["last_name"];
-    depttype = service.profileData.profile!['department']!['name'] +  " " +  service.profileData.profile!['user_type'];
+    name = service.profileData.user!["first_name"] +
+        " " +
+        service.profileData.user!["last_name"];
+    depttype = service.profileData.profile!['department']!['name'] +
+        " " +
+        service.profileData.profile!['user_type'];
     _healthController = StreamController();
     healthService = HeathService();
     getData();
   }
 
   getData() async {
-  try {
-    Response? response = await healthService.getHealth(widget.token!);
-    if (response != null) {
-      setState(() {
-        data = HealthData.fromJson(jsonDecode(response.body));
-        _loading1 = false;
-      });
-    } else {
-      // Handle the case where response is null
+    try {
+      Response? response = await healthService.getHealth(widget.token!);
+      if (response != null) {
+        setState(() {
+          data = HealthData.fromJson(jsonDecode(response.body));
+          _loading1 = false;
+        });
+      } else {
+        // Handle the case where response is null
+      }
+    } catch (e) {
+      print(e);
     }
-  } catch (e) {
-    print(e);
   }
-}
-
 
   loadData() async {
     getData().then((res) {
@@ -91,7 +92,7 @@ class _ExaminationHomePageState extends State<ExaminationHomePage> {
     );
   }
 
-   @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: DefaultAppBar().buildAppBar(),
@@ -104,7 +105,7 @@ class _ExaminationHomePageState extends State<ExaminationHomePage> {
               scrollDirection: Axis.vertical,
               children: [
                 Card(
-                   elevation: 2.0,
+                  elevation: 2.0,
                   margin:
                       EdgeInsets.symmetric(horizontal: 50.0, vertical: 20.0),
                   shadowColor: Colors.black,
@@ -188,21 +189,24 @@ class _ExaminationHomePageState extends State<ExaminationHomePage> {
                       InkWell(
                         child: myContainer("Submit Grades"),
                         onTap: () {
-                          Navigator.pushNamed(context, '/examination/submit_grade',
+                          Navigator.pushNamed(
+                              context, '/examination/submit_grade',
                               arguments: data);
                         },
                       ),
                       InkWell(
                         child: myContainer("Moderate Grades"),
                         onTap: () {
-                          Navigator.pushNamed(context, '/examination/moderate_grade',
+                          Navigator.pushNamed(
+                              context, '/examination/moderate_grade',
                               arguments: data);
                         },
                       ),
                       InkWell(
                         child: myContainer("Course Authentication"),
                         onTap: () {
-                          Navigator.pushNamed(context, '/examination/course_authentication',
+                          Navigator.pushNamed(
+                              context, '/examination/course_authentication',
                               arguments: data);
                         },
                       ),

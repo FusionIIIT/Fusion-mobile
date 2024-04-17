@@ -1,4 +1,4 @@
- import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:fusion/Components/CustomAppBar.dart';
 import 'package:fusion/constants.dart';
 import 'package:fusion/services/examination_service.dart';
@@ -23,9 +23,29 @@ class _CourseAuthenticationState extends State<CourseAuthentication> {
   TextEditingController _courseIdController = TextEditingController();
   TextEditingController _courseController = TextEditingController();
   List<Map<String, dynamic>> courses = [];
+  bool _fetchedAuthenticator1 = false;
+  bool _fetchedAuthenticator2 = false;
+  bool _fetchedAuthenticator3 = false;
 
   List<dynamic> _registeredStudents = [];
   final int _displayLimit = 10;
+
+  void _fetchAndUpdateAuthStatus(int courseId, String year) async {
+    try {
+      // Call ExaminationService to fetch authentication status
+      ExaminationService examService = ExaminationService();
+      Map<String, bool> authStatus =
+          await examService.getAuthenticatorStatus(courseId, year);
+
+      setState(() {
+        _fetchedAuthenticator1 = authStatus['authenticator1'] ?? false;
+        _fetchedAuthenticator2 = authStatus['authenticator2'] ?? false;
+        _fetchedAuthenticator3 = authStatus['authenticator3'] ?? false;
+      });
+    } catch (error) {
+      print('Error fetching authentication status: $error');
+    }
+  }
 
   void _handleDropdownChange(String dropdownName, String? value) {
     setState(() {
@@ -42,8 +62,10 @@ class _CourseAuthenticationState extends State<CourseAuthentication> {
         case 'Semester':
           _semesterValue = value;
           break;
-        case 'Course': 
+        case 'Course':
           _courseValue = value;
+          _fetchAndUpdateAuthStatus(
+              courseIdFromValue(_courseValue!)!, _yearValue!);
           break;
       }
     });
@@ -117,33 +139,31 @@ class _CourseAuthenticationState extends State<CourseAuthentication> {
   }
 
   Future<void> _updateAuthenticators() async {
-  try {
-    // Create an instance of ExaminationService
-    ExaminationService examService = ExaminationService();
+    try {
+      // Create an instance of ExaminationService
+      ExaminationService examService = ExaminationService();
 
-    // Make API call to update authenticators based on checkbox state
-    // You need to pass the checked state of each authenticator
-    int? _courseId = courseIdFromValue(_courseValue!);
-    
+      // Make API call to update authenticators based on checkbox state
+      // You need to pass the checked state of each authenticator
+      int? _courseId = courseIdFromValue(_courseValue!);
 
-    if (authenticator1) {
-      await examService.updateAuthenticator(_courseId!, _yearValue!, 1);
-    }
-    if (authenticator2) {
-      await examService.updateAuthenticator(_courseId!, _yearValue!, 2);
-    }
-    if (authenticator3) {
-      await examService.updateAuthenticator(_courseId!, _yearValue!, 3);
-    }
+      if (authenticator1) {
+        await examService.updateAuthenticator(_courseId!, _yearValue!, 1);
+      }
+      if (authenticator2) {
+        await examService.updateAuthenticator(_courseId!, _yearValue!, 2);
+      }
+      if (authenticator3) {
+        await examService.updateAuthenticator(_courseId!, _yearValue!, 3);
+      }
 
-    // Handle success
-    print('Authenticators updated successfully');
-  } catch (e) {
-    // Handle error
-    print('Error updating authenticators: $e');
+      // Handle success
+      print('Authenticators updated successfully');
+    } catch (e) {
+      // Handle error
+      print('Error updating authenticators: $e');
+    }
   }
-}
-
 
   String? _getValueByName(String name) {
     switch (name) {
@@ -162,13 +182,7 @@ class _CourseAuthenticationState extends State<CourseAuthentication> {
     }
   }
 
-  List<String> YearTypeItem = [
-    '2020',
-    '2021',
-    '2022',
-    '2023',
-    '2024'
-  ];
+  List<String> YearTypeItem = ['2020', '2021', '2022', '2023', '2024'];
 
   List<String> batchTypeItem = [
     '2020',
@@ -196,23 +210,22 @@ class _CourseAuthenticationState extends State<CourseAuthentication> {
     '8',
   ];
 
+  List<String> courseTypeItem = [];
+  // Method to fetch course items from backend
+  void _fetchCourseItems() async {
+    try {
+      // Call your backend service method to fetch course items
+      courses = await ExaminationService().getCourseItems();
 
-  List<String> courseTypeItem = []; 
-    // Method to fetch course items from backend
-void _fetchCourseItems() async {
-  try {
-    // Call your backend service method to fetch course items
-    courses = await ExaminationService().getCourseItems();
-    
-    setState(() {
-      // Update courseTypeItem with fetched courses' names
-      courseTypeItem = courses.map<String>((course) => course['name']).toList();
-    });
-  } catch (e) {
-    print('Error fetching course items: $e');
+      setState(() {
+        // Update courseTypeItem with fetched courses' names
+        courseTypeItem =
+            courses.map<String>((course) => course['name']).toList();
+      });
+    } catch (e) {
+      print('Error fetching course items: $e');
+    }
   }
-}
-
 
   @override
   void initState() {
@@ -221,21 +234,20 @@ void _fetchCourseItems() async {
   }
 
   int? courseIdFromValue(String selectedValue) {
-  // Iterate through the courses list
-  
-  print(selectedValue);
-  for (var course in courses) {
-    // Check if the name of the course matches the selected value
-    if (course['name'] == selectedValue) {
-      // If a match is found, return the ID of the course
-      print(course['id']);
-      return course['id'];
-    }
-  }
-  // If no match is found, return null
-  return null;
-}
+    // Iterate through the courses list
 
+    print(selectedValue);
+    for (var course in courses) {
+      // Check if the name of the course matches the selected value
+      if (course['name'] == selectedValue) {
+        // If a match is found, return the ID of the course
+        print(course['id']);
+        return course['id'];
+      }
+    }
+    // If no match is found, return null
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -254,14 +266,12 @@ void _fetchCourseItems() async {
               SizedBox(height: 20),
               // _buildDropdown('Branch', branchTypeItem),
               // SizedBox(height: 20),
-              
+
               _buildDropdown('Semester', semesterTypeItem),
               SizedBox(height: 20),
               _buildDropdown('Course', courseTypeItem),
-              
+
               SizedBox(height: 20),
-              
-              
 
               SizedBox(height: 20),
               Container(
@@ -270,41 +280,52 @@ void _fetchCourseItems() async {
                     ? Text("Result is verified")
                     : Text("Result is not yet verified"),
               ),
-               SizedBox(height: 20),
+              SizedBox(height: 20),
               // Add checkboxes for authenticators
+
               CheckboxListTile(
                 title: Text('Authenticator 1'),
                 value: authenticator1,
-                onChanged: (value) {
-                  setState(() {
-                    authenticator1 = value!;
-                  });
-                },
+                onChanged: !_fetchedAuthenticator1
+                    ? (value) {
+                        setState(() {
+                          authenticator1 = value!;
+                        });
+                      }
+                    : null, // Disable checkbox if already authenticated
+                activeColor:
+                    Colors.green, // Set the color when checkbox is checked
               ),
 
               CheckboxListTile(
                 title: Text('Authenticator 2'),
                 value: authenticator2,
-                onChanged: (value) {
-                  setState(() {
-                    authenticator2 = value!;
-                  });
-                },
+                onChanged: !_fetchedAuthenticator2
+                    ? (value) {
+                        setState(() {
+                          authenticator2 = value!;
+                        });
+                      }
+                    : null, // Disable checkbox if already authenticated
+                activeColor:
+                    Colors.green, // Set the color when checkbox is checked
               ),
 
-
-               CheckboxListTile(
+              CheckboxListTile(
                 title: Text('Authenticator 3'),
                 value: authenticator3,
-                onChanged: (value) {
-                  setState(() {
-                    authenticator3 = value!;
-                  });
-                },
+                onChanged: !_fetchedAuthenticator3
+                    ? (value) {
+                        setState(() {
+                          authenticator3 = value!;
+                        });
+                      }
+                    : null, // Disable checkbox if already authenticated
+                activeColor:
+                    Colors.green, // Set the color when checkbox is checked
               ),
 
-
-               SizedBox(height: 20),
+              SizedBox(height: 20),
               createButton(
                 buttonText: 'Verify',
                 onPressed: () {
@@ -314,6 +335,18 @@ void _fetchCourseItems() async {
                     // At least one authenticator checked, proceed with verification
                     _updateAuthenticators(); // Call function to update authenticators
                     print("Verification successful");
+                    if (authenticator1) {
+                      _fetchedAuthenticator1 = false;
+                      authenticator1 = false;
+                    }
+                    if (authenticator2) {
+                      _fetchedAuthenticator2 = false;
+                      authenticator2 = false;
+                    }
+                    if (authenticator3) {
+                      _fetchedAuthenticator3 = false;
+                      authenticator3 = false;
+                    }
                   } else {
                     // No authenticator checked
                     print("Please check at least one authenticator");

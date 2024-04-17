@@ -179,28 +179,24 @@ class _GenerateResultState extends State<GenerateResult> {
     return grades[_random.nextInt(grades.length)];
   }
 
-
-
   void _downloadTranscript(List<String> courseIds, List<String> grades) async {
-  // Get the directory for the app's documents
-  Directory appDocumentsDirectory = await getApplicationDocumentsDirectory();
-  String appDocumentsPath = appDocumentsDirectory.path;
+    // Get the directory for the app's documents
+    Directory appDocumentsDirectory = await getApplicationDocumentsDirectory();
+    String appDocumentsPath = appDocumentsDirectory.path;
 
-  // Create a new file in the documents directory
-  File transcriptFile = File('$appDocumentsPath/transcript.txt');
+    // Create a new file in the documents directory
+    File transcriptFile = File('$appDocumentsPath/transcript.txt');
 
-  // Write transcript data to the file
-  String transcriptContent = '';
-  for (int i = 0; i < courseIds.length; i++) {
-    transcriptContent += 'Course ID: ${courseIds[i]}, Grade: ${grades[i]}\n';
+    // Write transcript data to the file
+    String transcriptContent = '';
+    for (int i = 0; i < courseIds.length; i++) {
+      transcriptContent += 'Course ID: ${courseIds[i]}, Grade: ${grades[i]}\n';
+    }
+    await transcriptFile.writeAsString(transcriptContent);
+
+    // Show a confirmation message
+    print('Transcript downloaded successfully');
   }
-  await transcriptFile.writeAsString(transcriptContent);
-
-  // Show a confirmation message
-  print('Transcript downloaded successfully');
-}
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -253,7 +249,7 @@ class _GenerateResultState extends State<GenerateResult> {
                 showSearchIcon: true,
               ),
 
-              SizedBox(height: 20), 
+              SizedBox(height: 20),
 
               Text(
                 'Registered Students',
@@ -291,54 +287,51 @@ class _GenerateResultState extends State<GenerateResult> {
               ),
               SizedBox(height: 20),
 
+              createButton(
+                buttonText: 'Generate',
+                onPressed: () async {
+                  try {
+                    // Call the API to generate transcript data
+                    ExaminationService examService = ExaminationService();
+                    Map<String, dynamic> transcriptData =
+                        await examService.generateTranscript(
+                            _selectedStudentId!, _semesterValue!);
 
+                    // Extract the list of maps containing course data
+                    List<Map<String, dynamic>> coursesData =
+                        List<Map<String, dynamic>>.from(
+                            transcriptData['transcript'] ?? []);
 
+                    // Extract additional student information with default values if null
+                    String studentRollNo =
+                        transcriptData['student_roll_no'] ?? _selectedStudentId;
+                    String semester =
+                        transcriptData['semester'] ?? _semesterValue;
+                    String spi = transcriptData['spi'] ?? 'N/A';
+                    String cpi = coursesData.isNotEmpty
+                        ? coursesData[0]['cpi'].toString()
+                        : 'N/A';
 
-
-
-
-
-
-
-
-createButton(
-  buttonText: 'Generate',
-  onPressed: () async {
-    try {
-      // Call the API to generate transcript data
-      ExaminationService examService = ExaminationService();
-      Map<String, dynamic> transcriptData = await examService.generateTranscript(_selectedStudentId!, _semesterValue!);
-
-      // Extract the list of maps containing course data
-      List<Map<String, dynamic>> coursesData = List<Map<String, dynamic>>.from(transcriptData['transcript'] ?? []);
-
-      // Extract additional student information with default values if null
-      String studentRollNo = transcriptData['student_roll_no'] ?? _selectedStudentId;
-      String semester = transcriptData['semester'] ?? _semesterValue;
-      String spi = transcriptData['spi'] ?? 'N/A';
-      String cpi = transcriptData['cpi'] ?? 'N/A';
-
-      // Navigate to a new screen to display the transcript
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => TranscriptScreen(
-            coursesData: coursesData,
-            studentRollNo: studentRollNo,
-            semester: semester,
-            spi: spi,
-            cpi: cpi,
-          ),
-        ),
-      );
-    } catch (e) {
-      // Handle any errors that occur during the API call
-      print('Error generating transcript: $e');
-      // You can show an error message here
-    }
-  },
-)
-
+                    // Navigate to a new screen to display the transcript
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TranscriptScreen(
+                          coursesData: coursesData,
+                          studentRollNo: studentRollNo,
+                          semester: semester,
+                          // spi: spi,
+                          cpi: cpi,
+                        ),
+                      ),
+                    );
+                  } catch (e) {
+                    // Handle any errors that occur during the API call
+                    print('Error generating transcript: $e');
+                    // You can show an error message here
+                  }
+                },
+              )
             ],
           ),
         ),

@@ -167,8 +167,9 @@ class _AnnounceGradeState extends State<AnnounceGrade> {
 
   void _announceGrade() async {
     ExaminationService examService = ExaminationService();
-    
-    bool allAuthenticated = await examService.checkAllAuthenticators(69, "2024");
+
+    bool allAuthenticated =
+        await examService.checkAllAuthenticators(69, "2024");
     setState(() {
       isVerified = allAuthenticated;
     });
@@ -181,7 +182,7 @@ class _AnnounceGradeState extends State<AnnounceGrade> {
         return AlertDialog(
           title: Text(success ? 'Announced' : 'Not Announced'),
           content: success
-              ? Text('Grade announced successfully.')
+              ? Text('Announced successfully.')
               : Text('Failed to announce grade.'),
           actions: <Widget>[
             TextButton(
@@ -219,13 +220,10 @@ class _AnnounceGradeState extends State<AnnounceGrade> {
           children: [
             _buildDropdown('Batch', batchTypeItem),
             SizedBox(height: 20),
-
             _buildDropdown('Curriculum', curriculumTypeItem),
             SizedBox(height: 20),
-
             _buildDropdown('Department', departmentTypeItem),
             SizedBox(height: 20),
-
             Text(
               'Message',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -243,22 +241,16 @@ class _AnnounceGradeState extends State<AnnounceGrade> {
                 maxLines: 3,
               ),
             ),
+            SizedBox(height: 40),
 
-            SizedBox(height: 20),
-
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: isVerified
-                  ? Text("Result is verified")
-                  : Text("Result is not yet verified"),
-            ),
-
-            SizedBox(height: 20),
+            
             createButton(
               buttonText: 'Announce',
               onPressed: () {
                 // Simulating the announcement process with a delay
-                
+                ExaminationService examinationService = new ExaminationService();
+                examinationService.announceGrade(batch: _batchValue!, programme: _curriculumValue!, message: messageController.text, department: _departmentValue!);
+                print("Success");
                 Future.delayed(Duration(seconds: 2), () {
                   bool success = true; // Change to false if announcement fails
                   _showAnnouncementResultDialog(success);
