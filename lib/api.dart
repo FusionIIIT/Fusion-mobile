@@ -1,11 +1,9 @@
 //Server and local links
 String klocalLink = "127.0.0.1:8000";
-// String kserverLink = "172.27.16.215:80";
-String kserverLink = "127.0.0.1:8000";
+String kserverLink = "172.27.16.215:80";
 
 //Login Service
-String kAuthUrl = "127.0.0.1:8000";
-// String kAuthUrl = "172.27.16.215:80";
+String kAuthUrl = "172.27.16.215:80";
 String kAuthLogin = "/api/auth/login/";
 // String kAuthLogin = "/accounts/login";
 
@@ -23,6 +21,7 @@ String kComplaintRemove = "/complaint/api/removecomplain/";
 
 //Dashboard
 String kDashboard = "/api/dashboard/";
+String kNotification = "/api/notification/";
 String kNotificationRead = "/api/notification/read/";
 
 //Gymkhana
