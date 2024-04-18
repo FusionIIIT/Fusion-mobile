@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/CustomAppBar.dart';
+// import 'package:fusion/Components/CustomAppBar.dart';
 import 'package:fusion/constants.dart';
 import 'package:fusion/services/examination_service.dart';
+
+
+
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
+
 
 class CourseAuthentication extends StatefulWidget {
   @override
@@ -26,7 +35,8 @@ class _CourseAuthenticationState extends State<CourseAuthentication> {
   bool _fetchedAuthenticator1 = false;
   bool _fetchedAuthenticator2 = false;
   bool _fetchedAuthenticator3 = false;
-
+   var service = locator<StorageService>();
+late String curr_desig = service.getFromDisk("Current_designation");
   List<dynamic> _registeredStudents = [];
   final int _displayLimit = 10;
 
@@ -182,7 +192,7 @@ class _CourseAuthenticationState extends State<CourseAuthentication> {
     }
   }
 
-  List<String> YearTypeItem = ['2020', '2021', '2022', '2023', '2024'];
+  List<String> YearTypeItem = ['2016' , '2017', '2018', '2019', '2020', '2021', '2022', '2023'];
 
   List<String> batchTypeItem = [
     '2020',
@@ -252,7 +262,19 @@ class _CourseAuthenticationState extends State<CourseAuthentication> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(titleText: "Course Authentication").buildAppBar(),
+      appBar: CustomAppBar(
+    	curr_desig: curr_desig,
+    	headerTitle: "Course Authentication",
+    	onDesignationChanged: (newValue) {
+      	setState(() {
+        	curr_desig = newValue;
+      	});
+ 
+    	},
+  	),
+       	drawer: SideDrawer(curr_desig: curr_desig),
+  	bottomNavigationBar:
+  	MyBottomNavigationBar(),
       body: SingleChildScrollView(
         child: Container(
           alignment: Alignment.topCenter,

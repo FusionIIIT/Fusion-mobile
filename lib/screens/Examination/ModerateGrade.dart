@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/CustomAppBar.dart';
+// import 'package:fusion/Components/CustomAppBar.dart';
 import 'package:fusion/constants.dart';
 import 'package:fusion/services/examination_service.dart';
+
+
+
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
+
 
 class ModerateGrade extends StatefulWidget {
   @override
@@ -20,6 +29,8 @@ class _ModerateGradeState extends State<ModerateGrade> {
 
   List<dynamic> _registeredStudents = [];
   final int _displayLimit = 10;
+   var service = locator<StorageService>();
+late String curr_desig = service.getFromDisk("Current_designation");
 
   void _handleDropdownChange(String dropdownName, String? value) {
     setState(() {
@@ -127,9 +138,9 @@ class _ModerateGradeState extends State<ModerateGrade> {
     }
   }
 
-  List<String> YearTypeItem = ['2020', '2021', '2022', '2023', '2024'];
+  List<String> YearTypeItem = ['2016' , '2017', '2018', '2019', '2020', '2021', '2022', '2023'];
 
-  List<String> batchTypeItem = [ '2017', '2018', '2019', '2020', '2021', '2022', '2023'];
+  List<String> batchTypeItem = [ '2016' , '2017', '2018', '2019', '2020', '2021', '2022', '2023'];
 
   List<String> branchTypeItem = [
     'Branch CSE',
@@ -192,7 +203,19 @@ class _ModerateGradeState extends State<ModerateGrade> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(titleText: "Moderate Grade").buildAppBar(),
+      appBar: CustomAppBar(
+    	curr_desig: curr_desig,
+    	headerTitle: "Moderate Grade",
+    	onDesignationChanged: (newValue) {
+      	setState(() {
+        	curr_desig = newValue;
+      	});
+ 
+    	},
+  	),
+       	drawer: SideDrawer(curr_desig: curr_desig),
+  	bottomNavigationBar:
+  	MyBottomNavigationBar(),
       body: SingleChildScrollView(
         child: Container(
           alignment: Alignment.topCenter,

@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/CustomAppBar.dart';
+// import 'package:fusion/Components/CustomAppBar.dart';
 import 'package:fusion/constants.dart';
 import 'package:fusion/services/examination_service.dart';
+
+
+
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
 
 class AnnounceGrade extends StatefulWidget {
   const AnnounceGrade({Key? key}) : super(key: key);
@@ -18,7 +26,8 @@ class _AnnounceGradeState extends State<AnnounceGrade> {
   bool isVerified = false;
   String? _programmeValue;
   TextEditingController messageController = TextEditingController();
-
+ var service = locator<StorageService>();
+late String curr_desig = service.getFromDisk("Current_designation");
   void _handleDropdownChange(String dropdownName, String? value) {
     setState(() {
       switch (dropdownName) {
@@ -127,7 +136,7 @@ class _AnnounceGradeState extends State<AnnounceGrade> {
 
   List<String> curriculumTypeItem = [ 'B Tech','B Des','M Tech','M Des','PHD'];
 
-  List<String> batchTypeItem = [ '2017', '2018', '2019', '2020', '2021', '2022', '2023'];
+  List<String> batchTypeItem = ['2016' , '2017', '2018', '2019', '2020', '2021', '2022', '2023'];
 
   List<String> departmentTypeItem = [ 'CSE', 'ECE', 'ME', 'SM', 'DS', 'ALL'];
 
@@ -185,7 +194,19 @@ class _AnnounceGradeState extends State<AnnounceGrade> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(titleText: "Announce Grade").buildAppBar(),
+      appBar: CustomAppBar(
+    	curr_desig: curr_desig,
+    	headerTitle: "Examination",
+    	onDesignationChanged: (newValue) {
+      	setState(() {
+        	curr_desig = newValue;
+      	});
+ 
+    	},
+  	),
+       	drawer: SideDrawer(curr_desig: curr_desig),
+  	bottomNavigationBar:
+  	MyBottomNavigationBar(),
       body: Container(
         alignment: Alignment.topCenter,
         padding: EdgeInsets.all(30.0),

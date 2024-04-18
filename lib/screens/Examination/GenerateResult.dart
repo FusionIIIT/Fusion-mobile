@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/CustomAppBar.dart';
+// import 'package:fusion/Components/CustomAppBar.dart';
 import 'package:fusion/constants.dart';
 import 'package:fusion/services/examination_service.dart';
 import 'dart:math';
@@ -7,6 +7,13 @@ import 'dart:math';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import './TranscriptScreen.dart';
+
+
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
 
 class GenerateResult extends StatefulWidget {
   const GenerateResult({Key? key}) : super(key: key);
@@ -27,6 +34,8 @@ class _GenerateResultState extends State<GenerateResult> {
   List<dynamic> _registeredStudents = [];
   final int _displayLimit = 10;
   String? _selectedStudentId;
+   var service = locator<StorageService>();
+late String curr_desig = service.getFromDisk("Current_designation");
 
   void _handleDropdownChange(String dropdownName, String? value) {
     setState(() {
@@ -147,7 +156,7 @@ class _GenerateResultState extends State<GenerateResult> {
     'PHD',
   ];
 
-  List<String> batchTypeItem = [ '2017', '2018', '2019', '2020', '2021', '2022', '2023'];
+  List<String> batchTypeItem = [ '2016' , '2017', '2018', '2019', '2020', '2021', '2022', '2023'];
 
   List<String> branchTypeItem = [
     'CSE',
@@ -196,7 +205,19 @@ class _GenerateResultState extends State<GenerateResult> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(titleText: "Generate Result").buildAppBar(),
+      appBar: CustomAppBar(
+    	curr_desig: curr_desig,
+    	headerTitle: "Generate Result",
+    	onDesignationChanged: (newValue) {
+      	setState(() {
+        	curr_desig = newValue;
+      	});
+ 
+    	},
+  	),
+       	drawer: SideDrawer(curr_desig: curr_desig),
+  	bottomNavigationBar:
+  	MyBottomNavigationBar(),
       body: SingleChildScrollView(
         child: Container(
           alignment: Alignment.topCenter,
