@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
 
 class CourseListHome extends StatefulWidget {
   @override
@@ -11,6 +15,8 @@ class _CourseListHome extends State<CourseListHome> {
   late String _selectedProgram = programs.first;
   late String _selectedBranch = branches.first;
   late String _selectedBatch = batches.first;
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
 
   final List<String> programs = ['B.Tech', 'Ph.D', 'M.Tech', 'B.Des', 'M.Des'];
   final List<String> branches = ['CSE', 'ECE', 'ME', 'SM'];
@@ -21,42 +27,18 @@ class _CourseListHome extends State<CourseListHome> {
     return DefaultTabController(
         length: 1,
         child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.black,
-            title: Text(
-              "FUSION",
-              style: TextStyle(color: Colors.white),
-            ),
-            actions: <Widget>[
-              Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Icon(Icons.search),
-              ),
-              Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Icon(Icons.notifications),
-              ),
-              Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Icon(Icons.more_vert),
-              ),
-            ],
-            bottom: TabBar(
-              isScrollable: true,
-              indicatorColor: Colors.white,
-              indicatorWeight: 6.0,
-              tabs: [
-                Tab(
-                  child: Container(
-                    child: Text(
-                      'View Course List',
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          drawer: SideDrawer(),
+        appBar: CustomAppBar(
+          curr_desig: curr_desig,
+          headerTitle: "Course List",
+          onDesignationChanged: (newValue) {
+            setState(() {
+              curr_desig = newValue;
+            });
+          },
+        ), // This is default app bar used in all modules
+        drawer: SideDrawer(curr_desig: curr_desig),
+        bottomNavigationBar:
+            MyBottomNavigationBar(),
           body: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Form(

@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
 import 'package:fusion/services/academic_service.dart';
 import 'package:fusion/models/academic.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
+
 
 class AcademicHomePage extends StatefulWidget {
   final String? token;
@@ -21,6 +25,8 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
   late AcademicService academicService;
   late AcademicData data;
   var courseList;
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
   @override
   void initState() {
     super.initState();
@@ -127,8 +133,18 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
-      drawer: SideDrawer(),
+    appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: "Academic Home",
+        onDesignationChanged: (newValue) {
+          setState(() {
+            curr_desig = newValue;
+          });
+        },
+      ), // This is default app bar used in all modules
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar:
+          MyBottomNavigationBar(),
       body: _loading1 != 0
           ? Center(child: CircularProgressIndicator())
           : ListView(
