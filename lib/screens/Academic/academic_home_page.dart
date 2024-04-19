@@ -260,22 +260,32 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
                               arguments: data);
                         },
                       ),
-                      InkWell(
-                        child: myContainer("Fill Backlog Form"),
-                        onTap: () {
-                          // Navigator.pushNamed(context,
-                          //     '/academic_home_page/current_semester_home_page',
-                          //     arguments: data);
-                        },
-                      ),
-                      InkWell(
-                        child: myContainer("Drop/Replace Course"),
+                       InkWell(
+                        child: myContainer("Drop Course"),
                         onTap: () {
                           Navigator.pushNamed(
                               context, '/academic_home_page/add_drop_courses',
                               arguments: data);
                         },
                       ),
+                        InkWell(
+                        child: myContainer("View Registration"),
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, '/academic_home_page/view_registration',
+                              arguments: data);
+                        },
+                      ),
+                      InkWell(
+                        child: myContainer("Fill Backlog Form"),
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, '/academic_home_page/fill_backlog',
+                              arguments: data);
+                        },
+                      ),
+                    
+                     
                       // InkWell(
                       //   child: myContainer("Current Semester"),
                       //   onTap: () {
