@@ -1,40 +1,58 @@
+import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:fusion/services/department_service.dart';
+import 'package:fusion/models/profile.dart';
+import 'package:fusion/services/profile_service.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
+import 'package:http/http.dart';
 
-class MakeAnnouncementScreen extends StatefulWidget {
+class MakeAnnouncement extends StatefulWidget {
   @override
-  _MakeAnnouncementScreenState createState() => _MakeAnnouncementScreenState();
+  _MakeAnnouncementState createState() => _MakeAnnouncementState();
 }
 
-class _MakeAnnouncementScreenState extends State<MakeAnnouncementScreen> {
+class _MakeAnnouncementState extends State<MakeAnnouncement> {
+  late ProfileData? data;
+  late ProfileService profileService;
   List<Map<String, String>> announcements = [];
   final _formKey = GlobalKey<FormState>();
-  List<String?> programmeTypes = [null, 'All', 'B.Tech', 'M.Tech', 'Ph.D'];
+  List<String?> programmeTypes = [null, 'B.Tech', 'M.Tech', 'Ph.D'];
   List<String?> departmentTypes = [null, 'All', 'CSE', 'ECE', 'ME', 'SM'];
-  List<String?> batches = [
-    null,
-    'All',
-    'First Year',
-    'Second Year',
-    'Third Year',
-    'Fourth Year'
-  ];
+  List<String?> batches = [null, 'All', 'Year-1', 'Year-2', 'Year-3', 'Year-4'];
 
+  late String ann_date;
   String? selectedProgrammeType;
   String? selectedBatch;
   String? selectedDepartmentType;
   String? programmeWarning;
   String? departmentWarning;
-  String selectedFilePath = 'No file chosen';
+  String? selectedFilePath = null;
   TextEditingController announcementDetailsController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    var service = locator<StorageService>();
+    profileService = ProfileService();
+    data = service.profileData;
     announcementDetailsController = TextEditingController();
+    getData();
+  }
+
+  getData() async {
+    try {
+      Response response = await profileService.getProfile();
+      setState(() {
+        data = ProfileData.fromJson(jsonDecode(response.body));
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -65,7 +83,7 @@ class _MakeAnnouncementScreenState extends State<MakeAnnouncementScreen> {
                         Navigator.pop(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => MakeAnnouncementScreen(),
+                            builder: (context) => MakeAnnouncement(),
                           ),
                         );
                       },
@@ -108,7 +126,7 @@ class _MakeAnnouncementScreenState extends State<MakeAnnouncementScreen> {
                     }),
                     if (programmeWarning != null)
                       Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
+                        padding: const EdgeInsets.only(left: 0.0),
                         child: Text(
                           programmeWarning!,
                           style: TextStyle(color: Colors.red),
@@ -135,7 +153,7 @@ class _MakeAnnouncementScreenState extends State<MakeAnnouncementScreen> {
                     }),
                     if (departmentWarning != null)
                       Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
+                        padding: const EdgeInsets.only(left: 0.0),
                         child: Text(
                           departmentWarning!,
                           style: TextStyle(color: Colors.red),
@@ -143,6 +161,7 @@ class _MakeAnnouncementScreenState extends State<MakeAnnouncementScreen> {
                       ),
                     SizedBox(height: 16),
                     TextFormField(
+                      controller: announcementDetailsController,
                       decoration: InputDecoration(
                         labelText: 'Announcement Details:*',
                       ),
@@ -175,7 +194,7 @@ class _MakeAnnouncementScreenState extends State<MakeAnnouncementScreen> {
                                 child: Text('Choose File'),
                               ),
                               SizedBox(width: 8),
-                              Text(selectedFilePath),
+                              Text(selectedFilePath ?? 'No file chosen'),
                             ],
                           ),
                         ),
@@ -184,9 +203,7 @@ class _MakeAnnouncementScreenState extends State<MakeAnnouncementScreen> {
                     SizedBox(height: 16),
                     ElevatedButton(
                       onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          submitForm();
-                        }
+                        submitForm();
                       },
                       child: Text('Publish'),
                     ),
@@ -203,8 +220,10 @@ class _MakeAnnouncementScreenState extends State<MakeAnnouncementScreen> {
 
   Future<void> _showFilePickerDialog(BuildContext context) async {
     try {
-      FilePickerResult? result =
-          await FilePicker.platform.pickFiles(allowMultiple: false);
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['pdf', 'jpg', 'jpeg', 'png'],
+      );
 
       if (result != null) {
         setState(() {
@@ -219,30 +238,64 @@ class _MakeAnnouncementScreenState extends State<MakeAnnouncementScreen> {
   }
 
   Future<void> submitForm() async {
-    if (selectedProgrammeType == null) {
-      setState(() {
-        programmeWarning = 'This field is required';
-      });
-      return;
+    setState(() {
+      programmeWarning =
+          selectedProgrammeType == null ? 'Please select programme' : null;
+      departmentWarning =
+          selectedDepartmentType == null ? 'Please select department' : null;
+    });
+    if (_formKey.currentState!.validate()) {
+      Map<String, dynamic> announcementData = {
+        'maker_id': data!.profile!['id'],
+        'ann_date': DateTime.now().toIso8601String(),
+        'programme': selectedProgrammeType,
+        'batch': selectedBatch,
+        'department': selectedDepartmentType,
+        'message': announcementDetailsController.text,
+        'upload_announcement': selectedFilePath,
+      };
+      Future<bool> success =
+          DepartmentService().createAnnouncement(announcementData);
+      if (await success) {
+        _showSuccessSnackbar();
+      } else {
+        _showFailureSnackbar();
+      }
     }
-    if (selectedDepartmentType == null) {
-      setState(() {
-        departmentWarning = 'This field is required';
-      });
-      return;
-    }
+  }
 
-    Map<String, dynamic> announcementData = {
-      'maker_id': 'your_maker_id_value_here',
-      'programme': selectedProgrammeType!,
-      'batch': selectedBatch ?? '',
-      'department': selectedDepartmentType!,
-      'message': announcementDetailsController.text,
-      'upload_announncement': selectedFilePath,
-    };
-    await DepartmentService().createAnnouncement(announcementData).then((_) =>
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Announcement created successfully !"))));
+  void _showSuccessSnackbar() {
+    setState(() {
+      _formKey.currentState!.reset();
+      selectedBatch = null;
+      selectedProgrammeType = null;
+      selectedDepartmentType = null;
+      selectedFilePath = null;
+      announcementDetailsController.clear();
+    });
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          'Announcement Created Successfully',
+          style: TextStyle(color: Colors.white),
+        ),
+        duration: Duration(seconds: 5),
+        backgroundColor: Colors.green,
+      ),
+    );
+  }
+
+  void _showFailureSnackbar() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          'Failed to create announcement. Please try again later.',
+          style: TextStyle(color: Colors.white),
+        ),
+        duration: Duration(seconds: 5),
+        backgroundColor: Colors.red,
+      ),
+    );
   }
 
   Widget buildDropdown(String label, List<String?> items, String? selectedValue,

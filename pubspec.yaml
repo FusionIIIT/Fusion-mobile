@@ -41,7 +41,7 @@ dependencies:
   flutter_html: ^2.2.1
   file_selector: ^1.0.3
   file_picker: ^3.0.4
-
+  webview_flutter: ^2.8.0
 
 dev_dependencies:
   flutter_test:

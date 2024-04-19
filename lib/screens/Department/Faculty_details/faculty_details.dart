@@ -1,19 +1,22 @@
-// import 'dart:convert';
-// import 'package:http/http.dart' as http;
-import 'package:csv/csv.dart';
-import 'dart:async' show Future;
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:fusion/constants.dart';
+import 'package:fusion/models/profile.dart';
+import 'package:fusion/services/department_service.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
 
 class FacultyDetailsScreen extends StatefulWidget {
+  final String selectedDepartment;
+  FacultyDetailsScreen({required this.selectedDepartment});
   @override
   _FacultyDetailsState createState() => _FacultyDetailsState();
 }
 
 class _FacultyDetailsState extends State<FacultyDetailsScreen>
     with SingleTickerProviderStateMixin {
+  ProfileData? data;
   late TabController _tabController;
   List<String> departmentOptions = [
     'CSE Department',
@@ -21,97 +24,37 @@ class _FacultyDetailsState extends State<FacultyDetailsScreen>
     'ME Department',
     'SM Department'
   ];
-  String selectedDepartment = 'CSE Department';
-  Color outlineColor = Colors.grey;
-
-  List<Map<String, String>> facultyDetails = [];
-
-  //API section
-  // Future<void> fetchFacultyDetails() async {
-  //   final response = await http.get(
-  //     Uri.parse('https://your-django-api-endpoint/faculty-details'),
-  //   );
-
-  //   if (response.statusCode == 200) {
-  //     final List<dynamic> data = json.decode(response.body);
-
-  //     setState(() {
-  //       facultyDetails.clear();
-  //       for (final Map<String, dynamic> faculty in data) {
-  //         facultyDetails.add({
-  //           'ID': faculty['id'].toString(),
-  //           'Faculty Name': faculty['name'],
-  //           'Sex': faculty['sex'],
-  //           'Date of Birth': faculty['date_of_birth'],
-  //           'Address': faculty['address'],
-  //           'Phone Number': faculty['phone_no'],
-  //         });
-  //       }
-  //     });
-  //   } else {
-  //     throw Exception('Failed to load faculty details');
-  //   }
-  // }
-  Future<void> fetchFacultyDetails() async {
-    // Load CSV data from asset file based on selected department
-    String departmentCSV;
-    switch (selectedDepartment) {
-      case 'CSE Department':
-        departmentCSV = "db/cse_faculty.csv";
-        break;
-      case 'ECE Department':
-        departmentCSV = "db/ece_faculty.csv";
-        break;
-      case 'ME Department':
-        departmentCSV = "db/mech_faculty.csv";
-        break;
-      case 'SM Department':
-        departmentCSV = "db/sm_faculty.csv";
-        break;
-      default:
-        departmentCSV = "db/cse_faculty.csv";
-    }
-
-    String csvData = await rootBundle.loadString(departmentCSV);
-
-    // Parse CSV data
-    List<List<dynamic>> csvTable = CsvToListConverter().convert(csvData);
-
-    // Convert CSV table to faculty details list
-    List<Map<String, String>> facultyList = [];
-    for (int i = 1; i < csvTable.length; i++) {
-      facultyList.add({
-        'ID': csvTable[i][0].toString(),
-        'Faculty Name': csvTable[i][1].toString(),
-        'Sex': csvTable[i][2].toString(),
-        'Date of Birth': csvTable[i][3].toString(),
-        'Address': csvTable[i][4].toString(),
-        'Phone Number': csvTable[i][5].toString(),
-        'Department': csvTable[i][6].toString(), // Add department information
-      });
-    }
-
-    // Set faculty details
-    setState(() {
-      facultyDetails = facultyList;
-    });
-  }
-
+  List<FacultyDetails> facultyDetails = [];
+  late String updatedDepartment;
+  bool isLoading = false;
   @override
   void initState() {
     super.initState();
     _tabController =
         TabController(length: departmentOptions.length, vsync: this);
     _tabController.addListener(_handleTabSelection);
-    _tabController.index = 0; // Initialize the index
-    fetchFacultyDetails();
+    _tabController.index = 0;
+    var service = locator<StorageService>();
+    data = service.profileData;
+    updatedDepartment = widget.selectedDepartment;
+    _handleTabSelection();
   }
 
   void _handleTabSelection() {
-    setState(() {
-      selectedDepartment = departmentOptions[_tabController.index];
-      fetchFacultyDetails();
-    });
+    final newDepartment = departmentOptions[_tabController.index].split(' ')[0];
+    if (updatedDepartment != newDepartment) {
+      setState(() {
+        isLoading = true;
+      });
+      updatedDepartment = newDepartment;
+      DepartmentService().getFacultyDetails(updatedDepartment).then((data) {
+        setState(() {
+          facultyDetails =
+              data?.map((json) => FacultyDetails.fromJson(json)).toList() ?? [];
+          isLoading = false;
+        });
+      });
+    }
   }
 
   @override
@@ -125,89 +68,162 @@ class _FacultyDetailsState extends State<FacultyDetailsScreen>
     return Scaffold(
       appBar: DefaultAppBar().buildAppBar(),
       drawer: SideDrawer(),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // SizedBox(height: 16),
-          Container(
-            color: Colors.deepOrangeAccent, // Set background color here
-            child: TabBar(
-              controller: _tabController,
-              isScrollable: true,
-              indicatorColor: Colors.black,
-              labelColor: Colors.black,
-              unselectedLabelColor:
-                  Colors.white, // Set unselected font color here
-              tabs: departmentOptions
-                  .map((department) => Tab(
-                        text: department,
-                      ))
-                  .toList(),
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              color: kPrimaryColor,
+              child: TabBar(
+                controller: _tabController,
+                isScrollable: true,
+                indicatorColor: Colors.black,
+                labelColor: Colors.black,
+                unselectedLabelColor: Colors.white,
+                tabs: departmentOptions
+                    .map((department) => Tab(
+                          text: department,
+                        ))
+                    .toList(),
+              ),
             ),
-          ),
-          Expanded(
-            child: Container(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(0),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      child: DataTable(
-                        headingRowColor: MaterialStateColor.resolveWith(
-                            (states) => Colors.black),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: FutureBuilder<List<Map<String, dynamic>>>(
+                future:
+                    DepartmentService().getFacultyDetails(updatedDepartment),
+                builder: ((context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  } else {
+                    facultyDetails = snapshot.data
+                            ?.map((json) => FacultyDetails.fromJson(json))
+                            .toList() ??
+                        [];
+                    if (facultyDetails.isEmpty) {
+                      return Padding(
+                        padding: EdgeInsets.all(20),
+                        child: Text(
+                          'No data available',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                      );
+                    } else {
+                      return DataTable(
                         columns: [
                           DataColumn(
-                            label: Text('ID',
-                                style: TextStyle(color: Colors.white)),
+                            label: Text(
+                              'ID',
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
                           ),
                           DataColumn(
-                            label: Text('Faculty Name',
-                                style: TextStyle(color: Colors.white)),
+                            label: Text(
+                              'Title',
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
                           ),
                           DataColumn(
-                            label: Text('Sex',
-                                style: TextStyle(color: Colors.white)),
+                            label: Text(
+                              'Sex',
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
                           ),
                           DataColumn(
-                            label: Text('Date of Birth',
-                                style: TextStyle(color: Colors.white)),
+                            label: Text(
+                              'Date of Birth',
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
                           ),
                           DataColumn(
-                            label: Text('Address',
-                                style: TextStyle(color: Colors.white)),
+                            label: Text(
+                              'Address',
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
                           ),
                           DataColumn(
-                            label: Text('Phone Number',
-                                style: TextStyle(color: Colors.white)),
+                            label: Text(
+                              'Phone Number',
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                          DataColumn(
+                            label: Text(
+                              'User',
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                          DataColumn(
+                            label: Text(
+                              'Department',
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
                           ),
                         ],
                         rows: facultyDetails
                             .map(
-                              (batch) => DataRow(
+                              (faculty) => DataRow(
                                 cells: [
-                                  DataCell(Text(batch['ID']!)),
-                                  DataCell(Text(batch['Faculty Name']!)),
-                                  DataCell(Text(batch['Sex']!)),
-                                  DataCell(Text(batch['Date of Birth']!)),
-                                  DataCell(Text(batch['Address']!)),
-                                  DataCell(Text(batch['Phone Number']!)),
+                                  DataCell(Text(faculty.id)),
+                                  DataCell(Text(faculty.title)),
+                                  DataCell(Text(faculty.sex)),
+                                  DataCell(Text(faculty.dateOfBirth)),
+                                  DataCell(Text(faculty.address)),
+                                  DataCell(
+                                      Text(faculty.phoneNumber.toString())),
+                                  DataCell(Text(faculty.user.toString())),
+                                  DataCell(Text(faculty.department.toString())),
                                 ],
                               ),
                             )
                             .toList(),
-                      ),
-                    ),
-                  ),
-                ),
+                      );
+                    }
+                  }
+                }),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

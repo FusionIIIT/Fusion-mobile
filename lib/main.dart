@@ -36,6 +36,10 @@ import 'package:fusion/screens/Programme_Curriculum/Programme/programme_home_pag
 import 'package:fusion/screens/Programme_Curriculum/Programme_Info/programme_info.dart';
 import 'package:fusion/screens/Programme_Curriculum/programme_curriculum_home.dart';
 import 'package:fusion/screens/Department/department_homepage.dart';
+import 'package:fusion/screens/Department/Student_details/student_details.dart';
+import 'package:fusion/screens/Department/Alumni_details/alumni_details.dart';
+import 'package:fusion/screens/Department/Announcements/make_announcement.dart';
+import 'package:fusion/screens/Department/Announcements/browse_announcement.dart';
 
 import 'package:fusion/screens/landing_page.dart';
 import 'package:fusion/screens/Healthcenter/healthcentermodule.dart';
@@ -62,10 +66,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MediaQueryData windowData =
-    MediaQueryData.fromWindow(WidgetsBinding.instance.window);
+        MediaQueryData.fromWindow(WidgetsBinding.instance.window);
     windowData = windowData.copyWith(
       textScaleFactor: 1,
     );
+    var selectedProgramme;
+    Map<String, String> selectedDepartmentData;
     return MediaQuery(
       data: windowData,
       child: MaterialApp(
@@ -73,10 +79,10 @@ class MyApp extends StatelessWidget {
         title: 'Fusion',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-            // primarySwatch: Colors.blueGrey,
+          // primarySwatch: Colors.blueGrey,
           // colorSchemeSeed: Color(0xFF2085D0),
           colorSchemeSeed: Color(0xFFF36C35),
-            fontFamily: 'Nunito',
+          fontFamily: 'Nunito',
           useMaterial3: true,
         ),
         initialRoute: '/landing',
@@ -108,6 +114,10 @@ class MyApp extends StatelessWidget {
           '/programme_curriculum_home/courses_info': (context) => CoursesInfo(),
           '/department_home_page': (context) => DepartmentScreen(
               ModalRoute.of(context)!.settings.arguments.toString()),
+          '/student_details': (context) => StudentDetails(),
+          '/alumni_details': (context) => AlumniDetails(),
+          '/browse_announcement': (context) => BrowseAnnouncement(),
+          '/make_announcement': (context) => MakeAnnouncement(),
           '/establishment': (context) => Establishment(),
           '/gymkhana_homepage': (context) => GymkhanaHomepage(),
           '/gymkhana_homepage/apply': (context) => Apply(),

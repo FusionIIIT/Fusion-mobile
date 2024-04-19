@@ -1,20 +1,20 @@
 // ignore_for_file: must_be_immutable
-
 import 'dart:async';
 import 'dart:convert';
-import 'package:fusion/screens/Department/facilities.dart';
-import 'package:http/http.dart';
 import 'package:flutter/material.dart';
+import 'package:fusion/constants.dart';
+import 'package:http/http.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
 import 'package:fusion/models/profile.dart';
+import 'package:fusion/screens/Department/Alumni_details/alumni_details.dart';
+import 'package:fusion/screens/Department/Faculty_details/faculty_details.dart';
+import 'package:fusion/screens/Department/Announcements/browse_announcement.dart';
+import 'package:fusion/screens/Department/Student_details/student_details.dart';
+import 'package:fusion/screens/Department/facilities.dart';
 import 'package:fusion/services/profile_service.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
-import 'package:fusion/screens/Department/Alumni_details/alumni_details.dart';
-import 'package:fusion/screens/Department/Student_details/student_details.dart';
-import 'package:fusion/screens/Department/Faculty_details/faculty_details.dart';
-import 'package:fusion/screens/Department/Announcements/browse_announcement.dart';
 
 class DepartmentScreen extends StatefulWidget {
   String? token;
@@ -51,12 +51,12 @@ class _DepartmentScreenState extends State<DepartmentScreen> {
   }
 
   getData() async {
-    //print('token-'+widget.token!);
     try {
       Response response = await profileService.getProfile();
       setState(() {
         data = ProfileData.fromJson(jsonDecode(response.body));
-        print(data!.user!['username']);
+        // print(data!.user!);
+        // print(data!.profile!);
         _loading = false;
       });
     } catch (e) {
@@ -79,8 +79,7 @@ class _DepartmentScreenState extends State<DepartmentScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Define the RGBA color
-    Color customColor = Colors.deepOrangeAccent;
+    Color customColor = kPrimaryColor;
     Color outlineColor = Colors.grey;
 
     return Scaffold(
@@ -164,125 +163,128 @@ class _DepartmentScreenState extends State<DepartmentScreen> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => FacilitiesPage(),
-                                      ),
-                                    );
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 16, horizontal: 20),
+                                SizedBox(
+                                  width: 250,
+                                  height: 60,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              FacilitiesPage(),
+                                        ),
+                                      );
+                                    },
                                     child: Text('Facilities',
                                         style: TextStyle(fontSize: 20)),
-                                  ),
-                                  style: ElevatedButton.styleFrom(
-                                    foregroundColor: Colors.white,
-                                    backgroundColor: customColor,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(22),
+                                    style: ElevatedButton.styleFrom(
+                                      foregroundColor: Colors.white,
+                                      backgroundColor: customColor,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(22),
+                                      ),
                                     ),
                                   ),
                                 ),
                                 SizedBox(height: 14),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            StudentDetailsScreen(),
-                                      ),
-                                    );
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 16, horizontal: 20),
+                                SizedBox(
+                                  width: 250,
+                                  height: 60,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              StudentDetails(),
+                                        ),
+                                      );
+                                    },
                                     child: Text('Student details',
                                         style: TextStyle(fontSize: 20)),
-                                  ),
-                                  style: ElevatedButton.styleFrom(
-                                    foregroundColor: Colors.white,
-                                    backgroundColor: customColor,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(22),
+                                    style: ElevatedButton.styleFrom(
+                                      foregroundColor: Colors.white,
+                                      backgroundColor: customColor,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(22),
+                                      ),
                                     ),
                                   ),
                                 ),
                                 SizedBox(height: 14),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            FacultyDetailsScreen(),
-                                      ),
-                                    );
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 16, horizontal: 20),
+                                SizedBox(
+                                  width: 250,
+                                  height: 60,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              FacultyDetailsScreen(
+                                                  selectedDepartment: data!
+                                                          .profile![
+                                                      'department']!['name']),
+                                        ),
+                                      );
+                                    },
                                     child: Text('Faculty details',
                                         style: TextStyle(fontSize: 20)),
-                                  ),
-                                  style: ElevatedButton.styleFrom(
-                                    foregroundColor: Colors.white,
-                                    backgroundColor: customColor,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(22),
+                                    style: ElevatedButton.styleFrom(
+                                      foregroundColor: Colors.white,
+                                      backgroundColor: customColor,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(22),
+                                      ),
                                     ),
                                   ),
                                 ),
                                 SizedBox(height: 14),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            AlumniDetailsScreen(),
-                                      ),
-                                    );
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 16, horizontal: 20),
+                                SizedBox(
+                                  width: 250,
+                                  height: 60,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => AlumniDetails(),
+                                        ),
+                                      );
+                                    },
                                     child: Text('Alumni details',
                                         style: TextStyle(fontSize: 20)),
-                                  ),
-                                  style: ElevatedButton.styleFrom(
-                                    foregroundColor: Colors.white,
-                                    backgroundColor: customColor,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(22),
+                                    style: ElevatedButton.styleFrom(
+                                      foregroundColor: Colors.white,
+                                      backgroundColor: customColor,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(22),
+                                      ),
                                     ),
                                   ),
                                 ),
                                 SizedBox(height: 14),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              BrowseAnnouncementScreen()),
-                                    );
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 16, horizontal: 20),
+                                SizedBox(
+                                  width: 250,
+                                  height: 60,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                BrowseAnnouncement()),
+                                      );
+                                    },
                                     child: Text('Announcements',
                                         style: TextStyle(fontSize: 20)),
-                                  ),
-                                  style: ElevatedButton.styleFrom(
-                                    foregroundColor: Colors.white,
-                                    backgroundColor: customColor,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(22),
+                                    style: ElevatedButton.styleFrom(
+                                      foregroundColor: Colors.white,
+                                      backgroundColor: customColor,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(22),
+                                      ),
                                     ),
                                   ),
                                 ),

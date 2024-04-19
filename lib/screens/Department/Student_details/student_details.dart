@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/constants.dart';
 import 'package:fusion/models/profile.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
 import 'package:fusion/screens/Department/Student_details/batch_details.dart';
 
-class StudentDetailsScreen extends StatefulWidget {
+class StudentDetails extends StatefulWidget {
   @override
   _StudentDetailsState createState() => _StudentDetailsState();
 }
 
-class _StudentDetailsState extends State<StudentDetailsScreen> {
+class _StudentDetailsState extends State<StudentDetails> {
   ProfileData? data;
   late String programme;
-  late var fetchedDepartment;
   late String selectedDepartment;
   @override
   void initState() {
@@ -31,29 +31,18 @@ class _StudentDetailsState extends State<StudentDetailsScreen> {
     }
   }
 
-  // Future<Map<String, dynamic>?> fetchData(String programme) async {
-  //   try {
-  //     final response = await http.get(
-  //       Uri.parse('https://your-api-endpoint/$programme/$selectedDepartment'),
-  //     );
-
-  //     if (response.statusCode == 200) {
-  //       return json.decode(response.body);
-  //     } else {
-  //       throw Exception('Failed to load data');
-  //     }
-  //   } catch (error) {
-  //     print('Error fetching data: $error');
-  //     return null;
-  //   }
-  // }
-
   List<String> departmentOptions = [
     'CSE Department',
     'ECE Department',
     'ME Department',
     'SM Department'
   ];
+  Map<String, String> departmentCodes = {
+    'CSE Department': '1',
+    'ECE Department': '2',
+    'ME Department': '3',
+    'SM Department': '4',
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -71,10 +60,7 @@ class _StudentDetailsState extends State<StudentDetailsScreen> {
               color: Color.fromARGB(255, 255, 237, 232),
               child: Padding(
                 padding: EdgeInsets.only(
-                    top: 10.0,
-                    bottom: 12.0,
-                    left: 24,
-                    right: 24), // Add your desired padding value
+                    top: 10.0, bottom: 12.0, left: 24, right: 24),
                 child: Column(
                   children: [
                     Container(
@@ -105,7 +91,7 @@ class _StudentDetailsState extends State<StudentDetailsScreen> {
                         text: data!.profile!['department']!['name'],
                         style: TextStyle(fontSize: 15.0, color: Colors.black),
                         children: [
-                          TextSpan(text: ' '), // Add space between the texts
+                          TextSpan(text: ' '),
                           TextSpan(
                             text: data!.profile!['user_type'],
                             style:
@@ -125,13 +111,13 @@ class _StudentDetailsState extends State<StudentDetailsScreen> {
               margin: EdgeInsets.only(top: 15.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
-                color: Colors.deepOrangeAccent,
+                color: kPrimaryColor,
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey.withOpacity(0.5),
                     spreadRadius: 2,
                     blurRadius: 5,
-                    offset: Offset(0, 2), // changes position of shadow
+                    offset: Offset(0, 2),
                   ),
                 ],
               ),
@@ -146,7 +132,7 @@ class _StudentDetailsState extends State<StudentDetailsScreen> {
                     child: Text(
                       'Students',
                       style: TextStyle(
-                        fontSize: 24, // Increased font size
+                        fontSize: 24,
                         color: Colors.white,
                       ),
                     ),
@@ -155,94 +141,99 @@ class _StudentDetailsState extends State<StudentDetailsScreen> {
               ),
             ),
             SizedBox(height: 32),
-            // Navigation buttons with decreased border radius, added space, and deepOrangeAccent outline
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(5.0), // Decreased border radius
+                  borderRadius: BorderRadius.circular(5.0),
                 ),
-                side: BorderSide(
-                    color: Colors.deepOrangeAccent), // DeepOrangeAccent outline
-                foregroundColor: Colors.deepOrangeAccent,
-                backgroundColor: Colors.white, // Text color
-                minimumSize: Size(550, 50), // Increased button width
+                side: BorderSide(color: kPrimaryColor),
+                foregroundColor: kPrimaryColor,
+                backgroundColor: Colors.white,
+                minimumSize: Size(550, 50),
               ),
               onPressed: () async {
-                // Map<String, dynamic>? jsonResponse = await fetchData('PhD');
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        BatchDetailsScreen(selectedProgramme: 'PhD'),
+                    builder: (context) => BatchDetails(
+                      selectedProgramme: 'PhD',
+                      selectedDepartmentData: {
+                        'department': selectedDepartment,
+                        'departmentCode':
+                            departmentCodes[selectedDepartment] ?? '',
+                      },
+                    ),
                   ),
                 );
               },
               child: Text(
                 'PhD Students',
-                style: TextStyle(fontSize: 18), // Increased font size
+                style: TextStyle(fontSize: 18),
               ),
             ),
-            SizedBox(height: 10), // Added space
+            SizedBox(height: 10),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(5.0), // Decreased border radius
+                  borderRadius: BorderRadius.circular(5.0),
                 ),
-                side: BorderSide(
-                    color: Colors.deepOrangeAccent), // DeepOrangeAccent outline
-                foregroundColor: Colors.deepOrangeAccent,
-                backgroundColor: Colors.white, // Text color
-                minimumSize: Size(550, 50), // Increased button width
+                side: BorderSide(color: kPrimaryColor),
+                foregroundColor: kPrimaryColor,
+                backgroundColor: Colors.white,
+                minimumSize: Size(550, 50),
               ),
               onPressed: () async {
-                // Map<String, dynamic>? jsonResponse =
-                //     await fetchData('M.Tech');
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        BatchDetailsScreen(selectedProgramme: 'M.Tech'),
+                    builder: (context) => BatchDetails(
+                      selectedProgramme: 'M.Tech',
+                      selectedDepartmentData: {
+                        'department': selectedDepartment,
+                        'departmentCode':
+                            departmentCodes[selectedDepartment] ?? '',
+                      },
+                    ),
                   ),
                 );
               },
               child: Text(
                 'M.Tech Students',
-                style: TextStyle(fontSize: 18), // Increased font size
+                style: TextStyle(fontSize: 18),
               ),
             ),
-            SizedBox(height: 10), // Added space
+            SizedBox(height: 10),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(5.0), // Decreased border radius
+                  borderRadius: BorderRadius.circular(5.0),
                 ),
-                side: BorderSide(
-                    color: Colors.deepOrangeAccent), // DeepOrangeAccent outline
-                foregroundColor: Colors.deepOrangeAccent,
-                backgroundColor: Colors.white, // Text color
-                minimumSize: Size(550, 50), // Increased button width
+                side: BorderSide(color: kPrimaryColor),
+                foregroundColor: kPrimaryColor,
+                backgroundColor: Colors.white,
+                minimumSize: Size(550, 50),
               ),
               onPressed: () async {
-                // Map<String, dynamic>? jsonResponse =
-                //     await fetchData('B.Tech');
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        BatchDetailsScreen(selectedProgramme: 'B.Tech'),
+                    builder: (context) => BatchDetails(
+                      selectedProgramme: 'B.Tech',
+                      selectedDepartmentData: {
+                        'department': selectedDepartment,
+                        'departmentCode':
+                            departmentCodes[selectedDepartment] ?? '',
+                      },
+                    ),
                   ),
                 );
               },
               child: Text(
                 'B.Tech Students',
-                style: TextStyle(fontSize: 18), // Increased font size
+                style: TextStyle(fontSize: 18),
               ),
             ),
             SizedBox(height: 32),
-            // Dropdown for department
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [

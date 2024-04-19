@@ -1,42 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/side_drawer.dart';
 import 'package:fusion/models/profile.dart';
+import 'package:fusion/services/department_service.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
 
-class BatchDetailsScreen extends StatefulWidget {
-  // final Map<String, dynamic>? jsonResponse;
+class BatchDetails extends StatefulWidget {
   final String selectedProgramme;
-  BatchDetailsScreen({required this.selectedProgramme});
+  final Map<String, String> selectedDepartmentData;
+  BatchDetails(
+      {required this.selectedProgramme, required this.selectedDepartmentData});
 
   @override
-  _BatchDetailsScreenState createState() => _BatchDetailsScreenState();
+  _BatchDetailsState createState() => _BatchDetailsState();
 }
 
-class _BatchDetailsScreenState extends State<BatchDetailsScreen>
+class _BatchDetailsState extends State<BatchDetails>
     with SingleTickerProviderStateMixin {
+  late int bid;
   ProfileData? data;
   late TabController _tabController;
-
-  List<Map<String, String>> batchDetails = [];
-
-  // Future<void> fetchBatchDetails() async {
-  //   // Your existing fetchBatchDetails logic
-  // }
+  List<Map<String, dynamic>> batchDetails = [];
 
   @override
   void initState() {
     super.initState();
     var service = locator<StorageService>();
     data = service.profileData;
-
+    bid =
+        generateBid(widget.selectedProgramme, widget.selectedDepartmentData, 1);
     _tabController = TabController(
       length: _calculateTabCount(),
       vsync: this,
     );
     _tabController.addListener(_handleTabSelection);
-    _tabController.index = 0; // Initialize the index
-    // fetchBatchDetails();
+    _tabController.index = 0;
   }
 
   int _calculateTabCount() {
@@ -53,7 +51,17 @@ class _BatchDetailsScreenState extends State<BatchDetailsScreen>
   }
 
   void _handleTabSelection() {
-    // You can perform actions when a tab is selected if needed
+    int year = _tabController.index + 1;
+    int newBid = generateBid(
+        widget.selectedProgramme, widget.selectedDepartmentData, year);
+    if (bid != newBid) {
+      bid = newBid;
+      DepartmentService().getStudents(bid).then((data) {
+        setState(() {
+          batchDetails = data ?? [];
+        });
+      });
+    }
   }
 
   @override
@@ -104,60 +112,68 @@ class _BatchDetailsScreenState extends State<BatchDetailsScreen>
                   padding: const EdgeInsets.all(0),
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
-                    child: Container(
-                      child: DataTable(
-                        columns: [
-                          DataColumn(
-                            label: Text('ID',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black)),
-                          ),
-                          DataColumn(
-                            label: Text('BATCH',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black)),
-                          ),
-                          DataColumn(
-                            label: Text('START DATE',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black)),
-                          ),
-                          DataColumn(
-                            label: Text('END DATE',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black)),
-                          ),
-                          DataColumn(
-                            label: Text('PROGRAMME',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black)),
-                          ),
-                        ],
-                        rows: batchDetails
-                            .map(
-                              (batch) => DataRow(
-                                cells: [
-                                  DataCell(Text(batch['ID'] ?? '')),
-                                  DataCell(Text(batch['Batch Name'] ?? '')),
-                                  DataCell(Text(batch['Start Date'] ?? '')),
-                                  DataCell(Text(batch['End Date'] ?? '')),
-                                  DataCell(Text(batch['Programme'] ?? '')),
-                                ],
-                              ),
-                            )
-                            .toList(),
-                      ),
+                    child: FutureBuilder<List<Map<String, dynamic>>>(
+                      future: DepartmentService().getStudents(bid),
+                      builder: ((context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(child: CircularProgressIndicator());
+                        } else if (snapshot.hasError) {
+                          return Center(
+                              child: Text('Error: ${snapshot.error}'));
+                        } else {
+                          batchDetails = snapshot.data ?? [];
+                          return batchDetails.isNotEmpty
+                              ? DataTable(
+                                  columns: batchDetails.first.entries
+                                      .map(
+                                        (entry) => DataColumn(
+                                          label: Text(
+                                            entry.key.toUpperCase(),
+                                            style: TextStyle(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                      .toList(),
+                                  rows: batchDetails
+                                      .map(
+                                        (batch) => DataRow(
+                                          cells: batch.entries
+                                              .map(
+                                                (entry) => DataCell(
+                                                  Text(
+                                                      entry.value?.toString() ??
+                                                          ''),
+                                                ),
+                                              )
+                                              .toList(),
+                                        ),
+                                      )
+                                      .toList(),
+                                )
+                              : Padding(
+                                  padding: EdgeInsets.all(20),
+                                  child: Text(
+                                    'No data available',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                );
+                        }
+                      }),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
+          )
         ],
       ),
     );
@@ -165,10 +181,7 @@ class _BatchDetailsScreenState extends State<BatchDetailsScreen>
 
   List<Widget> _buildTabs() {
     List<Widget> tabs = [];
-    // String programme = widget.jsonResponse!['programme'];
-    // String department = widget.jsonResponse!['department'];
     String programme = widget.selectedProgramme;
-
     if (programme == 'PhD') {
       tabs.add(Tab(
         child: Text(
@@ -209,5 +222,28 @@ class _BatchDetailsScreenState extends State<BatchDetailsScreen>
       ));
     }
     return tabs;
+  }
+
+  int generateBid(
+      String programme, Map<String, String> departmentData, int year) {
+    String departmentCode =
+        widget.selectedDepartmentData['departmentCode'] ?? '';
+    String bid = departmentCode;
+    Map<String, int> batchLengths = {
+      'PhD': 6,
+      'M.Tech': 4,
+      'B.Tech': 1,
+    };
+    if (programme == 'PhD') {
+      bid += '1'.padRight(batchLengths[programme]!, '1');
+    } else if (programme == 'M.Tech') {
+      bid += '1'.padRight(batchLengths[programme]! + (year == 2 ? 1 : 0), '1');
+    } else if (programme == 'B.Tech') {
+      if (year == 1) bid = bid;
+      if (year == 2) bid += '1'.padRight(batchLengths[programme]!, '1');
+      if (year == 3) bid += '1'.padRight(batchLengths[programme]! + 1, '1');
+      if (year == 4) bid += '1'.padRight(batchLengths[programme]! + 2, '1');
+    }
+    return int.parse(bid);
   }
 }

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/constants.dart';
 
-class AlumniDetailsScreen extends StatefulWidget {
+class AlumniDetails extends StatefulWidget {
   @override
   _AlumniDetailsState createState() => _AlumniDetailsState();
 }
 
-class _AlumniDetailsState extends State<AlumniDetailsScreen>
+class _AlumniDetailsState extends State<AlumniDetails>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   List<String> departmentOptions = [
@@ -54,14 +55,12 @@ class _AlumniDetailsState extends State<AlumniDetailsScreen>
     _tabController =
         TabController(length: departmentOptions.length, vsync: this);
     _tabController.addListener(_handleTabSelection);
-    _tabController.index = 0; // Initialize the index
-    // fetchAlumnniDetails();
+    _tabController.index = 0; 
   }
 
   void _handleTabSelection() {
     setState(() {
       selectedDepartment = departmentOptions[_tabController.index];
-      // fetchAlumniDetails();
     });
   }
 
@@ -81,14 +80,14 @@ class _AlumniDetailsState extends State<AlumniDetailsScreen>
         children: [
           // SizedBox(height: 16),
           Container(
-            color: Colors.deepOrangeAccent, // Set background color here
+            color: kPrimaryColor, 
             child: TabBar(
               controller: _tabController,
               isScrollable: true,
               indicatorColor: Colors.black,
               labelColor: Colors.black,
               unselectedLabelColor:
-                  Colors.white, // Set unselected font color here
+                  Colors.white, 
               tabs: departmentOptions
                   .map((department) => Tab(
                         text: department,
@@ -109,32 +108,48 @@ class _AlumniDetailsState extends State<AlumniDetailsScreen>
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       child: DataTable(
-                        headingRowColor: MaterialStateColor.resolveWith(
-                            (states) => Colors.black),
                         columns: [
                           DataColumn(
                             label: Text('ID',
-                                style: TextStyle(color: Colors.white)),
+                                style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black)),
                           ),
                           DataColumn(
                             label: Text('Alumni Name',
-                                style: TextStyle(color: Colors.white)),
+                                style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black)),
                           ),
                           DataColumn(
                             label: Text('Sex',
-                                style: TextStyle(color: Colors.white)),
+                                style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black)),
                           ),
                           DataColumn(
                             label: Text('Date of Birth',
-                                style: TextStyle(color: Colors.white)),
+                                style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black)),
                           ),
                           DataColumn(
                             label: Text('Address',
-                                style: TextStyle(color: Colors.white)),
+                                style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black)),
                           ),
                           DataColumn(
                             label: Text('Phone Number',
-                                style: TextStyle(color: Colors.white)),
+                                style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black)),
                           ),
                         ],
                         rows: alumniDetails
