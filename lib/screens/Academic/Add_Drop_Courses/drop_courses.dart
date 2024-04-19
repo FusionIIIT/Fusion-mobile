@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
 class Course {
   String id;
   String name;
@@ -8,30 +13,37 @@ class Course {
   Course({required this.id, required this.name, required this.credits, required this.priority});
 }
 
-class AddDropCourses extends StatefulWidget {
+class DropCourses extends StatefulWidget {
   @override
-  _AddDropCoursesState createState() => _AddDropCoursesState();
+  _DropCoursesState createState() => _DropCoursesState();
 }
 
-class _AddDropCoursesState extends State<AddDropCourses> {
+class _DropCoursesState extends State<DropCourses> {
   final List<Course> courses = List.generate(9, (index) => Course(
     id: 'ID ${index + 1}',
     name: 'Course ${index + 1}',
     credits: (index + 1) * 3,
     priority: 1,
   )); // Generate 9 courses with different details
-  List<int> priorities = List.generate(9, (index) => index + 1); // List of priorities from 1 to 9
+  List<int> priorities = List.generate(9, (index) => index + 1);// List of priorities from 1 to 9
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black, // Setting background color of app bar
-        title: Text(
-          'Add Courses',
-          style: TextStyle(color: Colors.white), // Setting text color to white
-        ),
-      ),
+      appBar: CustomAppBar(
+          curr_desig: curr_desig,
+          headerTitle: "Drop Courses",
+          onDesignationChanged: (newValue) {
+            setState(() {
+              curr_desig = newValue;
+            });
+          },
+        ), // This is default app bar used in all modules
+        drawer: SideDrawer(curr_desig: curr_desig),
+        bottomNavigationBar:
+            MyBottomNavigationBar(),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
