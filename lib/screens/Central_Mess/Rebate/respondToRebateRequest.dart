@@ -200,10 +200,22 @@ class _RespondToRebateRequestState extends State<RespondToRebateRequest> {
   @override
   void initState() {
     super.initState();
-    _fetchFeedbackData(); // Fetch feedback data when the widget initializes
+    _fetchRebateData(); // Fetch Rebate data when the widget initializes
+  }
+  void _showSnackbar(String message, Color backgroundColor) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          style: TextStyle(color: Colors.white),
+        ),
+        duration: Duration(seconds: 5),
+        backgroundColor: backgroundColor,
+      ),
+    );
   }
 
-  void _fetchFeedbackData() async {
+  void _fetchRebateData() async {
     try {
       List<Rebate> rebateDates = await _centralMessService.getRebate();
       setState(() {
@@ -220,6 +232,9 @@ class _RespondToRebateRequestState extends State<RespondToRebateRequest> {
   }
 
   void _updateRebateRequestData(data) async {
+    setState(() {
+      _loading = true;
+    });
     try {
       http.Response menuItems = await _centralMessService.updateRebateRequest(data);
       if (menuItems.statusCode == 200) {
@@ -229,12 +244,19 @@ class _RespondToRebateRequestState extends State<RespondToRebateRequest> {
           // Remove the updated item from the list
           _rebateDates.removeWhere((item) => item == data);
         });
+        _showSnackbar('Rebate request updated successfully', Colors.green);
       } else {
         print('Couldn\'t send');
+        _showSnackbar('Failed to update rebate request. Please try again later.', Colors.red);
       }
     } catch (e) {
       print('Error updating Rebate Request: $e');
+      _showSnackbar('Failed to update rebate request. Please try again later.', Colors.red);
     }
+    _fetchRebateData();
+    setState(() {
+      _loading = false;
+    });
   }
 
   String? status, remark;

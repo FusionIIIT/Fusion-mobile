@@ -131,12 +131,12 @@ class _RegisterState extends State<Register> {
       );
 
       if (result != null) {
-        setState(() {
-          _filePath = result.files.single.path;
-        });
-        setState(() async {
-          _fileBase64 = await _convertFileToBase64(_filePath!);
-        });
+        String? filePath = result.files.single.path;
+        String? fileBase64 = await _convertFileToBase64(filePath!);
+        // setState(() {
+          _filePath = filePath;
+          _fileBase64 = fileBase64;
+        // });
       }
     } on Exception catch (e) {
       print("Error picking file: $e");
@@ -170,7 +170,7 @@ class _RegisterState extends State<Register> {
                     DateTimeFormField(
                       decoration: InputDecoration(
                         suffixIcon: Icon(Icons.event_note),
-                        labelText: 'Register From',
+                        labelText: 'Start Date',
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                               color: Colors.deepOrangeAccent, width: 2),
@@ -183,7 +183,7 @@ class _RegisterState extends State<Register> {
                       // autovalidateMode: AutovalidateMode.always,
                       // initialValue: DateTime.now(),
                       validator: (e) =>
-                      e == null ? 'Please select a date' : null,
+                      e == null ? 'Select start date' : null,
                       onDateSelected: (DateTime value) {
                         registerDate = value;
                       },
@@ -192,21 +192,20 @@ class _RegisterState extends State<Register> {
                     SizedBox(height: 10.0),
                     DateTimeFormField(
                       decoration: InputDecoration(
-                        suffixIcon: Icon(Icons.event_note),
-                        labelText: 'Payment Date',
+                        labelText: 'Payment date',
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                               color: Colors.deepOrangeAccent, width: 2),
                           borderRadius: BorderRadius.circular(20),
                         ),
+                        suffixIcon: Icon(Icons.event_note),
                         filled: true,
                         fillColor: Colors.white,
                       ),
                       mode: DateTimeFieldPickerMode.date,
-                      // autovalidateMode: AutovalidateMode.always,
-                      // initialValue: DateTime.now(),
+                      autovalidateMode: AutovalidateMode.always,
                       validator: (e) =>
-                      e == null ? 'Please select a date' : null,
+                      (e?.day ?? 0) == 1 ? 'Select payment date' : null,
                       onDateSelected: (DateTime value) {
                         paymentDate = value;
                       },
@@ -304,6 +303,7 @@ class _RegisterState extends State<Register> {
                                 startDate: registerDate!,
                                 paymentDate: paymentDate!,
                               );
+                              print(data?.toMap());
                                 _sendRegistrationRequestData(data!);
                             } catch (e) {
                               print(

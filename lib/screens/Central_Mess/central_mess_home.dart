@@ -28,12 +28,13 @@ class _CentralMessHomeState extends State<CentralMessHome> {
   late StreamController _profileController;
   late ProfileService profileService;
   late ProfileData data2;
-  var service = locator<StorageService>();
-  late String curr_desig = service.getFromDisk("Current_designation");
   RegMain userMessData = RegMain(
       program: "NA", currentMessStatus: 'Deregistered', balance: 0, messOption: "no_mess");
   CentralMessService _centralMessService = CentralMessService();
   late List<bool> _expanded;
+
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
 
   @override
   void initState() {
@@ -74,8 +75,8 @@ class _CentralMessHomeState extends State<CentralMessHome> {
             data2.profile!['user_type'];
         if (user == 'student') student_id = data2.user!['username'];
 
-        // if (designations.contains("mess_caretaker") || student_id == "21BCS064") user = "caretaker";
-        // if (designations.contains("mess_warden") || student_id == "21BCS133") user = "warden";
+        if (designations.contains("mess_manager")) user = "caretaker";
+        if (designations.contains("mess_warden")) user = "warden";
         userType = (user == "caretaker") ? "Mess Caretaker"
         : (user == "warden") ? "Mess Warden"
         : data2.profile!['department']!['name'] + '  ' + data2.profile!['user_type'];
@@ -84,7 +85,7 @@ class _CentralMessHomeState extends State<CentralMessHome> {
       });
       // print(student_id);
       // regMainList.forEach((element) => print({'${element.studentId} ${element.currentMessStatus}'}));
-      // print('User Data: ${userMessData.messOption} ${userMessData.currentMessStatus} ${userMessData.studentId}');
+      print('User Data: ${userMessData.messOption} ${userMessData.currentMessStatus} ${userMessData.studentId}');
       // print('Designations: $designations ${userMessData.messOption} ${userMessData.currentMessStatus}');
     } catch (e) {
       print(e);
@@ -155,7 +156,9 @@ class _CentralMessHomeState extends State<CentralMessHome> {
           setState(() {
             curr_desig = newValue;
           });
-
+          if (curr_desig.toLowerCase() != "student" && curr_desig.toLowerCase() != "mess_manager" && curr_desig.toLowerCase() != "mess_warden") {
+            Navigator.pushReplacementNamed(context, "/dashboard"); // Redirect to home ("/dashboard")
+          }
         },
       ), // This is default app bar used in all modules
       drawer: SideDrawer(curr_desig: curr_desig),
@@ -193,7 +196,7 @@ class _CentralMessHomeState extends State<CentralMessHome> {
                 ),
                 SizedBox(height: 10.0),
                 Text(
-                  curr_desig,
+                  userType,
                   style: TextStyle(fontSize: 20.0, color: Colors.black),
                 ),
                 SizedBox(height: 10.0),

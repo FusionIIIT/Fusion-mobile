@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
 import 'mess_bill_history.dart';
-import 'mess_monthly_bill.dart';
+// import 'mess_monthly_bill.dart';
 import 'update_monthly_bill.dart';
 import 'view_student_bills.dart';
-import 'search_student_bills.dart';
+import 'update_student_bill.dart';
 import 'package:fusion/models/profile.dart';
 
 class ManageBill extends StatefulWidget {
@@ -68,7 +68,7 @@ class _ManageBillState extends State<ManageBill> {
         child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
           SizedBox(height: 5.0),
           DefaultTabController(
-              length: user == "student" ? 2 : 3, // length of tabs
+              length: user == "student" ? 1 : 3, // length of tabs
               initialIndex: 0,
               child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
                 Container(
@@ -80,8 +80,8 @@ class _ManageBillState extends State<ManageBill> {
                     tabs: [
                       if (user == "student")
                         ...[
-                          Tab(child: Text("Monthly Bill",style: TextStyle(fontWeight: FontWeight.bold),),),
-                          Tab(child: Text("Bill History",style: TextStyle(fontWeight: FontWeight.bold),),),
+                          Tab(child: Text("Monthly Bills",style: TextStyle(fontWeight: FontWeight.bold),),),
+                          // Tab(child: Text("Bill History",style: TextStyle(fontWeight: FontWeight.bold),),),
                         ],
                       if (user == "caretaker" || user=="warden")
                         ...[
@@ -99,13 +99,13 @@ class _ManageBillState extends State<ManageBill> {
                     ),
                     child: TabBarView(children: <Widget>[
                       if(user == "student") ...[
-                        MessMonthlyBill(),
+                        // MessMonthlyBill(),
                         MessMonthlyBillHistory(profileData: data),
                       ],
                       if(user=="caretaker" || user=="warden") ...[
                         UpdateMonthlyBill(),
                         ViewStudentBill(),
-                        SearchStudentBill(),
+                        UpdateStudentBill(),
                       ]
                     ])
                 )

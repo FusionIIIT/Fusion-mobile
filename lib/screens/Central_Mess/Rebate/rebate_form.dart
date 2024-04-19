@@ -42,10 +42,10 @@ class _RebateFormState extends State<RebateForm> {
         _showSuccessSnackbar();
         // Reset all fields to null after successful request
         setState(() {
-          _reasonController.clear();
           selectedType = null;
           selectedDateStart = null;
           selectedDateEnd = null;
+          _reasonController.clear();
         });
       } else {
         print('Couldn\'t send');

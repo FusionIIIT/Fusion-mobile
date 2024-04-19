@@ -105,26 +105,52 @@ class _MessMonthlyBillHistoryState extends State<MessMonthlyBillHistory> {
       child: Column(
         children: [
           SizedBox(height: 10.0,),
-
           _loading
               ? CircularProgressIndicator() :
-          Container(
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Colors.grey,
-                width: 1,
-              ),
-            ),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: DataTable(
-                columnSpacing: 14,
-                horizontalMargin: 8,
-                columns: buildTableHeader(billData),
-                rows: buildTableRows(billData),
-              ),
-            ),
-          )
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "+ve Amount: ₹" + (_monthlyBillData.isNotEmpty ? _monthlyBillData.last.totalBill.toString() : "0"),
+                          style: TextStyle(fontSize: 20.0, color: Colors.white),
+                        ),
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.green,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black,
+                            offset: Offset(0.0, 1.0),
+                            blurRadius: 2.0,
+                          )
+                        ],
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.grey,
+                        width: 1,
+                      ),
+                    ),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: DataTable(
+                        columnSpacing: 14,
+                        horizontalMargin: 8,
+                        columns: buildTableHeader(billData),
+                        rows: buildTableRows(billData),
+                      ),
+                    ),
+                  )
+                ],
+              )
         ],
       ),
     );

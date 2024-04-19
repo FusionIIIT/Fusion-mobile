@@ -41,34 +41,18 @@ class _VacationFoodRequestState extends State<VacationFoodRequest> {
     }
     return vacationFoodRequests;
   }
-
-
-  // void _updateVacationFoodRequestData(VacationFood data) async {
-  //   setState(() {
-  //     _loading = true; // Set loading state to true before making the update request
-  //   });
-  //
-  //   try {
-  //     http.Response menuItems =
-  //     await _centralMessService.updateVacationFoodRequest(data);
-  //     if (menuItems.statusCode == 200) {
-  //       print('Updated the Vacation Food request');
-  //       setState(() {
-  //         _requestSent = true;
-  //       });
-  //       // Reload vacation food requests after updating
-  //       await _fetchVacationFoodRequests(); // Wait for fetch to complete before setting loading to false
-  //     } else {
-  //       print('Couldn\'t send');
-  //     }
-  //   } catch (e) {
-  //     print('Error updating vacation food Request: $e');
-  //   }
-  //
-  //   setState(() {
-  //     _loading = false; // Set loading state to false after update request completes
-  //   });
-  // }
+  void _showSnackbar(String message, Color backgroundColor) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          style: TextStyle(color: Colors.white),
+        ),
+        duration: Duration(seconds: 5),
+        backgroundColor: backgroundColor,
+      ),
+    );
+  }
   void _updateVacationFoodRequestData(VacationFood data) async {
     setState(() {
       _loading = true; // Set loading state to true before making the update request
@@ -84,13 +68,16 @@ class _VacationFoodRequestState extends State<VacationFoodRequest> {
           // Remove the updated request from the list
           _vacationFoodRequests.remove(data);
         });
+        _showSnackbar('Vacation request updated successfully', Colors.green);
       } else {
         print('Couldn\'t send');
+        _showSnackbar('Failed to update vacation request. Please try again later.', Colors.red);
       }
     } catch (e) {
       print('Error updating vacation food Request: $e');
+      _showSnackbar('Failed to update vacation request. Please try again later.', Colors.red);
     }
-
+    _fetchVacationFoodRequests();
     setState(() {
       _loading = false; // Set loading state to false after update request completes
     });

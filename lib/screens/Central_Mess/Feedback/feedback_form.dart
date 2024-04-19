@@ -154,9 +154,7 @@ class _FeedbackFormState extends State<FeedbackForm> {
                       dropdownColor: Colors.white,
                       value: selectedMess,
                       onChanged: (String? newValue) {
-                        setState(() {
                           selectedMess = newValue!;
-                        });
                       },
                       items: [
                         DropdownMenuItem(
@@ -170,24 +168,25 @@ class _FeedbackFormState extends State<FeedbackForm> {
                     SizedBox(height: 10.0),
                     DateTimeFormField(
                       decoration: InputDecoration(
-                        labelText: 'Select date',
+                        suffixIcon: Icon(Icons.event_note),
+                        labelText: 'Select Date',
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colors.deepOrangeAccent, width: 2),
+                          borderSide:
+                          BorderSide(color: Colors.deepOrangeAccent, width: 2),
                           borderRadius: BorderRadius.circular(20),
                         ),
-                        suffixIcon: Icon(Icons.event_note),
                         filled: true,
                         fillColor: Colors.white,
                       ),
                       mode: DateTimeFieldPickerMode.date,
-                      autovalidateMode: AutovalidateMode.always,
+                      // autovalidateMode: AutovalidateMode.always,
+                      // initialValue: DateTime.now(), // Set initial date
                       validator: (e) =>
-                      (e?.day ?? 0) == 1 ? 'Select  date' : null,
+                      e == null ? 'Select date' : null,
                       onDateSelected: (DateTime value) {
                         selectedDate = value;
                       },
-                      firstDate: DateTime.now(),
+                      firstDate: DateTime.now()  , // Allow dates starting from tomorrow
                     ),
                     SizedBox(height: 10.0),
                     DropdownButtonFormField(
@@ -206,9 +205,7 @@ class _FeedbackFormState extends State<FeedbackForm> {
                       dropdownColor: Colors.white,
                       value: selectedFeedbackType,
                       onChanged: (String? newValue) {
-                        setState(() {
                           selectedFeedbackType = newValue!;
-                        });
                       },
                       items: [
                         DropdownMenuItem(

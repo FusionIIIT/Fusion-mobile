@@ -15,7 +15,7 @@ class CentralMessService {
 
   ProfileService _profileService = ProfileService();
 
-  Future<List<String>> getDesignations() async {
+  Future<dynamic> getDesignations() async {
     try {
       // var storageService = locator<StorageService>();
       // if (storageService.userInDB?.token == null) {
@@ -43,7 +43,7 @@ class CentralMessService {
       //
       // return designations;
       var storageService = await StorageService.getInstance();
-      List<String> designations = storageService!.getFromDisk('designations');
+      var designations = storageService!.getFromDisk('designations');
       print(designations);
       return designations;
 
@@ -877,7 +877,7 @@ class CentralMessService {
 
         // Add form fields
         request.fields['start_date'] = data.startDate.toString().substring(0, 10);
-        request.fields['payment_date'] = data.startDate.toString().substring(0, 10);
+        request.fields['payment_date'] = data.paymentDate.toString().substring(0, 10);
         request.fields['Txn_no'] = data.txnNo.toString();
         request.fields['amount'] = data.amount.toString();
         request.fields['student_id'] = await _profileData.user!['username'];

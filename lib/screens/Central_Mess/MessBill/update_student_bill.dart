@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:fusion/services/central_mess_services.dart';
 import 'package:fusion/models/central_mess.dart';
 
-class SearchStudentBill extends StatefulWidget {
+class UpdateStudentBill extends StatefulWidget {
   @override
-  _SearchStudentBillState createState() => _SearchStudentBillState();
+  _UpdateStudentBillState createState() => _UpdateStudentBillState();
 }
 
-class _SearchStudentBillState extends State<SearchStudentBill> {
+class _UpdateStudentBillState extends State<UpdateStudentBill> {
   CentralMessService _centralMessService = CentralMessService();
 
   static List<MonthlyBill> _monthlyBillData = [];
@@ -32,7 +32,7 @@ class _SearchStudentBillState extends State<SearchStudentBill> {
       print('Error fetching bill: $e');
     }
   }
-  bool _loading = false, _search = false;
+  bool _loading = false, _Update = false;
   late String reqStudentId;
   List<Map<String, String>> billData = [], paymentData = [];
   // tableData = [];
@@ -175,7 +175,7 @@ class _SearchStudentBillState extends State<SearchStudentBill> {
                           });
                         }
                       },
-                      child: Text("Search"),
+                      child: Text("Update"),
                     )
                   ],
                 ),
