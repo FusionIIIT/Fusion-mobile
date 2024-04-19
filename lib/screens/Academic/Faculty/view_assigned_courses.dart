@@ -1,7 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
 import 'package:fusion/services/academic_service.dart';
 import 'package:http/http.dart';
 
@@ -14,6 +18,8 @@ class _ViewAssignedCourses extends State<ViewAssignedCourses> {
   bool _loading1 = true;
   late AcademicService academicService;
   List<dynamic> courseList = [];
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
   @override
   void initState() {
     super.initState();
@@ -41,42 +47,18 @@ class _ViewAssignedCourses extends State<ViewAssignedCourses> {
     return DefaultTabController(
       length: 1,
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.black,
-          title: Text(
-            "FUSION",
-            style: TextStyle(color: Colors.white),
-          ),
-          actions: <Widget>[
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Icon(Icons.search),
-            ),
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Icon(Icons.notifications),
-            ),
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Icon(Icons.more_vert),
-            ),
-          ],
-          bottom: TabBar(
-            isScrollable: true,
-            indicatorColor: Colors.white,
-            indicatorWeight: 6.0,
-            tabs: [
-              Tab(
-                child: Container(
-                  child: Text(
-                    'View Assigned Courses',
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        drawer: SideDrawer(),
+        appBar: CustomAppBar(
+          curr_desig: curr_desig,
+          headerTitle: "Assigned Courses",
+          onDesignationChanged: (newValue) {
+            setState(() {
+              curr_desig = newValue;
+            });
+          },
+        ), // This is default app bar used in all modules
+        drawer: SideDrawer(curr_desig: curr_desig),
+        bottomNavigationBar:
+            MyBottomNavigationBar(),
         body: _loading1 == true
             ? Center(child: CircularProgressIndicator())
             : TabBarView(

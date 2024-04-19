@@ -256,7 +256,7 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
                         child: myContainer("Add Course"),
                         onTap: () {
                           Navigator.pushNamed(
-                              context, '/academic_home_page/add_drop_courses',
+                              context, '/academic_home_page/add_courses',
                               arguments: data);
                         },
                       ),
@@ -264,7 +264,7 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
                         child: myContainer("Drop Course"),
                         onTap: () {
                           Navigator.pushNamed(
-                              context, '/academic_home_page/add_drop_courses',
+                              context, '/academic_home_page/drop_courses',
                               arguments: data);
                         },
                       ),
