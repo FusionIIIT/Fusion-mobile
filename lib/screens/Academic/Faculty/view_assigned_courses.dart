@@ -115,6 +115,7 @@ class _ViewAssignedCourses extends State<ViewAssignedCourses> {
                                     label: Text("Semester"),
                                     numeric: false,
                                   ),
+                                  DataColumn(label: Text("Roll List"), numeric: false),
                                 ],
                                 rows: courseList.map((data) {
                                   return DataRow(cells: [
@@ -126,6 +127,18 @@ class _ViewAssignedCourses extends State<ViewAssignedCourses> {
                                         Text(data['programme'].toString())),
                                     DataCell(Text(data['branch'].toString())),
                                     DataCell(Text(data['sem'].toString())),
+                                    DataCell(ElevatedButton(
+                                      onPressed: () {
+                                        // Handle Apply for Registration action
+                                      },
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                                Colors.orange[900]),
+                                      ),
+                                      child: Text('Generate Roll List',
+                                          style: TextStyle(color: Colors.white)),
+                                    )),
                                   ]);
                                 }).toList(),
                               ),
