@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+
 import 'package:fusion/screens/Academic/Add_Drop_Courses/add_drop_courses.dart';
+import 'package:fusion/screens/Academic/Add_Drop_Courses/replace_courses.dart';
 import 'package:fusion/screens/Academic/fill_backlog/backlog.dart';
 import 'package:fusion/screens/Academic/ViewRegistration/view_registration.dart';
 import 'package:fusion/screens/Academic/Acad_Admin/acadmin_home_page.dart';
@@ -131,6 +133,7 @@ class MyApp extends StatelessWidget {
           '/academic_home_page/thesis': (context) => ThesisHomePage(),
           '/academic_home_page/performance': (context) => Performance(),
           '/academic_home_page/add_drop_courses': (context) => AddDropCourses(),
+          '/academic_home_page/replace_courses': (context) => ReplaceCourses(),
           '/academic_home_page/fill_backlog': (context) => FillBacklog(),
           '/academic_home_page/view_registration': (context) => ViewRegistration(),
           '/programme_curriculum_home': (context) => ProgrammeCurriculumHome(),
