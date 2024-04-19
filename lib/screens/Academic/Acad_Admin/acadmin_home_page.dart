@@ -356,7 +356,7 @@ class _AcadminHomePageState extends State<AcadminHomePage> {
                               padding: const EdgeInsets.only(
                                   top: 10.0,
                                   bottom: 10.0,
-                                  left: 13.0,
+                                  left: 10.0,
                                   right: 10.0),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment
@@ -392,7 +392,7 @@ class _AcadminHomePageState extends State<AcadminHomePage> {
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                        SizedBox(width: 40.0),
+                                        SizedBox(width: 20.0),
                                         Icon(
                                           Icons.arrow_forward_ios_rounded,
                                           color: Colors.white,
@@ -418,8 +418,8 @@ class _AcadminHomePageState extends State<AcadminHomePage> {
                                 padding: const EdgeInsets.only(
                                     top: 10.0,
                                     bottom: 10.0,
-                                    left: 13.0,
-                                    right: 10.0),
+                                    left: 5.0,
+                                    right: 5.0),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
@@ -453,7 +453,125 @@ class _AcadminHomePageState extends State<AcadminHomePage> {
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
+                                          SizedBox(width: 20.0),
+                                          Icon(
+                                            Icons.arrow_forward_ios_rounded,
+                                            color: Colors.white,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Card(
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 20.0, vertical: 10.0),
+                              color: Colors.deepOrangeAccent,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    50.0), // Set the border radius here
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 10.0,
+                                    bottom: 10.0,
+                                    left: 10.0,
+                                    right: 10.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        _notificationsBool = true;
+                                        _announcementsBool = false;
+                                        _newsBool = false;
+                                        setState(() {
+                                          _notificationsBool = true;
+                                          _announcementsBool = false;
+                                          _newsBool = false;
+                                        });
+                                        Navigator.pushReplacementNamed(
+                                          context, "/academic_calendar");
+                                      },
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment
+                                            .spaceEvenly, // Align the children along the main axis with space between them
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .center, // Align the children along the cross axis (vertically by default)
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
                                           SizedBox(width: 40.0),
+                                          Text(
+                                            'Academic Schedule',
+                                            style: TextStyle(
+                                              fontSize: 20.0,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          SizedBox(width: 40.0),
+                                          Icon(
+                                            Icons.arrow_forward_ios_rounded,
+                                            color: Colors.white,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Card(
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 20.0, vertical: 10.0),
+                              color: Colors.deepOrangeAccent,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    50.0), // Set the border radius here
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 10.0,
+                                    bottom: 10.0,
+                                    left: 5.0,
+                                    right: 5.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        _notificationsBool = true;
+                                        _announcementsBool = false;
+                                        _newsBool = false;
+                                        setState(() {
+                                          _notificationsBool = true;
+                                          _announcementsBool = false;
+                                          _newsBool = false;
+                                        });
+                                        Navigator.pushReplacementNamed(
+                                          context, "/generate_student_list");
+                                      },
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment
+                                            .spaceEvenly, // Align the children along the main axis with space between them
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .center, // Align the children along the cross axis (vertically by default)
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          SizedBox(width: 40.0),
+                                          Text(
+                                            'Generate Roll List',
+                                            style: TextStyle(
+                                              fontSize: 20.0,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          SizedBox(width: 20.0),
                                           Icon(
                                             Icons.arrow_forward_ios_rounded,
                                             color: Colors.white,
