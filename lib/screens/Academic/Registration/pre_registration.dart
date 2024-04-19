@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:fusion/services/academic_service.dart';
+import 'package:http/http.dart';
 
 // import 'package:fusion/Components/side_drawer.dart';
 class PreRegistration extends StatefulWidget {
@@ -6,30 +10,35 @@ class PreRegistration extends StatefulWidget {
   _PreRegistrationState createState() => _PreRegistrationState();
 }
 
-class Course {
-  String id;
-  String name;
-  int credits;
-  int priority;
-
-  Course(
-      {required this.id,
-      required this.name,
-      required this.credits,
-      required this.priority});
-}
-
 class _PreRegistrationState extends State<PreRegistration> {
-  final List<Course> courses = List.generate(
-      9,
-      (index) => Course(
-            id: 'ID ${index + 1}',
-            name: 'Course ${index + 1}',
-            credits: (index + 1) * 3,
-            priority: 1,
-          )); // Generate 9 courses with different details
-  List<int> priorities =
-      List.generate(9, (index) => index + 1); // List of priorities from 1 to 9
+  bool _loading1 = true;
+  late AcademicService academicService;
+  List<dynamic> courseList = [];
+  Map<String, String?> preferences = {};
+  int index = -1;
+
+  @override
+  void initState() {
+    super.initState();
+    academicService = AcademicService();
+    getAssignedCourses();
+  }
+
+  getAssignedCourses() async {
+    try {
+      Response response = await academicService.getRegistrationCourses();
+      setState(() {
+        courseList = jsonDecode(response.body)['next_sem_registration_courses'];
+        for (var i = 0; i < courseList.length; i++) {
+          preferences[courseList[i]['slot_name']] =
+              courseList[i]['courses'][0]['name'].toString();
+        }
+        _loading1 = false;
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,66 +64,83 @@ class _PreRegistrationState extends State<PreRegistration> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: DataTable(
-                columns: [
-                  DataColumn(label: Text('Course ID')),
-                  DataColumn(label: Text('Course Name')),
-                  DataColumn(label: Text('Credits')),
-                  DataColumn(label: Text('Priority')),
-                ],
-                rows: courses.map((course) {
-                  return DataRow(cells: [
-                    DataCell(Text(course.id)),
-                    DataCell(Text(course.name)),
-                    DataCell(Text(course.credits.toString())),
-                    DataCell(DropdownButton<int>(
-                      value: course.priority,
-                      onChanged: (int? newValue) {
-                        setState(() {
-                          course.priority = newValue!;
-                        });
-                      },
-                      items: priorities.map((int priority) {
-                        return DropdownMenuItem<int>(
-                          value: priority,
-                          child: Text(priority.toString()),
-                        );
+      body: _loading1 == true
+          ? Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: DataTable(
+                      columns: [
+                        DataColumn(label: Text('Slot Name')),
+                        DataColumn(label: Text('Slot Type')),
+                        DataColumn(label: Text('Semester')),
+                        DataColumn(label: Text('Credits')),
+                        DataColumn(label: Text('Select')),
+                      ],
+                      rows: courseList.map((data) {
+                        index++;
+                        final courses = data['courses'] as List;
+
+                        // Use a map function to get the 'name' property from each course object
+                        List<String> courseNames = courses
+                            .map((course) => course['name'] as String)
+                            .toList();
+
+                        return DataRow(cells: [
+                          DataCell(Text(data['slot_name'].toString())),
+                          DataCell(Text(data['slot_type'].toString())),
+                          DataCell(Text(data['semester'].toString())),
+                          DataCell(
+                              Text(data['courses'][0]['credit'].toString())),
+                          DataCell(DropdownButton<String>(
+                            value: preferences[data['slot_name']],
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                preferences[data['slot_name']] = newValue;
+                              });
+                            },
+                            items: courseNames.map((course) {
+                              return DropdownMenuItem<String>(
+                                value: course,
+                                child: Text(course),
+                              );
+                            }).toList(),
+                          )),
+                        ]);
                       }).toList(),
-                    )),
-                  ]);
-                }).toList(),
+                    ),
+                  ),
+                  SizedBox(
+                      height:
+                          20), // Adding spacing between table and submit button
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Handle submit action
+                      },
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(Colors
+                                .orange[
+                            900]), // Setting background color of button to blue
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 15),
+                        child: Text('Submit',
+                            style:
+                                TextStyle(fontSize: 18, color: Colors.white)),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                      height:
+                          20), // Adding spacing between submit button and bottom
+                ],
               ),
             ),
-            SizedBox(
-                height: 20), // Adding spacing between table and submit button
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: ElevatedButton(
-                onPressed: () {
-                  // Handle submit action
-                },
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.orange[
-                      900]), // Setting background color of button to blue
-                ),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 15),
-                  child: Text('Submit',
-                      style: TextStyle(fontSize: 18, color: Colors.white)),
-                ),
-              ),
-            ),
-            SizedBox(
-                height: 20), // Adding spacing between submit button and bottom
-          ],
-        ),
-      ),
     );
   }
 }

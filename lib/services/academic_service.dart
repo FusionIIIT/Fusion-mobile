@@ -29,29 +29,31 @@ class AcademicService {
     }
   }
 
-  Future<http.Response> getRegistrationCourses(String token) async {
+  Future<http.Response> getRegistrationCourses() async {
+    var _prefs = await StorageService.getInstance();
+    String token = _prefs!.userInDB?.token ?? "";
     try {
       Map<String, String> headers = {
         'Authorization': 'Token ' + token,
         'Content-Type': 'application/json'
       };
-      final body = {
-        "programme": "B.Tech",
-        "branch": "CSE",
-        "semester": "6",
-        "batch": "2018"
-      };
-      final jsonString = json.encode(body);
+      // final body = {
+      //   "programme": "B.Tech",
+      //   "branch": branch,
+      //   "semester": semester.toString(),
+      //   "batch": "2018"
+      // };
+      // final jsonString = json.encode(body);
 
       print("fetching next semester courses list");
       var client = http.Client();
-      http.Response response = await client.post(
+      http.Response response = await client.get(
         Uri.http(
           getLink(),
           kAcademicCourseList, //Constant api path
         ),
         headers: headers,
-        body: jsonString,
+        // body: jsonString,
       );
       if (response.statusCode != 200) {
         throw Exception('Can\'t get Courses List');

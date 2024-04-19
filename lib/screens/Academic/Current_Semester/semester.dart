@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/models/academic.dart';
-import 'package:fusion/services/academic_service.dart';
-import 'package:http/http.dart';
-import 'dart:convert';
 
 class Semester extends StatefulWidget {
   // final data;
@@ -15,7 +11,7 @@ class Semester extends StatefulWidget {
 class _SemesterState extends State<Semester> {
   @override
   Widget build(BuildContext context) {
-    List<dynamic> courseList = jsonDecode(widget.courseList);
+    List<Map<String, dynamic>> courseList = widget.courseList;
 
     return Container(
       child: SingleChildScrollView(
@@ -25,8 +21,28 @@ class _SemesterState extends State<Semester> {
             scrollDirection: Axis.horizontal,
             child: DataTable(
               columns: <DataColumn>[
+                // DataColumn(
+                //   label: Text("#"),
+                //   numeric: false,
+                // ),
                 DataColumn(
-                  label: Text("#"),
+                  label: Text("Slot Name"),
+                  numeric: false,
+                ),
+                DataColumn(
+                  label: Text("Slot Type"),
+                  numeric: false,
+                ),
+                // DataColumn(
+                //   label: Text("Slot Name"),
+                //   numeric: false,
+                // ),
+                // DataColumn(
+                //   label: Text("Slot Type"),
+                //   numeric: false,
+                // ),
+                DataColumn(
+                  label: Text("Course Name"),
                   numeric: false,
                 ),
                 DataColumn(
@@ -34,25 +50,18 @@ class _SemesterState extends State<Semester> {
                   numeric: false,
                 ),
                 DataColumn(
-                  label: Text("Course Name"),
-                  numeric: false,
-                ),
-                DataColumn(
                   label: Text("Credits"),
-                  numeric: false,
-                ),
-                DataColumn(
-                  label: Text("Semester"),
                   numeric: false,
                 )
               ],
+              //
               rows: courseList.map((data) {
                 return DataRow(cells: [
-                  DataCell(Text(data['course_id']['id'].toString())),
+                  DataCell(Text(data['slot_name'].toString())),
+                  DataCell(Text(data['slot_type'].toString())),
+                  DataCell(Text(data['course_name'].toString())),
                   DataCell(Text(data['course_code'].toString())),
-                  DataCell(Text(data['course_id']['course_name'].toString())),
-                  DataCell(Text(data['credits'].toString())),
-                  DataCell(Text(data['sem'].toString())),
+                  DataCell(Text(data['credit'].toString())),
                 ]);
               }).toList(),
             ),

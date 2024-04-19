@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
-import 'package:fusion/models/profile.dart';
 import 'package:fusion/services/academic_service.dart';
 import 'package:fusion/models/academic.dart';
-import 'package:fusion/services/service_locator.dart';
-import 'package:fusion/services/storage_service.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart';
@@ -30,17 +27,45 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
     _academicController = StreamController();
     academicService = AcademicService();
     getAcademicDataStream();
-    getCourseList();
+    // getCourseList();
+  }
+
+  List<Map<String, dynamic>> flattenCourseData(List<dynamic> coursesList) {
+    final flattenedData = <Map<String, dynamic>>[];
+
+    for (final courseSlot in coursesList) {
+      final slotName = courseSlot['slot_name'] as String;
+      final slotType = courseSlot['slot_type'] as String;
+      final semester = courseSlot['semester'] as int;
+
+      for (final course in courseSlot['courses'] as List<dynamic>) {
+        final courseName = course['name'] as String;
+        final credit = course['credit'] as int;
+        final courseCode = course['course_code'] as String;
+
+        flattenedData.add({
+          'slot_name': slotName,
+          'slot_type': slotType,
+          'semester': semester,
+          'course_name': courseName,
+          'credit': credit,
+          'course_code': courseCode,
+        });
+      }
+    }
+    print(flattenedData);
+    return flattenedData;
   }
 
   getCourseList() async {
     //print('token-'+widget.token!);
     try {
-      Response response =
-          await academicService.getRegistrationCourses(widget.token!);
+      Response response = await academicService.getRegistrationCourses();
       setState(() {
-        print(response.body);
-        courseList = response.body;
+        // print(jsonDecode(response.body)['next_sem_registration_courses']);
+        courseList = flattenCourseData(
+            jsonDecode(response.body)['next_sem_registration_courses']);
+        // courseList = response.body;
         _loading1--;
       });
     } catch (e) {
@@ -57,6 +82,7 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
         print(response.body);
         data = AcademicData.fromJson(jsonDecode(response.body));
         _loading1--;
+        getCourseList();
       });
     } catch (e) {
       print(e);
@@ -207,7 +233,7 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
                         onTap: () {
                           Navigator.pushNamed(
                               context, '/academic_home_page/pre_registration',
-                              arguments: data);
+                              arguments: courseList);
                         },
                       ),
                       InkWell(

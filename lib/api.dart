@@ -14,8 +14,7 @@ String kProfile = "/api/profile/";
 //Academic Procedures
 String kAcademicProcedures = "/academic-procedures/api/stu/details";
 
-String kAcademicCourseList =
-    "/academic-procedures/api/stu/view_offered_courses/";
+String kAcademicCourseList = "/academic-procedures/api/stu/details";
 
 String kConfigurePreRegistration =
     "/academic-procedures/api/acad/configure_pre_registration/";
