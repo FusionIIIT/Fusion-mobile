@@ -6,6 +6,7 @@ import 'package:fusion/screens/Academic/ViewRegistration/view_registration.dart'
 import 'package:fusion/screens/Academic/Acad_Admin/acadmin_home_page.dart';
 import 'package:fusion/screens/Academic/Registration/pre_registration.dart';
 import 'package:fusion/screens/Academic/Registration/final_registration.dart';
+import 'package:fusion/screens/Academic/Faculty/faculty_home_page.dart';
 import 'package:fusion/screens/Complaint/ComplaintHistory/complain_history.dart';
 import 'package:fusion/screens/Complaint/Feedback/feedback.dart';
 import 'package:fusion/screens/Complaint/LodgeComplaint/lodge_complaint.dart';
@@ -112,6 +113,8 @@ class MyApp extends StatelessWidget {
           '/academic_home_page': (context) => AcademicHomePage(
               ModalRoute.of(context)!.settings.arguments.toString()),
           '/academic_home_page/acadmin':(context) => AcadminHomePage(
+              ModalRoute.of(context)!.settings.arguments.toString()),
+          '/academic_home_page/faculty':(context) => FacultyHomePage(
               ModalRoute.of(context)!.settings.arguments.toString()),
           '/academic_home_page/current_semester_home_page': (context) =>
               CurrentSemesterHomePage(),
