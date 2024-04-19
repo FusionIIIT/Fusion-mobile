@@ -9,7 +9,10 @@ import 'package:fusion/screens/Library/Book_Search.dart';
 import 'package:fusion/screens/Library/dues.dart';
 import 'package:fusion/screens/Library/issued_items.dart';
 import 'package:fusion/screens/Library/lib_home_screen.dart';
+import 'package:fusion/screens/LoginandDashboard/DashboardComponents/news.dart';
 import 'package:fusion/screens/LoginandDashboard/dashboard.dart';
+import 'package:fusion/screens/LoginandDashboard/DashboardComponents/notify.dart';
+import 'package:fusion/screens/LoginandDashboard/DashboardComponents/announcement.dart';
 import 'package:fusion/screens/LoginandDashboard/login_page.dart';
 import 'package:fusion/screens/Academic/academic_home_page.dart';
 import 'package:fusion/screens/Academic/Current_Semester/current_semester_home_page.dart';
@@ -66,9 +69,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MediaQueryData windowData =
-        MediaQueryData.fromWindow(WidgetsBinding.instance.window);
+    MediaQueryData.fromView(WidgetsBinding.instance.window);
     windowData = windowData.copyWith(
-      textScaleFactor: 1,
+      textScaler: TextScaler.linear(1),
     );
     var selectedProgramme;
     Map<String, String> selectedDepartmentData;
@@ -89,6 +92,9 @@ class MyApp extends StatelessWidget {
         routes: {
           '/landing': (context) => LandingPage(),
           '/login_page': (context) => LoginPage(),
+          '/notification':(context)=>Notify(),
+          '/news':(context)=>News(),
+          '/announcement':(context)=>Announcement(),
           '/dashboard': (context) => Dashboard(),
           '/academic_home_page': (context) => AcademicHomePage(
               ModalRoute.of(context)!.settings.arguments.toString()),
