@@ -106,6 +106,12 @@ class _SideDrawerState extends State<SideDrawer> {
                 pageMover: '/academic_home_page',
               ),
 
+            if((type == "staff" || widget.curr_desig=="acadmin"))
+              ModulesCard(
+                cardLine: 'Academic Module',
+                pageMover: '/academic_home_page/acadmin',
+            ),  
+
             if ((type == "student" || widget.curr_desig=="acadmin"))
               ModulesCard(
                 cardLine: 'Programme Curriculum',
