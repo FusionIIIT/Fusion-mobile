@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/appBar2.dart';
 import 'package:fusion/Components/side_drawer2.dart';
-import 'package:fusion/services/academic_service.dart';
-import 'package:fusion/models/academic.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
 import 'package:fusion/Components/bottom_navigation_bar.dart';

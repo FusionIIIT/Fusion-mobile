@@ -31,6 +31,7 @@ class _SideDrawerState extends State<SideDrawer> {
         service.profileData.user!["last_name"];
     depttype = service.profileData.profile!['department']!['name'];
 
+
     type = service.profileData.profile!['user_type'];
     print(depttype);
   }
@@ -100,16 +101,22 @@ class _SideDrawerState extends State<SideDrawer> {
             ),
             ModulesCard(cardLine: 'DashBoard', pageMover: '/dashboard'),
 
-            if ((type != "staff" || widget.curr_desig=="acadmin"||  widget.curr_desig== "corelabcaretaker"))
+            if ((type =="student" ||  widget.curr_desig== "corelabcaretaker"))
               ModulesCard(
                 cardLine: 'Academics Module',
                 pageMover: '/academic_home_page',
               ),
 
-            if((type == "staff" || widget.curr_desig=="acadmin"))
+            if((type == "staff" || widget.curr_desig=="acadadmin"))
               ModulesCard(
                 cardLine: 'Academic Module',
                 pageMover: '/academic_home_page/acadmin',
+            ),  
+
+            if((type == "faculty" || widget.curr_desig=="Professor"))
+              ModulesCard(
+                cardLine: 'Academic Module',
+                pageMover: '/academic_home_page/faculty',
             ),  
 
             if ((type == "student" || widget.curr_desig=="acadmin"))
