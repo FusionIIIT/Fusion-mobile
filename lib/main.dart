@@ -54,6 +54,8 @@ import 'package:fusion/screens/Academic/Acad_Admin/configure_pre_registration.da
 import 'package:fusion/screens/Academic/Acad_Admin/configure_final_registration.dart';
 import 'package:fusion/screens/Academic/Acad_Admin/course_list_home_page.dart';
 import 'package:fusion/screens/Academic/Acad_Admin/course_list.dart';
+import 'package:fusion/screens/Academic/Acad_Admin/academic_calendar.dart';
+import 'package:fusion/screens/Academic/Acad_Admin/generate_student_list.dart';
 import 'package:fusion/screens/Academic/Faculty/view_assigned_courses.dart';
 
 void main() {
@@ -102,6 +104,8 @@ class MyApp extends StatelessWidget {
               ConfigurePreRegistration(),
           '/configure_final_registration': (context) =>
               ConfigureFinalRegistration(),
+          '/academic_calendar': (context) => AcademicCalendar(),
+          '/generate_student_list': (context) => GenerateStudentList(),
           '/course_list_home_page': (context) => CourseListHome(),
           '/course_list': (context) => CourseList(),
           '/view_assigned_courses': (context) => ViewAssignedCourses(),
