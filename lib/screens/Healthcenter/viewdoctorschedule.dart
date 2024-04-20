@@ -3,12 +3,12 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ViewSchedule extends StatefulWidget {
+class ViewDoctorSchedule extends StatefulWidget {
   @override
   _ViewScheduleState createState() => _ViewScheduleState();
 }
 
-class _ViewScheduleState extends State<ViewSchedule> {
+class _ViewScheduleState extends State<ViewDoctorSchedule> {
   List<Map<String, dynamic>> scheduleData = [];
   List<Map<String, dynamic>> doctorsData = [];
   bool isLoading = false;
@@ -51,7 +51,7 @@ class _ViewScheduleState extends State<ViewSchedule> {
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData = json.decode(response.body);
         setState(() {
-          scheduleData = List<Map<String, dynamic>>.from(responseData['schedule']);
+          scheduleData = List<Map<String, dynamic>>.from(responseData['doctor_schedule']);
           doctorsData = List<Map<String, dynamic>>.from(responseData['doctors']);
           errorMessage = '';
           isLoading = false;

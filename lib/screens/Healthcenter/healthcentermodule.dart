@@ -37,6 +37,7 @@ class _HealthCenterModState extends State<HealthCenterMod> {
         service.profileData.profile!['user_type'];
     _healthController = StreamController();
     healthService = HeathService();
+    print(healthService);
     getData();
   }
 
@@ -211,7 +212,7 @@ class _HealthCenterModState extends State<HealthCenterMod> {
                         child: myContainer("Doctor Schedule"),
                         onTap: () {
                           Navigator.pushNamed(
-                              context, '/health_center/viewschedule',
+                              context, '/health_center/viewdoctorschedule',
                               arguments: data);
                         },
                       ),

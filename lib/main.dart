@@ -48,7 +48,7 @@ import 'package:fusion/screens/Programme_Curriculum/programme_curriculum_home.da
 import 'package:fusion/screens/landing_page.dart';
 import 'package:fusion/screens/Healthcenter/healthcentermodule.dart';
 import 'package:fusion/screens/Healthcenter/feedback.dart';
-import 'package:fusion/screens/Healthcenter/viewschedule.dart';
+import 'package:fusion/screens/Healthcenter/viewdoctorschedule.dart';
 import 'package:fusion/screens/Healthcenter/history.dart';
 // import 'package:fusion/screens/Healthcenter/HealthCenter.dart';
 import 'package:fusion/services/service_locator.dart';
@@ -135,7 +135,7 @@ class MyApp extends StatelessWidget {
               ModalRoute.of(context)!.settings.arguments.toString()),
           // '/health_center/healthcenter': (context) => HealthCenter(),
           '/health_center/feedback': (context) => FeedBack(),
-          '/health_center/viewschedule': (context) => ViewSchedule(),
+          '/health_center/viewdoctorschedule': (context) => ViewDoctorSchedule(),
           '/health_center/history': (context) => HealthRecordsPage(),
           '/health_center/announcement': (context) => ViewAnnouncementPage(),
           '/health_center/reimbursement': (context) => ReimbursementFormPage(),
