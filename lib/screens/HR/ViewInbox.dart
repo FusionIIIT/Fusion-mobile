@@ -3,7 +3,7 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
-import 'package:fusion/screens/HR/ForwardOrDeclineFormCPDAHOD.dart';
+import 'package:fusion/screens/HR/ForwardCPDAAdvance.dart';
 import 'package:fusion/services/profile_service.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -16,6 +16,10 @@ import 'package:fusion/models/profile.dart';
 import 'package:http/http.dart' as http;
 import 'package:fusion/api.dart';
 import 'package:fusion/constants.dart';
+import 'ForwardCPDAReimburse.dart';
+import 'ForwardAppraisal.dart';
+import 'ForwardLTC.dart';
+import 'ForwardLeave.dart';
 
 class RequestListPage extends StatefulWidget {
   const RequestListPage();
@@ -28,12 +32,6 @@ class RequestListPage extends StatefulWidget {
 
 class _RequestListpageState extends State<RequestListPage> {
   // Sample list of requests
-  final List<Map<String, String>> requests = [
-    {'name': 'Atul Gupta', 'type': 'LTC'},
-    {'name': 'Neelam Dayal', 'type': 'CPDA'},
-    {'name': 'Durgesh Singh', 'type': 'CPDA (A)'},
-    {'name': 'Aparijita Ojha', 'type': 'LTC'},
-  ];
 
   late StreamController _profileController;
   late ProfileService profileService;
@@ -62,6 +60,7 @@ class _RequestListpageState extends State<RequestListPage> {
   void showData() {
     print(data.user);
     print(data.profile);
+    print("yaha hun mian");
     print((data.profile)!['id']);
     print(data.profile!['department']!['name']);
     print(data.profile!['user_type']);
@@ -70,13 +69,12 @@ class _RequestListpageState extends State<RequestListPage> {
 
   void getApplications() async {
     final String host = "10.0.2.2:8000";
-    final String path = "/hr2/formManagement/";
+    final String path = "/hr2/api/formManagement/";
     final queryParameters = {
       'username': data.user!['username'],
       'designation': data.profile!['user_type'],
     };
     Uri uri = (Uri.http(host, path, queryParameters));
-    print(uri);
     Map<String, String> headers = {
       'Content-Type': 'application/json; charset=UTF-8',
     };
@@ -121,7 +119,7 @@ class _RequestListpageState extends State<RequestListPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'List of Requests',
+                  'Your Inbox',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 20),
@@ -136,6 +134,7 @@ class _RequestListpageState extends State<RequestListPage> {
                       // Or some other widget
                     }
                     final cardData = displayData[index];
+                    // print(cardData['id']);
 
                     final type = cardData['file_extra_JSON']
                         .substring(7, cardData['file_extra_JSON'].length - 1);
@@ -152,14 +151,33 @@ class _RequestListpageState extends State<RequestListPage> {
                         ),
                         trailing: ElevatedButton(
                           onPressed: () {
+                            final Map<String, Widget> requests = {
+                              'CPDAAdvance': ForwardCPDAAdvance(
+                                formdata: cardData,
+                              ),
+                              'LTC': ForwardLTC(formdata: cardData),
+                              'CPDAReimbursement':
+                                  ForwardCPDAReimburse(formdata: cardData),
+                              'Appraisal': ForwardAppraisal(formdata: cardData),
+                              'Leave': ForwardLeave(
+                                formdata: cardData,
+                              ),
+                            };
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    ForwardOrDeclineFormCPDAHOD(
-                                        formdata: cardData),
+                                builder: (context) {
+                                  final widget = requests[
+                                      cardData['file_extra_JSON'].substring(
+                                          7,
+                                          cardData['file_extra_JSON'].length -
+                                              1)];
+                                  return widget ??
+                                      Container(); // Provide a default widget or handle null case
+                                },
                               ),
                             );
+
                             // Respond to view button press
                           },
                           style: ElevatedButton.styleFrom(

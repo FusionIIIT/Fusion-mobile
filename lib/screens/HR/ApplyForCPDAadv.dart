@@ -8,7 +8,7 @@ import 'package:fusion/api.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/constants.dart';
 import 'package:fusion/models/profile.dart';
-import 'package:fusion/screens/HR/ForwardOrDeclineFormCPDAHOD.dart';
+import 'package:fusion/screens/HR/ForwardCPDAAdvance.dart';
 import 'package:fusion/services/storage_service.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -30,11 +30,16 @@ class _ApplyForCPDAadvState extends State<ApplyForCPDAadv> {
   TextEditingController _purposeController = TextEditingController();
   TextEditingController _advanceDueController = TextEditingController();
   TextEditingController _receiverNameController = TextEditingController();
+  late List<dynamic> designationsOfReceiver = [];
+  TextEditingController _receiverDesignationController =
+      TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   late StreamController _profileController;
   late ProfileService profileService;
   late ProfileData datap;
   var service;
   bool _loading1 = true;
+  bool fetchedDesignationsOfReceiver = false;
   void initState() {
     super.initState();
     _profileController = StreamController();
@@ -74,10 +79,30 @@ class _ApplyForCPDAadvState extends State<ApplyForCPDAadv> {
     });
   }
 
+  getDesignations() async {
+    final String host = "10.0.2.2:8000";
+    final String path = "/hr2/api/getDesignations/";
+    final queryParameters = {
+      'username': _receiverNameController.text,
+    };
+    Uri uri = (Uri.http(host, path, queryParameters));
+    var response = await http.get(uri);
+    if (response.statusCode == 200) {
+      final d = await jsonDecode(response.body);
+      setState(() {
+        fetchedDesignationsOfReceiver = true;
+        designationsOfReceiver = d;
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Please check the entered username.")));
+    }
+  }
+
   void submitForm() async {
     // Navigator.push(context,
     //     MaterialPageRoute(builder: (context) => ForwardOrDeclineFormCPDAHOD()));
-    final url = "http://10.0.2.2:8000/hr2/cpdaadv/";
+    final url = "http://10.0.2.2:8000/hr2/api/cpdaadv/";
 
     Map<String, String> data = {
       "name": _nameController.text,
@@ -90,6 +115,7 @@ class _ApplyForCPDAadvState extends State<ApplyForCPDAadv> {
       "created_by": datap.user!['id'].toString(),
     };
     Map<String, String> userInfo = {
+      "receiver_designation": _receiverDesignationController.text,
       "receiver_name": _receiverNameController.text,
       "uploader_name": datap.user!['username'],
       "uploader_designation": datap.profile!['user_type'],
@@ -127,6 +153,7 @@ class _ApplyForCPDAadvState extends State<ApplyForCPDAadv> {
           child: Container(
             child: SingleChildScrollView(
               child: Form(
+                key: _formKey,
                 child: Column(
                   children: [
                     TextFormField(
@@ -135,9 +162,6 @@ class _ApplyForCPDAadvState extends State<ApplyForCPDAadv> {
                       decoration: const InputDecoration(
                         label: Text('Name'),
                       ),
-                      validator: (value) {
-                        return 'Demo...';
-                      },
                     ),
                     TextFormField(
                       controller: _designationController,
@@ -145,21 +169,7 @@ class _ApplyForCPDAadvState extends State<ApplyForCPDAadv> {
                       decoration: const InputDecoration(
                         label: Text('Designation'),
                       ),
-                      validator: (value) {
-                        return 'Demo...';
-                      },
                     ),
-                    TextFormField(
-                      controller: _receiverNameController,
-                      maxLength: 50,
-                      decoration: const InputDecoration(
-                        label: Text('Receiver\'s Name '),
-                      ),
-                      validator: (value) {
-                        return 'Demo...';
-                      },
-                    ),
-
                     TextFormField(
                       controller: _pfNoController,
                       maxLength: 50,
@@ -167,7 +177,10 @@ class _ApplyForCPDAadvState extends State<ApplyForCPDAadv> {
                         label: Text('P.F. No.'),
                       ),
                       validator: (value) {
-                        return 'Demo...';
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter P.F. No correctly.';
+                        }
+                        return null;
                       },
                     ),
                     TextFormField(
@@ -176,7 +189,10 @@ class _ApplyForCPDAadvState extends State<ApplyForCPDAadv> {
                         label: Text('Amount Required'),
                       ),
                       validator: (value) {
-                        return 'Demo...';
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter Amount Required correctly.';
+                        }
+                        return null;
                       },
                     ),
                     TextFormField(
@@ -186,7 +202,10 @@ class _ApplyForCPDAadvState extends State<ApplyForCPDAadv> {
                         label: Text('Purpose'),
                       ),
                       validator: (value) {
-                        return 'Demo...';
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter Purpose correctly.';
+                        }
+                        return null;
                       },
                     ),
                     TextFormField(
@@ -195,17 +214,63 @@ class _ApplyForCPDAadvState extends State<ApplyForCPDAadv> {
                         label: Text('Advance (PDA) due for Adjustment'),
                       ),
                       validator: (value) {
-                        return 'Demo...';
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter Advance (PDA) due for Adjustment correctly or 0 if not applicable.';
+                        }
+                        return null;
                       },
                     ),
-
+                    TextFormField(
+                      controller: _receiverNameController,
+                      maxLength: 50,
+                      decoration: const InputDecoration(
+                        label: Text('Receiver\'s Name '),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter receiver name correctly.';
+                        }
+                        return null;
+                      },
+                    ),
+                    ElevatedButton(
+                        onPressed: () {
+                          getDesignations();
+                        },
+                        child: Text("Show Designations of user")),
+                    SizedBox(height: 20),
+                    fetchedDesignationsOfReceiver
+                        ? DropdownButtonFormField(
+                            items: designationsOfReceiver
+                                .map((e) => DropdownMenuItem(
+                                      child: Text(e),
+                                      value: e,
+                                    ))
+                                .toList(),
+                            onChanged: (value) {
+                              _receiverDesignationController.text =
+                                  value.toString();
+                            })
+                        : Container(),
+                    SizedBox(height: 20),
                     SizedBox(
                       height: 20,
                     ), // instead of TextField()
                     ElevatedButton(
                       onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          // If the form is valid, display a snackbar. In the real world,
+                          // you'd often call a server or save the information in a database.
+                          submitForm();
+                        }
                         // Respond to button press
-                        submitForm();
+                        else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text(
+                                    'Please fill all the fields correctly')),
+                          );
+                        }
                       },
                       child: const Text('Submit'),
                     ),

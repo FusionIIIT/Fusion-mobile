@@ -7,15 +7,14 @@ import 'package:fusion/screens/HR/ApplyForCPDArbrse.dart';
 import 'package:fusion/screens/HR/ApplyForAppraisal.dart';
 import 'package:fusion/screens/HR/ApplyForLTC.dart';
 import 'package:fusion/screens/HR/ApplyForLeave.dart';
-import 'package:fusion/screens/HR/Approve_Decline_CPDAadv_director.dart';
-import 'package:fusion/screens/HR/ForwardOrDeclineFormCPDAHOD.dart';
-import 'package:fusion/screens/HR/Forward_Decline_CPDAadv_Hradmin.dart';
-import 'package:fusion/screens/HR/Forward_Decline_CPDAadv_Audit.dart';
-import 'package:fusion/screens/HR/Request_list.dart';
-import 'package:fusion/screens/HR/Forward_Appraisal_Hod.dart';
-import 'package:fusion/screens/HR/Forward_Appraisal_Director.dart';
-import 'package:fusion/screens/HR/Forward_Decline_LTC_Hod.dart';
-import 'package:fusion/screens/HR/Approve_Decline_LTCDirector.dart';
+import 'package:fusion/screens/HR/ForwardCPDAAdvance.dart';
+import 'package:fusion/screens/HR/UpdateLeaveBalance.dart';
+import 'package:fusion/screens/HR/ViewArchive.dart';
+import 'package:fusion/screens/HR/ViewHistoryOfUser.dart';
+import 'package:fusion/screens/HR/ViewInbox.dart';
+import 'package:fusion/screens/HR/ForwardAppraisal.dart';
+import 'package:fusion/screens/HR/ForwardLTC.dart';
+import 'package:fusion/screens/HR/ViewOutbox.dart';
 
 class HRHomePage extends StatelessWidget {
   @override
@@ -58,51 +57,33 @@ class HRHomePage extends StatelessWidget {
           _buildListTile(
             context,
             Icons.assignment,
-            'Approve and Decline CPDA Advance By Director',
-            ApproveOrDeclineFormDirector(),
-          ),
-          _buildListTile(
-            context,
-            Icons.assignment,
-            'Forward and Decline CPDA Advance By HR Admin',
-            ForwardOrDeclineFormHradmin(),
-          ),
-          _buildListTile(
-            context,
-            Icons.assignment,
-            'Forward and Decline CPDA Advance By Audit Officer',
-            ForwardOrDeclineFormAudit(),
-          ),
-          _buildListTile(
-            context,
-            Icons.assignment,
-            'View Requests',
+            'View Inbox',
             RequestListPage(),
           ),
           _buildListTile(
             context,
             Icons.assignment,
-            'Forward Appraisal to HOD',
-            ForwardAppraisalHod(),
+            'View Outbox',
+            ViewOutbox(),
           ),
           _buildListTile(
             context,
             Icons.assignment,
-            'Forward Appraisal to Director',
-            ForwardAppraisalDirector(),
+            'View Archived Forms',
+            ViewArchive(),
           ),
           _buildListTile(
             context,
             Icons.assignment,
-            'Forward LTC to HOD',
-            ForwardLTCHod(),
+            'View History of a User',
+            ViewHistoryOfUser(),
           ),
           _buildListTile(
             context,
             Icons.assignment,
-            'Forward LTC to Director',
-            ApproveOrDeclineLTCDirector(),
-          )
+            'Check Leave Balance',
+            UpdateLeavebalance(),
+          ),
         ],
       ),
     );
