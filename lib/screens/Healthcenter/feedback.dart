@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart'; 
+import 'package:shared_preferences/shared_preferences.dart'; // Import shared_preferences package
 
 class FeedBack extends StatefulWidget {
   @override
@@ -10,52 +10,29 @@ class FeedBack extends StatefulWidget {
 
 class _FeedBackState extends State<FeedBack> {
   final TextEditingController feedbackController = TextEditingController();
+
   Future<String> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String userData = prefs.getString('user') ?? '';
-    if (userData.isNotEmpty) {
-      Map<String, dynamic> userMap = json.decode(userData);
-      return userMap['token'] ?? '';
-    } else {
-      return '';
-    }
+    return prefs.getString('token') ?? ''; // Return empty string if token not found
   }
 
   Future<void> submitFeedback() async {
     final String feedback = feedbackController.text;
-    final url = 'http://127.0.0.1:8000/healthcenter/api/student/request'; 
+    final url = 'http://127.0.0.1:8000/healthcenter/api/student/request'; // Replace with your backend URL
 
     try {
-      final token = await getToken(); 
+      final token = await getToken(); // Fetch token from local storage
       final response = await http.post(
         Uri.parse(url),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Token $token', 
+          'Authorization': 'Token $token', // Use fetched token
         },
         body: jsonEncode({'complaintadd': true, 'feedback': feedback}),
       );
 
       if (response.statusCode == 201) {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text('Feedback Submitted Successfully'),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop(); // Close the dialog
-                    setState(() {
-                      feedbackController.clear(); // Clear the feedback text field
-                    });
-                  },
-                  child: Text('OK'),
-                ),
-              ],
-            );
-          },
-        );
+        print('Feedback submitted successfully');
       } else {
         print('Failed to submit feedback: ${response.statusCode}');
       }
@@ -142,4 +119,5 @@ class _FeedBackState extends State<FeedBack> {
     );
   }
 }
+
 
