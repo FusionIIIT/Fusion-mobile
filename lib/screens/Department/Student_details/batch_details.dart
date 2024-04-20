@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/side_drawer.dart';
 import 'package:fusion/models/profile.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/screens/Department/Student_details/filter.dart';
 import 'package:fusion/services/department_service.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
@@ -15,12 +16,18 @@ class BatchDetails extends StatefulWidget {
   _BatchDetailsState createState() => _BatchDetailsState();
 }
 
+enum StudentSortingCriteria { cpi, currentSemesterNo }
+
 class _BatchDetailsState extends State<BatchDetails>
     with SingleTickerProviderStateMixin {
   late int bid;
   ProfileData? data;
   late TabController _tabController;
   List<Map<String, dynamic>> batchDetails = [];
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
+  StudentSortingCriteria? _sortingCriteria;
+  bool _isAscending = true;
 
   @override
   void initState() {
@@ -70,6 +77,37 @@ class _BatchDetailsState extends State<BatchDetails>
     super.dispose();
   }
 
+  void _sortStudents(List<Map<String, dynamic>> students) {
+    if (_sortingCriteria == StudentSortingCriteria.cpi) {
+      students.sort((a, b) => a['cpi'].compareTo(b['cpi']));
+    } else if (_sortingCriteria == StudentSortingCriteria.currentSemesterNo) {
+      students.sort(
+          (a, b) => a['curr_semester_no'].compareTo(b['curr_semester_no']));
+    }
+    if (!_isAscending) {
+      students = students.reversed.toList();
+    }
+    setState(() {
+      batchDetails = students;
+    });
+  }
+
+  void _toggleSortOrder() {
+    setState(() {
+      _isAscending = !_isAscending;
+    });
+    _sortStudents(batchDetails);
+  }
+
+  void _setSortingCriteria(StudentSortingCriteria? criteria) {
+    setState(() {
+      _sortingCriteria = criteria;
+    });
+    _sortStudents(batchDetails);
+  }
+
+  void applyFilters(Map<String, Map<String, bool>> selectedFilters) {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,10 +139,57 @@ class _BatchDetailsState extends State<BatchDetails>
           tabs: _buildTabs(),
         ),
       ),
-      drawer: SideDrawer(),
+      drawer: SideDrawer(
+        curr_desig: curr_desig,
+      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                flex: 10,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                  child: DropdownButton<StudentSortingCriteria>(
+                    hint: Text('Sort by'),
+                    value: _sortingCriteria,
+                    onChanged: _setSortingCriteria,
+                    items: [
+                      DropdownMenuItem(
+                        child: Text('Sort by CPI'),
+                        value: StudentSortingCriteria.cpi,
+                      ),
+                      DropdownMenuItem(
+                        child: Text('Sort by Semester No'),
+                        value: StudentSortingCriteria.currentSemesterNo,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              IconButton(
+                icon: Icon(
+                    _isAscending ? Icons.arrow_upward : Icons.arrow_downward),
+                onPressed: _toggleSortOrder,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 5.0),
+                child: IconButton(
+                  icon: Icon(Icons.filter_list),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              FilterScreen(onApplyFilters: applyFilters)),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
           Expanded(
             child: Container(
               child: SingleChildScrollView(

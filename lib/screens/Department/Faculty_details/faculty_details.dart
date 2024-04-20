@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
 import 'package:fusion/constants.dart';
 import 'package:fusion/models/profile.dart';
 import 'package:fusion/services/department_service.dart';
@@ -16,6 +16,9 @@ class FacultyDetailsScreen extends StatefulWidget {
 
 class _FacultyDetailsState extends State<FacultyDetailsScreen>
     with SingleTickerProviderStateMixin {
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
+
   ProfileData? data;
   late TabController _tabController;
   List<String> departmentOptions = [
@@ -27,6 +30,7 @@ class _FacultyDetailsState extends State<FacultyDetailsScreen>
   List<FacultyDetails> facultyDetails = [];
   late String updatedDepartment;
   bool isLoading = false;
+
   @override
   void initState() {
     super.initState();
@@ -66,8 +70,18 @@ class _FacultyDetailsState extends State<FacultyDetailsScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
-      drawer: SideDrawer(),
+      appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: "Department",
+        onDesignationChanged: (newValue) {
+          setState(() {
+            curr_desig = newValue;
+          });
+        },
+      ),
+      drawer: SideDrawer(
+        curr_desig: curr_desig,
+      ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(

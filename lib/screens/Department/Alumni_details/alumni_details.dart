@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
 import 'package:fusion/constants.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
 
 class AlumniDetails extends StatefulWidget {
   @override
@@ -10,6 +12,9 @@ class AlumniDetails extends StatefulWidget {
 
 class _AlumniDetailsState extends State<AlumniDetails>
     with SingleTickerProviderStateMixin {
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
+
   late TabController _tabController;
   List<String> departmentOptions = [
     'CSE Department',
@@ -55,7 +60,7 @@ class _AlumniDetailsState extends State<AlumniDetails>
     _tabController =
         TabController(length: departmentOptions.length, vsync: this);
     _tabController.addListener(_handleTabSelection);
-    _tabController.index = 0; 
+    _tabController.index = 0;
   }
 
   void _handleTabSelection() {
@@ -73,21 +78,30 @@ class _AlumniDetailsState extends State<AlumniDetails>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
-      drawer: SideDrawer(),
+      appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: "Department",
+        onDesignationChanged: (newValue) {
+          setState(() {
+            curr_desig = newValue;
+          });
+        },
+      ),
+      drawer: SideDrawer(
+        curr_desig: curr_desig,
+      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // SizedBox(height: 16),
           Container(
-            color: kPrimaryColor, 
+            color: kPrimaryColor,
             child: TabBar(
               controller: _tabController,
               isScrollable: true,
               indicatorColor: Colors.black,
               labelColor: Colors.black,
-              unselectedLabelColor:
-                  Colors.white, 
+              unselectedLabelColor: Colors.white,
               tabs: departmentOptions
                   .map((department) => Tab(
                         text: department,

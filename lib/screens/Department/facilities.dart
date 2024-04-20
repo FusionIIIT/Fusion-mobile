@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/side_drawer.dart';
 import 'package:fusion/models/profile.dart';
+import 'package:fusion/Components/side_drawer2.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
 
@@ -11,6 +11,9 @@ class FacilitiesPage extends StatefulWidget {
 
 class _FacilitiesPageState extends State<FacilitiesPage>
     with SingleTickerProviderStateMixin {
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
+
   ProfileData? data;
   late TabController _tabController;
   TextEditingController _updateController = TextEditingController();
@@ -93,7 +96,9 @@ class _FacilitiesPageState extends State<FacilitiesPage>
           ],
         ),
       ),
-      drawer: SideDrawer(),
+      drawer: SideDrawer(
+        curr_desig: curr_desig,
+      ),
       body: TabBarView(
         controller: _tabController,
         children: [

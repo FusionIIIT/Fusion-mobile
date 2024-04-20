@@ -1,12 +1,12 @@
 // ignore_for_file: must_be_immutable
 import 'dart:async';
 import 'dart:convert';
+import 'package:http/http.dart';
 import 'package:flutter/material.dart';
 import 'package:fusion/constants.dart';
-import 'package:http/http.dart';
-import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
 import 'package:fusion/models/profile.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
 import 'package:fusion/screens/Department/Alumni_details/alumni_details.dart';
 import 'package:fusion/screens/Department/Faculty_details/faculty_details.dart';
 import 'package:fusion/screens/Department/Announcements/browse_announcement.dart';
@@ -15,6 +15,7 @@ import 'package:fusion/screens/Department/facilities.dart';
 import 'package:fusion/services/profile_service.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
 
 class DepartmentScreen extends StatefulWidget {
   String? token;
@@ -24,6 +25,9 @@ class DepartmentScreen extends StatefulWidget {
 }
 
 class _DepartmentScreenState extends State<DepartmentScreen> {
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
+
   late StreamController _profileController;
   late ProfileService profileService;
   late ProfileData? data;
@@ -83,8 +87,19 @@ class _DepartmentScreenState extends State<DepartmentScreen> {
     Color outlineColor = Colors.grey;
 
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
-      drawer: SideDrawer(),
+      appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: "Department",
+        onDesignationChanged: (newValue) {
+          setState(() {
+            curr_desig = newValue;
+          });
+        },
+      ),
+      drawer: SideDrawer(
+        curr_desig: curr_desig,
+      ),
+      bottomNavigationBar: MyBottomNavigationBar(),
       body: _loading == true
           ? Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
@@ -134,7 +149,7 @@ class _DepartmentScreenState extends State<DepartmentScreen> {
                                 children: [
                                   TextSpan(text: ' '),
                                   TextSpan(
-                                    text: data!.profile!['user_type'],
+                                    text: curr_desig,
                                     style: TextStyle(
                                         fontSize: 15.0, color: Colors.black),
                                   ),
@@ -306,15 +321,22 @@ class _DepartmentScreenState extends State<DepartmentScreen> {
                             border: Border.all(color: outlineColor, width: 2.0),
                           ),
                           child: DropdownButton<String>(
-                            value: selectedDepartment,
+                            value:
+                                departmentOptions.contains(selectedDepartment)
+                                    ? selectedDepartment
+                                    : '----------',
                             items: departmentOptions.map((String department) {
                               return DropdownMenuItem<String>(
                                 value: department,
                                 child: Text(department),
                               );
-                            }).toList(),
+                            }).toList()
+                              ..add(DropdownMenuItem<String>(
+                                  value: '----------',
+                                  child: Text('----------'))),
                             onChanged: (String? newValue) {
-                              if (newValue != null) {
+                              if (newValue != null &&
+                                  newValue != '----------') {
                                 setState(() {
                                   selectedDepartment = newValue;
                                 });
