@@ -2,8 +2,11 @@
 // import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
 import 'package:fusion/models/health.dart';
 import 'package:fusion/services/health_service.dart';
 // import 'package:fusion/services/service_locator.dart';
@@ -23,6 +26,9 @@ class CompounderHome extends StatefulWidget {
 class _CompounderHomeState extends State<CompounderHome> {
   bool _loading1 = false;
   // late StreamController _healthController;
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
+
   late HeathService healthService;
   late HealthData data;
   String? name='Compounder';
@@ -94,8 +100,19 @@ class _CompounderHomeState extends State<CompounderHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
-      drawer: SideDrawer(),
+      appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: "Health Center",
+        onDesignationChanged: (newValue) {
+          setState(() {
+            curr_desig = newValue;
+          });
+  
+        },
+      ), // This is default app bar used in all modules
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar:
+      MyBottomNavigationBar(),
       body: _loading1 == true
           ? Center(
               child: CircularProgressIndicator(),
