@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/models/profile.dart';
 import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/screens/Department/Department_Info/updateinfo.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
 
@@ -16,7 +17,6 @@ class _FacilitiesPageState extends State<FacilitiesPage>
 
   ProfileData? data;
   late TabController _tabController;
-  TextEditingController _updateController = TextEditingController();
 
   void initState() {
     super.initState();
@@ -31,9 +31,7 @@ class _FacilitiesPageState extends State<FacilitiesPage>
     _tabController.index = 0;
   }
 
-  void _handleTabSelection() {
-    // You can perform actions when a tab is selected if needed
-  }
+  void _handleTabSelection() {}
 
   @override
   void dispose() {
@@ -49,8 +47,10 @@ class _FacilitiesPageState extends State<FacilitiesPage>
 
   @override
   Widget build(BuildContext context) {
-    String? userRole = data?.profile?['user_type'];
-    bool isAdmin = userRole == 'admin';
+    bool isHOD = curr_desig == 'HOD (CSE)' ||
+        curr_desig == 'HOD (ECE)' ||
+        curr_desig == 'HOD (ME)' ||
+        curr_desig == 'HOD (SM)';
 
     return Scaffold(
       appBar: AppBar(
@@ -106,15 +106,9 @@ class _FacilitiesPageState extends State<FacilitiesPage>
           ListView(
             padding: const EdgeInsets.all(16.0),
             children: [
-              if (isAdmin)
-                TextFormField(
-                  controller: _updateController,
-                  decoration: InputDecoration(
-                    labelText: 'Update Library Information',
-                  ),
-                ),
+              SizedBox(height: 16),
               Text(
-                isAdmin ? _updateController.text : centralLibraryInfo,
+                centralLibraryInfo,
                 style: TextStyle(fontSize: 16),
               ),
             ],
@@ -124,18 +118,28 @@ class _FacilitiesPageState extends State<FacilitiesPage>
           ListView(
             padding: const EdgeInsets.all(16.0),
             children: [
+              SizedBox(height: 16),
               Text(
-                'Lab Infrastructure:',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-              ),
-              Text(
-                isAdmin ? _updateController.text : labInfraInfo,
+                labInfraInfo,
                 style: TextStyle(fontSize: 16),
               ),
             ],
           ),
         ],
       ),
+      floatingActionButton: isHOD
+          ? FloatingActionButton.extended(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => UpdateInfoPage(),
+                  ),
+                );
+              },
+              label: Text('Update Department Info'),
+            )
+          : null,
     );
   }
 }

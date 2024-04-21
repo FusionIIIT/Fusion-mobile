@@ -82,27 +82,29 @@ class _FacultyDetailsState extends State<FacultyDetailsScreen>
       drawer: SideDrawer(
         curr_desig: curr_desig,
       ),
-      body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              color: kPrimaryColor,
-              child: TabBar(
-                controller: _tabController,
-                isScrollable: true,
-                indicatorColor: Colors.black,
-                labelColor: Colors.black,
-                unselectedLabelColor: Colors.white,
-                tabs: departmentOptions
-                    .map((department) => Tab(
-                          text: department,
-                        ))
-                    .toList(),
-              ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            color: kPrimaryColor,
+            child: TabBar(
+              controller: _tabController,
+              isScrollable: true,
+              indicatorColor: Colors.black,
+              labelColor: Colors.black,
+              unselectedLabelColor: Colors.white,
+              tabs: departmentOptions
+                  .map((department) => Tab(
+                        text: department,
+                      ))
+                  .toList(),
             ),
-            SingleChildScrollView(
+          ),
+          Expanded(
+              child: Container(
+                  child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: FutureBuilder<List<Map<String, dynamic>>>(
                 future:
@@ -236,8 +238,8 @@ class _FacultyDetailsState extends State<FacultyDetailsScreen>
                 }),
               ),
             ),
-          ],
-        ),
+          ))),
+        ],
       ),
     );
   }
