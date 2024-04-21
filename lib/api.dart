@@ -26,6 +26,7 @@ String kAcadGetCoursesList = "/academic-procedures/api/acad/get_course_list/";
 String kFinalRegistration = "/academic-procedures/api/stu/final_registration/";
 String kGetAllCourses = "/academic-procedures/api/acad/get_all_courses/";
 String kGenerateRollList = "/academic-procedures/api/acad/gen_roll_list/";
+String kPreRegAddOneCourse = "/academic-procedures/api/stu/add_one_course/";
 
 //Complaint
 String kComplaintService = "/complaint/api/studentcomplain";

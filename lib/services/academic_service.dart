@@ -139,6 +139,8 @@ class AcademicService {
   }
 
   Future<http.Response> finalRegistration(
+      String user,
+      int semester,
       String transactionId,
       String depositDate,
       String utrNumber,
@@ -153,15 +155,17 @@ class AcademicService {
         'Authorization': 'Token ' + token,
         'Content-Type': 'application/json'
       };
+
       final body = {
+        'user': user,
+        'semester': semester,
+        'mode': 'NEFT',
         'transaction_id': transactionId,
         'deposit_date': depositDate,
         'utr_number': utrNumber,
         'fee_paid': feePaid,
         'actual_fee': actualFee,
         'reason': 'feePayment',
-        'mode': mode,
-        'semester': 5
       };
 
       final jsonString = json.encode(body);
@@ -249,6 +253,51 @@ class AcademicService {
     }
   }
 
+  // choice: courseId,
+  // slot: slotId,
+  // semester: semesterId,
+  // user: userId
+
+  Future<http.Response> preRegAddOneCourse(
+      int courseId, int slotId, int semester, String user) async {
+    try {
+      var _prefs = await StorageService.getInstance();
+      String token = _prefs!.userInDB?.token ?? "";
+      Map<String, String> headers = {
+        'Authorization': 'Token ' + token,
+        'Content-Type': 'application/json'
+      };
+
+      final body = {
+        'choice': courseId,
+        'slot': slotId,
+        'semester': semester,
+        'user': user
+      };
+
+      final jsonString = json.encode(body);
+
+      print("pre reg: submitting priority");
+      var client = http.Client();
+      http.Response response = await client.post(
+          Uri.http(
+            getLink(),
+            kPreRegAddOneCourse, //Constant api path
+          ),
+          headers: headers,
+          body: jsonString);
+      if (response.statusCode != 200) {
+        print(response.body);
+        throw Exception('Can\'t submit priority');
+      }
+      // print(jsonDecode(response.body)['message']);
+      print("successfully submitted course");
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<http.Response> getAllCourses() async {
     try {
       var _prefs = await StorageService.getInstance();
@@ -261,12 +310,11 @@ class AcademicService {
       print("fetching all courses");
       var client = http.Client();
       http.Response response = await client.get(
-        Uri.http(
-          getLink(),
-          kGetAllCourses, //Constant api path
-        ),
-        headers: headers
-      );
+          Uri.http(
+            getLink(),
+            kGetAllCourses, //Constant api path
+          ),
+          headers: headers);
       if (response.statusCode != 200) {
         throw Exception('Can\'t get all courses');
       }

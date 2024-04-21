@@ -11,6 +11,7 @@ class StorageService with ChangeNotifier {
   //This is the database key, do not change this
   static const String UserKey = "user";
   static const String ProfileKey = "ProfileKey";
+  static const String AcadKey = "AcadKey";
 
   User? get userInDB {
     var userJson = getFromDisk(UserKey);
@@ -25,9 +26,9 @@ class StorageService with ChangeNotifier {
   }
 
   AcademicData get academicData {
-    var profileJson = getFromDisk(ProfileKey);
+    var acadJson = getFromDisk(AcadKey);
     // print(jsonDecode(profileJson));
-    return AcademicData.fromJson(jsonDecode(profileJson));
+    return AcademicData.fromJson(jsonDecode(acadJson));
   }
 
   void saveUserInDB(User userToSave) {
@@ -37,6 +38,17 @@ class StorageService with ChangeNotifier {
 
   void saveProfileInDB(ProfileData data) {
     saveStringToDisk(ProfileKey, jsonEncode(data.toJson()));
+  }
+
+  void saveAcadInDB(AcademicData data) {
+    saveStringToDisk(AcadKey, jsonEncode(data.toJson()));
+  }
+
+  void updateFinalFlag() {
+    AcademicData acadJson =
+        AcademicData.fromJson(jsonDecode(getFromDisk(AcadKey)));
+    acadJson.final_registration_flag = true;
+    saveStringToDisk(AcadKey, jsonEncode(acadJson));
   }
 
   static Future<StorageService?> getInstance() async {
