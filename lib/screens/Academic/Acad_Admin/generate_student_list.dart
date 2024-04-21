@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
@@ -23,6 +25,7 @@ class _GenerateStudentListState extends State<GenerateStudentList>
   bool _loading1 = true;
   late AcademicService academicService;
   List<dynamic> courseOptions = [];
+  // List<dynamic> coursebhai = [];
 
   List<Map<String, dynamic>> _studentList = [];
 
@@ -49,6 +52,12 @@ class _GenerateStudentListState extends State<GenerateStudentList>
       Response response = await academicService.getAllCourses();
       setState(() {
         courseOptions = jsonDecode(response.body);
+        // remove all entries from courseOptions;
+        // for (int i = 0; i < 100; i++) {
+        //   coursebhai.add(courseOptions[i]);
+        // }
+        // print(coursebhai);
+
         // print(courseOptions);
         _loading1 = false;
       });
@@ -87,18 +96,28 @@ class _GenerateStudentListState extends State<GenerateStudentList>
                   ),
                   SizedBox(height: 16.0),
                   Container(
-                    height: 50, 
-                    width: 40, 
+                    width: MediaQuery.of(context).size.width *
+                        0.5, // Adjust; the width as needed
+                        height: 100,
                     child: DropdownButtonFormField(
                       items: courseOptions.map((course) {
                         return DropdownMenuItem(
                           value: course['id'],
-                          child: Text(course['course_name']),
+                          child: Container(
+                            // Wrap the DropdownMenuItem with Container
+                            width: 300, // Set the width of the Container to fill available space
+                            
+                            child: Text(
+                              // Wrap the Text widget inside the Container
+                              course['course_name'],
+                              overflow: TextOverflow
+                                  .ellipsis, // Set overflow to ellipsis
+                            ),
+                          ),
                         );
                       }).toList(),
                       onChanged: (value) {
                         _courseController.text = value.toString();
-                        print(_courseController.text);
                       },
                       decoration: InputDecoration(
                         labelText: 'Course',
