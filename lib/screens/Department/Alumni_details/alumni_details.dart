@@ -118,7 +118,6 @@ class _AlumniDetailsState extends State<AlumniDetails>
                     scrollDirection: Axis.horizontal,
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.white,
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       child: DataTable(

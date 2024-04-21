@@ -240,7 +240,6 @@ class DepartmentService {
     }
   }
 
-
   Future<bool> createAnnouncement(Map<String, dynamic> announcementData) async {
     try {
       var storage_service = locator<StorageService>();
@@ -255,7 +254,7 @@ class DepartmentService {
       if (announcementData['upload_announcement'] != null) {
         var request = http.MultipartRequest(
           'POST',
-          Uri.http(getLink(), kDepartmentAnnouncements),
+          Uri.http(getLink(), kDepMain),
         );
 
         request.headers.addAll(headers);

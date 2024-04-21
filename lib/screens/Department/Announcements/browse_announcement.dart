@@ -1,9 +1,10 @@
 import 'dart:async';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
 import 'package:fusion/constants.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
 import 'package:fusion/models/profile.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
@@ -52,6 +53,9 @@ class _WebViewerState extends State<WebViewer> {
 
 class _BrowseAnnouncementState extends State<BrowseAnnouncement>
     with SingleTickerProviderStateMixin {
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
+
   ProfileData? data;
   late TabController _tabController;
   List<String> departmentOptions = ['All', 'CSE', 'ECE', 'ME', 'SM'];
@@ -126,8 +130,19 @@ class _BrowseAnnouncementState extends State<BrowseAnnouncement>
   Widget build(BuildContext context) {
     String? userRole = data?.profile?['user_type'];
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
-      drawer: SideDrawer(),
+      appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: "Department",
+        onDesignationChanged: (newValue) {
+          setState(() {
+            curr_desig = newValue;
+          });
+        },
+      ),
+      drawer: SideDrawer(
+        curr_desig: curr_desig,
+      ),
+      bottomNavigationBar: MyBottomNavigationBar(),
       body: Column(
         children: [
           Container(

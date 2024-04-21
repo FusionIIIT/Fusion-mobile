@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:fusion/services/department_service.dart';
 import 'package:fusion/models/profile.dart';
@@ -17,13 +18,16 @@ class MakeAnnouncement extends StatefulWidget {
 }
 
 class _MakeAnnouncementState extends State<MakeAnnouncement> {
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
+
   late ProfileData? data;
   late ProfileService profileService;
   List<Map<String, String>> announcements = [];
   final _formKey = GlobalKey<FormState>();
   List<String?> programmeTypes = [null, 'B.Tech', 'M.Tech', 'Ph.D'];
-  List<String?> departmentTypes = [null, 'All', 'CSE', 'ECE', 'ME', 'SM'];
-  List<String?> batches = [null, 'All', 'Year-1', 'Year-2', 'Year-3', 'Year-4'];
+  List<String?> departmentTypes = [null, 'ALL', 'CSE', 'ECE', 'ME', 'SM'];
+  List<String?> batches = [null, 'ALL', 'Year-1', 'Year-2', 'Year-3', 'Year-4'];
 
   late String ann_date;
   String? selectedProgrammeType;
@@ -64,8 +68,19 @@ class _MakeAnnouncementState extends State<MakeAnnouncement> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
-      drawer: SideDrawer(),
+      appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: "Department",
+        onDesignationChanged: (newValue) {
+          setState(() {
+            curr_desig = newValue;
+          });
+        },
+      ),
+      drawer: SideDrawer(
+        curr_desig: curr_desig,
+      ),
+      bottomNavigationBar: MyBottomNavigationBar(),
       body: SingleChildScrollView(
         child: Column(
           children: [
