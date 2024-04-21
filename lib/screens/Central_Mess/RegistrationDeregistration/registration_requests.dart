@@ -123,24 +123,6 @@ class _RegistrationRequestsState extends State<RegistrationRequests> {
       'Mess': 'Mess1',
       'Accept/Reject': 'Accepted',
     },
-    {
-      'Student Id': '21BCS064',
-      'Transaction No': 'T002',
-      'Image': 'image_url_2',
-      'Amount': '15000',
-      'Remark': 'Out of tokens',
-      'Mess': 'Mess2',
-      'Accept/Reject': 'Rejected',
-    },
-    {
-      'Student Id': '21BCS133',
-      'Transaction No': 'T002',
-      'Image': 'image_url_2',
-      'Amount': '15000',
-      'Remark': 'Out of tokens',
-      'Mess': 'Mess1',
-      'Accept/Reject': 'Accepted',
-    },
   ];
 
   List<Map<String, String>> statusDropDownItems = [
@@ -154,13 +136,6 @@ class _RegistrationRequestsState extends State<RegistrationRequests> {
 
   @override
   Widget build(BuildContext context) {
-    // final ButtonStyle style = ElevatedButton.styleFrom(
-    //   textStyle: const TextStyle(
-    //       fontSize: 20, color: Colors.white, fontWeight: FontWeight.w500),
-    //   backgroundColor: Colors.white,
-    //   shadowColor: Colors.black,
-    // );
-
     return _loading == true
         ? Center(child: CircularProgressIndicator())
         : (SingleChildScrollView(

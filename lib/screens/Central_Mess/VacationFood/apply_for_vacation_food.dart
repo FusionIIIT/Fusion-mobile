@@ -437,6 +437,8 @@ class _VacationFoodFormState extends State<VacationFoodForm> {
                               : null,
                         ),
                         mode: DateTimeFieldPickerMode.date,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        initialDate: selectedDateStart,
                         onDateSelected: (DateTime value) {
                           setState(() {
                             selectedDateStart = value;
@@ -461,6 +463,8 @@ class _VacationFoodFormState extends State<VacationFoodForm> {
                               : null,
                         ),
                         mode: DateTimeFieldPickerMode.date,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        initialDate: selectedDateEnd,
                         onDateSelected: (DateTime value) {
                           setState(() {
                             selectedDateEnd = value;

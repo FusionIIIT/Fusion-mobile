@@ -158,8 +158,8 @@ class _RebateFormState extends State<RebateForm> {
                         fillColor: Colors.white,
                       ),
                       mode: DateTimeFieldPickerMode.date,
-                      // autovalidateMode: AutovalidateMode.always,
-                      // initialValue: DateTime.now(), // Set initial date
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      initialValue: selectedDateStart, // Set initial date
                       validator: (e) =>
                       e == null ? 'Select start date' : null,
                       onDateSelected: (DateTime value) {
@@ -181,8 +181,8 @@ class _RebateFormState extends State<RebateForm> {
                         fillColor: Colors.white,
                       ),
                       mode: DateTimeFieldPickerMode.date,
-                      // autovalidateMode: AutovalidateMode.always,
-                      // initialValue: DateTime.now(), // Set initial date
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      initialValue: selectedDateEnd, // Set initial date
                       validator: (e) =>
                       e == null ? 'Select End Date' : null,
                       onDateSelected: (DateTime value) {

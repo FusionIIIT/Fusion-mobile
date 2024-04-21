@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:fusion/models/central_mess.dart';
 import 'package:fusion/services/central_mess_services.dart';
@@ -133,15 +134,16 @@ class _RegisterState extends State<Register> {
       if (result != null) {
         String? filePath = result.files.single.path;
         String? fileBase64 = await _convertFileToBase64(filePath!);
-        // setState(() {
+        setState(() {
           _filePath = filePath;
           _fileBase64 = fileBase64;
-        // });
+        });
       }
     } on Exception catch (e) {
       print("Error picking file: $e");
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -170,45 +172,54 @@ class _RegisterState extends State<Register> {
                     DateTimeFormField(
                       decoration: InputDecoration(
                         suffixIcon: Icon(Icons.event_note),
-                        labelText: 'Start Date',
+                        labelText: 'Register From',
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                              color: Colors.deepOrangeAccent, width: 2),
+                            color: Colors.deepOrangeAccent,
+                            width: 2,
+                          ),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         filled: true,
                         fillColor: Colors.white,
                       ),
                       mode: DateTimeFieldPickerMode.date,
-                      // autovalidateMode: AutovalidateMode.always,
-                      // initialValue: DateTime.now(),
-                      validator: (e) =>
-                      e == null ? 'Select start date' : null,
-                      onDateSelected: (DateTime value) {
-                        registerDate = value;
+                      autovalidateMode: AutovalidateMode.onUserInteraction, // Only validate on user interaction
+                      initialValue: registerDate, // Set initial value
+                      validator: (e) => e == null ? 'Please select a date' : null,
+                      onDateSelected: (DateTime? value) {
+                        setState(() {
+                          registerDate = value; // Update registerDate when a date is selected
+                        });
                       },
-                      firstDate: DateTime.now(),
+                      firstDate: DateTime.now(), // Disable previous dates
                     ),
                     SizedBox(height: 10.0),
                     DateTimeFormField(
                       decoration: InputDecoration(
-                        labelText: 'Payment date',
+                        suffixIcon: Icon(Icons.event_note),
+                        labelText: 'Payment Date',
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                              color: Colors.deepOrangeAccent, width: 2),
+                            color: Colors.deepOrangeAccent,
+                            width: 2,
+                          ),
                           borderRadius: BorderRadius.circular(20),
                         ),
-                        suffixIcon: Icon(Icons.event_note),
                         filled: true,
                         fillColor: Colors.white,
                       ),
                       mode: DateTimeFieldPickerMode.date,
-                      autovalidateMode: AutovalidateMode.always,
-                      validator: (e) =>
-                      (e?.day ?? 0) == 1 ? 'Select payment date' : null,
-                      onDateSelected: (DateTime value) {
-                        paymentDate = value;
+                      autovalidateMode: AutovalidateMode.onUserInteraction, // Only validate on user interaction
+                      initialValue: paymentDate, // Set initial value
+                      validator: (e) => e == null ? 'Please select a date' : null,
+                      onDateSelected: (DateTime? value) {
+                        setState(() {
+                          paymentDate = value; // Update paymentDate when a date is selected
+                        });
                       },
+                      firstDate: DateTime.now().subtract(Duration(days: 365)), // Limit to one year ago
+                      lastDate: DateTime.now(), // Limit to today
                     ),
                     SizedBox(height: 10.0),
                     TextFormField(
@@ -272,17 +283,21 @@ class _RegisterState extends State<Register> {
                         labelText: 'Upload Screenshot/Receipt',
                         suffixIcon: Icon(Icons.attach_file),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colors.deepOrangeAccent, width: 2),
+                          borderSide: BorderSide(color: Colors.deepOrangeAccent, width: 2),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         filled: true,
                         fillColor: Colors.white,
                       ),
-                      controller: TextEditingController(
-                        text: _filePath ?? '',
-                      ),
+                      controller: TextEditingController(text: _filePath != null ? _filePath!.split('/').last : ''),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Please select a file";
+                        }
+                        return null;
+                      },
                     ),
+
                     SizedBox(height: 30.0),
                     ElevatedButton(
                       style: style,

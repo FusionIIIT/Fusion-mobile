@@ -179,8 +179,8 @@ class _FeedbackFormState extends State<FeedbackForm> {
                         fillColor: Colors.white,
                       ),
                       mode: DateTimeFieldPickerMode.date,
-                      // autovalidateMode: AutovalidateMode.always,
-                      // initialValue: DateTime.now(), // Set initial date
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      initialValue: selectedDate, // Set initial date
                       validator: (e) =>
                       e == null ? 'Select date' : null,
                       onDateSelected: (DateTime value) {
