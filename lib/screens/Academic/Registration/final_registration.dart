@@ -80,6 +80,9 @@ class _FinalRegistration extends State<FinalRegistration> {
 
   Future<void> _submitForm() async {
     if (_formKey.currentState!.validate()) {
+      String user = service.academicData.details!['current_user']['username'];
+      int sem = service.academicData.user_sem;
+
       // Retrieve text data from controllers
       String transactionId = _transactionIdController.text;
       String depositDate = _depositDateController.text;
@@ -99,12 +102,43 @@ class _FinalRegistration extends State<FinalRegistration> {
       print('Mode: $_modeController');
 
       // You can add your logic here to submit the form data
-
-      Response response = await academicService.finalRegistration(
-          transactionId, depositDate, utrNumber, feePaid, actualFee, mode);
-      setState(() {
-        _responseText = (jsonDecode(response.body))["message"];
-      });
+      try {
+        Response response = await academicService.finalRegistration(user, sem,
+            transactionId, depositDate, utrNumber, feePaid, actualFee, mode);
+        service.updateFinalFlag();
+        // service.academicData.final_registration_flag = true;
+        setState(() {
+          _responseText = (jsonDecode(response.body))["message"];
+        });
+        showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text('Success!'),
+            content: Text(_responseText ?? ""),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.pop(context, 'OK'),
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
+      } catch (e) {
+        print(e);
+        showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text('Failure!'),
+            content: const Text("Couldn't Perform Final Registration"),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.pop(context, 'OK'),
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
+      }
     }
   }
 
@@ -121,155 +155,177 @@ class _FinalRegistration extends State<FinalRegistration> {
         },
       ), // This is default app bar used in all modules
       drawer: SideDrawer(curr_desig: curr_desig),
-      bottomNavigationBar:
-          MyBottomNavigationBar(),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 10.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                SizedBox(height: 20),
-                Container(
-                    padding: EdgeInsets.all(10),
-                    alignment: Alignment.center,
-                    child: TextFormField(
-                      controller: _transactionIdController,
-                      decoration: InputDecoration(labelText: 'Transaction ID'),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter transaction ID';
-                        }
-                        return null;
-                      },
-                    )),
-                Container(
-                    padding: EdgeInsets.all(10),
-                    alignment: Alignment.center,
-                    child: TextFormField(
-                      controller: _depositDateController,
-                      readOnly: true,
-                      decoration: InputDecoration(
-                        labelText: 'Deposit Date',
-                        suffixIcon: IconButton(
-                          icon: Icon(Icons.calendar_today),
-                          onPressed: () => _selectDate(context),
-                        ),
+      bottomNavigationBar: MyBottomNavigationBar(),
+      body: service.academicData.final_registration_date_flag == false
+          ? Center(
+              child: Text(
+              'Final Registration has not started yet!',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 20,
+              ),
+            ))
+          : service.academicData.final_registration_flag == true
+              ? Center(
+                  child: Text(
+                  'Final Registration already done!',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                  ),
+                ))
+              : SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          SizedBox(height: 20),
+                          Container(
+                              padding: EdgeInsets.all(10),
+                              alignment: Alignment.center,
+                              child: TextFormField(
+                                controller: _transactionIdController,
+                                decoration: InputDecoration(
+                                    labelText: 'Transaction ID'),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter transaction ID';
+                                  }
+                                  return null;
+                                },
+                              )),
+                          Container(
+                              padding: EdgeInsets.all(10),
+                              alignment: Alignment.center,
+                              child: TextFormField(
+                                controller: _depositDateController,
+                                readOnly: true,
+                                decoration: InputDecoration(
+                                  labelText: 'Deposit Date',
+                                  suffixIcon: IconButton(
+                                    icon: Icon(Icons.calendar_today),
+                                    onPressed: () => _selectDate(context),
+                                  ),
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter deposit date';
+                                  }
+                                  return null;
+                                },
+                              )),
+
+                          // SizedBox(height: 20),
+                          Container(
+                              padding: EdgeInsets.all(10),
+                              alignment: Alignment.center,
+                              child: TextFormField(
+                                controller: _utrNumberController,
+                                decoration: InputDecoration(
+                                    labelText: 'UTR Number (Optional)'),
+                              )),
+
+                          Container(
+                              padding: EdgeInsets.all(10),
+                              alignment: Alignment.center,
+                              child: TextFormField(
+                                controller: _feePaidController,
+                                decoration:
+                                    InputDecoration(labelText: 'Fee Paid'),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter fee paid';
+                                  }
+                                  return null;
+                                },
+                              )),
+                          // SizedBox(height: 20),
+                          Container(
+                              padding: EdgeInsets.all(10),
+                              alignment: Alignment.center,
+                              child: TextFormField(
+                                controller: _actualFeeController,
+                                decoration:
+                                    InputDecoration(labelText: 'Actual Fee'),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter actual fee';
+                                  }
+                                  return null;
+                                },
+                              )),
+                          // SizedBox(height: 20),
+                          Container(
+                              padding: EdgeInsets.all(10),
+                              alignment: Alignment.center,
+                              child: TextFormField(
+                                controller: _modeController,
+                                decoration: InputDecoration(labelText: 'Mode'),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter mode of payment';
+                                  }
+                                  return null;
+                                },
+                              )),
+                          // SizedBox(height: 20),
+                          // Row(
+                          //   children: [
+                          //     Expanded(
+                          //       child: TextFormField(
+                          //         controller: _feeReceiptController,
+                          //         decoration: InputDecoration(labelText: 'Fee Receipt'),
+                          //         validator: (value) {
+                          //           if (_selectedFile == null || _selectedFile!.isEmpty) {
+                          //             return 'Please upload fee receipt';
+                          //           }
+                          //           return null;
+                          //         },
+                          //       ),
+                          //     ),
+                          //     IconButton(
+                          //       icon: Icon(Icons.attach_file),
+                          //       onPressed: _selectFile,
+                          //     ),
+                          //   ],
+                          // ),
+                          SizedBox(height: 20),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: ElevatedButton(
+                              onPressed: _submitForm,
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(Colors
+                                        .orange[
+                                    900]), // Setting background color of button to blue
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(vertical: 10),
+                                child: Text('Submit',
+                                    style: TextStyle(
+                                        fontSize: 18, color: Colors.white)),
+                              ),
+                            ),
+                          ),
+                          // SizedBox(height: 20),
+                          // _responseText == null
+                          //     ? Container()
+                          //     : Text(
+                          //         _responseText!,
+                          //         style: TextStyle(
+                          //           color: Colors.green,
+                          //           fontSize: 20,
+                          //         ),
+                          //       ),
+                          // SizedBox(height: 20),
+                        ],
                       ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter deposit date';
-                        }
-                        return null;
-                      },
-                    )),
-
-                // SizedBox(height: 20),
-                Container(
-                    padding: EdgeInsets.all(10),
-                    alignment: Alignment.center,
-                    child: TextFormField(
-                      controller: _utrNumberController,
-                      decoration:
-                          InputDecoration(labelText: 'UTR Number (Optional)'),
-                    )),
-
-                Container(
-                    padding: EdgeInsets.all(10),
-                    alignment: Alignment.center,
-                    child: TextFormField(
-                      controller: _feePaidController,
-                      decoration: InputDecoration(labelText: 'Fee Paid'),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter fee paid';
-                        }
-                        return null;
-                      },
-                    )),
-                // SizedBox(height: 20),
-                Container(
-                    padding: EdgeInsets.all(10),
-                    alignment: Alignment.center,
-                    child: TextFormField(
-                      controller: _actualFeeController,
-                      decoration: InputDecoration(labelText: 'Actual Fee'),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter actual fee';
-                        }
-                        return null;
-                      },
-                    )),
-                // SizedBox(height: 20),
-                Container(
-                    padding: EdgeInsets.all(10),
-                    alignment: Alignment.center,
-                    child: TextFormField(
-                      controller: _modeController,
-                      decoration: InputDecoration(labelText: 'Mode'),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter mode of payment';
-                        }
-                        return null;
-                      },
-                    )),
-                // SizedBox(height: 20),
-                // Row(
-                //   children: [
-                //     Expanded(
-                //       child: TextFormField(
-                //         controller: _feeReceiptController,
-                //         decoration: InputDecoration(labelText: 'Fee Receipt'),
-                //         validator: (value) {
-                //           if (_selectedFile == null || _selectedFile!.isEmpty) {
-                //             return 'Please upload fee receipt';
-                //           }
-                //           return null;
-                //         },
-                //       ),
-                //     ),
-                //     IconButton(
-                //       icon: Icon(Icons.attach_file),
-                //       onPressed: _selectFile,
-                //     ),
-                //   ],
-                // ),
-                SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: ElevatedButton(
-                    onPressed: _submitForm,
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.orange[
-                          900]), // Setting background color of button to blue
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      child: Text('Submit',
-                          style: TextStyle(fontSize: 18, color: Colors.white)),
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
-                _responseText == null
-                    ? Container()
-                    : Text(
-                        _responseText!,
-                        style: TextStyle(
-                          color: Colors.green,
-                          fontSize: 20,
-                        ),
-                      ),
-                // SizedBox(height: 20),
-              ],
-            ),
-          ),
-        ),
-      ),
     );
   }
 }
