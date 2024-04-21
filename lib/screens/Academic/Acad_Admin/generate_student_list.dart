@@ -52,6 +52,7 @@ class _GenerateStudentListState extends State<GenerateStudentList>
       Response response = await academicService.getAllCourses();
       setState(() {
         courseOptions = jsonDecode(response.body);
+        print(courseOptions);
         // remove all entries from courseOptions;
         // for (int i = 0; i < 100; i++) {
         //   coursebhai.add(courseOptions[i]);
