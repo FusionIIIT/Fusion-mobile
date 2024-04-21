@@ -38,7 +38,7 @@ class _CourseAuthenticationState extends State<CourseAuthentication> {
    var service = locator<StorageService>();
 late String curr_desig = service.getFromDisk("Current_designation");
   List<dynamic> _registeredStudents = [];
-  final int _displayLimit = 10;
+  final int _displayLimit = 1000;
 
   void _fetchAndUpdateAuthStatus(int courseId, String year) async {
     try {
@@ -192,7 +192,7 @@ late String curr_desig = service.getFromDisk("Current_designation");
     }
   }
 
-  List<String> YearTypeItem = ['2016' , '2017', '2018', '2019', '2020', '2021', '2022', '2023'];
+  List<String> YearTypeItem = ['2016' , '2017', '2018', '2019', '2020', '2021', '2022', '2023' , '2024'];
 
   List<String> batchTypeItem = [
     '2020',

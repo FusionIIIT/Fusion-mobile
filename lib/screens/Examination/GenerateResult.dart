@@ -32,7 +32,7 @@ class _GenerateResultState extends State<GenerateResult> {
   bool isVerified = false;
 
   List<dynamic> _registeredStudents = [];
-  final int _displayLimit = 10;
+  final int _displayLimit = 1000;
   String? _selectedStudentId;
    var service = locator<StorageService>();
 late String curr_desig = service.getFromDisk("Current_designation");
