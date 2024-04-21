@@ -4,7 +4,7 @@ import 'package:fusion/screens/Academic/Add_Drop_Courses/add_drop_courses.dart';
 import 'package:fusion/screens/Complaint/ComplaintHistory/complain_history.dart';
 import 'package:fusion/screens/Complaint/Feedback/feedback.dart';
 import 'package:fusion/screens/Complaint/LodgeComplaint/lodge_complaint.dart';
-import 'package:fusion/screens/Compounder/announcements.dart';
+// import 'package:fusion/screens/Compounder/announcements.dart';
 import 'package:fusion/screens/Compounder/doctorSchedule.dart';
 import 'package:fusion/screens/Compounder/homepage.dart';
 import 'package:fusion/screens/Compounder/inventory.dart';
@@ -14,7 +14,7 @@ import 'package:fusion/screens/Compounder/patientLog.dart';
 import 'package:fusion/screens/Establishment/establishment_home_page.dart';
 import 'package:fusion/screens/Healthcenter/medicalprofile.dart';
 import 'package:fusion/screens/Healthcenter/reimbursement.dart';
-import 'package:fusion/screens/Healthcenter/view_announcement.dart';
+// import 'package:fusion/screens/Healthcenter/view_announcement.dart';
 import 'package:fusion/screens/Library/Book_Search.dart';
 import 'package:fusion/screens/Library/dues.dart';
 import 'package:fusion/screens/Library/issued_items.dart';
@@ -144,7 +144,7 @@ class MyApp extends StatelessWidget {
           '/health_center/viewdoctorschedule': (context) =>
               ViewDoctorSchedule(),
           '/health_center/history': (context) => HealthRecordsPage(),
-          '/health_center/announcement': (context) => ViewAnnouncementPage(),
+          // '/health_center/announcement': (context) => ViewAnnouncementPage(),
           '/health_center/reimbursement': (context) => ReimbursementFormPage(),
           '/health_center/medicalprofile': (context) => MedicalProfilePage(),
 
@@ -152,7 +152,7 @@ class MyApp extends StatelessWidget {
           '/compounder/doctor_schedule': (context) => DoctorAvailabilityPage(),
           '/compounder/pathologist_schedule': (context) =>
               PathologistAvailabilityPage(),
-          '/compounder/announcements': (context) => AnnouncementPage(),
+          // '/compounder/announcements': (context) => AnnouncementPage(),
           '/compounder/inventory': (context) => HealthCenterInventoryPage(),
           '/compounder/reimbursement': (context) => ReimbursementPage(),
           '/compounder/patient_log': (context) => HomePage(),
