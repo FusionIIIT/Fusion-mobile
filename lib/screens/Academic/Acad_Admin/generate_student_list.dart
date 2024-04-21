@@ -27,7 +27,7 @@ class _GenerateStudentListState extends State<GenerateStudentList>
   List<dynamic> courseOptions = [];
   // List<dynamic> coursebhai = [];
 
-  List<Map<String, dynamic>> _studentList = [];
+  List<dynamic> _studentList = [];
 
   @override
   void initState() {
@@ -52,14 +52,22 @@ class _GenerateStudentListState extends State<GenerateStudentList>
       Response response = await academicService.getAllCourses();
       setState(() {
         courseOptions = jsonDecode(response.body);
-        print(courseOptions);
-        // remove all entries from courseOptions;
-        // for (int i = 0; i < 100; i++) {
-        //   coursebhai.add(courseOptions[i]);
-        // }
-        // print(coursebhai);
-
+        // sort course options on the basis of course_name
+        courseOptions.sort((a, b) => a['name'].compareTo(b['name']));
         // print(courseOptions);
+        _loading1 = false;
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  getRollList(String batch, String course) async {
+    try {
+      _loading1 = true;
+      Response response = await academicService.generateRollList(batch,  course);
+      setState(() {
+        _studentList = jsonDecode(response.body)["students"];
         _loading1 = false;
       });
     } catch (e) {
@@ -110,7 +118,7 @@ class _GenerateStudentListState extends State<GenerateStudentList>
                             
                             child: Text(
                               // Wrap the Text widget inside the Container
-                              course['course_name'],
+                              course['name'],
                               overflow: TextOverflow
                                   .ellipsis, // Set overflow to ellipsis
                             ),
@@ -130,26 +138,7 @@ class _GenerateStudentListState extends State<GenerateStudentList>
                     onPressed: () {
                       if (_batchController.text.isNotEmpty &&
                           _courseController.text.isNotEmpty) {
-                        // Dummy data for demonstration
-                        setState(() {
-                          _studentList = [
-                            {
-                              'rollNo': '21BCS038',
-                              'name': 'John Doe',
-                              'branch': 'CSE'
-                            },
-                            {
-                              'rollNo': '21BCS073',
-                              'name': 'Jane Smith',
-                              'branch': 'CSE'
-                            },
-                            {
-                              'rollNo': '21BEC097',
-                              'name': 'Alice Johnson',
-                              'branch': 'CSE'
-                            },
-                          ];
-                        });
+                        getRollList(_batchController.text.toString(), _courseController.text.toString());
                       } else {
                         // Show a snackbar indicating that batch and course are required
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -193,9 +182,9 @@ class _GenerateStudentListState extends State<GenerateStudentList>
             .map(
               (student) => DataRow(
                 cells: [
-                  DataCell(Text(student['rollNo'])),
+                  DataCell(Text(student['rollno'])),
                   DataCell(Text(student['name'])),
-                  DataCell(Text(student['branch'])),
+                  DataCell(Text(student['department'])),
                 ],
               ),
             )

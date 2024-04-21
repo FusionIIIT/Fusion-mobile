@@ -276,4 +276,37 @@ class AcademicService {
       rethrow;
     }
   }
+
+  Future<http.Response> generateRollList(String batch, String course) async {
+    try {
+      var _prefs = await StorageService.getInstance();
+      String token = _prefs!.userInDB?.token ?? "";
+      Map<String, String> headers = {
+        'Authorization': 'Token ' + token,
+        'Content-Type': 'application/json'
+      };
+
+      final body = {"batch": batch, "course": course};
+
+      final jsonString = json.encode(body);
+
+      print("fetching roll list");
+      var client = http.Client();
+      http.Response response = await client.post(
+        Uri.http(
+          getLink(),
+          kGenerateRollList, //Constant api path
+        ),
+        headers: headers,
+        body: jsonString,
+      );
+      if (response.statusCode != 200) {
+        throw Exception('Can\'t get roll list');
+      }
+      print("successfully fetched roll list");
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
