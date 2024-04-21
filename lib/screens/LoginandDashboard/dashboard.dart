@@ -39,7 +39,7 @@ class _DashboardState extends State<Dashboard> {
   late ProfileData data2;
   late List<String> designationsArray;
   var service = locator<StorageService>();
-  late String curr_desig = service.getFromDisk("Current_designation");
+  late var curr_desig = service.getFromDisk("Current_designation");
   bool isStudent = false;
 
   final appBarServices _appBarServices = appBarServices();

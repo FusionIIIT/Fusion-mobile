@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
 import 'package:fusion/screens/HR/HRHomePage.dart';
 import 'package:fusion/services/profile_service.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
-import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/models/profile.dart';
-import 'package:fusion/services/storage_service.dart';
+import 'package:fusion/api.dart';
 import 'dart:async';
 import 'dart:convert';
 
@@ -31,6 +33,28 @@ class _ApplyForAppraisalState extends State<ApplyForAppraisal> {
   TextEditingController _commentsOnPerformanceController =
       TextEditingController();
   TextEditingController _receiverNameController = TextEditingController();
+  TextEditingController _otherInstructionalTasksController =
+      TextEditingController();
+  TextEditingController _otherResearchElementController =
+      TextEditingController();
+  TextEditingController _publicationController = TextEditingController();
+  TextEditingController _referredConferenceController = TextEditingController();
+  TextEditingController _conferenceOrganisedController =
+      TextEditingController();
+  TextEditingController _membershipController = TextEditingController();
+  TextEditingController _honoursController = TextEditingController();
+  TextEditingController _editorOfPublicationsController =
+      TextEditingController();
+  TextEditingController _expertLectureDeliveredController =
+      TextEditingController();
+  TextEditingController _membershipOfBOSController = TextEditingController();
+  TextEditingController _otherExtensionTasksController =
+      TextEditingController();
+  TextEditingController _administrativeAssignmentController =
+      TextEditingController();
+  TextEditingController _serviceToInstituteController = TextEditingController();
+  TextEditingController _otherContributionController = TextEditingController();
+
   List<Map<String, TextEditingController>> _courseRows = [];
   List<Map<String, TextEditingController>> _newCourseRows = [];
   List<Map<String, TextEditingController>> _courseMaterialRows = [];
@@ -40,13 +64,17 @@ class _ApplyForAppraisalState extends State<ApplyForAppraisal> {
   late StreamController _profileController;
   late ProfileService profileService;
   late ProfileData datap;
-  var service;
+  late List<dynamic> designationsOfReceiver = [];
+  TextEditingController _receiverDesignationController =
+      TextEditingController();
+  bool fetchedDesignationsOfReceiver = false;
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
   bool _loading1 = true;
   void initState() {
     super.initState();
     _profileController = StreamController();
     profileService = ProfileService();
-    service = locator<StorageService>();
     try {
       print("hello");
       datap = service.profileData;
@@ -77,17 +105,37 @@ class _ApplyForAppraisalState extends State<ApplyForAppraisal> {
     print(datap.profile!['user_type']);
     setState(() {
       _nameController.text = datap.user!['first_name'];
-      _designationController.text = datap.profile!['user_type'];
+      _designationController.text = curr_desig;
     });
   }
 
+  getDesignations() async {
+    final String host = kserverLink;
+    final String path = "/hr2/api/getDesignations/";
+    final queryParameters = {
+      'username': _receiverNameController.text,
+    };
+    Uri uri = (Uri.http(host, path, queryParameters));
+    var response = await http.get(uri);
+    if (response.statusCode == 200) {
+      final d = await jsonDecode(response.body);
+      setState(() {
+        fetchedDesignationsOfReceiver = true;
+        designationsOfReceiver = d;
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Please check the entered username.")));
+    }
+  }
+
   void submitForm() async {
-    final url = "http://10.0.2.2:8000/hr2/api/appraisal/";
-    print("in submit form");
+    final url = "http://${kserverLink}/hr2/api/appraisal/";
 
     //  print _courseRows value
     final data = {
       "name": _nameController.text,
+      "employeeId": (datap.user)!['id'],
       "designation": _designationController.text,
       "disciplineInfo": _disciplineController.text,
       "specificFieldOfKnowledge": _specificFieldOfKnowledgeController.text,
@@ -101,7 +149,7 @@ class _ApplyForAppraisalState extends State<ApplyForAppraisal> {
                 'studentsRegistered': row['studentsRegistered']!.text,
               })
           .toList(),
-      "newCourses": _newCourseRows
+      "newCoursesIntroduced": _newCourseRows
           .map((row) => {
                 'courseName&Number': row['courseName&Number']!.text,
                 'UG/PG': row['UG/PG']!.text,
@@ -109,7 +157,7 @@ class _ApplyForAppraisalState extends State<ApplyForAppraisal> {
                     row['Year&SemesterOfFirstOffering']!.text,
               })
           .toList(),
-      "coursesNewMaterial": _courseMaterialRows
+      "newCoursesDeveloped": _courseMaterialRows
           .map((row) => {
                 'courseName&Number': row['courseName&Number']!.text,
                 'UG/PG': row['UG/PG']!.text,
@@ -117,7 +165,8 @@ class _ApplyForAppraisalState extends State<ApplyForAppraisal> {
                 'Web/Public': row['Web/Public']!.text,
               })
           .toList(),
-      "thesisResearch": _thesisRows
+      "otherInstructionalTasks": _otherInstructionalTasksController.text,
+      "thesisSupervision": _thesisRows
           .map((row) => {
                 'nameOfStudent': row['nameOfStudent']!.text,
                 'titleOfThesis': row['titleOfThesis']!.text,
@@ -135,13 +184,27 @@ class _ApplyForAppraisalState extends State<ApplyForAppraisal> {
                 'projectDuration': row['projectDuration']!.text,
               })
           .toList(),
+      "otherResearchElement": _otherResearchElementController.text,
+      "publication": _publicationController.text,
+      "referredConference": _referredConferenceController.text,
+      "conferenceOrganised": _conferenceOrganisedController.text,
+      "membership": _membershipController.text,
+      "honours": _honoursController.text,
+      "editorOfPublications": _editorOfPublicationsController.text,
+      "expertLectureDelivered": _expertLectureDeliveredController.text,
+      "membershipOfBOS": _membershipOfBOSController.text,
+      "otherExtensionTasks": _otherExtensionTasksController.text,
+      "administrativeAssignment": _administrativeAssignmentController.text,
+      "serviceToInstitute": _serviceToInstituteController.text,
+      "otherContribution": _otherContributionController.text,
       "submissionDate": new DateFormat("yyyy-MM-dd").format(DateTime.now()),
       "created_by": datap.user!['id'].toString()
     };
     final userInfo = {
+      "receiver_designation": _receiverDesignationController.text,
       "receiver_name": _receiverNameController.text,
       "uploader_name": datap.user!['username'],
-      "uploader_designation": datap.profile!['user_type'],
+      "uploader_designation": curr_desig,
     };
     final payload = [data, userInfo];
     print(data);
@@ -157,8 +220,7 @@ class _ApplyForAppraisalState extends State<ApplyForAppraisal> {
       // ignore: avoid_print
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Application Submitted Successfully")));
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => HRHomePage()));
+      Navigator.pop(context);
     } else {
       // ignore: avoid_print
       ScaffoldMessenger.of(context).showSnackBar(
@@ -169,11 +231,22 @@ class _ApplyForAppraisalState extends State<ApplyForAppraisal> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
-      drawer: SideDrawer(),
+      appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: "Apply For Appraisal",
+        onDesignationChanged: (newValue) {
+          setState(() {
+            curr_desig = newValue;
+            _designationController.text = curr_desig;
+          });
+        },
+      ), // This is default app bar used in all modules
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar: MyBottomNavigationBar(),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
           child: Form(
             key: _formKey,
             child: Column(
@@ -200,6 +273,47 @@ class _ApplyForAppraisalState extends State<ApplyForAppraisal> {
                 _buildThesisTable(),
                 _buildSectionTitle('Sponsored Research Projects'),
                 _buildProjectTable(),
+                _buildSectionTitle('Other Research Elements'),
+                _buildTextInputField('Other Research Elements',
+                    controller: _otherResearchElementController),
+                _buildSectionTitle('Publications'),
+                _buildTextInputField('Publications',
+                    controller: _publicationController),
+                _buildSectionTitle('Referred Conference'),
+                _buildTextInputField('Referred Conference',
+                    controller: _referredConferenceController),
+                _buildSectionTitle('Conference Organised'),
+                _buildTextInputField('Conference Organised',
+                    controller: _conferenceOrganisedController),
+                _buildSectionTitle('Membership'),
+                _buildTextInputField('Membership',
+                    controller: _membershipController),
+                _buildSectionTitle('Honours'),
+                _buildTextInputField('Honours', controller: _honoursController),
+                _buildSectionTitle('Editor of Publications'),
+                _buildTextInputField('Editor of Publications',
+                    controller: _editorOfPublicationsController),
+                _buildSectionTitle('Expert Lecture Delivered'),
+                _buildTextInputField('Expert Lecture Delivered',
+                    controller: _expertLectureDeliveredController),
+                _buildSectionTitle('Membership of BOS'),
+                _buildTextInputField('Membership of BOS',
+                    controller: _membershipOfBOSController),
+                _buildSectionTitle('Other Extension Tasks'),
+                _buildTextInputField('Other Extension Tasks',
+                    controller: _otherExtensionTasksController),
+                _buildSectionTitle('Administrative Assignment'),
+                _buildTextInputField('Administrative Assignment',
+                    controller: _administrativeAssignmentController),
+                _buildSectionTitle('Service to Institute'),
+                _buildTextInputField('Service to Institute',
+                    controller: _serviceToInstituteController),
+                _buildSectionTitle('Other Contribution'),
+                _buildTextInputField('Other Contribution',
+                    controller: _otherContributionController),
+                _buildSectionTitle('Other Instructional Tasks'),
+                _buildTextInputField('Other Instructional Tasks',
+                    controller: _otherInstructionalTasksController),
                 _buildSectionTitle('Comments on Performance'),
                 _buildTextInputField(
                     'Your comments on your performance so far and this academic year particularly',
@@ -207,6 +321,29 @@ class _ApplyForAppraisalState extends State<ApplyForAppraisal> {
                 _buildTextInputField('Receiver Name',
                     controller: _receiverNameController),
                 SizedBox(height: 20),
+                ElevatedButton(
+                    onPressed: () {
+                      getDesignations();
+                    },
+                    child: Text("Show Designations of user")),
+                SizedBox(height: 20),
+                fetchedDesignationsOfReceiver
+                    ? DropdownButtonFormField(
+                        items: designationsOfReceiver
+                            .map((e) => DropdownMenuItem(
+                                  child: Text(e),
+                                  value: e,
+                                ))
+                            .toList(),
+                        onChanged: (value) {
+                          _receiverDesignationController.text =
+                              value.toString();
+                        })
+                    : Container(),
+                SizedBox(height: 20),
+                SizedBox(
+                  height: 20,
+                ),
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {

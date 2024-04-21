@@ -1,8 +1,11 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
 import 'package:fusion/screens/HR/ViewCPDAAdvance.dart';
 import 'package:fusion/screens/HR/ViewAppraisal.dart';
 import 'package:fusion/screens/HR/ViewLeave.dart';
@@ -10,15 +13,12 @@ import 'package:fusion/services/profile_service.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
-import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
-import 'package:fusion/services/service_locator.dart';
-import 'package:fusion/services/storage_service.dart';
 import 'package:fusion/models/profile.dart';
 import 'package:http/http.dart' as http;
 import 'ViewCPDAReimburse.dart';
 import 'ViewLTC.dart';
 import 'ForwardLeave.dart';
+import 'package:fusion/api.dart';
 
 class RequestsOfAUserListPage extends StatefulWidget {
   const RequestsOfAUserListPage(this.userAndRequestData);
@@ -37,7 +37,8 @@ class _RequestsOfAUserListPage extends State<RequestsOfAUserListPage> {
   late ProfileService profileService;
   late ProfileData data;
   var dataToBePassed;
-  var service;
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
   List<Map<String, dynamic>> displayData = [];
   bool _loading1 = true;
 
@@ -45,7 +46,6 @@ class _RequestsOfAUserListPage extends State<RequestsOfAUserListPage> {
     super.initState();
     _profileController = StreamController();
     profileService = ProfileService();
-    service = locator<StorageService>();
 
     try {
       print("hello");
@@ -69,7 +69,7 @@ class _RequestsOfAUserListPage extends State<RequestsOfAUserListPage> {
   }
 
   void getApplications() async {
-    final String host = "10.0.2.2:8000";
+    final String host = kserverLink;
     final String path = "/hr2/api/getForms/";
     print("yeh chahiye tha");
     print(widget.userAndRequestData);
@@ -118,12 +118,22 @@ class _RequestsOfAUserListPage extends State<RequestsOfAUserListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
-      drawer: SideDrawer(),
+      appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: "View Requests",
+        onDesignationChanged: (newValue) {
+          setState(() {
+            curr_desig = newValue;
+          });
+        },
+      ), // This is default app bar used in all modules
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar: MyBottomNavigationBar(),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
           child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -185,7 +195,7 @@ class _RequestsOfAUserListPage extends State<RequestsOfAUserListPage> {
                             // Respond to view button press
                           },
                           style: ElevatedButton.styleFrom(
-                              primary: Colors.lightBlue),
+                              backgroundColor: Colors.lightBlue),
                           child: Text('View',
                               style: TextStyle(color: Colors.white)),
                         ),

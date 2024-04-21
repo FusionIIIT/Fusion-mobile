@@ -1,7 +1,10 @@
 //create a home page for the HR module containing 6 list items
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
 import 'package:fusion/screens/HR/ApplyForCPDAadv.dart';
 import 'package:fusion/screens/HR/ApplyForCPDArbrse.dart';
 import 'package:fusion/screens/HR/ApplyForAppraisal.dart';
@@ -16,12 +19,28 @@ import 'package:fusion/screens/HR/ForwardAppraisal.dart';
 import 'package:fusion/screens/HR/ForwardLTC.dart';
 import 'package:fusion/screens/HR/ViewOutbox.dart';
 
-class HRHomePage extends StatelessWidget {
+class HRHomePage extends StatefulWidget {
+  @override
+  _HRHomePageState createState() => _HRHomePageState();
+}
+
+class _HRHomePageState extends State<HRHomePage> {
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
-      drawer: SideDrawer(),
+      appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: "HR Module",
+        onDesignationChanged: (newValue) {
+          setState(() {
+            curr_desig = newValue;
+          });
+        },
+      ), // This is default app bar used in all modules
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar: MyBottomNavigationBar(),
       body: ListView(
         children: <Widget>[
           _buildListTile(
@@ -72,18 +91,26 @@ class HRHomePage extends StatelessWidget {
             'View Archived Forms',
             ViewArchive(),
           ),
-          _buildListTile(
-            context,
-            Icons.assignment,
-            'View History of a User',
-            ViewHistoryOfUser(),
-          ),
-          _buildListTile(
-            context,
-            Icons.assignment,
-            'Check Leave Balance',
-            UpdateLeavebalance(),
-          ),
+          curr_desig == "hradmin"
+              ? _buildListTile(
+                  context,
+                  Icons.assignment,
+                  'View History of a User',
+                  ViewHistoryOfUser(),
+                )
+              : SizedBox(
+                  height: 0,
+                ),
+          curr_desig == "hradmin"
+              ? _buildListTile(
+                  context,
+                  Icons.assignment,
+                  'Check Leave Balance',
+                  UpdateLeavebalance(),
+                )
+              : SizedBox(
+                  height: 0,
+                ),
         ],
       ),
     );

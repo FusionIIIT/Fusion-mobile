@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
+import 'package:fusion/screens/HR/HRHomePage.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:fusion/screens/HR/ViewInbox.dart';
-import 'package:fusion/services/service_locator.dart';
-import 'package:fusion/services/storage_service.dart';
 import 'package:fusion/models/profile.dart';
 import 'package:fusion/services/profile_service.dart';
 import 'package:fusion/screens/HR/RequestsOfAUserList.dart';
-
+import 'package:fusion/api.dart';
 class ForwardCPDAReimburse extends StatefulWidget {
-  const ForwardCPDAReimburse({required this.formdata});
+  const ForwardCPDAReimburse({required this.formdata, this.isArchived});
   final formdata;
-
+  final isArchived;
   @override
   State<ForwardCPDAReimburse> createState() {
     return _ForwardCPDAReimburseState();
@@ -30,21 +32,27 @@ class _ForwardCPDAReimburseState extends State<ForwardCPDAReimburse> {
   TextEditingController _balanceAvailableController = TextEditingController();
   TextEditingController _advanceAmountPDAController = TextEditingController();
   TextEditingController _amountCheckedInPDAController = TextEditingController();
+  TextEditingController _receiverDesignationController =
+      TextEditingController();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late Map<String, dynamic> _formdata = {"notFetched": true};
   bool _loading1 = true;
-  bool isOwner = false;
   late Map<String, dynamic> _trackingdata = {"notFetched": true};
   late StreamController _profileController;
   late ProfileService profileService;
   late ProfileData datap;
-  var service;
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
+  late List<dynamic> designationsOfReceiver = [];
+  bool isCreator = false;
+  bool isOwner = false;
+  bool fetchedDesignationsOfReceiver = false;
   @override
   void initState() {
     // TODO: implement initState
     _profileController = StreamController();
     profileService = ProfileService();
-    service = locator<StorageService>();
+
     try {
       print("hello");
       datap = service.profileData;
@@ -69,8 +77,28 @@ class _ForwardCPDAReimburseState extends State<ForwardCPDAReimburse> {
     }
   }
 
+  getDesignations() async {
+    final String host = kserverLink;
+    final String path = "/hr2/api/getDesignations/";
+    final queryParameters = {
+      'username': _receiverNameController.text,
+    };
+    Uri uri = (Uri.http(host, path, queryParameters));
+    var response = await http.get(uri);
+    if (response.statusCode == 200) {
+      final d = await jsonDecode(response.body);
+      setState(() {
+        fetchedDesignationsOfReceiver = true;
+        designationsOfReceiver = d;
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Please check the entered username.")));
+    }
+  }
+
   void trackStatus() async {
-    final String host = "10.0.2.2:8000";
+    final String host = kserverLink;
     final String path = "/hr2/api/tracking/";
     final queryParameters = {
       'id': widget.formdata['id'],
@@ -90,8 +118,28 @@ class _ForwardCPDAReimburseState extends State<ForwardCPDAReimburse> {
     print(_trackingdata);
   }
 
+  void archiveForm() async {
+    final String host = kserverLink;
+    final String path = "/hr2/api/cpdareim/";
+    final queryParameters = {'id': widget.formdata['id']};
+    Uri uri = (Uri.http(host, path, queryParameters));
+    var response = await http.delete(
+      uri,
+      headers: {"Content-type": "application/json; charset=UTF-8"},
+      encoding: Encoding.getByName("utf-8"),
+    );
+    if (response.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Application successfully archived!")));
+      Navigator.pop(context);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Failed to archive application.")));
+    }
+  }
+
   void fetchForm() async {
-    final String host = "10.0.2.2:8000";
+    final String host = kserverLink;
     final String path = "/hr2/api/formFetch/";
     print(widget.formdata);
     final queryParameters = {
@@ -126,12 +174,15 @@ class _ForwardCPDAReimburseState extends State<ForwardCPDAReimburse> {
     }
     // print(_formdata);
     isOwner = _formdata['current_owner'] == datap.user!["username"];
+    isOwner = _formdata['form']['approved'] == null ? isOwner : true;
+    isCreator = _formdata['creator'] == datap.user!['username'];
+    isCreator = widget.isArchived ? false : isCreator;
     // Fetch form data from the backend
   }
 
   void approveForm() async {
     print(_formdata);
-    final String host = "10.0.2.2:8000";
+    final String host = kserverLink;
     final String path = "/hr2/api/cpdareim/";
     final queryParameters = {
       'id': widget.formdata['src_object_id'],
@@ -141,6 +192,7 @@ class _ForwardCPDAReimburseState extends State<ForwardCPDAReimburse> {
     final data = [
       {
         "file_id": widget.formdata['id'],
+        "receiver_designation": _receiverDesignationController.text,
         "receiver": _formdata['creator'],
         "remarks": _remarksController.text,
         "file_extra_JSON": {
@@ -163,8 +215,7 @@ class _ForwardCPDAReimburseState extends State<ForwardCPDAReimburse> {
       // ignore: avoid_print
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Application Approved Successfully")));
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => RequestListPage()));
+      Navigator.pop(context);
     } else {
       // ignore: avoid_print
       ScaffoldMessenger.of(context).showSnackBar(
@@ -175,7 +226,7 @@ class _ForwardCPDAReimburseState extends State<ForwardCPDAReimburse> {
   void forwardForm() async {
     // Navigator.push(context,
     //     MaterialPageRoute(builder: (context) => ForwardOrDeclineFormHradmin()));
-    final String host = "10.0.2.2:8000";
+    final String host = kserverLink;
     final String path = "/hr2/api/cpdareim/";
     final queryParameters = {
       'id': widget.formdata['src_object_id'],
@@ -201,6 +252,7 @@ class _ForwardCPDAReimburseState extends State<ForwardCPDAReimburse> {
     final data = [
       {
         "file_id": widget.formdata['id'],
+        "receiver_designation": _receiverDesignationController.text,
         "receiver": _receiverNameController.text,
         "remarks": _remarksController.text,
         "file_extra_JSON": {
@@ -221,8 +273,7 @@ class _ForwardCPDAReimburseState extends State<ForwardCPDAReimburse> {
       // ignore: avoid_print
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Application Forwarded Successfully")));
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => RequestListPage()));
+      Navigator.pop(context);
     } else {
       // ignore: avoid_print
       ScaffoldMessenger.of(context).showSnackBar(
@@ -231,7 +282,7 @@ class _ForwardCPDAReimburseState extends State<ForwardCPDAReimburse> {
   }
 
   void declineForm() async {
-    final String host = "10.0.2.2:8000";
+    final String host = kserverLink;
     final String path = "/hr2/api/cpdareim/";
     final queryParameters = {
       'id': widget.formdata['src_object_id'],
@@ -257,6 +308,7 @@ class _ForwardCPDAReimburseState extends State<ForwardCPDAReimburse> {
     final data = [
       {
         "file_id": widget.formdata['id'],
+        "receiver_designation": _receiverDesignationController.text,
         "receiver": _formdata['creator'],
         "remarks": _remarksController.text,
         "file_extra_JSON": {
@@ -277,8 +329,7 @@ class _ForwardCPDAReimburseState extends State<ForwardCPDAReimburse> {
       // ignore: avoid_print
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Application Declined Successfully")));
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => RequestListPage()));
+      Navigator.pop(context);
     } else {
       // ignore: avoid_print
       ScaffoldMessenger.of(context).showSnackBar(
@@ -511,6 +562,25 @@ class _ForwardCPDAReimburseState extends State<ForwardCPDAReimburse> {
         ),
       ),
       SizedBox(height: 20),
+      ElevatedButton(
+          onPressed: () {
+            getDesignations();
+          },
+          child: Text("Show Designations of user")),
+      SizedBox(height: 20),
+      fetchedDesignationsOfReceiver
+          ? DropdownButtonFormField(
+              items: designationsOfReceiver
+                  .map((e) => DropdownMenuItem(
+                        child: Text(e),
+                        value: e,
+                      ))
+                  .toList(),
+              onChanged: (value) {
+                _receiverDesignationController.text = value.toString();
+              })
+          : Container(),
+      SizedBox(height: 20),
       isOwner
           ? Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -521,7 +591,6 @@ class _ForwardCPDAReimburseState extends State<ForwardCPDAReimburse> {
                           if (_formKey.currentState!.validate()) {
                             //   // If the form is valid, display a snackbar. In the real world,
                             //   // you'd often call a server or save the information in a database.
-                            print("pohoch");
                             forwardForm();
                           }
                           // Respond to button press
@@ -551,7 +620,6 @@ class _ForwardCPDAReimburseState extends State<ForwardCPDAReimburse> {
                           if (_formKey.currentState!.validate()) {
                             //   // If the form is valid, display a snackbar. In the real world,
                             //   // you'd often call a server or save the information in a database.
-                            print("pohoch");
                             declineForm();
                           }
                           // Respond to button press
@@ -565,7 +633,7 @@ class _ForwardCPDAReimburseState extends State<ForwardCPDAReimburse> {
                           // Respond to decline button press
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: Color.fromARGB(255, 64, 162, 201),
+                          backgroundColor: Color.fromARGB(255, 64, 162, 201),
                         ),
                         child: Text(
                           'Decline',
@@ -577,11 +645,32 @@ class _ForwardCPDAReimburseState extends State<ForwardCPDAReimburse> {
                 _formdata["form"]["approved"] == null
                     ? ElevatedButton(
                         onPressed: () {
-                          approveForm();
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text("Approve Application"),
+                                  content: Text(
+                                      "Are you sure you want to approve this application?"),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text("Cancel")),
+                                    TextButton(
+                                        onPressed: () {
+                                          approveForm();
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text("Approve"))
+                                  ],
+                                );
+                              });
                           // Respond to decline button press
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: Color.fromARGB(255, 64, 162, 201),
+                          backgroundColor: Color.fromARGB(255, 64, 162, 201),
                         ),
                         child: Text(
                           'Approve',
@@ -608,6 +697,58 @@ class _ForwardCPDAReimburseState extends State<ForwardCPDAReimburse> {
                   "You are not the owner of this form. You have already forwarded this form."),
             ),
       SizedBox(height: 20),
+      isCreator
+          ? ElevatedButton(
+              onPressed: () {
+                //  show alert dialog box
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text("Archive Application"),
+                        content: Text(
+                            "Are you sure you want to archive this application? This action cannot be undone!"),
+                        actions: [
+                          TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text("Cancel")),
+                          TextButton(
+                              onPressed: () {
+                                archiveForm();
+                                Navigator.of(context).pop();
+                              },
+                              child: Text("Archive this form"))
+                        ],
+                      );
+                    });
+                // approveForm();
+                // Respond to decline button press
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color.fromARGB(255, 64, 162, 201),
+              ),
+              child: Text(
+                'Archive this form.',
+                style:
+                    TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              ),
+            )
+          : Container(),
+      SizedBox(
+        height: 10,
+      ),
+      widget.isArchived
+          ? Text("This form has been archived.",
+              style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20))
+          : Container(),
+      SizedBox(
+        height: 10,
+      )
     ]);
   }
 
@@ -638,12 +779,22 @@ class _ForwardCPDAReimburseState extends State<ForwardCPDAReimburse> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
-      drawer: SideDrawer(),
+      appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: "View CPDA-R Form",
+        onDesignationChanged: (newValue) {
+          setState(() {
+            curr_desig = newValue;
+          });
+        },
+      ), // This is default app bar used in all modules
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar: MyBottomNavigationBar(),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
           child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
             child: Form(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

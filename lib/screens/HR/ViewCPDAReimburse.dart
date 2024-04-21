@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -34,13 +35,13 @@ class _ViewCPDAReimburseState extends State<ViewCPDAReimburse> {
   late StreamController _profileController;
   late ProfileService profileService;
   late ProfileData datap;
-  var service;
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
   @override
   void initState() {
     // TODO: implement initState
     _profileController = StreamController();
     profileService = ProfileService();
-    service = locator<StorageService>();
     try {
       print("hello");
       print(_formdata);
@@ -251,12 +252,22 @@ class _ViewCPDAReimburseState extends State<ViewCPDAReimburse> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
-      drawer: SideDrawer(),
+      appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: "View CPDA-R Form",
+        onDesignationChanged: (newValue) {
+          setState(() {
+            curr_desig = newValue;
+          });
+        },
+      ), // This is default app bar used in all modules
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar: MyBottomNavigationBar(),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
           child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
             child: Form(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

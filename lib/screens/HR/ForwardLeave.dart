@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
+import 'package:fusion/screens/HR/HRHomePage.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
 import 'package:fusion/screens/HR/UpdateLeaveBalance.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:fusion/screens/HR/ViewInbox.dart';
-import 'package:fusion/services/service_locator.dart';
-import 'package:fusion/services/storage_service.dart';
 import 'package:fusion/models/profile.dart';
 import 'package:fusion/services/profile_service.dart';
 import 'package:date_field/date_field.dart';
 import 'package:fusion/screens/HR/RequestsOfAUserList.dart';
-
+import 'package:fusion/api.dart';
 class ForwardLeave extends StatefulWidget {
-  const ForwardLeave({required this.formdata});
+  const ForwardLeave({required this.formdata, this.isArchived});
   final formdata;
+  final isArchived;
 
   @override
   State<ForwardLeave> createState() {
@@ -27,22 +30,26 @@ class _ForwardLeaveState extends State<ForwardLeave> {
   // Prefilled fields
   TextEditingController _receiverNameController = TextEditingController();
   TextEditingController _remarksController = TextEditingController();
+  TextEditingController _receiverDesignationController =
+      TextEditingController();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late Map<String, dynamic> _formdata = {"notFetched": true};
   bool _loading1 = true;
+  late List<dynamic> designationsOfReceiver = [];
+  bool isCreator = false;
   bool isOwner = false;
-  bool isHRAdmin = true;
+  bool fetchedDesignationsOfReceiver = false;
   late Map<String, dynamic> _trackingdata = {"notFetched": true};
   late StreamController _profileController;
   late ProfileService profileService;
   late ProfileData datap;
-  var service;
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
   @override
   void initState() {
     // TODO: implement initState
     _profileController = StreamController();
     profileService = ProfileService();
-    service = locator<StorageService>();
     try {
       print("hello");
       datap = service.profileData;
@@ -53,6 +60,26 @@ class _ForwardLeaveState extends State<ForwardLeave> {
     fetchForm();
     trackStatus();
     super.initState();
+  }
+
+  getDesignations() async {
+    final String host = kserverLink;
+    final String path = "/hr2/api/getDesignations/";
+    final queryParameters = {
+      'username': _receiverNameController.text,
+    };
+    Uri uri = (Uri.http(host, path, queryParameters));
+    var response = await http.get(uri);
+    if (response.statusCode == 200) {
+      final d = await jsonDecode(response.body);
+      setState(() {
+        fetchedDesignationsOfReceiver = true;
+        designationsOfReceiver = d;
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Please check the entered username.")));
+    }
   }
 
   getData() async {
@@ -68,7 +95,7 @@ class _ForwardLeaveState extends State<ForwardLeave> {
   }
 
   void trackStatus() async {
-    final String host = "10.0.2.2:8000";
+    final String host = kserverLink;
     final String path = "/hr2/api/tracking/";
     final queryParameters = {
       'id': widget.formdata['id'],
@@ -89,8 +116,28 @@ class _ForwardLeaveState extends State<ForwardLeave> {
     print(_trackingdata);
   }
 
+  void archiveForm() async {
+    final String host = kserverLink;
+    final String path = "/hr2/api/leave/";
+    final queryParameters = {'id': widget.formdata['id']};
+    Uri uri = (Uri.http(host, path, queryParameters));
+    var response = await http.delete(
+      uri,
+      headers: {"Content-type": "application/json; charset=UTF-8"},
+      encoding: Encoding.getByName("utf-8"),
+    );
+    if (response.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Application successfully archived!")));
+      Navigator.pop(context);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Failed to archive application.")));
+    }
+  }
+
   void fetchForm() async {
-    final String host = "10.0.2.2:8000";
+    final String host = kserverLink;
     final String path = "/hr2/api/formFetch/";
     print(widget.formdata);
     final queryParameters = {
@@ -125,11 +172,14 @@ class _ForwardLeaveState extends State<ForwardLeave> {
     }
     // print(_formdata);
     isOwner = _formdata['current_owner'] == datap.user!["username"];
+    isOwner = _formdata['form']['approved'] == null ? isOwner : true;
+    isCreator = _formdata['creator'] == datap.user!['username'];
+    isCreator = widget.isArchived ? false : isCreator;
     // Fetch form data from the backend
   }
 
   void approveForm() async {
-    final String host = "10.0.2.2:8000";
+    final String host = kserverLink;
     final String path = "/hr2/api/leave/";
     final queryParameters = {
       'id': widget.formdata['src_object_id'],
@@ -139,6 +189,7 @@ class _ForwardLeaveState extends State<ForwardLeave> {
       {
         "file_id": widget.formdata['id'],
         "receiver": _formdata['creator'],
+        "receiver_designation": _receiverDesignationController.text,
         "remarks": _remarksController.text,
         "file_extra_JSON": {
           "type": widget.formdata['file_extra_JSON']
@@ -171,7 +222,7 @@ class _ForwardLeaveState extends State<ForwardLeave> {
   void forwardForm() async {
     // Navigator.push(context,
     //     MaterialPageRoute(builder: (context) => ForwardOrDeclineFormHradmin()));
-    final String host = "10.0.2.2:8000";
+    final String host = kserverLink;
     final String path = "/hr2/api/leave/";
     final queryParameters = {
       'id': widget.formdata['src_object_id'],
@@ -182,6 +233,7 @@ class _ForwardLeaveState extends State<ForwardLeave> {
       {
         "file_id": widget.formdata['id'],
         "receiver": _receiverNameController.text,
+        "receiver_designation": _receiverDesignationController.text,
         "remarks": _remarksController.text,
         "file_extra_JSON": {
           "type": widget.formdata['file_extra_JSON']
@@ -201,8 +253,7 @@ class _ForwardLeaveState extends State<ForwardLeave> {
       // ignore: avoid_print
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Application Forwarded Successfully")));
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => RequestListPage()));
+      Navigator.pop(context);
     } else {
       // ignore: avoid_print
       ScaffoldMessenger.of(context).showSnackBar(
@@ -211,7 +262,7 @@ class _ForwardLeaveState extends State<ForwardLeave> {
   }
 
   void declineForm() async {
-    final String host = "10.0.2.2:8000";
+    final String host = kserverLink;
     final String path = "/hr2/api/leave/";
     final queryParameters = {
       'id': widget.formdata['src_object_id'],
@@ -222,6 +273,7 @@ class _ForwardLeaveState extends State<ForwardLeave> {
       {
         "file_id": widget.formdata['id'],
         "receiver": _formdata['creator'],
+        "receiver_designation": _receiverDesignationController.text,
         "remarks": _remarksController.text,
         "file_extra_JSON": {
           "type": widget.formdata['file_extra_JSON']
@@ -241,8 +293,7 @@ class _ForwardLeaveState extends State<ForwardLeave> {
       // ignore: avoid_print
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Application Declined Successfully")));
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => RequestListPage()));
+      Navigator.pop(context);
     } else {
       // ignore: avoid_print
       ScaffoldMessenger.of(context).showSnackBar(
@@ -365,10 +416,17 @@ class _ForwardLeaveState extends State<ForwardLeave> {
         Text(_formdata['form']['addressDuringLeave'].toString()),
         SizedBox(height: 20),
         Text(
-          'Responsibility transferred to : ',
+          'Academic Responsibility transferred to : ',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        Text(_formdata['form']['rolesTransferredTo'].toString()),
+        Text(_formdata['form']['academicResponsibility'].toString()),
+        SizedBox(height: 20),
+        Text(
+          'Administrative Responsibility transferred to : ',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        Text(_formdata['form']['addministrativeResponsibiltyAssigned']
+            .toString()),
         SizedBox(height: 20),
         Text(
           'Submission Date : ',
@@ -440,7 +498,26 @@ class _ForwardLeaveState extends State<ForwardLeave> {
           ),
         ),
         SizedBox(height: 20),
-        isHRAdmin
+        ElevatedButton(
+            onPressed: () {
+              getDesignations();
+            },
+            child: Text("Show Designations of user")),
+        SizedBox(height: 20),
+        fetchedDesignationsOfReceiver
+            ? DropdownButtonFormField(
+                items: designationsOfReceiver
+                    .map((e) => DropdownMenuItem(
+                          child: Text(e),
+                          value: e,
+                        ))
+                    .toList(),
+                onChanged: (value) {
+                  _receiverDesignationController.text = value.toString();
+                })
+            : Container(),
+        SizedBox(height: 20),
+        curr_desig == "hradmin"
             ? ElevatedButton(
                 onPressed: () {
                   Navigator.push(
@@ -480,7 +557,7 @@ class _ForwardLeaveState extends State<ForwardLeave> {
                           child: Text(
                             'Forward',
                             style: TextStyle(
-                                color: Colors.white,
+                                color: const Color.fromRGBO(255, 255, 255, 1),
                                 fontWeight: FontWeight.bold),
                           ),
                         )
@@ -505,7 +582,7 @@ class _ForwardLeaveState extends State<ForwardLeave> {
                             // Respond to decline button press
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: Color.fromARGB(255, 64, 162, 201),
+                            backgroundColor: Color.fromARGB(255, 64, 162, 201),
                           ),
                           child: Text(
                             'Decline',
@@ -518,11 +595,32 @@ class _ForwardLeaveState extends State<ForwardLeave> {
                   _formdata["form"]["approved"] == null
                       ? ElevatedButton(
                           onPressed: () {
-                            approveForm();
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text("Approve Application"),
+                                    content: Text(
+                                        "Are you sure you want to approve this application?"),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Text("Cancel")),
+                                      TextButton(
+                                          onPressed: () {
+                                            approveForm();
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Text("Approve"))
+                                    ],
+                                  );
+                                });
                             // Respond to decline button press
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: Color.fromARGB(255, 64, 162, 201),
+                            backgroundColor: Color.fromARGB(255, 64, 162, 201),
                           ),
                           child: Text(
                             'Approve',
@@ -549,7 +647,59 @@ class _ForwardLeaveState extends State<ForwardLeave> {
                 child: Text(
                     "You are not the current owner of this form. You have already forwarded this form."),
               ),
-        SizedBox(height: 20)
+        SizedBox(height: 20),
+        isCreator
+            ? ElevatedButton(
+                onPressed: () {
+                  //  show alert dialog box
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text("Archive Application"),
+                          content: Text(
+                              "Are you sure you want to archive this application? This action cannot be undone!"),
+                          actions: [
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text("Cancel")),
+                            TextButton(
+                                onPressed: () {
+                                  archiveForm();
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text("Archive this form"))
+                          ],
+                        );
+                      });
+                  // approveForm();
+                  // Respond to decline button press
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color.fromARGB(255, 64, 162, 201),
+                ),
+                child: Text(
+                  'Archive this form.',
+                  style: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.bold),
+                ),
+              )
+            : Container(),
+        SizedBox(
+          height: 10,
+        ),
+        widget.isArchived
+            ? Text("This form has been archived.",
+                style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20))
+            : Container(),
+        SizedBox(
+          height: 10,
+        )
       ],
     );
   }
@@ -581,12 +731,22 @@ class _ForwardLeaveState extends State<ForwardLeave> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
-      drawer: SideDrawer(),
+      appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: "View Leave Form",
+        onDesignationChanged: (newValue) {
+          setState(() {
+            curr_desig = newValue;
+          });
+        },
+      ), // This is default app bar used in all modules
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar: MyBottomNavigationBar(),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
           child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
             child: Form(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

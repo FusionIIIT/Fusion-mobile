@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
-import 'package:fusion/screens/HR/RequestsOfAUserList.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
+import 'package:fusion/screens/HR/HRHomePage.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
+import 'package:fusion/screens/HR/RequestsOfAUserList.dart';
+import 'package:fusion/api.dart';
 import 'package:fusion/models/profile.dart';
 import 'package:fusion/services/profile_service.dart';
-import 'package:fusion/Components/side_drawer.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ForwardAppraisal extends StatefulWidget {
-  const ForwardAppraisal({required this.formdata});
+  const ForwardAppraisal({required this.formdata, this.isArchived});
   final formdata;
+  final isArchived;
 
   @override
   State<ForwardAppraisal> createState() {
@@ -24,21 +27,27 @@ class ForwardAppraisal extends StatefulWidget {
 class _ForwardAppraisalState extends State<ForwardAppraisal> {
   TextEditingController _remarksController = TextEditingController();
   TextEditingController _receiverNameController = TextEditingController();
+  TextEditingController _receiverDesignationController =
+      TextEditingController();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late Map<String, dynamic> _formdata = {"notFetched": true};
   late Map<String, dynamic> _trackingdata = {"notFetched": true};
   bool _loading1 = true;
+  late List<dynamic> designationsOfReceiver = [];
+  bool isCreator = false;
   bool isOwner = false;
+  bool fetchedDesignationsOfReceiver = false;
   late StreamController _profileController;
   late ProfileService profileService;
   late ProfileData datap;
-  var service;
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
   @override
   void initState() {
     // TODO: implement initState
     _profileController = StreamController();
     profileService = ProfileService();
-    service = locator<StorageService>();
+
     try {
       print("hello");
       datap = service.profileData;
@@ -49,6 +58,26 @@ class _ForwardAppraisalState extends State<ForwardAppraisal> {
     fetchForm();
     trackStatus();
     super.initState();
+  }
+
+  getDesignations() async {
+    final String host = kserverLink;
+    final String path = "/hr2/api/getDesignations/";
+    final queryParameters = {
+      'username': _receiverNameController.text,
+    };
+    Uri uri = (Uri.http(host, path, queryParameters));
+    var response = await http.get(uri);
+    if (response.statusCode == 200) {
+      final d = await jsonDecode(response.body);
+      setState(() {
+        fetchedDesignationsOfReceiver = true;
+        designationsOfReceiver = d;
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Please check the entered username.")));
+    }
   }
 
   getData() async {
@@ -64,8 +93,8 @@ class _ForwardAppraisalState extends State<ForwardAppraisal> {
   }
 
   void trackStatus() async {
-    final String host = "10.0.2.2:8000";
-    final String path = "/hr2/api/apitracking/";
+    final String host = kserverLink;
+    final String path = "/hr2/api/tracking/";
     final queryParameters = {
       'id': widget.formdata['id'],
     };
@@ -84,9 +113,29 @@ class _ForwardAppraisalState extends State<ForwardAppraisal> {
     print(_trackingdata);
   }
 
+  void archiveForm() async {
+    final String host = kserverLink;
+    final String path = "/hr2/api/appraisal/";
+    final queryParameters = {'id': widget.formdata['id']};
+    Uri uri = (Uri.http(host, path, queryParameters));
+    var response = await http.delete(
+      uri,
+      headers: {"Content-type": "application/json; charset=UTF-8"},
+      encoding: Encoding.getByName("utf-8"),
+    );
+    if (response.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Application successfully archived!")));
+      Navigator.pop(context);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Failed to archive application.")));
+    }
+  }
+
   void fetchForm() async {
-    final String host = "10.0.2.2:8000";
-    final String path = "/hr2/api/apiformFetch/";
+    final String host = kserverLink;
+    final String path = "/hr2/api/formFetch/";
     // print(widget.formdata);
     final queryParameters = {
       'file_id': widget.formdata['id'],
@@ -121,13 +170,16 @@ class _ForwardAppraisalState extends State<ForwardAppraisal> {
     }
     // print(_formdata);
     isOwner = _formdata['current_owner'] == datap.user!["username"];
+    isOwner = _formdata['form']['approved'] == null ? isOwner : true;
+    isCreator = _formdata['creator'] == datap.user!['username'];
+    isCreator = widget.isArchived ? false : isCreator;
   }
 
   // Prefilled data for the fields
   void forwardForm() async {
     // Respond to button press
-    final String host = "10.0.2.2:8000";
-    final String path = "/hr2/api/apiappraisal/";
+    final String host = kserverLink;
+    final String path = "/hr2/api/appraisal/";
     final queryParameters = {
       'id': widget.formdata['src_object_id'],
     };
@@ -137,6 +189,7 @@ class _ForwardAppraisalState extends State<ForwardAppraisal> {
       {
         "file_id": widget.formdata['id'],
         "receiver_name": _receiverNameController.text,
+        "receiver_designation": _receiverDesignationController.text,
         "remarks": _remarksController.text,
         "file_extra_JSON": {
           "type": widget.formdata['file_extra_JSON']
@@ -165,8 +218,8 @@ class _ForwardAppraisalState extends State<ForwardAppraisal> {
   }
 
   void approveForm() async {
-    final String host = "10.0.2.2:8000";
-    final String path = "/hr2/api/apiappraisal/";
+    final String host = kserverLink;
+    final String path = "/hr2/api/appraisal/";
     final queryParameters = {
       'id': widget.formdata['src_object_id'],
     };
@@ -175,6 +228,7 @@ class _ForwardAppraisalState extends State<ForwardAppraisal> {
       {
         "file_id": widget.formdata['id'],
         "receiver_name": _formdata['creator'],
+        "receiver_designation": _receiverDesignationController.text,
         "remarks": _remarksController.text,
         "file_extra_JSON": {
           "type": widget.formdata['file_extra_JSON']
@@ -205,7 +259,7 @@ class _ForwardAppraisalState extends State<ForwardAppraisal> {
   }
 
   void declineForm() async {
-    final String host = "10.0.2.2:8000";
+    final String host = kserverLink;
     final String path = "/hr2/api/appraisal/";
     final queryParameters = {
       'id': widget.formdata['src_object_id'],
@@ -396,13 +450,13 @@ class _ForwardAppraisalState extends State<ForwardAppraisal> {
       _buildSectionTitle('New Courses Taught at UG/PG Level'),
       SizedBox(height: 5),
       //  Write a new code to display list of objects
-      _formdata['form']['newCourses'].isEmpty
+      _formdata['form']['newCoursesIntroduced'].isEmpty
           ? Text('No new courses Taught')
           : ListView.builder(
               shrinkWrap: true,
-              itemCount: _formdata['form']['newCourses'].length,
+              itemCount: _formdata['form']['newCoursesIntroduced'].length,
               itemBuilder: (context, index) {
-                if (_formdata['form']['newCourses'].isEmpty)
+                if (_formdata['form']['newCoursesIntroduced'].isEmpty)
                   return Text('No new courses Taught');
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -412,7 +466,7 @@ class _ForwardAppraisalState extends State<ForwardAppraisal> {
                         '${(index + 1).toString()}. Course Name & Number: ',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      Text(_formdata['form']['newCourses']
+                      Text(_formdata['form']['newCoursesIntroduced']
                           [index]!['courseName&Number']),
                     ]),
                     SizedBox(height: 10),
@@ -422,7 +476,8 @@ class _ForwardAppraisalState extends State<ForwardAppraisal> {
                           'UG/PG: ',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        Text(_formdata['form']['newCourses'][index]!['UG/PG'])
+                        Text(_formdata['form']['newCoursesIntroduced']
+                            [index]!['UG/PG'])
                       ],
                     ),
                     SizedBox(height: 10),
@@ -432,7 +487,7 @@ class _ForwardAppraisalState extends State<ForwardAppraisal> {
                           'Year & Semester Of First Offering: ',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        Text(_formdata['form']['newCourses']
+                        Text(_formdata['form']['newCoursesIntroduced']
                             [index]!['Year&SemesterOfFirstOffering'])
                       ],
                     ),
@@ -444,13 +499,13 @@ class _ForwardAppraisalState extends State<ForwardAppraisal> {
       _buildSectionTitle('New Course Material Developed'),
       SizedBox(height: 5),
       //  Write a new code to display list of objects
-      _formdata['form']['coursesNewMaterial'].isEmpty
+      _formdata['form']['newCoursesDeveloped'].isEmpty
           ? Text('No new courses material developed')
           : ListView.builder(
               shrinkWrap: true,
-              itemCount: _formdata['form']['coursesNewMaterial'].length,
+              itemCount: _formdata['form']['newCoursesDeveloped'].length,
               itemBuilder: (context, index) {
-                if (_formdata['form']['coursesNewMaterial'].isEmpty)
+                if (_formdata['form']['newCoursesDeveloped'].isEmpty)
                   return Text('No new courses material developed ');
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -460,7 +515,7 @@ class _ForwardAppraisalState extends State<ForwardAppraisal> {
                         '${(index + 1).toString()}. Course Name and Number: ',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      Text(_formdata['form']['coursesNewMaterial']
+                      Text(_formdata['form']['newCoursesDeveloped']
                           [index]!['courseName&Number']),
                     ]),
                     SizedBox(height: 10),
@@ -470,7 +525,7 @@ class _ForwardAppraisalState extends State<ForwardAppraisal> {
                           'UG/PG : ',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        Text(_formdata['form']['coursesNewMaterial']
+                        Text(_formdata['form']['newCoursesDeveloped']
                             [index]!['UG/PG'])
                       ],
                     ),
@@ -481,7 +536,7 @@ class _ForwardAppraisalState extends State<ForwardAppraisal> {
                           'Type of Activity :  ',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        Text(_formdata['form']['coursesNewMaterial']
+                        Text(_formdata['form']['newCoursesDeveloped']
                             [index]!['TypeOfActivity'])
                       ],
                     ),
@@ -492,7 +547,7 @@ class _ForwardAppraisalState extends State<ForwardAppraisal> {
                           'Web/Public: ',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        Text(_formdata['form']['coursesNewMaterial']
+                        Text(_formdata['form']['newCoursesDeveloped']
                             [index]!['Web/Public'])
                       ],
                     ),
@@ -504,13 +559,13 @@ class _ForwardAppraisalState extends State<ForwardAppraisal> {
       _buildSectionTitle('Thesis/Research Supervision'),
       SizedBox(height: 5),
       //  Write a new code to display list of objects
-      _formdata['form']['thesisResearch'].isEmpty
+      _formdata['form']['thesisSupervision'].isEmpty
           ? Text('No Thesis/Research Supervision')
           : ListView.builder(
               shrinkWrap: true,
-              itemCount: _formdata['form']['thesisResearch'].length,
+              itemCount: _formdata['form']['thesisSupervision'].length,
               itemBuilder: (context, index) {
-                if (_formdata['form']['thesisResearch'].isEmpty)
+                if (_formdata['form']['thesisSupervision'].isEmpty)
                   return Text('No Thesis/Research Supervision');
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -520,7 +575,7 @@ class _ForwardAppraisalState extends State<ForwardAppraisal> {
                         '${(index + 1).toString()}. Name of Student: ',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      Text(_formdata['form']['thesisResearch']
+                      Text(_formdata['form']['thesisSupervision']
                           [index]!['nameOfStudent']),
                     ]),
                     SizedBox(height: 10),
@@ -530,7 +585,7 @@ class _ForwardAppraisalState extends State<ForwardAppraisal> {
                           'Title of Thesis: ',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        Text(_formdata['form']['thesisResearch']
+                        Text(_formdata['form']['thesisSupervision']
                             [index]!['titleOfThesis'])
                       ],
                     ),
@@ -541,7 +596,7 @@ class _ForwardAppraisalState extends State<ForwardAppraisal> {
                           'Year & Semester of first Registration: ',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        Text(_formdata['form']['thesisResearch']
+                        Text(_formdata['form']['thesisSupervision']
                             [index]!['year&SemesterOfFirstRegistration'])
                       ],
                     ),
@@ -552,7 +607,7 @@ class _ForwardAppraisalState extends State<ForwardAppraisal> {
                           'Status: ',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        Text(_formdata['form']['thesisResearch']
+                        Text(_formdata['form']['thesisSupervision']
                             [index]!['status'])
                       ],
                     ),
@@ -563,7 +618,7 @@ class _ForwardAppraisalState extends State<ForwardAppraisal> {
                           'Co-supervisiors: ',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        Text(_formdata['form']['thesisResearch']
+                        Text(_formdata['form']['thesisSupervision']
                             [index]!['coSupervisiors'])
                       ],
                     ),
@@ -640,6 +695,89 @@ class _ForwardAppraisalState extends State<ForwardAppraisal> {
       SizedBox(
         height: 10,
       ),
+      Text(
+        'Other Research Elements: ',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      Text(_formdata['form']['otherResearchElement']),
+      SizedBox(height: 10),
+      Text(
+        'Publications: ',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      Text(_formdata['form']['publication']),
+      SizedBox(height: 10),
+      Text(
+        'Referred Conference: ',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      Text(_formdata['form']['referredConference']),
+      SizedBox(height: 10),
+      Text(
+        'Conference Organised: ',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      Text(_formdata['form']['conferenceOrganised']),
+      SizedBox(height: 10),
+      Text(
+        'Membership: ',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      Text(_formdata['form']['membership']),
+      SizedBox(height: 10),
+      Text(
+        'Honours: ',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      Text(_formdata['form']['honours']),
+      SizedBox(height: 10),
+      Text(
+        'Editor of Publications: ',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      Text(_formdata['form']['editorOfPublications']),
+      SizedBox(height: 10),
+      Text(
+        'Expert Lecture Delivered: ',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      Text(_formdata['form']['expertLectureDelivered']),
+      SizedBox(height: 10),
+      Text(
+        'Membership of BOS: ',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      Text(_formdata['form']['membershipOfBOS']),
+      SizedBox(height: 10),
+      Text(
+        'Other Extension Tasks: ',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      Text(_formdata['form']['otherExtensionTasks']),
+      SizedBox(height: 10),
+      Text(
+        'Administrative Assignment: ',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      Text(_formdata['form']['administrativeAssignment']),
+      SizedBox(height: 10),
+      Text(
+        'Service to Institute: ',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      Text(_formdata['form']['serviceToInstitute']),
+      SizedBox(height: 10),
+      Text(
+        'Other Contribution: ',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      Text(_formdata['form']['otherContribution']),
+      SizedBox(height: 10),
+      Text(
+        'Other Instructional Tasks: ',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      Text(_formdata['form']['otherInstructionalTasks']),
       Form(
           key: _formKey,
           child: Column(
@@ -677,6 +815,25 @@ class _ForwardAppraisalState extends State<ForwardAppraisal> {
             ],
           )),
       SizedBox(height: 20),
+      ElevatedButton(
+          onPressed: () {
+            getDesignations();
+          },
+          child: Text("Show Designations of user")),
+      SizedBox(height: 20),
+      fetchedDesignationsOfReceiver
+          ? DropdownButtonFormField(
+              items: designationsOfReceiver
+                  .map((e) => DropdownMenuItem(
+                        child: Text(e),
+                        value: e,
+                      ))
+                  .toList(),
+              onChanged: (value) {
+                _receiverDesignationController.text = value.toString();
+              })
+          : Container(),
+      SizedBox(height: 20),
       isOwner
           ? Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -687,7 +844,7 @@ class _ForwardAppraisalState extends State<ForwardAppraisal> {
                           if (_formKey.currentState!.validate()) {
                             //   // If the form is valid, display a snackbar. In the real world,
                             //   // you'd often call a server or save the information in a database.
-                            print("pohoch");
+
                             forwardForm();
                           }
                           // Respond to button press
@@ -731,7 +888,7 @@ class _ForwardAppraisalState extends State<ForwardAppraisal> {
                           // Respond to decline button press
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: Color.fromARGB(255, 64, 162, 201),
+                          backgroundColor: Color.fromARGB(255, 64, 162, 201),
                         ),
                         child: Text(
                           'Decline',
@@ -743,11 +900,32 @@ class _ForwardAppraisalState extends State<ForwardAppraisal> {
                 _formdata["form"]["approved"] == null
                     ? ElevatedButton(
                         onPressed: () {
-                          approveForm();
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text("Approve Application"),
+                                  content: Text(
+                                      "Are you sure you want to approve this application?"),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text("Cancel")),
+                                    TextButton(
+                                        onPressed: () {
+                                          approveForm();
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text("Approve"))
+                                  ],
+                                );
+                              });
                           // Respond to decline button press
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: Color.fromARGB(255, 64, 162, 201),
+                          backgroundColor: Color.fromARGB(255, 64, 162, 201),
                         ),
                         child: Text(
                           'Approve',
@@ -774,6 +952,58 @@ class _ForwardAppraisalState extends State<ForwardAppraisal> {
                   "You are not the owner of this form. You have already forwarded this form."),
             ),
       SizedBox(height: 20),
+      isCreator
+          ? ElevatedButton(
+              onPressed: () {
+                //  show alert dialog box
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text("Archive Application"),
+                        content: Text(
+                            "Are you sure you want to archive this application? This action cannot be undone!"),
+                        actions: [
+                          TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text("Cancel")),
+                          TextButton(
+                              onPressed: () {
+                                archiveForm();
+                                Navigator.of(context).pop();
+                              },
+                              child: Text("Archive this form"))
+                        ],
+                      );
+                    });
+                // approveForm();
+                // Respond to decline button press
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color.fromARGB(255, 64, 162, 201),
+              ),
+              child: Text(
+                'Archive this form.',
+                style:
+                    TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              ),
+            )
+          : Container(),
+      SizedBox(
+        height: 10,
+      ),
+      widget.isArchived
+          ? Text("This form has been archived.",
+              style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20))
+          : Container(),
+      SizedBox(
+        height: 10,
+      )
     ]);
   }
 
@@ -804,11 +1034,21 @@ class _ForwardAppraisalState extends State<ForwardAppraisal> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
-      drawer: SideDrawer(),
+      appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: "View Appraisal Form",
+        onDesignationChanged: (newValue) {
+          setState(() {
+            curr_desig = newValue;
+          });
+        },
+      ), // This is default app bar used in all modules
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar: MyBottomNavigationBar(),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
           child: Form(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

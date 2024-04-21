@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
 import 'package:fusion/screens/HR/RequestsOfAUserList.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
 import 'package:fusion/models/profile.dart';
 import 'package:fusion/services/profile_service.dart';
-import 'package:fusion/Components/side_drawer.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -31,7 +31,8 @@ class _ViewAppraisalState extends State<ViewAppraisal> {
   late StreamController _profileController;
   late ProfileService profileService;
   late ProfileData datap;
-  var service;
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
   @override
   void initState() {
     // TODO: implement initState
@@ -171,13 +172,13 @@ class _ViewAppraisalState extends State<ViewAppraisal> {
         _buildSectionTitle('New Courses Taught at UG/PG Level'),
         SizedBox(height: 5),
         //  Write a new code to display list of objects
-        _formdata['form']['newCourses'].isEmpty
+        _formdata['newCoursesIntroduced'].isEmpty
             ? Text('No new courses Taught')
             : ListView.builder(
                 shrinkWrap: true,
-                itemCount: _formdata['form']['newCourses'].length,
+                itemCount: _formdata['newCoursesIntroduced'].length,
                 itemBuilder: (context, index) {
-                  if (_formdata['form']['newCourses'].isEmpty)
+                  if (_formdata['newCoursesIntroduced'].isEmpty)
                     return Text('No new courses Taught');
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -187,7 +188,7 @@ class _ViewAppraisalState extends State<ViewAppraisal> {
                           '${(index + 1).toString()}. Course Name & Number: ',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        Text(_formdata['form']['newCourses']
+                        Text(_formdata['newCoursesIntroduced']
                             [index]!['courseName&Number']),
                       ]),
                       SizedBox(height: 10),
@@ -197,7 +198,8 @@ class _ViewAppraisalState extends State<ViewAppraisal> {
                             'UG/PG: ',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
-                          Text(_formdata['form']['newCourses'][index]!['UG/PG'])
+                          Text(_formdata['newCoursesIntroduced']
+                              [index]!['UG/PG'])
                         ],
                       ),
                       SizedBox(height: 10),
@@ -207,7 +209,7 @@ class _ViewAppraisalState extends State<ViewAppraisal> {
                             'Year & Semester Of First Offering: ',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
-                          Text(_formdata['form']['newCourses']
+                          Text(_formdata['newCoursesIntroduced']
                               [index]!['Year&SemesterOfFirstOffering'])
                         ],
                       ),
@@ -219,13 +221,13 @@ class _ViewAppraisalState extends State<ViewAppraisal> {
         _buildSectionTitle('New Course Material Developed'),
         SizedBox(height: 5),
         //  Write a new code to display list of objects
-        _formdata['form']['coursesNewMaterial'].isEmpty
+        _formdata['newCoursesDeveloped'].isEmpty
             ? Text('No new courses material developed')
             : ListView.builder(
                 shrinkWrap: true,
-                itemCount: _formdata['form']['coursesNewMaterial'].length,
+                itemCount: _formdata['newCoursesDeveloped'].length,
                 itemBuilder: (context, index) {
-                  if (_formdata['form']['coursesNewMaterial'].isEmpty)
+                  if (_formdata['newCoursesDeveloped'].isEmpty)
                     return Text('No new courses material developed ');
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -235,7 +237,7 @@ class _ViewAppraisalState extends State<ViewAppraisal> {
                           '${(index + 1).toString()}. Course Name and Number: ',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        Text(_formdata['form']['coursesNewMaterial']
+                        Text(_formdata['newCoursesDeveloped']
                             [index]!['courseName&Number']),
                       ]),
                       SizedBox(height: 10),
@@ -245,7 +247,7 @@ class _ViewAppraisalState extends State<ViewAppraisal> {
                             'UG/PG : ',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
-                          Text(_formdata['form']['coursesNewMaterial']
+                          Text(_formdata['newCoursesDeveloped']
                               [index]!['UG/PG'])
                         ],
                       ),
@@ -256,7 +258,7 @@ class _ViewAppraisalState extends State<ViewAppraisal> {
                             'Type of Activity :  ',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
-                          Text(_formdata['form']['coursesNewMaterial']
+                          Text(_formdata['newCoursesDeveloped']
                               [index]!['TypeOfActivity'])
                         ],
                       ),
@@ -267,7 +269,7 @@ class _ViewAppraisalState extends State<ViewAppraisal> {
                             'Web/Public: ',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
-                          Text(_formdata['form']['coursesNewMaterial']
+                          Text(_formdata['newCoursesDeveloped']
                               [index]!['Web/Public'])
                         ],
                       ),
@@ -279,13 +281,13 @@ class _ViewAppraisalState extends State<ViewAppraisal> {
         _buildSectionTitle('Thesis/Research Supervision'),
         SizedBox(height: 5),
         //  Write a new code to display list of objects
-        _formdata['form']['thesisResearch'].isEmpty
+        _formdata['thesisSupervision'].isEmpty
             ? Text('No Thesis/Research Supervision')
             : ListView.builder(
                 shrinkWrap: true,
-                itemCount: _formdata['form']['thesisResearch'].length,
+                itemCount: _formdata['thesisSupervision'].length,
                 itemBuilder: (context, index) {
-                  if (_formdata['form']['thesisResearch'].isEmpty)
+                  if (_formdata['thesisSupervision'].isEmpty)
                     return Text('No Thesis/Research Supervision');
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -295,7 +297,7 @@ class _ViewAppraisalState extends State<ViewAppraisal> {
                           '${(index + 1).toString()}. Name of Student: ',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        Text(_formdata['form']['thesisResearch']
+                        Text(_formdata['thesisSupervision']
                             [index]!['nameOfStudent']),
                       ]),
                       SizedBox(height: 10),
@@ -305,7 +307,7 @@ class _ViewAppraisalState extends State<ViewAppraisal> {
                             'Title of Thesis: ',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
-                          Text(_formdata['form']['thesisResearch']
+                          Text(_formdata['thesisSupervision']
                               [index]!['titleOfThesis'])
                         ],
                       ),
@@ -316,7 +318,7 @@ class _ViewAppraisalState extends State<ViewAppraisal> {
                             'Year & Semester of first Registration: ',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
-                          Text(_formdata['form']['thesisResearch']
+                          Text(_formdata['thesisSupervision']
                               [index]!['year&SemesterOfFirstRegistration'])
                         ],
                       ),
@@ -327,7 +329,7 @@ class _ViewAppraisalState extends State<ViewAppraisal> {
                             'Status: ',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
-                          Text(_formdata['form']['thesisResearch']
+                          Text(_formdata['thesisSupervision']
                               [index]!['status'])
                         ],
                       ),
@@ -338,7 +340,7 @@ class _ViewAppraisalState extends State<ViewAppraisal> {
                             'Co-supervisiors: ',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
-                          Text(_formdata['form']['thesisResearch']
+                          Text(_formdata['thesisSupervision']
                               [index]!['coSupervisiors'])
                         ],
                       ),
@@ -416,6 +418,90 @@ class _ViewAppraisalState extends State<ViewAppraisal> {
         SizedBox(
           height: 10,
         ),
+        Text(
+          'Other Research Elements: ',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        Text(_formdata['otherResearchElement']),
+        SizedBox(height: 10),
+        Text(
+          'Publications: ',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        Text(_formdata['publication']),
+        SizedBox(height: 10),
+        Text(
+          'Referred Conference: ',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        Text(_formdata['referredConference']),
+        SizedBox(height: 10),
+        Text(
+          'Conference Organised: ',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        Text(_formdata['conferenceOrganised']),
+        SizedBox(height: 10),
+        Text(
+          'Membership: ',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        Text(_formdata['membership']),
+        SizedBox(height: 10),
+        Text(
+          'Honours: ',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        Text(_formdata['honours']),
+        SizedBox(height: 10),
+        Text(
+          'Editor of Publications: ',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        Text(_formdata['editorOfPublications']),
+        SizedBox(height: 10),
+        Text(
+          'Expert Lecture Delivered: ',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        Text(_formdata['expertLectureDelivered']),
+        SizedBox(height: 10),
+        Text(
+          'Membership of BOS: ',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        Text(_formdata['membershipOfBOS']),
+        SizedBox(height: 10),
+        Text(
+          'Other Extension Tasks: ',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        Text(_formdata['otherExtensionTasks']),
+        SizedBox(height: 10),
+        Text(
+          'Administrative Assignment: ',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        Text(_formdata['administrativeAssignment']),
+        SizedBox(height: 10),
+        Text(
+          'Service to Institute: ',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        Text(_formdata['serviceToInstitute']),
+        SizedBox(height: 10),
+        Text(
+          'Other Contribution: ',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        Text(_formdata['otherContribution']),
+        SizedBox(height: 10),
+        Text(
+          'Other Instructional Tasks: ',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        Text(_formdata['otherInstructionalTasks']),
+        SizedBox(height: 10),
         TextFormField(
           controller: _remarksController,
           maxLength: 50,
@@ -495,11 +581,21 @@ class _ViewAppraisalState extends State<ViewAppraisal> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
-      drawer: SideDrawer(),
+      appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: "View Appraisal Form",
+        onDesignationChanged: (newValue) {
+          setState(() {
+            curr_desig = newValue;
+          });
+        },
+      ), // This is default app bar used in all modules
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar: MyBottomNavigationBar(),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
           child: Form(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

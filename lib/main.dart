@@ -52,6 +52,7 @@ void main() {
   setupLocator();
   //runApp(MyApp());
   runZonedGuarded(() {
+    WidgetsFlutterBinding.ensureInitialized();
     runApp(MyApp());
   }, (Object error, StackTrace stack) {
     print("---caught error in zoned---\n");
@@ -64,7 +65,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MediaQueryData windowData =
-    MediaQueryData.fromView(WidgetsBinding.instance.window);
+        MediaQueryData.fromView(WidgetsBinding.instance.window);
     windowData = windowData.copyWith(
       textScaler: TextScaler.linear(1),
     );
@@ -85,9 +86,9 @@ class MyApp extends StatelessWidget {
         routes: {
           '/landing': (context) => LandingPage(),
           '/login_page': (context) => LoginPage(),
-          '/notification':(context)=>Notify(),
-          '/news':(context)=>News(),
-          '/announcement':(context)=>Announcement(),
+          '/notification': (context) => Notify(),
+          '/news': (context) => News(),
+          '/announcement': (context) => Announcement(),
           '/dashboard': (context) => Dashboard(),
           '/academic_home_page': (context) => AcademicHomePage(
               ModalRoute.of(context)!.settings.arguments.toString()),

@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
 import 'package:fusion/screens/HR/HRHomePage.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:fusion/screens/HR/ViewInbox.dart';
 import 'package:fusion/screens/HR/RequestsOfAUserList.dart';
-import 'package:fusion/services/service_locator.dart';
-import 'package:fusion/services/storage_service.dart';
 import 'package:fusion/models/profile.dart';
 import 'package:fusion/services/profile_service.dart';
-
+import 'package:fusion/api.dart';
 class ForwardCPDAAdvance extends StatefulWidget {
   const ForwardCPDAAdvance({required this.formdata, this.isArchived});
   final formdata;
@@ -39,22 +40,24 @@ class _ForwardCPDAAdvanceState extends State<ForwardCPDAAdvance> {
   late List<dynamic> designationsOfReceiver = [];
   bool isCreator = false;
   bool isOwner = false;
-  bool _loading1 = true;
   bool fetchedDesignationsOfReceiver = false;
+  bool _loading1 = true;
+
   late StreamController _profileController;
   late ProfileService profileService;
   late ProfileData datap;
-  var service;
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
   @override
   void initState() {
     // TODO: implement initState
     _profileController = StreamController();
     profileService = ProfileService();
-    service = locator<StorageService>();
     try {
       print("hello");
       datap = service.profileData;
       print(datap.user);
+      print(widget.formdata);
       _loading1 = false;
     } catch (e) {
       getData();
@@ -66,7 +69,7 @@ class _ForwardCPDAAdvanceState extends State<ForwardCPDAAdvance> {
   }
 
   getDesignations() async {
-    final String host = "10.0.2.2:8000";
+    final String host = kserverLink;
     final String path = "/hr2/api/getDesignations/";
     final queryParameters = {
       'username': _receiverNameController.text,
@@ -101,7 +104,7 @@ class _ForwardCPDAAdvanceState extends State<ForwardCPDAAdvance> {
 
   void trackStatus() async {
     // print(widget.formdata);
-    final String host = "10.0.2.2:8000";
+    final String host = kserverLink;
     final String path = "/hr2/api/tracking/";
     final queryParameters = {
       'id': widget.formdata['id'],
@@ -122,7 +125,7 @@ class _ForwardCPDAAdvanceState extends State<ForwardCPDAAdvance> {
   }
 
   void archiveForm() async {
-    final String host = "10.0.2.2:8000";
+    final String host = kserverLink;
     final String path = "/hr2/api/cpdaadv/";
     final queryParameters = {'id': widget.formdata['id']};
     Uri uri = (Uri.http(host, path, queryParameters));
@@ -134,8 +137,7 @@ class _ForwardCPDAAdvanceState extends State<ForwardCPDAAdvance> {
     if (response.statusCode == 200) {
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Application successfully archived!")));
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => HRHomePage()));
+      Navigator.pop(context);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Failed to archive application.")));
@@ -143,7 +145,7 @@ class _ForwardCPDAAdvanceState extends State<ForwardCPDAAdvance> {
   }
 
   void fetchForm() async {
-    final String host = "10.0.2.2:8000";
+    final String host = kserverLink;
     final String path = "/hr2/api/formFetch/";
 
     final queryParameters = {
@@ -187,7 +189,7 @@ class _ForwardCPDAAdvanceState extends State<ForwardCPDAAdvance> {
 
   void approveForm() async {
     bool valid = true;
-    final String host = "10.0.2.2:8000";
+    final String host = kserverLink;
     final String path = "/hr2/api/cpdaadv/";
     final queryParameters = {
       'id': widget.formdata['src_object_id'],
@@ -239,8 +241,7 @@ class _ForwardCPDAAdvanceState extends State<ForwardCPDAAdvance> {
       // ignore: avoid_print
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Application Approved Successfully")));
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => RequestListPage()));
+      Navigator.pop(context);
     } else {
       // ignore: avoid_print
       ScaffoldMessenger.of(context).showSnackBar(
@@ -251,7 +252,7 @@ class _ForwardCPDAAdvanceState extends State<ForwardCPDAAdvance> {
   void forwardForm() async {
     // Navigator.push(context,
     //     MaterialPageRoute(builder: (context) => ForwardOrDeclineFormHradmin()));
-    final String host = "10.0.2.2:8000";
+    final String host = kserverLink;
     final String path = "/hr2/api/cpdaadv/";
     final queryParameters = {
       'id': widget.formdata['src_object_id'],
@@ -297,8 +298,7 @@ class _ForwardCPDAAdvanceState extends State<ForwardCPDAAdvance> {
       // ignore: avoid_print
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Application Forwarded Successfully")));
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => RequestListPage()));
+      Navigator.pop(context);
     } else {
       // ignore: avoid_print
       ScaffoldMessenger.of(context).showSnackBar(
@@ -307,7 +307,7 @@ class _ForwardCPDAAdvanceState extends State<ForwardCPDAAdvance> {
   }
 
   void declineForm() async {
-    final String host = "10.0.2.2:8000";
+    final String host = kserverLink;
     final String path = "/hr2/api/cpdaadv/";
     final queryParameters = {
       'id': widget.formdata['src_object_id'],
@@ -354,8 +354,7 @@ class _ForwardCPDAAdvanceState extends State<ForwardCPDAAdvance> {
       // ignore: avoid_print
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Application Declined Successfully")));
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => RequestListPage()));
+      Navigator.pop(context);
     } else {
       // ignore: avoid_print
       ScaffoldMessenger.of(context).showSnackBar(
@@ -650,24 +649,23 @@ class _ForwardCPDAAdvanceState extends State<ForwardCPDAAdvance> {
                   _formdata["form"]["approved"] == null
                       ? ElevatedButton(
                           onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              //   // If the form is valid, display a snackbar. In the real world,
-                              //   // you'd often call a server or save the information in a database.
-                              print("pohoch");
-                              declineForm();
-                            }
+                            // if (_formKey.currentState!.validate()) {
+                            //   // If the form is valid, display a snackbar. In the real world,
+                            //   // you'd often call a server or save the information in a database.
+                            declineForm();
+                            // }
                             // Respond to button press
-                            else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text(
-                                        'Please fill all the fields correctly')),
-                              );
-                            }
+                            // else {
+                            //   ScaffoldMessenger.of(context).showSnackBar(
+                            //     const SnackBar(
+                            //         content: Text(
+                            //             'Please fill all the fields correctly')),
+                            //   );
+                            // }
                             // Respond to decline button press
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: Color.fromARGB(255, 64, 162, 201),
+                            backgroundColor: Color.fromARGB(255, 64, 162, 201),
                           ),
                           child: Text(
                             'Decline',
@@ -707,7 +705,7 @@ class _ForwardCPDAAdvanceState extends State<ForwardCPDAAdvance> {
                             // Respond to decline button press
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: Color.fromARGB(255, 64, 162, 201),
+                            backgroundColor: Color.fromARGB(255, 64, 162, 201),
                           ),
                           child: Text(
                             'Approve',
@@ -765,7 +763,7 @@ class _ForwardCPDAAdvanceState extends State<ForwardCPDAAdvance> {
                   // Respond to decline button press
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Color.fromARGB(255, 64, 162, 201),
+                  backgroundColor: Color.fromARGB(255, 64, 162, 201),
                 ),
                 child: Text(
                   'Archive this form.',
@@ -818,12 +816,22 @@ class _ForwardCPDAAdvanceState extends State<ForwardCPDAAdvance> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
-      drawer: SideDrawer(),
+      appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: "View CPDA-A Form",
+        onDesignationChanged: (newValue) {
+          setState(() {
+            curr_desig = newValue;
+          });
+        },
+      ), // This is default app bar used in all modules
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar: MyBottomNavigationBar(),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
           child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
             child: Form(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

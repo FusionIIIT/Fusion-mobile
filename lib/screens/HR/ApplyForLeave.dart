@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
 import 'package:fusion/services/profile_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:fusion/api.dart';
 import 'package:fusion/screens/HR/HRHomePage.dart';
-import 'package:fusion/services/storage_service.dart';
-import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/models/profile.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -40,17 +41,23 @@ class _ApplyForLeaveState extends State<ApplyForLeave> {
   final TextEditingController _responsibilitiesAssignedController =
       TextEditingController();
   TextEditingController _receiverNameController = TextEditingController();
+  TextEditingController _receiverDesignationController =
+      TextEditingController();
+  TextEditingController _addministrativeResponsibiltyAssignedController =
+      TextEditingController();
   final _formKey = GlobalKey<FormState>();
   late StreamController _profileController;
   late ProfileService profileService;
   late ProfileData datap;
-  var service;
+  late List<dynamic> designationsOfReceiver = [];
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
   bool _loading1 = true;
+  bool fetchedDesignationsOfReceiver = false;
   void initState() {
     super.initState();
     _profileController = StreamController();
     profileService = ProfileService();
-    service = locator<StorageService>();
     try {
       print("hello");
       datap = service.profileData;
@@ -81,15 +88,36 @@ class _ApplyForLeaveState extends State<ApplyForLeave> {
     print(datap.profile!['user_type']);
     setState(() {
       _nameController.text = datap.user!['first_name'];
-      _designationController.text = datap.profile!['user_type'];
+      _designationController.text = curr_desig;
     });
   }
 
+  getDesignations() async {
+    final String host = kserverLink;
+    final String path = "/hr2/api/getDesignations/";
+    final queryParameters = {
+      'username': _receiverNameController.text,
+    };
+    Uri uri = (Uri.http(host, path, queryParameters));
+    var response = await http.get(uri);
+    if (response.statusCode == 200) {
+      final d = await jsonDecode(response.body);
+      setState(() {
+        fetchedDesignationsOfReceiver = true;
+        designationsOfReceiver = d;
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Please check the entered username.")));
+    }
+  }
+
   void submitForm() async {
-    final url = "http://10.0.2.2:8000/hr2/api/leave/";
+    final url = "http://${kserverLink}/hr2/api/leave/";
 
     final data = {
       'name': _nameController.text,
+      "employeeId": (datap.user)!['id'],
       'designation': _designationController.text,
       'pfNo': _pfNoController.text,
       'departmentInfo': _departmentController.text,
@@ -102,15 +130,18 @@ class _ApplyForLeaveState extends State<ApplyForLeave> {
           .substring(0, 10),
       'purposeOfLeave': _purposeOfLeaveController.text,
       'addressDuringLeave': _addressDuringLeaveController.text,
-      'rolesTransferredTo': _responsibilitiesAssignedController.text,
+      'academicResponsibility': _responsibilitiesAssignedController.text,
+      'addministrativeResponsibiltyAssigned':
+          _addministrativeResponsibiltyAssignedController,
       'receiver_name': _receiverNameController.text,
       'submissionDate': DateTime.now().toIso8601String().substring(0, 10),
       'created_by': datap.user!['id'].toString()
     };
     final userInfo = {
+      "receiver_designation": _receiverDesignationController.text,
       "receiver_name": _receiverNameController.text,
       "uploader_name": datap.user!['username'],
-      "uploader_designation": datap.profile!['user_type'],
+      "uploader_designation": curr_desig,
     };
     var payload = [data, userInfo];
     var response = await http.post(
@@ -135,11 +166,22 @@ class _ApplyForLeaveState extends State<ApplyForLeave> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
-      drawer: SideDrawer(),
+      appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: "Apply For Leave",
+        onDesignationChanged: (newValue) {
+          setState(() {
+            curr_desig = newValue;
+            _designationController.text = curr_desig;
+          });
+        },
+      ), // This is default app bar used in all modules
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar: MyBottomNavigationBar(),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
           child: Form(
             key: _formKey,
             child: Column(
@@ -259,8 +301,23 @@ class _ApplyForLeaveState extends State<ApplyForLeave> {
                   controller: _responsibilitiesAssignedController,
                   maxLength: 50,
                   decoration: const InputDecoration(
-                    labelText:
-                        'Academic and Administrative Responsibilities assigned to',
+                    labelText: 'Academic Responsibilities assigned to',
+                  ),
+                  validator: (value) {
+                    if (value?.isEmpty ?? true) {
+                      return 'Please enter name of person the responsibilities have been assigned to.';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                TextFormField(
+                  controller: _addministrativeResponsibiltyAssignedController,
+                  maxLength: 50,
+                  decoration: const InputDecoration(
+                    labelText: 'Administrative Responsibilities assigned to',
                   ),
                   validator: (value) {
                     if (value?.isEmpty ?? true) {
@@ -289,11 +346,62 @@ class _ApplyForLeaveState extends State<ApplyForLeave> {
                   height: 20,
                 ),
                 ElevatedButton(
+                    onPressed: () {
+                      getDesignations();
+                    },
+                    child: Text("Show Designations of user")),
+                SizedBox(height: 20),
+                fetchedDesignationsOfReceiver
+                    ? DropdownButtonFormField(
+                        items: designationsOfReceiver
+                            .map((e) => DropdownMenuItem(
+                                  child: Text(e),
+                                  value: e,
+                                ))
+                            .toList(),
+                        onChanged: (value) {
+                          _receiverDesignationController.text =
+                              value.toString();
+                        })
+                    : Container(),
+                SizedBox(height: 20),
+                SizedBox(
+                  height: 20,
+                ),
+                ElevatedButton(
                   onPressed: () {
                     // Respond to button press
                     if (_formKey.currentState!.validate()) {
                       // If the form is valid, display a snackbar. In the real world,
                       // you'd often call a server or save the information in a database.
+                      if (DateTime.parse(_leaveStartDateController.text)
+                          .isAfter(
+                              DateTime.parse(_leaveEndDateController.text))) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content:
+                                  Text('End Date should be after Start Date')),
+                        );
+                        return;
+                      }
+                      if (DateTime.parse(_leaveStartDateController.text)
+                          .isBefore(DateTime.now())) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content:
+                                  Text('Start Date should be after today')),
+                        );
+                        return;
+                      }
+                      if (DateTime.parse(_leaveEndDateController.text)
+                          .isBefore(DateTime.now())) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content: Text('End Date should be after today')),
+                        );
+                        return;
+                      }
+
                       submitForm();
                     }
                     // Respond to button press

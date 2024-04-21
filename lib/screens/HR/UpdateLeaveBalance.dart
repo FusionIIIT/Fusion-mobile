@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
 import 'package:fusion/screens/HR/ViewCPDAAdvance.dart';
 import 'package:fusion/screens/HR/ViewAppraisal.dart';
 import 'package:fusion/screens/HR/ViewLeave.dart';
@@ -8,8 +9,6 @@ import 'package:fusion/services/profile_service.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
-import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
 import 'package:fusion/models/profile.dart';
@@ -17,7 +16,7 @@ import 'package:http/http.dart' as http;
 import 'ViewCPDAReimburse.dart';
 import 'ViewLTC.dart';
 import 'ForwardLeave.dart';
-
+import 'package:fusion/api.dart';
 class UpdateLeavebalance extends StatefulWidget {
   const UpdateLeavebalance();
 
@@ -41,7 +40,8 @@ class _UpdateLeaveBalanceState extends State<UpdateLeavebalance> {
   late StreamController _profileController;
   late ProfileService profileService;
   late ProfileData datap;
-  var service;
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
   bool _loading1 = true;
   bool dataFetched = false;
 
@@ -49,7 +49,6 @@ class _UpdateLeaveBalanceState extends State<UpdateLeavebalance> {
     super.initState();
     _profileController = StreamController();
     profileService = ProfileService();
-    service = locator<StorageService>();
     try {
       print("hello");
       datap = service.profileData;
@@ -72,7 +71,7 @@ class _UpdateLeaveBalanceState extends State<UpdateLeavebalance> {
   }
 
   void getLeaveBalance() async {
-    final String host = "10.0.2.2:8000";
+    final String host = kserverLink;
     final String path = "/hr2/api/leaveBalance/";
 
     if (_usernameController.text.isEmpty) {
@@ -120,7 +119,7 @@ class _UpdateLeaveBalanceState extends State<UpdateLeavebalance> {
 
   void updateLeaveBalance() async {
     print("aane ka man toh hai");
-    final String host = "10.0.2.2:8000";
+    final String host = kserverLink;
     final String path = "/hr2/api/leaveBalance/";
 
     final queryParameters = {
@@ -159,12 +158,22 @@ class _UpdateLeaveBalanceState extends State<UpdateLeavebalance> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
-      drawer: SideDrawer(),
+      appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: "Update Leave Balance",
+        onDesignationChanged: (newValue) {
+          setState(() {
+            curr_desig = newValue;
+          });
+        },
+      ), // This is default app bar used in all modules
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar: MyBottomNavigationBar(),
       body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
             child: SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -337,7 +346,8 @@ class _UpdateLeaveBalanceState extends State<UpdateLeavebalance> {
                                     // Respond to decline button press
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    primary: Color.fromARGB(255, 64, 162, 201),
+                                    backgroundColor:
+                                        Color.fromARGB(255, 64, 162, 201),
                                   ),
                                   child: Text(
                                     'Update Leaves',

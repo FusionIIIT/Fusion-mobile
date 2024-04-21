@@ -1,17 +1,19 @@
 import 'dart:convert';
 import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
+import 'package:flutter/widgets.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
 import 'package:fusion/screens/HR/HRHomePage.dart';
 import 'package:http/http.dart' as http;
 import 'package:fusion/services/profile_service.dart';
-import 'package:fusion/services/service_locator.dart';
-import 'package:fusion/services/storage_service.dart';
 import 'package:fusion/models/profile.dart';
 import 'dart:async';
 import 'package:intl/intl.dart';
-
+import 'package:fusion/api.dart';
 class ApplyForLTC extends StatefulWidget {
   const ApplyForLTC();
 
@@ -52,14 +54,20 @@ class _ApplyForLTCState extends State<ApplyForLTC> {
   TextEditingController _adjustedMonthController = TextEditingController();
   TextEditingController _phoneNumberForContactController =
       TextEditingController();
+  TextEditingController _basicPaySalaryController = TextEditingController();
   TextEditingController _receiverNameController = TextEditingController();
   List<String> rowKeys = ['Name', 'Relation', 'Age', 'Why Fully Dependent?'];
   List<String> rowKeys2 = ['Name', 'Relation', 'Age'];
+  late List<dynamic> designationsOfReceiver = [];
+  TextEditingController _receiverDesignationController =
+      TextEditingController();
+  bool fetchedDesignationsOfReceiver = false;
   final _formKey = GlobalKey<FormState>();
   late StreamController _profileController;
   late ProfileService profileService;
   late ProfileData datap;
-  var service;
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
   bool _loading1 = true;
 
   void initState() {
@@ -75,6 +83,26 @@ class _ApplyForLTCState extends State<ApplyForLTC> {
     } catch (e) {
       getData();
       showData();
+    }
+  }
+
+  getDesignations() async {
+    final String host = kserverLink;
+    final String path = "/hr2/api/getDesignations/";
+    final queryParameters = {
+      'username': _receiverNameController.text,
+    };
+    Uri uri = (Uri.http(host, path, queryParameters));
+    var response = await http.get(uri);
+    if (response.statusCode == 200) {
+      final d = await jsonDecode(response.body);
+      setState(() {
+        fetchedDesignationsOfReceiver = true;
+        designationsOfReceiver = d;
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Please check the entered username.")));
     }
   }
 
@@ -97,18 +125,21 @@ class _ApplyForLTCState extends State<ApplyForLTC> {
     print(datap.profile!['user_type']);
     setState(() {
       _nameController.text = datap.user!['first_name'];
-      _designationController.text = datap.profile!['user_type'];
+      _designationController.text = curr_desig;
     });
   }
 
   void submitForm() async {
-    final String url = "http://10.0.2.2:8000/hr2/api/ltc/";
+    final String url = "http://${kserverLink}/hr2/api/ltc/";
     Map<String, dynamic> data = {
       "name": _nameController.text,
+      "employeeId": (datap.user)!['id'],
       "designation": _designationController.text,
       "departmentInfo": _departmentInfoController.text,
       "blockYear": _blockYearController.text,
       "pfNo": _pfNoController.text,
+      "basicPaySalary": _basicPaySalaryController.text,
+
       "leaveRequired": _leaveRequired == BoolField.yes ? true : false,
       'leaveStartDate': _leaveStartDateController.text == ""
           ? null
@@ -169,9 +200,10 @@ class _ApplyForLTCState extends State<ApplyForLTC> {
       "created_by": datap.user!['id'].toString(),
     };
     Map<String, String> userInfo = {
+      "receiver_designation": _receiverDesignationController.text,
       "receiver_name": _receiverNameController.text,
       "uploader_name": datap.user!['username'],
-      "uploader_designation": datap.profile!['user_type'],
+      "uploader_designation": curr_desig,
     };
 
     var payload = [data, userInfo];
@@ -187,8 +219,7 @@ class _ApplyForLTCState extends State<ApplyForLTC> {
       // ignore: avoid_print
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Application Submitted Successfully")));
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => HRHomePage()));
+      Navigator.pop(context);
     } else {
       // ignore: avoid_print
       ScaffoldMessenger.of(context).showSnackBar(
@@ -202,12 +233,23 @@ class _ApplyForLTCState extends State<ApplyForLTC> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: DefaultAppBar().buildAppBar(),
-        drawer: SideDrawer(),
+        appBar: CustomAppBar(
+          curr_desig: curr_desig,
+          headerTitle: "Apply For LTC",
+          onDesignationChanged: (newValue) {
+            setState(() {
+              curr_desig = newValue;
+              _designationController.text = curr_desig;
+            });
+          },
+        ), // This is default app bar used in all modules
+        drawer: SideDrawer(curr_desig: curr_desig),
+        bottomNavigationBar: MyBottomNavigationBar(),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
             child: SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
               child: Form(
                 key: _formKey,
                 child: Column(
@@ -236,6 +278,19 @@ class _ApplyForLTCState extends State<ApplyForLTC> {
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your Department/Section';
+                        }
+                        return null;
+                      },
+                    ),
+                    TextFormField(
+                      controller: _basicPaySalaryController,
+                      maxLength: 50,
+                      decoration: const InputDecoration(
+                        label: Text('Basic Pay Salary'),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your Basic Pay Salary';
                         }
                         return null;
                       },
@@ -488,11 +543,110 @@ class _ApplyForLTCState extends State<ApplyForLTC> {
                       },
                     ),
                     ElevatedButton(
+                        onPressed: () {
+                          getDesignations();
+                          print(designationsOfReceiver);
+                        },
+                        child: Text("Show Designations of user")),
+                    SizedBox(height: 20),
+                    fetchedDesignationsOfReceiver
+                        ? DropdownButtonFormField(
+                            items: designationsOfReceiver
+                                .map((e) => DropdownMenuItem(
+                                      child: Text(e),
+                                      value: e,
+                                    ))
+                                .toList(),
+                            onChanged: (value) {
+                              _receiverDesignationController.text =
+                                  value.toString();
+                            })
+                        : Container(),
+                    SizedBox(height: 20),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           //   // If the form is valid, display a snackbar. In the real world,
                           //   // you'd often call a server or save the information in a database.
-                          print("pohoch");
+                          if (DateTime.parse(_leaveEndDateController.text).isBefore(
+                              DateTime.parse(_leaveStartDateController.text))) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text(
+                                      'End Date should be after Start Date')),
+                            );
+                            return;
+                          } else if (DateTime.parse(
+                                  _certifiedThatAdvanceTakenOn.text)
+                              .isAfter(DateTime.now())) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text(
+                                      'Advance Taken Date should be before current date')),
+                            );
+                            return;
+                          } else if (DateTime.parse(_certifiedThatAdvanceTakenOn.text).isAfter(
+                              DateTime.parse(_leaveStartDateController.text))) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text(
+                                      'Advance Taken Date should be before Leave Start Date')),
+                            );
+                            return;
+                          } else if (DateTime.parse(_certifiedThatAdvanceTakenOn.text).isAfter(
+                              DateTime.parse(_leaveEndDateController.text))) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text(
+                                      'Advance Taken Date should be before Leave End Date')),
+                            );
+                            return;
+                          } else if (DateTime.parse(_dateOfDepartureForFamilyController.text).isAfter(
+                              DateTime.parse(_leaveStartDateController.text))) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text(
+                                      'Date of Departure for Family should be before Leave Start Date')),
+                            );
+                            return;
+                          } else if (DateTime.parse(_dateOfDepartureForFamilyController.text).isAfter(
+                              DateTime.parse(_leaveEndDateController.text))) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text(
+                                      'Date of Departure for Family should be before Leave End Date')),
+                            );
+                            return;
+                          } else if (DateTime.parse(_leaveStartDateController.text)
+                              .isBefore(DateTime.now())) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text(
+                                      'Start Date should be after current date')),
+                            );
+                            return;
+                          } else if (DateTime.parse(_leaveEndDateController.text)
+                              .isBefore(DateTime.now())) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text(
+                                      'End Date should be after current date')),
+                            );
+                            return;
+                          } else if (DateTime.parse(
+                                  _dateOfDepartureForFamilyController.text)
+                              .isBefore(DateTime.now())) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text(
+                                      'Date of Departure for Family should be after current date')),
+                            );
+                            return;
+                          }
+
                           submitForm();
                         }
                         // Respond to button press

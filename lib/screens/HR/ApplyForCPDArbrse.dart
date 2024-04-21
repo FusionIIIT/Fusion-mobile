@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
 import 'package:fusion/screens/HR/HRHomePage.dart';
 import 'package:fusion/services/profile_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:fusion/api.dart';
-import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/models/profile.dart';
-import 'package:fusion/services/storage_service.dart';
 import 'dart:async';
 import 'dart:convert';
 
@@ -33,17 +32,21 @@ class _ApplyForCPDArbrseState extends State<ApplyForCPDArbrse> {
   TextEditingController _adjustmentSubmittedController =
       TextEditingController();
   TextEditingController _receiverNameController = TextEditingController();
+  TextEditingController _receiverDesignationController =
+      TextEditingController();
+  bool fetchedDesignationsOfReceiver = false;
+  late List<dynamic> designationsOfReceiver = [];
   final _formKey = GlobalKey<FormState>();
   late StreamController _profileController;
   late ProfileService profileService;
   late ProfileData datap;
-  var service;
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
   bool _loading1 = true;
   void initState() {
     super.initState();
     _profileController = StreamController();
     profileService = ProfileService();
-    service = locator<StorageService>();
     try {
       print("hello");
       datap = service.profileData;
@@ -52,6 +55,26 @@ class _ApplyForCPDArbrseState extends State<ApplyForCPDArbrse> {
     } catch (e) {
       getData();
       showData();
+    }
+  }
+
+  getDesignations() async {
+    final String host = kserverLink;
+    final String path = "/hr2/api/getDesignations/";
+    final queryParameters = {
+      'username': _receiverNameController.text,
+    };
+    Uri uri = (Uri.http(host, path, queryParameters));
+    var response = await http.get(uri);
+    if (response.statusCode == 200) {
+      final d = await jsonDecode(response.body);
+      setState(() {
+        fetchedDesignationsOfReceiver = true;
+        designationsOfReceiver = d;
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Please check the entered username.")));
     }
   }
 
@@ -74,16 +97,17 @@ class _ApplyForCPDArbrseState extends State<ApplyForCPDArbrse> {
     print(datap.profile!['user_type']);
     setState(() {
       _nameController.text = datap.user!['first_name'];
-      _designationController.text = datap.profile!['user_type'];
+      _designationController.text = curr_desig;
     });
   }
 
   void submitForm() async {
-    final url = "http://10.0.2.2:8000/hr2/api/cpdareim/";
+    final url = "http://${kserverLink}/hr2/api/cpdareim/";
 
     final data = {
       'name': _nameController.text,
       'designation': _designationController.text,
+      "employeeId": (datap.user)!['id'],
       'pfNo': _pfNoController.text,
       'advanceTaken': _advanceTakenController.text,
       'purpose': _purposeController.text,
@@ -94,8 +118,9 @@ class _ApplyForCPDArbrseState extends State<ApplyForCPDArbrse> {
     };
     final userInfo = {
       "receiver_name": _receiverNameController.text,
+      "receiver_designation": _receiverDesignationController.text,
       "uploader_name": datap.user!['username'],
-      "uploader_designation": datap.profile!['user_type'],
+      "uploader_designation": curr_desig,
     };
     var payload = [data, userInfo];
     var response = await http.post(
@@ -109,8 +134,7 @@ class _ApplyForCPDArbrseState extends State<ApplyForCPDArbrse> {
       // ignore: avoid_print
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Application Submitted Successfully")));
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => HRHomePage()));
+      Navigator.pop(context);
     } else {
       // ignore: avoid_print
       ScaffoldMessenger.of(context).showSnackBar(
@@ -121,12 +145,23 @@ class _ApplyForCPDArbrseState extends State<ApplyForCPDArbrse> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: DefaultAppBar().buildAppBar(),
-        drawer: SideDrawer(),
+        appBar: CustomAppBar(
+          curr_desig: curr_desig,
+          headerTitle: "Apply For CPDA-R ",
+          onDesignationChanged: (newValue) {
+            setState(() {
+              curr_desig = newValue;
+              _designationController.text = curr_desig;
+            });
+          },
+        ), // This is default app bar used in all modules
+        drawer: SideDrawer(curr_desig: curr_desig),
+        bottomNavigationBar: MyBottomNavigationBar(),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
             child: SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
               child: Form(
                 key: _formKey,
                 child: Column(
@@ -211,6 +246,29 @@ class _ApplyForCPDArbrseState extends State<ApplyForCPDArbrse> {
                       },
                     ),
 
+                    SizedBox(
+                      height: 20,
+                    ),
+                    ElevatedButton(
+                        onPressed: () {
+                          getDesignations();
+                        },
+                        child: Text("Show Designations of user")),
+                    SizedBox(height: 20),
+                    fetchedDesignationsOfReceiver
+                        ? DropdownButtonFormField(
+                            items: designationsOfReceiver
+                                .map((e) => DropdownMenuItem(
+                                      child: Text(e),
+                                      value: e,
+                                    ))
+                                .toList(),
+                            onChanged: (value) {
+                              _receiverDesignationController.text =
+                                  value.toString();
+                            })
+                        : Container(),
+                    SizedBox(height: 20),
                     SizedBox(
                       height: 20,
                     ), // instead of TextField()
