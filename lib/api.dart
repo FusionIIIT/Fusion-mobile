@@ -1,10 +1,9 @@
 //Server and local links
-String klocalLink = "192.168.140.22:8000";
+String klocalLink = "172.27.16.214:8000";
 String kserverLink = "172.27.16.214:8000";
 
 //Login Service
-// String kAuthUrl = "172.27.16.214:8000";
-String kAuthUrl = "172.27.32.85:8000";
+String kAuthUrl = "172.27.16.214:8000";
 String kAuthLogin = "/api/auth/login/";
 // String kAuthLogin = "/accounts/login";
 
