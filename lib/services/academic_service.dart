@@ -139,6 +139,8 @@ class AcademicService {
   }
 
   Future<http.Response> finalRegistration(
+      String user,
+      int semester,
       String transactionId,
       String depositDate,
       String utrNumber,
@@ -153,15 +155,17 @@ class AcademicService {
         'Authorization': 'Token ' + token,
         'Content-Type': 'application/json'
       };
+
       final body = {
+        'user': user,
+        'semester': semester,
+        'mode': 'NEFT',
         'transaction_id': transactionId,
         'deposit_date': depositDate,
         'utr_number': utrNumber,
         'fee_paid': feePaid,
         'actual_fee': actualFee,
         'reason': 'feePayment',
-        'mode': mode,
-        'semester': 5
       };
 
       final jsonString = json.encode(body);
@@ -243,6 +247,51 @@ class AcademicService {
         throw Exception('Can\'t get courses list');
       }
       print("successfully fetched courses list");
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  // choice: courseId,
+  // slot: slotId,
+  // semester: semesterId,
+  // user: userId
+
+  Future<http.Response> preRegAddOneCourse(
+      int courseId, int slotId, int semester, String user) async {
+    try {
+      var _prefs = await StorageService.getInstance();
+      String token = _prefs!.userInDB?.token ?? "";
+      Map<String, String> headers = {
+        'Authorization': 'Token ' + token,
+        'Content-Type': 'application/json'
+      };
+
+      final body = {
+        'choice': courseId,
+        'slot': slotId,
+        'semester': semester,
+        'user': user
+      };
+
+      final jsonString = json.encode(body);
+
+      print("pre reg: submitting priority");
+      var client = http.Client();
+      http.Response response = await client.post(
+          Uri.http(
+            getLink(),
+            kPreRegAddOneCourse, //Constant api path
+          ),
+          headers: headers,
+          body: jsonString);
+      if (response.statusCode != 200) {
+        print(response.body);
+        throw Exception('Can\'t submit priority');
+      }
+      // print(jsonDecode(response.body)['message']);
+      print("successfully submitted course");
       return response;
     } catch (e) {
       rethrow;
@@ -408,6 +457,105 @@ class AcademicService {
         throw Exception('Can\'t add data');
       }
       print("successfully added data");
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<http.Response> removeCourseFromSlot(String code, String slot) async {
+    try {
+      var _prefs = await StorageService.getInstance();
+      String token = _prefs!.userInDB?.token ?? "";
+      Map<String, String> headers = {
+        'Authorization': 'Token ' + token,
+        'Content-Type': 'application/json'
+      };
+
+      final body = {"course_code": code, "course_slot_name": slot};
+
+      final jsonString = json.encode(body);
+
+      print("removing course from slot");
+      var client = http.Client();
+      http.Response response = await client.post(
+        Uri.http(
+          getLink(),
+          kRemoveCourseFromSlot, //Constant api path
+        ),
+        headers: headers,
+        body: jsonString,
+      );
+      if (response.statusCode != 200) {
+        throw Exception('Can\'t remove course from slot');
+      }
+      print("successfully removed course from slot");
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<http.Response> addCourseToSlot(String code, String slot) async {
+    try {
+      var _prefs = await StorageService.getInstance();
+      String token = _prefs!.userInDB?.token ?? "";
+      Map<String, String> headers = {
+        'Authorization': 'Token ' + token,
+        'Content-Type': 'application/json'
+      };
+
+      final body = {"course_code": code, "course_slot_name": slot};
+
+      final jsonString = json.encode(body);
+
+      print("adding course to slot");
+      var client = http.Client();
+      http.Response response = await client.post(
+        Uri.http(
+          getLink(),
+          kAddCourseToSlot, //Constant api path
+        ),
+        headers: headers,
+        body: jsonString,
+      );
+      if (response.statusCode != 200) {
+        throw Exception('Can\'t add course to slot');
+      }
+      print("successfully added course to slot");
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<http.Response> getNextSemCourses(int next_sem, String branch,String programme, String batch) async {
+    try {
+      var _prefs = await StorageService.getInstance();
+      String token = _prefs!.userInDB?.token ?? "";
+      Map<String, String> headers = {
+        'Authorization': 'Token ' + token,
+        'Content-Type': 'application/json'
+      };
+
+      final body = {"next_sem": next_sem, "branch": branch, "programme": programme, "batch": batch};
+
+      final jsonString = json.encode(body);
+
+      print("fetching next sem courses");
+      var client = http.Client();
+      http.Response response = await client.post(
+        Uri.http(
+          getLink(),
+          kGetNextSemCourses, //Constant api path
+        ),
+        headers: headers,
+        body: jsonString,
+      );
+      if (response.statusCode != 200) {
+        throw Exception('Can\'t get next sem courses');
+      }
+      print("successfully fetched next sem courses");
       return response;
     } catch (e) {
       rethrow;

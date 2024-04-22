@@ -16,6 +16,8 @@ class AcademicData {
   List? thesis_request_list;
   List? add_courses_options;
   List? drop_courses_options;
+  List? backlogCourseList;
+  var user_sem;
   var student_flag;
   var ug_flag;
   var masters_flag;
@@ -55,7 +57,9 @@ class AcademicData {
       this.performance_list,
       this.thesis_request_list,
       this.add_courses_options,
+      this.backlogCourseList,
       this.drop_courses_options,
+      this.user_sem,
       this.student_flag,
       this.ug_flag,
       this.masters_flag,
@@ -97,7 +101,9 @@ class AcademicData {
       performance_list: json["performance_list"],
       thesis_request_list: json["thesis_request_list"],
       add_courses_options: json["add_courses_options"],
+      backlogCourseList: json["backlogCourseList"],
       drop_courses_options: json["drop_courses_options"],
+      user_sem: json["user_sem"],
       student_flag: json["student_flag"],
       ug_flag: json["ug_flag"],
       masters_flag: json["masters_flag"],
@@ -142,7 +148,9 @@ class AcademicData {
       "performance_list": this.performance_list,
       "thesis_request_list": this.thesis_request_list,
       "add_courses_options": this.add_courses_options,
+      "backlogCourseList": this.backlogCourseList,
       "drop_courses_options": this.drop_courses_options,
+      "user_sem": this.user_sem,
       "student_flag": this.student_flag,
       "ug_flag": this.ug_flag,
       "masters_flag": this.masters_flag,

@@ -10,7 +10,6 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:fusion/Components/bottom_navigation_bar.dart';
 
-
 class AcademicHomePage extends StatefulWidget {
   final String? token;
   static String tag = 'academic-page';
@@ -59,7 +58,6 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
         });
       }
     }
-    print(flattenedData);
     return flattenedData;
   }
 
@@ -84,6 +82,10 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
     try {
       Response response =
           await academicService.getAcademicDetails(widget.token!);
+      if (response.statusCode == 200) {
+        print("successfully fetched profile");
+        service.saveAcadInDB(AcademicData.fromJson(jsonDecode(response.body)));
+      }
       setState(() {
         print(response.body);
         data = AcademicData.fromJson(jsonDecode(response.body));
@@ -133,7 +135,7 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-    appBar: CustomAppBar(
+      appBar: CustomAppBar(
         curr_desig: curr_desig,
         headerTitle: "Academic Home",
         onDesignationChanged: (newValue) {
@@ -143,8 +145,7 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
         },
       ), // This is default app bar used in all modules
       drawer: SideDrawer(curr_desig: curr_desig),
-      bottomNavigationBar:
-          MyBottomNavigationBar(),
+      bottomNavigationBar: MyBottomNavigationBar(),
       body: _loading1 != 0
           ? Center(child: CircularProgressIndicator())
           : ListView(
@@ -260,7 +261,7 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
                               arguments: data);
                         },
                       ),
-                       InkWell(
+                      InkWell(
                         child: myContainer("Drop Course"),
                         onTap: () {
                           Navigator.pushNamed(
@@ -268,7 +269,7 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
                               arguments: data);
                         },
                       ),
-                        InkWell(
+                      InkWell(
                         child: myContainer("View Registration"),
                         onTap: () {
                           Navigator.pushNamed(
@@ -277,15 +278,14 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
                         },
                       ),
                       InkWell(
-                        child: myContainer("Fill Backlog Form"),
+                        child: myContainer("View Backlog Courses"),
                         onTap: () {
                           Navigator.pushNamed(
-                              context, '/academic_home_page/fill_backlog',
+                              context, '/academic_home_page/view_backlog',
                               arguments: data);
                         },
                       ),
-                    
-                     
+
                       // InkWell(
                       //   child: myContainer("Current Semester"),
                       //   onTap: () {

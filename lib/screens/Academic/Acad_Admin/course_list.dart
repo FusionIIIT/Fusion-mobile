@@ -76,10 +76,10 @@ class _CourseList extends State<CourseList> {
                           scrollDirection: Axis.horizontal,
                           child: DataTable(
                             columns: <DataColumn>[
-                              DataColumn(
-                                label: Text("#"),
-                                numeric: false,
-                              ),
+                              // DataColumn(
+                              //   label: Text("#"),
+                              //   numeric: false,
+                              // ),
                               DataColumn(
                                 label: Text("Course Code"),
                                 numeric: false,
@@ -99,8 +99,7 @@ class _CourseList extends State<CourseList> {
                             ],
                             rows: courseList.map((data) {
                               return DataRow(cells: [
-                                DataCell(
-                                    Text(data['course_id']['id'].toString())),
+                                // DataCell(Text(data['course_id']['id'].toString())),
                                 DataCell(Text(data['course_code'].toString())),
                                 DataCell(Text(data['course_id']['course_name']
                                     .toString())),
