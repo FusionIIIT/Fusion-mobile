@@ -60,7 +60,7 @@ import 'package:fusion/screens/Healthcenter/HealthCenter.dart';
 import 'package:fusion/services/service_locator.dart';
 
 void main() async {
-  await dotenv.load(fileName: ".env");
+  // await dotenv.load(fileName: ".env");
   WidgetsFlutterBinding.ensureInitialized();
   setupLocator();
   //runApp(MyApp());
