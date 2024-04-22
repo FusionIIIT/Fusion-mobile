@@ -1,9 +1,13 @@
+import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
 import 'package:fusion/Components/appBar2.dart';
 import 'package:fusion/Components/side_drawer2.dart';
 import 'package:fusion/Components/bottom_navigation_bar.dart';
+import 'package:fusion/services/academic_service.dart';
+import 'package:http/http.dart';
+import 'dart:convert';
 
 class AcademicCalendar extends StatefulWidget {
   @override
@@ -11,27 +15,8 @@ class AcademicCalendar extends StatefulWidget {
 }
 
 class _AcademicCalendarState extends State<AcademicCalendar> {
-  List<Map<String, dynamic>> _calendarList = [
-    {
-      'id': 1,
-      'description': 'Semester 1 Begins',
-      'start_date': DateTime(2022, 9, 1),
-      'end_date': DateTime(2022, 12, 15),
-    },
-    {
-      'id': 2,
-      'description': 'Semester 1 Exams',
-      'start_date': DateTime(2022, 12, 20),
-      'end_date': DateTime(2023, 1, 10),
-    },
-    {
-      'id': 3,
-      'description': 'Semester 2 Begins',
-      'start_date': DateTime(2023, 2, 1),
-      'end_date': DateTime(2023, 5, 15),
-    },
-    // Add more calendar entries as needed
-  ];
+  late AcademicService academicService;
+  List<dynamic> _calendarList = [];
 
   late TextEditingController _descriptionController;
   late DateTime _selectedStartDate;
@@ -42,8 +27,8 @@ class _AcademicCalendarState extends State<AcademicCalendar> {
   void _editCalendarEntry(int index) {
     final calendarEntry = _calendarList[index];
     _descriptionController.text = calendarEntry['description'];
-    _selectedStartDate = calendarEntry['start_date'];
-    _selectedEndDate = calendarEntry['end_date'];
+    _selectedStartDate = DateTime.parse(calendarEntry['from_date']);
+    _selectedEndDate = DateTime.parse(calendarEntry['to_date']);
 
     showDialog(
       context: context,
@@ -84,14 +69,24 @@ class _AcademicCalendarState extends State<AcademicCalendar> {
                 ElevatedButton(
                   onPressed: () {
                     setState(() {
-                      _calendarList[index]['description'] = _descriptionController.text;
-                      _calendarList[index]['start_date'] = _selectedStartDate;
-                      _calendarList[index]['end_date'] = _selectedEndDate;
+                      _calendarList[index]['description'] =
+                          _descriptionController.text;
+                      _calendarList[index]['from_date'] =
+                          _selectedStartDate.toString().split(' ')[0];
+                      _calendarList[index]['to_date'] =
+                          _selectedEndDate.toString().split(' ')[0];
+                      //  print(_calendarList[index]['to_date'].split(' ')[0]);
+                      editCalender(
+                          _calendarList[index]['id'],
+                          _calendarList[index]['description'],
+                          _calendarList[index]['from_date'],
+                          _calendarList[index]['to_date']);
                     });
                     Navigator.of(context).pop();
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.orange[900], // Set background color to orange[900]
+                    backgroundColor: Colors
+                        .orange[900], // Set background color to orange[900]
                     foregroundColor: Colors.white, // Set text color to white
                   ),
                   child: Text('Save'),
@@ -102,7 +97,8 @@ class _AcademicCalendarState extends State<AcademicCalendar> {
                     Navigator.of(context).pop();
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white, // Set background color to orange[900]
+                    backgroundColor:
+                        Colors.white, // Set background color to orange[900]
                     foregroundColor: Colors.black, // Set text color to white
                   ),
                   child: Text('Cancel'),
@@ -118,7 +114,8 @@ class _AcademicCalendarState extends State<AcademicCalendar> {
                     Navigator.of(context).pop();
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red[900], // Set background color to red
+                    backgroundColor:
+                        Colors.red[900], // Set background color to red
                     foregroundColor: Colors.white, // Set text color to white
                   ),
                   child: Text('Delete'),
@@ -208,6 +205,10 @@ class _AcademicCalendarState extends State<AcademicCalendar> {
                     'start_date': _selectedStartDate,
                     'end_date': _selectedEndDate,
                   });
+                  addData(
+                      _descriptionController.text,
+                      _selectedStartDate.toString().split(' ')[0],
+                      _selectedEndDate.toString().split(' ')[0]);
                   _descriptionController.clear();
                   _selectedStartDate = DateTime.now();
                   _selectedEndDate = DateTime.now();
@@ -215,7 +216,8 @@ class _AcademicCalendarState extends State<AcademicCalendar> {
                 Navigator.of(context).pop();
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orange[900], // Set background color to orange[900]
+                backgroundColor:
+                    Colors.orange[900], // Set background color to orange[900]
                 foregroundColor: Colors.white, // Set text color to white
               ),
               child: Text('Submit'),
@@ -239,12 +241,54 @@ class _AcademicCalendarState extends State<AcademicCalendar> {
     );
   }
 
+  getAcademicCalendar() async {
+    try {
+      bool _loading1 = true;
+      Response response = await academicService.getAcademicCalender();
+      setState(() {
+        _calendarList = jsonDecode(response.body);
+        // sort course options on the basis of course_name
+        print(_calendarList);
+        // print(courseOptions);
+        _loading1 = false;
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  editCalender(
+      int index, String description, String from_date, String to_date) async {
+    try {
+      bool _loading1 = true;
+      Response response = await academicService.EditAcademicCalendar(
+          index, description, from_date, to_date);
+      _loading1 = false;
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  addData(String description, String from_date, String to_date) async {
+    try {
+      bool _loading1 = true;
+      Response response = await academicService.AddAcademicCalendar(
+          description, from_date, to_date);
+      getAcademicCalendar();
+      _loading1 = false;
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+    academicService = AcademicService();
     _descriptionController = TextEditingController();
     _selectedStartDate = DateTime.now();
     _selectedEndDate = DateTime.now();
+    getAcademicCalendar();
   }
 
   @override
@@ -262,38 +306,49 @@ class _AcademicCalendarState extends State<AcademicCalendar> {
       drawer: SideDrawer(curr_desig: curr_desig),
       bottomNavigationBar: MyBottomNavigationBar(),
       body: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: DataTable(
-          columns: [
-            DataColumn(label: Text('Description')),
-            DataColumn(label: Text('Start Date')),
-            DataColumn(label: Text('End Date')),
-            DataColumn(label: SizedBox()), // Empty cell for actions
-          ],
-          rows: _calendarList
-              .asMap()
-              .entries
-              .map(
-                (entry) => DataRow(cells: [
-                  DataCell(Text(entry.value['description'])),
-                  DataCell(Text(entry.value['start_date'].toString().split(' ')[0])),
-                  DataCell(Text(entry.value['end_date'].toString().split(' ')[0])),
-                  DataCell(
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8.0), // Add padding to Edit button
-                      child: ElevatedButton(
-                        onPressed: () => _editCalendarEntry(entry.key),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.orange[900], // Set background color to orange[900]
-                          foregroundColor: Colors.white, // Set text color to white
+        scrollDirection: Axis.vertical,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: DataTable(
+            columns: [
+              DataColumn(label: Text('Description')),
+              DataColumn(label: Text('Start Date')),
+              DataColumn(label: Text('End Date')),
+              DataColumn(label: SizedBox()), // Empty cell for actions
+            ],
+            rows: _calendarList
+                .asMap()
+                .entries
+                .map(
+                  (entry) => DataRow(cells: [
+                    DataCell(Text(entry.value['description'])),
+                    DataCell(
+                      Text(entry.value['from_date'].toString().split(' ')[0]),
+                    ),
+                    DataCell(
+                      Text(entry.value['to_date'].toString().split(' ')[0]),
+                    ),
+                    DataCell(
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 8.0,
+                        ), // Add padding to Edit button
+                        child: ElevatedButton(
+                          onPressed: () => _editCalendarEntry(entry.key),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                Colors.orange[900], // Set background color to orange[900]
+                            foregroundColor:
+                                Colors.white, // Set text color to white
+                          ),
+                          child: Text('Edit'),
                         ),
-                        child: Text('Edit'),
                       ),
                     ),
-                  ),
-                ]),
-              )
-              .toList(),
+                  ]),
+                )
+                .toList(),
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(

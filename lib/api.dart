@@ -1,10 +1,10 @@
 //Server and local links
-String klocalLink = "127.0.0.0.1:8000";
+String klocalLink = "192.168.140.22:8000";
 String kserverLink = "172.27.16.214:8000";
 
 //Login Service
 // String kAuthUrl = "172.27.16.214:8000";
-String kAuthUrl = "127.0.0.0.1:8000";
+String kAuthUrl = "172.27.32.85:8000";
 String kAuthLogin = "/api/auth/login/";
 // String kAuthLogin = "/accounts/login";
 
@@ -26,6 +26,8 @@ String kAcadGetCoursesList = "/academic-procedures/api/acad/get_course_list/";
 String kFinalRegistration = "/academic-procedures/api/stu/final_registration/";
 String kGetAllCourses = "/academic-procedures/api/acad/get_all_courses/";
 String kGenerateRollList = "/academic-procedures/api/acad/gen_roll_list/";
+String KManageSchedule = "/aims/api/calendar/";
+String KUpdateSchedule = "/aims/api/update-calendar/";
 String kRemoveCourseFromSlot = "/academic-procedures/api/acad/remove_course_from_slot/";
 String kAddCourseToSlot = "/academic-procedures/api/acad/add_course_to_slot/";
 String kPreRegAddOneCourse = "/academic-procedures/api/stu/add_one_course/";

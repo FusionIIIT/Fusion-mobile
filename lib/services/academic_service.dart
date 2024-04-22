@@ -358,6 +358,111 @@ class AcademicService {
     }
   }
 
+  Future<http.Response> getAcademicCalender() async {
+    try {
+      var _prefs = await StorageService.getInstance();
+      String token = _prefs!.userInDB?.token ?? "";
+      Map<String, String> headers = {
+        'Authorization': 'Token ' + token,
+        'Content-Type': 'application/json'
+      };
+
+      print("fetching academic calender");
+      var client = http.Client();
+      http.Response response = await client.get(
+          Uri.http(
+            getLink(),
+            KManageSchedule, //Constant api path
+          ),
+          headers: headers);
+      if (response.statusCode != 200) {
+        throw Exception('Can\'t get academic calender');
+      }
+      print("successfully fetched academic calender");
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<http.Response> EditAcademicCalendar(
+      int id, String description, String startDate, String endDate) async {
+    try {
+      var _prefs = await StorageService.getInstance();
+      String token = _prefs!.userInDB?.token ?? "";
+      Map<String, String> headers = {
+        'Authorization': 'Token ' + token,
+        'Content-Type': 'application/json'
+      };
+      final body = {
+        "id": id,
+        "description": description,
+        "from_date": startDate,
+        "to_date": endDate
+      };
+      final jsonString = json.encode(body);
+      print(jsonString);
+      print(body);
+      print("Editing calender");
+
+      var client = http.Client();
+      http.Response response = await client.put(
+        Uri.http(
+          getLink(),
+          KUpdateSchedule, //Constant api path
+        ),
+        headers: headers,
+        body: jsonString,
+      );
+      if (response.statusCode != 200) {
+        print(response.body);
+        throw Exception('Can\'t edit data');
+      }
+      print("successfully eddited data");
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+  Future<http.Response> AddAcademicCalendar(
+      String description, String startDate, String endDate) async {
+    try {
+      var _prefs = await StorageService.getInstance();
+      String token = _prefs!.userInDB?.token ?? "";
+      Map<String, String> headers = {
+        'Authorization': 'Token ' + token,
+        'Content-Type': 'application/json'
+      };
+      final body = {
+        "description": description,
+        "from_date": startDate,
+        "to_date": endDate
+      };
+      final jsonString = json.encode(body);
+      print(jsonString);
+      
+      print("Adding in  calender");
+
+      var client = http.Client();
+      http.Response response = await client.post(
+        Uri.http(
+          getLink(),
+          KManageSchedule, //Constant api path
+        ),
+        headers: headers,
+        body: jsonString,
+      );
+      if (response.statusCode != 201) {
+        print(response.body);
+        throw Exception('Can\'t add data');
+      }
+      print("successfully added data");
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<http.Response> removeCourseFromSlot(String code, String slot) async {
     try {
       var _prefs = await StorageService.getInstance();
