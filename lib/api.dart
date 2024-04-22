@@ -19,6 +19,8 @@ String kComplaintNew = "/complaint/api/newcomplain";
 String kComplaintUpdate = "complaint/api/updatecomplain/";
 String kComplaintRemove = "/complaint/api/removecomplain/";
 String kViewCaretaker = "/complaint/api/caretakers/";
+String kViewSupervisor = "/complaint/api/supervisors/";
+String kForward = "/complaint/api/forward/";
 
 //Dashboard
 String kDashboard = "/api/dashboard/";

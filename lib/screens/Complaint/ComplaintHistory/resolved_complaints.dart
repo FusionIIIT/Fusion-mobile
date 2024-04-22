@@ -50,6 +50,7 @@ class _ResolvedComplaintsState extends State<ResolvedComplaints> {
             return ComplaintCard(
               data: data,
               index: index,
+              status: data.student_complain![index]['status']
             );
           } else {
             return SizedBox();

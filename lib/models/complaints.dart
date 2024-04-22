@@ -48,4 +48,27 @@ class CaretakerData {
   }
 }
 
+class Supervisor {
+  final int id;
+  final String supId;
+  final String name;
+  final String type;
+
+  Supervisor({
+    required this.id,
+    required this.supId,
+    required this.name,
+    required this.type,
+  });
+
+  factory Supervisor.fromJson(Map<String, dynamic> json) {
+    return Supervisor(
+      id: json['id'],
+      supId: json['sup_id'],
+      name: json['name'],
+      type: json['type']
+    );
+  }
+}
+
 class LodgeComplaintData {}

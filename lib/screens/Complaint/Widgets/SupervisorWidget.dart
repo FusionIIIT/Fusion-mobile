@@ -37,7 +37,7 @@ class _SupervisorWidgetState extends State<SupervisorWidget> {
                 _loading1 = true;
                 _loading2 = false;
                 _loading3 = false;
-                Navigator.pushNamed(context, '/complaint/supe',
+                Navigator.pushNamed(context, '/complaint/lodge_complaint',
                     arguments: widget.data.user != null
                         ? widget.data.user!['username']
                         : "null");
@@ -74,7 +74,7 @@ class _SupervisorWidgetState extends State<SupervisorWidget> {
                 _loading3 = false;
                 Navigator.pushNamed(
                   context,
-                  '/complaint/supervisor/view_caretaker',
+                  '/complaint/caretaker/view_caretaker',
                 );
               });
             },
@@ -109,7 +109,7 @@ class _SupervisorWidgetState extends State<SupervisorWidget> {
                 _loading3 = true;
                 Navigator.pushNamed(
                   context,
-                  '/complaint/supervisor/resolved_complaints',
+                  '/complaint/caretaker/resolved_complaints',
                 );
               });
             },
@@ -143,7 +143,7 @@ class _SupervisorWidgetState extends State<SupervisorWidget> {
                 _loading3 = true;
                 Navigator.pushNamed(
                   context,
-                  '/complaint/supervisor/unresolved_complaints',
+                  '/complaint/caretaker/unresolved_complaints',
                 );
               });
             },
@@ -177,7 +177,7 @@ class _SupervisorWidgetState extends State<SupervisorWidget> {
                 _loading3 = true;
                 Navigator.pushNamed(
                   context,
-                  '/complaint/supervisor/overdue_complaints',
+                  '/complaint/caretaker/overdue_complaints',
                 );
               });
             },

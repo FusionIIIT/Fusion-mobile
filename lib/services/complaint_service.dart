@@ -138,18 +138,18 @@ class ComplaintService {
   ) async {
     try {
       Map<String, dynamic> data = {
-        "complaint_date": complaint_date!,
-        "complaint_finish": complaint_finish!,
-        "complaint_type": complaint_type!,
+        "complaint_date": complaint_date ?? "",
+        "complaint_finish": complaint_finish ?? "",
+        "complaint_type": complaint_type ?? "",
         "location": location!,
         "specific_location": specific_location!,
         "details": details!,
         "status": status!,
-        "remarks": remarks!,
-        "flag": flag!,
-        "reason": reason!,
-        "feedback": feedback!,
-        "comment": comment!,
+        "remarks": remarks ?? "",
+        "flag": flag ?? "",
+        "reason": reason ?? "",
+        "feedback": feedback ?? "",
+        "comment": comment ?? "",
         "complainer": complainer!,
       };
       var storageService = locator<StorageService>();
@@ -228,5 +228,71 @@ class ComplaintService {
     } catch (e) {
       rethrow;
     }
+  }
+  Future<http.Response> getSupervisors(
+
+      ) async {
+    try {
+      var storageService = locator<StorageService>();
+
+      if (storageService.userInDB?.token == null)
+        throw Exception('Token Error');
+
+      Map<String, String> headers = {
+        'Authorization': 'Token ' + (storageService.userInDB?.token ?? "")
+      };
+      var client = http.Client();
+      http.Response response = await client.get(
+        Uri.http(
+          getLink(),
+          kViewSupervisor,
+        ),
+        headers: headers,
+      );
+      if (response.statusCode == 200) {
+        print("successfully fetched complaints");
+        return response;
+      }
+      throw Exception('Can\'t load');
+    } catch (e) {
+      rethrow;
+    }
+  }
+  Future<http.Response> forwardComplaint(
+      String id,
+      String complaint_id
+      ) async {
+    try {
+      print("HI");
+      Map<String, dynamic> data = {
+        "forward_id": id,
+        "complaint_id": complaint_id
+      };
+      var storageService = locator<StorageService>();
+
+      if (storageService.userInDB?.token == null)
+        throw Exception('Token Error');
+
+      Map<String, String> headers = {
+        'Authorization': 'Token ' + (storageService.userInDB?.token ?? "")
+      };
+
+      var client = http.Client();
+      http.Response response = await client.post(
+        Uri.http(
+          getLink(),
+          kForward,
+        ),
+        headers: headers,
+        body: data
+      );
+      if (response.statusCode == 200) {
+        print("successfully fetched complaints");
+        return response;
+      }
+      throw Exception('Can\'t load');
+      } catch (e) {
+        rethrow;
+      }
   }
 }

@@ -8,9 +8,11 @@ import '../../../models/complaints.dart';
 class CaretakerComplaintCard extends StatefulWidget {
   final ComplaintDataUserStudent? data;
   final int? index;
+  final List<Supervisor>? supervisorList;
   CaretakerComplaintCard({
     this.data,
     this.index,
+    this.supervisorList,
   });
 
   @override
@@ -18,17 +20,16 @@ class CaretakerComplaintCard extends StatefulWidget {
 }
 
 class _CaretakerComplaintCardState extends State<CaretakerComplaintCard> {
+  bool _isResolved = false;
   @override
   Widget build(BuildContext context) {
     int flag = 0;
     bool isNotResolved =
         widget.data!.student_complain![widget.index!]['status'] == 0;
+    bool isForwarded =
+        widget.data!.student_complain![widget.index!]['forwarded_to'] != null;
     return GestureDetector(
       onTap: () {
-        //print("Hello");
-        //print(widget.data!.student_complain![widget.index!]['complaint_type']);
-
-        //print(complaintType);
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -77,7 +78,8 @@ class _CaretakerComplaintCardState extends State<CaretakerComplaintCard> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ElevatedButton(
-                      onPressed: () async {
+                      onPressed: _isResolved ?
+                        null : () async {
                         showDialog(
                           context: context,
                           builder: (ctx) => AlertDialog(
@@ -93,8 +95,54 @@ class _CaretakerComplaintCardState extends State<CaretakerComplaintCard> {
                               ),
                               ElevatedButton(
                                 onPressed: () async {
-                                  // Mark complaint as resolved
-                                  // ...
+                                  ComplaintService client = ComplaintService();
+                                  Map<String, dynamic> data = widget.data!.student_complain![widget.index!];
+                                  try {
+                                    String? status = '2';
+                                    client.updateComplaint(
+                                        data['id']!,
+                                        data['complaint_data'],
+                                        data['complaint_finish'],
+                                        data['complaint_type'],
+                                        data['location'],
+                                        data['specific_location'],
+                                        data['details'],
+                                        status,
+                                        data['remarks'],
+                                        data['flag'].toString(),
+                                        data['reason'],
+                                        data['feedback'],
+                                        data['comment'],
+                                        data['complainer']
+                                    );
+                                    Navigator.of(context).pop();
+                                    setState(() {
+                                      _isResolved = true;
+                                    });
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text('Complaint resolved successfully'),
+                                        duration: Duration(seconds: 2),
+                                      ),
+                                    );
+                                  } catch(error) {
+                                    print(error);
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        title: Text('Error'),
+                                        content: Text('Failed to resolve complaint. Please try again.'),
+                                        actions: <Widget>[
+                                          ElevatedButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Text('OK'),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }
                                 },
                                 child: Text("Resolve"),
                               ),
@@ -108,18 +156,42 @@ class _CaretakerComplaintCardState extends State<CaretakerComplaintCard> {
                             Icons.check,
                             size: 25,
                           ),
-                          Text("  Mark as resolved"),
+                          Text(!_isResolved ? "  Mark as resolved" : " Resolved"),
                         ],
                       ),
                     ),
                     ElevatedButton(
                       onPressed: () async {
-                        showDialog(
+                        Supervisor? selectedValue;
+                        await showDialog(
                           context: context,
                           builder: (ctx) => AlertDialog(
-                            title: Text("Warning"),
-                            content: Text(
-                                "Are you sure you want to decline the complaint?"),
+                            title: Text("Forward Complaint"),
+                            content: StatefulBuilder(
+                              builder: (BuildContext context, StateSetter setState) {
+                                return Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    Text("Select forward destination:"),
+                                    DropdownButton<Supervisor>(
+                                      hint: Text('Select whom to forward'),
+                                      value: selectedValue,
+                                      onChanged: (Supervisor? value) {
+                                        setState(() {
+                                          selectedValue = value;
+                                        });
+                                      },
+                                      items: widget.supervisorList!.map<DropdownMenuItem<Supervisor>>((Supervisor value) {
+                                        return DropdownMenuItem<Supervisor>(
+                                          value: value,
+                                          child: Text(value.name),
+                                        );
+                                      }).toList(),
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
                             actions: <Widget>[
                               ElevatedButton(
                                 onPressed: () {
@@ -129,10 +201,48 @@ class _CaretakerComplaintCardState extends State<CaretakerComplaintCard> {
                               ),
                               ElevatedButton(
                                 onPressed: () async {
-                                  // Delete complaint
-                                  // ...
+                                  if (selectedValue != null) {
+                                    ComplaintService client = ComplaintService();
+                                    try {
+                                      client.forwardComplaint(
+                                          selectedValue!.id.toString(),
+                                          widget.data!.student_complain![widget.index!]['id'].toString()
+                                      );
+                                      Navigator.of(context).pop();
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text('Complaint forwarded successfully'),
+                                          duration: Duration(seconds: 2),
+                                        ),
+                                      );
+                                    } catch(error) {
+                                      print('Error forwarding complaint: $error');
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                          title: Text('Error'),
+                                          content: Text('Failed to forward complaint. Please try again.'),
+                                          actions: <Widget>[
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Text('OK'),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    }
+
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Please select a destination"),
+                                      ),
+                                    );
+                                  }
                                 },
-                                child: Text("Decline"),
+                                child: Text("Forward"),
                               ),
                             ],
                           ),
@@ -141,10 +251,10 @@ class _CaretakerComplaintCardState extends State<CaretakerComplaintCard> {
                       child: Row(
                         children: [
                           Icon(
-                            Icons.delete,
+                            Icons.forward,
                             size: 25,
                           ),
-                          Text("  Decline"),
+                          Text("  Forward"),
                         ],
                       ),
                     ),

@@ -17,6 +17,7 @@ class _UnresolvedComplaintsState extends State<UnresolvedComplaints> {
   late StreamController _complaintController;
   late ComplaintService complaintService;
   late ComplaintDataUserStudent data;
+  late List<Supervisor> supervisorList;
 
   @override
   void initState() {
@@ -29,11 +30,18 @@ class _UnresolvedComplaintsState extends State<UnresolvedComplaints> {
   getData() async {
     try {
       Response response = await complaintService.getComplaint();
+      print(response.body);
+      Response supervisorResponse = await complaintService.getSupervisors();
+      print(supervisorResponse.body);
       setState(() {
         data = ComplaintDataUserStudent.fromJson(jsonDecode(response.body));
+        supervisorList = (jsonDecode(supervisorResponse.body)['supervisors'] as List<dynamic>)
+            .map((json) => Supervisor.fromJson(json))
+            .toList();
         _loading = false;
       });
     } catch (e) {
+      // print("Hello");
       print(e);
     }
   }
@@ -71,6 +79,7 @@ class _UnresolvedComplaintsState extends State<UnresolvedComplaints> {
             return CaretakerComplaintCard(
               data: data,
               index: index,
+              supervisorList: supervisorList,
             );
           } else {
             return SizedBox();

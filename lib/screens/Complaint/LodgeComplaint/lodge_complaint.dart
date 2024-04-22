@@ -66,7 +66,7 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
     String? feedback = "";
     String? comment = "None";
     String? complainer = widget.complainerRollNo;
-    String? workerId = "";
+    String? worker_id = "";
 
 
     return Scaffold(
@@ -284,7 +284,7 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
                         formattedDate,
                         complaint_type!,
                         location!,
-                        specificLocation,
+                        specific_location,
                         details!,
                         status,
                         remarks,

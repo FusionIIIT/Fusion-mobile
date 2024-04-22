@@ -31,6 +31,7 @@ class _ResolvedComplaintsState extends State<ResolvedComplaints> {
       Response response = await complaintService.getComplaint();
       setState(() {
         data = ComplaintDataUserStudent.fromJson(jsonDecode(response.body));
+        print(data);
         _loading = false;
       });
     } catch (e) {
