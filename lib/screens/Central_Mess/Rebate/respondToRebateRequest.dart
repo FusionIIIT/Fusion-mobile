@@ -318,7 +318,7 @@ class _RespondToRebateRequestState extends State<RespondToRebateRequest> {
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.symmetric(
                                 vertical: 4, horizontal: 8),
-                            hintText: 'Enter remark (optional)',
+                            hintText: 'Remark (optional)',
                             border: OutlineInputBorder(),
                           ),
                           onChanged: (String? value) {

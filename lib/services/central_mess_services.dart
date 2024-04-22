@@ -129,7 +129,7 @@ class CentralMessService {
         };
 
         Map<String, dynamic> body = {
-          'student_id': '21BCS064',
+          // 'student_id': '21BCS064',
           'mess': data.mess,
           'feedback_type': data.feedbackType,
           'fdate': data.fdate.toString().substring(0, 10),
@@ -401,6 +401,58 @@ class CentralMessService {
     }
   }
 
+  Future<http.Response> updateMonthlyBill(MonthlyBill data) async {
+    try {
+      http.Response response0 = await initAuth();
+
+      if (response0.statusCode == 200) {
+        Map<String, String> headers = {
+          'Authorization': 'Token ' + json.decode(response0.body)['token'],
+          'Content-Type': 'application/json; charset=UTF-8'
+        };
+        Map<String, dynamic> body = {
+          'student_id': data.studentId,
+          'amount' : data.amount,
+          'month': data.month,
+          'year' : data.year,
+          'rebate_count' : data.rebateCount,
+          'rebate_amount' : data.rebateAmount,
+          'paid': true,
+        };
+
+        print("updating student Bill");
+        http.Response response = await http.post(
+          Uri.http(
+            kCentralMess,
+            kMonthlyBillEndpoint, //constant api EndPoint
+          ),
+          headers: headers,
+          body: json.encode(body),
+        );
+
+        if (response.statusCode == 200) {
+          return response;
+        }else if(response.statusCode == 404) {
+          print(response.statusCode);
+          print(json.decode(response.body).toString());
+          throw Exception('Invalid Student Id.');
+        }
+          else {
+          print(response.statusCode);
+          print(json.decode(response.body).toString());
+          throw Exception('Failed to update Bill');
+        }
+
+      } else {
+        print(response0.statusCode);
+        throw Exception('Failed to Authorize ${json.decode(response0.body).toString()}');
+      }
+
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<List<Payment>> getPayments() async {
     try {
       http.Response response0 = await initAuth();
@@ -484,7 +536,7 @@ class CentralMessService {
         };
 
         Map<String, dynamic> body = {
-          'student_id': '21BCS064',
+          // 'student_id': '21BCS064',
           'leave_type' : data.leaveType,
           'rebate_remark': '',
           'app_date' : data.appDate.toString().substring(0, 10),
@@ -614,7 +666,7 @@ class CentralMessService {
         };
 
         Map<String, dynamic> body = {
-          'student_id': '21BCS064',
+          // 'student_id': '21BCS064',
           'item1': data.item1,
           'item2': data.item2,
           'app_date': data.appDate.toString().substring(0, 10),
@@ -744,7 +796,7 @@ class CentralMessService {
         };
 
         Map<String, dynamic> body = {
-          'student_id': '21BCS064',
+          // 'student_id': '21BCS064',
           'app_date': data.appDate.toString().substring(0, 10),
           'status': data.status,
           'purpose': data.purpose,
@@ -1151,7 +1203,7 @@ class CentralMessService {
         http.Response response = await http.post(
           Uri.http(
             kCentralMess,
-            kRegMainEndpoint, //constant api EndPoint
+            kStudentAllDetails, //constant api EndPoint
           ),
           headers: headers,
           body: json.encode(body),

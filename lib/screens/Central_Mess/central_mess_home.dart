@@ -12,7 +12,7 @@ import 'package:fusion/Components/appBar2.dart';
 import 'package:fusion/Components/side_drawer2.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
-// import 'package:fusion/Components/bottom_navigation_bar.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
 
 class CentralMessHome extends StatefulWidget {
   @override
@@ -55,8 +55,8 @@ class _CentralMessHomeState extends State<CentralMessHome> {
         'status': 'all',
       };
       Response response2 = await profileService.getProfile();
-      List<dynamic> designations =
-      await _centralMessService.getDesignations();
+      // List<dynamic> designations =
+      // await _centralMessService.getDesignations();
       List<RegMain> regMainList =
       await _centralMessService.getRegMain(data);
 
@@ -75,8 +75,8 @@ class _CentralMessHomeState extends State<CentralMessHome> {
             data2.profile!['user_type'];
         if (user == 'student') student_id = data2.user!['username'];
 
-        if (designations.contains("mess_manager")) user = "caretaker";
-        if (designations.contains("mess_warden")) user = "warden";
+        if (curr_desig == "mess_manager") user = "caretaker";
+        if (curr_desig == "mess_warden") user = "warden";
         userType = (user == "caretaker") ? "Mess Caretaker"
         : (user == "warden") ? "Mess Warden"
         : data2.profile!['department']!['name'] + '  ' + data2.profile!['user_type'];
@@ -162,8 +162,8 @@ class _CentralMessHomeState extends State<CentralMessHome> {
         },
       ), // This is default app bar used in all modules
       drawer: SideDrawer(curr_desig: curr_desig),
-      // bottomNavigationBar:
-      // MyBottomNavigationBar(),
+      bottomNavigationBar:
+      MyBottomNavigationBar(),
       body: _loading == true
           ? Center(child: CircularProgressIndicator())
           : ListView(

@@ -60,8 +60,8 @@ class MonthlyBill {
   final int amount;
   final int rebateCount;
   final int rebateAmount;
-  final int totalBill;
-  final bool paid;
+  final int? totalBill;
+  final bool? paid;
 
   MonthlyBill({
     required this.studentId,
@@ -70,8 +70,8 @@ class MonthlyBill {
     required this.amount,
     required this.rebateCount,
     required this.rebateAmount,
-    required this.totalBill,
-    required this.paid,
+    this.totalBill,
+    this.paid,
   });
 
   factory MonthlyBill.fromJson(Map<String, dynamic> json) {
@@ -429,8 +429,8 @@ class RegistrationRequest {
       'Amount',
       'Start Date',
       'Payment Date',
-      'Mess',
       'Remark',
+      'Mess',
       'Status',
     ];
   }
@@ -443,8 +443,8 @@ class RegistrationRequest {
       'amount': amount,
       'startDate': startDate,
       'paymentDate': paymentDate,
-      'messOption': messOption,
       'registrationRemark': registrationRemark,
+      'messOption': messOption,
       'status': status,
     };
   }

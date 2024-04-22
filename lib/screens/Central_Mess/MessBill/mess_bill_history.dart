@@ -5,7 +5,8 @@ import 'package:fusion/models/profile.dart';
 
 class MessMonthlyBillHistory extends StatefulWidget {
   final ProfileData profileData;
-  MessMonthlyBillHistory({required this.profileData});
+  final Map<String, dynamic> userMessData;
+  MessMonthlyBillHistory({required this.profileData, required this.userMessData});
   @override
   _MessMonthlyBillHistoryState createState() => _MessMonthlyBillHistoryState();
 }
@@ -115,7 +116,7 @@ class _MessMonthlyBillHistoryState extends State<MessMonthlyBillHistory> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          "+ve Amount: ₹" + (_monthlyBillData.isNotEmpty ? _monthlyBillData.last.totalBill.toString() : "0"),
+                          "+ve Amount: ₹" + (widget.userMessData?['balance']).toString(),
                           style: TextStyle(fontSize: 20.0, color: Colors.white),
                         ),
                       ),

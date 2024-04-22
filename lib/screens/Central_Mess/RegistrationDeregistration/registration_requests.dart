@@ -221,8 +221,8 @@ class _RegistrationRequestsState extends State<RegistrationRequests> {
                       startDate: data.startDate, 
                       paymentDate: data.paymentDate,
                       img: data.img,
-                      messOption: mess,
                       registrationRemark: data.registrationRemark,
+                      messOption: mess,
                       status: status
                     );
                   });
@@ -242,7 +242,7 @@ class _RegistrationRequestsState extends State<RegistrationRequests> {
               TextField(
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                  hintText: 'Enter remark (optional)',
+                  hintText: 'Remark (optional)',
                   border: OutlineInputBorder(),
                 ),
                 onChanged: (value) {
