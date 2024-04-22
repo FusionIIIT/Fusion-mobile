@@ -5,7 +5,7 @@ import 'package:fusion/services/storage_service.dart';
 
 class SideDrawer extends StatefulWidget {
   final String curr_desig;
-  // final String designation;
+
   const SideDrawer({
     Key? key,
     required this.curr_desig,
@@ -54,6 +54,7 @@ class _SideDrawerState extends State<SideDrawer> {
                   elevation: 2.0,
                   margin:
                       EdgeInsets.symmetric(horizontal: 12.0, vertical: 30.0),
+
                   // shadowColor: Colors.black,
                   color: Colors.white,
 
@@ -105,16 +106,20 @@ class _SideDrawerState extends State<SideDrawer> {
             if ((type != "staff" ||
                 widget.curr_desig == "acadmin" ||
                 widget.curr_desig == "corelabcaretaker"))
+
               ModulesCard(
                 cardLine: 'Academics Module',
                 pageMover: '/academic_home_page',
               ),
 
+
             if ((type == "student" || widget.curr_desig == "acadmin"))
+
               ModulesCard(
                 cardLine: 'Programme Curriculum',
                 pageMover: '/programme_curriculum_home',
               ),
+
 
             if ((type == "student") ||
                 widget.curr_desig == "Dean_s" ||
@@ -133,10 +138,12 @@ class _SideDrawerState extends State<SideDrawer> {
                   cardLine: 'Central Mess Module',
                   pageMover: '/central_mess_home'),
 
+
             ModulesCard(
               cardLine: 'Health Center Module',
               pageMover: '/health_center',
             ),
+
             if ((type == "student")) ModulesCard(cardLine: 'Leave Module'),
 
             if ((type == "student"))
@@ -157,16 +164,19 @@ class _SideDrawerState extends State<SideDrawer> {
               ModulesCard(
                   cardLine: 'File Tracking Module', pageMover: '/compose_file'),
 
+
             ModulesCard(
                 cardLine: 'Establishment Module', pageMover: '/establishment'),
 
             ModulesCard(
                 cardLine: 'Library Module', pageMover: '/library_homepage'),
 
+
             if (type == "student" ||
                 widget.curr_desig == "spacsconvenor" ||
                 widget.curr_desig == "spacsassistant")
               ModulesCard(cardLine: 'Awards & Scholarship Module'),
+
 
             ModulesCard(cardLine: 'Complaint Module', pageMover: '/complaint'),
 
@@ -219,6 +229,7 @@ class _SideDrawerState extends State<SideDrawer> {
               pageMover: '/hr_homepage',
             ),
 
+
             // ModulesCard(
             //     cardLine: 'Profile',
             //     icon: Icons.account_circle,
@@ -240,6 +251,7 @@ class _SideDrawerState extends State<SideDrawer> {
     );
   }
 
+
   String _getGymkhanaPage() {
     // Determine the pageMover based on designation
     print(1);
@@ -254,6 +266,7 @@ class _SideDrawerState extends State<SideDrawer> {
       return '/gymkhana_dean';
     } else
       return '/gymkhana_homepage';
+
   }
 // ignore: must_be_immutable
 }
@@ -301,4 +314,6 @@ class ModulesCard extends StatelessWidget {
       },
     );
   }
+
 }
+
