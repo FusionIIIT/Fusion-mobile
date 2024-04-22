@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -19,16 +20,23 @@ class _ConfigurePreRegistrationState extends State<ConfigurePreRegistration>
     with SingleTickerProviderStateMixin {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final GlobalKey<FormState> _addDropFormKey = GlobalKey<FormState>();
+  late TextEditingController _slotController;
+  late TextEditingController _courseController;
+  bool _loading1 = false;
   DateTime? _startDate;
   DateTime? _endDate;
   String? _responseText;
-  String? _semesterNumber;
+  int _semesterNumber = 1;
   String? _selectedBatch;
   late String _selectedBranch;
   late String _selectedProgramme;
   late AcademicService academicService;
   var service = locator<StorageService>();
   late String curr_desig = service.getFromDisk("Current_designation");
+  String? _removeResponseText;
+  String? _addResponseText;
+  List<dynamic> _courseList = [];
+  List<dynamic> courseTable = [];
 
   late TabController _tabController;
 
@@ -40,52 +48,84 @@ class _ConfigurePreRegistrationState extends State<ConfigurePreRegistration>
     _selectedBranch = 'CSE'; // Initial value for branch
     _selectedProgramme = 'B.Tech'; // Initial value for programme
     _selectedBatch = '2021'; // Initial value for batch
-    _semesterNumber = '1'; // Initial value for semester
+    _semesterNumber = 1; // Initial value for semester
+    _slotController = TextEditingController();
+    _courseController = TextEditingController();
   }
 
   @override
   void dispose() {
     _tabController.dispose();
+    _slotController.dispose();
+    _courseController.dispose();
     super.dispose();
   }
 
   Future<void> _submitForm() async {
     if (
-        _semesterNumber == null ||
         _selectedBatch == null ||
         _selectedBranch.isEmpty ||
         _selectedProgramme.isEmpty) {
       return;
     }
-    // If the form is valid, proceed with API call
-    final startDate = _startDate!.toString().substring(0, 10);
-    final endDate = _endDate!.toString().substring(0, 10);
-    int semester = int.parse(_semesterNumber!);
-
-    Response response = await academicService.configurePreRegistration(
-        startDate, endDate, semester);
-    setState(() {
-      _responseText = (jsonDecode(response.body))["message"];
-    });
-  }
-
-  void _addCourse() {
-    if (_addDropFormKey.currentState!.validate()) {
-      // If the form is valid, add the course
-      // Add your logic to add the course here
-      // You can access the entered values using the controllers
-      // Clear the form after adding the course
-      _addDropFormKey.currentState!.reset();
-      // Show success modal
-      _showSuccessModal('Course added successfully');
+    if (_formKey.currentState!.validate()) {
+      try {
+        _loading1 = true;
+        Response response = await academicService.getNextSemCourses(_semesterNumber, _selectedBranch, _selectedProgramme, _selectedBatch.toString());
+        setState(() {
+          courseTable = jsonDecode(response.body);
+          _courseList = courseTable.map((entry) => {
+            "name": entry["fields"]["name"],
+            "type": entry["fields"]["type"],
+            "semester": entry["fields"]["semester"],
+            "credit": entry["courses"][0]["credit"],
+            "courses": entry["courses"].map((course) => course["name"]).toList()
+          }).toList();
+          print(_courseList);
+        });
+        // _showSuccessModal(_responseText.toString());
+        _loading1 = false;
+      } catch (e) {
+        print(e);
+        _showErrorModal(e.toString());
+      }
     }
   }
 
-  void _removeCourse() {
-    // Add your logic to remove the course here
-    // You can access the entered values using the controllers
-    // Show success modal
-    _showSuccessModal('Course removed successfully');
+
+  Future<void> addCourse(String course, String slot) async {
+
+    if (_addDropFormKey.currentState!.validate()) {
+      try {
+        _loading1 = true;
+        Response response = await academicService.addCourseToSlot(course, slot);
+        setState(() {
+          _addResponseText = (jsonDecode(response.body))["message"];
+        });
+        _showSuccessModal(_addResponseText.toString());
+        _loading1 = false;
+      } catch (e) {
+        print(e);
+        _showErrorModal(e.toString());
+      }
+    }
+  }
+
+  Future<void> removeCourse(String course, String slot) async {
+
+    try {
+      _loading1 = true;
+      Response response = await academicService.removeCourseFromSlot(course, slot);
+      setState(() {
+        _removeResponseText = (jsonDecode(response.body))["message"];
+      });
+      _showSuccessModal(_removeResponseText.toString());
+      _loading1 = false;
+    } catch (e) {
+      _showErrorModal(e.toString());
+      print(e);
+    }
+   
   }
 
   void _showSuccessModal(String message) {
@@ -94,6 +134,25 @@ class _ConfigurePreRegistrationState extends State<ConfigurePreRegistration>
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Success'),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+  void _showErrorModal(String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Error'),
           content: Text(message),
           actions: [
             TextButton(
@@ -189,13 +248,13 @@ class _ConfigurePreRegistrationState extends State<ConfigurePreRegistration>
                           );
                         }).toList(),
                       ),
-                      DropdownButtonFormField<String>(
+                      DropdownButtonFormField<int>(
                         value: _semesterNumber,
                         decoration: InputDecoration(
                           labelText: 'Semester Number',
                         ),
                         validator: (value) {
-                          if (value == null || value.isEmpty) {
+                          if (value == null || value.isNaN) {
                             return 'Please enter semester number';
                           }
                           return null;
@@ -203,13 +262,14 @@ class _ConfigurePreRegistrationState extends State<ConfigurePreRegistration>
                         onChanged: (value) {
                           setState(() {
                             _semesterNumber = value!;
+                            print(_semesterNumber);
                           });
                         },
-                        items: List.generate(8, (index) => (index + 1).toString())
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
+                        items: List.generate(8, (index) => (index + 1))
+                            .map<DropdownMenuItem<int>>((value) {
+                          return DropdownMenuItem<int>(
                             value: value,
-                            child: Text(value),
+                            child: Text(value.toString()),
                           );
                         }).toList(),
                       ),
@@ -282,6 +342,7 @@ class _ConfigurePreRegistrationState extends State<ConfigurePreRegistration>
                           }
                           return null;
                         },
+                        controller: _slotController
                       ),
                       TextFormField(
                         decoration: InputDecoration(
@@ -293,13 +354,14 @@ class _ConfigurePreRegistrationState extends State<ConfigurePreRegistration>
                           }
                           return null;
                         },
+                        controller: _courseController
                       ),
                       SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           ElevatedButton(
-                            onPressed: _addCourse,
+                            onPressed: () {addCourse(_courseController.text, _slotController.text);},
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.orange[900], // background color
                             ),
@@ -307,7 +369,7 @@ class _ConfigurePreRegistrationState extends State<ConfigurePreRegistration>
                           ),
                           SizedBox(width: 20),
                           ElevatedButton(
-                            onPressed: _removeCourse,
+                            onPressed:  () { removeCourse(_courseController.text, _slotController.text);},
                             child: Text('Remove'),
                           ),
                         ],

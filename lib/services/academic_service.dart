@@ -357,4 +357,103 @@ class AcademicService {
       rethrow;
     }
   }
+
+  Future<http.Response> removeCourseFromSlot(String code, String slot) async {
+    try {
+      var _prefs = await StorageService.getInstance();
+      String token = _prefs!.userInDB?.token ?? "";
+      Map<String, String> headers = {
+        'Authorization': 'Token ' + token,
+        'Content-Type': 'application/json'
+      };
+
+      final body = {"course_code": code, "course_slot_name": slot};
+
+      final jsonString = json.encode(body);
+
+      print("removing course from slot");
+      var client = http.Client();
+      http.Response response = await client.post(
+        Uri.http(
+          getLink(),
+          kRemoveCourseFromSlot, //Constant api path
+        ),
+        headers: headers,
+        body: jsonString,
+      );
+      if (response.statusCode != 200) {
+        throw Exception('Can\'t remove course from slot');
+      }
+      print("successfully removed course from slot");
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<http.Response> addCourseToSlot(String code, String slot) async {
+    try {
+      var _prefs = await StorageService.getInstance();
+      String token = _prefs!.userInDB?.token ?? "";
+      Map<String, String> headers = {
+        'Authorization': 'Token ' + token,
+        'Content-Type': 'application/json'
+      };
+
+      final body = {"course_code": code, "course_slot_name": slot};
+
+      final jsonString = json.encode(body);
+
+      print("adding course to slot");
+      var client = http.Client();
+      http.Response response = await client.post(
+        Uri.http(
+          getLink(),
+          kAddCourseToSlot, //Constant api path
+        ),
+        headers: headers,
+        body: jsonString,
+      );
+      if (response.statusCode != 200) {
+        throw Exception('Can\'t add course to slot');
+      }
+      print("successfully added course to slot");
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<http.Response> getNextSemCourses(int next_sem, String branch,String programme, String batch) async {
+    try {
+      var _prefs = await StorageService.getInstance();
+      String token = _prefs!.userInDB?.token ?? "";
+      Map<String, String> headers = {
+        'Authorization': 'Token ' + token,
+        'Content-Type': 'application/json'
+      };
+
+      final body = {"next_sem": next_sem, "branch": branch, "programme": programme, "batch": batch};
+
+      final jsonString = json.encode(body);
+
+      print("fetching next sem courses");
+      var client = http.Client();
+      http.Response response = await client.post(
+        Uri.http(
+          getLink(),
+          kGetNextSemCourses, //Constant api path
+        ),
+        headers: headers,
+        body: jsonString,
+      );
+      if (response.statusCode != 200) {
+        throw Exception('Can\'t get next sem courses');
+      }
+      print("successfully fetched next sem courses");
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
