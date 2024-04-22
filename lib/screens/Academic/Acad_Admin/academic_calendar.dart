@@ -165,6 +165,80 @@ class _AcademicCalendarState extends State<AcademicCalendar> {
     }
   }
 
+  void _addCalendarEntry() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Add Calendar Entry'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: _descriptionController,
+                decoration: InputDecoration(labelText: 'Description'),
+              ),
+              Row(
+                children: [
+                  Text('Start Date: '),
+                  TextButton(
+                    onPressed: () => _selectStartDate(context),
+                    child: Text(_selectedStartDate.toString().split(' ')[0]),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Text('End Date: '),
+                  TextButton(
+                    onPressed: () => _selectEndDate(context),
+                    child: Text(_selectedEndDate.toString().split(' ')[0]),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  _calendarList.add({
+                    'id': _calendarList.length + 1,
+                    'description': _descriptionController.text,
+                    'start_date': _selectedStartDate,
+                    'end_date': _selectedEndDate,
+                  });
+                  _descriptionController.clear();
+                  _selectedStartDate = DateTime.now();
+                  _selectedEndDate = DateTime.now();
+                });
+                Navigator.of(context).pop();
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.orange[900], // Set background color to orange[900]
+                foregroundColor: Colors.white, // Set text color to white
+              ),
+              child: Text('Submit'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                _descriptionController.clear();
+                _selectedStartDate = DateTime.now();
+                _selectedEndDate = DateTime.now();
+                Navigator.of(context).pop();
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red[900], // Set background color to red
+                foregroundColor: Colors.white, // Set text color to white
+              ),
+              child: Text('Cancel'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -177,17 +251,16 @@ class _AcademicCalendarState extends State<AcademicCalendar> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-          curr_desig: curr_desig,
-          headerTitle: "Manage Schedule",
-          onDesignationChanged: (newValue) {
-            setState(() {
-              curr_desig = newValue;
-            });
-          },
-        ), // This is default app bar used in all modules
-        drawer: SideDrawer(curr_desig: curr_desig),
-        bottomNavigationBar:
-            MyBottomNavigationBar(),
+        curr_desig: curr_desig,
+        headerTitle: "Manage Schedule",
+        onDesignationChanged: (newValue) {
+          setState(() {
+            curr_desig = newValue;
+          });
+        },
+      ), // This is default app bar used in all modules
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar: MyBottomNavigationBar(),
       body: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: DataTable(
@@ -222,6 +295,11 @@ class _AcademicCalendarState extends State<AcademicCalendar> {
               )
               .toList(),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _addCalendarEntry,
+        tooltip: 'Add Schedule',
+        child: Icon(Icons.add),
       ),
     );
   }
