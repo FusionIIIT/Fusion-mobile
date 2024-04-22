@@ -5,6 +5,7 @@ String kserverLink = "192.168.137.1:8000";
 //Login Service
 String kAuthUrl = "192.168.137.1:8000";
 String kAuthLogin = "/api/auth/login/";
+// String kAuthLogin = "/accounts/login";
 
 //Profile Service
 String kProfile = "/api/profile/";
@@ -20,6 +21,7 @@ String kComplaintRemove = "/complaint/api/removecomplain/";
 
 //Dashboard
 String kDashboard = "/api/dashboard/";
+String kNotification = "/api/notification/";
 String kNotificationRead = "/api/notification/read/";
 
 //Gymkhana
