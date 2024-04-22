@@ -32,7 +32,6 @@ Flutter: Use Stable Version *2.0*
 * `git checkout <module-name>`
   * Switches to the branch you just created
 
-## To update your Project
 
 * `git fetch upstream`
   * Gets the new commits on the main repository
