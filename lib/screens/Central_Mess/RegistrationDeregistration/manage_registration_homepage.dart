@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
+// import 'package:fusion/Components/appBar.dart';
+// import 'package:fusion/Components/side_drawer.dart';
 import 'package:fusion/screens/Central_Mess/RegistrationDeregistration/add_remove_student.dart';
 import 'manage_registrations.dart';
 import 'package:fusion/models/profile.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
 
 class ManageRegDeRegHomepage extends StatefulWidget {
   @override
@@ -11,6 +16,9 @@ class ManageRegDeRegHomepage extends StatefulWidget {
 }
 
 class _ManageRegDeRegHomepageState extends State<ManageRegDeRegHomepage> {
+
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
   @override
   Widget build(BuildContext context) {
     Map<String, dynamic>? arguments =
@@ -22,9 +30,21 @@ class _ManageRegDeRegHomepageState extends State<ManageRegDeRegHomepage> {
     // bool? isRegistered = (user == 'student' && userMessData?['current_mess_status'] == 'Registered');
     // print('$userMessData, $isRegistered');
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar:DefaultAppBar().buildAppBar(titleText: "Central Mess"),
-      drawer: SideDrawer(),
+      resizeToAvoidBottomInset: true,
+      appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: "Central Mess",
+        onDesignationChanged: (newValue) {
+          setState(() {
+            curr_desig = newValue;
+          });
+          if (curr_desig.toLowerCase() != "student" && curr_desig.toLowerCase() != "mess_manager" && curr_desig.toLowerCase() != "mess_warden") {
+            Navigator.pushReplacementNamed(context, "/dashboard"); // Redirect to home ("/dashboard")
+          }
+        },
+      ),
+      drawer: SideDrawer(curr_desig: curr_desig),
+      // bottomNavigationBar: MyBottomNavigationBar(),
       body:Container(
         child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
           SizedBox(height: 5.0),

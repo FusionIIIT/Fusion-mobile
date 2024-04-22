@@ -162,8 +162,7 @@ class _CentralMessHomeState extends State<CentralMessHome> {
         },
       ), // This is default app bar used in all modules
       drawer: SideDrawer(curr_desig: curr_desig),
-      bottomNavigationBar:
-      MyBottomNavigationBar(),
+      bottomNavigationBar: MyBottomNavigationBar(),
       body: _loading == true
           ? Center(child: CircularProgressIndicator())
           : ListView(

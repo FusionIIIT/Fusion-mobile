@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
+// import 'package:fusion/Components/appBar.dart';
+// import 'package:fusion/Components/side_drawer.dart';
 import 'mess_bill_history.dart';
-// import 'mess_monthly_bill.dart';
 import 'update_monthly_bill.dart';
 import 'view_student_bills.dart';
 import 'update_student_bill.dart';
 import 'package:fusion/models/profile.dart';
+
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
 
 class ManageBill extends StatefulWidget {
   @override
@@ -43,7 +48,8 @@ class _ManageBillState extends State<ManageBill> {
     );
   }
 
-
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
 
   @override
   Widget build(BuildContext context) {
@@ -61,8 +67,21 @@ class _ManageBillState extends State<ManageBill> {
     Map<String, dynamic> userMessData = arguments?['userMessData'];
 
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(titleText: "Central Mess"),
-      drawer: SideDrawer(),
+      resizeToAvoidBottomInset: true,
+      appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: "Central Mess",
+        onDesignationChanged: (newValue) {
+          setState(() {
+            curr_desig = newValue;
+          });
+          if (curr_desig.toLowerCase() != "student" && curr_desig.toLowerCase() != "mess_manager" && curr_desig.toLowerCase() != "mess_warden") {
+            Navigator.pushReplacementNamed(context, "/dashboard"); // Redirect to home ("/dashboard")
+          }
+        },
+      ),
+      drawer: SideDrawer(curr_desig: curr_desig),
+      // bottomNavigationBar: MyBottomNavigationBar(),
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           // final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
