@@ -12,6 +12,9 @@ import 'package:fusion/screens/Library/lib_home_screen.dart';
 import 'package:fusion/screens/LoginandDashboard/dashboard.dart';
 import 'package:fusion/screens/LoginandDashboard/login_page.dart';
 import 'package:fusion/screens/Academic/academic_home_page.dart';
+
+// import 'package:fusion/screens/RSPC/page_1.dart';
+
 import 'package:fusion/screens/Academic/Current_Semester/current_semester_home_page.dart';
 import 'package:fusion/screens/Academic/Registration/registration_home_page.dart';
 import 'package:fusion/screens/Academic/Thesis/thesis_home_page.dart';
@@ -35,6 +38,20 @@ import 'package:fusion/screens/Programme_Curriculum/Discipline/discipline.dart';
 import 'package:fusion/screens/Programme_Curriculum/Programme/programme_home_page.dart';
 import 'package:fusion/screens/Programme_Curriculum/Programme_Info/programme_info.dart';
 import 'package:fusion/screens/Programme_Curriculum/programme_curriculum_home.dart';
+import 'package:fusion/screens/RSPC/Staff_form.dart';
+import 'package:fusion/screens/RSPC/closure_report.dart';
+import 'package:fusion/screens/RSPC/dean_home.dart';
+import 'package:fusion/screens/RSPC/financial_oulay.dart';
+import 'package:fusion/screens/RSPC/home_rspc.dart';
+import 'package:fusion/screens/RSPC/request_pen.dart';
+import 'package:fusion/screens/RSPC/request_requirement.dart';
+import 'package:fusion/screens/RSPC/rspc_home.dart';
+import 'package:fusion/screens/RSPC/show_project.dart';
+import 'package:fusion/screens/RSPC/uppload_pro.dart';
+
+import 'package:fusion/screens/RSPC/view_inventory.dart';
+import 'package:fusion/screens/RSPC/view_request.dart';
+import 'package:fusion/screens/RSPC/view_staff.dart';
 import 'package:fusion/screens/landing_page.dart';
 import 'package:fusion/screens/Healthcenter/healthcentermodule.dart';
 import 'package:fusion/screens/Healthcenter/feedback.dart';
@@ -57,10 +74,12 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  //   late String name;
+  // late String studentType;
   @override
   Widget build(BuildContext context) {
     MediaQueryData windowData =
-    MediaQueryData.fromWindow(WidgetsBinding.instance.window);
+        MediaQueryData.fromWindow(WidgetsBinding.instance.window);
     windowData = windowData.copyWith(
       textScaleFactor: 1,
     );
@@ -71,10 +90,10 @@ class MyApp extends StatelessWidget {
         title: 'Fusion',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-            // primarySwatch: Colors.blueGrey,
+          // primarySwatch: Colors.blueGrey,
           // colorSchemeSeed: Color(0xFF2085D0),
           colorSchemeSeed: Color(0xFFF36C35),
-            fontFamily: 'Nunito',
+          fontFamily: 'Nunito',
           useMaterial3: true,
         ),
         initialRoute: '/landing',
@@ -82,6 +101,22 @@ class MyApp extends StatelessWidget {
           '/landing': (context) => LandingPage(),
           '/login_page': (context) => LoginPage(),
           '/dashboard': (context) => Dashboard(),
+
+          '/rspc_home_page': (context) => RspcHome(),
+          '/financial_outlay' : (context) => outlay(index: "Mark50",),
+          '/view_staff' : (context) => View_staff(index : "Mark50"),
+          '/show_project' : (context) => Show_project(index: "Mark50"),
+
+          '/closure_report': (context) => Closure_report(),
+          '/view_inventory': (context) => View_Inventory(),
+          '/request_requirement': (context) => Request_Requirement(),
+          '/staff_form': (context) => Staffform(),
+          '/dean_home': (context) => Dean_rspchome(),
+          '/uppload_pro': (context) => Upload_project(),
+          '/view_request' : (context) => View_request(), 
+          '/home_rspc' : (context) =>  Dean_rspc(),
+          '/request_pen' : ((context) =>  Pending_request()),
+
           '/academic_home_page': (context) => AcademicHomePage(
               ModalRoute.of(context)!.settings.arguments.toString()),
           '/academic_home_page/current_semester_home_page': (context) =>
@@ -95,6 +130,10 @@ class MyApp extends StatelessWidget {
           '/academic_home_page/thesis': (context) => ThesisHomePage(),
           '/academic_home_page/performance': (context) => Performance(),
           '/academic_home_page/add_drop_courses': (context) => AddDropCourses(),
+          
+
+          // '/rspc_home_page/view_profile': (context) => RspcHome(),
+
           '/programme_curriculum_home': (context) => ProgrammeCurriculumHome(),
           '/programme_curriculum_home/programme': (context) => Programme(),
           '/programme_curriculum_home/batches': (context) => Batches(),
