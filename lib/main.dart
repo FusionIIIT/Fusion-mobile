@@ -4,12 +4,26 @@ import 'package:fusion/screens/Academic/Add_Drop_Courses/add_drop_courses.dart';
 import 'package:fusion/screens/Complaint/ComplaintHistory/complain_history.dart';
 import 'package:fusion/screens/Complaint/Feedback/feedback.dart';
 import 'package:fusion/screens/Complaint/LodgeComplaint/lodge_complaint.dart';
+import 'package:fusion/screens/Compounder/adddoctor.dart';
+import 'package:fusion/screens/Compounder/announcements.dart';
+import 'package:fusion/screens/Compounder/doctorSchedule.dart';
+import 'package:fusion/screens/Compounder/homepage.dart';
+import 'package:fusion/screens/Compounder/inventory.dart';
+import 'package:fusion/screens/Compounder/medicalReimbursement.dart';
+import 'package:fusion/screens/Compounder/pathologistSchedule.dart';
+import 'package:fusion/screens/Compounder/patientLog.dart';
 import 'package:fusion/screens/Establishment/establishment_home_page.dart';
+// import 'package:fusion/screens/Healthcenter/medicalprofile.dart';
+import 'package:fusion/screens/Healthcenter/reimbursement.dart';
+import 'package:fusion/screens/Healthcenter/view_announcement.dart';
 import 'package:fusion/screens/Library/Book_Search.dart';
 import 'package:fusion/screens/Library/dues.dart';
 import 'package:fusion/screens/Library/issued_items.dart';
 import 'package:fusion/screens/Library/lib_home_screen.dart';
+import 'package:fusion/screens/LoginandDashboard/DashboardComponents/news.dart';
 import 'package:fusion/screens/LoginandDashboard/dashboard.dart';
+import 'package:fusion/screens/LoginandDashboard/DashboardComponents/notify.dart';
+import 'package:fusion/screens/LoginandDashboard/DashboardComponents/announcement.dart';
 import 'package:fusion/screens/LoginandDashboard/login_page.dart';
 import 'package:fusion/screens/Academic/academic_home_page.dart';
 import 'package:fusion/screens/Academic/Current_Semester/current_semester_home_page.dart';
@@ -38,9 +52,9 @@ import 'package:fusion/screens/Programme_Curriculum/programme_curriculum_home.da
 import 'package:fusion/screens/landing_page.dart';
 import 'package:fusion/screens/Healthcenter/healthcentermodule.dart';
 import 'package:fusion/screens/Healthcenter/feedback.dart';
-import 'package:fusion/screens/Healthcenter/viewschedule.dart';
+import 'package:fusion/screens/Healthcenter/viewdoctorschedule.dart';
 import 'package:fusion/screens/Healthcenter/history.dart';
-import 'package:fusion/screens/Healthcenter/HealthCenter.dart';
+// import 'package:fusion/screens/Healthcenter/HealthCenter.dart';
 import 'package:fusion/services/service_locator.dart';
 
 void main() {
@@ -60,9 +74,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MediaQueryData windowData =
-    MediaQueryData.fromWindow(WidgetsBinding.instance.window);
+        MediaQueryData.fromView(WidgetsBinding.instance.window);
     windowData = windowData.copyWith(
-      textScaleFactor: 1,
+      // textScaler: TextScaler.linear(1),
     );
     return MediaQuery(
       data: windowData,
@@ -71,16 +85,19 @@ class MyApp extends StatelessWidget {
         title: 'Fusion',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-            // primarySwatch: Colors.blueGrey,
+          // primarySwatch: Colors.blueGrey,
           // colorSchemeSeed: Color(0xFF2085D0),
           colorSchemeSeed: Color(0xFFF36C35),
-            fontFamily: 'Nunito',
+          fontFamily: 'Nunito',
           useMaterial3: true,
         ),
         initialRoute: '/landing',
         routes: {
           '/landing': (context) => LandingPage(),
           '/login_page': (context) => LoginPage(),
+          '/notification': (context) => Notify(),
+          '/news': (context) => News(),
+          '/announcement': (context) => Announcement(),
           '/dashboard': (context) => Dashboard(),
           '/academic_home_page': (context) => AcademicHomePage(
               ModalRoute.of(context)!.settings.arguments.toString()),
@@ -123,10 +140,23 @@ class MyApp extends StatelessWidget {
           '/profile': (context) => Profile(),
           '/health_center': (context) => HealthCenterMod(
               ModalRoute.of(context)!.settings.arguments.toString()),
-          '/health_center/healthcenter': (context) => HealthCenter(),
+          // '/health_center/healthcenter': (context) => HealthCenter(),
           '/health_center/feedback': (context) => FeedBack(),
-          '/health_center/viewschedule': (context) => ViewSchedule(),
-          '/health_center/history': (context) => History(),
+          '/health_center/viewdoctorschedule': (context) => ViewdoctorSchedule(),
+          '/health_center/history': (context) => HealthRecordsPage(),
+          '/health_center/announcement': (context) => ViewAnnouncementPage(),
+          '/health_center/reimbursement': (context) => ReimbursementFormPage(),
+          // '/health_center/medicalprofile': (context) => MedicalProfilePage(),
+
+          '/compounder/home': (context) => CompounderHome(),
+          '/compounder/doctor_schedule': (context) => DoctorAvailabilityPage(),
+          '/compounder/pathologist_schedule': (context) =>
+              PathologistAvailabilityPage(),
+          '/compounder/announcements': (context) => AnnouncementPage(),
+          '/compounder/inventory': (context) => HealthCenterInventoryPage(),
+          '/compounder/reimbursement': (context) => ReimbursementPage(),
+          '/compounder/patient_log': (context) => HomePage(),
+          '/compounder/adddoctor': (context) => DoctorListScreen(),
         },
       ),
     );
