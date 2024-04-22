@@ -248,4 +248,32 @@ class AcademicService {
       rethrow;
     }
   }
+
+  Future<http.Response> getAllCourses() async {
+    try {
+      var _prefs = await StorageService.getInstance();
+      String token = _prefs!.userInDB?.token ?? "";
+      Map<String, String> headers = {
+        'Authorization': 'Token ' + token,
+        'Content-Type': 'application/json'
+      };
+
+      print("fetching all courses");
+      var client = http.Client();
+      http.Response response = await client.get(
+        Uri.http(
+          getLink(),
+          kGetAllCourses, //Constant api path
+        ),
+        headers: headers
+      );
+      if (response.statusCode != 200) {
+        throw Exception('Can\'t get all courses');
+      }
+      print("successfully fetched all courses");
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
