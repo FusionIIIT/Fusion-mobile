@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
 import 'package:fusion/screens/Academic/Apply_for_Bonafide/pdf_services.dart';
+
+import '../../../Components/bottom_navigation_bar.dart';
+import '../../../services/service_locator.dart';
+import '../../../services/storage_service.dart';
 
 class Bonafide extends StatefulWidget {
   @override
@@ -9,6 +13,8 @@ class Bonafide extends StatefulWidget {
 }
 
 class _BonafideState extends State<Bonafide> {
+  var service = locator<StorageService>();
+late String curr_desig = service.getFromDisk("Current_designation");
   var details = {
     1: "Bonafide for Fee Structure",
     2: "Bonafide for Sim Card",
@@ -34,8 +40,14 @@ class _BonafideState extends State<Bonafide> {
     final arguments = ModalRoute.of(context)!.settings.arguments as Map;
     loadlist();
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
-      drawer: SideDrawer(),
+      appBar: CustomAppBar(curr_desig: curr_desig,
+        headerTitle: 'Branches', // Set your app bar title
+        onDesignationChanged: (newValue) {
+          // Handle designation change if needed
+        },),
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar:
+      MyBottomNavigationBar(),
       body: Container(
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text("Apply for Bonafide"),

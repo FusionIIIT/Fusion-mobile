@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+
+import '../../../Components/bottom_navigation_bar.dart';
+import '../../../services/service_locator.dart';
+import '../../../services/storage_service.dart';
 
 class AddDropCourses extends StatefulWidget {
   @override
@@ -7,6 +11,8 @@ class AddDropCourses extends StatefulWidget {
 }
 
 class _AddDropCoursesState extends State<AddDropCourses> {
+  var service = locator<StorageService>();
+late String curr_desig = service.getFromDisk("Current_designation");
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -54,7 +60,9 @@ class _AddDropCoursesState extends State<AddDropCourses> {
             ],
           ),
         ),
-        drawer: SideDrawer(),
+         drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar:
+      MyBottomNavigationBar(),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           mainAxisSize: MainAxisSize.min,

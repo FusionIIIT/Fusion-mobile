@@ -53,7 +53,7 @@ class _NotifyState extends State<Notify> {
       print("1");
       Response response2 = await profileService.getProfile();
       print("2");
-      print(response);
+      // print(response);
       print(response2);
 
       setState(() {

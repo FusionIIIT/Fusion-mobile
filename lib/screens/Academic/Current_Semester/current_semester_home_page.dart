@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/Components/side_drawer2.dart';
 import 'package:fusion/models/academic.dart';
 import 'package:fusion/screens/Academic/Current_Semester/academic_calendar.dart';
 import 'package:fusion/screens/Academic/Current_Semester/exam_time_table.dart';
 import 'package:fusion/screens/Academic/Current_Semester/list_of_holidays.dart';
 import 'package:fusion/screens/Academic/Current_Semester/semester.dart';
 import 'package:fusion/screens/Academic/Current_Semester/time_table.dart';
+
+import '../../../Components/bottom_navigation_bar.dart';
+import '../../../services/service_locator.dart';
+import '../../../services/storage_service.dart';
 
 class CurrentSemesterHomePage extends StatefulWidget {
   @override
@@ -14,6 +18,8 @@ class CurrentSemesterHomePage extends StatefulWidget {
 }
 
 class _CurrentSemesterHomePageState extends State<CurrentSemesterHomePage> {
+  var service = locator<StorageService>();
+late String curr_desig = service.getFromDisk("Current_designation");
   @override
   Widget build(BuildContext context) {
     final AcademicData data =
@@ -84,7 +90,9 @@ class _CurrentSemesterHomePageState extends State<CurrentSemesterHomePage> {
             ],
           ),
         ),
-        drawer: SideDrawer(),
+         drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar:
+      MyBottomNavigationBar(),
         body: TabBarView(
           children: [
             Semester(data: data),

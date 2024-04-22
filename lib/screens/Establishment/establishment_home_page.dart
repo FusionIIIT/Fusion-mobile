@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:flutter/painting.dart';
-import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/Components/side_drawer2.dart';
 import 'package:fusion/models/profile.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
+import '../../Components/bottom_navigation_bar.dart';
 import 'cpda_management.dart';
 import 'ltc_management.dart';
-import 'package:fusion/Components/appBar.dart';
+import 'package:fusion/Components/appBar2.dart';
 
 class Establishment extends StatefulWidget {
   @override
@@ -15,6 +16,8 @@ class Establishment extends StatefulWidget {
 }
 
 class _EstablishmentState extends State<Establishment> {
+  var service = locator<StorageService>();
+late String curr_desig = service.getFromDisk("Current_designation");
   bool _first = true;
   bool _second = false;
   ProfileData? data;
@@ -29,8 +32,14 @@ class _EstablishmentState extends State<Establishment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
-      drawer: SideDrawer(),
+      appBar: CustomAppBar(curr_desig: curr_desig,
+        headerTitle: 'Branches', // Set your app bar title
+        onDesignationChanged: (newValue) {
+          // Handle designation change if needed
+        },),
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar:
+      MyBottomNavigationBar(),
       body: ListView(
         shrinkWrap: true,
         physics: ClampingScrollPhysics(),

@@ -333,8 +333,8 @@ import 'package:fusion/services/profile_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
 import 'package:fusion/models/dashboard.dart';
 import 'package:fusion/screens/LoginandDashboard/DashboardComponents/cardItems.dart';
 import 'package:fusion/services/dashboard_service.dart';
@@ -342,7 +342,10 @@ import 'package:fusion/services/updatesession.dart';
 import 'package:fusion/services/viewclubdetails.dart';
 import 'package:http/http.dart';
 
+import '../../Components/bottom_navigation_bar.dart';
 import '../../services/change_club_position.dart';
+import '../../services/service_locator.dart';
+import '../../services/storage_service.dart';
 
 class Dashboard extends StatefulWidget {
   late String clubb = "";
@@ -356,6 +359,8 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
   bool _notificationsBool = true;
   bool _newsBool = false;
   bool _announcementsBool = false;
@@ -463,9 +468,15 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar()
-          .buildAppBar(), // This is default app bar used in all modules
-      drawer: SideDrawer(designation: designation),
+      appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: 'Branches', // Set your app bar title
+        onDesignationChanged: (newValue) {
+          // Handle designation change if needed
+        },
+      ),
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar: MyBottomNavigationBar(),
       // This is sideDrawer used in all modules
       body: _loading == true
           ? Center(child: CircularProgressIndicator())
@@ -506,10 +517,7 @@ class _DashboardState extends State<Dashboard> {
                             height: 10.0,
                           ),
                           Text(
-                            designation +
-                                " " +
-                                "-" +
-                                club, // Display Type of User
+                            curr_desig, // Display Type of User
                             style:
                                 TextStyle(fontSize: 15.0, color: Colors.black),
                           ),

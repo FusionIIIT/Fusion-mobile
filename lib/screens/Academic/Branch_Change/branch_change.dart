@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+
+import '../../../Components/bottom_navigation_bar.dart';
+import '../../../services/service_locator.dart';
+import '../../../services/storage_service.dart';
 
 class BranchChange extends StatefulWidget {
   @override
@@ -8,6 +12,8 @@ class BranchChange extends StatefulWidget {
 }
 
 class _BranchChangeState extends State<BranchChange> {
+  var service = locator<StorageService>();
+late String curr_desig = service.getFromDisk("Current_designation");
   final List departmentsList = [
     "department: Finance and Accounts",
     "department: Establishment",
@@ -58,8 +64,14 @@ class _BranchChangeState extends State<BranchChange> {
   Widget build(BuildContext context) {
     loadDepartmentsList();
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
-      drawer: SideDrawer(),
+      appBar: CustomAppBar(curr_desig: curr_desig,
+        headerTitle: 'Branches', // Set your app bar title
+        onDesignationChanged: (newValue) {
+          // Handle designation change if needed
+        },),
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar:
+      MyBottomNavigationBar(),
       body: Container(
           child: Column(
         children: [

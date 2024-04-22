@@ -23,6 +23,7 @@ String kComplaintRemove = "/complaint/api/removecomplain/";
 //Dashboard
 String kDashboard = "/api/dashboard/";
 String kNotificationRead = "/api/notification/read/";
+const String kNotification = "/api/notification/";
 
 //Gymkhana
 const kGymkhanaClubDetails = '/api/gymkhana/club_details';

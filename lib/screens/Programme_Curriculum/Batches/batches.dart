@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 // import 'package:fusion/Components/appBar.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import '../../../Components/bottom_navigation_bar.dart';
+import '../../../services/service_locator.dart';
+import '../../../services/storage_service.dart';
 import 'batchTabComponent.dart';
 // import 'package:fusion/models/academic.dart';
 import 'package:csv/csv.dart';
@@ -12,6 +15,8 @@ class Batches extends StatefulWidget {
 }
 
 class _BatchesState extends State<Batches> {
+  var service = locator<StorageService>();
+late String curr_desig = service.getFromDisk("Current_designation");
   List<List<dynamic>> _currentBatchesList = [];
   List<List<dynamic>> _finishedBatchesList = [];
 
@@ -98,7 +103,9 @@ class _BatchesState extends State<Batches> {
                   ],
                 ),
               ),
-              drawer: SideDrawer(),
+              drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar:
+      MyBottomNavigationBar(),
               body: TabBarView(
                 children: [
                   BatchTabComponent(data: data_CurrentBatches),

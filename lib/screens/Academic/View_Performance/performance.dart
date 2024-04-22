@@ -1,6 +1,10 @@
-import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
 import 'package:flutter/material.dart';
+
+import '../../../Components/bottom_navigation_bar.dart';
+import '../../../services/service_locator.dart';
+import '../../../services/storage_service.dart';
 
 class Performance extends StatefulWidget {
   @override
@@ -8,11 +12,19 @@ class Performance extends StatefulWidget {
 }
 
 class _PerformanceState extends State<Performance> {
+  var service = locator<StorageService>();
+late String curr_desig = service.getFromDisk("Current_designation");
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
-      drawer: SideDrawer(),
+      appBar: CustomAppBar(curr_desig: curr_desig,
+        headerTitle: 'Branches', // Set your app bar title
+        onDesignationChanged: (newValue) {
+          // Handle designation change if needed
+        },),
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar:
+      MyBottomNavigationBar(),
       body:Container(
         child:SingleChildScrollView(
           scrollDirection: Axis.vertical,

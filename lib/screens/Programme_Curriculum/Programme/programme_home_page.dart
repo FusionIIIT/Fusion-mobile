@@ -3,10 +3,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 // import 'package:fusion/Components/appBar.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/Components/side_drawer2.dart';
 import 'package:fusion/screens/Programme_Curriculum/Programme/tabComponent.dart';
 // import 'package:fusion/models/academic.dart';
 import 'package:csv/csv.dart';
+
+import '../../../Components/bottom_navigation_bar.dart';
+import '../../../services/service_locator.dart';
+import '../../../services/storage_service.dart';
 
 class Programme extends StatefulWidget {
   @override
@@ -14,6 +18,8 @@ class Programme extends StatefulWidget {
 }
 
 class _ProgrammeState extends State<Programme> {
+  var service = locator<StorageService>();
+late String curr_desig = service.getFromDisk("Current_designation");
   List<List<dynamic>> _ug = [];
   List<List<dynamic>> _pg = [];
   List<List<dynamic>> _phd = [];
@@ -123,7 +129,9 @@ class _ProgrammeState extends State<Programme> {
                   ],
                 ),
               ),
-              drawer: SideDrawer(),
+              drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar:
+      MyBottomNavigationBar(),
               body: TabBarView(
                 children: [
                   TabComponent(data: data_UG),
