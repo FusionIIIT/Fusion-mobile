@@ -4,12 +4,12 @@ void main() {
   runApp(MyApp());
 }
 
-class Announcement {
+class CompounderAnnouncement {
   final String title;
   final String description;
   final DateTime dateTime;
 
-  Announcement({
+  CompounderAnnouncement({
     required this.title,
     required this.description,
     required this.dateTime,
@@ -35,7 +35,7 @@ class AnnouncementPage extends StatefulWidget {
 }
 
 class _AnnouncementPageState extends State<AnnouncementPage> {
-  List<Announcement> announcements = [];
+  List<CompounderAnnouncement> announcements = [];
 
   @override
   Widget build(BuildContext context) {
@@ -72,13 +72,13 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
     );
   }
 
-  Future<Announcement?> _showAddAnnouncementDialog(BuildContext context) {
+  Future<CompounderAnnouncement?> _showAddAnnouncementDialog(BuildContext context) {
     TextEditingController titleController = TextEditingController();
     TextEditingController descriptionController = TextEditingController();
     DateTime selectedDate = DateTime.now();
     TimeOfDay selectedTime = TimeOfDay.now();
 
-    return showDialog<Announcement>(
+    return showDialog<CompounderAnnouncement>(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -137,7 +137,7 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
             ),
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(Announcement(
+                Navigator.of(context).pop(CompounderAnnouncement(
                   title: titleController.text,
                   description: descriptionController.text,
                   dateTime: DateTime(

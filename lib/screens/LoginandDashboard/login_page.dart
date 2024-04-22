@@ -45,13 +45,24 @@ class _LoginPageState extends State<LoginPage> {
       autofocus: false,
       decoration: InputDecoration(
         label: Text('Username', style: TextStyle(
-          fontSize: 12.0,
+          fontSize: 18.0,
         ),),
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        border: OutlineInputBorder(
-          // borderRadius: BorderRadius.circular(32.0),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(width: 0, color: Color(0xFFf4f4f4)),
+          borderRadius: BorderRadius.circular(20.0),
         ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(width: 0, color: Color(0xFFf4f4f4)),
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        // enabledBorder: InputBorder.none,
+        fillColor: Color(0xFFf4f4f4), // Green color
+        filled: true,
+        floatingLabelBehavior: FloatingLabelBehavior.never,
       ),
+      cursorColor: Colors.black,
+
       onChanged: (input) {
         username = input;
       },
@@ -61,6 +72,7 @@ class _LoginPageState extends State<LoginPage> {
         } else if (value?.contains('@') == true) {
           return 'Please enter username only';
         }
+        return null;
 
       },
       autofillHints: [AutofillHints.username],
@@ -81,13 +93,24 @@ class _LoginPageState extends State<LoginPage> {
       obscureText: true,
       decoration: InputDecoration(
         label: Text('Password', style: TextStyle(
-          fontSize: 12.0,
+          fontSize: 18.0,
         ),),
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        border: OutlineInputBorder(
-          // borderRadius: BorderRadius.circular(32.0),
+
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(width: 0, color: Color(0xFFf4f4f4)),
+          borderRadius: BorderRadius.circular(20.0),
         ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(width: 0, color: Color(0xFFf4f4f4)),
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        // enabledBorder: InputBorder.none,
+        fillColor: Color(0xFFf4f4f4), // Green color
+        filled: true,
+        floatingLabelBehavior: FloatingLabelBehavior.never,
       ),
+      cursorColor: Colors.black,
       onChanged: (input) {
         pass = input;
       },
@@ -183,8 +206,15 @@ class _LoginPageState extends State<LoginPage> {
                   padding: EdgeInsets.only(bottom: 15),
                   child: passwordFormField,
                 ),
-                loginButton,
-                forgotLabel,
+                Padding(
+                  padding: EdgeInsets.only(bottom: 0.0),
+                  child: loginButton,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top:0.0,bottom: bottom),
+                  child: forgotLabel,
+                ),
+
               ],
             ),
           ),

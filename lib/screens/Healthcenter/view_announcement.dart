@@ -4,20 +4,20 @@ void main() {
   runApp(MyApp());
 }
 
-class Announcement {
+class PHCAnnouncement {
   final String title;
   final DateTime dateTime;
 
-  Announcement({required this.title, required this.dateTime});
+  PHCAnnouncement({required this.title, required this.dateTime});
 }
 
 class MyApp extends StatelessWidget {
-  final List<Announcement> announcements = [
-    Announcement(
+  final List<PHCAnnouncement> announcements = [
+    PHCAnnouncement(
       title: "Important Announcement 1",
       dateTime: DateTime(2024, 2, 20, 10, 30), // Dummy data
     ),
-    Announcement(
+    PHCAnnouncement(
       title: "Important Announcement 2",
       dateTime: DateTime(2024, 2, 19, 15, 45), // Dummy data
     ),
@@ -36,12 +36,12 @@ class MyApp extends StatelessWidget {
 }
 
 class ViewAnnouncementPage extends StatelessWidget {
-  final List<Announcement> announcements = [
-    Announcement(
+  final List<PHCAnnouncement> announcements = [
+    PHCAnnouncement(
       title: "Announcement 1",
       dateTime: DateTime(2024, 2, 20, 10, 30), // Dummy data
     ),
-    Announcement(
+    PHCAnnouncement(
       title: "Announcement 2",
       dateTime: DateTime(2024, 2, 19, 15, 45), // Dummy data
     ),

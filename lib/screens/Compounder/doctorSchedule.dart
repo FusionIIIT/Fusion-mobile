@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(MyApp());
 }
 
 class Doctor {
-  String name;
+  int id;
   TimeOfDay startTime;
   TimeOfDay endTime;
   List<String> daysAvailable;
 
-  Doctor(this.name, this.startTime, this.endTime, this.daysAvailable);
+  Doctor(this.id, this.startTime, this.endTime, this.daysAvailable);
 }
 
 class MyApp extends StatelessWidget {
@@ -37,7 +40,7 @@ class _DoctorAvailabilityPageState extends State<DoctorAvailabilityPage> {
   List<Doctor> doctors = [];
   List<String> selectedDays = [];
 
-  String? dropdownValue;
+  int? dropdownValue;
   String? dropdownDayValue;
 
   List<String> daysOfWeek = [
@@ -53,14 +56,17 @@ class _DoctorAvailabilityPageState extends State<DoctorAvailabilityPage> {
   @override
   void initState() {
     super.initState();
-    // Adding dummy doctor data
-    doctors.add(Doctor('Dr. John Doe', TimeOfDay(hour: 9, minute: 0),
+    dropdownValue = doctors.isNotEmpty ? doctors[0].id : null;
+    dropdownDayValue = daysOfWeek.isNotEmpty ? daysOfWeek[0] : null;
+
+    doctors.add(Doctor(1, TimeOfDay(hour: 9, minute: 0),
         TimeOfDay(hour: 17, minute: 0), ['Monday', 'Wednesday', 'Friday']));
     doctors.add(Doctor(
-        'Dr. Jane Smith',
+        2,
         TimeOfDay(hour: 8, minute: 30),
         TimeOfDay(hour: 16, minute: 30),
         ['Tuesday', 'Thursday']));
+
   }
 
   @override
@@ -73,11 +79,12 @@ class _DoctorAvailabilityPageState extends State<DoctorAvailabilityPage> {
         itemCount: doctors.length,
         itemBuilder: (context, index) {
           return ListTile(
-            title: Text(doctors[index].name),
+            title: Text('Doctor ID: ${doctors[index].id}'),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Days Available: ${doctors[index].daysAvailable.join(', ')}'),
+                Text(
+                    'Days Available: ${doctors[index].daysAvailable.join(', ')}'),
                 Text(
                     'Availability: ${formatTime(doctors[index].startTime)} - ${formatTime(doctors[index].endTime)}'),
               ],
@@ -96,8 +103,15 @@ class _DoctorAvailabilityPageState extends State<DoctorAvailabilityPage> {
 
   String formatTime(TimeOfDay timeOfDay) {
     final now = DateTime.now();
-    final dateTime = DateTime(now.year, now.month, now.day, timeOfDay.hour, timeOfDay.minute);
-    return DateFormat.jm().format(dateTime);
+    final dateTime = DateTime(
+      now.year,
+      now.month,
+      now.day,
+      timeOfDay.hour,
+      timeOfDay.minute,
+    );
+    final formattedTime = DateFormat('HH:mm:ss').format(dateTime);
+    return formattedTime;
   }
 
   void _showAddDoctorDialog(BuildContext context) {
@@ -113,18 +127,17 @@ class _DoctorAvailabilityPageState extends State<DoctorAvailabilityPage> {
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  DropdownButtonFormField<String>(
+                  DropdownButtonFormField<int>(
                     value: dropdownValue,
-                    onChanged: (String? newValue) {
+                    onChanged: (int? newValue) {
                       setState(() {
                         dropdownValue = newValue;
                       });
                     },
-                    items:
-                        doctors.map<DropdownMenuItem<String>>((Doctor doctor) {
-                      return DropdownMenuItem<String>(
-                        value: doctor.name,
-                        child: Text(doctor.name),
+                    items: doctors.map<DropdownMenuItem<int>>((Doctor doctor) {
+                      return DropdownMenuItem<int>(
+                        value: doctor.id,
+                        child: Text('Doctor ID: ${doctor.id}'),
                       );
                     }).toList(),
                     hint: Text('Select Doctor'),
@@ -205,12 +218,56 @@ class _DoctorAvailabilityPageState extends State<DoctorAvailabilityPage> {
     );
   }
 
-  void _addDoctor(TimeOfDay startTime, TimeOfDay endTime) {
-    String name = dropdownValue!;
+  void _addDoctor(TimeOfDay startTime, TimeOfDay endTime) async {
+    int id = dropdownValue!;
     List<String> daysAvailable = [dropdownDayValue!];
-    Doctor newDoctor = Doctor(name, startTime, endTime, daysAvailable);
+    Doctor newDoctor = Doctor(id, startTime, endTime, daysAvailable);
     setState(() {
       doctors.add(newDoctor);
     });
+
+    final String url = 'http://127.0.0.1:8000/healthcenter/api/compounder/request';
+    final Map<String, dynamic> requestData = {
+      'doctorscheduleadd': true,
+      'doctor_id': id,
+      'startTime': formatTime(startTime),
+      'endTime': formatTime(endTime),
+      'room': 204,
+      'day': dropdownDayValue!,
+    };
+
+    Future<String> getToken() async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String userData = prefs.getString('user') ?? '';
+      if (userData.isNotEmpty) {
+        Map<String, dynamic> userMap = json.decode(userData);
+        return userMap['token'] ?? '';
+      } else {
+        return '';
+      }
+    }
+
+    try {
+      final String token = await getToken();
+      print(requestData);
+      final http.Response response = await http.post(
+        Uri.parse(url),
+        body: json.encode(requestData),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Token $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        print('Data added successfully');
+      } else {
+        print('Failed to add data. Error: ${response.reasonPhrase}');
+        // You can handle the error here
+      }
+    } catch (e) {
+      print('Error: $e');
+      // Handle network errors here
+    }
   }
 }

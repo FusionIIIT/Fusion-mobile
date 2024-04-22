@@ -10,10 +10,15 @@ class FeedBack extends StatefulWidget {
 
 class _FeedBackState extends State<FeedBack> {
   final TextEditingController feedbackController = TextEditingController();
-
   Future<String> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('token') ?? ''; // Return empty string if token not found
+    String userData = prefs.getString('user') ?? '';
+    if (userData.isNotEmpty) {
+      Map<String, dynamic> userMap = json.decode(userData);
+      return userMap['token'] ?? '';
+    } else {
+      return '';
+    }
   }
 
   Future<void> submitFeedback() async {
@@ -32,7 +37,25 @@ class _FeedBackState extends State<FeedBack> {
       );
 
       if (response.statusCode == 201) {
-        print('Feedback submitted successfully');
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Feedback Submitted Successfully'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Close the dialog
+                    setState(() {
+                      feedbackController.clear(); // Clear the feedback text field
+                    });
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
       } else {
         print('Failed to submit feedback: ${response.statusCode}');
       }
@@ -119,5 +142,3 @@ class _FeedBackState extends State<FeedBack> {
     );
   }
 }
-
-

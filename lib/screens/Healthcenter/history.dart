@@ -1,114 +1,102 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
-  runApp(MyApp());
+class HealthRecordsPage extends StatefulWidget {
+  @override
+  _HealthRecordsPage createState() => _HealthRecordsPage();
 }
 
-class HealthRecord {
-  final String doctorName;
-  final DateTime dateOfVisit;
-  final List<String> prescribedMedicines;
-
-  HealthRecord({
-    required this.doctorName,
-    required this.dateOfVisit,
-    required this.prescribedMedicines,
-  });
-}
-
-class MyApp extends StatelessWidget {
-  final List<HealthRecord> healthRecords = [
-    HealthRecord(
-      doctorName: "Dr. John Doe",
-      dateOfVisit: DateTime(2023, 12, 15),
-      prescribedMedicines: ["Medicine A", "Medicine B"],
-    ),
-    HealthRecord(
-      doctorName: "Dr. Jane Smith",
-      dateOfVisit: DateTime(2023, 11, 20),
-      prescribedMedicines: ["Medicine C", "Medicine D", "Medicine E"],
-    ),
-  ];
+class _HealthRecordsPage extends State<HealthRecordsPage> {
+  List<Map<String, dynamic>> prescriptions = [];
+  bool isLoading = false;
+  String errorMessage = '';
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Health Records',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: HealthRecordsPage(),
-    );
+  void initState() {
+    super.initState();
+    fetchPrescriptions();
   }
-}
 
-class HealthRecordsPage extends StatelessWidget {
-  // final List<HealthRecord> healthRecords;
+  Future<String> getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String userData = prefs.getString('user') ?? '';
+    if (userData.isNotEmpty) {
+      Map<String, dynamic> userMap = json.decode(userData);
+      return userMap['token'] ?? '';
+    } else {
+      return '';
+    }
+  }
 
-  // HealthRecordsPage({required this.healthRecords});
+  Future<void> fetchPrescriptions() async {
+    setState(() {
+      isLoading = true;
+    });
 
-  final List<HealthRecord> healthRecords = [
-    HealthRecord(
-      doctorName: "Dr. John Doe",
-      dateOfVisit: DateTime(2023, 12, 15),
-      prescribedMedicines: ["Medicine A", "Medicine B"],
-    ),
-    HealthRecord(
-      doctorName: "Dr. Jane Smith",
-      dateOfVisit: DateTime(2023, 11, 20),
-      prescribedMedicines: ["Medicine C", "Medicine D", "Medicine E"],
-    ),
-  ];
+    try {
+      final String token = await getToken();
+      final url = 'http://127.0.0.1:8000/healthcenter/api/student'; 
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Token $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> responseData = json.decode(response.body);
+        setState(() {
+          prescriptions = List<Map<String, dynamic>>.from(responseData['prescription']);
+          isLoading = false;
+        });
+      } else {
+        throw Exception('Failed to load prescriptions');
+      }
+    } catch (e) {
+      setState(() {
+        errorMessage = 'Error: $e';
+        isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Health Records'),
+        title: Text("Prescription History"),
+        backgroundColor: Colors.black,
       ),
-      body: ListView.builder(
-        itemCount: healthRecords.length,
-        itemBuilder: (context, index) {
-          final healthRecord = healthRecords[index];
-          return ListTile(
-            title: Text(
-                '${healthRecord.doctorName} - ${healthRecord.dateOfVisit.toString()}'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => PrescribedMedicinesPage(
-                      prescribedMedicines: healthRecord.prescribedMedicines),
-                ),
-              );
-            },
-          );
-        },
-      ),
-    );
-  }
-}
-
-class PrescribedMedicinesPage extends StatelessWidget {
-  final List<String> prescribedMedicines;
-
-  PrescribedMedicinesPage({required this.prescribedMedicines});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Prescribed Medicines'),
-      ),
-      body: ListView.builder(
-        itemCount: prescribedMedicines.length,
-        itemBuilder: (context, index) {
-          final medicine = prescribedMedicines[index];
-          return ListTile(
-            title: Text(medicine),
-          );
-        },
-      ),
+      body: isLoading
+          ? Center(child: CircularProgressIndicator())
+          : errorMessage.isNotEmpty
+              ? Center(child: Text(errorMessage))
+              : prescriptions.isEmpty
+                  ? Center(child: Text("No prescription data available"))
+                  : ListView.builder(
+                      itemCount: prescriptions.length,
+                      itemBuilder: (context, index) {
+                        return Card(
+                          margin: EdgeInsets.all(8.0),
+                          child: ListTile(
+                            title: Text('Prescription #${index + 1}'),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // Text('Doctor: ${prescriptions[index]['doctor_id']}'),
+                                Text('Doctor id: ${prescriptions[index]['doctor_id']}'),
+                                Text('Details: ${prescriptions[index]['details']}'),
+                                Text('Test: ${prescriptions[index]['test']}'),
+                                Text('Date: ${prescriptions[index]['date']}'),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
     );
   }
 }
