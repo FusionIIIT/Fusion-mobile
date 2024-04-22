@@ -1,9 +1,9 @@
 //Server and local links
 String klocalLink = "127.0.0.1:8000";
-String kserverLink = "172.27.16.214:8000";
+String kserverLink = "192.168.137.1:8000";
 
 //Login Service
-String kAuthUrl = "172.27.16.214:8000";
+String kAuthUrl = "192.168.137.1:8000";
 String kAuthLogin = "/api/auth/login/";
 
 //Profile Service
@@ -39,3 +39,11 @@ String kAcademicProceduresEndTT =
 String kAcademicProceduresHolidaysTT =
     "/static/academic_procedures/List_of_Holidays.pdf";
 String kAcademicProceduresTT = "/static/academic_procedures/";
+
+// programme and curriculumns
+String kugprogrammes = "/programme_curriculum/api/programmes_ug/";
+String kpgprogrammes = "/programme_curriculum/api/programmes_pg/";
+String kphdprogrammes = "/programme_curriculum/api/programmes_phd/";
+String kProgrammeInfo = "/programme_curriculum/api/programme_info/";
+String kCurriculumns = "/programme_curriculum/api/curriculumns/";
+String kAddProgrammes = "/programme_curriculum/api/add_programme/";

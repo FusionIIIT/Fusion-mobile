@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/side_drawer.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert' as convert;
+import 'package:fusion/services/storage_service.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/api.dart';
+import 'package:fusion/constants.dart';
 
 class ProgrammeForm extends StatefulWidget {
   @override
@@ -31,41 +34,30 @@ class _ProgrammeFormState extends State<ProgrammeForm> {
   }
 
   void sendData(BuildContext context, String category, String name,
-      int begin_year, String descipline) async {
-    var url =
-        'https://script.google.com/macros/s/AKfycbxaIqq8_XzUf0nTLhMYxrC6dqQ7mqoN5LgV4Ln2M6j731juYrHpsKt6EhiBlTjD6kRl/exec';
-    var urlug =
-        "https://script.google.com/macros/s/AKfycbwKksYndwjR7sNcbzCi7SnLsdKZYbXEhVVL5dv65EexIgA-Kb63hGWbykZJSG800aaK7A/exec";
-    var urlpg =
-        "https://script.google.com/macros/s/AKfycbzoYJwyR1eYz1XXi6Pt5Lp0YfRPoeAY6Cy_0XC6ZNXj9RsvgihBcUzJj8hSMqp4mSJRrQ/exec";
-    var urlphd =
-        "https://script.google.com/macros/s/AKfycby-dMkQuZGjGbcRHFDzYpEFHvRBOKwZaFy9k20Ypq-HgX1O0kIK-0ErvGBitMQPuwOBnA/exec";
+      int beginYear, String descipline) async {
+    var storageService = locator<StorageService>();
+    if (storageService.userInDB?.token == null) throw Exception('Token Error');
+
+    Map<String, String> headers = {
+      'Authorization': 'Token ' + (storageService.userInDB?.token ?? "")
+    };
+
+    String programmeBeginYear = beginYear.toString();
+
     var body = {
       'category': category,
       'name': name,
-      'begin_year': begin_year,
+      'programme_begin_year': programmeBeginYear,
       'discipline': descipline
     };
-    if (category == "UG") {
-      var bodyug = {'programmes': name, 'discipline': descipline};
-      var response1 = await http.post(Uri.parse(urlug),
-          headers: {'Content-Type': 'application/json'},
-          body: convert.jsonEncode(bodyug));
-    } else if (category == "PG") {
-      var bodypg = {'programmes': name, 'discipline': descipline};
-      var response1 = await http.post(Uri.parse(urlug),
-          headers: {'Content-Type': 'application/json'},
-          body: convert.jsonEncode(bodypg));
-    } else if (category == "PHD") {
-      var bodyphd = {'programmes': name, 'discipline': descipline};
-      var response1 = await http.post(Uri.parse(urlug),
-          headers: {'Content-Type': 'application/json'},
-          body: convert.jsonEncode(bodyphd));
-    }
 
-    var response = await http.post(Uri.parse(url),
-        headers: {'Content-Type': 'application/json'},
-        body: convert.jsonEncode(body));
+    var client = http.Client();
+
+    var response = await client.post(
+      Uri.http(getLink(), kAddProgrammes),
+      headers: headers,
+      body: body,
+    );
 
     if (response.statusCode == 200) {
       print('Data sent successfully');

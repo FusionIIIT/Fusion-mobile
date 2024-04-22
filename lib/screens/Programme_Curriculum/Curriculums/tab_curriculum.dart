@@ -26,6 +26,7 @@ class _TabCurriculumState extends State<TabCurriculum> {
   late StreamController _profileController;
   late ProfileService profileService;
   late ProfileData data2;
+  // ignore: unused_field
   bool _loading = true;
 
   late Map? table;

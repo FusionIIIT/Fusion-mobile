@@ -4,6 +4,10 @@ import 'package:fusion/screens/Programme_Curriculum/Programme/programme_feedback
 import 'package:fusion/screens/Programme_Curriculum/Programme/tabComponent.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
+import 'package:fusion/services/storage_service.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/api.dart';
+import 'package:fusion/constants.dart';
 
 class Programme extends StatefulWidget {
   @override
@@ -18,17 +22,29 @@ class _ProgrammeState extends State<Programme> {
   List<ProgrammeFeedbackModel> feedbacks_pg = [];
   List<ProgrammeFeedbackModel> feedbacks_phd = [];
   getFeedbackFromSheet() async {
-    var url = Uri.parse(
-        "https://script.google.com/macros/s/AKfycbwKksYndwjR7sNcbzCi7SnLsdKZYbXEhVVL5dv65EexIgA-Kb63hGWbykZJSG800aaK7A/exec");
-    var raw = await http.get(url);
+    var storage_service = locator<StorageService>();
+    if (storage_service.userInDB?.token == null) throw Exception('Token Error');
 
-    var url_pg = Uri.parse(
-        "https://script.google.com/macros/s/AKfycbzoYJwyR1eYz1XXi6Pt5Lp0YfRPoeAY6Cy_0XC6ZNXj9RsvgihBcUzJj8hSMqp4mSJRrQ/exec");
-    var raw_pg = await http.get(url_pg);
+    Map<String, String> headers = {
+      'Authorization': 'Token ' + (storage_service.userInDB?.token ?? "")
+    };
 
-    var url_phd = Uri.parse(
-        "https://script.google.com/macros/s/AKfycby-dMkQuZGjGbcRHFDzYpEFHvRBOKwZaFy9k20Ypq-HgX1O0kIK-0ErvGBitMQPuwOBnA/exec");
-    var raw_phd = await http.get(url_phd);
+    var client = http.Client();
+
+    var raw = await client.get(
+      Uri.http(getLink(), kugprogrammes),
+      headers: headers,
+    );
+
+    var raw_pg = await client.get(
+      Uri.http(getLink(), kpgprogrammes),
+      headers: headers,
+    );
+
+    var raw_phd = await client.get(
+      Uri.http(getLink(), kphdprogrammes),
+      headers: headers,
+    );
 
     var jsonfeedback = convert.jsonDecode(raw.body);
     var jsonfeedback_pg = convert.jsonDecode(raw_pg.body);
@@ -69,14 +85,12 @@ class _ProgrammeState extends State<Programme> {
     _phd = feedbacks_phd
         .map((feedback) => [feedback.programmes, feedback.discipline])
         .toList();
-
-    print("this is ug: $_ug");
-    print("this is pg: $_pg");
-    print("this is phd: $_phd");
   }
 
   @override
-  void initState() {}
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

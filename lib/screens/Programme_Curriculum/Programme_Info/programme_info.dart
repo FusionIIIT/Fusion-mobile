@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-// import 'package:fusion/Components/appBar.dart';
-// import 'package:flutter/services.dart' show rootBundle;
 import 'package:fusion/Components/side_drawer.dart';
-// import 'package:fusion/models/academic.dart';
-// import 'package:csv/csv.dart';
 import 'package:fusion/screens/Programme_Curriculum/Programme_Info/InfoTabComponent.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
+import 'package:fusion/services/storage_service.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/api.dart';
+import 'package:fusion/constants.dart';
 
 class ProgrammeInfo extends StatefulWidget {
   @override
@@ -14,89 +14,87 @@ class ProgrammeInfo extends StatefulWidget {
 }
 
 class _ProgrammeInfoState extends State<ProgrammeInfo> {
-  // List<List<dynamic>> _ugProgrammes = [];
-  // List<List<dynamic>> _pgProgrammes = [];
-  // List<List<dynamic>> _phdProgrammes = [];
   List<List<dynamic>> _selectProgrammes = [];
   List<List<dynamic>> _curriculum = [];
   List<dynamic> _filteredList = [];
   int index = -1;
   List<List<dynamic>> _listALL_api = [];
-  List<List<dynamic>> _listCurr_api = [];
+  List<List<dynamic>> _listCurr_api = [
+    ['Name', 'Version', 'Batch', 'No of Semesters']
+  ];
   Future<int> _loadCSV() async {
-    // final _allGraduate = await rootBundle.loadString("db/ALL_Programmes.csv");
-    // List<List<dynamic>> _listALL =
-    //     const CsvToListConverter().convert(_allGraduate);
+    var storageService = locator<StorageService>();
+    if (storageService.userInDB?.token == null) throw Exception('Token Error');
 
-    final String all_grad_api =
-        "https://script.google.com/macros/s/AKfycbxaIqq8_XzUf0nTLhMYxrC6dqQ7mqoN5LgV4Ln2M6j731juYrHpsKt6EhiBlTjD6kRl/exec";
-    final http.Response response_all_grad =
-        await http.get(Uri.parse(all_grad_api));
+    Map<String, String> headers = {
+      'Authorization': 'Token ' + (storageService.userInDB?.token ?? "")
+    };
+
+    var client = http.Client();
+
+    final http.Response response_all_grad = await client.get(
+      Uri.http(getLink(), kProgrammeInfo),
+      headers: headers,
+    );
 
     if (response_all_grad.statusCode == 200) {
       List<dynamic> data = convert.jsonDecode(response_all_grad.body);
       _listALL_api = [
         ['Programme Category', 'Programme Name', 'Programme Begin Year'],
         ...data
-            .map((item) => [
-                  item['Programme Category'],
-                  item['Programme Name'],
-                  item['Programme Begin Year']
-                ])
+            .map((item) =>
+                [item['category'], item['name'], item['programme_begin_year']])
             .toList(),
       ];
     } else {
       throw Exception('Failed to load data from API');
     }
 
-    // final _workingCurriculum =
-    //     await rootBundle.loadString("db/Working_Curriculum1.csv");
-    // List<List<dynamic>> _listCurr =
-    //     const CsvToListConverter().convert(_workingCurriculum);
-
-    final String all_curr_api =
-        "https://script.google.com/macros/s/AKfycbzp0Nqb8-G_lxp_SZK8eOjV3CgmCC5Qz98e8jYaLFF8azUXJjk9kAqp1Nbm8rp-JuJz5A/exec";
-    final http.Response response_all_curr =
-        await http.get(Uri.parse(all_curr_api));
+    // print(_listALL_api);
+    final http.Response response_all_curr = await client.get(
+      Uri.http(getLink(), kCurriculumns),
+      headers: headers,
+    );
 
     if (response_all_curr.statusCode == 200) {
-      List<dynamic> data = convert.jsonDecode(response_all_curr.body);
-      _listCurr_api = [
-        ['name', 'version', 'batch', 'no_of_semester'],
-        ...data
-            .map((item) => [
-                  item['name'],
-                  item['version'],
-                  item['batch'],
-                  item['no_of_semester']
-                ])
-            .toList(),
-      ];
+      List<dynamic> data1 = convert.jsonDecode(response_all_curr.body);
+
+      for (var data in data1) {
+        for (var data_in in data) {
+          List<dynamic> temp = [
+            data_in['name'],
+            data_in['version'],
+            data_in['batch'],
+            data_in['no_of_semester']
+          ];
+          _listCurr_api.add(temp);
+          // print(data_in['name']);
+        }
+      }
     } else {
       throw Exception('Failed to load data from API');
     }
+
+    // print(_listCurr_api);
 
     _curriculum = _listCurr_api;
 
     _selectProgrammes = _listALL_api;
 
-    // print("This is list Curr: $_listCurr");
-    // print("This is list all coming from api: $_listCurr_api");
     return 1;
   }
 
   @override
   void initState() {
-    // TODO: implement initState
+    super.initState();
     _loadCSV();
   }
 
   @override
   Widget build(BuildContext context) {
-    // final AcademicData data =
-    //     ModalRoute.of(context)?.settings.arguments as AcademicData;
     final arguments = (ModalRoute.of(context)?.settings.arguments ??
         <String, dynamic>{}) as Map;
+    print(arguments);
     return FutureBuilder(
         future: _loadCSV(),
         builder: (context, snapshot) {
@@ -112,13 +110,14 @@ class _ProgrammeInfoState extends State<ProgrammeInfo> {
               .map((e) => e.skip(1).take(1).toString())
               .toList();
 
-          print(dat.toString() + " dat");
+          // print(dat.toString() + " dat");
           for (var i = 0; i < dat.length; i++) {
             if (dat[i].replaceAll("(", "").replaceAll(")", "") ==
                 arguments['e']) {
               index = i;
             }
           }
+          print(dat.toString() + " dat");
 
           final info_data = {
             "table": <dynamic, dynamic>{
@@ -136,6 +135,8 @@ class _ProgrammeInfoState extends State<ProgrammeInfo> {
               ].map((e) => e)
             }
           };
+
+          print(_selectProgrammes);
           var dat_curriculum = _curriculum
               .skip(1)
               .map((e) => e.skip(2).take(1).toString())
@@ -147,7 +148,13 @@ class _ProgrammeInfoState extends State<ProgrammeInfo> {
             var temp =
                 dat_curriculum[i].replaceAll("(", "").replaceAll(")", "");
 
-            if (temp.contains(arguments['e'].toString())) {
+            String eString = arguments['e'].toString();
+            String firstTwoLetters = eString.substring(0, 3);
+            String lastTwoLetters = eString.substring(eString.length - 2);
+            print(firstTwoLetters);
+
+            if (temp.contains(firstTwoLetters) &&
+                temp.contains(lastTwoLetters)) {
               _filteredList.add(_curriculum[i + 1]);
             }
           }

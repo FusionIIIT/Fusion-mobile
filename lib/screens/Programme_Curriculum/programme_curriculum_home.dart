@@ -27,6 +27,7 @@ class _ProgrammeCurriculumHomeState extends State<ProgrammeCurriculumHome> {
   late StreamController _profileController;
   late ProfileService profileService;
   late ProfileData data2;
+  // ignore: unused_field
   bool _loading = true;
 
   @override
@@ -188,13 +189,15 @@ class _ProgrammeCurriculumHomeState extends State<ProgrammeCurriculumHome> {
                         arguments: data);
                   },
                 ),
-                userType != 'student'
+                userdesg.contains('acadadmin')
                     ? InkWell(
                         child: myContainer("Add Programmes"),
                         onTap: () {
-                          Navigator.pushNamed(context,
-                              '/programme_curriculum_home/programme_form',
-                              arguments: data);
+                          Navigator.pushNamed(
+                            context,
+                            '/programme_curriculum_home/programme_form',
+                            arguments: data,
+                          );
                         },
                       )
                     : SizedBox(),

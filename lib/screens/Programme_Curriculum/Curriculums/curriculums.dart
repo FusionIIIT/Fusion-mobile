@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-// import 'package:fusion/Components/appBar.dart';
-// import 'package:flutter/services.dart' show rootBundle;
 import 'package:fusion/Components/side_drawer.dart';
-// import 'package:fusion/models/academic.dart';
-// import 'package:csv/csv.dart';
 import 'package:fusion/screens/Programme_Curriculum/Curriculums/tab_curriculum.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
+import 'package:fusion/services/storage_service.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/api.dart';
+import 'package:fusion/constants.dart';
 
 class Curriculum extends StatefulWidget {
   @override
@@ -15,31 +15,40 @@ class Curriculum extends StatefulWidget {
 
 class _CurriculumState extends State<Curriculum> {
   List<List<dynamic>> _curriculum = [];
-  List<List<dynamic>> _curriculum_api = [];
+  // List<List<dynamic>> _curriculum_api = [];
+  List<List<dynamic>> _listCurr_api = [
+    ['Name', 'Version', 'Batch', 'No of Semesters']
+  ];
   Future<int> _loadCSV() async {
-    // final _underGraduate =
-    //     await rootBundle.loadString("db/Working_Curriculum.csv");
-    // List<List<dynamic>> _listCurr =
-    //     const CsvToListConverter().convert(_underGraduate);
+    var storageService = locator<StorageService>();
+    if (storageService.userInDB?.token == null) throw Exception('Token Error');
 
-    final String curriculum_api =
-        "https://script.google.com/macros/s/AKfycbzEAfs5su95Cgc7QRgxBzZRmveReRi_DFc0Ck7KOcm7RrW-JiM-Sj3TJywFfF9YfbJd/exec";
-    final http.Response response_curriculum =
-        await http.get(Uri.parse(curriculum_api));
+    Map<String, String> headers = {
+      'Authorization': 'Token ' + (storageService.userInDB?.token ?? "")
+    };
 
-    if (response_curriculum.statusCode == 200) {
-      List<dynamic> data = convert.jsonDecode(response_curriculum.body);
-      _curriculum_api = [
-        ['name', 'version', 'batch', 'no_of_semester'],
-        ...data
-            .map((item) => [
-                  item['name'],
-                  item['version'],
-                  item['batch'],
-                  item['no_of_semester']
-                ])
-            .toList(),
-      ];
+    var client = http.Client();
+
+    final http.Response responseAllCurr = await client.get(
+      Uri.http(getLink(), kCurriculumns),
+      headers: headers,
+    );
+
+    if (responseAllCurr.statusCode == 200) {
+      List<dynamic> data1 = convert.jsonDecode(responseAllCurr.body);
+
+      for (var data in data1) {
+        for (var data_in in data) {
+          List<dynamic> temp = [
+            data_in['name'],
+            data_in['version'],
+            data_in['batch'],
+            data_in['no_of_semester']
+          ];
+          _listCurr_api.add(temp);
+          // print(data_in['name']);
+        }
+      }
     } else {
       throw Exception('Failed to load data from API');
     }
@@ -47,14 +56,14 @@ class _CurriculumState extends State<Curriculum> {
     // print("This is list csv: $_listCurr");
     // print("This is list api: $_curriculum_api");
 
-    _curriculum = _curriculum_api;
+    _curriculum = _listCurr_api;
 
     return 1;
   }
 
   @override
   void initState() {
-    // TODO: implement initState
+    super.initState();
     _loadCSV();
   }
 
@@ -86,7 +95,7 @@ class _CurriculumState extends State<Curriculum> {
               .toList();
           // print(keys);
           // print(key_val);
-          int count = 0;
+          // int count = 0;
           for (var i = 0; i < key_val.length; i++) {
             print(key_val[i][0] == key_val[i][1]);
           }
