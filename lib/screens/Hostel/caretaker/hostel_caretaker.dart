@@ -15,19 +15,21 @@ import 'package:fusion/Components/side_drawer2.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
 import 'package:fusion/Components/bottom_navigation_bar.dart';
+
 class Hostelcaretaker extends StatefulWidget {
   const Hostelcaretaker({Key? key}) : super(key: key);
-@override
+  @override
   _HostelcaretakerState createState() => _HostelcaretakerState();
 }
+
 class _HostelcaretakerState extends State<Hostelcaretaker> {
-   late String curr_desig;
+  late String curr_desig;
 
   @override
   void initState() {
     super.initState();
     var service = locator<StorageService>();
-    curr_desig = service.getFromDisk("Current_designation") ?? ""; 
+    curr_desig = service.getFromDisk("Current_designation") ?? "";
   }
 
   @override

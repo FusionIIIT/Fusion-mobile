@@ -144,8 +144,8 @@ class _SideDrawerState extends State<SideDrawer> {
                                   )
                                 : ModulesPadding(
                                     line: 'Hostel',
-                                   pageMover: '/warden/hostel_warden',
-                                    // pageMover: '/caretaker/hostel_caretaker',
+                                  //  pageMover: '/warden/hostel_warden',
+                                    pageMover: '/caretaker/hostel_caretaker',
                                     // pageMover: '/student/hostel_student',
                                     // pageMover:'/superadmin/hostel_admin',
                                     isActive: true,

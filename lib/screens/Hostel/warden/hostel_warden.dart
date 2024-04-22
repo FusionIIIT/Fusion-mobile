@@ -6,7 +6,6 @@ import 'package:fusion/screens/Hostel/warden/managerooms.dart';
 import 'package:fusion/screens/Hostel/warden/managestudent.dart';
 import 'package:fusion/screens/Hostel/warden/noticeboard.dart';
 import 'package:fusion/screens/Hostel/warden/report.dart';
-
 import 'package:fusion/screens/Hostel/warden/staffinfo.dart';
 import 'package:fusion/Components/appBar2.dart';
 import 'package:fusion/Components/side_drawer2.dart';
@@ -58,7 +57,7 @@ class _Hostelwardenstate extends State<Hostelwarden> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Staffinfo()),
+                      MaterialPageRoute(builder: (context) => StaffInfo()),
                     );
                   },
                   child: Container(
@@ -103,7 +102,7 @@ class _Hostelwardenstate extends State<Hostelwarden> {
                           size: 30,
                         ),
                         Text(
-                          'Staff Info',
+                          'ManageRooms',
                           style: TextStyle(color: Colors.white, fontSize: 15),
                         )
                       ],

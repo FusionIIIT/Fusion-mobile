@@ -42,20 +42,109 @@ class _ManageroomsState extends State<Managerooms> {
     [
       {"roomNumber": 101, "capacity": 2, "currentOccupancy": 1, "status": "Partially Allotted", "studentNames": ["John Doe"], "numberOfStudents": 1},
       {"roomNumber": 102, "capacity": 3, "currentOccupancy": 2, "status": "Fully Allotted", "studentNames": ["Alice", "Bob"], "numberOfStudents": 2},
-      {"roomNumber": 103, "capacity": 4, "currentOccupancy": 4, "status": "Fully Allotted", "studentNames": ["Charlie", "David", "Eve", "Frank"], "numberOfStudents": 4},
+      {"roomNumber": 103, "capacity": 4, "currentOccupancy": 4, "status": "Fully Allotted", "studentNames": ["Charlie", "David", "Eve", "Frank"], "numberOfStudents": 4}
     ]
     ''';
     final List<dynamic> roomList = json.decode(roomData);
     setState(() {
       rooms = roomList.map((room) => Room(
-        roomNumber: room['roomNumber'],
-        capacity: room['capacity'],
-        currentOccupancy: room['currentOccupancy'],
-        status: room['status'],
-        studentNames: List<String>.from(room['studentNames']),
-        numberOfStudents: room['numberOfStudents'],
-      )).toList();
+            roomNumber: room['roomNumber'],
+            capacity: room['capacity'],
+            currentOccupancy: room['currentOccupancy'],
+            status: room['status'],
+            studentNames: List<String>.from(room['studentNames']),
+            numberOfStudents: room['numberOfStudents'],
+          )).toList();
       filteredRooms = List.from(rooms);
+    });
+  }
+
+  Future<void> _editStudentDetails(Room room) async {
+    // Display dialog to edit student details
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // Implement the edit room details dialog
+        return AlertDialog(
+          title: Text('Edit Student Details'),
+          content: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Add fields to edit student details
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                // Perform the edit operation here
+                // Update the room details
+                // Simulate POST API call to update room details
+                Navigator.of(context).pop();
+              },
+              child: Text('Submit'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _deleteStudentDetails(Room room) async {
+    // Show confirmation dialog before deleting the student
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirm Deletion'),
+          content: Text('Are you sure you want to delete the student?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                // Delete the student from the room
+                _deleteStudent(room);
+                Navigator.of(context).pop();
+              },
+              child: Text('Delete'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _deleteStudent(Room room) {
+    setState(() {
+      // Implement logic to delete the student from the room
+    });
+    // Simulate DELETE API call to delete student details
+  }
+
+  Future<void> _showAddDialog() async {
+    // Implement add student to room dialog
+  }
+
+  void _searchRooms(int roomNumber) {
+    setState(() {
+      if (roomNumber != 0) {
+        filteredRooms = rooms.where((room) => room.roomNumber == roomNumber).toList();
+      } else {
+        filteredRooms.clear(); // Clear filtered list if no search is active
+        filteredRooms.addAll(rooms); // Repopulate with all rooms
+      }
     });
   }
 
@@ -74,35 +163,56 @@ class _ManageroomsState extends State<Managerooms> {
                 delegate: RoomSearchDelegate(rooms: rooms),
               );
               if (result != null) {
-                // Implement search functionality here if needed
+                _searchRooms(result);
               }
             },
           ),
         ],
       ),
-      body: ListView.builder(
-        itemCount: filteredRooms.length,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Card(
-              elevation: 3,
+      body: SingleChildScrollView(
+        child: Column(
+          children: filteredRooms.map((room) {
+            return Card(
+              margin: EdgeInsets.all(8.0),
               child: ListTile(
-                title: Text('Room Number: ${filteredRooms[index].roomNumber}'),
+                title: Text('Room No: ${room.roomNumber}'),
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Capacity: ${filteredRooms[index].capacity}'),
-                    Text('Current Occupancy: ${filteredRooms[index].currentOccupancy}'),
-                    Text('Status: ${filteredRooms[index].status}'),
-                    Text('Student Names: ${filteredRooms[index].studentNames.join(', ')}'),
-                    Text('Number of Students: ${filteredRooms[index].numberOfStudents}'),
+                    Text('Capacity: ${room.capacity}'),
+                    Text('Current Occupancy: ${room.currentOccupancy}'),
+                    Text('Status: ${room.status}'),
+                    Text('Student Names: ${room.studentNames.join(', ')}'),
+                    Text('No of Students: ${room.numberOfStudents}'),
+                  ],
+                ),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.edit),
+                      onPressed: () {
+                        _editStudentDetails(room);
+                      },
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.delete),
+                      onPressed: () {
+                        _deleteStudentDetails(room);
+                      },
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.add),
+                      onPressed: () {
+                        _showAddDialog();
+                      },
+                    ),
                   ],
                 ),
               ),
-            ),
-          );
-        },
+            );
+          }).toList(),
+        ),
       ),
     );
   }

@@ -193,7 +193,12 @@ class _SideDrawerState extends State<SideDrawer> {
                 widget.curr_desig == "Dean_s" ||
                 widget.curr_desig == "DeanPnD"))
               ModulesCard(cardLine: 'IWD', pageMover: '/iwd/home_page'),
-         
+
+            if (type == "student")
+              ModulesCard(
+                cardLine: 'Hostel',
+                pageMover: '/student/hostel_student',
+              ),
             if (type == "warden")
               ModulesCard(
                 cardLine: 'Hostel',
