@@ -1,22 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:fusion/services/academic_service.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
 import 'package:fusion/Components/appBar2.dart';
 import 'package:fusion/Components/side_drawer2.dart';
 import 'package:fusion/Components/bottom_navigation_bar.dart';
-
-class Course {
-  String id;
-  String name;
-  int credits;
-  int priority;
-
-  Course(
-      {required this.id,
-      required this.name,
-      required this.credits,
-      required this.priority});
-}
+import 'package:http/http.dart';
 
 class AddCourses extends StatefulWidget {
   @override
@@ -24,18 +15,72 @@ class AddCourses extends StatefulWidget {
 }
 
 class _AddCoursesState extends State<AddCourses> {
-  final List<Course> courses = List.generate(
-      9,
-      (index) => Course(
-            id: 'ID ${index + 1}',
-            name: 'Course ${index + 1}',
-            credits: (index + 1) * 3,
-            priority: 1,
-          )); // Generate 9 courses with different details
-  List<int> priorities =
-      List.generate(9, (index) => index + 1); // List of priorities from 1 to 9
   var service = locator<StorageService>();
+  late AcademicService academicService;
   late String curr_desig = service.getFromDisk("Current_designation");
+  List<dynamic> addCouresOptions = [];
+  int index = -1;
+  Map<String, String?> preferences = {};
+  Map<int, int> preferences2 = {};
+
+  @override
+  void initState() {
+    super.initState();
+    addCouresOptions = service.academicData.add_courses_options ?? [];
+    academicService = AcademicService();
+    print(addCouresOptions);
+    for (var i = 0; i < addCouresOptions.length; i++) {
+      preferences[addCouresOptions[i]['slot_name']] = "Choose";
+      preferences2[addCouresOptions[i]['slot_id']] = 0;
+    }
+  }
+
+  handleSubmit() async {
+    int sem = service.academicData.user_sem;
+    Map<int, int> finalChoices = {};
+    int ct = 0;
+    for (var key in preferences2.keys) {
+      if (preferences2[key] != 0) {
+        print(key.toString() + " " + preferences2[key].toString());
+        finalChoices[key] = preferences2[key] ?? 1;
+        ct++;
+      }
+    }
+
+    try {
+      Response response =
+          await academicService.addCourses(sem, ct, finalChoices);
+      ;
+      showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text('Success!'),
+          content: Text((jsonDecode(response.body))["message"] ?? ""),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'OK'),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    } catch (e) {
+      showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text('Failure!'),
+          content: const Text("Couldn't Add Courses"),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'OK'),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,23 +117,39 @@ class _AddCoursesState extends State<AddCourses> {
                         DataColumn(label: Text('Course Name')),
                         DataColumn(label: Text('Credits')),
                         DataColumn(label: Text('Priority')),
+                        DataColumn(label: Text('Select')),
                       ],
-                      rows: courses.map((course) {
+                      rows: addCouresOptions.map((data) {
+                        index++;
+                        final courses = data['courses'] as List;
+                        // Use a map function to get the 'name' property from each course object
+                        List<String> courseNames = courses
+                            .map((course) => course['name'] as String)
+                            .toList();
+                        courseNames.add('Choose');
+                        Map<String, int> courseCodes = Map.fromIterable(courses,
+                            key: (item) => item['name'],
+                            value: (item) => item['course_id']);
+
                         return DataRow(cells: [
-                          DataCell(Text(course.id)),
-                          DataCell(Text(course.name)),
-                          DataCell(Text(course.credits.toString())),
-                          DataCell(DropdownButton<int>(
-                            value: course.priority,
-                            onChanged: (int? newValue) {
+                          DataCell(Text(data['slot_name'].toString())),
+                          DataCell(Text(data['slot_type'].toString())),
+                          DataCell(Text(data['semester'].toString())),
+                          DataCell(
+                              Text(data['courses'][0]['credit'].toString())),
+                          DataCell(DropdownButton<String>(
+                            value: preferences[data['slot_name']],
+                            onChanged: (String? newValue) {
                               setState(() {
-                                course.priority = newValue!;
+                                preferences[data['slot_name']] = newValue;
+                                preferences2[data['slot_id']] =
+                                    courseCodes[newValue] ?? 0;
                               });
                             },
-                            items: priorities.map((int priority) {
-                              return DropdownMenuItem<int>(
-                                value: priority,
-                                child: Text(priority.toString()),
+                            items: courseNames.map((course) {
+                              return DropdownMenuItem<String>(
+                                value: course,
+                                child: Text(course),
                               );
                             }).toList(),
                           )),
@@ -103,7 +164,7 @@ class _AddCoursesState extends State<AddCourses> {
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: ElevatedButton(
                       onPressed: () {
-                        // Handle submit action
+                        handleSubmit();
                       },
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(Colors

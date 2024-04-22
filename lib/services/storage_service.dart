@@ -51,6 +51,14 @@ class StorageService with ChangeNotifier {
     saveStringToDisk(AcadKey, jsonEncode(acadJson));
   }
 
+  void updatePreFlag(List<Map<String, dynamic>> finalCourses) {
+    AcademicData acadJson =
+        AcademicData.fromJson(jsonDecode(getFromDisk(AcadKey)));
+    acadJson.pre_registration_flag = true;
+    acadJson.pre_registered_courses_show = finalCourses;
+    saveStringToDisk(AcadKey, jsonEncode(acadJson));
+  }
+
   static Future<StorageService?> getInstance() async {
     if (_instance == null) {
       _instance = StorageService();

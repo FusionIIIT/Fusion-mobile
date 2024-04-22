@@ -529,7 +529,8 @@ class AcademicService {
     }
   }
 
-  Future<http.Response> getNextSemCourses(int next_sem, String branch,String programme, String batch) async {
+  Future<http.Response> getNextSemCourses(
+      int next_sem, String branch, String programme, String batch) async {
     try {
       var _prefs = await StorageService.getInstance();
       String token = _prefs!.userInDB?.token ?? "";
@@ -538,7 +539,12 @@ class AcademicService {
         'Content-Type': 'application/json'
       };
 
-      final body = {"next_sem": next_sem, "branch": branch, "programme": programme, "batch": batch};
+      final body = {
+        "next_sem": next_sem,
+        "branch": branch,
+        "programme": programme,
+        "batch": batch
+      };
 
       final jsonString = json.encode(body);
 
@@ -556,6 +562,95 @@ class AcademicService {
         throw Exception('Can\'t get next sem courses');
       }
       print("successfully fetched next sem courses");
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<http.Response> preRegistration(
+      int sem, Map<int, int> final_choices) async {
+    try {
+      var _prefs = await StorageService.getInstance();
+      String token = _prefs!.userInDB?.token ?? "";
+      Map<String, String> headers = {
+        'Authorization': 'Token ' + token,
+        'Content-Type': 'application/json'
+      };
+
+      List<String> course_slot = [];
+      for (var key in final_choices.keys) {
+        course_slot.add(key.toString());
+      }
+
+      var body = {"semester": sem, "course_slot": course_slot};
+
+      for (var key in final_choices.keys) {
+        body['course_priority-' + key.toString()] = [
+          "1-" + final_choices[key].toString()
+        ];
+      }
+
+      final jsonString = json.encode(body);
+      print(jsonString);
+
+      print("pushing request");
+      var client = http.Client();
+      http.Response response = await client.post(
+        Uri.http(
+          getLink(),
+          kPreRegFinal, //Constant api path
+        ),
+        headers: headers,
+        body: jsonString,
+      );
+      if (response.statusCode != 200) {
+        print(response.body);
+        throw Exception('Can\'t perform pre registration');
+      }
+      print("Pre registration successful");
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<http.Response> addCourses(
+      int sem, int ct, Map<int, int> choices) async {
+    try {
+      var _prefs = await StorageService.getInstance();
+      String token = _prefs!.userInDB?.token ?? "";
+      Map<String, String> headers = {
+        'Authorization': 'Token ' + token,
+        'Content-Type': 'application/json'
+      };
+
+      var body = {"semester": sem, "ct": ct};
+
+      int index = 1;
+      for (var key in choices.keys) {
+        body['choice[' + index.toString() + ']'] = choices[key] ?? 0;
+        body['slot[' + index.toString() + ']'] = key;
+        index++;
+      }
+
+      final jsonString = json.encode(body);
+      print(jsonString);
+
+      print("pushing request");
+      var client = http.Client();
+      http.Response response = await client.post(
+        Uri.http(
+          getLink(),
+          kAddCourses, //Constant api path
+        ),
+        headers: headers,
+        body: jsonString,
+      );
+      if (response.statusCode != 200) {
+        throw Exception('Can\'t add courses');
+      }
+      print("Added courses successfully");
       return response;
     } catch (e) {
       rethrow;

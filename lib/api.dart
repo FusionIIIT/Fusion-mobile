@@ -28,10 +28,13 @@ String kGetAllCourses = "/academic-procedures/api/acad/get_all_courses/";
 String kGenerateRollList = "/academic-procedures/api/acad/gen_roll_list/";
 String KManageSchedule = "/aims/api/calendar/";
 String KUpdateSchedule = "/aims/api/update-calendar/";
-String kRemoveCourseFromSlot = "/academic-procedures/api/acad/remove_course_from_slot/";
+String kRemoveCourseFromSlot =
+    "/academic-procedures/api/acad/remove_course_from_slot/";
 String kAddCourseToSlot = "/academic-procedures/api/acad/add_course_to_slot/";
 String kPreRegAddOneCourse = "/academic-procedures/api/stu/add_one_course/";
 String kGetNextSemCourses = "/academic-procedures/api/get_next_sem_courses/";
+String kPreRegFinal = "/academic-procedures/api/stu/pre_registration";
+String kAddCourses = "/academic-procedures/api/stu/add_course";
 
 //Complaint
 String kComplaintService = "/complaint/api/studentcomplain";

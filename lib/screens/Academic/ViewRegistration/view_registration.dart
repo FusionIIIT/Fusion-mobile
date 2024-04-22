@@ -16,13 +16,13 @@ class ViewRegistration extends StatefulWidget {
 class _ViewRegistrationState extends State<ViewRegistration> {
   var service = locator<StorageService>();
   late String curr_desig = service.getFromDisk("Current_designation");
-  List<dynamic> next_sem_branch_registration_courses = [];
+  List<dynamic> pre_registered_courses_show = [];
 
   @override
   void initState() {
     super.initState();
-    next_sem_branch_registration_courses =
-        service.academicData.next_sem_branch_registration_courses ?? [];
+    pre_registered_courses_show =
+        service.academicData.pre_registered_courses_show ?? [];
   }
 
   @override
@@ -40,7 +40,7 @@ class _ViewRegistrationState extends State<ViewRegistration> {
       ), // This is default app bar used in all modules
       drawer: SideDrawer(curr_desig: curr_desig),
       bottomNavigationBar: MyBottomNavigationBar(),
-      body: next_sem_branch_registration_courses.length == 0
+      body: pre_registered_courses_show.length == 0
           ? Center(
               child: Text(
               'Registration not done yet!',
@@ -63,10 +63,6 @@ class _ViewRegistrationState extends State<ViewRegistration> {
                             numeric: false,
                           ),
                           DataColumn(
-                            label: Text("Slot Type"),
-                            numeric: false,
-                          ),
-                          DataColumn(
                             label: Text("Course Name"),
                             numeric: false,
                           ),
@@ -79,23 +75,14 @@ class _ViewRegistrationState extends State<ViewRegistration> {
                             numeric: false,
                           ),
                         ],
-                        rows: [
-                          DataRow(cells: [
-                            DataCell(Text('Slot 1')),
-                            DataCell(Text('Type 1')),
-                            DataCell(Text('Course 1')),
-                            DataCell(Text('C001')),
-                            DataCell(Text('3')),
-                          ]),
-                          DataRow(cells: [
-                            DataCell(Text('Slot 2')),
-                            DataCell(Text('Type 2')),
-                            DataCell(Text('Course 2')),
-                            DataCell(Text('C002')),
-                            DataCell(Text('4')),
-                          ]),
-                          // Add more DataRow widgets for additional hardcoded data
-                        ],
+                        rows: pre_registered_courses_show.map((course) {
+                          return DataRow(cells: [
+                            DataCell(Text(course['slot_name'])),
+                            DataCell(Text(course['course_name'])),
+                            DataCell(Text(course['course_code'])),
+                            DataCell(Text(course['course_credit'].toString())),
+                          ]);
+                        }).toList(),
                       ),
                     ),
                   ),
