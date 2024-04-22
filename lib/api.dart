@@ -1,11 +1,9 @@
 //Server and local links
 String klocalLink = "127.0.0.1:8000";
-String kserverLink = "127.0.0.1:8000";
-// String klocalLink = "127.0.0.1:8000"; // Localhost
-// String kserverLink = "192.168.238.24:8000"; // Wi-Fi adapter's IPv4 address
+String kserverLink = "172.27.16.215:80";
 
 // Login Service
-String kAuthUrl = "127.0.0.1:8000"; // Localhost
+String kAuthUrl = "172.27.16.215:80"; // Localhost
 String kAuthLogin = "/api/auth/login/";
 
 //Profile Service
