@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:fusion/screens/IWD/Dean_Homepage.dart'; 
+import 'package:fusion/screens/IWD/Director_homepage.dart';
+import 'package:fusion/screens/IWD/Er_Homepage.dart';
 import 'package:fusion/screens/Academic/Add_Drop_Courses/add_drop_courses.dart';
 import 'package:fusion/screens/Complaint/ComplaintHistory/complain_history.dart';
 import 'package:fusion/screens/Complaint/Feedback/feedback.dart';
@@ -82,6 +85,10 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute: '/landing',
         routes: {
+          '/iwd': (context) => MyHomePage(),
+          '/IWD_Homepage': (context) => MyHomePage(),
+          '/IWD_Director': (context) => Dir_Homepage(),
+          '/IWD_Dean':(context)=> Dean_Homepage(),
           '/landing': (context) => LandingPage(),
           '/login_page': (context) => LoginPage(),
           '/notification':(context)=>Notify(),

@@ -31,6 +31,10 @@ const kGymkhanaMemberRecords = '/api/gymkhana/members_record';
 //HealthCentre
 String kHealthCentreStudent = "/healthcenter/api/student";
 
+//IWD
+String kIwd = 'foal-cheerful-optionally.ngrok-free.app';
+String kCreatedReq = '/iwdModuleV2/api/createdRequestsView/';
+
 //------------Screens------------
 
 //screens/Academic/Current_Semester
