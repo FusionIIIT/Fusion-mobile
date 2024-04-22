@@ -31,7 +31,7 @@ class _SubmitGradeState extends State<SubmitGrade> {
   String? _programmeValue;
 
   List<dynamic> _registeredStudents = [];
-  final int _displayLimit = 10;
+  final int _displayLimit = 1000;
    var service = locator<StorageService>();
 late String curr_desig = service.getFromDisk("Current_designation");
 
