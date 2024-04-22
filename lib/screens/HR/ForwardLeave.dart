@@ -16,7 +16,7 @@ import 'package:date_field/date_field.dart';
 import 'package:fusion/screens/HR/RequestsOfAUserList.dart';
 import 'package:fusion/api.dart';
 class ForwardLeave extends StatefulWidget {
-  const ForwardLeave({required this.formdata, this.isArchived});
+  const ForwardLeave({required this.formdata, required this.isArchived});
   final formdata;
   final isArchived;
 

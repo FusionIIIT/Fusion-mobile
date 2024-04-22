@@ -96,8 +96,8 @@ class _RequestsOfAUserListPage extends State<RequestsOfAUserListPage> {
         return Map<String, String>.from(
             item.map((key, value) => MapEntry(key, value.toString())));
       }).toList();
-      // print("display data set hua");
-      // print(displayData);
+      print("display data set hua");
+      print(displayData);
     });
   }
 
@@ -170,15 +170,16 @@ class _RequestsOfAUserListPage extends State<RequestsOfAUserListPage> {
                           onPressed: () {
                             final Map<String, Widget> requests = {
                               'CPDAAdvance':
-                                  ViewCPDAAdvance(formdata: displayData[index]),
+                                  ViewCPDAAdvance(formdata: displayData[index], index: index),
                               'LTC': ViewLTC(
                                   formdata: dataToBePassed, index: index),
                               'CPDAReimbursement': ViewCPDAReimburse(
-                                  formdata: displayData[index]),
+                                  formdata: displayData[index], index: index),
                               'Appraisal': ViewAppraisal(
                                   formdata: dataToBePassed, index: index),
                               'Leave': ViewLeave(
                                 formdata: displayData[index],
+                                index: index,
                               ),
                             };
                             Navigator.push(

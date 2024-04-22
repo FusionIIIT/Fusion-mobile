@@ -14,7 +14,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ForwardAppraisal extends StatefulWidget {
-  const ForwardAppraisal({required this.formdata, this.isArchived});
+  const ForwardAppraisal({required this.formdata, required this.isArchived});
   final formdata;
   final isArchived;
 

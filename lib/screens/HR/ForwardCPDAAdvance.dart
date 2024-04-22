@@ -14,7 +14,7 @@ import 'package:fusion/models/profile.dart';
 import 'package:fusion/services/profile_service.dart';
 import 'package:fusion/api.dart';
 class ForwardCPDAAdvance extends StatefulWidget {
-  const ForwardCPDAAdvance({required this.formdata, this.isArchived});
+  const ForwardCPDAAdvance({required this.formdata, required this.isArchived});
   final formdata;
   final isArchived;
 

@@ -13,8 +13,9 @@ import 'package:fusion/models/profile.dart';
 import 'package:fusion/services/profile_service.dart';
 
 class ViewCPDAAdvance extends StatefulWidget {
-  const ViewCPDAAdvance({required this.formdata});
+  const ViewCPDAAdvance({required this.formdata,required this.index});
   final formdata;
+    final index;
 
   @override
   State<ViewCPDAAdvance> createState() {

@@ -177,6 +177,7 @@ class _ViewOutboxState extends State<ViewOutbox> {
                                   formdata: cardData, isArchived: false),
                               'Leave': ForwardLeave(
                                 formdata: cardData,
+                                isArchived: false,
                               ),
                             };
                             Navigator.push(

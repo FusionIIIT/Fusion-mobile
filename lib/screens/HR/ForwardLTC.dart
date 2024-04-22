@@ -14,7 +14,7 @@ import 'dart:convert';
 import 'package:fusion/api.dart';
 
 class ForwardLTC extends StatefulWidget {
-  const ForwardLTC({required this.formdata, this.isArchived});
+  const ForwardLTC({required this.formdata, required this.isArchived});
   final Map<String, dynamic> formdata;
   final isArchived;
   @override

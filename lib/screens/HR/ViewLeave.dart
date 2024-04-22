@@ -14,8 +14,9 @@ import 'package:date_field/date_field.dart';
 import 'package:fusion/screens/HR/RequestsOfAUserList.dart';
 
 class ViewLeave extends StatefulWidget {
-  const ViewLeave({required this.formdata});
+  const ViewLeave({required this.formdata, required this.index});
   final formdata;
+    final index;
 
   @override
   State<ViewLeave> createState() {

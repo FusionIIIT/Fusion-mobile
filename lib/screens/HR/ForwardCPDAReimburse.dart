@@ -14,7 +14,7 @@ import 'package:fusion/services/profile_service.dart';
 import 'package:fusion/screens/HR/RequestsOfAUserList.dart';
 import 'package:fusion/api.dart';
 class ForwardCPDAReimburse extends StatefulWidget {
-  const ForwardCPDAReimburse({required this.formdata, this.isArchived});
+  const ForwardCPDAReimburse({required this.formdata, required this.isArchived});
   final formdata;
   final isArchived;
   @override

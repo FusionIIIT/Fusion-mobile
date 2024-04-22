@@ -53,6 +53,9 @@ class _ViewAppraisalState extends State<ViewAppraisal> {
   convertString() async {
     print("converting");
     int index = widget.index;
+    // print("index");
+    // print(index);
+    // print(widget.formdata);
     displayData = jsonDecode(widget.formdata);
     _formdata = displayData[index];
     print(_formdata);
@@ -247,8 +250,8 @@ class _ViewAppraisalState extends State<ViewAppraisal> {
                             'UG/PG : ',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
-                          Text(_formdata['newCoursesDeveloped']
-                              [index]!['UG/PG'])
+                          Text(
+                              _formdata['newCoursesDeveloped'][index]!['UG/PG'])
                         ],
                       ),
                       SizedBox(height: 10),
@@ -329,8 +332,7 @@ class _ViewAppraisalState extends State<ViewAppraisal> {
                             'Status: ',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
-                          Text(_formdata['thesisSupervision']
-                              [index]!['status'])
+                          Text(_formdata['thesisSupervision'][index]!['status'])
                         ],
                       ),
                       SizedBox(height: 10),

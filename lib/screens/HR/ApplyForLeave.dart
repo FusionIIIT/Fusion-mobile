@@ -132,7 +132,7 @@ class _ApplyForLeaveState extends State<ApplyForLeave> {
       'addressDuringLeave': _addressDuringLeaveController.text,
       'academicResponsibility': _responsibilitiesAssignedController.text,
       'addministrativeResponsibiltyAssigned':
-          _addministrativeResponsibiltyAssignedController,
+          _addministrativeResponsibiltyAssignedController.text,
       'receiver_name': _receiverNameController.text,
       'submissionDate': DateTime.now().toIso8601String().substring(0, 10),
       'created_by': datap.user!['id'].toString()
@@ -144,13 +144,14 @@ class _ApplyForLeaveState extends State<ApplyForLeave> {
       "uploader_designation": curr_desig,
     };
     var payload = [data, userInfo];
+    print(payload);
     var response = await http.post(
       Uri.parse(url),
       body: jsonEncode(payload),
       headers: {"Content-type": "application/json; charset=UTF-8"},
       encoding: Encoding.getByName("utf-8"),
     );
-    print(response.body);
+
     if (response.statusCode == 200) {
       // ignore: avoid_print
       ScaffoldMessenger.of(context).showSnackBar(

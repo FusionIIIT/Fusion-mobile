@@ -12,7 +12,8 @@ import 'package:fusion/models/profile.dart';
 import 'package:fusion/services/profile_service.dart';
 
 class ViewCPDAReimburse extends StatefulWidget {
-  const ViewCPDAReimburse({required this.formdata});
+  const ViewCPDAReimburse({required this.formdata,required this.index});
+    final index;
   final formdata;
 
   @override

@@ -40,6 +40,7 @@ class _ViewLTCState extends State<ViewLTC> {
     try {
       print("hello");
       convertString();
+      print(widget.formdata);
       datap = service.profileData;
       _loading1 = false;
     } catch (e) {

@@ -110,6 +110,8 @@ class _ViewHistoryOfUser extends State<ViewHistoryOfUser> {
     var client = http.Client();
 
     var response = await client.get(uri, headers: headers);
+    dataToBePassed = response.body;
+    // print(dataToBePassed);
     if (response.statusCode == 200) {
       var list = jsonDecode(response.body) as List;
       setState(() {
@@ -118,7 +120,7 @@ class _ViewHistoryOfUser extends State<ViewHistoryOfUser> {
               item.map((key, value) => MapEntry(key, value.toString())));
         }).toList();
         // print("display data set hua");
-        print(displayData);
+        // print(displayData);
       });
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -236,16 +238,15 @@ class _ViewHistoryOfUser extends State<ViewHistoryOfUser> {
                             onPressed: () {
                               final Map<String, Widget> requests = {
                                 'CPDAAdvance': ViewCPDAAdvance(
-                                    formdata: displayData[index]),
+                                    formdata: displayData[index], index: index),
                                 'LTC': ViewLTC(
                                     formdata: dataToBePassed, index: index),
                                 'CPDAReimbursement': ViewCPDAReimburse(
-                                    formdata: displayData[index]),
+                                    formdata: displayData[index], index: index),
                                 'Appraisal': ViewAppraisal(
                                     formdata: dataToBePassed, index: index),
                                 'Leave': ViewLeave(
-                                  formdata: displayData[index],
-                                ),
+                                    formdata: displayData[index], index: index),
                               };
                               Navigator.push(
                                 context,
