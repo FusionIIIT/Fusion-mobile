@@ -1,150 +1,178 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:fusion/Components/side_drawer.dart';
 
-class Managerooms extends StatelessWidget {
+class Room {
+  final int roomNumber;
+  final int capacity;
+  final int currentOccupancy;
+  final String status;
+  final List<String> studentNames;
+  final int numberOfStudents;
+
+  Room({
+    required this.roomNumber,
+    required this.capacity,
+    required this.currentOccupancy,
+    required this.status,
+    required this.studentNames,
+    required this.numberOfStudents,
+  });
+}
+
+class Managerooms extends StatefulWidget {
   const Managerooms({Key? key}) : super(key: key);
+
+  @override
+  _ManageroomsState createState() => _ManageroomsState();
+}
+
+class _ManageroomsState extends State<Managerooms> {
+  List<Room> rooms = [];
+  List<Room> filteredRooms = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchRoomDetails();
+  }
+
+  Future<void> _fetchRoomDetails() async {
+    // Simulating GET API call to fetch room details
+    final String roomData = '''
+    [
+      {"roomNumber": 101, "capacity": 2, "currentOccupancy": 1, "status": "Partially Allotted", "studentNames": ["John Doe"], "numberOfStudents": 1},
+      {"roomNumber": 102, "capacity": 3, "currentOccupancy": 2, "status": "Fully Allotted", "studentNames": ["Alice", "Bob"], "numberOfStudents": 2},
+      {"roomNumber": 103, "capacity": 4, "currentOccupancy": 4, "status": "Fully Allotted", "studentNames": ["Charlie", "David", "Eve", "Frank"], "numberOfStudents": 4},
+    ]
+    ''';
+    final List<dynamic> roomList = json.decode(roomData);
+    setState(() {
+      rooms = roomList.map((room) => Room(
+        roomNumber: room['roomNumber'],
+        capacity: room['capacity'],
+        currentOccupancy: room['currentOccupancy'],
+        status: room['status'],
+        studentNames: List<String>.from(room['studentNames']),
+        numberOfStudents: room['numberOfStudents'],
+      )).toList();
+      filteredRooms = List.from(rooms);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: SideDrawer(),
       appBar: AppBar(
-        title: const Text('Manage Rooms'),
+        title: Text('Manage Rooms'),
         backgroundColor: Color.fromARGB(255, 245, 103, 47),
-        foregroundColor: Colors.white,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () async {
+              final int? result = await showSearch<int?>(
+                context: context,
+                delegate: RoomSearchDelegate(rooms: rooms),
+              );
+              if (result != null) {
+                // Implement search functionality here if needed
+              }
+            },
+          ),
+        ],
       ),
-      body: RoomDetailsPage(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // TODO: Handle add button press
+      body: ListView.builder(
+        itemCount: filteredRooms.length,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Card(
+              elevation: 3,
+              child: ListTile(
+                title: Text('Room Number: ${filteredRooms[index].roomNumber}'),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Capacity: ${filteredRooms[index].capacity}'),
+                    Text('Current Occupancy: ${filteredRooms[index].currentOccupancy}'),
+                    Text('Status: ${filteredRooms[index].status}'),
+                    Text('Student Names: ${filteredRooms[index].studentNames.join(', ')}'),
+                    Text('Number of Students: ${filteredRooms[index].numberOfStudents}'),
+                  ],
+                ),
+              ),
+            ),
+          );
         },
-        child: const Icon(Icons.add),
-        backgroundColor: Color.fromARGB(255, 245, 103, 47), // Set background color to orange
       ),
     );
   }
 }
 
-class RoomDetailsPage extends StatelessWidget {
-  const RoomDetailsPage({Key? key}) : super(key: key);
+class RoomSearchDelegate extends SearchDelegate<int?> {
+  final List<Room> rooms;
 
-  // Demo data for student name and allotted room
-  final String studentName = 'John Doe';
-  final String allottedRoom = '101';
+  RoomSearchDelegate({required this.rooms});
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListTile(
-          title: const Text(
-            'Room Number',
-            style: TextStyle(
-              fontSize: 20,
-              color: Color.fromARGB(255, 245, 103, 47), // Set font color to orange
-              fontWeight: FontWeight.bold, // Set font weight to bold
-            ),
-          ),
-          trailing: DropdownButton<int>(
-            value: selectedRoomNumber,
-            onChanged: (int? newValue) {
-              // TODO: Handle room number selection
-            },
-            items: roomNumbers.map<DropdownMenuItem<int>>((int value) {
-              return DropdownMenuItem<int>(
-                value: value,
-                child: Text(
-                  value.toString(),
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 255, 255, 255), // Set font color to orange
-                    fontSize: 20, // Set font size to 20px
-                  ),
-                ),
-              );
-            }).toList(),
-            dropdownColor: Color.fromARGB(255, 255, 127, 23), // Set dropdown background color to light orange
-            style: TextStyle(
-              color: Colors.white,
-            ),
-          ),
-        ),
-        // TODO: Display room details based on selected room number
-        // Name of the student, allotted room, number of fan, light, cupboard, LAN port, chair, table, bed, etc.
-        // TODO: Add option for new entry
-        Expanded(
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white, // Set container background color
-              borderRadius: BorderRadius.circular(10), // Set container border radius
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5), // Set container shadow color
-                  spreadRadius: 2, // Set container shadow spread radius
-                  blurRadius: 5, // Set container shadow blur radius
-                  offset: Offset(0, 3), // Set container shadow offset
-                ),
-              ],
-            ),
-            child: ListView(
-              children: [
-                ListTile(
-                  title: const Text('Fan'),
-                  trailing: Checkbox(
-                    value: isFanAvailable,
-                    onChanged: (bool? newValue) {
-                      // TODO: Handle fan availability change
-                    },
-                    activeColor: Color.fromARGB(255, 245, 103, 47), // Set active color to orange
-                  ),
-                ),
-                ListTile(
-                  title: const Text('Table'),
-                  trailing: Checkbox(
-                    value: isTableAvailable,
-                    onChanged: (bool? newValue) {
-                      // TODO: Handle table availability change
-                    },
-                    activeColor: Color.fromARGB(255, 245, 103, 47), // Set active color to orange
-                  ),
-                ),
-                ListTile(
-                  title: const Text('Chair'),
-                  trailing: Checkbox(
-                    value: isChairAvailable,
-                    onChanged: (bool? newValue) {
-                      // TODO: Handle chair availability change
-                    },
-                    activeColor: Color.fromARGB(255, 245, 103, 47), // Set active color to orange
-                  ),
-                ),
-                ListTile(
-                  title: const Text('Bed'),
-                  trailing: Checkbox(
-                    value: isBedAvailable,
-                    onChanged: (bool? newValue) {
-                      // TODO: Handle bed availability change
-                    },
-                    activeColor: Color.fromARGB(255, 245, 103, 47), // Set active color to orange
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
+  ThemeData appBarTheme(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    return theme.copyWith(
+      appBarTheme: AppBarTheme(
+        backgroundColor: theme.scaffoldBackgroundColor, // Match with screen's UI theme
+        iconTheme: IconThemeData(color: theme.primaryColor), // Match with screen's UI theme
+      ),
+    );
+  }
+
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+        icon: Icon(Icons.clear),
+        onPressed: () {
+          query = '';
+        },
+      ),
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+      icon: Icon(Icons.arrow_back),
+      onPressed: () {
+        close(context, null);
+      },
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    return _buildSearchResults(context);
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    return _buildSearchResults(context);
+  }
+
+  Widget _buildSearchResults(BuildContext context) {
+    return ListView.builder(
+      itemCount: rooms.length,
+      itemBuilder: (context, index) {
+        return ListTile(
+          title: Text('Room No: ${rooms[index].roomNumber}'),
+          onTap: () {
+            close(context, rooms[index].roomNumber);
+          },
+        );
+      },
     );
   }
 }
 
-// Sample data for room numbers
-List<int> roomNumbers = [101, 102, 103, 104];
-
-// Selected room number
-int? selectedRoomNumber;
-
-// Availability of room items
-bool isFanAvailable = true;
-bool isTableAvailable = true;
-bool isChairAvailable = true;
-bool isBedAvailable = true;
+void main() {
+  runApp(MaterialApp(
+    home: Managerooms(),
+  ));
+}

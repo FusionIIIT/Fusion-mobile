@@ -133,9 +133,9 @@ class MyApp extends StatelessWidget {
           '/health_center/viewschedule': (context) => ViewSchedule(),
           '/health_center/history': (context) => History(),
           '/caretaker/hostel_caretaker': (context) => Hostelcaretaker(),
-          '/wardern/hostel_wardern': (context) => Hostelwarden(),
+          '/warden/hostel_warden': (context) => Hostelwarden(),
           '/student/hostel_student': (context) => Hostelstudent(),
-          '/superadmin/hostel_admin': (context) => HostelAdmin(),
+          '/superadmin/hostel_admin': (context) => Hosteladmin(),
         },
       ),
     );
