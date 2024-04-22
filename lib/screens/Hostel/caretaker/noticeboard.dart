@@ -1,9 +1,8 @@
-//All the 2 functionalities add new notice,remove existing notice are all perfectly
-//working in this code with proper formatting.No need further debugging on this code.
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fusion/Components/side_drawer.dart';
+
 
 class Notice {
   final String headline;
@@ -13,6 +12,7 @@ class Notice {
   Notice(this.headline, this.description, this.date);
 }
 
+
 class Noticeboard extends StatefulWidget {
   const Noticeboard({Key? key}) : super(key: key);
 
@@ -21,6 +21,7 @@ class Noticeboard extends StatefulWidget {
 }
 
 class _NoticeboardState extends State<Noticeboard> {
+
   List<Notice> notices = []; // Define the 'notices' list
 
   @override
@@ -54,12 +55,14 @@ class _NoticeboardState extends State<Noticeboard> {
     setState(() {});
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: SideDrawer(),
       appBar: AppBar(
         title: const Text('Notice Board'),
+
         backgroundColor: const Color.fromARGB(255, 245, 103, 47),
         foregroundColor: Colors.white,
       ),
@@ -133,10 +136,12 @@ class _NoticeboardState extends State<Noticeboard> {
               ),
             ),
           ],
+
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+
           // Display dialog to add a new notice
           showDialog(
             context: context,
@@ -212,4 +217,5 @@ class _NoticeboardState extends State<Noticeboard> {
     // Your implementation to invoke POST API
     // Example: http.post(url, body: {'headline': headline, 'description': description, 'file': file});
   }
+
 }

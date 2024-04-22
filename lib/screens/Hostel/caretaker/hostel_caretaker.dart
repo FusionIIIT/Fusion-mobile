@@ -12,8 +12,8 @@ import 'package:fusion/screens/Hostel/caretaker/noticeboard.dart';
 import 'package:fusion/screens/Hostel/caretaker/report.dart';
 import 'package:fusion/screens/Hostel/caretaker/complaintregister.dart';
 
-class HostelHomepage extends StatelessWidget {
-  const HostelHomepage({Key? key}) : super(key: key);
+class Hostelcaretaker extends StatelessWidget {
+  const Hostelcaretaker({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

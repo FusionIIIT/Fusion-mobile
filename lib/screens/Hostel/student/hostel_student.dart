@@ -1,17 +1,15 @@
+import 'package:flutter/material.dart';import 'package:fusion/screens/Hostel/student/allottedrooms.dart';
 
-// ignore_for_file: prefer_const_constructors
+import 'package:fusion/screens/Hostel/student/fines.dart';
+import 'package:fusion/screens/Hostel/student/guestroom.dart';
+import 'package:fusion/screens/Hostel/student/leaveapplication.dart';
+import 'package:fusion/screens/Hostel/student/noticeboard.dart';
 
-import 'package:flutter/material.dart';
+
 import 'package:fusion/Components/side_drawer.dart';
-import 'package:fusion/screens/Hostel/warden/managerooms.dart';
-import 'package:fusion/screens/Hostel/warden/managestudent.dart';
-import 'package:fusion/screens/Hostel/warden/noticeboard.dart';
-import 'package:fusion/screens/Hostel/warden/report.dart';
 
-import 'package:fusion/screens/Hostel/warden/staffinfo.dart';
-
-class Account extends StatelessWidget {
-  const Account({Key? key}) : super(key: key);
+class Hostelstudent extends StatelessWidget {
+  const Hostelstudent({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,11 +35,11 @@ class Account extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Staffinfo()),
+                      MaterialPageRoute(builder: (context) => Guestroom()),
                     );
                   },
                   child: Container(
-                    decoration: BoxDecoration( 
+                    decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
                       color: Color.fromARGB(255, 245, 103, 47),
                     ),
@@ -49,40 +47,12 @@ class Account extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: const [
                         Icon(
-                          Icons.person,
+                          Icons.add_home,
                           color: Colors.white,
                           size: 30,
                         ),
                         Text(
-                          'Staff Info',
-                          style: TextStyle(color: Colors.white, fontSize: 15),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Managerooms()),
-                    );
-                  },
-                  child: Container(
-                    decoration: BoxDecoration( 
-                      borderRadius: BorderRadius.circular(5),
-                      color: Color.fromARGB(255, 245, 103, 47),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Icon(
-                          Icons.person,
-                          color: Colors.white,
-                          size: 30,
-                        ),
-                        Text(
-                          'Staff Info',
+                          'Guest Room',
                           style: TextStyle(color: Colors.white, fontSize: 15),
                         )
                       ],
@@ -94,7 +64,7 @@ class Account extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Report()),
+                      MaterialPageRoute(builder: (context) => Allottedrooms()),
                     );
                   },
                   child: Container(
@@ -106,24 +76,59 @@ class Account extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: const [
                         Icon(
-                          Icons.report,
+                          Icons.home,
                           color: Colors.white,
                           size: 30,
                         ),
                         Text(
-                          'Report',
+                          'Alloted rooms',
                           style: TextStyle(color: Colors.white, fontSize: 15),
                         )
                       ],
                     ),
                   ),
                 ),
-                        
                 GestureDetector(
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Managestudent()),
+                      MaterialPageRoute(builder: (context) => Fines()),
+                    );
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Color.fromARGB(255, 245, 103, 47),
+                    ),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Color.fromARGB(255, 245, 103, 47),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Icon(
+                            Icons.monetization_on,
+                            color: Colors.white,
+                            size: 30,
+                          ),
+                          Text(
+                            'Manage Fines',
+                            style: TextStyle(color: Colors.white, fontSize: 15),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ), 
+              
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Leaveapplication()),
                     );
                   },
                   child: Container(
@@ -135,22 +140,23 @@ class Account extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: const [
                         Icon(
-                          Icons.school,
+                          Icons.card_travel,
                           color: Colors.white,
                           size: 30,
                         ),
                         Text(
-                          'Manage',
+                          'Leave',
                           style: TextStyle(color: Colors.white, fontSize: 15),
                         ),
                         Text(
-                          'Student',
+                          'Application',
                           style: TextStyle(color: Colors.white, fontSize: 15),
                         )
                       ],
                     ),
                   ),
                 ),
+
                 GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -186,4 +192,3 @@ class Account extends StatelessWidget {
     );
   }
 }
-

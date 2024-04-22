@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:fusion/screens/Academic/Add_Drop_Courses/add_drop_courses.dart';
-import 'package:fusion/screens/Complaint/ComplaintHistory/complain_history.dart';
-import 'package:fusion/screens/Complaint/Feedback/feedback.dart';
-import 'package:fusion/screens/Complaint/LodgeComplaint/lodge_complaint.dart';
+// import 'package:fusion/screens/Complaint/ComplaintHistory/complain_history.dart';
+// import 'package:fusion/screens/Complaint/Feedback/feedback.dart';
+// import 'package:fusion/screens/Complaint/LodgeComplaint/lodge_complaint.dart';
 import 'package:fusion/screens/Establishment/establishment_home_page.dart';
 import 'package:fusion/screens/Library/Book_Search.dart';
-import 'package:fusion/screens/Library/dues.dart';
+// import 'package:fusion/screens/Library/dues.dart';
 import 'package:fusion/screens/Library/issued_items.dart';
 import 'package:fusion/screens/Library/lib_home_screen.dart';
 import 'package:fusion/screens/LoginandDashboard/DashboardComponents/news.dart';
@@ -28,7 +28,7 @@ import 'package:fusion/screens/Gymkhana/Polls.dart';
 import 'package:fusion/screens/Gymkhana/Apply.dart';
 import 'package:fusion/screens/Gymkhana/Record.dart';
 import 'package:fusion/screens/Gymkhana/Club.dart';
-import 'package:fusion/screens/Complaint/complaint.dart';
+// import 'package:fusion/screens/Complaint/complaint.dart';
 import 'package:fusion/screens/Profile/profile.dart';
 import 'package:fusion/screens/Programme_Curriculum/Batches/batches.dart';
 import 'package:fusion/screens/Programme_Curriculum/Courses/courses.dart';
@@ -45,6 +45,11 @@ import 'package:fusion/screens/Healthcenter/viewschedule.dart';
 import 'package:fusion/screens/Healthcenter/history.dart';
 import 'package:fusion/screens/Healthcenter/HealthCenter.dart';
 import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/screens/Hostel/caretaker/hostel_caretaker.dart';
+import 'package:fusion/screens/Hostel/student/hostel_student.dart';
+import 'package:fusion/screens/Hostel/warden/hostel_warden.dart';
+import 'package:fusion/screens/Hostel/superadmin/hostel_admin.dart';
+
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -63,8 +68,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MediaQueryData windowData =
-    MediaQueryData.fromView(WidgetsBinding.instance.window);
-    windowData = windowData.copyWith(
+        MediaQueryData.fromView(WidgetsBinding.instance.window);
+   
+        windowData = windowData.copyWith(
       textScaler: TextScaler.linear(1),
     );
     return MediaQuery(
@@ -74,10 +80,10 @@ class MyApp extends StatelessWidget {
         title: 'Fusion',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-            // primarySwatch: Colors.blueGrey,
+          // primarySwatch: Colors.blueGrey,
           // colorSchemeSeed: Color(0xFF2085D0),
           colorSchemeSeed: Color(0xFFF36C35),
-            fontFamily: 'Nunito',
+          fontFamily: 'Nunito',
           useMaterial3: true,
         ),
         initialRoute: '/landing',
@@ -119,13 +125,13 @@ class MyApp extends StatelessWidget {
           '/library_homepage': (context) => LibraryHomeScreen(),
           '/library_homepage/book_search': (context) => BookSearch(),
           '/library_homepage/issued_items': (context) => IssuedItems(),
-          '/library_homepage/dues': (context) => LibraryDues(),
-          '/complaint': (context) =>
-              Complaint(ModalRoute.of(context)!.settings.arguments.toString()),
-          '/complaint/lodge_complaint': (context) => LodgeComplaint(
-              ModalRoute.of(context)!.settings.arguments.toString()),
-          '/complaint/complaint_history': (context) => ComplainHistory(),
-          '/complaint/feedback': (context) => ComplaintFeedBack(),
+          // '/library_homepage/dues': (context) => LibraryDues(),
+          // '/complaint': (context) =>
+          //     Complaint(ModalRoute.of(context)!.settings.arguments.toString()),
+          // '/complaint/lodge_complaint': (context) => LodgeComplaint(
+          //     ModalRoute.of(context)!.settings.arguments.toString()),
+          // '/complaint/complaint_history': (context) => ComplainHistory(),
+          // '/complaint/feedback': (context) => ComplaintFeedBack(),
           '/profile': (context) => Profile(),
           '/health_center': (context) => HealthCenterMod(
               ModalRoute.of(context)!.settings.arguments.toString()),
@@ -133,6 +139,10 @@ class MyApp extends StatelessWidget {
           '/health_center/feedback': (context) => FeedBack(),
           '/health_center/viewschedule': (context) => ViewSchedule(),
           '/health_center/history': (context) => History(),
+          '/caretaker/hostel_caretaker': (context) => Hostelcaretaker(),
+          '/wardern/hostel_wardern': (context) => Hostelwarden(),
+          '/student/hostel_student': (context) => Hostelstudent(),
+          '/superadmin/hostel_admin': (context) => HostelAdmin(),
         },
       ),
     );
