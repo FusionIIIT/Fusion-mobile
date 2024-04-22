@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -62,8 +61,7 @@ class _ConfigurePreRegistrationState extends State<ConfigurePreRegistration>
   }
 
   Future<void> _submitForm() async {
-    if (
-        _selectedBatch == null ||
+    if (_selectedBatch == null ||
         _selectedBranch.isEmpty ||
         _selectedProgramme.isEmpty) {
       return;
@@ -71,16 +69,21 @@ class _ConfigurePreRegistrationState extends State<ConfigurePreRegistration>
     if (_formKey.currentState!.validate()) {
       try {
         _loading1 = true;
-        Response response = await academicService.getNextSemCourses(_semesterNumber, _selectedBranch, _selectedProgramme, _selectedBatch.toString());
+        Response response = await academicService.getNextSemCourses(
+            _semesterNumber,
+            _selectedBranch,
+            _selectedProgramme,
+            _selectedBatch.toString());
         setState(() {
           courseTable = jsonDecode(response.body);
           _courseList = courseTable.map((entry) => {
-            "name": entry["fields"]["name"],
-            "type": entry["fields"]["type"],
-            "semester": entry["fields"]["semester"],
-            "credit": entry["courses"][0]["credit"],
-            "courses": entry["courses"].map((course) => course["name"]).toList()
-          }).toList();
+                "name": entry["fields"]["name"],
+                "type": entry["fields"]["type"],
+                "semester": entry["fields"]["semester"],
+                "credit": entry["courses"][0]["credit"],
+                "courses":
+                    entry["courses"].map((course) => course["name"]).toList()
+              }).toList();
           print(_courseList);
         });
         // _showSuccessModal(_responseText.toString());
@@ -92,13 +95,12 @@ class _ConfigurePreRegistrationState extends State<ConfigurePreRegistration>
     }
   }
 
-
   Future<void> addCourse(String course, String slot) async {
-
     if (_addDropFormKey.currentState!.validate()) {
       try {
         _loading1 = true;
-        Response response = await academicService.addCourseToSlot(course, slot);
+        Response response =
+            await academicService.addCourseToSlot(course, slot);
         setState(() {
           _addResponseText = (jsonDecode(response.body))["message"];
         });
@@ -112,10 +114,10 @@ class _ConfigurePreRegistrationState extends State<ConfigurePreRegistration>
   }
 
   Future<void> removeCourse(String course, String slot) async {
-
     try {
       _loading1 = true;
-      Response response = await academicService.removeCourseFromSlot(course, slot);
+      Response response =
+          await academicService.removeCourseFromSlot(course, slot);
       setState(() {
         _removeResponseText = (jsonDecode(response.body))["message"];
       });
@@ -125,7 +127,6 @@ class _ConfigurePreRegistrationState extends State<ConfigurePreRegistration>
       _showErrorModal(e.toString());
       print(e);
     }
-   
   }
 
   void _showSuccessModal(String message) {
@@ -147,6 +148,7 @@ class _ConfigurePreRegistrationState extends State<ConfigurePreRegistration>
       },
     );
   }
+
   void _showErrorModal(String message) {
     showDialog(
       context: context,
@@ -322,6 +324,58 @@ class _ConfigurePreRegistrationState extends State<ConfigurePreRegistration>
                                 fontSize: 20,
                               ),
                             ),
+                      SizedBox(height: 20),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: DataTable(
+                          columns: <DataColumn>[
+                            DataColumn(
+                              label: Text("Course Code"),
+                              numeric: false,
+                            ),
+                            DataColumn(
+                              label: Text("Course Type"),
+                              numeric: false,
+                            ),
+                            DataColumn(
+                              label: Text("Semester"),
+                              numeric: false,
+                            ),
+                            DataColumn(
+                              label: Text("Credit"),
+                              numeric: false,
+                            ),
+                            DataColumn(
+                              label: Text("Courses"),
+                              numeric: false,
+                            ),
+                          ],
+                          rows: _courseList.map((data) {
+                            return DataRow(cells: [
+                              DataCell(Text(data['name'].toString())),
+                              DataCell(Text(data['type'].toString())),
+                              DataCell(Text(data['semester'].toString())),
+                              DataCell(Text(data['credit'].toString())),
+                              DataCell(
+        DropdownButton<dynamic>(
+          value: data['courses'][0],
+          onChanged: _loading1 ? null : (dynamic? newValue) {
+            setState(() {
+             data['courses'][0] = newValue!;
+            });
+          },
+          items: data['courses'].map<DropdownMenuItem<dynamic>>((dynamic course) {
+            return DropdownMenuItem<dynamic>(
+              value: course,
+              child: Text(course),
+            );
+          }).toList(),
+        ),
+      ),
+                            ]);
+                          }).toList(),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -342,7 +396,7 @@ class _ConfigurePreRegistrationState extends State<ConfigurePreRegistration>
                           }
                           return null;
                         },
-                        controller: _slotController
+                        controller: _slotController,
                       ),
                       TextFormField(
                         decoration: InputDecoration(
@@ -354,14 +408,16 @@ class _ConfigurePreRegistrationState extends State<ConfigurePreRegistration>
                           }
                           return null;
                         },
-                        controller: _courseController
+                        controller: _courseController,
                       ),
                       SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           ElevatedButton(
-                            onPressed: () {addCourse(_courseController.text, _slotController.text);},
+                            onPressed: () {
+                              addCourse(_courseController.text, _slotController.text);
+                            },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.orange[900], // background color
                             ),
@@ -369,7 +425,9 @@ class _ConfigurePreRegistrationState extends State<ConfigurePreRegistration>
                           ),
                           SizedBox(width: 20),
                           ElevatedButton(
-                            onPressed:  () { removeCourse(_courseController.text, _slotController.text);},
+                            onPressed: () {
+                              removeCourse(_courseController.text, _slotController.text);
+                            },
                             child: Text('Remove'),
                           ),
                         ],
