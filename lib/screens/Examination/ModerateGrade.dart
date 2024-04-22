@@ -28,7 +28,7 @@ class _ModerateGradeState extends State<ModerateGrade> {
   List<Map<String, dynamic>> courses = [];
 
   List<dynamic> _registeredStudents = [];
-  final int _displayLimit = 1000;
+  final int _displayLimit = 10;
    var service = locator<StorageService>();
 late String curr_desig = service.getFromDisk("Current_designation");
 
@@ -138,7 +138,7 @@ late String curr_desig = service.getFromDisk("Current_designation");
     }
   }
 
-  List<String> YearTypeItem = ['2016' , '2017', '2018', '2019', '2020', '2021', '2022', '2023'];
+  List<String> YearTypeItem = ['2016' , '2017', '2018', '2019', '2020', '2021', '2022', '2023' , '2024'];
 
   List<String> batchTypeItem = [ '2016' , '2017', '2018', '2019', '2020', '2021', '2022', '2023'];
 
@@ -223,7 +223,7 @@ late String curr_desig = service.getFromDisk("Current_designation");
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildDropdown('Batch', batchTypeItem),
+              _buildDropdown('Year', YearTypeItem),
               SizedBox(height: 20),
               _buildDropdown('Semester', semesterTypeItem),
               SizedBox(height: 20),
@@ -240,7 +240,7 @@ late String curr_desig = service.getFromDisk("Current_designation");
 
                       List<dynamic> registeredStudents =
                           await examService.getRegisteredStudents(
-                              _courseId, _semesterValue!, _batchValue!);
+                              _courseId, _semesterValue!, _yearValue!);
 
                       setState(() {
                         _registeredStudents = registeredStudents;

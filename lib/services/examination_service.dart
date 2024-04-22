@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 
 class ExaminationService {
   Future<List<dynamic>> getRegisteredStudents(
-      int courseId, String semester, String batch) async {
+      int courseId, String semester, String year) async {
     try {
       var storage_service = locator<StorageService>();
 
@@ -26,7 +26,7 @@ class ExaminationService {
           {
             'course': courseId.toString(),
             'semester': semester,
-            'batch': batch
+            'year': year
           }, // Pass courseId, semester, and batch as query parameters
         ),
         headers: headers,

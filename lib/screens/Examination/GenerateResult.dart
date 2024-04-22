@@ -32,7 +32,7 @@ class _GenerateResultState extends State<GenerateResult> {
   bool isVerified = false;
 
   List<dynamic> _registeredStudents = [];
-  final int _displayLimit = 1000;
+  final int _displayLimit = 10;
   String? _selectedStudentId;
    var service = locator<StorageService>();
 late String curr_desig = service.getFromDisk("Current_designation");
@@ -156,7 +156,7 @@ late String curr_desig = service.getFromDisk("Current_designation");
     'PHD',
   ];
 
-  List<String> batchTypeItem = [ '2016' , '2017', '2018', '2019', '2020', '2021', '2022', '2023'];
+  List<String> batchTypeItem = [ '2016' , '2017', '2018', '2019', '2020', '2021', '2022', '2023' , '2024'];
 
   List<String> branchTypeItem = [
     'CSE',
