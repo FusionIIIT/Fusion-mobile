@@ -1,9 +1,29 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:fusion/main.dart';
+import 'package:fusion/screens/Gymkhana/gymkhana_counsellor.dart';
+import 'package:fusion/screens/Gymkhana/gymkhana_convenor.dart';
+import 'package:fusion/screens/Gymkhana/gymkhana_dean.dart';
 import 'package:fusion/services/login_service.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
+import 'package:fusion/screens/LoginandDashboard/dashboard.dart';
+import 'package:http/http.dart';
+
+import '../models/dashboard.dart';
+import '../models/profile.dart';
+import '../services/dashboard_service.dart';
+import '../services/help.dart';
+import '../services/profile_service.dart';
 
 class SideDrawer extends StatefulWidget {
+  final String? designation;
+  // Accept designation as parameter
+  // Constructor with an optional parameter
+  SideDrawer({this.designation = ''});
+
   @override
   _SideDrawerState createState() => _SideDrawerState();
 }
@@ -13,9 +33,17 @@ class _SideDrawerState extends State<SideDrawer> {
   int count = 0;
   String? name;
   String? depttype;
+  late String yy = "";
+  late String designation = "";
+  late ProfileService profileService;
+  late StreamController _dashboardController;
+  late DashboardService dashboardService;
+  late DashboardData data;
   @override
   void initState() {
     super.initState();
+    _initializeClubName();
+    profileService = ProfileService();
     var service = locator<StorageService>();
     name = service.profileData.user!["first_name"] +
         " " +
@@ -23,6 +51,21 @@ class _SideDrawerState extends State<SideDrawer> {
     depttype = service.profileData.profile!['department']!['name'] +
         " " +
         service.profileData.profile!['user_type'];
+  }
+
+  Future<void> _initializeClubName() async {
+    yy = await DataFetcher().getClub(context);
+    Response response = await dashboardService.getDashboard();
+    if (response.statusCode == 200) {
+      data = DashboardData.fromJson(jsonDecode(response.body));
+      designation = data.designation![0];
+      print("hh");
+      print(designation);
+    } else {
+      throw Exception('Failed to load dashboard data: ${response.statusCode}');
+    }
+    print(yy);
+    setState(() {}); // Update the UI after getting the club name
   }
 
   @override
@@ -58,7 +101,7 @@ class _SideDrawerState extends State<SideDrawer> {
                   height: 10.0,
                 ),
                 Text(
-                  depttype!,
+                  designation + " " + "-" + yy,
                   style: TextStyle(fontSize: 15.0, color: Colors.white),
                 ),
                 Divider(
@@ -122,8 +165,11 @@ class _SideDrawerState extends State<SideDrawer> {
                           isActive: true,
                         ),
                         ModulesPadding(
-                            line: 'Gymkhana Module',
-                            pageMover: '/gymkhana_homepage'),
+                          line: 'Gymkhana Module',
+                          pageMover: _getGymkhanaPage(),
+                          isActive: true,
+                        ),
+
                         ModulesPadding(
                             line: 'Establishment Module',
                             pageMover: '/establishment'),
@@ -168,12 +214,28 @@ class _SideDrawerState extends State<SideDrawer> {
       ),
     );
   }
+
+  String _getGymkhanaPage() {
+    // Determine the pageMover based on designation
+    print(widget.designation);
+    if (widget.designation == 'co_ordinator') {
+      return '/gymkhana_coordinator';
+    } else if (widget.designation == 'Counsellor') {
+      return '/gymkhana_counsellor';
+    } else if (widget.designation == 'Convenor') {
+      return '/gymkhana_convenor';
+    } else if (widget.designation == 'Dean Academic') {
+      return '/gymkhana_dean';
+    } else
+      return '/gymkhana_homepage';
+  }
 }
 
 class ModulesPadding extends StatelessWidget {
   final String? line;
   final String? pageMover;
   final bool isActive;
+
   ModulesPadding({this.line, this.pageMover, this.isActive = false});
   @override
   Widget build(BuildContext context) {
