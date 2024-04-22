@@ -4,16 +4,9 @@ import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/models/profile.dart';
 import 'package:fusion/services/profile_service.dart';
 import 'package:http/http.dart';
-import '../../Components/appBar2.dart';
-import '../../Components/bottom_navigation_bar.dart';
-import '../../services/service_locator.dart';
-import '../../services/storage_service.dart';
-import 'ComplaintHistory/complain_history.dart';
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/Components/side_drawer.dart';
 import 'dart:ui';
-import 'LodgeComplaint/lodge_complaint.dart';
-import 'Feedback/feedback.dart';
 import 'package:provider/provider.dart';
 
 class Complaint extends StatefulWidget {
@@ -24,8 +17,6 @@ class Complaint extends StatefulWidget {
 }
 
 class _ComplaintState extends State<Complaint> {
-  var service = locator<StorageService>();
-late String curr_desig = service.getFromDisk("Current_designation");
   bool _loading1 = true;
   bool _loading2 = false;
   bool _loading3 = false;
@@ -67,14 +58,8 @@ late String curr_desig = service.getFromDisk("Current_designation");
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(curr_desig: curr_desig,
-        headerTitle: 'Branches', // Set your app bar title
-        onDesignationChanged: (newValue) {
-          // Handle designation change if needed
-        },),
-      drawer: SideDrawer(curr_desig: curr_desig),
-      bottomNavigationBar:
-      MyBottomNavigationBar(),
+      appBar: DefaultAppBar().buildAppBar(),
+      drawer: SideDrawer(),
       body: _loading == true
           ? Center(child: CircularProgressIndicator())
           : Container(

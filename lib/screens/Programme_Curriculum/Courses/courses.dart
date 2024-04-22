@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 // import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer2.dart';
-import '../../../Components/bottom_navigation_bar.dart';
-import '../../../services/service_locator.dart';
-import '../../../services/storage_service.dart';
+import 'package:fusion/Components/side_drawer.dart';
 import 'courseTabComponent.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
@@ -15,8 +12,6 @@ class Courses extends StatefulWidget {
 }
 
 class _CoursesState extends State<Courses> {
-  var service = locator<StorageService>();
-late String curr_desig = service.getFromDisk("Current_designation");
   List<List<dynamic>> _courseList = [];
 
   Future<int> _loadCSV() async {
@@ -82,9 +77,7 @@ late String curr_desig = service.getFromDisk("Current_designation");
                     ],
                   ),
                 ),
-                drawer: SideDrawer(curr_desig: curr_desig),
-      bottomNavigationBar:
-      MyBottomNavigationBar(),
+                drawer: SideDrawer(),
                 body: TabBarView(
                   children: [
                     CourseTabComponent(data: data_Courses),

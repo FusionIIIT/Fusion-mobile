@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/Components/side_drawer.dart';
 import 'package:fusion/screens/Academic/Thesis/add_thesis_topic.dart';
 import 'package:fusion/screens/Academic/Thesis/registered_thesis.dart';
-
-import '../../../Components/bottom_navigation_bar.dart';
-import '../../../services/service_locator.dart';
-import '../../../services/storage_service.dart';
 
 class ThesisHomePage extends StatefulWidget {
   @override
@@ -13,8 +9,6 @@ class ThesisHomePage extends StatefulWidget {
 }
 
 class _ThesisHomePageState extends State<ThesisHomePage> {
-  var service = locator<StorageService>();
-late String curr_desig = service.getFromDisk("Current_designation");
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -62,9 +56,7 @@ late String curr_desig = service.getFromDisk("Current_designation");
             ],
           ),
         ),
-         drawer: SideDrawer(curr_desig: curr_desig),
-      bottomNavigationBar:
-      MyBottomNavigationBar(),
+        drawer: SideDrawer(),
         body: TabBarView(
           children: [
             RegisteredThesis(),

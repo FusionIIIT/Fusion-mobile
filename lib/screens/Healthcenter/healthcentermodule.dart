@@ -2,15 +2,13 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/appBar2.dart';
-import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/Components/appBar.dart';
+import 'package:fusion/Components/side_drawer.dart';
 import 'package:fusion/models/health.dart';
 import 'package:fusion/services/health_service.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
 import 'package:http/http.dart';
-
-import '../../Components/bottom_navigation_bar.dart';
 
 // ignore: must_be_immutable
 class HealthCenterMod extends StatefulWidget {
@@ -21,8 +19,6 @@ class HealthCenterMod extends StatefulWidget {
 }
 
 class _HealthCenterModState extends State<HealthCenterMod> {
-  var service = locator<StorageService>();
-late String curr_desig = service.getFromDisk("Current_designation");
   bool _loading1 = true;
   late StreamController _healthController;
   late HeathService healthService;
@@ -97,14 +93,8 @@ late String curr_desig = service.getFromDisk("Current_designation");
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(curr_desig: curr_desig,
-        headerTitle: 'Branches', // Set your app bar title
-        onDesignationChanged: (newValue) {
-          // Handle designation change if needed
-        },),
-      drawer: SideDrawer(curr_desig: curr_desig),
-      bottomNavigationBar:
-      MyBottomNavigationBar(),
+      appBar: DefaultAppBar().buildAppBar(),
+      drawer: SideDrawer(),
       body: _loading1 == true
           ? Center(
               child: CircularProgressIndicator(),

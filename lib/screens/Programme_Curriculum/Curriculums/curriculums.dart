@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 // import 'package:fusion/Components/appBar.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/Components/side_drawer.dart';
 // import 'package:fusion/models/academic.dart';
 import 'package:csv/csv.dart';
 import 'package:fusion/screens/Programme_Curriculum/Curriculums/tab_curriculum.dart';
-
-import '../../../Components/bottom_navigation_bar.dart';
-import '../../../services/service_locator.dart';
-import '../../../services/storage_service.dart';
 
 class Curriculum extends StatefulWidget {
   @override
@@ -16,8 +12,6 @@ class Curriculum extends StatefulWidget {
 }
 
 class _CurriculumState extends State<Curriculum> {
-  var service = locator<StorageService>();
-late String curr_desig = service.getFromDisk("Current_designation");
   List<List<dynamic>> _curriculum = [];
   Future<int> _loadCSV() async {
     final _underGraduate =
@@ -100,9 +94,7 @@ late String curr_desig = service.getFromDisk("Current_designation");
                   ],
                 ),
               ),
-              drawer: SideDrawer(curr_desig: curr_desig),
-      bottomNavigationBar:
-      MyBottomNavigationBar(),
+              drawer: SideDrawer(),
               body: TabBarView(
                 children: [
                   TabCurriculum(data: data),

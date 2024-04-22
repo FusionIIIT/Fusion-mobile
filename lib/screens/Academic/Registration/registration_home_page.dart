@@ -3,12 +3,8 @@ import 'package:fusion/screens/Academic/Registration/courses.dart';
 import 'package:fusion/screens/Academic/Registration/final_registration.dart';
 import 'package:fusion/screens/Academic/Registration/pre_registration.dart';
 // import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/Components/side_drawer.dart';
 import 'package:fusion/models/academic.dart';
-
-import '../../../Components/bottom_navigation_bar.dart';
-import '../../../services/service_locator.dart';
-import '../../../services/storage_service.dart';
 
 class RegistrationHomePage extends StatefulWidget {
   @override
@@ -16,8 +12,6 @@ class RegistrationHomePage extends StatefulWidget {
 }
 
 class _RegistrationHomePageState extends State<RegistrationHomePage> {
-  var service = locator<StorageService>();
-late String curr_desig = service.getFromDisk("Current_designation");
   @override
   Widget build(BuildContext context) {
     final AcademicData data =
@@ -74,9 +68,7 @@ late String curr_desig = service.getFromDisk("Current_designation");
             ],
           ),
         ),
-        drawer: SideDrawer(curr_desig: curr_desig),
-      bottomNavigationBar:
-      MyBottomNavigationBar(),
+        drawer: SideDrawer(),
         body: TabBarView(
           children: [
             Courses(data: data.currently_registered),

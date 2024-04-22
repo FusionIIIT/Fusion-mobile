@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/appBar2.dart';
-import 'package:fusion/Components/side_drawer2.dart';
-
-import '../../Components/bottom_navigation_bar.dart';
-import '../../services/service_locator.dart';
-import '../../services/storage_service.dart';
+import 'package:fusion/Components/appBar.dart';
+import 'package:fusion/Components/side_drawer.dart';
 
 class ProgrammeCurriculumHome extends StatefulWidget {
   @override
@@ -13,8 +9,6 @@ class ProgrammeCurriculumHome extends StatefulWidget {
 }
 
 class _ProgrammeCurriculumHomeState extends State<ProgrammeCurriculumHome> {
-  var service = locator<StorageService>();
-late String curr_desig = service.getFromDisk("Current_designation");
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
         border: new Border.all(
@@ -49,14 +43,8 @@ late String curr_desig = service.getFromDisk("Current_designation");
   Widget build(BuildContext context) {
     final data = '';
     return Scaffold(
-      appBar: CustomAppBar(curr_desig: curr_desig,
-        headerTitle: 'Branches', // Set your app bar title
-        onDesignationChanged: (newValue) {
-          // Handle designation change if needed
-        },),
-      drawer: SideDrawer(curr_desig: curr_desig),
-      bottomNavigationBar:
-      MyBottomNavigationBar(),
+      appBar: DefaultAppBar().buildAppBar(),
+      drawer: SideDrawer(),
       body: ListView(
         shrinkWrap: true,
         physics: ClampingScrollPhysics(),

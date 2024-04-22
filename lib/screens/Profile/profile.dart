@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
-import 'package:fusion/Components/appBar2.dart';
-import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/Components/appBar.dart';
+import 'package:fusion/Components/side_drawer.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
-import '../../Components/bottom_navigation_bar.dart';
 import 'Menus/profile_menu.dart';
 import 'Menus/skills_menu.dart';
 import 'Menus/education_menu.dart';
@@ -21,8 +20,6 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  var service = locator<StorageService>();
-late String curr_desig = service.getFromDisk("Current_designation");
   bool _loading1 = true;
 
   //integrating_api
@@ -102,14 +99,8 @@ late String curr_desig = service.getFromDisk("Current_designation");
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(curr_desig: curr_desig,
-        headerTitle: 'Branches', // Set your app bar title
-        onDesignationChanged: (newValue) {
-          // Handle designation change if needed
-        },),
-      drawer: SideDrawer(curr_desig: curr_desig),
-      bottomNavigationBar:
-      MyBottomNavigationBar(),
+      appBar: DefaultAppBar().buildAppBar(),
+      drawer: SideDrawer(),
       body: _loading1 == true
           ? Center(child: CircularProgressIndicator())
           : StreamBuilder(
