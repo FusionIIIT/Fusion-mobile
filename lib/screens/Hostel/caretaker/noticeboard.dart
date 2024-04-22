@@ -1,4 +1,4 @@
-//All the 2 functionalities like add new notice,remove existing notice are all perfectly
+//All the 2 functionalities add new notice,remove existing notice are all perfectly
 //working in this code with proper formatting.No need further debugging on this code.
 
 import 'package:flutter/material.dart';
