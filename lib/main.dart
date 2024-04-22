@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:fusion/screens/Academic/Add_Drop_Courses/add_drop_courses.dart';
+import 'package:fusion/screens/AwardsandScholarships/homepage.dart';
 import 'package:fusion/screens/Complaint/ComplaintHistory/complain_history.dart';
 import 'package:fusion/screens/Complaint/Feedback/feedback.dart';
 import 'package:fusion/screens/Complaint/LodgeComplaint/lodge_complaint.dart';
@@ -112,6 +113,7 @@ class MyApp extends StatelessWidget {
           '/programme_curriculum_home/courses_info': (context) => CoursesInfo(),
           '/establishment': (context) => Establishment(),
           '/gymkhana_homepage': (context) => GymkhanaHomepage(),
+               '/scholarship_homepage': (context) => SholarshipHomePage(),
           '/gymkhana_homepage/apply': (context) => Apply(),
           '/gymkhana_homepage/polls': (context) => Polls(),
           '/gymkhana_homepage/clubs': (context) => Club(),

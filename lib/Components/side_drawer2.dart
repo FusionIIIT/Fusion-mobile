@@ -150,7 +150,8 @@ class _SideDrawerState extends State<SideDrawer> {
                 cardLine: 'Library Module', pageMover: '/library_homepage'),
 
             if(type == "student" || widget.curr_desig== "spacsconvenor"|| widget.curr_desig== "spacsassistant")
-            ModulesCard(cardLine: 'Awards & Scholarship Module'),
+            ModulesCard(cardLine: 'Awards & Scholarship Module',
+             pageMover: '/scholarship_homepage',),
 
             ModulesCard(cardLine: 'Complaint Module', pageMover: '/complaint'),
 

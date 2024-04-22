@@ -37,7 +37,8 @@ class ProfileMenu extends StatelessWidget {
                           onPressed: () => {
                                 //Edit Function
                               },
-                          style: ElevatedButton.styleFrom(primary: Colors.red)),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.red)),
                     ],
                   ),
                 ),
@@ -90,7 +91,8 @@ class ProfileMenu extends StatelessWidget {
                         onPressed: () => {
                           //Edit Function
                         },
-                        style: ElevatedButton.styleFrom(primary: Colors.red),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red),
                       ),
                     ],
                   ),
@@ -226,7 +228,8 @@ class ProfileMenu extends StatelessWidget {
                         onPressed: () => {
                           //Edit Function
                         },
-                        style: ElevatedButton.styleFrom(primary: Colors.red),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red),
                       ),
                     ],
                   ),
