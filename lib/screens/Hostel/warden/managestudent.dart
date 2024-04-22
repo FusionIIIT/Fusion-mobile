@@ -1,5 +1,5 @@
 //All the 4 functionalities like add new student,edit existing student details,delete a student,search a student
-// by his/her name via search bar are all perfectly working in this code.No need further debugging except to integrate API's.
+// by his/her name (or) roll.no via search bar are all perfectly working in this code.No need further debugging except to integrate API's.
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
