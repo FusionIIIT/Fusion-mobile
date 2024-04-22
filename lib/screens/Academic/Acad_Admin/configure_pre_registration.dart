@@ -334,11 +334,11 @@ class _ConfigurePreRegistrationState extends State<ConfigurePreRegistration>
                               child: DataTable(
                                 columns: <DataColumn>[
                                   DataColumn(
-                                    label: Text("Course Code"),
+                                    label: Text("Slot Name"),
                                     numeric: false,
                                   ),
                                   DataColumn(
-                                    label: Text("Course Type"),
+                                    label: Text("Slot Type"),
                                     numeric: false,
                                   ),
                                   DataColumn(
@@ -377,6 +377,7 @@ class _ConfigurePreRegistrationState extends State<ConfigurePreRegistration>
                                           return DropdownMenuItem<dynamic>(
                                             value: course,
                                             child: Text(course),
+                                            enabled: false,
                                           );
                                         }).toList(),
                                       ),
