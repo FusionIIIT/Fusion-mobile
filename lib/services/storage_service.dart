@@ -13,19 +13,19 @@ class StorageService with ChangeNotifier {
   static const String ProfileKey = "ProfileKey";
 
   User? get userInDB {
-    var userJson = getFromDisk(UserKey);
+    var userJson = _getFromDisk(UserKey);
 
     return userJson == null ? null : User.fromJson(jsonDecode(userJson));
   }
 
   ProfileData get profileData {
-    var profileJson = getFromDisk(ProfileKey);
+    var profileJson = _getFromDisk(ProfileKey);
     // print(jsonDecode(profileJson));
     return ProfileData.fromJson(jsonDecode(profileJson));
   }
 
   AcademicData get academicData {
-    var profileJson = getFromDisk(ProfileKey);
+    var profileJson = _getFromDisk(ProfileKey);
     // print(jsonDecode(profileJson));
     return AcademicData.fromJson(jsonDecode(profileJson));
   }
@@ -49,9 +49,9 @@ class StorageService with ChangeNotifier {
     return _instance;
   }
 
-  dynamic getFromDisk(String key) {
+  dynamic _getFromDisk(String key) {
     var value = _sharedPreferences?.get(key);
-    // print('(TRACE) LocalStorageService:getFromDisk. key: $key value: $value');
+    // print('(TRACE) LocalStorageService:_getFromDisk. key: $key value: $value');
     return value;
   }
 
@@ -62,7 +62,7 @@ class StorageService with ChangeNotifier {
 
   void deleteKey(String key) {
     print(
-        '(TRACE) StorageService: deleteKey. key: $key value: ${getFromDisk(key)}');
+        '(TRACE) StorageService: deleteKey. key: $key value: ${_getFromDisk(key)}');
     _sharedPreferences!.remove(key);
   }
 
