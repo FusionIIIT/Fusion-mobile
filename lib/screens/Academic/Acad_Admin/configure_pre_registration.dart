@@ -76,14 +76,17 @@ class _ConfigurePreRegistrationState extends State<ConfigurePreRegistration>
             _selectedBatch.toString());
         setState(() {
           courseTable = jsonDecode(response.body);
-          _courseList = courseTable.map((entry) => {
-                "name": entry["fields"]["name"],
-                "type": entry["fields"]["type"],
-                "semester": entry["fields"]["semester"],
-                "credit": entry["courses"][0]["credit"],
-                "courses":
-                    entry["courses"].map((course) => course["name"]).toList()
-              }).toList();
+          _courseList = courseTable
+              .map((entry) => {
+                    "name": entry["fields"]["name"],
+                    "type": entry["fields"]["type"],
+                    "semester": entry["fields"]["semester"],
+                    "credit": entry["courses"][0]["credit"],
+                    "courses": entry["courses"]
+                        .map((course) => course["code"] + "-" + course["name"])
+                        .toList()
+                  })
+              .toList();
           print(_courseList);
         });
         // _showSuccessModal(_responseText.toString());
@@ -99,8 +102,7 @@ class _ConfigurePreRegistrationState extends State<ConfigurePreRegistration>
     if (_addDropFormKey.currentState!.validate()) {
       try {
         _loading1 = true;
-        Response response =
-            await academicService.addCourseToSlot(course, slot);
+        Response response = await academicService.addCourseToSlot(course, slot);
         setState(() {
           _addResponseText = (jsonDecode(response.body))["message"];
         });
@@ -218,7 +220,7 @@ class _ConfigurePreRegistrationState extends State<ConfigurePreRegistration>
                             _selectedBatch = value!;
                           });
                         },
-                        items: ["2021", "2022", "2023", "2024"]
+                        items: ["2020", "2021", "2022", "2023"]
                             .map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
@@ -291,7 +293,7 @@ class _ConfigurePreRegistrationState extends State<ConfigurePreRegistration>
                             _selectedProgramme = value!;
                           });
                         },
-                        items: ['B.Tech', 'M.Tech', 'PhD']
+                        items: ['B.Tech', 'M.Tech', 'PhD', 'B.Des']
                             .map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
@@ -303,14 +305,14 @@ class _ConfigurePreRegistrationState extends State<ConfigurePreRegistration>
                       ElevatedButton(
                         onPressed: _submitForm,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.orange[900], // background color
+                          backgroundColor:
+                              Colors.orange[900], // background color
                         ),
                         child: Padding(
                           padding: EdgeInsets.symmetric(vertical: 15),
                           child: Text(
                             'Submit',
-                            style:
-                                TextStyle(fontSize: 18, color: Colors.white),
+                            style: TextStyle(fontSize: 18, color: Colors.white),
                           ),
                         ),
                       ),
@@ -325,57 +327,64 @@ class _ConfigurePreRegistrationState extends State<ConfigurePreRegistration>
                               ),
                             ),
                       SizedBox(height: 20),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: DataTable(
-                          columns: <DataColumn>[
-                            DataColumn(
-                              label: Text("Course Code"),
-                              numeric: false,
+                      _courseList.length == 0
+                          ? SizedBox(height: 0)
+                          : SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: DataTable(
+                                columns: <DataColumn>[
+                                  DataColumn(
+                                    label: Text("Course Code"),
+                                    numeric: false,
+                                  ),
+                                  DataColumn(
+                                    label: Text("Course Type"),
+                                    numeric: false,
+                                  ),
+                                  DataColumn(
+                                    label: Text("Semester"),
+                                    numeric: false,
+                                  ),
+                                  DataColumn(
+                                    label: Text("Credit"),
+                                    numeric: false,
+                                  ),
+                                  DataColumn(
+                                    label: Text("Courses"),
+                                    numeric: false,
+                                  ),
+                                ],
+                                rows: _courseList.map((data) {
+                                  return DataRow(cells: [
+                                    DataCell(Text(data['name'].toString())),
+                                    DataCell(Text(data['type'].toString())),
+                                    DataCell(Text(data['semester'].toString())),
+                                    DataCell(Text(data['credit'].toString())),
+                                    DataCell(
+                                      DropdownButton<dynamic>(
+                                        value: data['courses'][0],
+                                        onChanged: _loading1
+                                            ? null
+                                            : (dynamic? newValue) {
+                                                setState(() {
+                                                  data['courses'][0] =
+                                                      newValue!;
+                                                });
+                                              },
+                                        items: data['courses']
+                                            .map<DropdownMenuItem<dynamic>>(
+                                                (dynamic course) {
+                                          return DropdownMenuItem<dynamic>(
+                                            value: course,
+                                            child: Text(course),
+                                          );
+                                        }).toList(),
+                                      ),
+                                    ),
+                                  ]);
+                                }).toList(),
+                              ),
                             ),
-                            DataColumn(
-                              label: Text("Course Type"),
-                              numeric: false,
-                            ),
-                            DataColumn(
-                              label: Text("Semester"),
-                              numeric: false,
-                            ),
-                            DataColumn(
-                              label: Text("Credit"),
-                              numeric: false,
-                            ),
-                            DataColumn(
-                              label: Text("Courses"),
-                              numeric: false,
-                            ),
-                          ],
-                          rows: _courseList.map((data) {
-                            return DataRow(cells: [
-                              DataCell(Text(data['name'].toString())),
-                              DataCell(Text(data['type'].toString())),
-                              DataCell(Text(data['semester'].toString())),
-                              DataCell(Text(data['credit'].toString())),
-                              DataCell(
-        DropdownButton<dynamic>(
-          value: data['courses'][0],
-          onChanged: _loading1 ? null : (dynamic? newValue) {
-            setState(() {
-             data['courses'][0] = newValue!;
-            });
-          },
-          items: data['courses'].map<DropdownMenuItem<dynamic>>((dynamic course) {
-            return DropdownMenuItem<dynamic>(
-              value: course,
-              child: Text(course),
-            );
-          }).toList(),
-        ),
-      ),
-                            ]);
-                          }).toList(),
-                        ),
-                      ),
                     ],
                   ),
                 ),
@@ -416,17 +425,20 @@ class _ConfigurePreRegistrationState extends State<ConfigurePreRegistration>
                         children: [
                           ElevatedButton(
                             onPressed: () {
-                              addCourse(_courseController.text, _slotController.text);
+                              addCourse(
+                                  _courseController.text, _slotController.text);
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.orange[900], // background color
+                              backgroundColor:
+                                  Colors.orange[900], // background color
                             ),
                             child: Text('Add'),
                           ),
                           SizedBox(width: 20),
                           ElevatedButton(
                             onPressed: () {
-                              removeCourse(_courseController.text, _slotController.text);
+                              removeCourse(
+                                  _courseController.text, _slotController.text);
                             },
                             child: Text('Remove'),
                           ),
