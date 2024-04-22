@@ -24,6 +24,7 @@ String kForward = "/complaint/api/forward/";
 
 //Dashboard
 String kDashboard = "/api/dashboard/";
+String kNotification = "/api/notification/";
 String kNotificationRead = "/api/notification/read/";
 
 //Gymkhana
