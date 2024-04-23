@@ -27,6 +27,7 @@ class HRHomePage extends StatefulWidget {
 class _HRHomePageState extends State<HRHomePage> {
   var service = locator<StorageService>();
   late String curr_desig = service.getFromDisk("Current_designation");
+  late var token = service.userInDB!.token;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

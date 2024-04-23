@@ -41,7 +41,9 @@ class _ForwardCPDAReimburseState extends State<ForwardCPDAReimburse> {
   late StreamController _profileController;
   late ProfileService profileService;
   late ProfileData datap;
+  
   var service = locator<StorageService>();
+  late var token = service.userInDB!.token;
   late String curr_desig = service.getFromDisk("Current_designation");
   late List<dynamic> designationsOfReceiver = [];
   bool isCreator = false;
@@ -84,7 +86,7 @@ class _ForwardCPDAReimburseState extends State<ForwardCPDAReimburse> {
       'username': _receiverNameController.text,
     };
     Uri uri = (Uri.http(host, path, queryParameters));
-    var response = await http.get(uri);
+    var response = await http.get(uri,headers: {"Authorization": "Token ${token}"});
     if (response.statusCode == 200) {
       final d = await jsonDecode(response.body);
       setState(() {
@@ -104,7 +106,7 @@ class _ForwardCPDAReimburseState extends State<ForwardCPDAReimburse> {
       'id': widget.formdata['id'],
     };
     Uri uri = (Uri.http(host, path, queryParameters));
-    var response = await http.get(uri);
+    var response = await http.get(uri,headers: {"Authorization": "Token ${token}"});
     if (response.statusCode == 200) {
       // ignore: avoid_print
       setState(() {
@@ -125,7 +127,7 @@ class _ForwardCPDAReimburseState extends State<ForwardCPDAReimburse> {
     Uri uri = (Uri.http(host, path, queryParameters));
     var response = await http.delete(
       uri,
-      headers: {"Content-type": "application/json; charset=UTF-8"},
+      headers: {"Content-type": "application/json; charset=UTF-8","Authorization": "Token ${token}"},
       encoding: Encoding.getByName("utf-8"),
     );
     if (response.statusCode == 200) {
@@ -152,7 +154,7 @@ class _ForwardCPDAReimburseState extends State<ForwardCPDAReimburse> {
     Uri uri = (Uri.http(host, path, queryParameters));
     print(queryParameters);
     Map<String, String> headers = {
-      'Content-Type': 'application/json; charset=UTF-8',
+      'Content-Type': 'application/json; charset=UTF-8',"Authorization": "Token ${token}"
     };
 
     var client = http.Client();
@@ -208,7 +210,7 @@ class _ForwardCPDAReimburseState extends State<ForwardCPDAReimburse> {
     var response = await http.put(
       uri,
       body: jsonEncode(data),
-      headers: {"Content-type": "application/json; charset=UTF-8"},
+      headers: {"Content-type": "application/json; charset=UTF-8","Authorization": "Token ${token}"},
       encoding: Encoding.getByName("utf-8"),
     );
     if (response.statusCode == 200) {
@@ -266,7 +268,7 @@ class _ForwardCPDAReimburseState extends State<ForwardCPDAReimburse> {
     var response = await http.put(
       uri,
       body: jsonEncode(data),
-      headers: {"Content-type": "application/json; charset=UTF-8"},
+      headers: {"Content-type": "application/json; charset=UTF-8","Authorization": "Token ${token}"},
       encoding: Encoding.getByName("utf-8"),
     );
     if (response.statusCode == 200) {
@@ -322,7 +324,7 @@ class _ForwardCPDAReimburseState extends State<ForwardCPDAReimburse> {
     var response = await http.put(
       uri,
       body: jsonEncode(data),
-      headers: {"Content-type": "application/json; charset=UTF-8"},
+      headers: {"Content-type": "application/json; charset=UTF-8","Authorization": "Token ${token}"},
       encoding: Encoding.getByName("utf-8"),
     );
     if (response.statusCode == 200) {

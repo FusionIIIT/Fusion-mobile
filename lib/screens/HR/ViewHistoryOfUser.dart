@@ -52,6 +52,7 @@ class _ViewHistoryOfUser extends State<ViewHistoryOfUser> {
   late ProfileData data;
   var dataToBePassed;
   var service = locator<StorageService>();
+  late var token = service.userInDB!.token;
   late String curr_desig = service.getFromDisk("Current_designation");
   List<Map<String, dynamic>> displayData = [];
   bool _loading1 = true;
@@ -104,7 +105,7 @@ class _ViewHistoryOfUser extends State<ViewHistoryOfUser> {
     };
     Uri uri = (Uri.http(host, path, queryParameters));
     Map<String, String> headers = {
-      'Content-Type': 'application/json; charset=UTF-8',
+      'Content-Type': 'application/json; charset=UTF-8',"Authorization": "Token ${token}"
     };
 
     var client = http.Client();

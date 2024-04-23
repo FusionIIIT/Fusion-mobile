@@ -43,6 +43,7 @@ class _UpdateLeaveBalanceState extends State<UpdateLeavebalance> {
   var service = locator<StorageService>();
   late String curr_desig = service.getFromDisk("Current_designation");
   bool _loading1 = true;
+  late var token = service.userInDB!.token;
   bool dataFetched = false;
 
   void initState() {
@@ -88,7 +89,7 @@ class _UpdateLeaveBalanceState extends State<UpdateLeavebalance> {
 
     Uri uri = (Uri.http(host, path, queryParameters));
     Map<String, String> headers = {
-      'Content-Type': 'application/json; charset=UTF-8',
+      'Content-Type': 'application/json; charset=UTF-8',"Authorization": "Token ${token}"
     };
 
     var client = http.Client();
@@ -141,7 +142,7 @@ class _UpdateLeaveBalanceState extends State<UpdateLeavebalance> {
     var response = await http.put(
       uri,
       body: jsonEncode(data),
-      headers: {"Content-type": "application/json; charset=UTF-8"},
+      headers: {"Content-type": "application/json; charset=UTF-8","Authorization": "Token ${token}"},
       encoding: Encoding.getByName("utf-8"),
     );
 

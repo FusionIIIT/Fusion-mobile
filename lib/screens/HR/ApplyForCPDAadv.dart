@@ -42,6 +42,7 @@ class _ApplyForCPDAadvState extends State<ApplyForCPDAadv> {
   late ProfileService profileService;
   late ProfileData datap;
   var service = locator<StorageService>();
+  late var token = service.userInDB!.token;
   late String curr_desig = service.getFromDisk("Current_designation");
   bool _loading1 = true;
 
@@ -49,6 +50,7 @@ class _ApplyForCPDAadvState extends State<ApplyForCPDAadv> {
     super.initState();
     _profileController = StreamController();
     profileService = ProfileService();
+    print(token);
     try {
       print("hello");
       datap = service.profileData;
@@ -90,7 +92,8 @@ class _ApplyForCPDAadvState extends State<ApplyForCPDAadv> {
       'username': _receiverNameController.text,
     };
     Uri uri = (Uri.http(host, path, queryParameters));
-    var response = await http.get(uri);
+    var response =
+        await http.get(uri, headers: {"Authorization": "Token ${token}"});
     if (response.statusCode == 200) {
       final d = await jsonDecode(response.body);
       setState(() {
@@ -131,7 +134,10 @@ class _ApplyForCPDAadvState extends State<ApplyForCPDAadv> {
     var response = await http.post(
       Uri.parse(url),
       body: jsonEncode(payload),
-      headers: {"Content-type": "application/json; charset=UTF-8"},
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+        "Authorization": "Token ${token}"
+      },
       encoding: Encoding.getByName("utf-8"),
     );
 

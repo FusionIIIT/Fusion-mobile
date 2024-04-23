@@ -38,6 +38,7 @@ class _RequestListpageState extends State<RequestListPage> {
   var service = locator<StorageService>();
   late String curr_desig = service.getFromDisk("Current_designation");
   List<dynamic> displayData = [];
+  late var token = service.userInDB!.token;
   bool _loading1 = true;
 
   void initState() {
@@ -75,7 +76,7 @@ class _RequestListpageState extends State<RequestListPage> {
     };
     Uri uri = (Uri.http(host, path, queryParameters));
     Map<String, String> headers = {
-      'Content-Type': 'application/json; charset=UTF-8',
+      'Content-Type': 'application/json; charset=UTF-8',"Authorization": "Token ${token}"
     };
 
     var client = http.Client();

@@ -31,6 +31,7 @@ class _ViewLTCState extends State<ViewLTC> {
   late ProfileService profileService;
   late ProfileData datap;
   var service = locator<StorageService>();
+  late var token = service.userInDB!.token;
   late String curr_desig = service.getFromDisk("Current_designation");
   @override
   void initState() {

@@ -35,7 +35,9 @@ class _ViewArchiveState extends State<ViewArchive> {
   late StreamController _profileController;
   late ProfileService profileService;
   late ProfileData data;
+  
   var service = locator<StorageService>();
+  late var token = service.userInDB!.token;
   late String curr_desig = service.getFromDisk("Current_designation");
   List<dynamic> displayData = [];
   bool _loading1 = true;
@@ -75,7 +77,7 @@ class _ViewArchiveState extends State<ViewArchive> {
     };
     Uri uri = (Uri.http(host, path, queryParameters));
     Map<String, String> headers = {
-      'Content-Type': 'application/json; charset=UTF-8',
+      'Content-Type': 'application/json; charset=UTF-8',"Authorization": "Token ${token}"
     };
 
     var client = http.Client();
