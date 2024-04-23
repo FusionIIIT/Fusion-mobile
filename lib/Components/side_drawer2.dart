@@ -135,8 +135,17 @@ class _SideDrawerState extends State<SideDrawer> {
              if ((type == "student" ))
             ModulesCard(cardLine: 'Human Resource'),
 
-            if(type == "student"|| widget.curr_desig=="placement chairman" || widget.curr_desig=="placement officer")
-            ModulesCard(cardLine: 'Placement Module'),
+            if(type == "student")
+            ModulesCard(cardLine: 'Placement Module',pageMover: '/placement_cell_home',),
+
+            if(type=="placement officer")
+              ModulesCard(cardLine: 'Placement Module',pageMover: '/tpo_home',),
+
+            if(type=="placement chairman")
+              ModulesCard(cardLine: 'Placement Module',pageMover: '/chairman_statistics',),
+
+            if(type!="student"||widget.curr_desig!="placement officer"||widget.curr_desig!="placement chairman")
+              ModulesCard(cardLine: 'Placement Module',pageMover: '/faculty_stats',),
 
             ModulesCard(cardLine: 'Visitors Hostel Module',pageMover: '/visitor_hostel'),
 
