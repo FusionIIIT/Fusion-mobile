@@ -1211,7 +1211,15 @@ class CentralMessService {
 
         if (response.statusCode == 200) {
           Map<String, dynamic> allDetails = json.decode(response.body)['payload'];
-          return allDetails;
+          List<dynamic> tempStudentDetails = [];
+          tempStudentDetails.add(allDetails["student_details"]);
+          Map<String, dynamic> result = {
+            "payment": allDetails["payment"].map((model) => Payment.fromJson(model)).toList() ,
+            "bill":  allDetails["bill"].map((model) => MonthlyBill.fromJson(model)).toList(),
+            "reg_records": allDetails["reg_records"].map((model)=> RegRecords.fromJson(model)).toList(),
+            "student_details": tempStudentDetails.map((model)=>RegMain.fromJson(model)).toList(),
+          };
+          return result;
         } else {
           print(response.statusCode);
           print(response.body.toString());

@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:date_field/date_field.dart';
 import 'package:http/http.dart' as http;
@@ -63,7 +64,6 @@ class _RebateFormState extends State<RebateForm> {
     }
   }
 
-
   void _showSuccessSnackbar() {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -89,7 +89,6 @@ class _RebateFormState extends State<RebateForm> {
       ),
     );
   }
-
 
   @override
   void dispose() {
@@ -159,13 +158,21 @@ class _RebateFormState extends State<RebateForm> {
                       ),
                       mode: DateTimeFieldPickerMode.date,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
-                      initialValue: selectedDateStart, // Set initial date
-                      validator: (e) =>
-                      e == null ? 'Select start date' : null,
-                      onDateSelected: (DateTime value) {
-                        selectedDateStart = value;
+                      initialValue: selectedDateStart,
+                      validator: (selectedDateStart) {
+                        if (selectedDateStart == null) return 'Select start date';
+                        if (selectedDateEnd != null &&
+                            selectedDateStart.isAfter(selectedDateEnd!)) {
+                          return 'Start date cannot be after end date';
+                        }
+                        return null;
                       },
-                      firstDate: DateTime.now()  , // Allow dates starting from tomorrow
+                      onDateSelected: (DateTime value) {
+                        setState(() {
+                          selectedDateStart = value;
+                        });
+                      },
+                      firstDate: DateTime.now(),
                     ),
                     SizedBox(height: 10.0),
                     DateTimeFormField(
@@ -182,13 +189,21 @@ class _RebateFormState extends State<RebateForm> {
                       ),
                       mode: DateTimeFieldPickerMode.date,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
-                      initialValue: selectedDateEnd, // Set initial date
-                      validator: (e) =>
-                      e == null ? 'Select End Date' : null,
-                      onDateSelected: (DateTime value) {
-                        selectedDateEnd = value;
+                      initialValue: selectedDateEnd,
+                      validator: (selectedDateEnd) {
+                        if (selectedDateEnd == null) return 'Select end date';
+                        if (selectedDateStart != null &&
+                            selectedDateEnd.isBefore(selectedDateStart!)) {
+                          return 'End date cannot be before start date';
+                        }
+                        return null;
                       },
-                      firstDate: DateTime.now()  , // Allow dates starting from tomorrow
+                      onDateSelected: (DateTime value) {
+                        setState(() {
+                          selectedDateEnd = value;
+                        });
+                      },
+                      firstDate: DateTime.now(),
                     ),
                     SizedBox(height: 10.0),
                     TextFormField(
@@ -238,7 +253,7 @@ class _RebateFormState extends State<RebateForm> {
                               rebateRemark: "",
                             );
                             _sendRebateRequestData(data);
-                            _updateDish = false; // Reset _updateDish to false
+                            _updateDish = false;
                           });
                         }
                       },

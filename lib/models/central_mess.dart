@@ -456,9 +456,12 @@ class RegMain {
   final String currentMessStatus;
   final int balance;
   final String messOption;
+  final String? firstName, lastName;
 
   RegMain({
     this.studentId,
+    this.firstName,
+    this.lastName,
     required this.program,
     required this.currentMessStatus,
     required this.balance,
@@ -468,6 +471,8 @@ class RegMain {
   factory RegMain.fromJson(Map<String, dynamic> json) {
     return RegMain(
       studentId: json['student_id'],
+      firstName: json['first_name'],
+      lastName: json['last_name'],
       program: json['program'],
       currentMessStatus: json['current_mess_status'],
       balance: json['balance'],
@@ -478,6 +483,8 @@ class RegMain {
   Map<String, dynamic> toMap() {
     return {
       'student_id': studentId,
+      'first_name': firstName,
+      'last_name': lastName,
       'program': program,
       'current_mess_status': currentMessStatus,
       'balance': balance,

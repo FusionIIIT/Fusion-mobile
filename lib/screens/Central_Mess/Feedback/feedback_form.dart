@@ -186,7 +186,8 @@ class _FeedbackFormState extends State<FeedbackForm> {
                       onDateSelected: (DateTime value) {
                         selectedDate = value;
                       },
-                      firstDate: DateTime.now()  , // Allow dates starting from tomorrow
+                      firstDate: DateTime.now().subtract(Duration(days: 2)),
+                      lastDate: DateTime.now(),
                     ),
                     SizedBox(height: 10.0),
                     DropdownButtonFormField(

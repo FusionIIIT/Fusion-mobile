@@ -86,8 +86,8 @@ class _ManageRegDeRegHomepageState extends State<ManageRegDeRegHomepage> {
                     child:  TabBarView(
                       children: <Widget>[
                         if (user == "caretaker" || user=="warden") ...[
-                          // ViewRegDeRegList(),
                           ManageRegistrations(),
+                          AddRemoveStudents(),
                         ],
                       ],
                     )

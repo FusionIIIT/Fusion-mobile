@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:date_field/date_field.dart';
@@ -16,7 +17,7 @@ class _ApplySpecialFoodState extends State<ApplySpecialFood> {
   bool _requestSent = false, _loading = false;
   SpecialRequest? data;
   String? selectedMess, mealTime, foodItem, purpose;
-  late DateTime fromDate, toDate;
+  DateTime? fromDate, toDate;
 
   final _messFormKey = GlobalKey<FormState>();
   final _purposeController = TextEditingController();
@@ -25,42 +26,42 @@ class _ApplySpecialFoodState extends State<ApplySpecialFood> {
   void _sendSpecialRequestData(SpecialRequest data) async {
     try {
       setState(() {
-        _loading = true; // Set loading state to true before sending request
+        _loading = true;
       });
       http.Response menuItems = await _centralMessService.sendSpecialRequest(data);
       if (menuItems.statusCode == 200) {
         print('Sent the special request');
         setState(() {
           _requestSent = true;
-          _loading = false; // Set loading state to false after successful request
+          _loading = false;
           // Reset all fields after successful submission
           selectedMess = null;
           mealTime = null;
-          fromDate = DateTime.now();
-          toDate = DateTime.now();
+          fromDate = null;
+          toDate = null;
           purpose = null;
           foodItem = null;
           _purposeController.clear();
           _foodItemController.clear();
         });
-        _showSuccessSnackbar();
+        _showSuccessSnackBar();
       } else {
         print('Couldn\'t send');
         setState(() {
-          _loading = false; // Set loading state to false after failed request
+          _loading = false;
         });
-        _showFailureSnackbar();
+        _showFailureSnackBar();
       }
     } catch (e) {
       print('Error sending Special Request: $e');
       setState(() {
         _loading = false; // Set loading state to false if there's an error
       });
-      _showFailureSnackbar();
+      _showFailureSnackBar();
     }
   }
 
-  void _showSuccessSnackbar() {
+  void _showSuccessSnackBar() {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
@@ -73,7 +74,7 @@ class _ApplySpecialFoodState extends State<ApplySpecialFood> {
     );
   }
 
-  void _showFailureSnackbar() {
+  void _showFailureSnackBar() {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
@@ -104,7 +105,6 @@ class _ApplySpecialFoodState extends State<ApplySpecialFood> {
 
   @override
   Widget build(BuildContext context) {
-
     final ButtonStyle style = ElevatedButton.styleFrom(
       textStyle: const TextStyle(
           fontSize: 20, color: Colors.white, fontWeight: FontWeight.w500),
@@ -135,12 +135,19 @@ class _ApplySpecialFoodState extends State<ApplySpecialFood> {
                         fillColor: Colors.white,
                       ),
                       mode: DateTimeFieldPickerMode.date,
-                      autovalidateMode: AutovalidateMode.always,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       initialDate: fromDate,
-                      validator: (e) =>
-                      (e?.day ?? 0) == 1 ? 'Select from date' : null,
+                      validator: (fromDateValue) {
+                        if (fromDateValue == null) return 'Select from date';
+                        if (toDate != null && fromDateValue.isAfter(toDate!)) {
+                          return 'From date cannot be after to date';
+                        }
+                        return null;
+                      },
                       onDateSelected: (DateTime value) {
-                        fromDate = value;
+                        setState(() {
+                          fromDate = value;
+                        });
                       },
                       firstDate: DateTime.now(),
                     ),
@@ -160,10 +167,17 @@ class _ApplySpecialFoodState extends State<ApplySpecialFood> {
                       mode: DateTimeFieldPickerMode.date,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       initialDate: toDate,
-                      validator: (e) =>
-                      (e?.day ?? 0) == 1 ? 'Select to date' : null,
+                      validator: (toDateValue) {
+                        if (toDateValue == null) return 'Select to date';
+                        if (fromDate != null && toDateValue.isBefore(fromDate!)) {
+                          return 'To date cannot be before from date';
+                        }
+                        return null;
+                      },
                       onDateSelected: (DateTime value) {
-                        toDate = value;
+                        setState(() {
+                          toDate = value;
+                        });
                       },
                       firstDate: DateTime.now(),
                     ),
@@ -250,7 +264,8 @@ class _ApplySpecialFoodState extends State<ApplySpecialFood> {
                         });
                       },
                       style: TextStyle(fontSize: 20.0),
-                    ),SizedBox(height: 10.0),
+                    ),
+                    SizedBox(height: 10.0),
                     TextFormField(
                       controller: _foodItemController,
                       maxLines: 3,
@@ -287,8 +302,8 @@ class _ApplySpecialFoodState extends State<ApplySpecialFood> {
                         if (_messFormKey.currentState!.validate()) {
                           // Handle valid flow
                           data = SpecialRequest(
-                            startDate: fromDate,
-                            endDate: toDate,
+                            startDate: fromDate!,
+                            endDate: toDate!,
                             request: purpose!,
                             status: "1",
                             item1: foodItem!,

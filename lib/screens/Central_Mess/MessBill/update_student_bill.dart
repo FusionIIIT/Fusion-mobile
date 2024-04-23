@@ -47,31 +47,19 @@ class _UpdateStudentBillState extends State<UpdateStudentBill> {
     yearsList = List.generate(5, (index) => (currentYear - index).toString());
   }
 
-  void _showSuccessSnackbar() {
+  void _showSnackbar(String message, Color backgroundColor) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          'Student Bill Updated Successfully',
+          message,
           style: TextStyle(color: Colors.white),
         ),
         duration: Duration(seconds: 5),
-        backgroundColor: Colors.green,
+        backgroundColor: backgroundColor,
       ),
     );
   }
 
-  void _showFailureSnackbar() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          'Failed to update student bill. Please try again later.',
-          style: TextStyle(color: Colors.white),
-        ),
-        duration: Duration(seconds: 5),
-        backgroundColor: Colors.red,
-      ),
-    );
-  }
   void _updateMonthlyBill(MonthlyBill data) async {
     setState(() {
       _loading = true;
@@ -90,14 +78,14 @@ class _UpdateStudentBillState extends State<UpdateStudentBill> {
           rebateCountController.clear();
           studentIdController.clear();
         });
-        _showSuccessSnackbar();
+        _showSnackbar('Updated student bill successfully', Colors.green);
       } else {
         print('Couldn\'t update');
-        _showFailureSnackbar();
+        _showSnackbar('Failed to updated student bill! Try again after sometime!', Colors.red);
       }
     } catch (e) {
       print('Error updating Student Bill: $e');
-      _showFailureSnackbar();
+      _showSnackbar('Error updating student bill! $e', Colors.red);
     }
     setState(() {
       _loading = false;
@@ -163,7 +151,7 @@ class _UpdateStudentBillState extends State<UpdateStudentBill> {
                       maxLines: 1,
                       cursorHeight: 30,
                       decoration: InputDecoration(
-                        labelText: 'Studend Id',
+                        labelText: 'Student Id',
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                               color: Colors.deepOrangeAccent, width: 2),
