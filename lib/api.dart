@@ -31,6 +31,9 @@ const kGymkhanaMemberRecords = '/api/gymkhana/members_record';
 //HealthCentre
 String kHealthCentreStudent = "/healthcenter/api/student";
 
+//PlacementCell
+String kPlacementRecord="/placement/api/placementrecord";
+
 //------------Screens------------
 
 //screens/Academic/Current_Semester
