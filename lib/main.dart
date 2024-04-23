@@ -69,9 +69,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     MediaQueryData windowData =
 
+
         MediaQueryData.fromWindow(WidgetsBinding.instance.window);
 
     windowData = windowData.copyWith(
+
       textScaler: TextScaler.linear(1),
     );
     return MediaQuery(

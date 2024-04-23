@@ -1,5 +1,3 @@
-//All the 4 functionalities like add new student,edit existing student details,delete a student,search a student
-// by his/her name via search bar are all perfectly working in this code.No need further debugging except to integrate API's.
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -356,6 +354,7 @@ class _ManagestudentState extends State<Managestudent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: AppBar(
         title: Text('Manage Students'),
         backgroundColor: Color.fromARGB(255, 245, 103, 47),
@@ -422,6 +421,7 @@ class _ManagestudentState extends State<Managestudent> {
             ),
           ),
         ),
+
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _showAddDialog,
@@ -507,3 +507,4 @@ void main() {
     home: Managestudent(),
   ));
 }
+

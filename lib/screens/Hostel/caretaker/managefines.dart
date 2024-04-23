@@ -1,3 +1,4 @@
+
 import 'dart:convert';
 import 'package:flutter/material.dart';
 
@@ -336,6 +337,7 @@ class _ManagefinesState extends State<Managefines> {
                       _editFineDetails(filteredStudents[index]);
                     },
                   ),
+
                 ),
                 DataCell(
                   IconButton(
@@ -345,6 +347,7 @@ class _ManagefinesState extends State<Managefines> {
                     },
                   ),
                 ),
+
               ],
             ),
           ),
@@ -427,6 +430,7 @@ class FineSearchDelegate extends SearchDelegate<String?> {
       },
     );
   }
+
 }
 
 void main() {
@@ -434,3 +438,4 @@ void main() {
     home: Managefines(),
   ));
 }
+
