@@ -5,6 +5,7 @@ String kserverLink = "172.27.16.214:8000";
 //Login Service
 String kAuthUrl = "172.27.16.214:8000";
 String kAuthLogin = "/api/auth/login/";
+// String kAuthLogin = "/accounts/login";
 
 //Profile Service
 String kProfile = "/api/profile/";
@@ -21,7 +22,9 @@ String kComplaintRemove = "/complaint/api/removecomplain/";
 //Dashboard
 String kDashboard = "/api/dashboard/";
 String kNotification = "/api/notification/";
-String kNotificationRead = "/api/notification/read/";
+String kNotificationRead = "/notifications/api/mark_as_read/";
+String kNotificationDelete = "/notifications/api/delete/";
+
 
 //Gymkhana
 const kGymkhanaClubDetails = '/api/gymkhana/club_details';

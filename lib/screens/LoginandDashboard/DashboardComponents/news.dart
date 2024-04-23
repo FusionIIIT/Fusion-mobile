@@ -47,26 +47,27 @@ class _NewsState extends State<News> {
     profileService = ProfileService();
     getData();
   }
-
   getData() async {
     try {
       print("gfsgsgd");
-      Response response = await dashboardService.getDashboard();
+      Response? response = await dashboardService.getDashboard();
       print("1");
-      Response response2 = await profileService.getProfile();
+      Response? response2 = await profileService.getProfile();
       print("2");
       print(response);
       print(response2);
 
-      setState(() {
-        data = DashboardData.fromJson(jsonDecode(response.body));
-        data2 = ProfileData.fromJson(jsonDecode(response2.body));
-        _loading = false;
-      });
-      name = data2.user!['first_name'] + ' ' + data2.user!['last_name'];
-      studentType = data2.profile!['department']!['name'] +
-          '  ' +
-          data2.profile!['user_type'];
+      if (response != null && response2 != null) {
+        setState(() {
+          data = DashboardData.fromJson(jsonDecode(response.body!));
+          data2 = ProfileData.fromJson(jsonDecode(response2.body!));
+          _loading = false;
+        });
+        name = data2.user!['first_name'] + ' ' + data2.user!['last_name'];
+        studentType = data2.profile!['department']!['name'] +
+            '  ' +
+            data2.profile!['user_type'];
+      }
     } catch (e) {
       print(e);
     }

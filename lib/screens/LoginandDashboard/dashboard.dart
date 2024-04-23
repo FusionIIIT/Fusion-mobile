@@ -56,31 +56,35 @@ class _DashboardState extends State<Dashboard> {
   getData() async {
     try {
       print("gfsgsgd");
-      Response response = await dashboardService.getDashboard();
+      Response? response = await dashboardService.getDashboard();
       print("1");
-      Response response2 = await profileService.getProfile();
-      print("2");
-      print(response);
-      print(response2);
 
-      setState(() {
-        data = DashboardData.fromJson(jsonDecode(response.body));
-        data2 = ProfileData.fromJson(jsonDecode(response2.body));
-        _loading = false;
-      });
-      print(data2.user!);
-      print(
-          '-----------------------------------=---------------------------------------');
-      name = data2.user!['first_name'] + ' ' + data2.user!['last_name'];
-      studentType = data2.profile!['department']!['name'];
+      if (response != null) {
+        Response response2 = await profileService.getProfile();
+        print("2");
+        print(response);
+        print(response2);
 
-      if (data2.profile!['user_type'] == 'student') {
-        isStudent = true;
+        setState(() {
+          data = DashboardData.fromJson(jsonDecode(response.body));
+          data2 = ProfileData.fromJson(jsonDecode(response2.body));
+          _loading = false;
+        });
+        print(data2.user!);
+        print(
+            '-----------------------------------=---------------------------------------');
+        name = data2.user!['first_name'] + ' ' + data2.user!['last_name'];
+        studentType = data2.profile!['department']!['name'];
+
+        if (data2.profile!['user_type'] == 'student') {
+          isStudent = true;
+        }
       }
     } catch (e) {
       print(e);
     }
   }
+
 
   loadData() async {
     getData().then((res) {
