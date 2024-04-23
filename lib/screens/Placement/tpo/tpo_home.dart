@@ -29,7 +29,7 @@ class TpoHomeState extends State<TpoHome> {
     return Scaffold(
       appBar: CustomAppBar(
         curr_desig: curr_desig,
-        headerTitle: "Central Mess",
+        headerTitle: "DashBoard",
         onDesignationChanged: (newValue) {
           setState(() {
             curr_desig = newValue;
