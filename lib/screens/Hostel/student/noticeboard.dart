@@ -18,6 +18,8 @@ class Noticeboard extends StatelessWidget {
       ]
     },
     {
+
+      
       "hall": "3",
       "heading": "Guest Lecture on AI",
       "madeBy": {

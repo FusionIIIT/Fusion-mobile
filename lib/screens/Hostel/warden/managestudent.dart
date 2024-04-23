@@ -1,7 +1,4 @@
 
-//All the 4 functionalities like add new student,edit existing student details,delete a student,search a student
-// by his/her name (or) roll.no via search bar are all perfectly working in this code.No need further debugging except to integrate API's.
-
 import 'dart:convert';
 import 'package:flutter/material.dart';
 
@@ -470,6 +467,37 @@ class StudentSearchDelegate extends SearchDelegate<String?> {
       onPressed: () {
         close(context, null);
       },
+
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    return _buildSearchResults(context);
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    return _buildSearchResults(context);
+  }
+
+  Widget _buildSearchResults(BuildContext context) {
+    final List<Student> filteredStudents = students.where((student) {
+      final String lowercaseQuery = query.toLowerCase();
+      return student.rollNo.toLowerCase().contains(lowercaseQuery) || student.name.toLowerCase().contains(lowercaseQuery);
+    }).toList();
+    return ListView.builder(
+      itemCount: filteredStudents.length,
+      itemBuilder: (context, index) {
+        return ListTile(
+          title: Text(filteredStudents[index].name),
+          subtitle: Text(filteredStudents[index].rollNo),
+          onTap: () {
+            close(context, filteredStudents[index].rollNo);
+          },
+        );
+      },
+
     );
   }
 
@@ -501,6 +529,14 @@ class StudentSearchDelegate extends SearchDelegate<String?> {
       },
     );
   }
+}
+
+
+
+void main() {
+  runApp(MaterialApp(
+    home: Managestudent(),
+  ));
 }
 
 

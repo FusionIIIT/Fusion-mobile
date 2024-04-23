@@ -351,7 +351,6 @@ class _ManagestudentState extends State<Managestudent> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -422,6 +421,7 @@ class _ManagestudentState extends State<Managestudent> {
             ),
           ),
         ),
+
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _showAddDialog,

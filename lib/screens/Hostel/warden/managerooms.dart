@@ -1,5 +1,3 @@
-//All the 4 functionalities to edit/add/delete/search are all perfectly implemented and working in this Screen.
-// No need for any further debugging on this "Manage Rooms" screen for both caretaker/Warden.
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -7,10 +5,11 @@ import 'package:flutter/material.dart';
 class Room {
   final int roomNumber;
   final int capacity;
-  late int currentOccupancy;
-  late String status;
-  List<String> studentNames;
-  List<String> studentRollNumbers;
+
+  final int currentOccupancy;
+  final String status;
+  final List<String> studentNames;
+  final int numberOfStudents;
 
   Room({
     required this.roomNumber,
@@ -18,9 +17,10 @@ class Room {
     required this.currentOccupancy,
     required this.status,
     required this.studentNames,
-    required this.studentRollNumbers,
+    required this.numberOfStudents,
   });
 }
+
 
 class Managerooms extends StatefulWidget {
   const Managerooms({Key? key}) : super(key: key);
@@ -28,6 +28,7 @@ class Managerooms extends StatefulWidget {
   @override
   _ManageroomsState createState() => _ManageroomsState();
 }
+
 
 class _ManageroomsState extends State<Managerooms> {
   List<Room> rooms = [];
@@ -450,6 +451,7 @@ class _ManageroomsState extends State<Managerooms> {
                 ),
               ),
             ]);
+
           }).toList(),
         ),
       ),
@@ -457,7 +459,9 @@ class _ManageroomsState extends State<Managerooms> {
   }
 }
 
-class RoomSearchDelegate extends SearchDelegate<String?> {
+
+class RoomSearchDelegate extends SearchDelegate<int?> {
+
   final List<Room> rooms;
 
   RoomSearchDelegate({required this.rooms});
@@ -467,8 +471,10 @@ class RoomSearchDelegate extends SearchDelegate<String?> {
     final ThemeData theme = Theme.of(context);
     return theme.copyWith(
       appBarTheme: AppBarTheme(
-        backgroundColor: theme.scaffoldBackgroundColor,
-        iconTheme: IconThemeData(color: theme.primaryColor),
+
+        backgroundColor: theme.scaffoldBackgroundColor, // Match with screen's UI theme
+        iconTheme: IconThemeData(color: theme.primaryColor), // Match with screen's UI theme
+
       ),
     );
   }
@@ -484,6 +490,7 @@ class RoomSearchDelegate extends SearchDelegate<String?> {
       ),
     ];
   }
+
 
   @override
   Widget buildLeading(BuildContext context) {
@@ -541,6 +548,7 @@ class RoomSearchDelegate extends SearchDelegate<String?> {
     );
   }
 }
+
 
 void main() {
   runApp(MaterialApp(

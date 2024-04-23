@@ -21,6 +21,7 @@ class _SideDrawerState extends State<SideDrawer> {
   late String name;
   late String depttype;
   late String type;
+
   @override
   void initState() {
     super.initState();
@@ -32,6 +33,7 @@ class _SideDrawerState extends State<SideDrawer> {
     depttype = service.profileData.profile!['department']!['name'];
 
     type = service.profileData.profile!['user_type'];
+
     print(depttype);
   }
 
@@ -51,7 +53,10 @@ class _SideDrawerState extends State<SideDrawer> {
                 Card(
                   elevation: 2.0,
                   margin:
-                  EdgeInsets.symmetric(horizontal: 12.0, vertical: 30.0),
+
+                      EdgeInsets.symmetric(horizontal: 12.0, vertical: 30.0),
+
+
                   // shadowColor: Colors.black,
                   color: Colors.white,
 
@@ -100,13 +105,20 @@ class _SideDrawerState extends State<SideDrawer> {
             ),
             ModulesCard(cardLine: 'DashBoard', pageMover: '/dashboard'),
 
-            if ((type != "staff" || widget.curr_desig=="acadmin"||  widget.curr_desig== "corelabcaretaker"))
+
+            if ((type != "staff" ||
+                widget.curr_desig == "acadmin" ||
+                widget.curr_desig == "corelabcaretaker"))
+
+
               ModulesCard(
                 cardLine: 'Academics Module',
                 pageMover: '/academic_home_page',
               ),
 
+
             if ((type == "student" || widget.curr_desig=="acadmin"))
+
               ModulesCard(
                 cardLine: 'Programme Curriculum',
                 pageMover: '/programme_curriculum_home',
@@ -122,10 +134,12 @@ class _SideDrawerState extends State<SideDrawer> {
               ModulesCard(cardLine: 'Central Mess Module',pageMover: '/central_mess_home'),
 
 
+
             ModulesCard(
               cardLine: 'Health Center Module',
               pageMover: '/health_center',
             ),
+
             if ((type == "student" ))
             ModulesCard(cardLine: 'Leave Module'),
 
@@ -143,14 +157,17 @@ class _SideDrawerState extends State<SideDrawer> {
             if(type != "student")
             ModulesCard(cardLine: 'File Tracking Module',pageMover: '/compose_file'),
 
+
             ModulesCard(
                 cardLine: 'Establishment Module', pageMover: '/establishment'),
 
             ModulesCard(
                 cardLine: 'Library Module', pageMover: '/library_homepage'),
 
+
             if(type == "student" || widget.curr_desig== "spacsconvenor"|| widget.curr_desig== "spacsassistant")
             ModulesCard(cardLine: 'Awards & Scholarship Module'),
+
 
             ModulesCard(cardLine: 'Complaint Module', pageMover: '/complaint'),
 
@@ -158,19 +175,51 @@ class _SideDrawerState extends State<SideDrawer> {
 
             ModulesCard(cardLine: 'Counselling Cell'),
 
-            if ((type == "faculty" ||widget.curr_desig== "acadadmin" ))
-            ModulesCard(cardLine: 'Examination Module',pageMover: '/examination',),
+            if ((type == "faculty" || widget.curr_desig == "acadadmin"))
+              ModulesCard(
+                cardLine: 'Examination Module',
+                pageMover: '/examination',
+              ),
 
+            if ((widget.curr_desig == "Executive Engineer (Civil)" ||
+                widget.curr_desig == "EE" ||
+                widget.curr_desig == "Admin IWD" ||
+                widget.curr_desig == "Electrical_AE" ||
+                widget.curr_desig == "mess_manager" ||
+                widget.curr_desig == "Electrical_JE" ||
+                widget.curr_desig == "Civil_AE" ||
+                widget.curr_desig == "Civil_JE" ||
+                widget.curr_desig == "Director" ||
+                widget.curr_desig == "dean_s" ||
+                widget.curr_desig == "Dean_s" ||
+                widget.curr_desig == "DeanPnD"))
+              ModulesCard(cardLine: 'IWD', pageMover: '/iwd/home_page'),
 
-            
-            if ((widget.curr_desig== "Executive Engineer (Civil)" ||widget.curr_desig== "EE" || widget.curr_desig== "Admin IWD" || widget.curr_desig== "Electrical_AE" || widget.curr_desig== "mess_manager" || widget.curr_desig== "Electrical_JE" || widget.curr_desig== "Civil_AE" || widget.curr_desig== "Civil_JE" ||  widget.curr_desig== "Director" ||  widget.curr_desig== "dean_s" || widget.curr_desig== "Dean_s" || widget.curr_desig== "DeanPnD"  ))
-            ModulesCard(cardLine: 'IWD',pageMover: '/iwd/home_page'),
+            if (type == "student")
+              ModulesCard(
+                cardLine: 'Hostel',
+                pageMover: '/student/hostel_student',
+              ),
+            if (type == "warden")
+              ModulesCard(
+                cardLine: 'Hostel',
+                pageMover: '/warden/hostel_warden',
+              ),
+            if (type == "caretaker")
+              ModulesCard(
+                cardLine: 'Hostel',
+                pageMover: '/registered_courses',
+              ),
+            if (type == "Admin")
+              ModulesCard(
+                cardLine: 'Hostel',
+                pageMover: '/superadmin/hostel_admin',
+              ),
+            ModulesCard(
+              cardLine: 'HR Module',
+              pageMover: '/hr_homepage',
+            ),
 
-
-            ModulesCard(cardLine: 'Courses Module', pageMover: '/registered_courses',
-                          ),
-                           ModulesCard(cardLine: 'HR Module', pageMover: '/hr_homepage',
-                          ),
 
 
             // ModulesCard(
@@ -193,27 +242,25 @@ class _SideDrawerState extends State<SideDrawer> {
       ),
     );
   }
-  
-String _getGymkhanaPage() {
 
+
+
+  String _getGymkhanaPage() {
     // Determine the pageMover based on designation
+    print(1);
     print(widget.curr_desig);
     if (widget.curr_desig == 'co-ordinator') {
-
       return '/gymkhana_coordinator';
-    } 
-    else if(widget.curr_desig == 'Counsellor'){
+    } else if (widget.curr_desig == 'Counsellor') {
       return '/gymkhana_counsellor';
-    }
-    else if(widget.curr_desig == 'Convenor'){
+    } else if (widget.curr_desig == 'Convenor') {
       return '/gymkhana_convenor';
-    }
-    else if(widget.curr_desig == 'Dean Academic'){
+    } else if (widget.curr_desig == 'Dean Academic') {
       return '/gymkhana_dean';
-    }
+    } else
+      return '/gymkhana_homepage';
 
-    else
-    return '/gymkhana_homepage';
+
   }
 // ignore: must_be_immutable
 }
@@ -261,4 +308,5 @@ class ModulesCard extends StatelessWidget {
       },
     );
   }
+
 }

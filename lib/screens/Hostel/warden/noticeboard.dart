@@ -1,4 +1,5 @@
 
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fusion/Components/side_drawer.dart';
@@ -10,7 +11,6 @@ class Notice {
 
   Notice(this.headline, this.description, this.date);
 }
-
 
 class Noticeboard extends StatefulWidget {
   const Noticeboard({Key? key}) : super(key: key);

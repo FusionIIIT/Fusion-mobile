@@ -1,5 +1,3 @@
-//All the 4 functionalities to edit/add/delete/search are all perfectly implemented and working in this Screen.
-// No need for any further debugging on this "Manage Rooms" screen for both caretaker/Warden.
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -7,10 +5,12 @@ import 'package:flutter/material.dart';
 class Room {
   final int roomNumber;
   final int capacity;
+
   late int currentOccupancy;
   late String status;
   List<String> studentNames;
   List<String> studentRollNumbers;
+
 
   Room({
     required this.roomNumber,
@@ -18,7 +18,9 @@ class Room {
     required this.currentOccupancy,
     required this.status,
     required this.studentNames,
+
     required this.studentRollNumbers,
+
   });
 }
 
@@ -450,6 +452,7 @@ class _ManageroomsState extends State<Managerooms> {
                 ),
               ),
             ]);
+
           }).toList(),
         ),
       ),
@@ -457,7 +460,8 @@ class _ManageroomsState extends State<Managerooms> {
   }
 }
 
-class RoomSearchDelegate extends SearchDelegate<String?> {
+
+class RoomSearchDelegate extends SearchDelegate<int?> {
   final List<Room> rooms;
 
   RoomSearchDelegate({required this.rooms});
@@ -467,13 +471,15 @@ class RoomSearchDelegate extends SearchDelegate<String?> {
     final ThemeData theme = Theme.of(context);
     return theme.copyWith(
       appBarTheme: AppBarTheme(
-        backgroundColor: theme.scaffoldBackgroundColor,
-        iconTheme: IconThemeData(color: theme.primaryColor),
+        backgroundColor: theme.scaffoldBackgroundColor, // Match with screen's UI theme
+        iconTheme: IconThemeData(color: theme.primaryColor), // Match with screen's UI theme
       ),
     );
   }
 
   @override
+
+
   List<Widget> buildActions(BuildContext context) {
     return [
       IconButton(
@@ -506,6 +512,7 @@ class RoomSearchDelegate extends SearchDelegate<String?> {
   }
 
   Widget _buildSearchResults(BuildContext context) {
+
     final List<Room> suggestionList = query.isEmpty
         ? rooms
         : rooms.where((room) {
@@ -535,6 +542,7 @@ class RoomSearchDelegate extends SearchDelegate<String?> {
           ),
           onTap: () {
             close(context, suggestionList[index].roomNumber.toString());
+
           },
         );
       },

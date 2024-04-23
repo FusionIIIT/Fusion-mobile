@@ -127,25 +127,29 @@ class _SideDrawerState extends State<SideDrawer> {
                         ModulesPadding(
                             line: 'Gymkhana Module',
                             pageMover: '/gymkhana_homepage'),
-                        user.toLowerCase().contains("student")?
-                        ModulesPadding(
-                            line: 'Hostel',
-                            pageMover:'/superadmin/hostel_admin',
+
+                        user.toLowerCase().contains("student")
+                            ? ModulesPadding(
+                                line: 'Hostel',
+                                pageMover: '/superadmin/hostel_admin',
                                 // pageMover: '/caretaker/hostel_caretaker',
-                            // pageMover: '/student/hostel_student',
-                          isActive: true,
-                        ):user.toLowerCase().contains('warden')?
-                        ModulesPadding(
-                          line: 'Hostel',
-                          pageMover: '/warden/hostel_warden',
-                          isActive: true,
-                        ):ModulesPadding(
-                          line: 'Hostel',
-                          // pageMover: '/caretaker/hostel_caretaker',
-                                                pageMover: '/student/hostel_student',       
-                                                    // pageMover:'/superadmin/hostel_admin',
-                          isActive: true,
-                        ),
+                                // pageMover: '/student/hostel_student',
+                                isActive: true,
+                              )
+                            : user.toLowerCase().contains('warden')
+                                ? ModulesPadding(
+                                    line: 'Hostel',
+                                    pageMover: '/warden/hostel_warden',
+                                    isActive: true,
+                                  )
+                                : ModulesPadding(
+                                    line: 'Hostel',
+                                  //  pageMover: '/warden/hostel_warden',
+                                    pageMover: '/caretaker/hostel_caretaker',
+                                    // pageMover: '/student/hostel_student',
+                                    // pageMover:'/superadmin/hostel_admin',
+                                    isActive: true,
+                                  ),
 
                         ModulesPadding(
                             line: 'Establishment Module',

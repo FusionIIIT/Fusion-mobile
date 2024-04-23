@@ -68,9 +68,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MediaQueryData windowData =
-        MediaQueryData.fromView(WidgetsBinding.instance.window);
-   
-        windowData = windowData.copyWith(
+
+
+        MediaQueryData.fromWindow(WidgetsBinding.instance.window);
+
+    windowData = windowData.copyWith(
+
       textScaler: TextScaler.linear(1),
     );
     return MediaQuery(
@@ -140,9 +143,9 @@ class MyApp extends StatelessWidget {
           '/health_center/viewschedule': (context) => ViewSchedule(),
           '/health_center/history': (context) => History(),
           '/caretaker/hostel_caretaker': (context) => Hostelcaretaker(),
-          '/wardern/hostel_wardern': (context) => Hostelwarden(),
+          '/warden/hostel_warden': (context) => Hostelwarden(),
           '/student/hostel_student': (context) => Hostelstudent(),
-          '/superadmin/hostel_admin': (context) => HostelAdmin(),
+          '/superadmin/hostel_admin': (context) => Hosteladmin(),
         },
       ),
     );

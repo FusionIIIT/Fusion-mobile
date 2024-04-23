@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
 import 'package:fusion/screens/Hostel/caretaker/guestroom.dart';
 import 'package:fusion/screens/Hostel/caretaker/inventory.dart';
 import 'package:fusion/screens/Hostel/caretaker/managefines.dart';
@@ -12,18 +10,42 @@ import 'package:fusion/screens/Hostel/caretaker/noticeboard.dart';
 import 'package:fusion/screens/Hostel/caretaker/report.dart';
 import 'package:fusion/screens/Hostel/caretaker/complaintregister.dart';
 
-class Hostelcaretaker extends StatelessWidget {
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
+
+class Hostelcaretaker extends StatefulWidget {
   const Hostelcaretaker({Key? key}) : super(key: key);
+  @override
+  _HostelcaretakerState createState() => _HostelcaretakerState();
+}
+
+class _HostelcaretakerState extends State<Hostelcaretaker> {
+  late String curr_desig;
+
+  @override
+  void initState() {
+    super.initState();
+    var service = locator<StorageService>();
+    curr_desig = service.getFromDisk("Current_designation") ?? "";
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer:  SideDrawer(),
-      appBar: AppBar(
-        title: const Text('Hostel'),
-        backgroundColor: Color.fromARGB(255, 245, 103, 47),
-        foregroundColor: Colors.white,
+      appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: "Central Mess",
+        onDesignationChanged: (newValue) {
+          setState(() {
+            curr_desig = newValue;
+          });
+        },
       ),
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar: MyBottomNavigationBar(),
       body: Container(
         padding: const EdgeInsets.all(20.0),
         child: Container(
