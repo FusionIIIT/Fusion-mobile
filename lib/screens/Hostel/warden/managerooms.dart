@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8bce4293cf822864992d1fb8dcfa3ff69a89d323
 import 'dart:convert';
 import 'package:flutter/material.dart';
 
@@ -42,12 +46,17 @@ class _ManageroomsState extends State<Managerooms> {
     [
       {"roomNumber": 101, "capacity": 2, "currentOccupancy": 1, "status": "Partially Allotted", "studentNames": ["John Doe"], "numberOfStudents": 1},
       {"roomNumber": 102, "capacity": 3, "currentOccupancy": 2, "status": "Fully Allotted", "studentNames": ["Alice", "Bob"], "numberOfStudents": 2},
+<<<<<<< HEAD
       {"roomNumber": 103, "capacity": 4, "currentOccupancy": 4, "status": "Fully Allotted", "studentNames": ["Charlie", "David", "Eve", "Frank"], "numberOfStudents": 4}
+=======
+      {"roomNumber": 103, "capacity": 4, "currentOccupancy": 4, "status": "Fully Allotted", "studentNames": ["Charlie", "David", "Eve", "Frank"], "numberOfStudents": 4},
+>>>>>>> 8bce4293cf822864992d1fb8dcfa3ff69a89d323
     ]
     ''';
     final List<dynamic> roomList = json.decode(roomData);
     setState(() {
       rooms = roomList.map((room) => Room(
+<<<<<<< HEAD
             roomNumber: room['roomNumber'],
             capacity: room['capacity'],
             currentOccupancy: room['currentOccupancy'],
@@ -55,6 +64,15 @@ class _ManageroomsState extends State<Managerooms> {
             studentNames: List<String>.from(room['studentNames']),
             numberOfStudents: room['numberOfStudents'],
           )).toList();
+=======
+        roomNumber: room['roomNumber'],
+        capacity: room['capacity'],
+        currentOccupancy: room['currentOccupancy'],
+        status: room['status'],
+        studentNames: List<String>.from(room['studentNames']),
+        numberOfStudents: room['numberOfStudents'],
+      )).toList();
+>>>>>>> 8bce4293cf822864992d1fb8dcfa3ff69a89d323
       filteredRooms = List.from(rooms);
     });
   }
@@ -148,6 +166,10 @@ class _ManageroomsState extends State<Managerooms> {
     });
   }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8bce4293cf822864992d1fb8dcfa3ff69a89d323
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -170,6 +192,7 @@ class _ManageroomsState extends State<Managerooms> {
         ],
       ),
       body: SingleChildScrollView(
+<<<<<<< HEAD
         child: Column(
           children: filteredRooms.map((room) {
             return Card(
@@ -211,6 +234,53 @@ class _ManageroomsState extends State<Managerooms> {
                 ),
               ),
             );
+=======
+        child: DataTable(
+          columns: const <DataColumn>[
+            DataColumn(label: Text('Room No')),
+            DataColumn(label: Text('Capacity')),
+            DataColumn(label: Text('Current Occupancy')),
+            DataColumn(label: Text('Status')),
+            DataColumn(label: Text('Student Names')),
+            DataColumn(label: Text('No of Students')),
+            DataColumn(label: Text('Edit')),
+            DataColumn(label: Text('Delete')),
+            DataColumn(label: Text('Add')),
+          ],
+          rows: filteredRooms.map((room) {
+            return DataRow(cells: <DataCell>[
+              DataCell(Text(room.roomNumber.toString())),
+              DataCell(Text(room.capacity.toString())),
+              DataCell(Text(room.currentOccupancy.toString())),
+              DataCell(Text(room.status)),
+              DataCell(Text(room.studentNames.join(', '))),
+              DataCell(Text(room.numberOfStudents.toString())),
+              DataCell(
+                IconButton(
+                  icon: Icon(Icons.edit),
+                  onPressed: () {
+                    _editStudentDetails(room);
+                  },
+                ),
+              ),
+              DataCell(
+                IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () {
+                    _deleteStudentDetails(room);
+                  },
+                ),
+              ),
+              DataCell(
+                IconButton(
+                  icon: Icon(Icons.add),
+                  onPressed: () {
+                    _showAddDialog();
+                  },
+                ),
+              ),
+            ]);
+>>>>>>> 8bce4293cf822864992d1fb8dcfa3ff69a89d323
           }).toList(),
         ),
       ),
@@ -286,3 +356,7 @@ void main() {
     home: Managerooms(),
   ));
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8bce4293cf822864992d1fb8dcfa3ff69a89d323

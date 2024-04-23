@@ -1,3 +1,4 @@
+
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
 import 'package:fusion/Components/bottom_navigation_bar.dart';
 
+<<<<<<< HEAD
 class Hostelwarden extends StatefulWidget {
   const Hostelwarden({Key? key}) : super(key: key);
 @override
@@ -27,6 +29,10 @@ class _Hostelwardenstate extends State<Hostelwarden> {
     var service = locator<StorageService>();
     curr_desig = service.getFromDisk("Current_designation") ?? ""; 
   }
+=======
+class Account extends StatelessWidget {
+  const Account({Key? key}) : super(key: key);
+>>>>>>> 8bce4293cf822864992d1fb8dcfa3ff69a89d323
 
   @override
   Widget build(BuildContext context) {
@@ -206,3 +212,4 @@ class _Hostelwardenstate extends State<Hostelwarden> {
     );
   }
 }
+

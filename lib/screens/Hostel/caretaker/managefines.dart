@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8bce4293cf822864992d1fb8dcfa3ff69a89d323
 import 'dart:convert';
 import 'package:flutter/material.dart';
 
@@ -434,3 +438,7 @@ void main() {
     home: Managefines(),
   ));
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8bce4293cf822864992d1fb8dcfa3ff69a89d323

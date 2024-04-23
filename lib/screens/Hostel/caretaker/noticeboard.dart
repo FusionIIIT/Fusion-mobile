@@ -1,10 +1,17 @@
+<<<<<<< HEAD
 //All the 2 functionalities like add new notice,remove existing notice are all perfectly
 //working in this code with proper formatting.No need further debugging on this code.
+=======
+>>>>>>> 8bce4293cf822864992d1fb8dcfa3ff69a89d323
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fusion/Components/side_drawer.dart';
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8bce4293cf822864992d1fb8dcfa3ff69a89d323
 class Notice {
   final String headline;
   final String description;
@@ -13,6 +20,10 @@ class Notice {
   Notice(this.headline, this.description, this.date);
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8bce4293cf822864992d1fb8dcfa3ff69a89d323
 class Noticeboard extends StatefulWidget {
   const Noticeboard({Key? key}) : super(key: key);
 
@@ -21,6 +32,10 @@ class Noticeboard extends StatefulWidget {
 }
 
 class _NoticeboardState extends State<Noticeboard> {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8bce4293cf822864992d1fb8dcfa3ff69a89d323
   List<Notice> notices = []; // Define the 'notices' list
 
   @override
@@ -53,6 +68,10 @@ class _NoticeboardState extends State<Noticeboard> {
     // Notify the UI about the changes
     setState(() {});
   }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8bce4293cf822864992d1fb8dcfa3ff69a89d323
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +79,10 @@ class _NoticeboardState extends State<Noticeboard> {
       drawer: SideDrawer(),
       appBar: AppBar(
         title: const Text('Notice Board'),
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8bce4293cf822864992d1fb8dcfa3ff69a89d323
         backgroundColor: const Color.fromARGB(255, 245, 103, 47),
         foregroundColor: Colors.white,
       ),
@@ -133,10 +156,18 @@ class _NoticeboardState extends State<Noticeboard> {
               ),
             ),
           ],
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8bce4293cf822864992d1fb8dcfa3ff69a89d323
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8bce4293cf822864992d1fb8dcfa3ff69a89d323
           // Display dialog to add a new notice
           showDialog(
             context: context,
@@ -212,4 +243,8 @@ class _NoticeboardState extends State<Noticeboard> {
     // Your implementation to invoke POST API
     // Example: http.post(url, body: {'headline': headline, 'description': description, 'file': file});
   }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8bce4293cf822864992d1fb8dcfa3ff69a89d323
 }
