@@ -24,7 +24,7 @@ class _SideDrawerState extends State<SideDrawer> {
         " " +
         service.profileData.profile!['user_type'];
   }
-
+  late String user;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -140,7 +140,25 @@ class _SideDrawerState extends State<SideDrawer> {
                           pageMover: '/health_center',
                         ),
                         ModulesPadding(line: 'Leave Module'),
-                        ModulesPadding(line: 'Placement Module'),
+                        user.toLowerCase().contains("student")?
+                        ModulesPadding(
+                            line: 'Placement Module',
+                            pageMover: '/student/placement_cell_home',
+                            isActive: true
+                        ):user.toLowerCase().contains("faculty")?
+                        ModulesPadding(
+                            line: 'Placement Module',
+                            pageMover: '/faculty/faculty_stats',
+                            isActive: true
+                        ):user.toLowerCase().contains("chairman")?
+                        ModulesPadding(
+                            line: 'Placement Module',
+                            pageMover: '/chairman/chairman_statistics',
+                            isActive: true
+                        ) :ModulesPadding(
+                            line: 'Placement Module',
+                            pageMover: '/tpo/tpo_home',
+                            isActive: true),
                         ModulesPadding(line: 'Visitors Hostel Module'),
                         ModulesPadding(line: 'File Tracking Module'),
                       ],
