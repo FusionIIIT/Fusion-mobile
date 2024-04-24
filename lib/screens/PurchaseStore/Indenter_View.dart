@@ -1,476 +1,219 @@
+
+
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
+
+
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 
-import 'package:fusion/Components/side_drawer.dart';
+class  IndentView extends StatefulWidget {
+  const  IndentView({Key? key}) : super(key: key);
 
-class IndentView extends StatefulWidget {
   @override
-  _IndentViewPageState createState() => _IndentViewPageState();
+  State< IndentView> createState() => _IndentViewState();
 }
 
-class _IndentViewPageState extends State<IndentView> {
-  BoxDecoration myBoxDecoration() {
-    return BoxDecoration(
-      border: Border.all(
-        color: Colors.deepOrangeAccent,
-        width: 2.0,
-        style: BorderStyle.solid,
-      ),
-      borderRadius: BorderRadius.all(Radius.circular(15.0)),
-    );
+class _IndentViewState extends State< IndentView> {
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
+
+  TextEditingController nameController = TextEditingController(text:"Shyam");
+  TextEditingController designationController = TextEditingController(text:"Professor");
+  TextEditingController mobileController = TextEditingController(text:"hello");
+  TextEditingController itemNameController = TextEditingController(text:"Furniture");
+  TextEditingController quantityController = TextEditingController(text:"10");
+  TextEditingController presentStockController = TextEditingController(text:"5");
+  TextEditingController estimatedCostController = TextEditingController(text:"15000");
+  TextEditingController purchaseJustificationController = TextEditingController(text:"furniture is broken");
+  TextEditingController itemTypeController = TextEditingController(text:"furniture");
+  TextEditingController replaceDetailsController = TextEditingController(text:"No");
+  TextEditingController budgetaryHeadController = TextEditingController(text:"");
+  TextEditingController expectedDeliveryController = TextEditingController(text:"13-11-2025");
+  TextEditingController sourceOfSupplyController = TextEditingController(text:"mahesh");
+  TextEditingController forwardToController = TextEditingController();
+  TextEditingController receiverDesignationController = TextEditingController();
+  TextEditingController remarksController= TextEditingController();
+
+  _IndentFormState() {
+    designationController.text = curr_desig;
   }
 
-  Text myText(String text) {
-    return Text(
-      text,
-      style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
-    );
-  }
-
-  Padding myContainer(String text) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: myText(text),
-        ),
-        decoration: myBoxDecoration(),
-      ),
-    );
-  }
+  File? attachment;
 
   @override
   Widget build(BuildContext context) {
-    final data = '';
     return Scaffold(
-      appBar:  AppBar(
-
-
-
-        title: Text('Indent Form'),
-        backgroundColor: Colors.deepOrangeAccent,// Add your text here
-
-      ),
-      body:  SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-
-          SizedBox(
-          width: 1000, // Custom width for the card
-          child: Card(
-            elevation: 3,
-            child: Padding(
-              padding: EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Name of Indenter:',
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 8), // Custom vertical spacing
-                  Text(
-                    'Shyam',
-                    style: TextStyle(fontSize: 18,),
-                  ),
-                ],
-              ),
-            ),
+      appBar: AppBar(
+        backgroundColor: Colors.deepOrangeAccent,
+        title: Text(
+          "Indent Form",
+          style: TextStyle(
+            fontSize: 20.0,
+            fontWeight: FontWeight.bold,
           ),
         ),
-
-            Row(
-               children: [
-                 SizedBox(
-                   width: 120, // Custom width for the card
-                   child: Card(
-                     elevation: 3,
-                     child: Padding(
-                       padding: EdgeInsets.all(16),
-                       child: Column(
-                         crossAxisAlignment: CrossAxisAlignment.start,
-                         children: [
-                           Text(
-                             'Designation:',
-                             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                           ),
-                           SizedBox(height: 8), // Custom vertical spacing
-                           Text(
-                             'Caretaker',
-                             style: TextStyle(fontSize: 15,),
-                           ),
-                         ],
-                       ),
-                     ),
-                   ),
-                 ),
-                 SizedBox(
-                   width: 120, // Custom width for the card
-                   child: Card(
-                     elevation: 3,
-                     child: Padding(
-                       padding: EdgeInsets.all(16),
-                       child: Column(
-                         crossAxisAlignment: CrossAxisAlignment.start,
-                         children: [
-                           Text(
-                             'Item name:',
-                             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                           ),
-                           SizedBox(height: 8), // Custom vertical spacing
-                           Text(
-                             'fan',
-                             style: TextStyle(fontSize: 15,),
-                           ),
-                         ],
-                       ),
-                     ),
-                   ),
-                 ),
-                 SizedBox(
-                   width: 120, // Custom width for the card
-                   child: Card(
-                     elevation: 3,
-                     child: Padding(
-                       padding: EdgeInsets.all(16),
-                       child: Column(
-                         crossAxisAlignment: CrossAxisAlignment.start,
-                         children: [
-                           Text(
-                             'Quantity',
-                             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                           ),
-                           SizedBox(height: 8), // Custom vertical spacing
-                           Text(
-                             '30',
-                             style: TextStyle(fontSize: 15,),
-                           ),
-                         ],
-                       ),
-                     ),
-                   ),
-                 ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: ListView(
+          shrinkWrap: true,
+          children: [
+            buildTextField("Name of the indenter", nameController,readOnly: true),
+            SizedBox(height: 10),
+            buildTextField("Item Name", itemNameController,readOnly:true),
+            SizedBox(height: 10),
+            buildTextField("Designation", designationController,readOnly:true),
+            SizedBox(height: 10),
+            SizedBox(height: 10),
 
 
-               ],
+            buildTextField("Quantity", quantityController,readOnly:true),
+            SizedBox(height: 10),
+            buildTextField("Present Stock", presentStockController,readOnly:true),
+            SizedBox(height: 10),
+            buildTextField("Estimated Cost", estimatedCostController,readOnly:true),
+            SizedBox(height: 10),
+            buildTextField("Purchase & Justification", purchaseJustificationController,readOnly:true),
+            SizedBox(height: 10),
+            buildTextField("Item Type", itemTypeController,readOnly:true),
+            SizedBox(height: 10),
+            buildTextField("If Replace(give details)", replaceDetailsController,readOnly:true),
+            SizedBox(height: 10),
+            buildTextField("Budgetary Head", budgetaryHeadController,readOnly:true),
+            SizedBox(height: 10),
+            buildTextField("Expected Delivery", expectedDeliveryController,readOnly:true),
+            SizedBox(height: 10),
+            buildTextField("Source of Supply", sourceOfSupplyController,readOnly:true),
+            SizedBox(height: 10),
 
-
-
-            ),
-            Row(
-              children: [
-                SizedBox(
-                  width: 150, // Custom width for the card
-                  child: Card(
-                    elevation: 3,
-                    child: Padding(
-                      padding: EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Present Stock:',
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(height: 8), // Custom vertical spacing
-                          Text(
-                            '295',
-                            style: TextStyle(fontSize: 15,),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 150, // Custom width for the card
-                  child: Card(
-                    elevation: 3,
-                    child: Padding(
-                      padding: EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Estimated Cost:',
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(height: 8), // Custom vertical spacing
-                          Text(
-                            '450000',
-                            style: TextStyle(fontSize: 15,),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-
-
-
-              ],
-
-
-
-            ),
-            Row(
-              children: [
-                SizedBox(
-                  width: 200, // Custom width for the card
-                  child: Card(
-                    elevation: 3,
-                    child: Padding(
-                      padding: EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Purchase And Justification:',
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(height: 8), // Custom vertical spacing
-                          Text(
-                            'for hostel Students',
-                            style: TextStyle(fontSize: 15,),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 150, // Custom width for the card
-                  child: Card(
-                    elevation: 3,
-                    child: Padding(
-                      padding: EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Item Type:',
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(height: 8), // Custom vertical spacing
-                          Text(
-                            'Electronics',
-                            style: TextStyle(fontSize: 15,),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-
-
-
-              ],
-
-
-
-            ),
-
-
-
-            SizedBox(
-              width: 800, // Custom width for the card
-              child: Card(
-                elevation: 3,
-                child: Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'If Replace(give details)',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 8), // Custom vertical spacing
-                      Text(
-                        'NA',
-                        style: TextStyle(fontSize: 15,),
-                      ),
-                    ],
-                  ),
+            ElevatedButton(
+              onPressed: () {
+                pickAttachment();
+              },
+              child: Text(
+                'Attached  File',
+                style: TextStyle(
+                  fontSize: 20,
                 ),
               ),
             ),
 
-            Row(
-              children: [
-                SizedBox(
-                  width: 150, // Custom width for the card
-                  child: Card(
-                    elevation: 3,
-                    child: Padding(
-                      padding: EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Budgetary Head:',
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(height: 8), // Custom vertical spacing
-                          Text(
-                            'NA',
-                            style: TextStyle(fontSize: 15,),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 150, // Custom width for the card
-                  child: Card(
-                    elevation: 3,
-                    child: Padding(
-                      padding: EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Expected Delivery',
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(height: 8), // Custom vertical spacing
-                          Text(
-                            '29/02/2024',
-                            style: TextStyle(fontSize: 15,),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+            buildTextField("Remarks",remarksController ),
+            SizedBox(height: 10),
 
-
-
-              ],
-
-
-
-
-            ),
-
-            SizedBox(
-              width: 150, // Custom width for the card
-              child: Card(
-                elevation: 3,
-                child: Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Source of Supply',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 8), // Custom vertical spacing
-                      Text(
-                        'source',
-                        style: TextStyle(fontSize: 15,),
-                      ),
-                    ],
-                  ),
+            buildTextField("Forward To", forwardToController),
+            SizedBox(height: 10),
+            buildTextField("Receiver Designation", receiverDesignationController),
+            SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () {
+                submitForm();
+              },
+              child: Text(
+                'Submit',
+                style: TextStyle(
+                  fontSize: 30,
                 ),
               ),
             ),
+            SizedBox(height: 20),
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            Row(
-                children:[
-                  Padding(
-                    padding: EdgeInsets.only(right: 8.0), // Add padding between buttons
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // Add your onPressed callback here
-                        print('Reject');
-                      },
-                      child: Text(
-                        'Reject',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(Color(0xFFF36C35)),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 8.0), // Add padding between buttons
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // Add your onPressed callback here
-                        print('approve');
-                      },
-                      child: Text(
-                        'Approve',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
-                      ),
-                    ),
-                  )
-                ]
-            ),
-
-
+            attachment != null
+                ? Text(
+              'Attachment: ${attachment!.path}',
+              style: TextStyle(fontSize: 16),
+            )
+                : SizedBox(),
           ],
         ),
       ),
     );
-
   }
-}
-class DesignationCard extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 200, // Custom width for the card
-      child: Card(
-        elevation: 3,
-        child: Padding(
-          padding: EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Designation:',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 8), // Custom vertical spacing
-              Text(
-                'Caretaker',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-            ],
+
+  Widget buildTextField(String label, TextEditingController controller, {bool readOnly = false}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
           ),
         ),
-      ),
+        SizedBox(height: 5),
+        TextField(
+          controller: controller,
+          readOnly: readOnly, // Set readOnly property
+          decoration: InputDecoration(
+            border: OutlineInputBorder(),
+            hintText: '',
+          ),
+        ),
+      ],
     );
+  }
+
+
+  void pickAttachment() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        attachment = File(pickedFile.path);
+      }
+    });
+  }
+
+  void submitForm() async {
+    var formData = {
+      'name': nameController.text,
+      'designation': designationController.text,
+      'itemName': itemNameController.text,
+      'quantity': quantityController.text,
+      'presentStock': presentStockController.text,
+      'estimatedCost': estimatedCostController.text,
+      'purchaseJustification': purchaseJustificationController.text,
+      'itemType': itemTypeController.text,
+      'replaceDetails': replaceDetailsController.text,
+      'budgetaryHead': budgetaryHeadController.text,
+      'expectedDelivery': expectedDeliveryController.text,
+      'sourceOfSupply': sourceOfSupplyController.text,
+      'forwardTo': forwardToController.text,
+      'receiverDesignation': receiverDesignationController.text,
+    };
+
+    if (attachment != null) {
+      // formData['attachment'] = await http.MultipartFile.fromPath('attachment', attachment!.path);
+    }
+
+    var response = await http.post(
+      Uri.parse('YOUR_API_ENDPOINT_HERE'),
+      body: formData,
+    );
+
+    if (response.statusCode == 200) {
+      // Form submitted successfully
+      // Handle success scenario
+    } else {
+      // Form submission failed
+      // Handle error scenario
+    }
   }
 }
 

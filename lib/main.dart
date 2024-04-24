@@ -66,6 +66,7 @@ import 'package:fusion/screens/PurchaseStore/indent_form.dart';
 import 'package:fusion/screens/PurchaseStore/pending.dart';
 import 'package:fusion/screens/PurchaseStore/flow_chart.dart';
 
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   setupLocator();
@@ -174,6 +175,10 @@ class MyApp extends StatelessWidget {
           '/purchase_store/psadmin': (context) => psadminPage(),
           '/purchase_store/head': (context) => headHomePage(),
           '/purchase_store/indent_view': (context) => IndentView(),
+          '/purchase_store/transfer': (context) => TransferFunds(),
+          '/purchase_store/stocks':(context)=>GlobalStock()
+
+
         },
       ),
     );

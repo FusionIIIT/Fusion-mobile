@@ -1,10 +1,16 @@
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
+
+
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-
-void main() {
-  runApp(IndentForm());
-}
-
-
+import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 
 class IndentForm extends StatefulWidget {
   const IndentForm({Key? key}) : super(key: key);
@@ -14,19 +20,37 @@ class IndentForm extends StatefulWidget {
 }
 
 class _IndentFormState extends State<IndentForm> {
-  // Create controllers
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
+
   TextEditingController nameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
+  TextEditingController designationController = TextEditingController();
   TextEditingController mobileController = TextEditingController();
-  TextEditingController addressController = TextEditingController();
+  TextEditingController itemNameController = TextEditingController();
+  TextEditingController quantityController = TextEditingController();
+  TextEditingController presentStockController = TextEditingController();
+  TextEditingController estimatedCostController = TextEditingController();
+  TextEditingController purchaseJustificationController = TextEditingController();
+  TextEditingController itemTypeController = TextEditingController();
+  TextEditingController replaceDetailsController = TextEditingController();
+  TextEditingController budgetaryHeadController = TextEditingController();
+  TextEditingController expectedDeliveryController = TextEditingController();
+  TextEditingController sourceOfSupplyController = TextEditingController();
+  TextEditingController forwardToController = TextEditingController();
+  TextEditingController receiverDesignationController = TextEditingController();
+  _IndentFormState() {
+    designationController.text = curr_desig;
+  }
+
+  File? attachment;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:  AppBar(
-      backgroundColor:  Colors.deepOrangeAccent,
+      appBar: AppBar(
+        backgroundColor: Colors.deepOrangeAccent,
         title: Text(
-          "indent Form",
+          "Indent Form",
           style: TextStyle(
             fontSize: 20.0,
             fontWeight: FontWeight.bold,
@@ -44,231 +68,53 @@ class _IndentFormState extends State<IndentForm> {
         child: ListView(
           shrinkWrap: true,
           children: [
-            const Text('Name of the indenter'),
-            const SizedBox(
-              height: 5,
+            buildTextField("Name of the indenter", nameController),
+            SizedBox(height: 10),
+            buildTextField("Item Name", itemNameController),
+            SizedBox(height: 10),
+          TextField(
+            controller: designationController,
+            enabled: false, // Disable editing
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              hintText: curr_desig,
             ),
-            TextField(
-              controller: nameController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: '',
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            const Text('Designation'),
-            const SizedBox(
-              height: 5,
-            ),
-            TextField(
-              controller: emailController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: '',
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            const Text('Item Name'),
-            const SizedBox(
-              height: 5,
-            ),
-            TextField(
-              controller: mobileController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Item Name',
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            const Text('Quantity'),
-            const SizedBox(
-              height: 5,
-            ),
-            TextField(
-              controller: addressController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Quantity',
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            const Text('Present Stock'),
-            const SizedBox(
-              height: 5,
-            ),
-            TextField(
-              controller: addressController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Present Stock',
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            const Text('Estimated  Cost'),
-            const SizedBox(
-              height: 5,
-            ),
-            TextField(
-              controller: addressController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Estimated Cost',
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            const Text('Purchase & Justification'),
-            const SizedBox(
-              height: 5,
-            ),
-            TextField(
-              controller: addressController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: '',
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            const Text('Item Type'),
-            const SizedBox(
-              height: 5,
-            ),
-            TextField(
-              controller: addressController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: '',
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            const Text('If Replace(give details)'),
-            const SizedBox(
-              height: 5,
-            ),
-            TextField(
-              controller: addressController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: '',
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            const Text('Budgetary head'),
-            const SizedBox(
-              height: 5,
-            ),
-            TextField(
-              controller: addressController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: '',
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            const Text('Expected Delivery'),
-            const SizedBox(
-              height: 5,
-            ),
-            TextField(
-              controller: addressController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: '',
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            const Text('Source of Supply'),
-            const SizedBox(
-              height: 5,
-            ),
-            TextField(
-              controller: addressController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: '',
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            const Text('Attach File'),
-            const SizedBox(
-              height: 5,
-            ),
-            TextField(
-              controller: addressController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: '',
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            const Text('Forward To'),
-            const SizedBox(
-              height: 5,
-            ),
-            TextField(
-              controller: addressController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: '',
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            const Text('Receiver Designation'),
-            const SizedBox(
-              height: 5,
-            ),
-            TextField(
-              controller: addressController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: '',
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
+          ),
+            SizedBox(height: 10),
 
 
-
-
-
-
-
-
+            buildTextField("Quantity", quantityController),
+            SizedBox(height: 10),
+            buildTextField("Present Stock", presentStockController),
+            SizedBox(height: 10),
+            buildTextField("Estimated Cost", estimatedCostController),
+            SizedBox(height: 10),
+            buildTextField("Purchase & Justification", purchaseJustificationController),
+            SizedBox(height: 10),
+            buildTextField("Item Type", itemTypeController),
+            SizedBox(height: 10),
+            buildTextField("If Replace(give details)", replaceDetailsController),
+            SizedBox(height: 10),
+            buildTextField("Budgetary Head", budgetaryHeadController),
+            SizedBox(height: 10),
+            buildTextField("Expected Delivery", expectedDeliveryController),
+            SizedBox(height: 10),
+            buildTextField("Source of Supply", sourceOfSupplyController),
+            SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
-                // Print input
-                print(nameController.text);
-                print(emailController.text);
-                print(mobileController.text);
-                print(addressController.text);
+                pickAttachment();
+              },
+              child: Text(
+                'Attach File',
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                submitForm();
               },
               child: Text(
                 'Submit',
@@ -277,9 +123,103 @@ class _IndentFormState extends State<IndentForm> {
                 ),
               ),
             ),
+            buildTextField("Forward To", forwardToController),
+            SizedBox(height: 10),
+            buildTextField("Receiver Designation", receiverDesignationController),
+            SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () {
+                submitForm();
+              },
+              child: Text(
+                'Submit',
+                style: TextStyle(
+                  fontSize: 30,
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
+
+            attachment != null
+                ? Text(
+              'Attachment: ${attachment!.path}',
+              style: TextStyle(fontSize: 16),
+            )
+                : SizedBox(),
           ],
         ),
       ),
     );
   }
+
+  Widget buildTextField(String label, TextEditingController controller) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        SizedBox(height: 5),
+        TextField(
+          controller: controller,
+          decoration: InputDecoration(
+            border: OutlineInputBorder(),
+            hintText: '',
+          ),
+        ),
+      ],
+    );
+  }
+
+  void pickAttachment() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        attachment = File(pickedFile.path);
+      }
+    });
+  }
+
+  void submitForm() async {
+    var formData = {
+      'name': nameController.text,
+      'designation': designationController.text,
+      'itemName': itemNameController.text,
+      'quantity': quantityController.text,
+      'presentStock': presentStockController.text,
+      'estimatedCost': estimatedCostController.text,
+      'purchaseJustification': purchaseJustificationController.text,
+      'itemType': itemTypeController.text,
+      'replaceDetails': replaceDetailsController.text,
+      'budgetaryHead': budgetaryHeadController.text,
+      'expectedDelivery': expectedDeliveryController.text,
+      'sourceOfSupply': sourceOfSupplyController.text,
+      'forwardTo': forwardToController.text,
+      'receiverDesignation': receiverDesignationController.text,
+    };
+
+    if (attachment != null) {
+      // formData['attachment'] = await http.MultipartFile.fromPath('attachment', attachment!.path);
+    }
+
+    var response = await http.post(
+      Uri.parse('YOUR_API_ENDPOINT_HERE'),
+      body: formData,
+    );
+
+    if (response.statusCode == 200) {
+      // Form submitted successfully
+      // Handle success scenario
+    } else {
+      // Form submission failed
+      // Handle error scenario
+    }
+  }
 }
+
