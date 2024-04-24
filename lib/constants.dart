@@ -29,5 +29,5 @@ const kTextFieldInputDecoration = InputDecoration(
 );
 
 String getLink() {
-  return klocalLink;
+  return kserverLink;
 }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:fusion/constants.dart';
 import 'package:fusion/api.dart';
 import 'package:fusion/models/user.dart';
 import 'package:fusion/services/storage_service.dart';
@@ -24,15 +25,8 @@ class LoginService {
       var prefs = await StorageService.getInstance();
       print("response.body: ${response.body}");
 
-      var storageService = await StorageService.getInstance();
-      storageService!.saveUserInDB(User((jsonDecode(response.body))["token"]));
-      storageService.saveToDisk<List<String>>(
-        'designations',
-        (jsonDecode(response.body)["designations"] as List<dynamic>)
-            .map((dynamic item) => item.toString())
-            .toList(),
-      );
-      storageService.saveStringToDisk("Current_designation",jsonDecode(response.body)["designations"][0]);
+      var storage_service = await StorageService.getInstance();
+      storage_service!.saveUserInDB(User((jsonDecode(response.body))["token"]));
       return true;
     } catch (e) {
       rethrow;
@@ -41,8 +35,8 @@ class LoginService {
 
   void logout() async {
     try {
-      var storageService = await StorageService.getInstance();
-      storageService!.deleteKey("user");
+      var storage_service = await StorageService.getInstance();
+      storage_service!.deleteKey("user");
     } catch (e) {
       rethrow;
     }

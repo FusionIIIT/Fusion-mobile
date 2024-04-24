@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/appBar2.dart';
-import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/Components/appBar.dart';
+import 'package:fusion/Components/side_drawer.dart';
 import 'package:fusion/services/academic_service.dart';
 import 'package:fusion/models/academic.dart';
-import 'package:fusion/services/service_locator.dart';
-import 'package:fusion/services/storage_service.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart';
-import 'package:fusion/Components/bottom_navigation_bar.dart';
 
 class AcademicHomePage extends StatefulWidget {
   final String? token;
@@ -19,62 +16,16 @@ class AcademicHomePage extends StatefulWidget {
 }
 
 class _AcademicHomePageState extends State<AcademicHomePage> {
-  int _loading1 = 2;
+  bool _loading1 = true;
   late StreamController _academicController;
   late AcademicService academicService;
   late AcademicData data;
-  var courseList;
-  var service = locator<StorageService>();
-  late String curr_desig = service.getFromDisk("Current_designation");
   @override
   void initState() {
     super.initState();
     _academicController = StreamController();
     academicService = AcademicService();
     getAcademicDataStream();
-    // getCourseList();
-  }
-
-  List<Map<String, dynamic>> flattenCourseData(List<dynamic> coursesList) {
-    final flattenedData = <Map<String, dynamic>>[];
-
-    for (final courseSlot in coursesList) {
-      final slotName = courseSlot['slot_name'] as String;
-      final slotType = courseSlot['slot_type'] as String;
-      final semester = courseSlot['semester'] as int;
-
-      for (final course in courseSlot['courses'] as List<dynamic>) {
-        final courseName = course['name'] as String;
-        final credit = course['credit'] as int;
-        final courseCode = course['course_code'] as String;
-
-        flattenedData.add({
-          'slot_name': slotName,
-          'slot_type': slotType,
-          'semester': semester,
-          'course_name': courseName,
-          'credit': credit,
-          'course_code': courseCode,
-        });
-      }
-    }
-    return flattenedData;
-  }
-
-  getCourseList() async {
-    //print('token-'+widget.token!);
-    try {
-      Response response = await academicService.getRegistrationCourses();
-      setState(() {
-        // print(jsonDecode(response.body)['next_sem_registration_courses']);
-        courseList = flattenCourseData(
-            jsonDecode(response.body)['next_sem_registration_courses']);
-        // courseList = response.body;
-        _loading1--;
-      });
-    } catch (e) {
-      print(e);
-    }
   }
 
   getAcademicDataStream() async {
@@ -82,15 +33,10 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
     try {
       Response response =
           await academicService.getAcademicDetails(widget.token!);
-      if (response.statusCode == 200) {
-        print("successfully fetched profile");
-        service.saveAcadInDB(AcademicData.fromJson(jsonDecode(response.body)));
-      }
       setState(() {
         print(response.body);
         data = AcademicData.fromJson(jsonDecode(response.body));
-        _loading1--;
-        getCourseList();
+        _loading1 = false;
       });
     } catch (e) {
       print(e);
@@ -135,18 +81,9 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-        curr_desig: curr_desig,
-        headerTitle: "Academic Home",
-        onDesignationChanged: (newValue) {
-          setState(() {
-            curr_desig = newValue;
-          });
-        },
-      ), // This is default app bar used in all modules
-      drawer: SideDrawer(curr_desig: curr_desig),
-      bottomNavigationBar: MyBottomNavigationBar(),
-      body: _loading1 != 0
+      appBar: DefaultAppBar().buildAppBar(),
+      drawer: SideDrawer(),
+      body: _loading1 == true
           ? Center(child: CircularProgressIndicator())
           : ListView(
               shrinkWrap: true,
@@ -230,77 +167,86 @@ class _AcademicHomePageState extends State<AcademicHomePage> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       InkWell(
-                        child: myContainer("View Offered Courses"),
+                        child: myContainer("Current Semester"),
                         onTap: () {
                           Navigator.pushNamed(context,
                               '/academic_home_page/current_semester_home_page',
-                              arguments: courseList);
-                        },
-                      ),
-                      InkWell(
-                        child: myContainer("Final Registration"),
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, '/academic_home_page/final_registration',
                               arguments: data);
                         },
                       ),
                       InkWell(
-                        child: myContainer("Pre Registration"),
+                        child: myContainer("Registration"),
                         onTap: () {
-                          Navigator.pushNamed(
-                              context, '/academic_home_page/pre_registration',
-                              arguments: courseList);
-                        },
-                      ),
-                      InkWell(
-                        child: myContainer("Add Course"),
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, '/academic_home_page/add_courses',
+                          Navigator.pushNamed(context,
+                              '/academic_home_page/registration_home_page',
                               arguments: data);
                         },
                       ),
                       InkWell(
-                        child: myContainer("Drop Course"),
+                        child: myContainer("Check Dues"),
                         onTap: () {
                           Navigator.pushNamed(
-                              context, '/academic_home_page/drop_courses',
+                              context, '/academic_home_page/dues',
                               arguments: data);
                         },
                       ),
                       InkWell(
-                        child: myContainer("View Registration"),
+                        child: myContainer("Apply for Bonafide"),
                         onTap: () {
                           Navigator.pushNamed(
-                              context, '/academic_home_page/view_registration',
+                              context, '/academic_home_page/bonafide',
+                              arguments: {
+                                'firstName': data.details!['current_user']
+                                        ['first_name']
+                                    .toString(),
+                                'lastName': data.details!['current_user']
+                                    ['last_name'],
+                                'branch': data.details!['user_branch'],
+                                'roll_no': data.details!['current_user']
+                                    ['username'],
+                              });
+                        },
+                      ),
+                      InkWell(
+                        child: myContainer("Check Attendance"),
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, '/academic_home_page/attendance',
                               arguments: data);
                         },
                       ),
                       InkWell(
-                        child: myContainer("View Backlog Courses"),
+                        child: myContainer("Branch Change"),
                         onTap: () {
                           Navigator.pushNamed(
-                              context, '/academic_home_page/view_backlog',
-                              arguments: data);
+                              context, '/academic_home_page/branch_change');
                         },
                       ),
-
-                      // InkWell(
-                      //   child: myContainer("Current Semester"),
-                      //   onTap: () {
-                      //     Navigator.pushNamed(context,
-                      //         '/academic_home_page/current_semester_home_page',
-                      //         arguments: data);
-                      //   },
-                      // ),
-                      // InkWell(
-                      //   child: myContainer("Add/Drop courses"),
-                      //   onTap: () {
-                      //     Navigator.pushNamed(
-                      //         context, '/academic_home_page/add_drop_courses');
-                      //   },
-                      // ),
+                      InkWell(
+                        child: myContainer("Evaluate Teaching Credits"),
+                        //onTap: (){},
+                      ),
+                      InkWell(
+                        child: myContainer("Thesis"),
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, '/academic_home_page/thesis');
+                        },
+                      ),
+                      InkWell(
+                        child: myContainer("View Performance"),
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, '/academic_home_page/performance');
+                        },
+                      ),
+                      InkWell(
+                        child: myContainer("Add/Drop courses"),
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, '/academic_home_page/add_drop_courses');
+                        },
+                      ),
                     ],
                   ),
                 ),

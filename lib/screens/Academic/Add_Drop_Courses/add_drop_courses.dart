@@ -1,23 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/screens/Academic/Registration/courses.dart';
-import 'package:fusion/screens/Academic/Registration/final_registration.dart';
-import 'package:fusion/screens/Academic/Registration/pre_registration.dart';
-// import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
-import 'package:fusion/models/academic.dart';
 
-class RegistrationHomePage extends StatefulWidget {
+class AddDropCourses extends StatefulWidget {
   @override
-  _RegistrationHomePageState createState() => _RegistrationHomePageState();
+  _AddDropCoursesState createState() => _AddDropCoursesState();
 }
 
-class _RegistrationHomePageState extends State<RegistrationHomePage> {
+class _AddDropCoursesState extends State<AddDropCourses> {
   @override
   Widget build(BuildContext context) {
-    final AcademicData data =
-        ModalRoute.of(context)?.settings.arguments as AcademicData;
     return DefaultTabController(
-      length: 3,
+      length: 2,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.black,
@@ -47,21 +40,14 @@ class _RegistrationHomePageState extends State<RegistrationHomePage> {
               Tab(
                 child: Container(
                   child: Text(
-                    'Courses',
+                    'Add Course',
                   ),
                 ),
               ),
               Tab(
                 child: Container(
                   child: Text(
-                    'Pre-Registration',
-                  ),
-                ),
-              ),
-              Tab(
-                child: Container(
-                  child: Text(
-                    'Final Registration',
+                    'Drop Course',
                   ),
                 ),
               ),
@@ -69,12 +55,29 @@ class _RegistrationHomePageState extends State<RegistrationHomePage> {
           ),
         ),
         drawer: SideDrawer(),
-        body: TabBarView(
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Courses(data: data.currently_registered),
-            PreRegistration(),
-            FinalRegistration(data: data)
-            // FinalRegistration(data: data)
+            Flexible(
+              child: TabBarView(
+                children: [
+                  Center(
+                    child: Text(
+                      "Add Course(s)\nYou have to wait for the date",
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  Center(
+                    child: Text(
+                      "Drop Course(s)\nYou have to wait for the date",
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Center(child: Text('Current Credits : 0')),
           ],
         ),
       ),

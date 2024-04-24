@@ -13,8 +13,6 @@ class _SideDrawerState extends State<SideDrawer> {
   int count = 0;
   String? name;
   String? depttype;
-  String? usertype;
-
   @override
   void initState() {
     super.initState();
@@ -25,8 +23,6 @@ class _SideDrawerState extends State<SideDrawer> {
     depttype = service.profileData.profile!['department']!['name'] +
         " " +
         service.profileData.profile!['user_type'];
-
-    usertype = service.profileData.profile!['user_type'];
   }
 
   @override
@@ -34,7 +30,6 @@ class _SideDrawerState extends State<SideDrawer> {
     return SafeArea(
       child: Container(
         margin: const EdgeInsets.only(right: 50.0),
-        height: 1000.0,
         color: Colors.black,
         child: ListView(
           shrinkWrap: true,
@@ -75,115 +70,97 @@ class _SideDrawerState extends State<SideDrawer> {
                 ),
               ],
             ),
-            ModulesCard(cardLine: 'Dashboard', pageMover: '/dashboard'),
-            if (usertype! == "staff") ...[
-              ModulesCard(
-                  cardLine: 'Course List', pageMover: '/course_list_home_page'),
-              ModulesCard(
-                  cardLine: 'Configure Pre Registration',
-                  pageMover: '/configure_pre_registration'),
-              ModulesCard(
-                  cardLine: 'Configure Final Registration',
-                  pageMover: '/configure_final_registration'),
-            ],
-            if (usertype! == "fx") ...[
-              ModulesCard(
-                  cardLine: 'View Assigned Courses',
-                  pageMover: '/view_assigned_courses'),
-            ],
-            if (usertype == "student") ...[
-              Card(
-                color: Colors.black,
-                child: GestureDetector(
-                  //behaviour to translucent to get Tap even on blank or empty space within container
-                  behavior: HitTestBehavior.translucent,
-                  onTap: () {
-                    count++;
-                    setState(() {
-                      count % 2 == 0 ? _loading = false : _loading = true;
-                    });
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Modules',
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            color: Colors.white,
-                          ),
+            ModulesCard(cardLine: 'DashBoard', pageMover: '/dashboard'),
+            Card(
+              color: Colors.black,
+              child: GestureDetector(
+                //behaviour to translucent to get Tap even on blank or empty space within container
+                behavior: HitTestBehavior.translucent,
+                onTap: () {
+                  count++;
+                  setState(() {
+                    count % 2 == 0 ? _loading = false : _loading = true;
+                  });
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Modules',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          color: Colors.white,
                         ),
-                        Icon(
-                          Icons.arrow_downward,
-                          color: Colors.deepOrangeAccent,
-                        ),
-                      ],
-                    ),
+                      ),
+                      Icon(
+                        Icons.arrow_downward,
+                        color: Colors.deepOrangeAccent,
+                      ),
+                    ],
                   ),
                 ),
               ),
-              _loading
-                  ? Card(
-                      color: Colors.black,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          // ModulesPadding(
-                          //     line: 'DashBoard', pageMover: '/dashboard'),
-                          ModulesPadding(
-                            line: 'Academics Module',
-                            pageMover: '/academic_home_page',
-                            isActive: true,
-                          ),
-                          ModulesPadding(
-                            line: 'Programme Curriculum',
-                            pageMover: '/programme_curriculum_home',
-                            isActive: true,
-                          ),
-                          ModulesPadding(
-                              line: 'Gymkhana Module',
-                              pageMover: '/gymkhana_homepage'),
-                          ModulesPadding(
-                              line: 'Establishment Module',
-                              pageMover: '/establishment'),
-                          ModulesPadding(
-                              line: 'Library Module',
-                              pageMover: '/library_homepage'),
-                          ModulesPadding(line: 'Awards & Scholarship Module'),
-                          ModulesPadding(
-                              line: 'Complaint Module',
-                              pageMover: '/complaint'),
-                          ModulesPadding(line: 'Central Mess Module'),
-                          ModulesPadding(line: 'Feeds Module'),
-                          ModulesPadding(
-                            line: 'Health Center Module',
-                            pageMover: '/health_center',
-                          ),
-                          ModulesPadding(line: 'Leave Module'),
-                          ModulesPadding(line: 'Placement Module'),
-                          ModulesPadding(line: 'Visitors Hostel Module'),
-                          ModulesPadding(line: 'File Tracking Module'),
-                        ],
-                      ),
-                    )
-                  : SizedBox(
-                      width: 2.0,
+            ),
+            _loading
+                ? Card(
+                    color: Colors.black,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        // ModulesPadding(
+                        //     line: 'DashBoard', pageMover: '/dashboard'),
+                        ModulesPadding(
+                          line: 'Academics Module',
+                          pageMover: '/academic_home_page',
+                          isActive: true,
+                        ),
+                        ModulesPadding(
+                          line: 'Programme Curriculum',
+                          pageMover: '/programme_curriculum_home',
+                          isActive: true,
+                        ),
+                        ModulesPadding(
+                            line: 'Gymkhana Module',
+                            pageMover: '/gymkhana_homepage'),
+                        ModulesPadding(
+                            line: 'Establishment Module',
+                            pageMover: '/establishment'),
+                        ModulesPadding(
+                            line: 'Library Module',
+                            pageMover: '/library_homepage'),
+                        ModulesPadding(line: 'Awards & Scholarship Module'),
+                        ModulesPadding(
+                            line: 'Complaint Module', pageMover: '/complaint'),
+                        ModulesPadding(line: 'Central Mess Module'),
+                        ModulesPadding(line: 'Feeds Module'),
+                        ModulesPadding(
+                          line: 'Health Center Module',
+                          pageMover: '/health_center',
+                        ),
+                        ModulesPadding(line: 'Leave Module'),
+                        ModulesPadding(line: 'Placement Module'),
+                        ModulesPadding(line: 'Visitors Hostel Module'),
+                        ModulesPadding(line: 'File Tracking Module'),
+                      ],
                     ),
-              ModulesCard(cardLine: 'Office Of Dean Students'),
-              ModulesCard(cardLine: 'Office Of Dean Academics'),
-              ModulesCard(cardLine: 'Director Office'),
-              ModulesCard(cardLine: 'Office Of Purchase Officer'),
-              ModulesCard(cardLine: 'Office Of Registrar'),
-              ModulesCard(cardLine: 'Office Of P&D'),
-              ModulesCard(cardLine: 'Office Of HOD (Branch)'),
-              ModulesCard(cardLine: 'Finance & Accounts'),
-            ],
+                  )
+                : SizedBox(
+                    width: 2.0,
+                  ),
             ModulesCard(
                 cardLine: 'Profile',
                 icon: Icons.account_circle,
                 pageMover: '/profile'),
+            ModulesCard(cardLine: 'Office Of Dean Students'),
+            ModulesCard(cardLine: 'Office Of Dean Academics'),
+            ModulesCard(cardLine: 'Director Office'),
+            ModulesCard(cardLine: 'Office Of Purchase Officer'),
+            ModulesCard(cardLine: 'Office Of Registrar'),
+            ModulesCard(cardLine: 'Office Of P&D'),
+            ModulesCard(cardLine: 'Office Of HOD (Branch)'),
+            ModulesCard(cardLine: 'Finance & Accounts'),
             ModulesCard(cardLine: 'Meet Our Team'),
             ModulesCard(cardLine: 'Log Out', icon: Icons.logout),
           ],
