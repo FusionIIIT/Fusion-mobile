@@ -263,6 +263,12 @@ class _CentralMessHomeState extends State<CentralMessHome> {
                     if (userMessData.currentMessStatus.toLowerCase() == "registered")
                       ...[
                         InkWell(
+                          child: myContainer("Update Payment" ),
+                          onTap: () {
+                            Navigator.pushNamed(context, '/central_mess_home/updatePayment', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
+                          },
+                        ),
+                        InkWell(
                           child: myContainer("Feedback Form/History"),
                           onTap: () {
                             Navigator.pushNamed(context, '/central_mess_home/feedback',
@@ -409,6 +415,12 @@ class _CentralMessHomeState extends State<CentralMessHome> {
                                   child: myContainer("Reg/DeReg Requests" ),
                                   onTap: () {
                                     Navigator.pushNamed(context, '/central_mess_home/registration', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
+                                  },
+                                ),
+                                InkWell(
+                                  child: myContainer("Update Payment Requests" ),
+                                  onTap: () {
+                                    Navigator.pushNamed(context, '/central_mess_home/updatePayment', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
                                   },
                                 ),
                                 InkWell(

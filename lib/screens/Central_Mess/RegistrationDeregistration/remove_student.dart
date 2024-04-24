@@ -13,6 +13,7 @@ class _AddRemoveStudentsState extends State<AddRemoveStudents> {
   bool _loading = false;
   String? selectedMess, studentId;
   final studentIdController = TextEditingController();
+  Map<String, dynamic> regRecords = {};
 
   @override
   void initState() {
@@ -25,9 +26,6 @@ class _AddRemoveStudentsState extends State<AddRemoveStudents> {
     try {
       Map<String, String> data = {
         'type': 'search',
-        'mess_option': 'all',
-        'program': 'all',
-        'status': 'all',
         'student_id': studentIdController.text!,
       };
       List<RegMain> regMainList = await _centralMessService.getRegMain(data);
@@ -35,6 +33,7 @@ class _AddRemoveStudentsState extends State<AddRemoveStudents> {
       if(regMainList.isEmpty) _showSnackbar('Invalid Student Id: $studentId', Colors.red);
 
       setState(() {
+        // regRecords = /
       });
     } catch (e) {
       print(e);
@@ -45,12 +44,16 @@ class _AddRemoveStudentsState extends State<AddRemoveStudents> {
     });
   }
 
-  void _updateStudentStatus() async{
+  void _updateStudentStatus(String type) async{
     setState(() {
       _loading = true;
     });
     try{
+      if(type=='mess1' || type=='mess2'){
 
+      }else{
+
+      }
     }catch(e){
 
     }
@@ -100,39 +103,12 @@ class _AddRemoveStudentsState extends State<AddRemoveStudents> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    DropdownButtonFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Select a Mess',
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colors.deepOrangeAccent, width: 2),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
-                      ),
-                      validator: (value) =>
-                      value == null ? "Select a mess" : null,
-                      dropdownColor: Colors.white,
-                      value: selectedMess,
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          selectedMess = newValue!;
-                        });
-                      },
-                      items: menuDropDownItems.map((item) {
-                        return DropdownMenuItem(
-                          child: Text(item["text"]!),
-                          value: item["value"],
-                        );
-                      }).toList(),
-                    ),
                     SizedBox(height: 10.0),
                     TextFormField(
                       maxLines: 1,
                       cursorHeight: 30,
                       decoration: InputDecoration(
-                        labelText: 'Studend Id',
+                        labelText: 'Student Id',
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                               color: Colors.deepOrangeAccent, width: 2),
@@ -149,41 +125,55 @@ class _AddRemoveStudentsState extends State<AddRemoveStudents> {
                       controller: studentIdController,
                       onSaved: (newValue) {
                         studentIdController.text = newValue!;
-                        studentIdController.text = studentIdController.text.toLowerCase();
+                        studentIdController.text = studentIdController.text.toUpperCase();
                       },
                       style: TextStyle(fontSize: 20.0),
                     ),
                     SizedBox(height: 30.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly, // Adjust as needed
-                      children: [
-                        ElevatedButton(
-                          style: buildButtonStyle(Colors.white),
-                          onPressed: () {
-                            if (_messFormKey.currentState!.validate()) {}
-                          },
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              Text("Add"),
-                              if (_loading) CircularProgressIndicator(),
-                            ],
-                          ),
-                        ),
-                        ElevatedButton(
-                          style: buildButtonStyle(Colors.redAccent),
-                          onPressed: () {
-                            if (_messFormKey.currentState!.validate()) {}
-                          },
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              Text("Remove"),
-                              if (_loading) CircularProgressIndicator(),
-                            ],
-                          ),
-                        ),
-                      ],
+                    ElevatedButton(
+                      style: buildButtonStyle(Colors.white),
+                      onPressed: () {
+                        if (_messFormKey.currentState!.validate()) {
+                          _updateStudentStatus(studentIdController.text);
+                        }
+                      },
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Text("Remove"),
+                          if (_loading) CircularProgressIndicator(),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 20.0),
+                    ElevatedButton(
+                      style: buildButtonStyle(Colors.white),
+                      onPressed: () {
+                        // if (_messFormKey.currentState!.validate()) {}
+                        _updateStudentStatus("mess1");
+                      },
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Text("Remove All from Mess1"),
+                          if (_loading) CircularProgressIndicator(),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 20.0),
+                    ElevatedButton(
+                      style: buildButtonStyle(Colors.white),
+                      onPressed: () {
+                        // if (_messFormKey.currentState!.validate()) {}
+                        _updateStudentStatus("mess2");
+                      },
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Text("Remove All from Mess2"),
+                          if (_loading) CircularProgressIndicator(),
+                        ],
+                      ),
                     ),
                   ],
                 ),

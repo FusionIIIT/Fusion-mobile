@@ -56,6 +56,7 @@ import 'package:fusion/screens/Central_Mess/RegistrationDeregistration/reg_dereg
 import 'package:fusion/screens/Central_Mess/RegistrationDeregistration/manage_registration_homepage.dart';
 import 'package:fusion/screens/Central_Mess/Rebate/respondToRebateRequest.dart';
 import 'package:fusion/screens/Central_Mess/VacationFood/vacation_food_home.dart';
+import 'package:fusion/screens/Central_Mess/Payments/payments_home.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -76,6 +77,7 @@ class MyApp extends StatelessWidget {
     MediaQueryData windowData =
     MediaQueryData.fromView(WidgetsBinding.instance.window);
     windowData = windowData.copyWith(
+      // textScaleFactor: 1,
       textScaler: TextScaler.linear(1),
     );
     return MediaQuery(
@@ -154,6 +156,7 @@ class MyApp extends StatelessWidget {
           '/central_mess_home/manageRegistration' : (context)=>ManageRegDeRegHomepage(),
           '/central_mess_home/rebateRequest': (context)=>RespondToRebateRequest(),
           '/central_mess_home/vacationFood' : (context)=>VacationFoodHome(),
+          '/central_mess_home/updatePayment' : (context)=>UpdatePaymentHome(),
         },
       ),
     );

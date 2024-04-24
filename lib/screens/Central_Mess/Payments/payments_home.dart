@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 // import 'package:fusion/Components/appBar.dart';
 // import 'package:fusion/Components/side_drawer.dart';
-import 'package:fusion/screens/Central_Mess/RegistrationDeregistration/remove_student.dart';
-import 'manage_registrations.dart';
+
 import 'package:fusion/models/profile.dart';
 import 'package:fusion/Components/appBar2.dart';
 import 'package:fusion/Components/side_drawer2.dart';
@@ -10,15 +9,20 @@ import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
 import 'package:fusion/Components/bottom_navigation_bar.dart';
 
-class ManageRegDeRegHomepage extends StatefulWidget {
+import 'payment_history.dart';
+import 'payment_requests.dart';
+import 'payment_update_form.dart';
+
+class UpdatePaymentHome extends StatefulWidget {
   @override
-  _ManageRegDeRegHomepageState createState() => _ManageRegDeRegHomepageState();
+  _UpdatePaymentHomeState createState() => _UpdatePaymentHomeState();
 }
 
-class _ManageRegDeRegHomepageState extends State<ManageRegDeRegHomepage> {
+class _UpdatePaymentHomeState extends State<UpdatePaymentHome> {
 
   var service = locator<StorageService>();
   late String curr_desig = service.getFromDisk("Current_designation");
+
   @override
   Widget build(BuildContext context) {
     Map<String, dynamic>? arguments =
@@ -49,7 +53,7 @@ class _ManageRegDeRegHomepageState extends State<ManageRegDeRegHomepage> {
         child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
           SizedBox(height: 5.0),
           DefaultTabController(
-              length:  2, // length of tabs
+              length:  user == "caretaker" ? 1 : 2, // length of tabs
               initialIndex: 0,
               child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
                 Container(
@@ -59,22 +63,31 @@ class _ManageRegDeRegHomepageState extends State<ManageRegDeRegHomepage> {
                     indicatorColor: Colors.deepOrangeAccent,
                     unselectedLabelColor: Colors.black,
                     tabs: [
-                      if (user == "caretaker" || user == "warden")
+                      if (user == "caretaker")
                         ...[
                           Tab(
                             child: Text(
-                              "View List",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Tab(
-                            child: Text(
-                              "Add/Remove Student",
+                              "Update Payment Requests",
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                           ),
                         ],
+                      if (user == "student")
+                        ...[
+                          Tab(
+                            child: Text(
+                              "Update Payment",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
 
+                          Tab(
+                            child: Text(
+                              "History",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ],
                     ],
                   ),
                 ),
@@ -85,9 +98,12 @@ class _ManageRegDeRegHomepageState extends State<ManageRegDeRegHomepage> {
                     ),
                     child:  TabBarView(
                       children: <Widget>[
-                        if (user == "caretaker" || user=="warden") ...[
-                          ManageRegistrations(),
-                          AddRemoveStudents(),
+                        if (user == "student") ...[
+                          UpdatePaymentForm(),
+                          UpdatePaymentHistory(userMessData: userMessData),
+                        ],
+                        if (user =="caretaker") ...[
+                          UpdatePaymentRequests(),
                         ],
                       ],
                     )

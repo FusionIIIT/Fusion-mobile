@@ -1164,14 +1164,19 @@ class CentralMessService {
         if (response.statusCode == 200) {
           Iterable RegMainList;
           if (data['type'] == 'search') {
-            RegMainList =
-                json.decode(response.body)['payload'].toList();
+            print(json.decode(response.body)['payload']);
+            List<dynamic> resData= [];
+            resData.add(json.decode(response.body)['payload']);
+            RegMainList = resData;
+          } else {
+            RegMainList = json.decode(response.body)['payload'];
           }
-          RegMainList =
-          json.decode(response.body)['payload'];
           return RegMainList.map(
                   (model) => RegMain.fromJson(model)).toList();
-        } else {
+        }else if(response.statusCode == 404){
+          throw Exception('Invalid Student Id!');
+        }
+        else {
           print(response.statusCode);
           print(response.body.toString());
           throw Exception('Failed to load main registration records');

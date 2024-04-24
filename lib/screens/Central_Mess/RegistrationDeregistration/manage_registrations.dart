@@ -11,9 +11,9 @@ class _ManageRegistrationsState extends State<ManageRegistrations> {
   CentralMessService _centralMessService = CentralMessService();
 
   static List<dynamic> _monthlyBillData = [] ,_paymentData = [],_regRecordsData = [], _studentDetailsData=[];
-  bool _loading = false, _gotData = false, _dialogLoad = false;
+  bool _loading = false, _gotData = true, _dialogLoad = false, _search = false;
   late String name;
-  String? selectedMess, selectedProgramme, selectedStatus, selectedBatch;
+  String? selectedMess, selectedProgramme, selectedStatus, selectedBatch,reqStudentId;
   List<Map<String, dynamic>> billData = [],
       paymentData = [],
       regRecord = [],
@@ -31,11 +31,11 @@ class _ManageRegistrationsState extends State<ManageRegistrations> {
   @override
   void initState() {
     super.initState();
-    getData(); // set initial data
+    // getData(); // set initial data
     currentYear = DateTime
         .now()
         .year;
-    yearsList = List.generate(5, (index) => (currentYear - index).toString());
+    yearsList = List.generate(6, (index) => (currentYear - index).toString());
   }
 
   void _fetchStudentDetails(String studentId) async {
@@ -58,7 +58,7 @@ class _ManageRegistrationsState extends State<ManageRegistrations> {
       print("Error fetching data: $e");
     }
 
-    await Future.delayed(Duration(seconds: 2));
+    // await Future.delayed(Duration(seconds: 5));
     setState(() {
       _dialogLoad = false;
     });
@@ -137,27 +137,33 @@ class _ManageRegistrationsState extends State<ManageRegistrations> {
     }).toList();
   }
 
-  getData() async {
+  getData(String type) async {
     setState(() {
       _loading = true;
-      _gotData = false;
+      _gotData = true;
+      if(type=="search")_search = true;
     });
     try {
       Map<String, String> data = {
-        'type': 'filter',
+        'type': type,
         'mess_option': selectedMess ?? 'all',
         'program': selectedProgramme ?? 'all',
         'status': selectedStatus ?? 'all',
+        'student_id': reqStudentId??'',
       };
       List<RegMain> regMainList = await _centralMessService.getRegMain(data);
+      // regMainList.forEach((ele)=>{print(ele.toMap())});
       if (selectedBatch != null) {
         regMainList = regMainList.where((ele) =>
         ele.studentId.toString().substring(0, 2) == selectedBatch
         ).toList();
       }
       setState(() {
+        int count = 0;
         tableData = regMainList.map((regMain) {
+          count++;
           return {
+            'S.No.' :  count.toString(),
             'Student Id': regMain.studentId,
             'Program': regMain.program,
             'Balance': regMain.balance.toString(),
@@ -165,16 +171,36 @@ class _ManageRegistrationsState extends State<ManageRegistrations> {
             'View Details': '',
           };
         }).toList();
+        _loading= false;
+        _gotData = false;
+        _search = false;
       });
     } catch (e) {
+      setState(() {
+        _loading= false;
+        _gotData = false;
+        _search = false;
+      });
+      _showSnackBar("Error: $e", Colors.red);
       print(e);
     }
     setState(() {
-      _loading= false;
-      _gotData = true;
+      // _loading= false;
+      // _gotData = true;
     });
   }
-
+  void _showSnackBar(String message, Color backgroundColor) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          style: TextStyle(color: Colors.white),
+        ),
+        duration: Duration(seconds: 5),
+        backgroundColor: backgroundColor, // Set background color to red for failure
+      ),
+    );
+  }
 
   List<Map<String, String>> messDropDownItems = [
     {"text": "Mess 1", "value": "mess1"},
@@ -184,7 +210,7 @@ class _ManageRegistrationsState extends State<ManageRegistrations> {
   List<Map<String, String>> programmeDropDownItems = [
     {"text": "B.Tech", "value": "B.Tech"},
     {"text": "M.Tech", "value": "M.Tech"},
-    {"text": "PHD", "value": "PHD"},
+    {"text": "PHD", "value": "Phd"},
     {"text": "B.Des", "value": "B.Des"},
     {"text": "All", "value": "all"},
   ];
@@ -217,139 +243,191 @@ class _ManageRegistrationsState extends State<ManageRegistrations> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SizedBox(height: 10.0),
-                        DropdownButtonFormField(
-                          decoration: InputDecoration(
-                            labelText: 'Select programme',
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Colors.deepOrangeAccent, width: 2),
-                              borderRadius: BorderRadius.circular(20),
+                        Row(
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: DropdownButtonFormField(
+                                decoration: InputDecoration(
+                                  labelText: 'Select programme',
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.deepOrangeAccent, width: 2),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                ),
+                                dropdownColor: Colors.white,
+                                value: selectedProgramme,
+                                onChanged: (String? newValue) {
+                                  setState(() {
+                                    selectedProgramme = newValue;
+                                  });
+                                  getData("filter");
+                                },
+                                items: programmeDropDownItems.map((item) {
+                                  return DropdownMenuItem(
+                                    child: Text(item["text"]!),
+                                    value: item["value"],
+                                  );
+                                }).toList(),
+                              ),
                             ),
-                            filled: true,
-                            fillColor: Colors.white,
-                          ),
-                          // validator: (value) =>
-                          // value == null ? "Select a programme" : null,
-                          dropdownColor: Colors.white,
-                          value: selectedProgramme,
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              selectedProgramme = newValue;
-                            });
-                            getData(); // Call getData whenever dropdown value changes
-                          },
-                          items: programmeDropDownItems.map((item) {
-                            return DropdownMenuItem(
-                              child: Text(item["text"]!),
-                              value: item["value"],
-                            );
-                          }).toList(),
+                            SizedBox(width: 10),
+                            Expanded(
+                              flex: 1,
+                              child: DropdownButtonFormField(
+                                decoration: InputDecoration(
+                                  labelText: 'Select batch',
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.deepOrangeAccent, width: 2),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                ),
+                                dropdownColor: Colors.white,
+                                value: selectedBatch,
+                                onChanged: (String? newValue) {
+                                  setState(() {
+                                    selectedBatch = newValue;
+                                  });
+                                  getData("filter");
+                                },
+                                items: yearsList.map((item) {
+                                  return DropdownMenuItem(
+                                    child: Text(item),
+                                    value: item.toString().substring(2),
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                          ],
                         ),
                         SizedBox(height: 10.0),
-                        DropdownButtonFormField(
-                          decoration: InputDecoration(
-                            labelText: 'Select batch',
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Colors.deepOrangeAccent, width: 2),
-                              borderRadius: BorderRadius.circular(20),
+                        Row(
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: DropdownButtonFormField(
+                                decoration: InputDecoration(
+                                  labelText: 'Select status',
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.deepOrangeAccent, width: 2),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                ),
+                                dropdownColor: Colors.white,
+                                value: selectedStatus,
+                                onChanged: (String? newValue) {
+                                  setState(() {
+                                    selectedStatus = newValue;
+                                  });
+                                  getData("filter");
+                                },
+                                items: statusDropDownItems.map((item) {
+                                  return DropdownMenuItem(
+                                    child: Text(item["text"]!),
+                                    value: item["value"],
+                                  );
+                                }).toList(),
+                              ),
                             ),
-                            filled: true,
-                            fillColor: Colors.white,
-                          ),
-                          // validator: (value) =>
-                          // value == null ? "Select a programme" : null,
-                          dropdownColor: Colors.white,
-                          value: selectedBatch,
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              selectedBatch = newValue;
-                            });
-                            getData(); // Call getData whenever dropdown value changes
-                          },
-                          items: yearsList.map((item) {
-                            return DropdownMenuItem(
-                              child: Text(item),
-                              value: item.toString().substring(2),
-                            );
-                          }).toList(),
+                            SizedBox(width: 10),
+                            Expanded(
+                              flex: 1,
+                              child: DropdownButtonFormField(
+                                decoration: InputDecoration(
+                                  labelText: 'Select a Mess',
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.deepOrangeAccent, width: 2),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                ),
+                                dropdownColor: Colors.white,
+                                value: selectedMess,
+                                onChanged: (String? newValue) {
+                                  setState(() {
+                                    selectedMess = newValue;
+                                  });
+                                  getData("filter");
+                                },
+                                items: messDropDownItems.map((item) {
+                                  return DropdownMenuItem(
+                                    child: Text(item["text"]!),
+                                    value: item["value"],
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                          ],
                         ),
                         SizedBox(height: 10.0),
-                        DropdownButtonFormField(
-                          decoration: InputDecoration(
-                            labelText: 'Select status',
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Colors.deepOrangeAccent, width: 2),
-                              borderRadius: BorderRadius.circular(20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.6,
+                              child: TextFormField(
+                                maxLines: 1,
+                                cursorHeight: 20,
+                                decoration: InputDecoration(
+                                  labelText: 'Search StudentId',
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.deepOrangeAccent, width: 2),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Search studentId";
+                                  } else {
+                                    reqStudentId = value.toUpperCase();
+                                    return null;
+                                  }
+                                },
+                                style: TextStyle(fontSize: 18.0),
+                              ),
                             ),
-                            filled: true,
-                            fillColor: Colors.white,
-                          ),
-                          // validator: (value) =>
-                          // value == null ? "Select status" : null,
-                          dropdownColor: Colors.white,
-                          value: selectedStatus,
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              selectedStatus = newValue;
-                            });
-                            getData(); // Call getData whenever dropdown value changes
-                          },
-                          items: statusDropDownItems.map((item) {
-                            return DropdownMenuItem(
-                              child: Text(item["text"]!),
-                              value: item["value"],
-                            );
-                          }).toList(),
-                        ),
-                        SizedBox(height: 10.0),
-                        DropdownButtonFormField(
-                          decoration: InputDecoration(
-                            labelText: 'Select a Mess',
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Colors.deepOrangeAccent, width: 2),
-                              borderRadius: BorderRadius.circular(20),
+                            ElevatedButton(
+                              style: style,
+                              onPressed: _loading ? null : () {
+                                if (_messFormKey.currentState!.validate()) {
+                                  setState(() {
+                                    _loading = true;
+                                  });
+                                  getData("search");
+                                }
+                              },
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  Text("Search"),
+                                  if (_search) CircularProgressIndicator(),
+                                ],
+                              ),
                             ),
-                            filled: true,
-                            fillColor: Colors.white,
-                          ),
-                          // validator: (value) =>
-                          // value == null ? "Select a mess" : null,
-                          dropdownColor: Colors.white,
-                          value: selectedMess,
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              selectedMess = newValue;
-                            });
-                            getData(); // Call getData whenever dropdown value changes
-                          },
-                          items: messDropDownItems.map((item) {
-                            return DropdownMenuItem(
-                              child: Text(item["text"]!),
-                              value: item["value"],
-                            );
-                          }).toList(),
+                          ],
                         ),
-                        SizedBox(height: 10.0),
-                        // ElevatedButton(
-                        //     style: style,
-                        //     onPressed: _loading ? null : () {
-                        //       if (_messFormKey.currentState!.validate()) {
-                        //         setState(() {
-                        //           _loading = true;
-                        //         });
-                        //       }
-                        //     },
-                        //     child: Text("Filter"))
+                        SizedBox(height: 30.0),
                       ],
                     ),
                   ),
                 ),
               ),
-              !_gotData && _loading
-                  ? CircularProgressIndicator(): Container(
+              _gotData && _loading
+                  ? CircularProgressIndicator(): _gotData ? SizedBox(height: 10.0,) : Container(
                 decoration: BoxDecoration(
                   border: Border.all(
                     color: Colors.grey,
