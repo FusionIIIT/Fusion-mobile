@@ -11,23 +11,24 @@ class StorageService with ChangeNotifier {
   //This is the database key, do not change this
   static const String UserKey = "user";
   static const String ProfileKey = "ProfileKey";
+  static const String AcadKey = "AcadKey";
 
   User? get userInDB {
-    var userJson = _getFromDisk(UserKey);
+    var userJson = getFromDisk(UserKey);
 
     return userJson == null ? null : User.fromJson(jsonDecode(userJson));
   }
 
   ProfileData get profileData {
-    var profileJson = _getFromDisk(ProfileKey);
+    var profileJson = getFromDisk(ProfileKey);
     // print(jsonDecode(profileJson));
     return ProfileData.fromJson(jsonDecode(profileJson));
   }
 
   AcademicData get academicData {
-    var profileJson = _getFromDisk(ProfileKey);
+    var acadJson = getFromDisk(AcadKey);
     // print(jsonDecode(profileJson));
-    return AcademicData.fromJson(jsonDecode(profileJson));
+    return AcademicData.fromJson(jsonDecode(acadJson));
   }
 
   void saveUserInDB(User userToSave) {
@@ -37,6 +38,25 @@ class StorageService with ChangeNotifier {
 
   void saveProfileInDB(ProfileData data) {
     saveStringToDisk(ProfileKey, jsonEncode(data.toJson()));
+  }
+
+  void saveAcadInDB(AcademicData data) {
+    saveStringToDisk(AcadKey, jsonEncode(data.toJson()));
+  }
+
+  void updateFinalFlag() {
+    AcademicData acadJson =
+        AcademicData.fromJson(jsonDecode(getFromDisk(AcadKey)));
+    acadJson.final_registration_flag = true;
+    saveStringToDisk(AcadKey, jsonEncode(acadJson));
+  }
+
+  void updatePreFlag(List<Map<String, dynamic>> finalCourses) {
+    AcademicData acadJson =
+        AcademicData.fromJson(jsonDecode(getFromDisk(AcadKey)));
+    acadJson.pre_registration_flag = true;
+    acadJson.pre_registered_courses_show = finalCourses;
+    saveStringToDisk(AcadKey, jsonEncode(acadJson));
   }
 
   static Future<StorageService?> getInstance() async {
@@ -49,9 +69,9 @@ class StorageService with ChangeNotifier {
     return _instance;
   }
 
-  dynamic _getFromDisk(String key) {
+  dynamic getFromDisk(String key) {
     var value = _sharedPreferences?.get(key);
-    // print('(TRACE) LocalStorageService:_getFromDisk. key: $key value: $value');
+    // print('(TRACE) LocalStorageService:getFromDisk. key: $key value: $value');
     return value;
   }
 
@@ -62,7 +82,7 @@ class StorageService with ChangeNotifier {
 
   void deleteKey(String key) {
     print(
-        '(TRACE) StorageService: deleteKey. key: $key value: ${_getFromDisk(key)}');
+        '(TRACE) StorageService: deleteKey. key: $key value: ${getFromDisk(key)}');
     _sharedPreferences!.remove(key);
   }
 

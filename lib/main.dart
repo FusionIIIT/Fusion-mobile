@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:fusion/screens/Academic/Add_Drop_Courses/add_drop_courses.dart';
+import 'package:fusion/screens/Academic/Add_Drop_Courses/add_courses.dart';
+import 'package:fusion/screens/Academic/Add_Drop_Courses/drop_courses.dart';
+import 'package:fusion/screens/Academic/Add_Drop_Courses/replace_courses.dart';
+import 'package:fusion/screens/Academic/fill_backlog/backlog.dart';
+import 'package:fusion/screens/Academic/ViewRegistration/view_registration.dart';
+import 'package:fusion/screens/Academic/Acad_Admin/acadmin_home_page.dart';
+import 'package:fusion/screens/Academic/Registration/pre_registration.dart';
+import 'package:fusion/screens/Academic/Registration/final_registration.dart';
+import 'package:fusion/screens/Academic/Faculty/faculty_home_page.dart';
 import 'package:fusion/screens/Complaint/ComplaintHistory/complain_history.dart';
 import 'package:fusion/screens/Complaint/Feedback/feedback.dart';
 import 'package:fusion/screens/Complaint/LodgeComplaint/lodge_complaint.dart';
@@ -9,7 +17,10 @@ import 'package:fusion/screens/Library/Book_Search.dart';
 import 'package:fusion/screens/Library/dues.dart';
 import 'package:fusion/screens/Library/issued_items.dart';
 import 'package:fusion/screens/Library/lib_home_screen.dart';
+import 'package:fusion/screens/LoginandDashboard/DashboardComponents/news.dart';
 import 'package:fusion/screens/LoginandDashboard/dashboard.dart';
+import 'package:fusion/screens/LoginandDashboard/DashboardComponents/notify.dart';
+import 'package:fusion/screens/LoginandDashboard/DashboardComponents/announcement.dart';
 import 'package:fusion/screens/LoginandDashboard/login_page.dart';
 import 'package:fusion/screens/Academic/academic_home_page.dart';
 import 'package:fusion/screens/Academic/Current_Semester/current_semester_home_page.dart';
@@ -42,6 +53,13 @@ import 'package:fusion/screens/Healthcenter/viewschedule.dart';
 import 'package:fusion/screens/Healthcenter/history.dart';
 import 'package:fusion/screens/Healthcenter/HealthCenter.dart';
 import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/screens/Academic/Acad_Admin/configure_pre_registration.dart';
+import 'package:fusion/screens/Academic/Acad_Admin/configure_final_registration.dart';
+import 'package:fusion/screens/Academic/Acad_Admin/course_list_home_page.dart';
+import 'package:fusion/screens/Academic/Acad_Admin/course_list.dart';
+import 'package:fusion/screens/Academic/Acad_Admin/academic_calendar.dart';
+import 'package:fusion/screens/Academic/Acad_Admin/generate_student_list.dart';
+import 'package:fusion/screens/Academic/Faculty/view_assigned_courses.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -60,9 +78,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MediaQueryData windowData =
-    MediaQueryData.fromWindow(WidgetsBinding.instance.window);
+        MediaQueryData.fromView(WidgetsBinding.instance.window);
     windowData = windowData.copyWith(
-      textScaleFactor: 1,
+      textScaler: TextScaler.linear(1),
     );
     return MediaQuery(
       data: windowData,
@@ -71,30 +89,54 @@ class MyApp extends StatelessWidget {
         title: 'Fusion',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-            // primarySwatch: Colors.blueGrey,
+          // primarySwatch: Colors.blueGrey,
           // colorSchemeSeed: Color(0xFF2085D0),
           colorSchemeSeed: Color(0xFFF36C35),
-            fontFamily: 'Nunito',
+          fontFamily: 'Nunito',
           useMaterial3: true,
         ),
         initialRoute: '/landing',
         routes: {
           '/landing': (context) => LandingPage(),
           '/login_page': (context) => LoginPage(),
+          '/notification': (context) => Notify(),
+          '/news': (context) => News(),
+          '/announcement': (context) => Announcement(),
           '/dashboard': (context) => Dashboard(),
+          '/configure_pre_registration': (context) =>
+              ConfigurePreRegistration(),
+          '/configure_final_registration': (context) =>
+              ConfigureFinalRegistration(),
+          '/academic_calendar': (context) => AcademicCalendar(),
+          '/generate_student_list': (context) => GenerateStudentList(),
+          '/course_list_home_page': (context) => CourseListHome(),
+          '/course_list': (context) => CourseList(),
+          '/view_assigned_courses': (context) => ViewAssignedCourses(),
           '/academic_home_page': (context) => AcademicHomePage(
+              ModalRoute.of(context)!.settings.arguments.toString()),
+          '/academic_home_page/acadmin':(context) => AcadminHomePage(
+              ModalRoute.of(context)!.settings.arguments.toString()),
+          '/academic_home_page/faculty':(context) => FacultyHomePage(
               ModalRoute.of(context)!.settings.arguments.toString()),
           '/academic_home_page/current_semester_home_page': (context) =>
               CurrentSemesterHomePage(),
           '/academic_home_page/registration_home_page': (context) =>
               RegistrationHomePage(),
+          '/academic_home_page/pre_registration': (context) =>
+              PreRegistration(),
+          '/academic_home_page/final_registration': (context) =>
+              FinalRegistration(),
           '/academic_home_page/bonafide': (context) => Bonafide(),
           '/academic_home_page/branch_change': (context) => BranchChange(),
           '/academic_home_page/attendance': (context) => Attendance(),
           '/academic_home_page/dues': (context) => Dues(),
           '/academic_home_page/thesis': (context) => ThesisHomePage(),
           '/academic_home_page/performance': (context) => Performance(),
-          '/academic_home_page/add_drop_courses': (context) => AddDropCourses(),
+          '/academic_home_page/add_courses': (context) => AddCourses(),
+          '/academic_home_page/drop_courses': (context) => DropCourses(),
+          '/academic_home_page/replace_courses': (context) => ReplaceCourses(),
+          '/academic_home_page/fill_backlog': (context) => FillBacklog(),
+          '/academic_home_page/view_registration': (context) => ViewRegistration(),
           '/programme_curriculum_home': (context) => ProgrammeCurriculumHome(),
           '/programme_curriculum_home/programme': (context) => Programme(),
           '/programme_curriculum_home/batches': (context) => Batches(),
