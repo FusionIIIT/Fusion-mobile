@@ -1239,6 +1239,183 @@ class CentralMessService {
     }
   }
 
+  Future<http.Response> deregister(Map<String, dynamic> data) async {
+    try {
+      http.Response response0 = await initAuth();
+
+      if (response0.statusCode == 200) {
+
+        Map<String, String> headers = {
+          'Authorization': 'Token ' + json.decode(response0.body)['token'],
+          'Content-Type': 'application/json; charset=UTF-8'
+        };
+
+        Map<String, dynamic> body = {
+          'student_id': data["student_id"],
+          'end_date': data["end_date"].toString().substring(0, 10),
+        };
+
+        print("Updating Registration Record");
+        http.Response response = await http.post(
+          Uri.http(
+            kCentralMess,
+            kDeregistrationEndpoint,
+          ),
+          headers: headers,
+          body: json.encode(body),
+        );
+
+        if (response.statusCode == 200) {
+          print('Registration Record updated successfully');
+          return response;
+        } else {
+          print(response.statusCode);
+          throw Exception('Failed to update registration record');
+        }
+      } else {
+        print(response0.statusCode);
+        throw Exception('Failed to authenticate');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<UpdatePaymentRequest>> getUpdatePaymentRequest() async {
+    try {
+      http.Response response0 = await initAuth();
+
+      if (response0.statusCode == 200) {
+        Map<String, String> headers = {
+          'Authorization': 'Token ' + json.decode(response0.body)['token']
+        };
+
+        print("fetching Update Payment request");
+        http.Response response = await http.get(
+          Uri.http(
+            kCentralMess,
+            kUpdatePaymentRequestEndpoint, //constant api EndPoint
+          ),
+          headers: headers,
+        );
+
+        if (response.statusCode == 200) {
+          Iterable UpdatePaymentRequestList =
+          json.decode(response.body)['payload'];
+          return UpdatePaymentRequestList.map(
+                  (model) => UpdatePaymentRequest.fromJson(model)).toList();
+        } else {
+          print(response.statusCode);
+          throw Exception('Failed to load update payment request');
+        }
+      } else {
+        print(response0.statusCode);
+        throw Exception('Failed to Authorize ${json.decode(response0.body).toString()}');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<http.Response> sendUpdatePaymentRequest(UpdatePaymentRequest data) async {
+    try {
+      http.Response response0 = await initAuth();
+
+      if (response0.statusCode == 200) {
+
+        http.Response response2 = await _profileService.getProfile();
+        ProfileData _profileData = await ProfileData.fromJson(jsonDecode(response2.body));
+
+        var uri = Uri.https(kCentralMess, kUpdatePaymentRequestEndpoint);
+        var request = http.MultipartRequest('POST', uri);
+
+        request.headers.addAll({
+          'Authorization': 'Token ${json.decode(response0.body)['token']}',
+        });
+
+        // Add form fields
+        request.fields['payment_date'] = data.paymentDate.toString().substring(0, 10);
+        request.fields['Txn_no'] = data.txnNo.toString();
+        request.fields['amount'] = data.amount.toString();
+        request.fields['student_id'] = await _profileData.user!['username'];
+
+        // Add file
+        if (data.img != null) {
+          var file = await http.MultipartFile.fromPath('img', data.img!,contentType: MediaType('image', 'jpeg'));
+          request.files.add(file);
+        }
+
+        var response = await request.send();
+
+        if (response.statusCode == 200) {
+          print('Update Payment Request sent successfully');
+          return await http.Response.fromStream(response);
+        } else {
+          print(response.statusCode);
+          response.stream.transform(utf8.decoder).listen((value) {
+            print(value);});
+          throw Exception('Failed to send update payment request');
+        }
+      } else {
+        print(response0.statusCode);
+        throw Exception('Failed to authenticate');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<http.Response> updateUpdatePaymentRequest(UpdatePaymentRequest data) async {
+    try {
+      http.Response response0 = await initAuth();
+
+      if (response0.statusCode == 200) {
+        Map<String, String> headers = {
+          'Authorization': 'Token ' + json.decode(response0.body)['token'],
+          'Content-Type': 'application/json; charset=UTF-8'
+        };
+
+        Map<String, dynamic> body = {
+          'student_id': data.studentId,
+          'Txn_no': data.txnNo,
+          'amount': data.amount,
+          'img': data.img,
+          'Update Payment_remark': data.updatePaymentRemark,
+          'status': data.status,
+          'mess_option': data.messOption,
+          'payment_date': data.paymentDate.toString().substring(0, 10),
+        };
+
+        print("Updating Update Payment Request");
+        http.Response response = await http.put(
+          Uri.http(
+            kCentralMess,
+            kUpdatePaymentRequestEndpoint, //constant api EndPoint
+          ),
+          headers: headers,
+          body: json.encode(body),
+        );
+
+        if (response.statusCode == 200) {
+          print('Update Payment Request updated successfully');
+          return response;
+        } else {
+          print(response.statusCode);
+          throw Exception('Failed to update update payment request');
+        }
+      } else {
+        print(response0.statusCode);
+        throw Exception('Failed to authenticate');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+
+
+
+
 // Future<List<MessInfo>> getMessInfo() async {
 //   try {
 //     http.Response response0 = await initAuth();

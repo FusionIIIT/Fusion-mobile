@@ -15,7 +15,7 @@ class _UpdatePaymentRequestsState extends State<UpdatePaymentRequests> {
   CentralMessService _centralMessService = CentralMessService();
 
   bool _loading = true, _requestSent = false;
-  static List<UpdatePaymentRequest> _UpdatePaymentRequests = [];
+  static List<UpdatePaymentRequest> _updatePaymentRequests = [];
   UpdatePaymentRequest? updatePaymentData;
 
   @override
@@ -26,11 +26,11 @@ class _UpdatePaymentRequestsState extends State<UpdatePaymentRequests> {
 
   void _fetchUpdatePaymentRequest() async {
     try {
-      List<UpdatePaymentRequest> _UpdatePaymentRequests =
+      List<UpdatePaymentRequest> data =
       await _centralMessService.getUpdatePaymentRequest();
       setState(() {
-        _UpdatePaymentRequests = _UpdatePaymentRequests.where((element) => element.status == "pending").toList();
-        _UpdatePaymentRequests.sort((a, b) => b.paymentDate.compareTo(a.paymentDate));
+        _updatePaymentRequests = data.where((element) => element.status == "pending").toList();
+        _updatePaymentRequests.sort((a, b) => b.paymentDate.compareTo(a.paymentDate));
       });
       print('Received Update Payment Requests');
       setState(() {
@@ -138,7 +138,7 @@ class _UpdatePaymentRequestsState extends State<UpdatePaymentRequests> {
   }
 
   List<DataColumn> buildTableHeader() {
-    if (_UpdatePaymentRequests.length <= 0) {
+    if (_updatePaymentRequests.length <= 0) {
       return [
         DataColumn(
           label: Text(
@@ -148,7 +148,7 @@ class _UpdatePaymentRequestsState extends State<UpdatePaymentRequests> {
         ),
       ];
     }
-    return _UpdatePaymentRequests.first.getKeysToDisplay().map((key) {
+    return _updatePaymentRequests.first.getKeysToDisplay().map((key) {
       return DataColumn(
         label: Text(
           key,
@@ -159,7 +159,7 @@ class _UpdatePaymentRequestsState extends State<UpdatePaymentRequests> {
   }
 
   List<DataRow> buildTableRows() {
-    return _UpdatePaymentRequests.map((data) {
+    return _updatePaymentRequests.map((data) {
       return DataRow(
         cells: data.toMap().keys.map((key) {
           if (key.toLowerCase() == 'img') {
@@ -176,6 +176,21 @@ class _UpdatePaymentRequestsState extends State<UpdatePaymentRequests> {
                   } else {
                     print('Could not launch $imageUrl');
                   }
+                },
+              ),
+            );
+          }else if (key.toLowerCase() == 'updatepaymentremark') {
+            return DataCell(
+              TextField(
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                  hintText: 'Remark (optional)',
+                  border: OutlineInputBorder(),
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    data.updatePaymentRemark = value;
+                  });
                 },
               ),
             );

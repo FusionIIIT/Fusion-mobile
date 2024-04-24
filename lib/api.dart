@@ -30,6 +30,8 @@ String kRegistrationRequestEndpoint = "/mess/api/registrationRequestApi";
 String kDeregistrationRequestEndpoint = "/mess/api/deRegistrationRequestApi";
 String kRegMainEndpoint = "/mess/api/get_mess_students";
 String kStudentAllDetails = "/mess/api/get_student_all_details";
+String kDeregistrationEndpoint = "/mess/api/deRegistrationApi";
+String kUpdatePaymentRequestEndpoint = "/mess/api/updatePaymentApi";
 
 //Complaint
 String kComplaintService = "/complaint/api/studentcomplain";

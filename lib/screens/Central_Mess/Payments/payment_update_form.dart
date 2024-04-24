@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:fusion/models/central_mess.dart';
 import 'package:fusion/services/central_mess_services.dart';
@@ -58,15 +57,12 @@ class _UpdatePaymentFormState extends State<UpdatePaymentForm> {
       _loading = true;
     });
     try {
-      print({data.startDate, data.amount, data.txnNo, data.img});
-      http.Response _UpdatePaymentRequest =
+      http.Response _updatePaymentRequest =
       await _centralMessService.sendUpdatePaymentRequest(data);
 
-      if (_UpdatePaymentRequest.statusCode == 200) {
-        print('Sent the payment update request');
+      if (_updatePaymentRequest.statusCode == 200) {
         setState(() {
           _register = true;
-          // Reset fields to null after successful submission
           amountController.clear();
           txnNoController.clear();
           paymentDate = null;
@@ -75,17 +71,15 @@ class _UpdatePaymentFormState extends State<UpdatePaymentForm> {
         });
         _showSuccessSnackbar();
       } else {
-        print('Couldn\'t send');
         _showFailureSnackbar();
       }
     } catch (e) {
-      print('Error sending Payment Update Request: $e');
       _showFailureSnackbar();
     }
     setState(() {
       _loading = false;
     });
-  // }
+  }
 
   Future<String> _convertFileToBase64(String filePath) async {
     List<int> fileBytes = await File(filePath).readAsBytes();
@@ -130,7 +124,6 @@ class _UpdatePaymentFormState extends State<UpdatePaymentForm> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     final _messFormKey = GlobalKey<FormState>();
@@ -170,16 +163,16 @@ class _UpdatePaymentFormState extends State<UpdatePaymentForm> {
                         fillColor: Colors.white,
                       ),
                       mode: DateTimeFieldPickerMode.date,
-                      autovalidateMode: AutovalidateMode.onUserInteraction, // Only validate on user interaction
-                      initialValue: paymentDate, // Set initial value
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      initialValue: paymentDate,
                       validator: (e) => e == null ? 'Please select a date' : null,
                       onDateSelected: (DateTime? value) {
                         setState(() {
-                          paymentDate = value; // Update paymentDate when a date is selected
+                          paymentDate = value;
                         });
                       },
-                      firstDate: DateTime.now().subtract(Duration(days: 365)), // Limit to one year ago
-                      lastDate: DateTime.now(), // Limit to today
+                      firstDate: DateTime.now().subtract(Duration(days: 365)),
+                      lastDate: DateTime.now(),
                     ),
                     SizedBox(height: 10.0),
                     TextFormField(
@@ -257,7 +250,6 @@ class _UpdatePaymentFormState extends State<UpdatePaymentForm> {
                         return null;
                       },
                     ),
-
                     SizedBox(height: 30.0),
                     ElevatedButton(
                       style: style,
@@ -277,11 +269,10 @@ class _UpdatePaymentFormState extends State<UpdatePaymentForm> {
                                 int.tryParse(amountController.text)!,
                                 paymentDate: paymentDate!,
                               );
-                              print(data?.toMap());
                               _sendUpdatePaymentRequestData(data!);
                             } catch (e) {
                               print(
-                                  'Error sending registration request: $e');
+                                  'Error sending update payment request: $e');
                               setState(() {
                                 _loading = false;
                               });
@@ -294,7 +285,7 @@ class _UpdatePaymentFormState extends State<UpdatePaymentForm> {
                       child: Stack(
                         alignment: Alignment.center,
                         children: [
-                          Text("Register"),
+                          Text("Update"),
                           if (_loading)
                             CircularProgressIndicator(),
                         ],

@@ -571,3 +571,65 @@ class SemDates {
     );
   }
 }
+
+class UpdatePaymentRequest {
+  final String? studentId;
+  final String txnNo;
+  final String? img;
+  final int amount;
+  final String? status;
+  String? updatePaymentRemark;
+  String? messOption;
+  final DateTime paymentDate;
+
+  UpdatePaymentRequest({
+    this.studentId,
+    required this.txnNo,
+    this.img,
+    required this.amount,
+    this.status,
+    this.updatePaymentRemark,
+    this.messOption,
+    required this.paymentDate,
+  });
+
+  factory UpdatePaymentRequest.fromJson(Map<String, dynamic> json) {
+    return UpdatePaymentRequest(
+      studentId: json['student_id'],
+      txnNo: json['Txn_no'],
+      img: json['img'],
+      amount: json['amount'],
+      status: json['status'],
+      updatePaymentRemark: json['registration_remark'],
+      messOption: json['mess_option'],
+      paymentDate: DateTime.parse(json['payment_date']),
+    );
+  }
+
+  List<String> getKeysToDisplay() {
+    return [
+      'Student Id',
+      'Transaction No',
+      'Image',
+      'Amount',
+      'Payment Date',
+      'Remark',
+      'Mess',
+      'Status',
+    ];
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'studentId': studentId,
+      'txnNo': txnNo,
+      'img': img,
+      'amount': amount,
+      'paymentDate': paymentDate,
+      'updatePaymentRemark': updatePaymentRemark,
+      'messOption': messOption,
+      'status': status,
+    };
+  }
+}
+

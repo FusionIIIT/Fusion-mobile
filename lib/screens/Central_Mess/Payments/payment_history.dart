@@ -28,12 +28,12 @@ class _UpdatePaymentHistoryState extends State<UpdatePaymentHistory> {
 
   void _fetchUpdatePaymentRequest() async {
     try {
-      List<UpdatePaymentRequest> updatePaymentRequests =
+      List<UpdatePaymentRequest> data =
       await _centralMessService.getUpdatePaymentRequest();
       // updatePaymentRequests.forEach((element) => print(element.studentId));
       print(widget.userMessData);
       setState(() {
-        _updatePaymentRequests = updatePaymentRequests
+        _updatePaymentRequests = data
             .where((element) => element.studentId == widget.userMessData['student_id'])
             .toList();
         _updatePaymentRequests

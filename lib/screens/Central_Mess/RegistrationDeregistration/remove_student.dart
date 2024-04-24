@@ -33,7 +33,7 @@ class _AddRemoveStudentsState extends State<AddRemoveStudents> {
       if(regMainList.isEmpty) _showSnackbar('Invalid Student Id: $studentId', Colors.red);
 
       setState(() {
-        // regRecords = /
+
       });
     } catch (e) {
       print(e);
