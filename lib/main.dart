@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:fusion/screens/Academic/Add_Drop_Courses/add_drop_courses.dart';
+import 'package:fusion/screens/Complaint/Caretaker/view_caretaker.dart';
 import 'package:fusion/screens/Complaint/ComplaintHistory/complain_history.dart';
 import 'package:fusion/screens/Complaint/Feedback/feedback.dart';
+import 'package:fusion/screens/Complaint/Caretaker/unresolved_complaints.dart';
+import 'package:fusion/screens/Complaint/Caretaker/resolved_complaints.dart';
 import 'package:fusion/screens/Complaint/LodgeComplaint/lodge_complaint.dart';
 import 'package:fusion/screens/Establishment/establishment_home_page.dart';
 import 'package:fusion/screens/Library/Book_Search.dart';
 import 'package:fusion/screens/Library/dues.dart';
 import 'package:fusion/screens/Library/issued_items.dart';
 import 'package:fusion/screens/Library/lib_home_screen.dart';
+import 'package:fusion/screens/LoginandDashboard/DashboardComponents/news.dart';
 import 'package:fusion/screens/LoginandDashboard/dashboard.dart';
+import 'package:fusion/screens/LoginandDashboard/DashboardComponents/notify.dart';
+import 'package:fusion/screens/LoginandDashboard/DashboardComponents/announcement.dart';
 import 'package:fusion/screens/LoginandDashboard/login_page.dart';
 import 'package:fusion/screens/Academic/academic_home_page.dart';
 import 'package:fusion/screens/Academic/Current_Semester/current_semester_home_page.dart';
@@ -60,9 +66,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MediaQueryData windowData =
-    MediaQueryData.fromWindow(WidgetsBinding.instance.window);
+    MediaQueryData.fromView(WidgetsBinding.instance.window);
     windowData = windowData.copyWith(
-      textScaleFactor: 1,
+      textScaler: TextScaler.linear(1),
     );
     return MediaQuery(
       data: windowData,
@@ -81,6 +87,9 @@ class MyApp extends StatelessWidget {
         routes: {
           '/landing': (context) => LandingPage(),
           '/login_page': (context) => LoginPage(),
+          '/notification':(context)=>Notify(),
+          '/news':(context)=>News(),
+          '/announcement':(context)=>Announcement(),
           '/dashboard': (context) => Dashboard(),
           '/academic_home_page': (context) => AcademicHomePage(
               ModalRoute.of(context)!.settings.arguments.toString()),
@@ -119,6 +128,9 @@ class MyApp extends StatelessWidget {
           '/complaint/lodge_complaint': (context) => LodgeComplaint(
               ModalRoute.of(context)!.settings.arguments.toString()),
           '/complaint/complaint_history': (context) => ComplainHistory(),
+          '/complaint/caretaker/unresolved_complaints': (context) => UnresolvedComplaints(),
+          '/complaint/caretaker/resolved_complaints': (context) => ResolvedComplaints(),
+          '/complaint/caretaker/view_caretaker': (context) => ViewCaretaker(),
           '/complaint/feedback': (context) => ComplaintFeedBack(),
           '/profile': (context) => Profile(),
           '/health_center': (context) => HealthCenterMod(

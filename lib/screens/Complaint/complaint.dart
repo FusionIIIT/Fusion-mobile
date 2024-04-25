@@ -1,50 +1,55 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:fusion/Components/appBar.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:fusion/models/profile.dart';
 import 'package:fusion/services/profile_service.dart';
-import 'package:http/http.dart';
-import 'ComplaintHistory/complain_history.dart';
-import 'package:flutter/material.dart';
-import 'package:fusion/Components/side_drawer.dart';
-import 'dart:ui';
-import 'LodgeComplaint/lodge_complaint.dart';
-import 'Feedback/feedback.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/screens/Complaint/Widgets/StudentWidget.dart';
+import 'package:fusion/screens/Complaint/Widgets/CaretakerWidget.dart';
+import 'package:fusion/screens/Complaint/Widgets/SupervisorWidget.dart';
 import 'package:provider/provider.dart';
+import 'package:fusion/services/complaint_service.dart';
 
 class Complaint extends StatefulWidget {
   String? token;
   Complaint(this.token);
+
   @override
   _ComplaintState createState() => _ComplaintState();
 }
 
 class _ComplaintState extends State<Complaint> {
+  bool _loading = true;
   bool _loading1 = true;
   bool _loading2 = false;
   bool _loading3 = false;
-  bool _loading = true;
 
   late StreamController _profileController;
   late ProfileService profileService;
+  late ComplaintService complaintService;
   late ProfileData data;
+  late String userType;
+
   @override
   void initState() {
     super.initState();
 
     _profileController = StreamController();
     profileService = ProfileService();
+    complaintService = ComplaintService();
 
     getData();
   }
 
   getData() async {
-    //print('token-'+widget.token!);
     try {
-      Response response = await profileService.getProfile();
+      Response profile_response = await profileService.getProfile();
+      Response complaint_response = await complaintService.getComplaint();
       setState(() {
-        data = ProfileData.fromJson(jsonDecode(response.body));
-        print(data.user!['username']);
+        data = ProfileData.fromJson(jsonDecode(profile_response.body));
+        userType = jsonDecode(complaint_response.body)["user_type"];
         _loading = false;
       });
     } catch (e) {
@@ -58,190 +63,107 @@ class _ComplaintState extends State<Complaint> {
     });
   }
 
+  void navigateToComplaint(String route) {
+    Navigator.pushNamed(context, route,
+        arguments: data.user != null ? data.user!['username'] : "null");
+  }
+
+  void setLoading(bool value) {
+    setState(() {
+      _loading1 = value;
+      _loading2 = value;
+      _loading3 = value;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    Widget widgetToShow = Container();
+  if (!_loading) {
+    if (userType == "student") {
+      widgetToShow = StudentWidget(
+      setLoading: setLoading,
+      navigateToComplaint: navigateToComplaint,
+      data: data,
+      );
+    } else if (userType == "caretaker") {
+      widgetToShow = CaretakerWidget(
+      setLoading: setLoading,
+      navigateToComplaint: navigateToComplaint,
+      data: data,
+      );
+    } else if (userType == "supervisor") {
+      widgetToShow = SupervisorWidget(
+      setLoading: setLoading,
+      navigateToComplaint: navigateToComplaint,
+      data: data,
+      );
+    } else {
+    widgetToShow = Container();
+    }
+  }
+
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
-      drawer: SideDrawer(),
-      body: _loading == true
+      appBar: CustomAppBar({
+        curr_desig: locator<StorageService>().getFromDisk("Current_designation"),
+        headerTitle: "Complaint",
+        onDesignationChanged: () {
+          setState(() {});
+        }
+      }),
+      drawer: SideDrawer2(curr_desig: locator<StorageService>().getFromDisk("Current_designation")),
+      bottom: MyBottomNavigationBar(),
+      body: _loading
           ? Center(child: CircularProgressIndicator())
           : Container(
-              color: Colors.white60,
-              child: ListView(
-                shrinkWrap: true,
-                physics: ClampingScrollPhysics(),
+        color: Colors.white60,
+        child: ListView(
+          shrinkWrap: true,
+          physics: ClampingScrollPhysics(),
+          children: [
+            Card(
+              elevation: 2.0,
+              margin: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+              shadowColor: Colors.black,
+              child: Column(
                 children: [
-                  Card(
-                    elevation: 2.0,
-                    margin: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                    shadowColor: Colors.black,
-                    child: Column(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(top: 20),
-                          width: 170,
-                          height: 170,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage('assets/profile_pic.png'),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        Text(
-                          data.user != null
-                              ? (data.user!['first_name'] +
-                                  ' ' +
-                                  data.user!['last_name'])
-                              : "User does not exist on data",
-                          style: TextStyle(color: Colors.black, fontSize: 20),
-                        ),
-                        SizedBox(height: 10),
-                        Text(
-                          data.profile != null
-                              ? (data.profile!['department']!['name'] +
-                                  '  ' +
-                                  data.profile!['user_type'])
-                              : "No Profile",
-                          style: TextStyle(color: Colors.black, fontSize: 15),
-                        ),
-                        SizedBox(height: 10),
-                      ],
+                  Container(
+                    margin: EdgeInsets.only(top: 20),
+                    width: 170,
+                    height: 170,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('assets/profile_pic.png'),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                  Card(
-                    elevation: 2.0,
-                    margin: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                    shadowColor: Colors.black,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TextButton(
-                          onPressed: () {
-                            setState(() {
-                              _loading1 = true;
-                              _loading2 = false;
-                              _loading3 = false;
-                              Navigator.pushNamed(
-                                  context, '/complaint/lodge_complaint',
-                                  arguments: data.user != null
-                                      ? data.user!['username']
-                                      : "null");
-                            });
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Lodge a Complaint',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w800,
-                                  fontSize: 18,
-                                  color:
-                                      _loading1 ? Colors.black : Colors.black26,
-                                ),
-                              ),
-                              Icon(
-                                Icons.arrow_forward,
-                                color: _loading1
-                                    ? Colors.deepOrangeAccent
-                                    : Colors.white,
-                              )
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        TextButton(
-                          onPressed: () {
-                            setState(() {
-                              _loading1 = false;
-                              _loading2 = true;
-                              _loading3 = false;
-                              Navigator.pushNamed(
-                                context,
-                                '/complaint/complaint_history',
-                              );
-                            });
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Complaint History',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w800,
-                                  fontSize: 18,
-                                  color:
-                                      _loading2 ? Colors.black : Colors.black26,
-                                ),
-                              ),
-                              Icon(
-                                Icons.arrow_forward,
-                                color: _loading2
-                                    ? Colors.deepOrangeAccent
-                                    : Colors.white,
-                              )
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        TextButton(
-                          onPressed: () {
-                            setState(() {
-                              _loading1 = false;
-                              _loading2 = false;
-                              _loading3 = true;
-                              Navigator.pushNamed(
-                                context,
-                                '/complaint/feedback',
-                              );
-                            });
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Feedback',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w800,
-                                  fontSize: 18,
-                                  color:
-                                      _loading3 ? Colors.black : Colors.black26,
-                                ),
-                              ),
-                              Icon(
-                                Icons.arrow_forward,
-                                color: _loading3
-                                    ? Colors.deepOrangeAccent
-                                    : Colors.white,
-                              )
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                      ],
-                    ),
+                  SizedBox(height: 10),
+                  Text(
+                    data.user != null
+                        ? (data.user!['first_name'] +
+                        ' ' +
+                        data.user!['last_name'])
+                        : "User does not exist on data",
+                    style: TextStyle(color: Colors.black, fontSize: 20),
                   ),
-                  // _loading1
-                  //     ? LodgeComplaint(
-                  //         data.user != null ? data.user!['username'] : "null")
-                  //     : SizedBox(
-                  //         height: 2,
-                  //       ),
-                  // _loading2
-                  //     ? ComplainHistory()
-                  //     : SizedBox(
-                  //         height: 5,
-                  //       ),
-                  // _loading3
-                  //     ? FeedBack()
-                  //     : SizedBox(
-                  //         height: 2,
-                  //       ),
+                  SizedBox(height: 10),
+                  Text(
+                    data.profile != null
+                        ? (data.profile!['department']!['name'] +
+                        '  ' +
+                        data.profile!['user_type'])
+                        : "No Profile",
+                    style: TextStyle(color: Colors.black, fontSize: 15),
+                  ),
+                  SizedBox(height: 10),
                 ],
               ),
             ),
+            _loading ? Container() : widgetToShow,
+          ],
+        ),
+      ),
     );
   }
 }
