@@ -29,6 +29,7 @@ class ComplaintService {
       );
       if (response.statusCode == 200) {
         print("successfully fetched complaints");
+        print(response.body);
         return response;
       }
       throw Exception('Can\'t load');

@@ -11,6 +11,12 @@ import 'package:fusion/screens/Complaint/Widgets/CaretakerWidget.dart';
 import 'package:fusion/screens/Complaint/Widgets/SupervisorWidget.dart';
 import 'package:provider/provider.dart';
 import 'package:fusion/services/complaint_service.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
+
+var service = locator<StorageService>();
+late String curr_desig = service.getFromDisk("Current_designation");
 
 class Complaint extends StatefulWidget {
   String? token;
@@ -104,15 +110,17 @@ class _ComplaintState extends State<Complaint> {
   }
 
     return Scaffold(
-      appBar: CustomAppBar({
-        curr_desig: locator<StorageService>().getFromDisk("Current_designation"),
+      appBar: CustomAppBar(
+        curr_desig: curr_desig,
         headerTitle: "Complaint",
-        onDesignationChanged: () {
-          setState(() {});
+        onDesignationChanged: (newValue) {
+          setState(() {
+            curr_desig = newValue;
+          });
         }
-      }),
-      drawer: SideDrawer2(curr_desig: locator<StorageService>().getFromDisk("Current_designation")),
-      bottom: MyBottomNavigationBar(),
+      ),
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar: MyBottomNavigationBar(),
       body: _loading
           ? Center(child: CircularProgressIndicator())
           : Container(
