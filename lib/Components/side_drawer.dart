@@ -139,6 +139,10 @@ class _SideDrawerState extends State<SideDrawer> {
                           line: 'Health Center Module',
                           pageMover: '/health_center',
                         ),
+                        ModulesPadding(
+                    line: 'Central Mess',
+                    pageMover: '/central_mess_home',
+                    isActive: true,
                         ModulesPadding(line: 'Leave Module'),
                         ModulesPadding(line: 'Placement Module'),
                         ModulesPadding(line: 'Visitors Hostel Module'),
@@ -149,6 +153,33 @@ class _SideDrawerState extends State<SideDrawer> {
                 : SizedBox(
                     width: 2.0,
                   ),
+                  ModulesPadding(
+                      line: 'Gymkhana Module',
+                      pageMover: '/gymkhana_homepage'),
+                  ModulesPadding(
+                      line: 'Establishment Module',
+                      pageMover: '/establishment'),
+                  ModulesPadding(
+                      line: 'Library Module',
+                      pageMover: '/library_homepage'),
+                  ModulesPadding(line: 'Awards & Scholarship Module'),
+                  ModulesPadding(
+                      line: 'Complaint Module', pageMover: '/complaint'),
+                  ModulesPadding(line: 'Feeds Module'),
+                  ModulesPadding(
+                    line: 'Health Center Module',
+                    pageMover: '/health_center',
+                  ),
+                  ModulesPadding(line: 'Leave Module'),
+                  ModulesPadding(line: 'Placement Module'),
+                  ModulesPadding(line: 'Visitors Hostel Module'),
+                  ModulesPadding(line: 'File Tracking Module'),
+                ],
+              ),
+            )
+                : SizedBox(
+              width: 2.0,
+            ),
             ModulesCard(
                 cardLine: 'Profile',
                 icon: Icons.account_circle,
@@ -192,11 +223,11 @@ class ModulesPadding extends StatelessWidget {
       ),
       onPressed: isActive
           ? () async {
-              var _prefs = await StorageService.getInstance();
-              String token = _prefs!.userInDB?.token ?? "";
-              Navigator.pushReplacementNamed(context, pageMover!,
-                  arguments: token);
-            }
+        var _prefs = await StorageService.getInstance();
+        String token = _prefs!.userInDB?.token ?? "";
+        Navigator.pushReplacementNamed(context, pageMover!,
+            arguments: token);
+      }
           : () {},
     );
   }

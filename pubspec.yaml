@@ -69,6 +69,7 @@ flutter:
     - assets/mypic.jpg
     - assets/unknown.jpg
     - assets/profile_pic.png
+    - assets/iiitdmj_logo.jpg
     - db/
 
   # An image asset can refer to one or more resolution-specific "variants", see

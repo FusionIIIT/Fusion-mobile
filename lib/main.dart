@@ -48,6 +48,18 @@ import 'package:fusion/screens/Healthcenter/viewschedule.dart';
 import 'package:fusion/screens/Healthcenter/history.dart';
 import 'package:fusion/screens/Healthcenter/HealthCenter.dart';
 import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/screens/Central_Mess/central_mess_home.dart';
+import 'package:fusion/screens/Central_Mess/MessMenu/mess_menu_home.dart';
+import 'package:fusion/screens/Central_Mess/Feedback/feedback_menu.dart';
+import 'package:fusion/screens/Central_Mess/Rebate/rebate_homepage.dart';
+import 'package:fusion/screens/Central_Mess/MessBill/mess_bill_home.dart';
+// import 'package:fusion/screens/Central_Mess/Announcement/announcement.dart';
+import 'package:fusion/screens/Central_Mess/RequestSpecialFood/special_food_home.dart';
+import 'package:fusion/screens/Central_Mess/RegistrationDeregistration/reg_dereg_homepage.dart';
+import 'package:fusion/screens/Central_Mess/RegistrationDeregistration/manage_registration_homepage.dart';
+import 'package:fusion/screens/Central_Mess/Rebate/respondToRebateRequest.dart';
+import 'package:fusion/screens/Central_Mess/VacationFood/vacation_food_home.dart';
+import 'package:fusion/screens/Central_Mess/Payments/payments_home.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -73,7 +85,6 @@ class MyApp extends StatelessWidget {
     return MediaQuery(
       data: windowData,
       child: MaterialApp(
-        useInheritedMediaQuery: true,
         title: 'Fusion',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
@@ -139,6 +150,18 @@ class MyApp extends StatelessWidget {
           '/health_center/feedback': (context) => FeedBack(),
           '/health_center/viewschedule': (context) => ViewSchedule(),
           '/health_center/history': (context) => History(),
+          '/central_mess_home': (context) => CentralMessHome(),
+          '/central_mess_home/menu':(context)=>MessMenu(),
+          '/central_mess_home/feedback':(context)=>FeedbackMenu(),
+          '/central_mess_home/rebate':(context)=>RebateMenu(),
+          '/central_mess_home/messBill':(context)=>ManageBill(),
+          // '/central_mess_home/announcement':(context)=>Announcement(),
+          '/central_mess_home/reqSpecialFood':(context)=>SpecialFood(),
+          '/central_mess_home/registration' : (context)=>RegDeReg(),
+          '/central_mess_home/manageRegistration' : (context)=>ManageRegDeRegHomepage(),
+          '/central_mess_home/rebateRequest': (context)=>RespondToRebateRequest(),
+          '/central_mess_home/vacationFood' : (context)=>VacationFoodHome(),
+          '/central_mess_home/updatePayment' : (context)=>UpdatePaymentHome(),
         },
       ),
     );
