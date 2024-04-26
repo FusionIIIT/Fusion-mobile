@@ -55,7 +55,7 @@ class _ComplaintState extends State<Complaint> {
       Response complaint_response = await complaintService.getComplaint();
       setState(() {
         data = ProfileData.fromJson(jsonDecode(profile_response.body));
-        userType = jsonDecode(complaint_response.body)["user_type"];
+        userType = jsonDecode(complaint_response.body)["user_type"] ?? "student";
         _loading = false;
       });
     } catch (e) {
