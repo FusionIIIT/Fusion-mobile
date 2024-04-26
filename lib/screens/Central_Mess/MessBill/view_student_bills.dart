@@ -155,6 +155,7 @@ class _ViewStudentBillState extends State<ViewStudentBill> {
           return {
             'S.No.' :  count.toString(),
             'Student Id': regMain.studentId,
+            'Name': regMain.firstName! + " " + regMain.lastName!,
             'Program': regMain.program,
             'Balance': regMain.balance.toString(),
             'Mess': regMain.messOption,

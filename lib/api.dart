@@ -15,8 +15,8 @@ String kAcademicProcedures = "/academic-procedures/api/stu/";
 
 //Central Mess
 
-String kCentralMess = "172.27.16.214:8000";
-// String kCentralMess = "touching-vervet-terminally.ngrok-free.app";
+// String kCentralMess = "172.27.16.214:8000";
+String kCentralMess = "touching-vervet-terminally.ngrok-free.app";
 String kFeedbackEndpoint = "/mess/api/feedbackApi";
 String kMenuEndpoint = "/mess/api/menuApi";
 String kMessBillBase = "/mess/api/messBillBaseApi";
@@ -30,6 +30,7 @@ String kRegistrationRequestEndpoint = "/mess/api/registrationRequestApi";
 String kDeregistrationRequestEndpoint = "/mess/api/deRegistrationRequestApi";
 String kRegMainEndpoint = "/mess/api/get_mess_students";
 String kStudentAllDetails = "/mess/api/get_student_all_details";
+String kStudentRegRecords = "/mess/api/get_reg_records";
 String kDeregistrationEndpoint = "/mess/api/deRegistrationApi";
 String kUpdatePaymentRequestEndpoint = "/mess/api/updatePaymentApi";
 

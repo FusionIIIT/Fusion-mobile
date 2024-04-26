@@ -1239,6 +1239,50 @@ class CentralMessService {
     }
   }
 
+  Future<List<RegRecords>> getRegRecords(String studentId) async {
+    try {
+      http.Response response0 = await initAuth();
+
+      if (response0.statusCode == 200) {
+        Map<String, String> headers = {
+          'Authorization': 'Token ' + json.decode(response0.body)['token'],
+          'Content-Type': 'application/json; charset=UTF-8'
+        };
+
+        Map<String, dynamic> body = {
+          'student_id': studentId,
+        };
+
+        print("fetching registration records of $studentId");
+        http.Response response = await http.post(
+          Uri.http(
+            kCentralMess,
+            kStudentRegRecords, //constant api EndPoint
+          ),
+          headers: headers,
+          body: json.encode(body),
+        );
+
+        if (response.statusCode == 200) {
+          Iterable RegRecordsList =
+              json.decode(response.body)['payload'];
+          
+          return RegRecordsList.map(
+              (model) => RegRecords.fromJson(model)).toList();
+        } else {
+          print(response.statusCode);
+          throw Exception('Failed to load reg records');
+        }
+      } else {
+        print(response0.statusCode);
+        throw Exception(
+            'Failed to Authorize ${json.decode(response0.body).toString()}');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<http.Response> deregister(Map<String, dynamic> data) async {
     try {
       http.Response response0 = await initAuth();

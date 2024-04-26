@@ -28,6 +28,7 @@ class _CentralMessHomeState extends State<CentralMessHome> {
   late StreamController _profileController;
   late ProfileService profileService;
   late ProfileData data2;
+  late DateTime startDate;
   RegMain userMessData = RegMain(
       program: "NA", currentMessStatus: 'Deregistered', balance: 0, messOption: "no_mess");
   CentralMessService _centralMessService = CentralMessService();
@@ -60,6 +61,9 @@ class _CentralMessHomeState extends State<CentralMessHome> {
       List<RegMain> regMainList =
       await _centralMessService.getRegMain(data);
 
+      List<RegRecords> regRecords = await _centralMessService.getRegRecords(
+          ProfileData.fromJson(jsonDecode(response2.body)).user!["username"]);
+
       setState(() {
         // data = DashboardData.fromJson(jsonDecode(response.body));
         data2 = ProfileData.fromJson(jsonDecode(response2.body));
@@ -82,10 +86,11 @@ class _CentralMessHomeState extends State<CentralMessHome> {
         : data2.profile!['department']!['name'] + '  ' + data2.profile!['user_type'];
         userMessData = (user == "student") ? regMainList.firstWhere((element) => element.studentId == student_id, orElse: () => RegMain(program: "NA", currentMessStatus: 'Deregistered', balance: 0, messOption: "no_mess", studentId: student_id))
                             : RegMain(program: "NA", currentMessStatus: 'Deregistered', balance: 0, messOption: "no_mess", studentId: student_id);
+        startDate = (user == "student") ? (regRecords.length > 0) ? regRecords.last.startDate : DateTime.now() : DateTime.now() ;
       });
       // print(student_id);
       // regMainList.forEach((element) => print({'${element.studentId} ${element.currentMessStatus}'}));
-      print('User Data: ${userMessData.messOption} ${userMessData.currentMessStatus} ${userMessData.studentId}');
+      print('User Data: ${userMessData.messOption} ${userMessData.currentMessStatus} ${userMessData.studentId} ${startDate}');
       // print('Designations: $designations ${userMessData.messOption} ${userMessData.currentMessStatus}');
     } catch (e) {
       print(e);
@@ -239,19 +244,19 @@ class _CentralMessHomeState extends State<CentralMessHome> {
                     InkWell(
                       child: myContainer("View Menu"),
                       onTap: () {
-                        Navigator.pushNamed(context, '/central_mess_home/menu', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
+                        Navigator.pushNamed(context, '/central_mess_home/menu', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap(), "startDate": startDate});
                       },
                     ),
                     InkWell(
                       child: myContainer("View Bill & Payments"),
                       onTap: () {
-                        Navigator.pushNamed(context, '/central_mess_home/messBill', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
+                        Navigator.pushNamed(context, '/central_mess_home/messBill', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap(), "startDate": startDate});
                       },
                     ),
                     InkWell(
                       child: myContainer(userMessData.currentMessStatus.toLowerCase()=="deregistered" ? "Registration" :  "DeRegistration" ),
                       onTap: () {
-                        Navigator.pushNamed(context, '/central_mess_home/registration', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
+                        Navigator.pushNamed(context, '/central_mess_home/registration', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap(), "startDate": startDate});
                       },
                     ),
                     InkWell(
@@ -260,12 +265,12 @@ class _CentralMessHomeState extends State<CentralMessHome> {
                         _launchURL('https://services.sabpaisa.in/pages/iitdm.html');
                       }
                     ),
-                    if (userMessData.currentMessStatus.toLowerCase() == "registered")
+                    if (userMessData.currentMessStatus.toLowerCase() == "registered" && startDate.isBefore(DateTime.now()))
                       ...[
                         InkWell(
                           child: myContainer("Update Payment" ),
                           onTap: () {
-                            Navigator.pushNamed(context, '/central_mess_home/updatePayment', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
+                            Navigator.pushNamed(context, '/central_mess_home/updatePayment', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap(), "startDate": startDate});
                           },
                         ),
                         InkWell(
@@ -354,19 +359,19 @@ class _CentralMessHomeState extends State<CentralMessHome> {
                     InkWell(
                       child: myContainer("View & Update Menu"),
                       onTap: () {
-                        Navigator.pushNamed(context, '/central_mess_home/menu', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
+                        Navigator.pushNamed(context, '/central_mess_home/menu', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap(), "startDate": startDate});
                       },
                     ),
                     InkWell(
                       child: myContainer("Manage Mess Bills"),
                       onTap: () {
-                        Navigator.pushNamed(context, '/central_mess_home/messBill', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
+                        Navigator.pushNamed(context, '/central_mess_home/messBill', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap(), "startDate": startDate});
                       },
                     ),
                     InkWell(
                       child: myContainer("Manage Registrations" ),
                       onTap: () {
-                        Navigator.pushNamed(context, '/central_mess_home/manageRegistration', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
+                        Navigator.pushNamed(context, '/central_mess_home/manageRegistration', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap(), "startDate": startDate});
                       },
                     ),
                     InkWell(
@@ -414,13 +419,13 @@ class _CentralMessHomeState extends State<CentralMessHome> {
                                 InkWell(
                                   child: myContainer("Reg/DeReg Requests" ),
                                   onTap: () {
-                                    Navigator.pushNamed(context, '/central_mess_home/registration', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
+                                    Navigator.pushNamed(context, '/central_mess_home/registration', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap(), "startDate": startDate});
                                   },
                                 ),
                                 InkWell(
                                   child: myContainer("Update Payment Requests" ),
                                   onTap: () {
-                                    Navigator.pushNamed(context, '/central_mess_home/updatePayment', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
+                                    Navigator.pushNamed(context, '/central_mess_home/updatePayment', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap(), "startDate": startDate});
                                   },
                                 ),
                                 InkWell(
@@ -464,7 +469,7 @@ class _CentralMessHomeState extends State<CentralMessHome> {
                 // InkWell(
                 //   child: myContainer("Announcement"),
                 //   onTap: () {
-                //     Navigator.pushNamed(context, '/central_mess_home/announcement', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
+                //     Navigator.pushNamed(context, '/central_mess_home/announcement', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap(), "startDate": startDate});
                 //   },
                 // ),
                 if(user == "warden")
@@ -472,7 +477,7 @@ class _CentralMessHomeState extends State<CentralMessHome> {
                     InkWell(
                       child: myContainer("View Menu"),
                       onTap: () {
-                        Navigator.pushNamed(context, '/central_mess_home/menu', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
+                        Navigator.pushNamed(context, '/central_mess_home/menu', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap(), "startDate": startDate});
                       },
                     ),
                     InkWell(
@@ -489,19 +494,19 @@ class _CentralMessHomeState extends State<CentralMessHome> {
                     InkWell(
                       child: myContainer("View Mess Bills"),
                       onTap: () {
-                        Navigator.pushNamed(context, '/central_mess_home/messBill', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
+                        Navigator.pushNamed(context, '/central_mess_home/messBill', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap(), "startDate": startDate});
                       },
                     ),
                     InkWell(
                       child: myContainer("View Registrations" ),
                       onTap: () {
-                        Navigator.pushNamed(context, '/central_mess_home/manageRegistration', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
+                        Navigator.pushNamed(context, '/central_mess_home/manageRegistration', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap(), "startDate": startDate});
                       },
                     ),
                     // InkWell(
                     //   child: myContainer("Reports"),
                     //   onTap: () {
-                    //     Navigator.pushNamed(context, '/central_mess_home/report', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
+                    //     Navigator.pushNamed(context, '/central_mess_home/report', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap(), "startDate": startDate});
                     //   },
                     // ),
                   ],

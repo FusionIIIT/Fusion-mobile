@@ -261,7 +261,7 @@ class _FeedbackFormState extends State<FeedbackForm> {
                       child: Stack(
                         alignment: Alignment.center,
                         children: [
-                          Text("Request"),
+                          Text("Submit"),
                           if (_loading) CircularProgressIndicator(),
                         ],
                       ),
