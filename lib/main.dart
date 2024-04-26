@@ -9,7 +9,10 @@ import 'package:fusion/screens/Library/Book_Search.dart';
 import 'package:fusion/screens/Library/dues.dart';
 import 'package:fusion/screens/Library/issued_items.dart';
 import 'package:fusion/screens/Library/lib_home_screen.dart';
+import 'package:fusion/screens/LoginandDashboard/DashboardComponents/news.dart';
 import 'package:fusion/screens/LoginandDashboard/dashboard.dart';
+import 'package:fusion/screens/LoginandDashboard/DashboardComponents/notify.dart';
+import 'package:fusion/screens/LoginandDashboard/DashboardComponents/announcement.dart';
 import 'package:fusion/screens/LoginandDashboard/login_page.dart';
 import 'package:fusion/screens/Academic/academic_home_page.dart';
 import 'package:fusion/screens/Academic/Current_Semester/current_semester_home_page.dart';
@@ -42,6 +45,19 @@ import 'package:fusion/screens/Healthcenter/viewschedule.dart';
 import 'package:fusion/screens/Healthcenter/history.dart';
 import 'package:fusion/screens/Healthcenter/HealthCenter.dart';
 import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/screens/Placement/faculty/faculty_stats.dart';
+import 'package:fusion/screens/Placement/tpo/add_company.dart';
+import 'package:fusion/screens/Placement/tpo/alumni_data.dart';
+import 'package:fusion/screens/Placement/tpo/filter_students.dart';
+import 'package:fusion/screens/Placement/tpo/placement_record.dart';
+import 'package:fusion/screens/Placement/tpo/placement_schedule.dart';
+import 'package:fusion/screens/Placement/tpo/placement_statistics.dart';
+import 'package:fusion/screens/Placement/tpo/tpo_home.dart';
+import 'package:fusion/screens/Placement/student/placement_cell_home.dart';
+import 'package:fusion/screens/Placement/student/create_resume/resume_landing.dart';
+import 'package:fusion/screens/Placement/student/view_jobs/jobs.dart';
+import 'package:fusion/screens/Placement/student/view_schedules/schedule.dart';
+import 'package:fusion/screens/Placement/student/view_statistics/statistics.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -60,9 +76,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MediaQueryData windowData =
-    MediaQueryData.fromWindow(WidgetsBinding.instance.window);
+    MediaQueryData.fromView(WidgetsBinding.instance.window);
     windowData = windowData.copyWith(
-      textScaleFactor: 1,
+      textScaler: TextScaler.linear(1),
     );
     return MediaQuery(
       data: windowData,
@@ -81,6 +97,9 @@ class MyApp extends StatelessWidget {
         routes: {
           '/landing': (context) => LandingPage(),
           '/login_page': (context) => LoginPage(),
+          '/notification':(context)=>Notify(),
+          '/news':(context)=>News(),
+          '/announcement':(context)=>Announcement(),
           '/dashboard': (context) => Dashboard(),
           '/academic_home_page': (context) => AcademicHomePage(
               ModalRoute.of(context)!.settings.arguments.toString()),
@@ -127,6 +146,20 @@ class MyApp extends StatelessWidget {
           '/health_center/feedback': (context) => FeedBack(),
           '/health_center/viewschedule': (context) => ViewSchedule(),
           '/health_center/history': (context) => History(),
+          '/tpo/tpo_home': (context) => TpoHome(),
+          '/tpo_home/alumni_data':(context)=>AlumniData(),
+          '/tpo_home/filter_students':(context)=>FilterStudents(),
+          '/tpo_home/placement_schedule':(context)=>PlacementSchedule(),
+          '/tpo_home/placement_statistics':(context)=>PlacementStatistics(),
+          '/tpo_home/add_company':(context)=>AddCompany(),
+          '/tpo_home/placement_record':(context)=>PlacementRecord(),
+          '/student/placement_cell_home':(context)=>PlacementHomePage(ModalRoute.of(context)!.settings.arguments.toString()),
+          '/placement_cell_home/view_schedules/schedule':(context)=>SchedulesPage(),
+          '/placement_cell_home/create_resume/resume_landing':(context)=>ResumeLandingPage(),
+          '/placement_cell_home/view_jobs/jobs':(context)=>JobsPage(),
+          '/placement_cell_home/view_statistics/statistics':(context)=>StatisticsPage(),
+          '/faculty/faculty_stats':(context)=>Statistics(),
+          '/chairman/chairman_statistics':(context)=>Statistics(),
         },
       ),
     );
