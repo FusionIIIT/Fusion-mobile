@@ -4,6 +4,7 @@ import 'package:fusion/models/central_mess.dart';
 import 'package:fusion/services/central_mess_services.dart';
 import 'package:fusion/models/profile.dart';
 import 'package:http/http.dart' as http;
+import 'package:fusion/screens/Central_Mess/expandable_text.dart';
 
 class VacationFoodRequest extends StatefulWidget {
   @override
@@ -176,9 +177,7 @@ class _VacationFoodRequestState extends State<VacationFoodRequest> {
                       .endDate
                       .toString()
                       .substring(0, 10))),
-              DataCell(Text(
-                  _filteredVacationFoodRequests[index].purpose ??
-                      'N/A')),
+              DataCell(ExpandableText(text: _filteredVacationFoodRequests[index].purpose ?? 'N/A', maxLines: 1)),
               DataCell(
                 DropdownButtonFormField<String>(
                   decoration: InputDecoration(
@@ -241,4 +240,3 @@ class _VacationFoodRequestState extends State<VacationFoodRequest> {
     );
   }
 }
-

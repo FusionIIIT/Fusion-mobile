@@ -4,6 +4,7 @@ import 'package:fusion/models/central_mess.dart';
 import 'package:fusion/services/central_mess_services.dart';
 import 'package:fusion/models/profile.dart';
 import 'package:http/http.dart' as http;
+import 'package:fusion/screens/Central_Mess/expandable_text.dart';
 
 class ActiveSpecialFoodRequest extends StatefulWidget {
   @override
@@ -148,10 +149,8 @@ class _ActiveSpecialFoodRequestState extends State<ActiveSpecialFoodRequest> {
                             .toString().substring(0, 10))),
                         DataCell(Text(_modifiedSpecialRequests[index].endDate
                             .toString().substring(0, 10))),
-                        DataCell(Text(_modifiedSpecialRequests[index].request ??
-                            'N/A')),
-                        DataCell(Text(_modifiedSpecialRequests[index].item1 ??
-                            'N/A')),
+                        DataCell(ExpandableText(text: _modifiedSpecialRequests[index].request ?? 'N/A', maxLines: 1)),
+                        DataCell(ExpandableText(text: _modifiedSpecialRequests[index].item1 ?? 'N/A', maxLines: 1)),
                         DataCell(Text(_modifiedSpecialRequests[index].item2 ??
                             'N/A')),
                         DataCell(
@@ -211,4 +210,3 @@ class _ActiveSpecialFoodRequestState extends State<ActiveSpecialFoodRequest> {
     ));
   }
 }
-

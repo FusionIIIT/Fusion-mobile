@@ -183,6 +183,7 @@ import 'package:fusion/models/central_mess.dart';
 import 'package:fusion/services/central_mess_services.dart';
 import 'package:fusion/models/profile.dart';
 import 'package:http/http.dart' as http;
+import 'package:fusion/screens/Central_Mess/expandable_text.dart';
 
 class RespondToRebateRequest extends StatefulWidget {
   @override
@@ -310,7 +311,7 @@ class _RespondToRebateRequestState extends State<RespondToRebateRequest> {
                       DataCell(Text(rebate.appDate.toString().substring(0, 10))),
                       DataCell(Text(rebate.studentId?? 'N/A')),
                       DataCell(Text(rebate.leaveType)),
-                      DataCell(Text(rebate.purpose)),
+                      DataCell(ExpandableText(text: rebate.purpose ?? 'N/A', maxLines: 1)),
                       DataCell(Text(rebate.startDate.toString().substring(0, 10))),
                       DataCell(Text(rebate.endDate.toString().substring(0, 10))),
                       DataCell(

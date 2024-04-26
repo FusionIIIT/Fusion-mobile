@@ -1,6 +1,7 @@
 import 'package:fusion/models/central_mess.dart';
 import 'package:fusion/services/central_mess_services.dart';
 import 'package:flutter/material.dart';
+import 'package:fusion/screens/Central_Mess/expandable_text.dart';
 
 class DeRegistrationHistory extends StatefulWidget {
   final Map<String, dynamic> userMessData;
@@ -71,27 +72,6 @@ class _DeRegistrationHistoryState extends State<DeRegistrationHistory> {
     );
   }
 
-  String? status;
-  List<Map<String, dynamic>> tableData = [
-    {
-      'Student Id': '21BCS128',
-      'Mess': 'Mess1',
-      'Remark': 'No remarks',
-      'Accept/Reject': 'Accepted',
-    },
-    {
-      'Student Id': '21BCS064',
-      'Mess': 'Mess2',
-      'Remark': 'Out of tokens',
-      'Accept/Reject': 'Rejected',
-    },
-    {
-      'Student Id': '21BCS133',
-      'Mess': 'Mess1',
-      'Remark': 'Out of tokens',
-      'Accept/Reject': 'Accepted',
-    },
-  ];
 
   List<Map<String, String>> statusDropDownItems = [
     {"text": "Accept", "value": "accepted"},
@@ -100,12 +80,6 @@ class _DeRegistrationHistoryState extends State<DeRegistrationHistory> {
 
   @override
   Widget build(BuildContext context) {
-    // final ButtonStyle style = ElevatedButton.styleFrom(
-    //   textStyle: const TextStyle(
-    //       fontSize: 20, color: Colors.white, fontWeight: FontWeight.w500),
-    //   backgroundColor: Colors.white,
-    //   shadowColor: Colors.black,
-    // );
 
     return _loading == true
         ? Center(child: CircularProgressIndicator())
@@ -142,20 +116,6 @@ class _DeRegistrationHistoryState extends State<DeRegistrationHistory> {
   }
 
   List<DataRow> buildTableRows() {
-    // if (_deregistrationRequests.length <= 0) {
-    //   return [
-    //     DataRow(
-    //       cells: [
-    //         DataCell(
-    //           Padding(
-    //             padding: EdgeInsets.all(4),
-    //             child: Text("No records found!!!"),
-    //           ),
-    //         ),
-    //       ],
-    //     ),
-    //   ];
-    // }
     return _deregistrationRequests.map((data) {
       return DataRow(
         cells: data.toMap().keys.map((key) {
@@ -167,36 +127,6 @@ class _DeRegistrationHistoryState extends State<DeRegistrationHistory> {
                 child: Text(value == 'accept' ? "Accepted" : value == 'pending' ? "Pending" : "Rejected"),
               ),
             );
-          //   return DataCell(
-          //     DropdownButtonFormField<String>(
-          //       decoration: InputDecoration(
-          //         labelText: status != null ? null : 'Select',
-          //         enabledBorder: OutlineInputBorder(
-          //           borderSide: BorderSide(
-          //             color: Colors.deepOrangeAccent,
-          //             width: 2,
-          //           ),
-          //           borderRadius: BorderRadius.circular(20),
-          //         ),
-          //         filled: true,
-          //         fillColor: Colors.white,
-          //       ),
-          //       validator: (value) => value == null ? "Select" : null,
-          //       dropdownColor: Colors.white,
-          //       value: status,
-          //       onChanged: (String? newValue) {
-          //         setState(() {
-          //           status = newValue!;
-          //         });
-          //       },
-          //       items: statusDropDownItems.map((item) {
-          //         return DropdownMenuItem(
-          //           child: Text(item["text"]!),
-          //           value: item["value"],
-          //         );
-          //       }).toList(),
-          //     ),
-          //   );
           } else if (key.toLowerCase() == 'enddate') {
             var value = data.toMap()[key];
             return DataCell(
@@ -205,20 +135,10 @@ class _DeRegistrationHistoryState extends State<DeRegistrationHistory> {
                 child: Text(value.toString().substring(0, 10)),
               ),
             );
-          //   return DataCell(
-          //     TextField(
-          //       decoration: InputDecoration(
-          //         contentPadding:
-          //             EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-          //         hintText: 'Remark (optional)',
-          //         border: OutlineInputBorder(),
-          //       ),
-          //       onChanged: (value) {
-          //         data.deregistrationRemark = value;
-          //       },
-          //     ),
-          //   );
-          } else {
+          }else if (key.toLowerCase() == 'deregistrationremark') {
+            return DataCell(ExpandableText(text: data.deregistrationRemark ?? 'N/A', maxLines: 1)
+            );
+          }  else {
             var value = data.toMap()[key];
             return DataCell(
               Padding(

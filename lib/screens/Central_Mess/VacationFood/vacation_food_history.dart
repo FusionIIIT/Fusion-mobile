@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fusion/models/central_mess.dart';
 import 'package:fusion/services/central_mess_services.dart';
 import 'package:fusion/models/profile.dart';
+import 'package:fusion/screens/Central_Mess/expandable_text.dart';
 
 class HistoryOfVactionFood extends StatefulWidget {
   @override
@@ -113,9 +114,7 @@ class _HistoryOfVactionFoodState extends State<HistoryOfVactionFood> {
                               .endDate
                               .toString()
                               .substring(0, 10))),
-                          DataCell(Text(
-                              _modifiedVacationFoodRequests[index].purpose ??
-                                  'N/A')),
+                          DataCell(ExpandableText(text: _modifiedVacationFoodRequests[index].purpose ?? 'N/A', maxLines: 1)),
                           DataCell(Text(_modifiedVacationFoodRequests[index]
                                       .status ==
                                   "0"

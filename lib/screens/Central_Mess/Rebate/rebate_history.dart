@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fusion/models/central_mess.dart';
 import 'package:fusion/services/central_mess_services.dart';
 import 'package:fusion/models/profile.dart';
+import 'package:fusion/screens/Central_Mess/expandable_text.dart';
 
 class RebateHistory extends StatefulWidget {
   @override
@@ -93,7 +94,7 @@ class _RebateHistoryState extends State<RebateHistory> {
                     DataCell(Text(_modifiedRebateDates[index].appDate.toString().substring(0, 10))),
                     DataCell(Text(_modifiedRebateDates[index].studentId?? 'N/A')),
                     DataCell(Text(_modifiedRebateDates[index].leaveType)),
-                    DataCell(Text(_modifiedRebateDates[index].purpose)),
+                    DataCell(ExpandableText(text: _modifiedRebateDates[index].purpose ?? 'N/A', maxLines: 1)),
                     DataCell(Text(_modifiedRebateDates[index].startDate.toString().substring(0, 10))),
                     DataCell(Text(_modifiedRebateDates[index].endDate.toString().substring(0, 10))),
                     DataCell(Text(_modifiedRebateDates[index].status == "0" ? "Rejected" : _modifiedRebateDates[index].status == "1" ? "Pending" : "Accepted")),

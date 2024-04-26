@@ -90,7 +90,7 @@ class _RegDeRegState extends State<RegDeReg> {
 
                             Tab(
                             child: Text(
-                              "Registration Status",
+                              "Registration History",
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                           ),
@@ -106,7 +106,7 @@ class _RegDeRegState extends State<RegDeReg> {
 
                             Tab(
                             child: Text(
-                              "Deregistration Status",
+                              "Deregistration History",
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                           ),
