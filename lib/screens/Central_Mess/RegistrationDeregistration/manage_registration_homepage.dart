@@ -49,7 +49,7 @@ class _ManageRegDeRegHomepageState extends State<ManageRegDeRegHomepage> {
         child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
           SizedBox(height: 5.0),
           DefaultTabController(
-              length:  1, // length of tabs
+              length:  2, // length of tabs
               initialIndex: 0,
               child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
                 Container(
@@ -67,12 +67,12 @@ class _ManageRegDeRegHomepageState extends State<ManageRegDeRegHomepage> {
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                           ),
-                          // Tab(
-                          //   child: Text(
-                          //     "Add/Remove Student",
-                          //     style: TextStyle(fontWeight: FontWeight.bold),
-                          //   ),
-                          // ),
+                          Tab(
+                            child: Text(
+                              "Remove Student",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
                         ],
 
                     ],
@@ -87,7 +87,7 @@ class _ManageRegDeRegHomepageState extends State<ManageRegDeRegHomepage> {
                       children: <Widget>[
                         if (user == "caretaker" || user=="warden") ...[
                           ManageRegistrations(),
-                          // AddRemoveStudents(),
+                          AddRemoveStudents(),
                         ],
                       ],
                     )

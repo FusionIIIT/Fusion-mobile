@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fusion/api.dart';
 import 'package:fusion/services/central_mess_services.dart';
 import 'package:fusion/models/central_mess.dart';
+import 'package:http/http.dart' as http;
 
 class AddRemoveStudents extends StatefulWidget {
   @override
@@ -10,15 +11,42 @@ class AddRemoveStudents extends StatefulWidget {
 
 class _AddRemoveStudentsState extends State<AddRemoveStudents> {
   CentralMessService _centralMessService = CentralMessService();
-  bool _loading = false;
+  bool _loading = true;
   String? selectedMess, studentId;
   final studentIdController = TextEditingController();
   Map<String, dynamic> regRecords = {};
+  List<RegMain> _regMainData = [];
 
   @override
   void initState() {
     super.initState();
+    _fetchRegMainData();
   }
+
+  void _fetchRegMainData() async {
+    try {
+      Map<String, String> data = {
+        'type': 'filter',
+        'mess_option': 'all',
+        'program': 'all',
+        'status': 'all',
+      };
+      List<RegMain> regMainData =
+          await _centralMessService.getRegMain(data);
+      setState(() {
+        _regMainData = regMainData.where((element) => element.currentMessStatus == "Registered").toList();
+        _regMainData.sort((a, b) => (a.studentId!).compareTo(b.studentId!));
+      });
+      print('Received RegMain');
+      setState(() {
+        _loading = false;
+      });
+    } catch (e) {
+      print(e);
+      _showSnackbar('$e', Colors.red);
+    }
+  }
+
   getData() async {
     setState(() {
       _loading = true;
@@ -48,14 +76,39 @@ class _AddRemoveStudentsState extends State<AddRemoveStudents> {
     setState(() {
       _loading = true;
     });
+
+    print(type);
     try{
       if(type=='mess1' || type=='mess2'){
+        bool _deregisteredAll = true;
+        _regMainData.forEach((element) async{
+          if (element.messOption == type) {
+            Map<String, dynamic> data = {
+              'student_id': element.studentId,
+              'end_date': DateTime.now(),
+            };
 
-      }else{
+            http.Response response = await _centralMessService.deregister(data);
+            _deregisteredAll = _deregisteredAll & (response.statusCode == 200);
+          }
+        });
+        if (_deregisteredAll) {
+          _showSnackbar("Deregistered all ${type == "mess1" ? "Mess 1" : "Mess 2"} students  successfully!", Colors.green);
+        }
+      } else {
+        Map<String, dynamic> data = {
+          'student_id': type.toUpperCase(),
+          'end_date': DateTime.now(),
+        };
 
+        http.Response response = await _centralMessService.deregister(data);
+        if (response.statusCode == 200) {
+          _showSnackbar("Deregistered ${type.toUpperCase()} successfully!", Colors.green);
+        }
       }
     }catch(e){
-
+      print(e);
+      _showSnackbar('$e', Colors.red);
     }
     setState(() {
       _loading = false;
@@ -92,7 +145,7 @@ class _AddRemoveStudentsState extends State<AddRemoveStudents> {
       );
     }
 
-    return SingleChildScrollView(
+    return _loading ? Center(child: CircularProgressIndicator()) :  SingleChildScrollView(
       child: Column(
         children: [
           Padding(
