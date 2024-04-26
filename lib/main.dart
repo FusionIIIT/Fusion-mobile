@@ -9,7 +9,10 @@ import 'package:fusion/screens/Library/Book_Search.dart';
 import 'package:fusion/screens/Library/dues.dart';
 import 'package:fusion/screens/Library/issued_items.dart';
 import 'package:fusion/screens/Library/lib_home_screen.dart';
+import 'package:fusion/screens/LoginandDashboard/DashboardComponents/news.dart';
 import 'package:fusion/screens/LoginandDashboard/dashboard.dart';
+import 'package:fusion/screens/LoginandDashboard/DashboardComponents/notify.dart';
+import 'package:fusion/screens/LoginandDashboard/DashboardComponents/announcement.dart';
 import 'package:fusion/screens/LoginandDashboard/login_page.dart';
 import 'package:fusion/screens/Academic/academic_home_page.dart';
 import 'package:fusion/screens/Academic/Current_Semester/current_semester_home_page.dart';
@@ -35,6 +38,12 @@ import 'package:fusion/screens/Programme_Curriculum/Discipline/discipline.dart';
 import 'package:fusion/screens/Programme_Curriculum/Programme/programme_home_page.dart';
 import 'package:fusion/screens/Programme_Curriculum/Programme_Info/programme_info.dart';
 import 'package:fusion/screens/Programme_Curriculum/programme_curriculum_home.dart';
+import 'package:fusion/screens/Department/department_homepage.dart';
+import 'package:fusion/screens/Department/Student_details/student_details.dart';
+import 'package:fusion/screens/Department/Alumni_details/alumni_details.dart';
+import 'package:fusion/screens/Department/Announcements/make_announcement.dart';
+import 'package:fusion/screens/Department/Announcements/browse_announcement.dart';
+
 import 'package:fusion/screens/landing_page.dart';
 import 'package:fusion/screens/Healthcenter/healthcentermodule.dart';
 import 'package:fusion/screens/Healthcenter/feedback.dart';
@@ -60,10 +69,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MediaQueryData windowData =
-    MediaQueryData.fromWindow(WidgetsBinding.instance.window);
+    MediaQueryData.fromView(WidgetsBinding.instance.window);
     windowData = windowData.copyWith(
-      textScaleFactor: 1,
+      textScaler: TextScaler.linear(1),
     );
+    var selectedProgramme;
+    Map<String, String> selectedDepartmentData;
     return MediaQuery(
       data: windowData,
       child: MaterialApp(
@@ -71,16 +82,19 @@ class MyApp extends StatelessWidget {
         title: 'Fusion',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-            // primarySwatch: Colors.blueGrey,
+          // primarySwatch: Colors.blueGrey,
           // colorSchemeSeed: Color(0xFF2085D0),
           colorSchemeSeed: Color(0xFFF36C35),
-            fontFamily: 'Nunito',
+          fontFamily: 'Nunito',
           useMaterial3: true,
         ),
         initialRoute: '/landing',
         routes: {
           '/landing': (context) => LandingPage(),
           '/login_page': (context) => LoginPage(),
+          '/notification':(context)=>Notify(),
+          '/news':(context)=>News(),
+          '/announcement':(context)=>Announcement(),
           '/dashboard': (context) => Dashboard(),
           '/academic_home_page': (context) => AcademicHomePage(
               ModalRoute.of(context)!.settings.arguments.toString()),
@@ -104,6 +118,12 @@ class MyApp extends StatelessWidget {
               ProgrammeInfo(),
           '/programme_curriculum_home/courses': (context) => Courses(),
           '/programme_curriculum_home/courses_info': (context) => CoursesInfo(),
+          '/department_home_page': (context) => DepartmentScreen(
+              ModalRoute.of(context)!.settings.arguments.toString()),
+          '/student_details': (context) => StudentDetails(),
+          '/alumni_details': (context) => AlumniDetails(),
+          '/browse_announcement': (context) => BrowseAnnouncement(),
+          '/make_announcement': (context) => MakeAnnouncement(),
           '/establishment': (context) => Establishment(),
           '/gymkhana_homepage': (context) => GymkhanaHomepage(),
           '/gymkhana_homepage/apply': (context) => Apply(),
