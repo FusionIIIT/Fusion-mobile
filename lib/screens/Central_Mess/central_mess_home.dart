@@ -487,7 +487,13 @@ class _CentralMessHomeState extends State<CentralMessHome> {
                       },
                     ),
                     InkWell(
-                      child: myContainer("Manage Registrations" ),
+                      child: myContainer("View Mess Bills"),
+                      onTap: () {
+                        Navigator.pushNamed(context, '/central_mess_home/messBill', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
+                      },
+                    ),
+                    InkWell(
+                      child: myContainer("View Registrations" ),
                       onTap: () {
                         Navigator.pushNamed(context, '/central_mess_home/manageRegistration', arguments: {"profileData": data2.toJson(), "user": user, "userMessData": userMessData.toMap()});
                       },

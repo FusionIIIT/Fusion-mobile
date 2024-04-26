@@ -49,7 +49,7 @@ class _ManageRegDeRegHomepageState extends State<ManageRegDeRegHomepage> {
         child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
           SizedBox(height: 5.0),
           DefaultTabController(
-              length:  2, // length of tabs
+              length: user == "caretaker" ? 2 : 1, // length of tabs
               initialIndex: 0,
               child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
                 Container(
@@ -59,7 +59,7 @@ class _ManageRegDeRegHomepageState extends State<ManageRegDeRegHomepage> {
                     indicatorColor: Colors.deepOrangeAccent,
                     unselectedLabelColor: Colors.black,
                     tabs: [
-                      if (user == "caretaker" || user == "warden")
+                      if (user == "caretaker")
                         ...[
                           Tab(
                             child: Text(
@@ -70,6 +70,15 @@ class _ManageRegDeRegHomepageState extends State<ManageRegDeRegHomepage> {
                           Tab(
                             child: Text(
                               "Remove Student",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ],
+                      if (user == "warden")
+                        ...[
+                          Tab(
+                            child: Text(
+                              "View List",
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                           ),
@@ -85,9 +94,12 @@ class _ManageRegDeRegHomepageState extends State<ManageRegDeRegHomepage> {
                     ),
                     child:  TabBarView(
                       children: <Widget>[
-                        if (user == "caretaker" || user=="warden") ...[
+                        if (user == "caretaker") ...[
                           ManageRegistrations(),
                           AddRemoveStudents(),
+                        ],
+                        if (user=="warden") ...[
+                          ManageRegistrations(),
                         ],
                       ],
                     )
