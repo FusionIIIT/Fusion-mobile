@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:fusion/screens/Academic/Add_Drop_Courses/add_drop_courses.dart';
+import 'package:fusion/screens/Complaint/Caretaker/view_caretaker.dart';
 import 'package:fusion/screens/Complaint/ComplaintHistory/complain_history.dart';
 import 'package:fusion/screens/Complaint/Feedback/feedback.dart';
+import 'package:fusion/screens/Complaint/Caretaker/unresolved_complaints.dart';
+import 'package:fusion/screens/Complaint/Caretaker/resolved_complaints.dart';
 import 'package:fusion/screens/Complaint/LodgeComplaint/lodge_complaint.dart';
 import 'package:fusion/screens/Establishment/establishment_home_page.dart';
 import 'package:fusion/screens/Library/Book_Search.dart';
@@ -125,6 +128,9 @@ class MyApp extends StatelessWidget {
           '/complaint/lodge_complaint': (context) => LodgeComplaint(
               ModalRoute.of(context)!.settings.arguments.toString()),
           '/complaint/complaint_history': (context) => ComplainHistory(),
+          '/complaint/caretaker/unresolved_complaints': (context) => UnresolvedComplaints(),
+          '/complaint/caretaker/resolved_complaints': (context) => ResolvedComplaints(),
+          '/complaint/caretaker/view_caretaker': (context) => ViewCaretaker(),
           '/complaint/feedback': (context) => ComplaintFeedBack(),
           '/profile': (context) => Profile(),
           '/health_center': (context) => HealthCenterMod(
