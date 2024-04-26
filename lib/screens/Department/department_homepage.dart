@@ -11,7 +11,7 @@ import 'package:fusion/screens/Department/Alumni_details/alumni_details.dart';
 import 'package:fusion/screens/Department/Faculty_details/faculty_details.dart';
 import 'package:fusion/screens/Department/Announcements/browse_announcement.dart';
 import 'package:fusion/screens/Department/Student_details/student_details.dart';
-import 'package:fusion/screens/Department/facilities.dart';
+import 'package:fusion/screens/Department/Department_Info/facilities.dart';
 import 'package:fusion/services/profile_service.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
@@ -186,8 +186,9 @@ class _DepartmentScreenState extends State<DepartmentScreen> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) =>
-                                              FacilitiesPage(),
+                                          builder: (context) => FacilitiesPage(
+                                              selectedDepartment:
+                                                  selectedDepartment),
                                         ),
                                       );
                                     },

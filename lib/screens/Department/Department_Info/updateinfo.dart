@@ -31,7 +31,6 @@ class _UpdateInfoPageState extends State<UpdateInfoPage> {
 
     _facilitiesFocusNode.addListener(() {
       setState(() {
-        // Update facilitiesBorderColor based on focus state
         facilitiesBorderColor = _facilitiesFocusNode.hasFocus
             ? Theme.of(context).colorScheme.primary
             : Colors.grey;
