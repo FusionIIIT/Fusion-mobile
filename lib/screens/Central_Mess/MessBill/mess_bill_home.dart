@@ -89,7 +89,7 @@ class _ManageBillState extends State<ManageBill> {
             child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
               SizedBox(height: 5.0),
               DefaultTabController(
-                  length: user == "student" ? 1 : 3, // length of tabs
+                  length: user == "student" || user == "warden" ? 1 : 3, // length of tabs
                   initialIndex: 0,
                   child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
                     Container(
@@ -104,11 +104,15 @@ class _ManageBillState extends State<ManageBill> {
                               Tab(child: Text("Monthly Bills",style: TextStyle(fontWeight: FontWeight.bold),),),
                               // Tab(child: Text("Bill History",style: TextStyle(fontWeight: FontWeight.bold),),),
                             ],
-                          if (user == "caretaker" || user=="warden")
+                          if (user == "caretaker")
                             ...[
                               Tab(child: Text("Bill Base",style: TextStyle(fontWeight: FontWeight.bold),),),
                               Tab(child: Text("View Student Bills",style: TextStyle(fontWeight: FontWeight.bold),),),
                               Tab(child: Text("Update Student Bill",style: TextStyle(fontWeight: FontWeight.bold),),),
+                            ],
+                          if (user=="warden")
+                            ...[
+                              Tab(child: Text("View Student Bills",style: TextStyle(fontWeight: FontWeight.bold),),),
                             ]
                         ],
                       ),
@@ -125,10 +129,13 @@ class _ManageBillState extends State<ManageBill> {
                             // MessMonthlyBill(),
                             MessMonthlyBillHistory(profileData: data, userMessData: userMessData),
                           ],
-                          if(user=="caretaker" || user=="warden") ...[
+                          if(user=="caretaker") ...[
                             UpdateMonthlyBill(),
                             ViewStudentBill(),
                             UpdateStudentBill(),
+                          ],
+                          if(user=="warden") ...[
+                            ViewStudentBill(),
                           ]
                         ])
                     )
