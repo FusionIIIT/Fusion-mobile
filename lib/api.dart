@@ -1,16 +1,38 @@
 //Server and local links
 String klocalLink = "127.0.0.1:8000";
-String kserverLink = "172.27.16.215:80";
+String kserverLink = "172.27.16.214:8000";
 
 //Login Service
-String kAuthUrl = "172.27.16.215:80";
+String kAuthUrl = "172.27.16.214:8000";
 String kAuthLogin = "/api/auth/login/";
+// String kAuthLogin = "/accounts/login";
 
 //Profile Service
 String kProfile = "/api/profile/";
 
 //Academic Procedures
 String kAcademicProcedures = "/academic-procedures/api/stu/";
+
+//Central Mess
+
+// String kCentralMess = "172.27.16.214:8000";
+String kCentralMess = "touching-vervet-terminally.ngrok-free.app";
+String kFeedbackEndpoint = "/mess/api/feedbackApi";
+String kMenuEndpoint = "/mess/api/menuApi";
+String kMessBillBase = "/mess/api/messBillBaseApi";
+String kMonthlyBillEndpoint = "/mess/api/monthlyBillApi";
+String kMonthlyPaymentEndpoint = "/mess/api/paymentsApi";
+String kRebateEndpoint = "/mess/api/rebateApi";
+String kSpecialRequestEndpoint = "/mess/api/specialRequestApi";
+String kVacationFoodRequestEndpoint = "/mess/api/vacationFoodApi";
+String kMessInfoEndpoint = "/mess/api/messInfoApi";
+String kRegistrationRequestEndpoint = "/mess/api/registrationRequestApi";
+String kDeregistrationRequestEndpoint = "/mess/api/deRegistrationRequestApi";
+String kRegMainEndpoint = "/mess/api/get_mess_students";
+String kStudentAllDetails = "/mess/api/get_student_all_details";
+String kStudentRegRecords = "/mess/api/get_reg_records";
+String kDeregistrationEndpoint = "/mess/api/deRegistrationApi";
+String kUpdatePaymentRequestEndpoint = "/mess/api/updatePaymentApi";
 
 //Complaint
 String kComplaintService = "/complaint/api/studentcomplain";
@@ -20,6 +42,7 @@ String kComplaintRemove = "/complaint/api/removecomplain/";
 
 //Dashboard
 String kDashboard = "/api/dashboard/";
+String kNotification = "/api/notification/";
 String kNotificationRead = "/api/notification/read/";
 
 //Gymkhana
