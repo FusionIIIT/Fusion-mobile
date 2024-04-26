@@ -26,20 +26,7 @@ class _ManagePositionHolderPageState extends State<ManagePositionHolderPage> {
     _fetchClubDetails();
   }
 
-  // Future<void> _fetchClubDetails() async {
-  //   try {
-  //     ViewClubDetails viewClubDetails = ViewClubDetails();
-  //     List<dynamic> clubData = await viewClubDetails.getClubDetails();
-  //     List<String> fetchedClubs =
-  //         clubData.map((club) => club['club_name'].toString()).toList();
-  //     setState(() {
-  //       clubs = fetchedClubs;
-  //       selectedClub = clubs.isNotEmpty ? clubs.first : null;
-  //     });
-  //   } catch (e) {
-  //     print('Error fetching club details: $e');
-  //   }
-  // }
+  
 
   Future<void> _fetchClubDetails() async {
   try {

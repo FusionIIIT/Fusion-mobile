@@ -30,22 +30,7 @@ class _BudgetFormConvenortwoState extends State<BudgetFormConvenortwo> {
     _fetchClubs(); // Fetch clubs when the widget initializes
   }
 
-  // Future<void> _fetchClubs() async {
-  //   try {
-  //     // Instantiate the service to fetch club details
-  //     ViewClubDetails viewClubDetails = ViewClubDetails();
-  //     List<dynamic> clubDetails = await viewClubDetails.getClubDetails();
-
-  //     // Extract club names from club details and cast to String
-  //     List<String> clubs =
-  //         clubDetails.map((club) => club['club_name'] as String).toList();
-  //     setState(() {
-  //       _clubsList = clubs;
-  //     });
-  //   } catch (e) {
-  //     print('Error fetching clubs: $e');
-  //   }
-  // }
+ 
 
 Future<void> _fetchClubs() async {
   try {

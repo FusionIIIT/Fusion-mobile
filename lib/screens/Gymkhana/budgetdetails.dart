@@ -18,23 +18,7 @@ class _BudgetDetailsState extends State<BudgetDetails> {
     fetchClubDetails();
   }
 
-  // Future<void> fetchClubDetails() async {
-  //   try {
-  //     ViewClubDetails viewClubDetails = ViewClubDetails();
-  //     List<dynamic> jsonData = await viewClubDetails.getClubDetails();
-
-  //     setState(() {
-  //       clubs = jsonData.map<String>((club) => club['club_name'].toString()).toList();
-  //       selectedClub = clubs.isNotEmpty ? clubs.first : null;
-  //     });
-
-  //     if (selectedClub != null) {
-  //       fetchBudgetDetails(selectedClub!);
-  //     }
-  //   } catch (e) {
-  //     print('Error fetching club details: $e');
-  //   }
-  // }
+  
   Future<void> fetchClubDetails() async {
   try {
     ViewClubDetails viewClubDetails = ViewClubDetails();

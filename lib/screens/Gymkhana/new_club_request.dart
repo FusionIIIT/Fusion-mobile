@@ -233,40 +233,7 @@ class _NewClubRequestState extends State<NewClubRequest> {
                   return null;
                 },
               ),
-              // SizedBox(height: 20),
-              // ElevatedButton(
-              //   onPressed: () async {
-              //     DateTime? pickedDate = await showDatePicker(
-              //       context: context,
-              //       initialDate: _headChangedOn,
-              //       firstDate: DateTime(2000),
-              //       lastDate: DateTime(2100),
-              //     );
-              //     if (pickedDate != null) {
-              //       setState(() {
-              //         _headChangedOn = pickedDate;
-              //       });
-              //     }
-              //   },
-              //   child: Text('Select Head Changed On Date: ${_headChangedOn.toString().substring(0, 10)}'),
-              // ),
-              // SizedBox(height: 20),
-              // ElevatedButton(
-              //   onPressed: () async {
-              //     DateTime? pickedDate = await showDatePicker(
-              //       context: context,
-              //       initialDate: _createdOn,
-              //       firstDate: DateTime(2000),
-              //       lastDate: DateTime(2100),
-              //     );
-              //     if (pickedDate != null) {
-              //       setState(() {
-              //         _createdOn = pickedDate;
-              //       });
-              //     }
-              //   },
-              //   child: Text('Select Created On Date: ${_createdOn.toString().substring(0, 10)}'),
-              // ),
+              
               SizedBox(height: 20),
               TextFormField(
                 controller: _descriptionController,

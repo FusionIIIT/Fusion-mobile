@@ -34,7 +34,7 @@ import 'package:fusion/screens/Gymkhana/NewEvent.dart';
 import 'package:fusion/screens/Gymkhana/gymkhana_coordinator.dart';
 import 'package:fusion/screens/Gymkhana/manage_members.dart';
 import 'package:fusion/screens/Gymkhana/membersRequest.dart';
-import 'package:fusion/screens/Gymkhana/Polls.dart';
+
 import 'package:fusion/screens/Gymkhana/Apply.dart';
 import 'package:fusion/screens/Gymkhana/budgetdetails.dart';
 import 'package:fusion/screens/Gymkhana/NewSession.dart';
@@ -132,7 +132,7 @@ class MyApp extends StatelessWidget {
           '/gymkhana_homepage': (context) => GymkhanaHomepage(),
           '/gymkhana_counsellor': (context) => gymkhana_counsellor(),
           '/gymkhana_counsellor/budgetdetails': (context) => BudgetDetails(),
-          '/gymkhana_counsellor/Polls': (context) => VotingPolls(),
+          
           '/gymkhana_counsellor/clubs': (context) => Club(),
           '/gymkhana_counsellor/member_records': (context) => Records(),
           '/gymkhana_counsellor/updatebudgetcouncellor': (context) =>
@@ -141,12 +141,12 @@ class MyApp extends StatelessWidget {
           '/gymkhana_convenor': (context) => gymkhana_convenor(),
           '/gymkhana_convenor/updatebudgetconvenor': (context) =>
               UpdateBudgetConvenerPage(),
-          '/gymkhana_convenor/Polls': (context) => VotingPolls(),
+         
           '/gymkhana_convenor/clubs': (context) => Club(),
           '/gymkhana_convenor/member_records': (context) => Records(),
           '/gymkhana_dean': (context) => gymkhana_dean(),
           '/gymkhana_dean/budgetdetails': (context) => BudgetDetails(),
-          '/gymkhana_dean/Polls': (context) => VotingPolls(),
+        
           '/gymkhana_dean/clubs': (context) => Club(),
           '/gymkhana_dean/member_records': (context) => Records(),
           '/gymkhana_dean/manage_position_holder': (context) =>
@@ -159,9 +159,9 @@ class MyApp extends StatelessWidget {
           // '/gymkhana_dean/member_records': (context) => Records(),
           '/gymkhana_coordinator': (context) => GymkhanaCoordinator(),
           '/gymkhana_homepage/apply': (context) => Apply(),
-          '/gymkhana_homepage/polls': (context) => VotingPolls(),
+  
           '/gymkhana_homepage/new_club_request': (context) => NewClubRequest(),
-          '/gymkhana_coordinator/polls': (context) => VotingPolls(),
+        
           '/gymkhana_coordinator/apply': (context) => Apply(),
           '/gymkhana_coordinator/budgetdetails': (context) => BudgetDetails(),
           '/gymkhana_convenor/budgetdetails': (context) => BudgetDetails(),
