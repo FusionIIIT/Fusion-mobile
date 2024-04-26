@@ -105,26 +105,53 @@ class _SideDrawerState extends State<SideDrawer> {
             ),
             _loading
                 ? Card(
-              color: Colors.black,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  // ModulesPadding(
-                  //     line: 'DashBoard', pageMover: '/dashboard'),
-                  ModulesPadding(
-                    line: 'Academics Module',
-                    pageMover: '/academic_home_page',
-                    isActive: true,
-                  ),
-                  ModulesPadding(
-                    line: 'Programme Curriculum',
-                    pageMover: '/programme_curriculum_home',
-                    isActive: true,
-                  ),
-                  ModulesPadding(
+                    color: Colors.black,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        // ModulesPadding(
+                        //     line: 'DashBoard', pageMover: '/dashboard'),
+                        ModulesPadding(
+                          line: 'Academics Module',
+                          pageMover: '/academic_home_page',
+                          isActive: true,
+                        ),
+                        ModulesPadding(
+                          line: 'Programme Curriculum',
+                          pageMover: '/programme_curriculum_home',
+                          isActive: true,
+                        ),
+                        ModulesPadding(
+                            line: 'Gymkhana Module',
+                            pageMover: '/gymkhana_homepage'),
+                        ModulesPadding(
+                            line: 'Establishment Module',
+                            pageMover: '/establishment'),
+                        ModulesPadding(
+                            line: 'Library Module',
+                            pageMover: '/library_homepage'),
+                        ModulesPadding(line: 'Awards & Scholarship Module'),
+                        ModulesPadding(
+                            line: 'Complaint Module', pageMover: '/complaint', isActive: true,),
+                        ModulesPadding(line: 'Central Mess Module'),
+                        ModulesPadding(line: 'Feeds Module'),
+                        ModulesPadding(
+                          line: 'Health Center Module',
+                          pageMover: '/health_center',
+                        ),
+                        ModulesPadding(
                     line: 'Central Mess',
                     pageMover: '/central_mess_home',
                     isActive: true,
+                        ModulesPadding(line: 'Leave Module'),
+                        ModulesPadding(line: 'Placement Module'),
+                        ModulesPadding(line: 'Visitors Hostel Module'),
+                        ModulesPadding(line: 'File Tracking Module'),
+                      ],
+                    ),
+                  )
+                : SizedBox(
+                    width: 2.0,
                   ),
                   ModulesPadding(
                       line: 'Gymkhana Module',
