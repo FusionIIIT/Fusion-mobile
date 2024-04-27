@@ -5,8 +5,6 @@ import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
 import 'package:intl/intl.dart';
 
-
-
 const kTextFieldInputDecoration = InputDecoration(
   filled: true,
   fillColor: Colors.white,
