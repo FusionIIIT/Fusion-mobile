@@ -1,13 +1,15 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
 import 'package:fusion/models/gymkhana.dart';
 import 'package:fusion/models/profile.dart';
 import 'package:fusion/services/gymkhana_service.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
+
+import '../../Components/bottom_navigation_bar.dart';
 
 class GymkhanaHomepage extends StatefulWidget {
   @override
@@ -15,6 +17,8 @@ class GymkhanaHomepage extends StatefulWidget {
 }
 
 class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
+  var service = locator<StorageService>();
+late String curr_desig = service.getFromDisk("Current_designation");
   bool _loading1 = true;
   ProfileData? data;
   late StreamController _gymkhanaController;
@@ -80,8 +84,8 @@ class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
           clubNames: [
             'Avartan',
             'Saaz',
-            'Football',
-            'Cricket',
+            'Jazbaat',
+            'Abhivyakti',
           ],
           membersDetails: [
             {
@@ -157,8 +161,14 @@ class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
-      drawer: SideDrawer(),
+      appBar: CustomAppBar(curr_desig: curr_desig,
+        headerTitle: 'Student Homepage', // Set your app bar title
+        onDesignationChanged: (newValue) {
+          // Handle designation change if needed
+        },),
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar:
+      MyBottomNavigationBar(),
       body:
           //TODO: uncomment when API is functioning
           _loading1 == true
@@ -252,13 +262,13 @@ class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
                                   context, '/gymkhana_homepage/apply');
                             },
                           ),
-                          InkWell(
-                            child: myContainer("Voting Polls"),
-                            onTap: () {
-                              Navigator.pushNamed(
-                                  context, '/gymkhana_homepage/polls');
-                            },
-                          ),
+                          // InkWell(
+                          //   child: myContainer("Voting Polls"),
+                          //   onTap: () {
+                          //     Navigator.pushNamed(
+                          //         context, '/gymkhana_homepage/polls');
+                          //   },
+                          // ),
                           InkWell(
                             child: myContainer("Club Details"),
                             onTap: () {
@@ -275,6 +285,16 @@ class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
                               Navigator.pushNamed(
                                 context,
                                 '/gymkhana_homepage/member_records',
+                                arguments: gymkhanaData,
+                              );
+                            },
+                          ),
+                          InkWell(
+                            child: myContainer("New Club Request"),
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                '/gymkhana_homepage/new_club_request',
                                 arguments: gymkhanaData,
                               );
                             },
