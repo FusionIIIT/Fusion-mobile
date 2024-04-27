@@ -1,85 +1,109 @@
-import 'package:flutter/material.dart';
-import 'package:fusion/services/service_locator.dart';
-import 'package:fusion/services/storage_service.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:io';
 
-class ViewDraftFilePage extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
+import 'package:http/http.dart' as http;
+
+class ViewDraftFilePage extends StatefulWidget {
   final Map<String, dynamic> draftDetails;
   final Function(String) onDelete;
 
   const ViewDraftFilePage({Key? key, required this.draftDetails, required this.onDelete}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    String receiver = ''; // Receiver username
-    String receiverDesignation = ''; // Receiver designation
+  _ViewDraftFilePageState createState() => _ViewDraftFilePageState();
+}
 
-    void _submitForm(BuildContext context, String receiver, String receiverDesignation) async {
-      try {
-        // Validate receiver and receiver designation
-        if (receiver.isEmpty || receiverDesignation.isEmpty) {
-          throw Exception('Receiver username and designation are required.');
-        }
+class _ViewDraftFilePageState extends State<ViewDraftFilePage> {
+  String receiver = ''; // Receiver username
+  String receiverDesignation = ''; // Receiver designation
+  File? _attachedFile;
 
-        var storageService = locator<StorageService>();
-        if (storageService.userInDB?.token == null) {
-          throw Exception('Token Error');
-        }
-
-        Map<String, String> headers = {
-          'Authorization': 'Token ${storageService.userInDB?.token ?? ""}',
-          'Content-Type': 'application/json'
-        };
-
-        // Prepare request body
-        final data = jsonEncode({
-        'subject': draftDetails['subject'],
-        'designation': 'student',
-        'receiver_username': receiver,
-        'receiver_designation': receiverDesignation,
-        'description': draftDetails['description'],
-      });
-        // Make HTTP POST request to send the draft
-        final response = await http.post(
-          Uri.http('10.0.2.2:8000', '/filetracking/api/file/'),
-          headers: headers,
-          body: data,
-        );
-
-        // Handle response
-        if (response.statusCode == HttpStatus.created) {
-          // Show success message
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Draft sent successfully to $receiver'),
-              backgroundColor: Colors.green,
-            ),
-          );
-
-          // Close current page and go back to the previous screen
-          Navigator.pop(context);
-        } else {
-          // Show error message with server response
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Failed to send draft: ${response.body}'),
-              backgroundColor: Colors.red,
-            ),
-          );
-        }
-      } catch (e) {
-        // Show error message
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Failed to send draft: $e'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
+  void _submitForm(BuildContext context, String receiver, String receiverDesignation) async {
+  try {
+    // Validate receiver and receiver designation
+    if (receiver.isEmpty || receiverDesignation.isEmpty) {
+      throw Exception('Receiver username and designation are required.');
     }
 
+    var storageService = locator<StorageService>();
+     if (storageService.userInDB?.token == null) {
+      throw Exception('Token Error');
+    }
+
+    Map<String, String> headers = {
+      'Authorization': 'Token ${storageService.userInDB?.token ?? ""}',
+      'Content-Type': 'application/json'
+    };
+    var request = http.MultipartRequest(
+      'POST',
+      Uri.http(
+        '10.0.2.2:8000', '/filetracking/api/file/'
+      ),
+    );
+
+    request.fields['subject'] = widget.draftDetails['subject'].toString();
+    request.fields['designation'] = 'student';
+    request.fields['receiver_username'] = receiver;
+    request.fields['receiver_designation'] = receiverDesignation;
+    request.fields['description'] = widget.draftDetails['description'].toString();
+    
+    // Prepare request body
+    if(_attachedFile != null) {
+      var filePart = await http.MultipartFile.fromPath(
+        'file',
+        _attachedFile!.path,
+      );
+      request.files.add(filePart);
+    }
+
+    request.headers['Authorization'] = 'Token ' + (storageService.userInDB?.token ?? "");
+    request.headers['Content-Type'] = 'application/json';
+
+    var response = await http.Response.fromStream(await request.send());
+
+    print(response.statusCode);
+    // Handle response
+    if (response.statusCode == HttpStatus.created) {
+      // Show success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Draft sent successfully to $receiver'),
+          backgroundColor: Colors.green,
+        ),
+      );
+
+      // Delete the current draft
+      widget.onDelete(widget.draftDetails['id'].toString());
+
+      // Close current page and go back to the previous screen
+      Navigator.pop(context); // Pop out the current page
+    } else {
+      // Show error message with server response
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to send draft: ${response.body}'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  } catch (e) {
+    // Show error message
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Failed to send draft: $e'),
+        backgroundColor: Colors.red,
+      ),
+    );
+  }
+}
+
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Draft File Details'),
@@ -106,7 +130,7 @@ class ViewDraftFilePage extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              subtitle: Text(draftDetails['id'].toString()),
+              subtitle: Text(widget.draftDetails['id'].toString()),
             ),
             ListTile(
               title: Text(
@@ -115,7 +139,7 @@ class ViewDraftFilePage extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              subtitle: Text(draftDetails['subject'] ?? 'No subject available'),
+              subtitle: Text(widget.draftDetails['subject'] ?? 'No subject available'),
             ),
             ListTile(
               title: Text(
@@ -124,8 +148,28 @@ class ViewDraftFilePage extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              subtitle: Text(draftDetails['description'] ?? 'No description available'),
+              subtitle: Text(widget.draftDetails['description'] ?? 'No description available'),
             ),
+            SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () async {
+                FilePickerResult? result =
+                    await FilePicker.platform.pickFiles();
+
+                if (result != null) {
+                  setState(() {
+                    _attachedFile = File(result.files.single.path ?? '');
+                  });
+                } else {
+                  // User canceled the file picking
+                }
+              },
+              child: Text('Browse'),
+            ),
+            SizedBox(height: 16),
+            _attachedFile != null
+                ? Text(_attachedFile!.path)
+                : Container(), // Display selected file path
             SizedBox(height: 16),
             TextField(
               decoration: InputDecoration(
@@ -133,7 +177,9 @@ class ViewDraftFilePage extends StatelessWidget {
                 border: OutlineInputBorder(),
               ),
               onChanged: (value) {
-                receiver = value;
+                setState(() {
+                  receiver = value;
+                });
               },
             ),
             SizedBox(height: 16),
@@ -143,13 +189,15 @@ class ViewDraftFilePage extends StatelessWidget {
                 border: OutlineInputBorder(),
               ),
               onChanged: (value) {
-                receiverDesignation = value;
+                setState(() {
+                  receiverDesignation = value;
+                });
               },
             ),
+            SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
                 _submitForm(context, receiver, receiverDesignation);
-                onDelete(draftDetails['id'].toString());
               },
               child: Text('Send'),
             ),

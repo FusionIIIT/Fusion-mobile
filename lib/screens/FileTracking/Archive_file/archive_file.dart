@@ -118,7 +118,7 @@ class _ArchivePageState extends State<ArchivePage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => MessageDetailPage(messageDetails: jsonData[fileIDsList.indexOf(fileID)]),
+                                  builder: (context) => MessageDetailPage(messageDetails: jsonData[fileIDsList.indexOf(fileID)], username: '',),
                                 ),
                               );
                             },

@@ -120,7 +120,8 @@ class _OutboxPageState extends State<OutboxPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => MessageDetailPage(messageDetails: jsonData[fileIDsList.indexOf(fileID)]),
+                              builder: (context) => MessageDetailPage(messageDetails: jsonData[fileIDsList.indexOf(fileID)],
+                              username: widget.username,),
                             ),
                           );
                         },
