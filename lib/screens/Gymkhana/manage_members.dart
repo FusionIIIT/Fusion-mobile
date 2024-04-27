@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fusion/models/gymkhana.dart';
@@ -7,7 +5,12 @@ import 'package:fusion/services/viewmembersrecord.dart';
 import 'package:fusion/services/viewclubdetails.dart';
 import 'package:fusion/services/rejectmember.dart';
 
+import '../../Components/appBar2.dart';
+import '../../Components/bottom_navigation_bar.dart';
+import '../../Components/side_drawer2.dart';
 import '../../services/help.dart';
+import '../../services/service_locator.dart';
+import '../../services/storage_service.dart';
 
 class MemberRecordsPage extends StatefulWidget {
   @override
@@ -22,6 +25,8 @@ class _RecordsState extends State<MemberRecordsPage> {
   late String selectedClub = '';
   late TextEditingController searchController;
   List<String> clubNames = [];
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
 
   @override
   void initState() {
@@ -48,48 +53,29 @@ class _RecordsState extends State<MemberRecordsPage> {
     }
   }
 
-  // Modify fetchClubDetails method to filter clubs based on clubNames
-  // Future<void> fetchClubDetails() async {
-  //   try {
-  //     ViewClubDetails viewClubDetails = ViewClubDetails();
-  //     List<dynamic> jsonData = await viewClubDetails.getClubDetails();
-
-  //     setState(() {
-  //       clubs = jsonData
-  //           .where((club) => clubNames.contains(club['club_name'].toString()))
-  //           .map<String>((club) => club['club_name'].toString())
-  //           .toList();
-  //       selectedClub = clubs.isNotEmpty ? clubs.first : '';
-  //     });
-  //   } catch (e) {
-  //     print('Error fetching club details: $e');
-  //     // Handle error, show message to user, etc.
-  //   }
-
-  //   fetchMembersRecord(); // After fetching club details, fetch member records
-  // }
   Future<void> fetchClubDetails() async {
-  try {
-    ViewClubDetails viewClubDetails = ViewClubDetails();
-    List<dynamic> jsonData = await viewClubDetails.getClubDetails();
+    try {
+      ViewClubDetails viewClubDetails = ViewClubDetails();
+      List<dynamic> jsonData = await viewClubDetails.getClubDetails();
 
-    // Filter club details based on the existing clubNames list
-    List<dynamic> filteredData = jsonData.where((club) => clubNames.contains(club['club_name'].toString())).toList();
-
-    setState(() {
-      clubs = filteredData
-          .map<String>((club) => club['club_name'].toString())
+      // Filter club details based on the existing clubNames list
+      List<dynamic> filteredData = jsonData
+          .where((club) => clubNames.contains(club['club_name'].toString()))
           .toList();
-      selectedClub = clubs.isNotEmpty ? clubs.first : '';
-    });
-  } catch (e) {
-    print('Error fetching club details: $e');
-    // Handle error, show message to user, etc.
+
+      setState(() {
+        clubs = filteredData
+            .map<String>((club) => club['club_name'].toString())
+            .toList();
+        selectedClub = clubs.isNotEmpty ? clubs.first : '';
+      });
+    } catch (e) {
+      print('Error fetching club details: $e');
+      // Handle error, show message to user, etc.
+    }
+
+    fetchMembersRecord(); // After fetching club details, fetch member records
   }
-
-  fetchMembersRecord(); // After fetching club details, fetch member records
-}
-
 
   Future<void> fetchMembersRecord() async {
     try {
@@ -138,8 +124,10 @@ class _RecordsState extends State<MemberRecordsPage> {
         }).toList();
 
         // Filter records based on selected club
-        filteredSrecords =
-            allSrecords.where((record) => record.club == selectedClub).toList();
+        filteredSrecords = allSrecords
+            .where((record) =>
+                record.club == selectedClub && record.role != "Coordinator")
+            .toList();
       });
     } catch (e) {
       print('Error fetching members record: $e');
@@ -161,12 +149,16 @@ class _RecordsState extends State<MemberRecordsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Manage Club Members',
-            style: TextStyle(color: Colors.deepOrangeAccent)),
-        iconTheme: IconThemeData(color: Colors.deepOrangeAccent),
-        backgroundColor: Colors.black,
+    
+      appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: 'Manage Club Members', // Set your app bar title
+        onDesignationChanged: (newValue) {
+          // Handle designation change if needed
+        },
       ),
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar: MyBottomNavigationBar(),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [

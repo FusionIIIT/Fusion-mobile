@@ -5,21 +5,29 @@ import 'package:fusion/services/viewmembersrecord.dart';
 import 'package:fusion/services/approvemember.dart'; // Import ApproveMember class
 import 'package:fusion/services/rejectmember.dart';
 
+import '../../Components/appBar2.dart';
+import '../../Components/bottom_navigation_bar.dart';
+import '../../Components/side_drawer2.dart';
 import '../../services/help.dart';
+import '../../services/service_locator.dart';
+import '../../services/storage_service.dart';
 import '../LoginandDashboard/dashboard.dart'; // Import RejectMember class
 
 class MemberRequestPage extends StatelessWidget {
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Members Request',
-          style: TextStyle(color: Colors.deepOrangeAccent),
-        ),
-        backgroundColor: Colors.black,
-        iconTheme: IconThemeData(color: Colors.deepOrangeAccent),
-      ),
+  
+      appBar: CustomAppBar(curr_desig: curr_desig,
+        headerTitle: 'Members Request', // Set your app bar title
+        onDesignationChanged: (newValue) {
+          // Handle designation change if needed
+        },),
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar:
+      MyBottomNavigationBar(),
       body: MemberRequestList(),
     );
   }
@@ -33,6 +41,8 @@ class MemberRequestList extends StatefulWidget {
 class _MemberRequestListState extends State<MemberRequestList> {
   List<MemberRequest> requests = [];
   late String xx = "";
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
   @override
   void initState() {
     super.initState();
@@ -181,3 +191,5 @@ void main() {
     ),
   ));
 }
+
+

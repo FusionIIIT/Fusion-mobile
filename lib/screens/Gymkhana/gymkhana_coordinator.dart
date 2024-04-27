@@ -181,7 +181,7 @@ late String curr_desig = service.getFromDisk("Current_designation");
     // if (widget.xx == null) return CircularProgressIndicator();
     return Scaffold(
       appBar: CustomAppBar(curr_desig: curr_desig,
-        headerTitle: 'Branches', // Set your app bar title
+        headerTitle: 'Coordinator Homepage', // Set your app bar title
         onDesignationChanged: (newValue) {
           // Handle designation change if needed
         },),

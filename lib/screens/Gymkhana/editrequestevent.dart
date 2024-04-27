@@ -4,6 +4,12 @@ import 'package:file_picker/file_picker.dart';
 import 'dart:io';
 import 'package:fusion/services/updateevent.dart';
 
+import '../../Components/appBar2.dart';
+import '../../Components/bottom_navigation_bar.dart';
+import '../../Components/side_drawer2.dart';
+import '../../services/service_locator.dart';
+import '../../services/storage_service.dart';
+
 class EditRequestFormB extends StatefulWidget {
   final int eventID;
   final String oldVenue;
@@ -28,6 +34,8 @@ class EditRequestFormB extends StatefulWidget {
 }
 
 class _EditRequestFormBState extends State<EditRequestFormB> {
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
   late String _selectedVenue;
   late DateTime _selectedDate;
   // late TimeOfDay _selectedStartTime;
@@ -84,14 +92,15 @@ class _EditRequestFormBState extends State<EditRequestFormB> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Edit Event Request',
-          style: TextStyle(color: Colors.deepOrangeAccent),
-        ),
-        backgroundColor: Colors.black,
-        iconTheme: IconThemeData(color: Colors.deepOrangeAccent),
-      ),
+     
+      appBar: CustomAppBar(curr_desig: curr_desig,
+        headerTitle: 'Edit Event details', // Set your app bar title
+        onDesignationChanged: (newValue) {
+          // Handle designation change if needed
+        },),
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar:
+      MyBottomNavigationBar(),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),

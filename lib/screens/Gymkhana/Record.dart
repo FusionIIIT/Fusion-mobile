@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/models/gymkhana.dart';
 import 'package:fusion/services/viewmembersrecord.dart';
-import 'package:fusion/services/viewclubdetails.dart'; // Import viewclubdetails.dart
+import 'package:fusion/services/viewclubdetails.dart';
+
+import '../../Components/appBar2.dart';
+import '../../Components/bottom_navigation_bar.dart';
+import '../../Components/side_drawer2.dart';
+import '../../services/service_locator.dart';
+import '../../services/storage_service.dart'; // Import viewclubdetails.dart
 
 class Record extends StatefulWidget {
   @override
@@ -9,6 +15,7 @@ class Record extends StatefulWidget {
 }
 
 class _RecordState extends State<Record> {
+ 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -29,6 +36,8 @@ class _RecordsState extends State<Records> {
   List<String> clubs = []; // List to store club names
 
   late String selectedClub = '';
+   var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
 
   @override
   void initState() {
@@ -142,12 +151,15 @@ Future<void> fetchMembersRecord() async {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title:
-            Text('Records', style: TextStyle(color: Colors.deepOrangeAccent)),
-        iconTheme: IconThemeData(color: Colors.deepOrangeAccent),
-        backgroundColor: Colors.black,
-      ),
+    
+       appBar: CustomAppBar(curr_desig: curr_desig,
+        headerTitle: 'Members Record', // Set your app bar title
+        onDesignationChanged: (newValue) {
+          // Handle designation change if needed
+        },),
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar:
+      MyBottomNavigationBar(),
       body: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Column(

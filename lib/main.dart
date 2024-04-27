@@ -38,12 +38,12 @@ import 'package:fusion/screens/Gymkhana/membersRequest.dart';
 import 'package:fusion/screens/Gymkhana/Apply.dart';
 import 'package:fusion/screens/Gymkhana/budgetdetails.dart';
 import 'package:fusion/screens/Gymkhana/NewSession.dart';
-import 'package:fusion/screens/Gymkhana/submit_event_report_to_convenor.dart';
+
 import 'package:fusion/screens/Gymkhana/Record.dart';
 import 'package:fusion/screens/Gymkhana/Club.dart';
 import 'package:fusion/screens/Gymkhana/updatebudgetconvenor.dart';
 import 'package:fusion/screens/Gymkhana/UpdateActivityCalender.dart';
-import 'package:fusion/screens/Gymkhana/SubmittedRequest.dart';
+
 import 'package:fusion/screens/Gymkhana/updatebudgetcouncellor.dart';
 import 'package:fusion/screens/Gymkhana/clubeventreport.dart';
 import 'package:fusion/screens/Gymkhana/clubbudgetform.dart';
@@ -178,14 +178,12 @@ class MyApp extends StatelessWidget {
           '/gymkhana_coordinator/clubbudgetform': (context) => ClubBudgetForm(),
           '/gymkhana_convenor/budgetFormConvenor': (context) =>
               BudgetFormConvenortwo(),
-          '/gymkhana_coordinator/submit_event_report_to_convenor': (context) =>
-              SubmitEventReportPage(),
+         
           '/gymkhana_coordinator/activity_calender': (context) =>
               ActivityCalendar(),
           '/gymkhana_homepage/clubs': (context) => Club(),
           '/gymkhana_homepage/member_records': (context) => Records(),
-          '/gymkhana_coordinator/SubmittedRequest': (context) =>
-              SubmittedRequest(),
+          
           '/library_homepage': (context) => LibraryHomeScreen(),
           '/library_homepage/book_search': (context) => BookSearch(),
           '/library_homepage/issued_items': (context) => IssuedItems(),

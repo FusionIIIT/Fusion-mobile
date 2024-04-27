@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/services/viewbudgetdean.dart';
-import 'package:fusion/services/updatebudget.dart'; // Import the correct path to UpdateBudget class
+import 'package:fusion/services/updatebudget.dart';
+
+import '../../Components/appBar2.dart';
+import '../../Components/bottom_navigation_bar.dart';
+import '../../Components/side_drawer2.dart';
+import '../../services/service_locator.dart';
+import '../../services/storage_service.dart'; // Import the correct path to UpdateBudget class
 
 class UpdateBudgetConvenerPage extends StatefulWidget {
   @override
@@ -9,6 +15,8 @@ class UpdateBudgetConvenerPage extends StatefulWidget {
 }
 
 class _UpdateBudgetConvenerPageState extends State<UpdateBudgetConvenerPage> {
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
   List<BudgetDetail> UpdateBudgetConvenerPage = [];
 
   @override
@@ -102,14 +110,15 @@ class _UpdateBudgetConvenerPageState extends State<UpdateBudgetConvenerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Update Budget',
-          style: TextStyle(color: Colors.deepOrangeAccent),
-        ),
-        iconTheme: IconThemeData(color: Colors.deepOrangeAccent),
-        backgroundColor: Colors.black,
-      ),
+    
+       appBar: CustomAppBar(curr_desig: curr_desig,
+        headerTitle: 'Update Club Budget', // Set your app bar title
+        onDesignationChanged: (newValue) {
+          // Handle designation change if needed
+        },),
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar:
+      MyBottomNavigationBar(),
       body: SingleChildScrollView(
         scrollDirection: Axis.horizontal, // Horizontal scrolling
         child: SingleChildScrollView(

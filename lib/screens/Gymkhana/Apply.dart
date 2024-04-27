@@ -10,9 +10,14 @@ import 'package:fusion/services/profile_service.dart';
 import 'package:http/http.dart';
 import 'package:fusion/services/dashboard_service.dart';
 
+import '../../Components/appBar2.dart';
+import '../../Components/bottom_navigation_bar.dart';
+import '../../Components/side_drawer2.dart';
 import '../../models/dashboard.dart';
 import '../../models/profile.dart';
 import '../../services/help.dart';
+import '../../services/service_locator.dart';
+import '../../services/storage_service.dart';
 import '../../services/viewmembersrecord.dart';
 
 class Apply extends StatefulWidget {
@@ -21,6 +26,9 @@ class Apply extends StatefulWidget {
 }
 
 class _ApplyState extends State<Apply> with SingleTickerProviderStateMixin {
+   var service = locator<StorageService>();
+late String curr_desig = service.getFromDisk("Current_designation");
+
   late TabController _controller;
   List<String> clubNames = [];
   String? selectedClub;
@@ -103,26 +111,7 @@ class _ApplyState extends State<Apply> with SingleTickerProviderStateMixin {
     }
   }
 
-  // void fetchClubNames() async {
-  //   try {
-  //     xx = await DataFetcher().getClub(context);
-  //     print(xx);
-  //     List<dynamic> clubDetails = await ViewClubDetails().getClubDetails();
-  //     List<String> names = clubDetails
-  //         .map<String>((club) => club['club_name'].toString())
-  //         .toList();
-  //     List<String> pp = [];
-  //     for (var i in names) if (i != xx) pp.add(i);
-  //     print("hehe");
-  //     print(pp);
-  //     setState(() {
-  //       clubNames = pp;
-  //       selectedClub = clubNames.isNotEmpty ? clubNames[0] : null;
-  //     });
-  //   } catch (e) {
-  //     print('Error fetching club names: $e');
-  //   }
-  // }
+ 
 
 
 void fetchClubNames() async {
@@ -231,22 +220,15 @@ void fetchClubNames() async {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        iconTheme: IconThemeData(color: Colors.deepOrangeAccent),
-        title: Text(
-          'Apply',
-          style: TextStyle(color: Colors.deepOrangeAccent),
-        ),
-        bottom: TabBar(
-          indicatorColor: Colors.white,
-          indicatorWeight: 6.0,
-          controller: _controller,
-          tabs: [
-            Tab(text: 'Form'),
-          ],
-        ),
-      ),
+      
+      appBar: CustomAppBar(curr_desig: curr_desig,
+        headerTitle: 'Club Membership', // Set your app bar title
+        onDesignationChanged: (newValue) {
+          // Handle designation change if needed
+        },),
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar:
+      MyBottomNavigationBar(),
       body: TabBarView(
         controller: _controller,
         children: [
@@ -257,40 +239,7 @@ void fetchClubNames() async {
                 key: formkey1,
                 child: ListView(
                   children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Center(
-                        child: Container(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Center(
-                              child: Text(
-                                "Club Membership Form",
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                ),
-                              ),
-                            ),
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.deepOrangeAccent,
-                            border: Border.all(
-                              color: Colors.deepOrange,
-                              width: 1.0,
-                              style: BorderStyle.solid,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black,
-                                offset: Offset(0.0, 1.0),
-                                blurRadius: 2.0,
-                              )
-                            ],
-                            borderRadius: BorderRadius.circular(5.0),
-                          ),
-                        ),
-                      ),
-                    ),
+               
                     SizedBox(
                       height: 30,
                     ),

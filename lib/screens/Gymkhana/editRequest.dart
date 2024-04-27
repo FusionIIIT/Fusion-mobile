@@ -6,6 +6,12 @@ import 'dart:io';
 
 import 'package:fusion/services/updatesession.dart';
 
+import '../../Components/appBar2.dart';
+import '../../Components/bottom_navigation_bar.dart';
+import '../../Components/side_drawer2.dart';
+import '../../services/service_locator.dart';
+import '../../services/storage_service.dart';
+
 class EditRequestForm extends StatefulWidget {
   final int sessionId;
   final String oldVenue;
@@ -30,6 +36,8 @@ class EditRequestForm extends StatefulWidget {
 }
 
 class _EditRequestFormState extends State<EditRequestForm> {
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
   late String _selectedVenue;
   late DateTime _selectedDate;
   late TimeOfDay _selectedStartTime;
@@ -105,14 +113,15 @@ class _EditRequestFormState extends State<EditRequestForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Edit Session Request',
-          style: TextStyle(color: Colors.deepOrangeAccent),
-        ),
-        backgroundColor: Colors.black,
-        iconTheme: IconThemeData(color: Colors.deepOrangeAccent),
-      ),
+      
+      appBar: CustomAppBar(curr_desig: curr_desig,
+        headerTitle: 'Edit Session Request', // Set your app bar title
+        onDesignationChanged: (newValue) {
+          // Handle designation change if needed
+        },),
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar:
+      MyBottomNavigationBar(),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),

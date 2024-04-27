@@ -162,7 +162,7 @@ late String curr_desig = service.getFromDisk("Current_designation");
   Widget build(BuildContext context) {
     return Scaffold(
      appBar: CustomAppBar(curr_desig: curr_desig,
-        headerTitle: 'Branches', // Set your app bar title
+        headerTitle: 'Covener Homepage', // Set your app bar title
         onDesignationChanged: (newValue) {
           // Handle designation change if needed
         },),

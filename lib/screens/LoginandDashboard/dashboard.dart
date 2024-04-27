@@ -470,7 +470,7 @@ class _DashboardState extends State<Dashboard> {
     return Scaffold(
       appBar: CustomAppBar(
         curr_desig: curr_desig,
-        headerTitle: 'Branches', // Set your app bar title
+        headerTitle: 'Dashboard', // Set your app bar title
         onDesignationChanged: (newValue) {
           // Handle designation change if needed
         },

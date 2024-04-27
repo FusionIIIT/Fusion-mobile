@@ -6,6 +6,12 @@ import 'package:fusion/services/viewclubdetails.dart';
 import 'package:fusion/services/viewsessiondetails.dart';
 import 'package:fusion/services/vieweventservice.dart';
 
+import '../../Components/appBar2.dart';
+import '../../Components/bottom_navigation_bar.dart';
+import '../../Components/side_drawer2.dart';
+import '../../services/service_locator.dart';
+import '../../services/storage_service.dart';
+
 class Club extends StatefulWidget {
   const Club({Key? key}) : super(key: key);
 
@@ -14,6 +20,9 @@ class Club extends StatefulWidget {
 }
 
 class _ClubState extends State<Club> {
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
+
   List<Map<String, dynamic>> clubDetails = [];
   List<Map<String, dynamic>> sessionDetails = [];
   List<Map<String, dynamic>> eventDetails = [];
@@ -29,65 +38,67 @@ class _ClubState extends State<Club> {
     fetchEventDetails();
   }
 
-  
+  Future<void> fetchClubDetails() async {
+    try {
+      ViewClubDetails _clubDetailsFetcher = ViewClubDetails();
+      List<dynamic> data = await _clubDetailsFetcher.getClubDetails();
 
- Future<void> fetchClubDetails() async {
-  try {
-    ViewClubDetails _clubDetailsFetcher = ViewClubDetails();
-    List<dynamic> data = await _clubDetailsFetcher.getClubDetails();
-
-    // Filter club details with status 'confirmed' or handle null status
-    List<dynamic> filteredData = data.where((item) => item['status'] == 'confirmed' || item['status'] == null).toList();
-
-    setState(() {
-      clubNames =
-          filteredData.map<String>((item) => item['club_name'] as String).toList();
-      selectedClub = clubNames.isNotEmpty ? clubNames.first : null;
-      clubDetails = filteredData
-          .map<Map<String, dynamic>>((item) => {
-                'club_name': item['club_name'] ?? '',
-                'co_ordinator': item['co_ordinator'] ?? '',
-                'co_coordinator': item['co_coordinator'] ?? '',
-                'activity_calender': item['activity_calender'] ??
-                    '/media/gymkhana/activity_calender/Copy_of_SA-3_Gymkhana_App_Assignment-2_11_sh3s9EN.pdf',
-              })
+      // Filter club details with status 'confirmed' or handle null status
+      List<dynamic> filteredData = data
+          .where(
+              (item) => item['status'] == 'confirmed' || item['status'] == null)
           .toList();
-    });
-  } catch (e) {
-    print("Error fetching club details: $e");
+
+      setState(() {
+        clubNames = filteredData
+            .map<String>((item) => item['club_name'] as String)
+            .toList();
+        selectedClub = clubNames.isNotEmpty ? clubNames.first : null;
+        clubDetails = filteredData
+            .map<Map<String, dynamic>>((item) => {
+                  'club_name': item['club_name'] ?? '',
+                  'co_ordinator': item['co_ordinator'] ?? '',
+                  'co_coordinator': item['co_coordinator'] ?? '',
+                  'activity_calender': item['activity_calender'] ??
+                      '/media/gymkhana/activity_calender/Copy_of_SA-3_Gymkhana_App_Assignment-2_11_sh3s9EN.pdf',
+                })
+            .toList();
+      });
+    } catch (e) {
+      print("Error fetching club details: $e");
+    }
   }
-}
 
-Future<void> fetchSessionDetails() async {
-  try {
-    SessionDetailsService _sessionDetailsFetcher = SessionDetailsService();
-    List<dynamic> data = await _sessionDetailsFetcher.getSessionDetails();
+  Future<void> fetchSessionDetails() async {
+    try {
+      SessionDetailsService _sessionDetailsFetcher = SessionDetailsService();
+      List<dynamic> data = await _sessionDetailsFetcher.getSessionDetails();
 
-    setState(() {
-      // Assuming session details are associated with clubs, filter session details based on club status
-      List<dynamic> filteredData = data.where((item) {
-        // Get the status of the club associated with the session
-        String? clubStatus = clubDetails
-            .firstWhere((club) => club['club_name'] == item['club'], orElse: () => {'status': 'unconfirmed'})['status'];
-        // Return true if the club status is 'confirmed' or null
-        return clubStatus == 'confirmed' || clubStatus == null;
-      }).toList();
+      setState(() {
+        // Assuming session details are associated with clubs, filter session details based on club status
+        List<dynamic> filteredData = data.where((item) {
+          // Get the status of the club associated with the session
+          String? clubStatus = clubDetails.firstWhere(
+              (club) => club['club_name'] == item['club'],
+              orElse: () => {'status': 'unconfirmed'})['status'];
+          // Return true if the club status is 'confirmed' or null
+          return clubStatus == 'confirmed' || clubStatus == null;
+        }).toList();
 
-      sessionDetails = filteredData
-          .map<Map<String, dynamic>>((item) => {
-                'club': item['club'] ?? '',
-                'venue': item['venue'] ?? '',
-                'date': item['date'] ?? '',
-                'start_time': item['start_time'] ?? '',
-                'details': item['details'] ?? '',
-              })
-          .toList();
-    });
-  } catch (e) {
-    print("Error fetching session details: $e");
+        sessionDetails = filteredData
+            .map<Map<String, dynamic>>((item) => {
+                  'club': item['club'] ?? '',
+                  'venue': item['venue'] ?? '',
+                  'date': item['date'] ?? '',
+                  'start_time': item['start_time'] ?? '',
+                  'details': item['details'] ?? '',
+                })
+            .toList();
+      });
+    } catch (e) {
+      print("Error fetching session details: $e");
+    }
   }
-}
-
 
   Future<void> fetchEventDetails() async {
     try {
@@ -108,18 +119,6 @@ Future<void> fetchSessionDetails() async {
     }
   }
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   final GymkhanaData? data =
-  //       ModalRoute.of(context)!.settings.arguments as GymkhanaData?;
-
-  //   if (data == null) {
-  //     return Scaffold(
-  //       body: Center(
-  //         child: Text('Error: Data is null'),
-  //       ),
-  //     );
-  //   }
   @override
   Widget build(BuildContext context) {
     final GymkhanaData? data =
@@ -132,107 +131,105 @@ Future<void> fetchSessionDetails() async {
         ),
       );
     }
-
     return DefaultTabController(
       length: 3,
       initialIndex: 0,
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'View Club Details',
-            style: TextStyle(color: Colors.deepOrangeAccent),
-          ),
-          backgroundColor: Colors.black,
-          iconTheme: IconThemeData(color: Colors.deepOrangeAccent),
-          bottom: PreferredSize(
-            preferredSize: Size.fromHeight(kToolbarHeight),
-            child: Container(
-              color: Colors.black,
-              child: TabBar(
-                labelColor: Colors.deepOrange,
-                indicatorColor: Colors.deepOrangeAccent,
-                unselectedLabelColor: Colors.white,
-                onTap: (index) {
-                  setState(() {
-                    _selectedIndex = index;
-                  });
-                },
-                tabs: [
-                  Tab(
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width / 3,
-                      child: Text(
-                        "Club Details",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          overflow: TextOverflow.ellipsis,
+        appBar: CustomAppBar(
+          curr_desig: curr_desig,
+          headerTitle: 'Club Details', // Set your app bar title
+          onDesignationChanged: (newValue) {
+            // Handle designation change if needed
+          },
+        ),
+        drawer: SideDrawer(curr_desig: curr_desig),
+        bottomNavigationBar: MyBottomNavigationBar(),
+        body: Column(
+          children: [
+            Container(
+              padding:
+                  EdgeInsets.symmetric(vertical: 8), // Add padding if needed
+              color: Colors.white,
+              child: Column(
+                children: [
+                  SizedBox(height: 8), // Add spacing if needed
+                  TabBar(
+                    labelColor: Colors.deepOrange,
+                    indicatorColor: Colors.deepOrangeAccent,
+                    unselectedLabelColor: Colors.black,
+                    onTap: (index) {
+                      setState(() {
+                        _selectedIndex = index;
+                      });
+                    },
+                    tabs: [
+                      Tab(
+                        child: Text(
+                          "Club Details",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                  Tab(
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width / 3,
-                      child: Text(
-                        "Club Session",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          overflow: TextOverflow.ellipsis,
+                      Tab(
+                        child: Text(
+                          "Club Session",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                  Tab(
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width / 3,
-                      child: Text(
-                        "Club Event",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          overflow: TextOverflow.ellipsis,
+                      Tab(
+                        child: Text(
+                          "Club Event",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
                 ],
               ),
             ),
-          ),
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(height: 20),
-              SingleChildScrollView(
-                // Added SingleChildScrollView for vertical scrolling
-                scrollDirection: Axis.horizontal,
-                child: Row(
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
                   children: [
-                    SizedBox(width: 20),
-                    Visibility(
-                      visible: _selectedIndex == 0,
-                      child: clubDetailsWidget(),
+                    SizedBox(height: 20),
+                    SingleChildScrollView(
+                      // Added SingleChildScrollView for vertical scrolling
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          SizedBox(width: 20),
+                          Visibility(
+                            visible: _selectedIndex == 0,
+                            child: clubDetailsWidget(),
+                          ),
+                          SizedBox(width: 20),
+                          Visibility(
+                            visible: _selectedIndex == 1,
+                            child: clubSessionWidget(),
+                          ),
+                          SizedBox(width: 20),
+                          Visibility(
+                            visible: _selectedIndex == 2,
+                            child: clubEvents(),
+                          ),
+                          SizedBox(width: 20),
+                        ],
+                      ),
                     ),
-                    SizedBox(width: 20),
-                    Visibility(
-                      visible: _selectedIndex == 1,
-                      child: clubSessionWidget(),
-                    ),
-                    SizedBox(width: 20),
-                    Visibility(
-                      visible: _selectedIndex == 2,
-                      child: clubEvents(),
-                    ),
-                    SizedBox(width: 20),
+                    SizedBox(height: 20),
                   ],
                 ),
               ),
-              SizedBox(height: 20),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

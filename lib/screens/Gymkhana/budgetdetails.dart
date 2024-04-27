@@ -2,12 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:fusion/services/viewbudgetdean.dart';
 import 'package:fusion/services/viewclubdetails.dart';
 
+import '../../Components/appBar2.dart';
+import '../../Components/bottom_navigation_bar.dart';
+import '../../Components/side_drawer2.dart';
+import '../../services/service_locator.dart';
+import '../../services/storage_service.dart';
+
 class BudgetDetails extends StatefulWidget {
   @override
   _BudgetDetailsState createState() => _BudgetDetailsState();
 }
 
 class _BudgetDetailsState extends State<BudgetDetails> {
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
+
   List<BudgetDetail> budgetDetails = [];
   List<String> clubs = [];
   String? selectedClub;
@@ -70,14 +79,16 @@ class _BudgetDetailsState extends State<BudgetDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Budget Details',
-          style: TextStyle(color: Colors.deepOrangeAccent),
-        ),
-        iconTheme: IconThemeData(color: Colors.deepOrangeAccent),
-        backgroundColor: Colors.black,
-      ),
+    
+      appBar: CustomAppBar(curr_desig: curr_desig,
+        headerTitle: 'Budget Details', // Set your app bar title
+        onDesignationChanged: (newValue) {
+          // Handle designation change if needed
+        },),
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar:
+      MyBottomNavigationBar(),
+      
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(

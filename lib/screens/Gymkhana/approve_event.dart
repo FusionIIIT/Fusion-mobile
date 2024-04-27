@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:fusion/services/viewsessiondetails.dart';
+import '../../Components/appBar2.dart';
+import '../../Components/bottom_navigation_bar.dart';
+import '../../Components/side_drawer2.dart';
 import '../../services/help.dart';
+import '../../services/service_locator.dart';
+import '../../services/storage_service.dart';
 import '../LoginandDashboard/dashboard.dart';
 import 'editRequest.dart';
 import 'editrequestevent.dart';
@@ -18,6 +23,8 @@ class ApproveEvent extends StatefulWidget {
 }
 
 class _ApproveEventState extends State<ApproveEvent> {
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
   late Future<List<Map<String, dynamic>>> _eventDetails;
   List<EventRequest> eventRequests = [];
   List<String> selectedEventIds = [];
@@ -78,30 +85,34 @@ class _ApproveEventState extends State<ApproveEvent> {
   }
 
   void cancelEvent(int id) async {
-  try {
-    print(id); // Print the id for debugging purposes
+    try {
+      print(id); // Print the id for debugging purposes
 
-    // Call the deleteEvent service method with only the 'id' parameter
-    await deleteEventService.deleteEvent(id: id);
+      // Call the deleteEvent service method with only the 'id' parameter
+      await deleteEventService.deleteEvent(id: id);
 
-    print('Event canceled successfully');
-    setState(() {
-      _eventDetails = EventDetailsService().getEventDetails();
-    });
-  } catch (e) {
-    print('Error canceling event: $e');
+      print('Event canceled successfully');
+      setState(() {
+        _eventDetails = EventDetailsService().getEventDetails();
+      });
+    } catch (e) {
+      print('Error canceling event: $e');
+    }
   }
-}
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Club Event Request',
-            style: TextStyle(color: Colors.deepOrangeAccent)),
-        iconTheme: IconThemeData(color: Colors.deepOrangeAccent),
-        backgroundColor: Colors.black,
+      appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: 'Approve Event', // Set your app bar title
+        onDesignationChanged: (newValue) {
+          // Handle designation change if needed
+        },
       ),
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar: MyBottomNavigationBar(),
       body: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Column(
@@ -150,50 +161,22 @@ class _ApproveEventState extends State<ApproveEvent> {
                           label: Text('Venue',
                               style: TextStyle(color: Colors.black))),
                       DataColumn(
-                          label: Text('Edit',
-                              style: TextStyle(color: Colors.black))),
-                      DataColumn(
                           label: Text('Actions',
                               style: TextStyle(color: Colors.black))),
                     ],
                     rows: eventRequests.map((request) {
-                      String eventId =
-                          '${request.id}_${request.eventName}_${request.inCharge}_${DateFormat('yyyy-MM-dd').format(request.date)}_${request.details}_${request.venue}';
-                      bool isSelected = selectedEventIds.contains(eventId);
                       return DataRow(cells: [
                         DataCell(Text(request.eventName)),
                         DataCell(Text(request.inCharge)),
                         DataCell(Text(
                             DateFormat('yyyy-MM-dd').format(request.date))),
                         DataCell(Text(request.venue)),
-                        DataCell(ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => EditRequestFormB(
-                                eventID: request.id,
-                                oldVenue: request.venue,
-                                details: request.details,
-                                venueOptions: [
-                                  'CR101',
-                                  'CR102',
-                                  'L101',
-                                  'L102'
-                                ],
-                                selectedDate: request.date,
-                                inCharge: request.inCharge,
-                                event: request.eventName,
-                              ),
-                            ));
-                          },
-                          child: Text('Edit'),
-                        )),
                         DataCell(Row(
                           children: [
                             ElevatedButton(
                               onPressed: () {
                                 cancelEvent(
                                   request.id,
-                                  
                                 );
                               },
                               child: Text('Cancel'),

@@ -3,6 +3,12 @@ import 'package:fusion/services/viewbudgetdean.dart';
 import 'package:fusion/services/updatebudget.dart';
 import 'package:fusion/services/deletebudget.dart';
 
+import '../../Components/appBar2.dart';
+import '../../Components/bottom_navigation_bar.dart';
+import '../../Components/side_drawer2.dart';
+import '../../services/service_locator.dart';
+import '../../services/storage_service.dart';
+
 class UpdateBudgetCouncellorPage extends StatefulWidget {
   @override
   _UpdateBudgetCouncellorPageState createState() =>
@@ -11,6 +17,8 @@ class UpdateBudgetCouncellorPage extends StatefulWidget {
 
 class _UpdateBudgetCouncellorPageState
     extends State<UpdateBudgetCouncellorPage> {
+      var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
   List<BudgetDetail> updateBudgetCouncellorPage = [];
 
   @override
@@ -138,14 +146,15 @@ class _UpdateBudgetCouncellorPageState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Update Budget',
-          style: TextStyle(color: Colors.deepOrangeAccent),
-        ),
-        iconTheme: IconThemeData(color: Colors.deepOrangeAccent),
-        backgroundColor: Colors.black,
-      ),
+    
+       appBar: CustomAppBar(curr_desig: curr_desig,
+        headerTitle: 'Update Budget', // Set your app bar title
+        onDesignationChanged: (newValue) {
+          // Handle designation change if needed
+        },),
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar:
+      MyBottomNavigationBar(),
       body: SingleChildScrollView(
         scrollDirection: Axis.horizontal, // Horizontal scrolling
         child: SingleChildScrollView(
@@ -153,11 +162,7 @@ class _UpdateBudgetCouncellorPageState
           child: DataTable(
             columnSpacing: 35,
             columns: <DataColumn>[
-              // DataColumn(
-              //   label: Text("Status"),
-              //   numeric: false,
-              //   onSort: (i, b) {},
-              // ),
+             
               DataColumn(
                 label: Text("Club"),
                 numeric: false,

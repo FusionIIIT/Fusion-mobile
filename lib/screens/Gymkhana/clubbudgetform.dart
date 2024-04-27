@@ -1,7 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
+import '../../Components/appBar2.dart';
+import '../../Components/bottom_navigation_bar.dart';
+import '../../Components/side_drawer2.dart';
 import '../../services/help.dart';
+import '../../services/service_locator.dart';
+import '../../services/storage_service.dart';
 import '../../services/viewclubdetails.dart'; // Import the service to fetch club details
 import '../../services/clubbudgetservices.dart';
 import '../LoginandDashboard/dashboard.dart';
@@ -12,6 +17,9 @@ class ClubBudgetForm extends StatefulWidget {
 }
 
 class _ClubBudgetFormState extends State<ClubBudgetForm> {
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
+  
   String _club = '';
   String _budgetFor = '';
   int _budgetAmount = 0; // Changed to integer type
@@ -258,12 +266,16 @@ class _ClubBudgetFormState extends State<ClubBudgetForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Club Budget Form',
-            style: TextStyle(color: Colors.deepOrangeAccent)),
-        backgroundColor: Colors.black,
-        iconTheme: IconThemeData(color: Colors.deepOrangeAccent),
-      ),
+     
+       appBar: CustomAppBar(curr_desig: curr_desig,
+        headerTitle: 'Budget Form', // Set your app bar title
+        onDesignationChanged: (newValue) {
+          // Handle designation change if needed
+        },),
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar:
+      MyBottomNavigationBar(),
+
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Form(

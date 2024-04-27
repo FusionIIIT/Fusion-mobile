@@ -4,12 +4,21 @@ import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import '../../Components/appBar2.dart';
+import '../../Components/bottom_navigation_bar.dart';
+import '../../Components/side_drawer2.dart';
+import '../../services/service_locator.dart';
+import '../../services/storage_service.dart';
+
 class ActivityCalendar extends StatefulWidget {
   @override
   _ActivityCalendarState createState() => _ActivityCalendarState();
 }
 
 class _ActivityCalendarState extends State<ActivityCalendar> {
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String _selectedClub = '';
   String _fileName = '';
@@ -55,14 +64,15 @@ class _ActivityCalendarState extends State<ActivityCalendar> {
   @override
 Widget build(BuildContext context) {
   return Scaffold(
-    appBar: AppBar(
-      title: Text(
-        'Update Activity Calendar',
-        style: TextStyle(color: Colors.deepOrangeAccent),
-      ),
-      backgroundColor: Colors.black,
-      iconTheme: IconThemeData(color: Colors.deepOrangeAccent),
-    ),
+   
+     appBar: CustomAppBar(curr_desig: curr_desig,
+        headerTitle: 'Update Activity Calender', // Set your app bar title
+        onDesignationChanged: (newValue) {
+          // Handle designation change if needed
+        },),
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar:
+      MyBottomNavigationBar(),
     body: Container(
       padding: EdgeInsets.all(20.0),
       child: FutureBuilder(

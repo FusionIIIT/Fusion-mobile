@@ -64,7 +64,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
           ),
           DropdownButtonHideUnderline(
             child: DropdownButton<String>(
-              //padding: const EdgeInsets.all(15),
+              padding: const EdgeInsets.all(15),
               borderRadius: BorderRadius.circular(5),
               value: current,
               icon: Icon(Icons.arrow_drop_down, color: Colors.white),
