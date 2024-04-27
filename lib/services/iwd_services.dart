@@ -9,14 +9,14 @@ import 'package:http/http.dart' as http;
 
 class IwdServices {
   Future<http.Response> getCreated() async {
-    print("hello");
+    // print("hello");
     try {
       var storage_service = locator<StorageService>();
 
       if (storage_service.userInDB?.token == null)
         throw Exception('Token Error');
 
-      print('token : ${storage_service.userInDB?.token}');
+      // print('token : ${storage_service.userInDB?.token}');
       Map<String, String> headers = {
         'Authorization': 'Token ' + (storage_service.userInDB?.token ?? "")
       };
@@ -44,6 +44,80 @@ class IwdServices {
       rethrow;
     }
   }
+
+  Future<http.Response> getRequestStatus() async {
+    // print("hello");
+    try {
+      var storage_service = locator<StorageService>();
+
+      if (storage_service.userInDB?.token == null)
+        throw Exception('Token Error');
+
+      // print('token : ${storage_service.userInDB?.token}');
+      Map<String, String> headers = {
+        'Authorization': 'Token ' + (storage_service.userInDB?.token ?? "")
+      };
+      Map<String, dynamic> body = {
+        "eligible" : "Junior Engineer"
+      };
+      print("fetching Request Status");
+      var client = http.Client();
+
+      http.Response response = await client.post(
+        Uri.http(
+          kIwd,
+          kReqStatus, //constant api path
+        ),
+        headers: headers,
+        body: jsonEncode(body),
+      );
+
+      if (response.statusCode == 200) {
+        print("successfully fetched Request Status");
+        return response;
+      }
+      throw Exception('Can\'t load. Status code: ${response.statusCode}');
+    } catch (e) {
+      rethrow;
+    }
+  }
+  Future<http.Response> getDesignations() async {
+    // print("hello");
+    try {
+      var storage_service = locator<StorageService>();
+
+      if (storage_service.userInDB?.token == null)
+        throw Exception('Token Error');
+
+      // print('token : ${storage_service.userInDB?.token}');
+      Map<String, String> headers = {
+        'Authorization': 'Token ' + (storage_service.userInDB?.token ?? "")
+      };
+      Map<String, dynamic> body = {
+        "eligible" : "Junior Engineer"
+      };
+      print("fetching Designations");
+      var client = http.Client();
+
+      http.Response response = await client.post(
+        Uri.http(
+          kIwd,
+          kDesignations, //constant api path
+        ),
+        headers: headers,
+        body: jsonEncode(body),
+      );
+
+      if (response.statusCode == 200) {
+        print("successfully fetched Designations");
+        return response;
+      }
+      throw Exception('Can\'t load. Status code: ${response.statusCode}');
+    } catch (e) {
+      rethrow;
+    }
+  }
+
 
   Future<bool> lodgeComplaint(
     // ignore: non_constant_identifier_names

@@ -163,8 +163,8 @@ class _SideDrawerState extends State<SideDrawer> {
 
 
             
-            if ((widget.curr_desig== "Executive Engineer (Civil)" ||widget.curr_desig== "EE" || widget.curr_desig== "Admin IWD" || widget.curr_desig== "Electrical_AE" || widget.curr_desig== "mess_manager" || widget.curr_desig== "Electrical_JE" || widget.curr_desig== "Civil_AE" || widget.curr_desig== "Civil_JE" ||  widget.curr_desig== "Director" ||  widget.curr_desig== "dean_s" || widget.curr_desig== "Dean_s" || widget.curr_desig== "DeanPnD"  ))
-            ModulesCard(cardLine: 'IWD',pageMover: '/iwd/home_page'),
+            if ((widget.curr_desig== "Executive Engineer (Civil)" ||widget.curr_desig== "EE" || widget.curr_desig== "Admin IWD" || widget.curr_desig== "Electrical_AE" || widget.curr_desig== "mess_manager" || widget.curr_desig== "Electrical_JE" || widget.curr_desig== "Civil_AE" || widget.curr_desig== "Civil_JE" ||  widget.curr_desig== "Director" ||  widget.curr_desig== "dean_s" || widget.curr_desig== "Dean_s" || widget.curr_desig== "DeanPnD"  ||widget.curr_desig== "Junior Engineer"))
+            ModulesCard(cardLine: 'IWD',pageMover: '/IWD_Homepage'),
 
 
             ModulesCard(cardLine: 'Courses Module', pageMover: '/registered_courses',

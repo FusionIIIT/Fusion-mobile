@@ -1,8 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/services/iwd_services.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-class RequestStatus extends StatelessWidget {
+class RequestStatus extends StatefulWidget {
+  @override
+  _RequestStatusState createState() => _RequestStatusState();
+}
+
+class _RequestStatusState extends State<RequestStatus> {
+  IwdServices iwdServices = IwdServices();
+  List<Map<String, dynamic>> _map_obj = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _getReqStatus();
+  }
+
+  void _getReqStatus() async {
+    http.Response response = await iwdServices.getRequestStatus();
+    var data = json.decode(response.body)['obj'];
+
+    List<Map<String, dynamic>> mappedObjects = [];
+
+    data.forEach((item) {
+      String id = item[0].toString();
+      String name = item[1];
+      String area = item[2];
+      String description = item[3];
+      String createdBy = item[4];
+      String status = item[5];
+
+      Map<String, dynamic> mappedObject = {
+        'id': id,
+        'Name': name,
+        'Area': area,
+        'Description': description,
+        'Created By': createdBy,
+        'Status': status,
+      };
+
+      mappedObjects.add(mappedObject);
+    });
+
+    setState(() {
+      _map_obj = mappedObjects;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -14,267 +61,60 @@ class RequestStatus extends StatelessWidget {
           scrollDirection: Axis.vertical,
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    'Requests Status', // Changed heading to "Requests Status"
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Color.fromARGB(255, 74, 73, 73),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20), // Added spacing between heading and box
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 30), // Added margin
-                  padding: EdgeInsets.all(10), // Added padding
-                  decoration: BoxDecoration(
-                    color: Colors.orange[50], // Background color of the box
-                    borderRadius: BorderRadius.circular(10), // Border radius
-                    border: Border.all(
-                        color: Colors.deepOrange), // Border color and width
-                  ),
-                  child: FutureBuilder<List<Map<String, String>>>(
-                    future: fetchData(), // Function to fetch data from backend
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      } else if (snapshot.hasError) {
-                        return Center(
-                          child: Text('Error: ${snapshot.error}'),
-                        );
-                      } else {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(
-                                      color: Colors
-                                          .deepOrange), // Bottom partition line
-                                ),
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'ID',
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight:
-                                            FontWeight.bold), // Bold font
-                                  ),
-                                  SizedBox(
-                                      width:
-                                          5), // Added spacing between columns
-                                  Container(
-                                      width: 1,
-                                      color: Colors.grey), // Vertical line
-                                  SizedBox(
-                                      width:
-                                          5), // Added spacing between columns
-                                  Text(
-                                    'Name',
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight:
-                                            FontWeight.bold), // Bold font
-                                  ),
-                                  SizedBox(
-                                      width:
-                                          5), // Added spacing between columns
-                                  Container(
-                                      width: 1,
-                                      color: Colors.grey), // Vertical line
-                                  SizedBox(
-                                      width:
-                                          5), // Added spacing between columns
-                                  Text(
-                                    'Description',
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight:
-                                            FontWeight.bold), // Bold font
-                                  ),
-                                  SizedBox(
-                                      width:
-                                          5), // Added spacing between columns
-                                  Container(
-                                      width: 1,
-                                      color: Colors.grey), // Vertical line
-                                  SizedBox(
-                                      width:
-                                          5), // Added spacing between columns
-                                  Text(
-                                    'Area',
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight:
-                                            FontWeight.bold), // Bold font
-                                  ),
-                                  SizedBox(
-                                      width:
-                                          5), // Added spacing between columns
-                                  Container(
-                                      width: 1,
-                                      color: Colors.grey), // Vertical line
-                                  SizedBox(
-                                      width:
-                                          5), // Added spacing between columns
-                                  Text(
-                                    'Created By',
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight:
-                                            FontWeight.bold), // Bold font
-                                  ),
-                                  SizedBox(
-                                      width:
-                                          5), // Added spacing between columns
-                                  Container(
-                                      width: 1,
-                                      color: Colors.grey), // Vertical line
-                                  SizedBox(
-                                      width:
-                                          5), // Added spacing between columns
-                                  Text(
-                                    'Status', // Added Status column heading
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight:
-                                            FontWeight.bold), // Bold font
-                                  ),
-                                  SizedBox(
-                                      width:
-                                          5), // Added spacing between columns
-                                  Container(
-                                      width: 1,
-                                      color: Colors.grey), // Vertical line
-                                  SizedBox(
-                                      width:
-                                          5), // Added spacing between columns
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                                height:
-                                    10), // Added spacing between columns and data
-                            Column(
-                              children: snapshot.data!.map<Widget>((data) {
-                                return Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(data['id']!),
-                                    SizedBox(
-                                        width:
-                                            5), // Added spacing between columns
-                                    Container(
-                                        width: 1,
-                                        color: Colors.grey), // Vertical line
-                                    SizedBox(
-                                        width:
-                                            5), // Added spacing between columns
-                                    Text(data['name']!),
-                                    SizedBox(
-                                        width:
-                                            5), // Added spacing between columns
-                                    Container(
-                                        width: 1,
-                                        color: Colors.grey), // Vertical line
-                                    SizedBox(
-                                        width:
-                                            5), // Added spacing between columns
-                                    Text(data['description']!),
-                                    SizedBox(
-                                        width:
-                                            5), // Added spacing between columns
-                                    Container(
-                                        width: 1,
-                                        color: Colors.grey), // Vertical line
-                                    SizedBox(
-                                        width:
-                                            5), // Added spacing between columns
-                                    Text(data['area']!),
-                                    SizedBox(
-                                        width:
-                                            5), // Added spacing between columns
-                                    Container(
-                                        width: 1,
-                                        color: Colors.grey), // Vertical line
-                                    SizedBox(
-                                        width:
-                                            5), // Added spacing between columns
-                                    Text(data['createdBy']!),
-                                    SizedBox(
-                                        width:
-                                            5), // Added spacing between columns
-                                    Container(
-                                        width: 1,
-                                        color: Colors.grey), // Vertical line
-                                    SizedBox(
-                                        width:
-                                            5), // Added spacing between columns
-                                    Text('Pending'), // Dummy status text
-                                    SizedBox(
-                                        width:
-                                            5), // Added spacing between columns
-                                    Container(
-                                        width: 1,
-                                        color: Colors.grey), // Vertical line
-                                    SizedBox(
-                                        width:
-                                            5), // Added spacing between columns
-                                  ],
-                                );
-                              }).toList(),
-                            ),
-                          ],
-                        );
-                      }
-                    },
-                  ),
-                ),
-              ],
-            ),
+            child: _buildWidget(),
           ),
         ),
       ),
     );
   }
-}
 
-// Dummy function to simulate fetching data from backend
-Future<List<Map<String, String>>> fetchData() async {
-  // Simulating network delay
-  await Future.delayed(Duration(seconds: 2));
+  Widget _buildWidget() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(
+            'Request Status',
+            style: TextStyle(
+              fontSize: 20,
+              color: Color.fromARGB(255, 74, 73, 73),
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        SizedBox(height: 20),
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 30),
+          padding: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: Colors.orange[50],
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: Colors.deepOrange),
+          ),
+          child: DataTable(
+            columns: [
+              DataColumn(label: Text('ID')),
+              DataColumn(label: Text('Name')),
+              DataColumn(label: Text('Description')),
+              DataColumn(label: Text('Area')),
+              DataColumn(label: Text('Created By')),
+              DataColumn(label: Text('Status')),
 
-  // Dummy data
-  List<Map<String, String>> data = [
-    {
-      'id': '1',
-      'name': 'Request 1',
-      'description': 'Description 1',
-      'area': 'Area 1',
-      'createdBy': 'User 1',
-    },
-    {
-      'id': '2',
-      'name': 'Request 2',
-      'description': 'Description 2',
-      'area': 'Area 2',
-      'createdBy': 'User 2',
-    },
-    // Add more data as needed
-  ];
-
-  return data;
+            ],
+            rows: _map_obj.map((data) {
+              return DataRow(cells: [
+                DataCell(Text(data['id'].toString())),
+                DataCell(Text(data['Name'] ?? '')),
+                DataCell(Text(data['Description'] ?? '')),
+                DataCell(Text(data['Area'] ?? '')),
+                DataCell(Text(data['Created By'] ?? '')),
+                DataCell(Text(data['Status'] ?? '')),
+              ]);
+            }).toList(),
+          ),
+        ),
+      ],
+    );
+  }
 }
