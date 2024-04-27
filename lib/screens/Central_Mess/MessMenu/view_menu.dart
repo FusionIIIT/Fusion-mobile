@@ -21,7 +21,7 @@ class _ViewMenuState extends State<ViewMenu> {
   bool _loadDish = false;
   // Map<String, dynamic> umd = widget.userMessData;
   // String? s = widget.user;
-  String? selectedMess, selectedDay, selectedMeal;
+  String? selectedMess = "mess1", selectedDay, selectedMeal;
 
   List<List<String>> mat = [
     ["MB", "ML", "MD"],
@@ -77,7 +77,7 @@ class _ViewMenuState extends State<ViewMenu> {
   @override
   void initState() {
     super.initState();
-    // _fetchMenuData();
+    _fetchMenuData();
   }
 
 
@@ -123,22 +123,22 @@ class _ViewMenuState extends State<ViewMenu> {
                     child: pw.Center(
                       child: pw.Text('Day/Meal', style: pw.TextStyle(fontSize: 14, fontWeight: pw.FontWeight.bold),),
                     )
-                  ),
-                  pw.Container(
+                ),
+                pw.Container(
                     alignment: pw.Alignment.center,
                     padding: pw.EdgeInsets.all(5),
                     child: pw.Center(
                       child: pw.Text('Breakfast', style: pw.TextStyle(fontSize: 14, fontWeight: pw.FontWeight.bold),),
                     )
-                  ),
-                  pw.Container(
+                ),
+                pw.Container(
                     alignment: pw.Alignment.center,
                     padding: pw.EdgeInsets.all(5),
                     child: pw.Center(
                       child: pw.Text('Lunch', style: pw.TextStyle(fontSize: 14, fontWeight: pw.FontWeight.bold),),
                     )
-                  ),
-                  pw.Container(
+                ),
+                pw.Container(
                     alignment: pw.Alignment.center,
                     padding: pw.EdgeInsets.all(5),
                     child: pw.Center(
@@ -151,8 +151,8 @@ class _ViewMenuState extends State<ViewMenu> {
               pw.TableRow(
                 children: [
                   pw.Container(
-                  alignment: pw.Alignment.center,
-                  padding: pw.EdgeInsets.all(5),
+                    alignment: pw.Alignment.center,
+                    padding: pw.EdgeInsets.all(5),
                     child: pw.Center(
                       child: pw.Text(week[i+1]!, style: pw.TextStyle(fontSize: 14, fontWeight: pw.FontWeight.bold),),
                     ),
@@ -176,46 +176,46 @@ class _ViewMenuState extends State<ViewMenu> {
     final _messFormKey = GlobalKey<FormState>();
 
     return SingleChildScrollView(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              child: Form(
-                key: _messFormKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    DropdownButtonFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Select a Mess',
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colors.deepOrangeAccent, width: 2),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
-                      ),
-                      validator: (value) =>
-                      value == null ? "Select a mess" : null,
-                      dropdownColor: Colors.white,
-                      value: selectedMess,
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          selectedMess = newValue!;
-                        });
-                        _fetchMenuData();
-                      },
-                      items: [
-                        DropdownMenuItem(
-                            child: Text("Central Mess 1"),
-                            value: "mess1"),
-                        DropdownMenuItem(
-                            child: Text("Central Mess 2"),
-                            value: "mess2"),
-                      ],
-                    ),
-                    SizedBox(height: 30.0),
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        child: Form(
+          key: _messFormKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              DropdownButtonFormField(
+                decoration: InputDecoration(
+                  labelText: 'Select a Mess',
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Colors.deepOrangeAccent, width: 2),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
+                ),
+                validator: (value) =>
+                value == null ? "Select a mess" : null,
+                dropdownColor: Colors.white,
+                value: selectedMess,
+                onChanged: (String? newValue) {
+                  setState(() {
+                    selectedMess = newValue!;
+                  });
+                  _fetchMenuData();
+                },
+                items: [
+                  DropdownMenuItem(
+                      child: Text("Central Mess 1"),
+                      value: "mess1"),
+                  DropdownMenuItem(
+                      child: Text("Central Mess 2"),
+                      value: "mess2"),
+                ],
+              ),
+              SizedBox(height: 30.0),
 
-                _loadDish
+              _loadDish
                   ? SingleChildScrollView(
                 child: Column(
                   children: [
@@ -276,12 +276,12 @@ class _ViewMenuState extends State<ViewMenu> {
                     ),
 
                   ],
-                  ),
-                ) : Center(child: CircularProgressIndicator()),
-                ],
-            ),
-              ),
-            ),
+                ),
+              ) : Center(child: CircularProgressIndicator()),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

@@ -25,7 +25,10 @@ class _RebateMenuState extends State<RebateMenu> {
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     String? user = arguments?['user'];
     user = user?.toLowerCase();
-    return Scaffold(
+    return
+      SafeArea(
+        bottom: true,
+        child: Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: CustomAppBar(
         curr_desig: curr_desig,
@@ -41,10 +44,11 @@ class _RebateMenuState extends State<RebateMenu> {
       ),
       drawer: SideDrawer(curr_desig: curr_desig),
       // bottomNavigationBar: MyBottomNavigationBar(),
-      body:Container(
-        child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
+      body:Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
           SizedBox(height: 5.0),
-          DefaultTabController(
+          Expanded(child: DefaultTabController(
               length: 2, // length of tabs
               initialIndex: 0,
               child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
@@ -61,8 +65,7 @@ class _RebateMenuState extends State<RebateMenu> {
                     ],
                   ),
                 ),
-                Container(
-                    height: 590, //height of TabBarView
+                Expanded(child: Container(
                     decoration: BoxDecoration(
                         border: Border(top: BorderSide(color: Colors.grey, width: 0.5))
                     ),
@@ -72,11 +75,14 @@ class _RebateMenuState extends State<RebateMenu> {
                       RebateHistory(),
 
                     ])
-                )
+                )),
+
               ])
           ),
+          ),
+
         ]),
-      ),
+        ),
     );
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/services/central_mess_services.dart';
 import 'package:fusion/models/central_mess.dart';
-
+import 'package:fusion/screens/Central_Mess/expandable_text.dart';
 class ManageRegistrations extends StatefulWidget {
   @override
   _ManageRegistrationsState createState() => _ManageRegistrationsState();
@@ -372,55 +372,58 @@ class _ManageRegistrationsState extends State<ManageRegistrations> {
                           ],
                         ),
                         SizedBox(height: 10.0),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.6,
-                              child: TextFormField(
-                                maxLines: 1,
-                                cursorHeight: 20,
-                                decoration: InputDecoration(
-                                  labelText: 'Search StudentId',
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.deepOrangeAccent, width: 2),
-                                    borderRadius: BorderRadius.circular(20),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 4.0), // Adjust horizontal padding as needed
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: TextFormField(
+                                  maxLines: 1,
+                                  cursorHeight: 20,
+                                  decoration: InputDecoration(
+                                    labelText: 'Search StudentId',
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.deepOrangeAccent, width: 2),
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    filled: true,
+                                    fillColor: Colors.white,
                                   ),
-                                  filled: true,
-                                  fillColor: Colors.white,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return "Search studentId";
+                                    } else {
+                                      reqStudentId = value.toUpperCase();
+                                      return null;
+                                    }
+                                  },
+                                  style: TextStyle(fontSize: 18.0),
                                 ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return "Search studentId";
-                                  } else {
-                                    reqStudentId = value.toUpperCase();
-                                    return null;
+                              ),
+                              SizedBox(width: 8.0), // Add spacing between TextFormField and ElevatedButton
+                              ElevatedButton(
+                                style: style,
+                                onPressed: _loading ? null : () {
+                                  if (_messFormKey.currentState!.validate()) {
+                                    setState(() {
+                                      _loading = true;
+                                    });
+                                    getData("search");
                                   }
                                 },
-                                style: TextStyle(fontSize: 18.0),
+                                child: Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    Text("Search"),
+                                    if (_search) CircularProgressIndicator(),
+                                  ],
+                                ),
                               ),
-                            ),
-                            ElevatedButton(
-                              style: style,
-                              onPressed: _loading ? null : () {
-                                if (_messFormKey.currentState!.validate()) {
-                                  setState(() {
-                                    _loading = true;
-                                  });
-                                  getData("search");
-                                }
-                              },
-                              child: Stack(
-                                alignment: Alignment.center,
-                                children: [
-                                  Text("Search"),
-                                  if (_search) CircularProgressIndicator(),
-                                ],
-                              ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
+
                         SizedBox(height: 30.0),
                       ],
                     ),
@@ -501,7 +504,10 @@ class _ManageRegistrationsState extends State<ManageRegistrations> {
                   ],
                 ),
               );
-            } else {
+            }else if (key.toLowerCase() == 'name') {
+              return DataCell(ExpandableText(text: data['Name']?? 'N/A', maxLines: 1)
+              );
+            }  else {
               return DataCell(
                 Padding(
                   padding: EdgeInsets.all(4),
