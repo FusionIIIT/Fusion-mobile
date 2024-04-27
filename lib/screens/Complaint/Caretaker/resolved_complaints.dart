@@ -5,14 +5,14 @@ import 'package:fusion/models/complaints.dart';
 import 'package:fusion/services/complaint_service.dart';
 import 'package:http/http.dart';
 
-import 'complaints_card.dart';
+import 'caretaker_complaints_card.dart';
 
-class DeclinedComplaints extends StatefulWidget {
+class ResolvedComplaints extends StatefulWidget {
   @override
-  _DeclinedComplaintsState createState() => _DeclinedComplaintsState();
+  _ResolvedComplaintsState createState() => _ResolvedComplaintsState();
 }
 
-class _DeclinedComplaintsState extends State<DeclinedComplaints> {
+class _ResolvedComplaintsState extends State<ResolvedComplaints> {
   bool _loading = true;
   late StreamController _complaintController;
   late ComplaintService complaintService;
@@ -31,6 +31,7 @@ class _DeclinedComplaintsState extends State<DeclinedComplaints> {
       Response response = await complaintService.getComplaint();
       setState(() {
         data = ComplaintDataUserStudent.fromJson(jsonDecode(response.body));
+        print(data);
         _loading = false;
       });
     } catch (e) {
@@ -41,13 +42,34 @@ class _DeclinedComplaintsState extends State<DeclinedComplaints> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+          title: Text(
+          "Resolved Complaints",
+          style: TextStyle(color: Colors.white),
+      ),
+        actions: <Widget>[
+        Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Icon(Icons.search),
+        ),
+        Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Icon(Icons.notifications),
+        ),
+        Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Icon(Icons.more_vert),
+        ),
+        ],
+        ),
       body: _loading
           ? Center(child: CircularProgressIndicator())
           : ListView.builder(
         itemCount: data.student_complain!.length,
         itemBuilder: (context, index) {
-          if(data.student_complain![index]['status'] == 3) {
-            return ComplaintCard(
+          if(data.student_complain![index]['status'] == 2 || data.student_complain![index]['status'] == 3) {
+            return CaretakerComplaintCard(
               data: data,
               index: index,
             );

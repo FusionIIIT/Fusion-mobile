@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fusion/services/central_mess_services.dart';
 import 'package:fusion/models/central_mess.dart';
 import 'package:fusion/screens/Central_Mess/expandable_text.dart';
+
 class ManageRegistrations extends StatefulWidget {
   @override
   _ManageRegistrationsState createState() => _ManageRegistrationsState();
@@ -423,7 +424,6 @@ class _ManageRegistrationsState extends State<ManageRegistrations> {
                             ],
                           ),
                         ),
-
                         SizedBox(height: 30.0),
                       ],
                     ),

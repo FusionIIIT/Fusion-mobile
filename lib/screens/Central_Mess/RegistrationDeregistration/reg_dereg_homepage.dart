@@ -34,6 +34,7 @@ class _RegDeRegState extends State<RegDeReg> {
     var userMessData = arguments?['userMessData'];
     bool? isRegistered = (user == 'student' && userMessData?['current_mess_status'] == 'Registered');
     // print('$userMessData, $isRegistered');
+
     return SafeArea(
       bottom: true,
       child: Scaffold(

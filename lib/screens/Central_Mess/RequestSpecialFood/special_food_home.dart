@@ -26,7 +26,7 @@ class _SpecialFoodState extends State<SpecialFood> {
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     String? user = arguments?['user'];
     user = user?.toLowerCase();
-
+    
     return SafeArea(
     bottom: true,
         child: Scaffold(

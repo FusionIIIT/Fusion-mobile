@@ -23,6 +23,7 @@ class _MessMenuState extends State<MessMenu> {
   Widget build(BuildContext context) {
     Map<String, dynamic>? arguments =
     ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+
     String? user = arguments?['user'];
     user = user?.toLowerCase();
     Map<String, dynamic> userMessData = arguments?['userMessData'];
