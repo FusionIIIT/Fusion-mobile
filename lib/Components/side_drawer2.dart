@@ -122,10 +122,16 @@ class _SideDrawerState extends State<SideDrawer> {
               ModulesCard(cardLine: 'Central Mess Module',pageMover: '/central_mess_home'),
 
 
-            ModulesCard(
-              cardLine: 'Health Center Module',
-              pageMover: '/health_center',
-            ),
+            if ((widget.curr_desig != "Compounder"))
+              ModulesCard(
+                cardLine: 'Health Center Module',
+                pageMover: '/health_center',
+              ),
+            if ((widget.curr_desig == "Compounder"))
+              ModulesCard(
+                cardLine: 'Health Center Module',
+                pageMover: '/compounder/home',
+              ), 
             if ((type == "student" ))
             ModulesCard(cardLine: 'Leave Module'),
 

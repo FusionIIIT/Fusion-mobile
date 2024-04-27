@@ -30,7 +30,7 @@ const kGymkhanaMemberRecords = '/api/gymkhana/members_record';
 
 //HealthCentre
 String kHealthCentreStudent = "/healthcenter/api/student";
-
+String kHealthCentreCompounder = "/healthcenter/api/compounder";
 //------------Screens------------
 
 //screens/Academic/Current_Semester

@@ -1,5 +1,5 @@
-import 'dart:async';
-import 'dart:convert';
+// import 'dart:async';
+// import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/appBar2.dart';
@@ -9,60 +9,63 @@ import 'package:fusion/services/storage_service.dart';
 import 'package:fusion/Components/bottom_navigation_bar.dart';
 import 'package:fusion/models/health.dart';
 import 'package:fusion/services/health_service.dart';
-import 'package:http/http.dart';
+// import 'package:fusion/services/service_locator.dart';
+// import 'package:fusion/services/storage_service.dart';
+// import 'package:http/http.dart';
 
 // ignore: must_be_immutable
-class HealthCenterMod extends StatefulWidget {
-  String? token;
-  HealthCenterMod(this.token);
+class CompounderHome extends StatefulWidget {
+  get token => null;
+
+  // String? token;
+  // CompounderHome(this.token);
   @override
-  _HealthCenterModState createState() => _HealthCenterModState();
+  _CompounderHomeState createState() => _CompounderHomeState();
 }
 
-class _HealthCenterModState extends State<HealthCenterMod> {
+class _CompounderHomeState extends State<CompounderHome> {
+  bool _loading1 = false;
+  // late StreamController _healthController;
   var service = locator<StorageService>();
   late String curr_desig = service.getFromDisk("Current_designation");
-  bool _loading1 = true;
-  late StreamController _healthController;
+
   late HeathService healthService;
   late HealthData data;
-  String? name;
-  String? depttype;
-  @override
-  void initState() {
-    super.initState();
-    var service = locator<StorageService>();
-    name = service.profileData.user!["first_name"] +
-        " " +
-        service.profileData.user!["last_name"];
-    depttype = service.profileData.profile!['department']!['name'] +
-        " " +
-        service.profileData.profile!['user_type'];
-    _healthController = StreamController();
-    healthService = HeathService();
-    print(healthService);
-    getData();
-  }
+  String? name='Compounder';
+  // String? depttype;
+  // void initState() {
+  //   super.initState();
+  //   var service = locator<StorageService>();
+  //   name = service.profileData.user!["first_name"] +
+  //       " " +
+  //       service.profileData.user!["last_name"];
+  //   depttype = service.profileData.profile!['department']!['name'] +
+  //       " " +
+  //       service.profileData.profile!['user_type'];
+  //   _healthController = StreamController();
+  //   healthService = HeathService();
+  //   getData();
+  // }
 
-  getData() async {
-    //print('token-'+widget.token!);
-    try {
-      Response response = await healthService.getHealth(widget.token!);
-      setState(() {
-        // print(response);
-        data = HealthData.fromJson(jsonDecode(response.body));
-        _loading1 = false;
-      });
-    } catch (e) {
-      print(e);
-    }
-  }
+  // getData() async {
+  //   //print('token-'+widget.token!);
+  //   try {
+  //     Response response = await healthService.getHealth(widget.token!);
+  //     setState(() {
+  //       // print(response);
+  //       data = HealthData.fromJson(jsonDecode(response.body));
+  //       _loading1 = false;
+  //     });
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
 
-  loadData() async {
-    getData().then((res) {
-      _healthController.add(res);
-    });
-  }
+  // loadData() async {
+  //   getData().then((res) {
+  //     _healthController.add(res);
+  //   });
+  // }
 
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
@@ -145,10 +148,10 @@ class _HealthCenterModState extends State<HealthCenterMod> {
                       SizedBox(
                         height: 10.0,
                       ),
-                      Text(
-                        depttype!,
-                        style: TextStyle(fontSize: 15.0, color: Colors.black),
-                      ),
+                      // Text(
+                      //   depttype!,
+                      //   style: TextStyle(fontSize: 15.0, color: Colors.black),
+                      // ),
                       SizedBox(
                         height: 10.0,
                       ),
@@ -162,7 +165,7 @@ class _HealthCenterModState extends State<HealthCenterMod> {
                       padding: const EdgeInsets.all(8.0),
                       child: Center(
                           child: Text(
-                        "Health Center",
+                        "Health Center Module",
                         style: TextStyle(
                           fontSize: 20.0,
                           color: Colors.white,
@@ -191,51 +194,52 @@ class _HealthCenterModState extends State<HealthCenterMod> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      InkWell(
-                        child: myContainer("Announcements"),
+                        InkWell(
+                        child: myContainer("Add Doctor"),
                         onTap: () {
                           Navigator.pushNamed(
-                              context, '/health_center/announcement',
-                              arguments: data);
-                        },
-                      ),
-                      InkWell(
-                        child: myContainer("Health Records"),
-                        onTap: () {
-                          Navigator.pushNamed(context, '/health_center/history',
-                              arguments: data);
-                        },
-                      ),
-                      InkWell(
-                        child: myContainer("Feedback"),
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, '/health_center/feedback',
-                              arguments: data);
+                              context, '/compounder/adddoctor');
                         },
                       ),
                       InkWell(
                         child: myContainer("Doctor Schedule"),
                         onTap: () {
                           Navigator.pushNamed(
-                              context, '/health_center/viewdoctorschedule',
-                              arguments: data);
+                              context, '/compounder/doctor_schedule');
                         },
                       ),
                       InkWell(
                         child: myContainer("Pathologist Schedule"),
                         onTap: () {
                           Navigator.pushNamed(
-                              context, '/health_center/viewschedule',
-                              arguments: data);
+                              context, '/compounder/pathologist_schedule');
+                        },
+                      ),
+                      InkWell(
+                        child: myContainer("Patient Log"),
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, '/compounder/patient_log');
                         },
                       ),
                       InkWell(
                         child: myContainer("Medical Reimbursement"),
                         onTap: () {
                           Navigator.pushNamed(
-                              context, '/health_center/reimbursement',
-                              arguments: data);
+                              context, '/compounder/reimbursement');
+                        },
+                      ),
+                      InkWell(
+                        child: myContainer("Inventory"),
+                        onTap: () {
+                          Navigator.pushNamed(context, '/compounder/inventory');
+                        },
+                      ),
+                      InkWell(
+                        child: myContainer("Make Announcements"),
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, '/compounder/announcements');
                         },
                       ),
                     ],
