@@ -24,7 +24,7 @@ class _ExpandableTextState extends State<ExpandableText> {
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: Text('Description'),
+                title: Text(''),
                 content: Text(widget.text),
                 actions: <Widget>[
                   TextButton(

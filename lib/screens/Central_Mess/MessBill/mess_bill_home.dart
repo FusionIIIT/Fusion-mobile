@@ -66,7 +66,10 @@ class _ManageBillState extends State<ManageBill> {
     user = user?.toLowerCase();
     Map<String, dynamic> userMessData = arguments?['userMessData'];
 
-    return Scaffold(
+    return
+      SafeArea(
+        bottom: true,
+        child: Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: CustomAppBar(
         curr_desig: curr_desig,
@@ -82,71 +85,68 @@ class _ManageBillState extends State<ManageBill> {
       ),
       drawer: SideDrawer(curr_desig: curr_desig),
       // bottomNavigationBar: MyBottomNavigationBar(),
-      body: LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-          // final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
-          return Container(
-            child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
+      body: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
               SizedBox(height: 5.0),
-              DefaultTabController(
-                  length: user == "student" || user == "warden" ? 1 : 3, // length of tabs
-                  initialIndex: 0,
-                  child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
-                    Container(
-                      //color: Colors.deepOrangeAccent,
-                      child: TabBar(
-                        labelColor: Colors.deepOrange,
-                        indicatorColor: Colors.deepOrangeAccent,
-                        unselectedLabelColor: Colors.black,
-                        tabs: [
-                          if (user == "student")
-                            ...[
-                              Tab(child: Text("Monthly Bills",style: TextStyle(fontWeight: FontWeight.bold),),),
-                              // Tab(child: Text("Bill History",style: TextStyle(fontWeight: FontWeight.bold),),),
-                            ],
-                          if (user == "caretaker")
-                            ...[
-                              Tab(child: Text("Bill Base",style: TextStyle(fontWeight: FontWeight.bold),),),
-                              Tab(child: Text("View Student Bills",style: TextStyle(fontWeight: FontWeight.bold),),),
-                              Tab(child: Text("Update Student Bill",style: TextStyle(fontWeight: FontWeight.bold),),),
-                            ],
-                          if (user=="warden")
-                            ...[
-                              Tab(child: Text("View Student Bills",style: TextStyle(fontWeight: FontWeight.bold),),),
-                            ]
-                        ],
-                      ),
-                    ),
-                    Container(
-                        // height: isPortrait ? MediaQuery.of(context).size.height : MediaQuery.of(context).size.width,
-                        // width: isPortrait ? MediaQuery.of(context).size.width : MediaQuery.of(context).size.height,
-                        height: 590,
-                        decoration: BoxDecoration(
-                            border: Border(top: BorderSide(color: Colors.grey, width: 0.5))
+              Expanded(
+                child: DefaultTabController(
+                    length: user == "student" || user == "warden" ? 1 : 3, // length of tabs
+                    initialIndex: 0,
+                    child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
+                      Container(
+                        //color: Colors.deepOrangeAccent,
+                        child: TabBar(
+                          labelColor: Colors.deepOrange,
+                          indicatorColor: Colors.deepOrangeAccent,
+                          unselectedLabelColor: Colors.black,
+                          tabs: [
+                            if (user == "student")
+                              ...[
+                                Tab(child: Text("Monthly Bills",style: TextStyle(fontWeight: FontWeight.bold),),),
+                                // Tab(child: Text("Bill History",style: TextStyle(fontWeight: FontWeight.bold),),),
+                              ],
+                            if (user == "caretaker")
+                              ...[
+                                Tab(child: Text("Bill Base",style: TextStyle(fontWeight: FontWeight.bold),),),
+                                Tab(child: Text("View Student Bills",style: TextStyle(fontWeight: FontWeight.bold),),),
+                                Tab(child: Text("Update Student Bill",style: TextStyle(fontWeight: FontWeight.bold),),),
+                              ],
+                            if (user=="warden")
+                              ...[
+                                Tab(child: Text("View Student Bills",style: TextStyle(fontWeight: FontWeight.bold),),),
+                              ]
+                          ],
                         ),
-                        child: TabBarView(children: <Widget>[
-                          if(user == "student") ...[
-                            // MessMonthlyBill(),
-                            MessMonthlyBillHistory(profileData: data, userMessData: userMessData),
-                          ],
-                          if(user=="caretaker") ...[
-                            UpdateMonthlyBill(),
-                            ViewStudentBill(),
-                            UpdateStudentBill(),
-                          ],
-                          if(user=="warden") ...[
-                            ViewStudentBill(),
-                          ]
-                        ])
-                    )
-                  ])
+                      ),
+                      Expanded(
+                          child: Container(
+                            // height: isPortrait ? MediaQuery.of(context).size.height : MediaQuery.of(context).size.width,
+                            // width: isPortrait ? MediaQuery.of(context).size.width : MediaQuery.of(context).size.height,
+                              decoration: BoxDecoration(
+                                  border: Border(top: BorderSide(color: Colors.grey, width: 0.5))
+                              ),
+                              child: TabBarView(children: <Widget>[
+                                if(user == "student") ...[
+                                  // MessMonthlyBill(),
+                                  MessMonthlyBillHistory(profileData: data, userMessData: userMessData),
+                                ],
+                                if(user=="caretaker") ...[
+                                  UpdateMonthlyBill(),
+                                  ViewStudentBill(),
+                                  UpdateStudentBill(),
+                                ],
+                                if(user=="warden") ...[
+                                  ViewStudentBill(),
+                                ]
+                              ])
+                          )),
+
+                    ])
+                ),
               ),
+
             ]),
-          );
-        },
-      ),
 
-
+    ),
     );
   }
 }

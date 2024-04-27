@@ -27,7 +27,9 @@ class _VacationFoodHomeState extends State<VacationFoodHome> {
     String? user = arguments?['user'];
     user = user?.toLowerCase();
 
-    return Scaffold(
+    return SafeArea(
+    bottom: true,
+        child:Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: CustomAppBar(
         curr_desig: curr_desig,
@@ -43,80 +45,80 @@ class _VacationFoodHomeState extends State<VacationFoodHome> {
       ),
       drawer: SideDrawer(curr_desig: curr_desig),
       // bottomNavigationBar: MyBottomNavigationBar(),
-      body: Container(
-        child: Column(
+      body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             SizedBox(height: 5.0),
-            DefaultTabController(
-              length: 2, // length of tabs
-              initialIndex: 0,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Container(
-                    //color: Colors.deepOrangeAccent,
-                    child: TabBar(
-                      labelColor: Colors.deepOrange,
-                      indicatorColor: Colors.deepOrangeAccent,
-                      unselectedLabelColor: Colors.black,
-                      tabs: user == 'student'
-                          ? [
-                              Tab(
-                                child: Text(
-                                  "Request For Vacation Food",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
+            Expanded(
+                child: DefaultTabController(
+                  length: 2, // length of tabs
+                  initialIndex: 0,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      Container(
+                        //color: Colors.deepOrangeAccent,
+                        child: TabBar(
+                          labelColor: Colors.deepOrange,
+                          indicatorColor: Colors.deepOrangeAccent,
+                          unselectedLabelColor: Colors.black,
+                          tabs: user == 'student'
+                              ? [
+                            Tab(
+                              child: Text(
+                                "Request For Vacation Food",
+                                style: TextStyle(fontWeight: FontWeight.bold),
                               ),
-                              Tab(
-                                child: Text(
-                                  "Requests History",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
+                            ),
+                            Tab(
+                              child: Text(
+                                "Requests History",
+                                style: TextStyle(fontWeight: FontWeight.bold),
                               ),
-                            ]
-                          : [
-                              Tab(
-                                child: Text(
-                                  "Active Requests For Vacation Food",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
+                            ),
+                          ]
+                              : [
+                            Tab(
+                              child: Text(
+                                "Active Requests For Vacation Food",
+                                style: TextStyle(fontWeight: FontWeight.bold),
                               ),
-                              Tab(
-                                child: Text(
-                                  "Requests History",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
+                            ),
+                            Tab(
+                              child: Text(
+                                "Requests History",
+                                style: TextStyle(fontWeight: FontWeight.bold),
                               ),
-                            ],
-                    ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border(
+                                  top: BorderSide(color: Colors.grey, width: 0.5)),
+                            ),
+                            child: user == 'student'
+                                ? TabBarView(
+                              children: <Widget>[
+                                VacationFoodForm(),
+                                HistoryOfVactionFood(),
+                              ],
+                            )
+                                : TabBarView(
+                              children: <Widget>[
+                                VacationFoodRequest(),
+                                HistoryOfVactionFood(),
+                              ],
+                            ),
+                          ))
+                    ],
                   ),
-                  Container(
-                    height: 590, //height of TabBarView
-                    decoration: BoxDecoration(
-                      border: Border(
-                          top: BorderSide(color: Colors.grey, width: 0.5)),
-                    ),
-                    child: user == 'student'
-                        ? TabBarView(
-                            children: <Widget>[
-                              VacationFoodForm(),
-                              HistoryOfVactionFood(),
-                            ],
-                          )
-                        : TabBarView(
-                            children: <Widget>[
-                              VacationFoodRequest(),
-                              HistoryOfVactionFood(),
-                            ],
-                          ),
-                  )
-                ],
-              ),
-            ),
+                ))
           ],
-        ),
       ),
+        )
     );
   }
 }

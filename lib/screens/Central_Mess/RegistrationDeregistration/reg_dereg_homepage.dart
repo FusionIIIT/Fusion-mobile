@@ -34,7 +34,10 @@ class _RegDeRegState extends State<RegDeReg> {
     var userMessData = arguments?['userMessData'];
     bool? isRegistered = (user == 'student' && userMessData?['current_mess_status'] == 'Registered');
     // print('$userMessData, $isRegistered');
-    return Scaffold(
+
+    return SafeArea(
+      bottom: true,
+      child: Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: CustomAppBar(
         curr_desig: curr_desig,
@@ -50,10 +53,11 @@ class _RegDeRegState extends State<RegDeReg> {
       ),
       drawer: SideDrawer(curr_desig: curr_desig),
       // bottomNavigationBar: MyBottomNavigationBar(),
-      body:Container(
-        child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
+      body:Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
           SizedBox(height: 5.0),
-          DefaultTabController(
+          Expanded(child: DefaultTabController(
               length:  2, // length of tabs
               initialIndex: 0,
               child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
@@ -81,14 +85,14 @@ class _RegDeRegState extends State<RegDeReg> {
                         ],
                       if (user == "student" && isRegistered == false)
                         ...[
-                            Tab(
-                              child: Text(
-                                "Registration",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
+                          Tab(
+                            child: Text(
+                              "Registration",
+                              style: TextStyle(fontWeight: FontWeight.bold),
                             ),
+                          ),
 
-                            Tab(
+                          Tab(
                             child: Text(
                               "Registration History",
                               style: TextStyle(fontWeight: FontWeight.bold),
@@ -97,14 +101,14 @@ class _RegDeRegState extends State<RegDeReg> {
                         ],
                       if (user == "student" && isRegistered == true)
                         ...[
-                            Tab(
-                              child: Text(
-                                "Deregistration",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
+                          Tab(
+                            child: Text(
+                              "Deregistration",
+                              style: TextStyle(fontWeight: FontWeight.bold),
                             ),
+                          ),
 
-                            Tab(
+                          Tab(
                             child: Text(
                               "Deregistration History",
                               style: TextStyle(fontWeight: FontWeight.bold),
@@ -114,8 +118,7 @@ class _RegDeRegState extends State<RegDeReg> {
                     ],
                   ),
                 ),
-                Container(
-                    height: 590, //height of TabBarView
+                Expanded(child: Container(
                     decoration: BoxDecoration(
                         border: Border(top: BorderSide(color: Colors.grey, width: 0.5))
                     ),
@@ -135,11 +138,13 @@ class _RegDeRegState extends State<RegDeReg> {
                         ],
                       ],
                     )
-                )
+                )),
+
               ])
           ),
+          ),
         ]),
-      ),
+    ),
     );
   }
 }

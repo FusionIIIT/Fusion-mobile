@@ -29,7 +29,9 @@ class _ManageRegDeRegHomepageState extends State<ManageRegDeRegHomepage> {
     var userMessData = arguments?['userMessData'];
     // bool? isRegistered = (user == 'student' && userMessData?['current_mess_status'] == 'Registered');
     // print('$userMessData, $isRegistered');
-    return Scaffold(
+    return SafeArea(
+    bottom: true,
+        child:Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: CustomAppBar(
         curr_desig: curr_desig,
@@ -45,10 +47,12 @@ class _ManageRegDeRegHomepageState extends State<ManageRegDeRegHomepage> {
       ),
       drawer: SideDrawer(curr_desig: curr_desig),
       // bottomNavigationBar: MyBottomNavigationBar(),
-      body:Container(
-        child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
+      body:Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
           SizedBox(height: 5.0),
-          DefaultTabController(
+          Expanded(
+            child: DefaultTabController(
               length: user == "caretaker" ? 2 : 1, // length of tabs
               initialIndex: 0,
               child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[
@@ -87,8 +91,8 @@ class _ManageRegDeRegHomepageState extends State<ManageRegDeRegHomepage> {
                     ],
                   ),
                 ),
-                Container(
-                    height: 590, //height of TabBarView
+                Expanded(
+                    child: Container(
                     decoration: BoxDecoration(
                         border: Border(top: BorderSide(color: Colors.grey, width: 0.5))
                     ),
@@ -104,10 +108,11 @@ class _ManageRegDeRegHomepageState extends State<ManageRegDeRegHomepage> {
                       ],
                     )
                 )
+                )
               ])
-          ),
+          ),)
         ]),
-      ),
+        ),
     );
   }
 }
