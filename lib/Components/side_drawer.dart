@@ -13,10 +13,13 @@ class _SideDrawerState extends State<SideDrawer> {
   int count = 0;
   String? name;
   String? depttype;
+  var isAdmin = false;
   @override
   void initState() {
     super.initState();
     var service = locator<StorageService>();
+     isAdmin = service.profileData.user!['username']=='AG';
+     print(isAdmin);
     name = service.profileData.user!["first_name"] +
         " " +
         service.profileData.user!["last_name"];
@@ -121,7 +124,7 @@ class _SideDrawerState extends State<SideDrawer> {
                           pageMover: '/programme_curriculum_home',
                           isActive: true,
                         ),
-                        ModulesPadding(
+                          ModulesPadding(
                             line: 'Gymkhana Module',
                             pageMover: '/gymkhana_homepage'),
                         ModulesPadding(
@@ -143,6 +146,12 @@ class _SideDrawerState extends State<SideDrawer> {
                         ModulesPadding(line: 'Placement Module'),
                         ModulesPadding(line: 'Visitors Hostel Module'),
                         ModulesPadding(line: 'File Tracking Module'),
+                        if(isAdmin)
+                        ModulesPadding(
+                          line: 'Examination Module',
+                          pageMover: '/examination',
+                          isActive: true,
+                        )
                       ],
                     ),
                   )
