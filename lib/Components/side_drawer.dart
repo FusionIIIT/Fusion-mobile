@@ -25,6 +25,20 @@ class _SideDrawerState extends State<SideDrawer> {
         service.profileData.profile!['user_type'];
   }
 
+  String determinePageRoute(String? name) {
+    switch (name) {
+      case 'Ajay Singh':
+        return '/IWD_Homepage';
+      case 'IIITDMJ Director':
+        return '/IWD_Director';
+      case 'Dean (P&D)':
+        return '/IWD_Dean';
+      // // Add more cases for other names and corresponding routes
+      default:
+        return '/IWD_Homepage'; // Default route if name does not match specific cases
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -122,14 +136,20 @@ class _SideDrawerState extends State<SideDrawer> {
                           isActive: true,
                         ),
                         ModulesPadding(
-                            line: 'Gymkhana Module',
-                            pageMover: '/gymkhana_homepage'),
+                          line: 'Gymkhana Module',
+                          pageMover: '/gymkhana_homepage',
+                          isActive: true,
+                        ),
                         ModulesPadding(
-                            line: 'Establishment Module',
-                            pageMover: '/establishment'),
+                          line: 'Establishment Module',
+                          pageMover: '/establishment',
+                          isActive: true,
+                        ),
                         ModulesPadding(
-                            line: 'Library Module',
-                            pageMover: '/library_homepage'),
+                          line: 'Library Module',
+                          pageMover: '/library_homepage',
+                          isActive: true,
+                        ),
                         ModulesPadding(line: 'Awards & Scholarship Module'),
                         ModulesPadding(
                             line: 'Complaint Module', pageMover: '/complaint'),
@@ -142,6 +162,11 @@ class _SideDrawerState extends State<SideDrawer> {
                         ModulesPadding(line: 'Leave Module'),
                         ModulesPadding(line: 'Placement Module'),
                         ModulesPadding(line: 'Visitors Hostel Module'),
+                        ModulesPadding(
+                          line: 'IWD',
+                          pageMover: determinePageRoute(name),
+                          isActive: true,
+                        ),
                         ModulesPadding(line: 'File Tracking Module'),
                       ],
                     ),

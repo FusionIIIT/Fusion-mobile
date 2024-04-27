@@ -1,10 +1,13 @@
 //Server and local links
 String klocalLink = "127.0.0.1:8000";
-String kserverLink = "172.27.16.215:80";
+//String kserverLink = "172.27.16.214:8000";
+String kserverLink = "foal-cheerful-optionally.ngrok-free.app";
 
 //Login Service
-String kAuthUrl = "172.27.16.215:80";
+String kAuthUrl = "foal-cheerful-optionally.ngrok-free.app";
+// String kAuthUrl = "172.27.16.214:8000";
 String kAuthLogin = "/api/auth/login/";
+// String kAuthLogin = "/accounts/login";
 
 //Profile Service
 String kProfile = "/api/profile/";
@@ -20,6 +23,7 @@ String kComplaintRemove = "/complaint/api/removecomplain/";
 
 //Dashboard
 String kDashboard = "/api/dashboard/";
+String kNotification = "/api/notification/";
 String kNotificationRead = "/api/notification/read/";
 
 //Gymkhana
@@ -28,6 +32,12 @@ const kGymkhanaMemberRecords = '/api/gymkhana/members_record';
 
 //HealthCentre
 String kHealthCentreStudent = "/healthcenter/api/student";
+
+//IWD
+String kIwd = 'foal-cheerful-optionally.ngrok-free.app';
+String kCreatedReq = '/iwdModuleV2/api/createdRequestsView/';
+String kReqStatus = '/iwdModuleV2/api/requestsStatus/';
+String kDesignations = '/iwdModuleV2/api/fetchDesignationsapi/';
 
 //------------Screens------------
 

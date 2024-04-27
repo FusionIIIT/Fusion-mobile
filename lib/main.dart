@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:fusion/screens/IWD/Dean_Homepage.dart'; 
+import 'package:fusion/screens/IWD/Director_homepage.dart';
+import 'package:fusion/screens/IWD/Er_Homepage.dart';
 import 'package:fusion/screens/Academic/Add_Drop_Courses/add_drop_courses.dart';
 import 'package:fusion/screens/Complaint/ComplaintHistory/complain_history.dart';
 import 'package:fusion/screens/Complaint/Feedback/feedback.dart';
@@ -9,7 +12,10 @@ import 'package:fusion/screens/Library/Book_Search.dart';
 import 'package:fusion/screens/Library/dues.dart';
 import 'package:fusion/screens/Library/issued_items.dart';
 import 'package:fusion/screens/Library/lib_home_screen.dart';
+import 'package:fusion/screens/LoginandDashboard/DashboardComponents/news.dart';
 import 'package:fusion/screens/LoginandDashboard/dashboard.dart';
+import 'package:fusion/screens/LoginandDashboard/DashboardComponents/notify.dart';
+import 'package:fusion/screens/LoginandDashboard/DashboardComponents/announcement.dart';
 import 'package:fusion/screens/LoginandDashboard/login_page.dart';
 import 'package:fusion/screens/Academic/academic_home_page.dart';
 import 'package:fusion/screens/Academic/Current_Semester/current_semester_home_page.dart';
@@ -60,9 +66,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MediaQueryData windowData =
-    MediaQueryData.fromWindow(WidgetsBinding.instance.window);
+    MediaQueryData.fromView(WidgetsBinding.instance.window);
     windowData = windowData.copyWith(
-      textScaleFactor: 1,
+      textScaler: TextScaler.linear(1),
     );
     return MediaQuery(
       data: windowData,
@@ -79,8 +85,15 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute: '/landing',
         routes: {
+          '/iwd': (context) => MyHomePage(),
+          '/IWD_Homepage': (context) => MyHomePage(),
+          '/IWD_Director': (context) => Dir_Homepage(),
+          '/IWD_Dean':(context)=> Dean_Homepage(),
           '/landing': (context) => LandingPage(),
           '/login_page': (context) => LoginPage(),
+          '/notification':(context)=>Notify(),
+          '/news':(context)=>News(),
+          '/announcement':(context)=>Announcement(),
           '/dashboard': (context) => Dashboard(),
           '/academic_home_page': (context) => AcademicHomePage(
               ModalRoute.of(context)!.settings.arguments.toString()),
