@@ -226,6 +226,28 @@ late String curr_desig = service.getFromDisk("Current_designation");
     _courseId = courseIdFromValue(_courseValue!);
   }
 
+    // Method to show dialog box for successful submission
+  void _showSuccessDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Grades Submitted"),
+          content: Text("Grades have been submitted successfully."),
+          actions: <Widget>[
+            TextButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -301,7 +323,7 @@ late String curr_desig = service.getFromDisk("Current_designation");
                       TextEditingController gradeController =
                           TextEditingController(text: student['grade']);
                       TextEditingController marksController =
-                          TextEditingController(text: student['total_marks']);
+                          TextEditingController(text: student['marks']);
                       return DataRow(cells: [
                         DataCell(Text(student['roll_no'].toString())),
                         DataCell(TextField(
@@ -313,7 +335,7 @@ late String curr_desig = service.getFromDisk("Current_designation");
                         DataCell(TextField(
                           controller: marksController,
                           onChanged: (value) {
-                            student['total_marks'] = value;
+                            student['marks'] = value;
                           },
                         )),
                         // Removed the DataCell for "Year"
@@ -350,7 +372,7 @@ late String curr_desig = service.getFromDisk("Current_designation");
                             'semester_id': _semesterValue,
                             'year': _yearValue,
                             'grade': student['grade']??'NA',
-                            'total_marks': student['total_marks']??'0',
+                            'total_marks': student['marks']??'0',
                             
                           };
                         } else {
@@ -365,6 +387,8 @@ late String curr_desig = service.getFromDisk("Current_designation");
                       await examinationService
                           .submitGades(updatedStudentsData);
 
+                                          // Show success dialog
+                    _showSuccessDialog();
                       // Show success message or perform other actions upon successful save
                     } catch (e) {
                       print('Error saving student grades: $e');

@@ -81,6 +81,11 @@ late String curr_desig = service.getFromDisk("Current_designation");
     });
   }
 
+   bool allAuthenticatorsAuthenticated() {
+    return _fetchedAuthenticator1 && _fetchedAuthenticator2 && _fetchedAuthenticator3;
+  }
+
+
   Widget _buildDropdown(String name, List<String> items) {
     List<DropdownMenuItem<String>> dropdownItems = items.map((valueItem) {
       return DropdownMenuItem(
@@ -259,6 +264,27 @@ late String curr_desig = service.getFromDisk("Current_designation");
     return null;
   }
 
+      // Method to show dialog box for successful submission
+  void _showSuccessDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Authenticator Authenticated"),
+          content: Text("Course has been authenticated ."),
+          actions: <Widget>[
+            TextButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -295,14 +321,6 @@ late String curr_desig = service.getFromDisk("Current_designation");
 
               SizedBox(height: 20),
 
-              SizedBox(height: 20),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: isVerified
-                    ? Text("Result is verified")
-                    : Text("Result is not yet verified"),
-              ),
-              SizedBox(height: 20),
               // Add checkboxes for authenticators
 
               CheckboxListTile(
@@ -347,6 +365,15 @@ late String curr_desig = service.getFromDisk("Current_designation");
                     Colors.green, // Set the color when checkbox is checked
               ),
 
+
+              SizedBox(height: 20),
+              Text('Authenticator 1: ${_fetchedAuthenticator1 ? 'Authenticated' : 'Not Authenticated'}'),
+              SizedBox(height: 20),
+              Text('Authenticator 2: ${_fetchedAuthenticator2 ? 'Authenticated' : 'Not Authenticated'}'),
+              SizedBox(height: 20),
+              Text('Authenticator 3: ${_fetchedAuthenticator3 ? 'Authenticated' : 'Not Authenticated'}'),
+
+
               SizedBox(height: 20),
               createButton(
                 buttonText: 'Verify',
@@ -369,6 +396,8 @@ late String curr_desig = service.getFromDisk("Current_designation");
                       _fetchedAuthenticator3 = false;
                       authenticator3 = false;
                     }
+
+                  _showSuccessDialog();
                   } else {
                     // No authenticator checked
                     print("Please check at least one authenticator");

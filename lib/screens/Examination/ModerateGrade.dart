@@ -200,6 +200,27 @@ late String curr_desig = service.getFromDisk("Current_designation");
     return null;
   }
 
+      // Method to show dialog box for successful submission
+  void _showSuccessDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Grades Moderated"),
+          content: Text("Grades have been moderated successfully."),
+          actions: <Widget>[
+            TextButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -321,6 +342,7 @@ late String curr_desig = service.getFromDisk("Current_designation");
                       await examinationService
                           .updateGrades(updatedStudentsData);
 
+                      _showSuccessDialog();
                       // Show success message or perform other actions upon successful save
                     } catch (e) {
                       print('Error saving student grades: $e');
