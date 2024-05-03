@@ -9,7 +9,10 @@ import 'package:fusion/screens/Library/Book_Search.dart';
 import 'package:fusion/screens/Library/dues.dart';
 import 'package:fusion/screens/Library/issued_items.dart';
 import 'package:fusion/screens/Library/lib_home_screen.dart';
+import 'package:fusion/screens/LoginandDashboard/DashboardComponents/news.dart';
 import 'package:fusion/screens/LoginandDashboard/dashboard.dart';
+import 'package:fusion/screens/LoginandDashboard/DashboardComponents/notify.dart';
+import 'package:fusion/screens/LoginandDashboard/DashboardComponents/announcement.dart';
 import 'package:fusion/screens/LoginandDashboard/login_page.dart';
 import 'package:fusion/screens/Academic/academic_home_page.dart';
 import 'package:fusion/screens/Academic/Current_Semester/current_semester_home_page.dart';
@@ -42,6 +45,21 @@ import 'package:fusion/screens/Healthcenter/viewschedule.dart';
 import 'package:fusion/screens/Healthcenter/history.dart';
 import 'package:fusion/screens/Healthcenter/HealthCenter.dart';
 import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/screens/FileTracking/fts/fts.dart';
+import 'package:fusion/screens/FileTracking/Create_file/create_file.dart';
+import 'package:fusion/screens/FileTracking/View_drafts/view_drafts.dart';
+import 'package:fusion/screens/FileTracking/View_inbox/view_inbox.dart';
+import 'package:fusion/screens/FileTracking/View_outbox/view_outbox.dart';
+import 'package:fusion/screens/FileTracking/Track_file/track_file.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class UserService {
+  Future<String> getUsername() async {
+    final prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('username');
+    return username ?? '';
+  }
+}
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -57,12 +75,19 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+
+  Future<String> getUsername() async {
+    final userService = UserService();
+    final username = await userService.getUsername();
+    return username;
+  }
+
   @override
   Widget build(BuildContext context) {
     MediaQueryData windowData =
-    MediaQueryData.fromWindow(WidgetsBinding.instance.window);
+    MediaQueryData.fromView(WidgetsBinding.instance.window);
     windowData = windowData.copyWith(
-      textScaleFactor: 1,
+      textScaler: TextScaler.linear(1),
     );
     return MediaQuery(
       data: windowData,
@@ -81,6 +106,9 @@ class MyApp extends StatelessWidget {
         routes: {
           '/landing': (context) => LandingPage(),
           '/login_page': (context) => LoginPage(),
+          '/notification':(context)=>Notify(),
+          '/news':(context)=>News(),
+          '/announcement':(context)=>Announcement(),
           '/dashboard': (context) => Dashboard(),
           '/academic_home_page': (context) => AcademicHomePage(
               ModalRoute.of(context)!.settings.arguments.toString()),
@@ -127,6 +155,12 @@ class MyApp extends StatelessWidget {
           '/health_center/feedback': (context) => FeedBack(),
           '/health_center/viewschedule': (context) => ViewSchedule(),
           '/health_center/history': (context) => History(),
+          '/fts': (context) => RoundedListView(),
+          // '/fts/create_file': (context) => CreateFilePage(), 
+          // '/fts/view_drafts': (context) => DraftsPage(), 
+          // '/fts/view_inbox': (context) => InboxPage(), 
+          // '/fts/view_outbox': (context) => OutboxPage(),
+          // '/fts/tack_file': (context) => FileTrackingPage(),
         },
       ),
     );
