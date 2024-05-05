@@ -5,7 +5,7 @@ import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
 
 class DashboardService {
-  Future<http.Response?> getDashboard() async {
+   getDashboard() async {
     try {
       final storageService = locator<StorageService>();
       final token = storageService.userInDB?.token;
@@ -67,41 +67,6 @@ class DashboardService {
   }
 
 
- getNotification() async {
-    try {
-      print("gett");
-      var storageService = locator<StorageService>();
-      if (storageService.userInDB?.token == null)
-        throw Exception('Token Error');
-
-
-      Map<String, String> headers = {
-        'Authorization': 'Token ' + (storageService.userInDB?.token ?? "")
-      };
-      print("gett2");
-
-      var client = http.Client();
-      http.Response response = await client.get(
-        Uri.http(
-          getLink(),
-          kNotification, // constant dashboard path
-        ),
-        headers: headers,
-      );  
-
-      print("gett3");
-
-      if (response.statusCode == 200) {
-        print("success");
-        print(response);
-        return response;
-      } else {
-        throw Exception('Failed to load notifications');
-      }
-    } catch (e) {
-      rethrow;
-    }
-  }
 
 
 
