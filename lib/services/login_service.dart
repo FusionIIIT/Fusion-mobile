@@ -13,6 +13,8 @@ class LoginService {
         'Content-Type': 'application/json; charset=UTF-8'
       };
 
+      print(data);
+
       var client = http.Client();
       var response = await client.post(
           Uri.http(

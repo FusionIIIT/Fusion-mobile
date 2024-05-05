@@ -13,6 +13,8 @@ class _SideDrawerState extends State<SideDrawer> {
   int count = 0;
   String? name;
   String? depttype;
+  String? usertype;
+
   @override
   void initState() {
     super.initState();
@@ -23,6 +25,8 @@ class _SideDrawerState extends State<SideDrawer> {
     depttype = service.profileData.profile!['department']!['name'] +
         " " +
         service.profileData.profile!['user_type'];
+
+    usertype = service.profileData.profile!['user_type'];
   }
 
   @override
@@ -30,6 +34,7 @@ class _SideDrawerState extends State<SideDrawer> {
     return SafeArea(
       child: Container(
         margin: const EdgeInsets.only(right: 50.0),
+        height: 1000.0,
         color: Colors.black,
         child: ListView(
           shrinkWrap: true,
@@ -70,6 +75,7 @@ class _SideDrawerState extends State<SideDrawer> {
                 ),
               ],
             ),
+
             ModulesCard(cardLine: 'DashBoard', pageMover: '/dashboard'),
             Card(
               color: Colors.black,
@@ -105,22 +111,23 @@ class _SideDrawerState extends State<SideDrawer> {
             ),
             _loading
                 ? Card(
-                    color: Colors.black,
+                    color: Colors.white,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
+
                       children: [
-                        // ModulesPadding(
-                        //     line: 'DashBoard', pageMover: '/dashboard'),
-                        ModulesPadding(
-                          line: 'Academics Module',
-                          pageMover: '/academic_home_page',
-                          isActive: true,
+                        Text(
+                          'Modules',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: Colors.white,
+                          ),
                         ),
-                        ModulesPadding(
-                          line: 'Programme Curriculum',
-                          pageMover: '/programme_curriculum_home',
-                          isActive: true,
+                        Icon(
+                          Icons.arrow_downward,
+                          color: Colors.deepOrangeAccent,
                         ),
+
                         ModulesPadding(
                             line: 'Gymkhana Module',
                             pageMover: '/gymkhana_homepage'),
@@ -132,35 +139,37 @@ class _SideDrawerState extends State<SideDrawer> {
                             pageMover: '/library_homepage'),
                         ModulesPadding(line: 'Awards & Scholarship Module'),
                         ModulesPadding(
-                            line: 'Complaint Module', pageMover: '/complaint'),
+                            line: 'Complaint Module', pageMover: '/complaint', isActive: true,),
                         ModulesPadding(line: 'Central Mess Module'),
                         ModulesPadding(line: 'Feeds Module'),
                         ModulesPadding(
                           line: 'Health Center Module',
                           pageMover: '/health_center',
                         ),
+                        ModulesPadding(
+                    line: 'Central Mess',
+                    pageMover: '/central_mess_home',
+                    isActive: true),
                         ModulesPadding(line: 'Leave Module'),
                         ModulesPadding(line: 'Placement Module'),
                         ModulesPadding(line: 'Visitors Hostel Module'),
                         ModulesPadding(line: 'File Tracking Module'),
+                        ModulesPadding(
+                          line: 'Examination Module',
+                          pageMover: '/examination',
+                          isActive: true,
+                        )
                       ],
                     ),
                   )
                 : SizedBox(
-                    width: 2.0,
-                  ),
+              width: 2.0,
+            ),
+
             ModulesCard(
                 cardLine: 'Profile',
                 icon: Icons.account_circle,
                 pageMover: '/profile'),
-            ModulesCard(cardLine: 'Office Of Dean Students'),
-            ModulesCard(cardLine: 'Office Of Dean Academics'),
-            ModulesCard(cardLine: 'Director Office'),
-            ModulesCard(cardLine: 'Office Of Purchase Officer'),
-            ModulesCard(cardLine: 'Office Of Registrar'),
-            ModulesCard(cardLine: 'Office Of P&D'),
-            ModulesCard(cardLine: 'Office Of HOD (Branch)'),
-            ModulesCard(cardLine: 'Finance & Accounts'),
             ModulesCard(cardLine: 'Meet Our Team'),
             ModulesCard(cardLine: 'Log Out', icon: Icons.logout),
           ],
@@ -192,11 +201,11 @@ class ModulesPadding extends StatelessWidget {
       ),
       onPressed: isActive
           ? () async {
-              var _prefs = await StorageService.getInstance();
-              String token = _prefs!.userInDB?.token ?? "";
-              Navigator.pushReplacementNamed(context, pageMover!,
-                  arguments: token);
-            }
+        var _prefs = await StorageService.getInstance();
+        String token = _prefs!.userInDB?.token ?? "";
+        Navigator.pushReplacementNamed(context, pageMover!,
+            arguments: token);
+      }
           : () {},
     );
   }

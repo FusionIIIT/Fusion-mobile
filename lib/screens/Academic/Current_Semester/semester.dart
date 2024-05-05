@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 class Semester extends StatefulWidget {
-  final data;
-  const Semester({Key? key, this.data}) : super(key: key);
+  // final data;
+  final courseList;
+  const Semester({Key? key, this.courseList}) : super(key: key);
   @override
   _SemesterState createState() => _SemesterState();
 }
@@ -10,7 +11,8 @@ class Semester extends StatefulWidget {
 class _SemesterState extends State<Semester> {
   @override
   Widget build(BuildContext context) {
-    print(widget.data.currently_registered);
+    List<Map<String, dynamic>> courseList = widget.courseList;
+
     return Container(
       child: SingleChildScrollView(
         scrollDirection: Axis.vertical,
@@ -19,45 +21,50 @@ class _SemesterState extends State<Semester> {
             scrollDirection: Axis.horizontal,
             child: DataTable(
               columns: <DataColumn>[
+                // DataColumn(
+                //   label: Text("#"),
+                //   numeric: false,
+                // ),
                 DataColumn(
-                  label: Text("#"),
+                  label: Text("Slot Name"),
                   numeric: false,
                 ),
                 DataColumn(
-                  label: Text("Course ID"),
+                  label: Text("Slot Type"),
                   numeric: false,
                 ),
+                // DataColumn(
+                //   label: Text("Slot Name"),
+                //   numeric: false,
+                // ),
+                // DataColumn(
+                //   label: Text("Slot Type"),
+                //   numeric: false,
+                // ),
                 DataColumn(
                   label: Text("Course Name"),
                   numeric: false,
                 ),
                 DataColumn(
-                  label: Text("Credits"),
+                  label: Text("Course Code"),
                   numeric: false,
                 ),
                 DataColumn(
-                  label: Text("Semester"),
+                  label: Text("Credits"),
                   numeric: false,
                 )
               ],
-              rows: <DataRow>[
-                DataRow(
-                  cells: <DataCell>[
-                    DataCell(Text("")),
-                    DataCell(Text("")),
-                    DataCell(Text("")),
-                    DataCell(Text("")),
-                    DataCell(Text('')),
-                  ],
-                ),
-              ],
+              //
+              rows: courseList.map((data) {
+                return DataRow(cells: [
+                  DataCell(Text(data['slot_name'].toString())),
+                  DataCell(Text(data['slot_type'].toString())),
+                  DataCell(Text(data['course_name'].toString())),
+                  DataCell(Text(data['course_code'].toString())),
+                  DataCell(Text(data['credit'].toString())),
+                ]);
+              }).toList(),
             ),
-          ),
-          Text(
-            "Current CPI - " + ' ' + widget.data.details['cpi'].toString(),
-          ),
-          Text(
-            "Current SPI - " + ' ' + widget.data.details['spi'].toString(),
           ),
         ]),
       ),
