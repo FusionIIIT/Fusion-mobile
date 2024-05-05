@@ -32,10 +32,10 @@ class _DiscTabComponentState extends State<DiscTabComponent> {
           child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
             child: DataTable(
-              // headingRowColor:
-              //     MaterialStateColor.resolveWith((states) => Colors.blue),
-              dataRowHeight: 80.0,
-              columnSpacing: 25.0,
+              headingRowColor: MaterialStateColor.resolveWith(
+                  (states) => Color.fromARGB(221, 224, 226, 227)),
+              dataRowHeight: 45.0,
+              columnSpacing: 15.0,
               columns: tabColumnList(),
               rows: tabRowList(),
               // rows: [],

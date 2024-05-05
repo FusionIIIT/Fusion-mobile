@@ -57,8 +57,8 @@ class _ProgrammeCurriculumHomeState extends State<ProgrammeCurriculumHome> {
               children: [
                 Container(
                   margin: EdgeInsets.only(top: 20.0),
-                  width: 170.0,
-                  height: 170.0,
+                  width: 100.0,
+                  height: 100.0,
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage('assets/unknown.jpg'),
