@@ -169,7 +169,7 @@ class MyApp extends StatelessWidget {
           '/examination/generate_result': (context) => GenerateResult(),
           '/examination/announce_grade': (context) => AnnounceGrade(),
           '/examination/submit_grade':(context)=>SubmitGrade(),
-          '/examination/moderate_grade' : (context)=>ModerateGrade()
+          '/examination/moderate_grade' : (context)=>ModerateGrade(),
           '/central_mess_home': (context) => CentralMessHome(),
           '/central_mess_home/menu':(context)=>MessMenu(),
           '/central_mess_home/feedback':(context)=>FeedbackMenu(),
