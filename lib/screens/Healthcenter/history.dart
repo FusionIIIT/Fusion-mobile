@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../api.dart';
 
 class HealthRecordsPage extends StatefulWidget {
   @override
@@ -37,7 +38,7 @@ class _HealthRecordsPage extends State<HealthRecordsPage> {
 
     try {
       final String token = await getToken();
-      final url = 'http://127.0.0.1:8000/healthcenter/api/student'; 
+      final url = "http://" + kserverLink + "/healthcenter/api/student"; 
       final response = await http.get(
         Uri.parse(url),
         headers: {

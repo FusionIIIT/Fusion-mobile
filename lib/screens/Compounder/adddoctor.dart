@@ -1,8 +1,8 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../api.dart';
 
 void main() {
   runApp(MyApp());
@@ -63,7 +63,7 @@ class _DoctorListScreenState extends State<DoctorListScreen> {
   }
 
   Future<void> _addDoctor(String name, String contactNumber, String specialization, bool isActive) async {
-    final url = "http://127.0.0.1:8000/healthcenter/api/compounder/request"; // Replace with your actual backend URL
+    final url = "http://"+ kserverLink + "/healthcenter/api/compounder/request"; // Replace with your actual backend URL
     final response = await http.post(
       Uri.parse(url),
       body: jsonEncode({
@@ -79,7 +79,7 @@ class _DoctorListScreenState extends State<DoctorListScreen> {
       },
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       // If the server returns a success response, add the doctor locally
       setState(() {
         doctors.add(

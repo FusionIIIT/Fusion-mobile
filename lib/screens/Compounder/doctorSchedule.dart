@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../api.dart';
 
 void main() {
   runApp(MyApp());
@@ -226,7 +227,7 @@ class _DoctorAvailabilityPageState extends State<DoctorAvailabilityPage> {
       doctors.add(newDoctor);
     });
 
-    final String url = 'http://127.0.0.1:8000/healthcenter/api/compounder/request';
+    final String url = "http://"+ kserverLink + "/healthcenter/api/compounder/request";
     final Map<String, dynamic> requestData = {
       'doctorscheduleadd': true,
       'doctor_id': id,
@@ -235,6 +236,7 @@ class _DoctorAvailabilityPageState extends State<DoctorAvailabilityPage> {
       'room': 204,
       'day': dropdownDayValue!,
     };
+
 
     Future<String> getToken() async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -259,7 +261,7 @@ class _DoctorAvailabilityPageState extends State<DoctorAvailabilityPage> {
         },
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         print('Data added successfully');
       } else {
         print('Failed to add data. Error: ${response.reasonPhrase}');
