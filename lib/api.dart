@@ -1,5 +1,4 @@
 //Server and local links
-
 String klocalLink = "172.27.16.214:8000";
 String kserverLink = "172.27.16.214:8000";
 

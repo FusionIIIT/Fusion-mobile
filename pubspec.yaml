@@ -21,6 +21,7 @@ environment:
   sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
+
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.0
@@ -33,7 +34,7 @@ dependencies:
   date_field: ^2.0.0
   datetime_picker_formfield: ^2.0.0
   get_it: ^6.1.0
-  url_launcher: ^6.0.18
+  url_launcher: ^6.0.6
   syncfusion_flutter_pdfviewer: ^19.4.47-beta
   pdf: ^3.7.1
   path_provider: ^2.0.8

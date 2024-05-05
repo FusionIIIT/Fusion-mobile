@@ -170,6 +170,10 @@ class _SideDrawerState extends State<SideDrawer> {
             //     widget.curr_desig == "placement officer")
             //   ModulesCard(cardLine: 'Placement Module'),
 
+
+            if(type != "student")
+            ModulesCard(cardLine: 'File Tracking Module',pageMover: '/fts'),
+
             // ModulesCard(
             //     cardLine: 'Visitors Hostel Module',
             //     pageMover: '/visitor_hostel'),
