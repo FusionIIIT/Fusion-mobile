@@ -7,15 +7,17 @@ import 'package:fusion/models/dashboard.dart';
 import 'package:fusion/services/dashboard_service.dart';
 import 'package:http/http.dart';
 
-class CourseTabComponent extends StatefulWidget {
+class CourseProposalsTabComponent extends StatefulWidget {
   final data;
-  const CourseTabComponent({Key? key, this.data}) : super(key: key);
+  const CourseProposalsTabComponent({Key? key, this.data}) : super(key: key);
 
   @override
-  _CourseTabComponentState createState() => _CourseTabComponentState();
+  _CourseProposalsTabComponentState createState() =>
+      _CourseProposalsTabComponentState();
 }
 
-class _CourseTabComponentState extends State<CourseTabComponent> {
+class _CourseProposalsTabComponentState
+    extends State<CourseProposalsTabComponent> {
   late String name = "";
   late String studentType = "";
   late String userType = "";
@@ -136,8 +138,8 @@ class _CourseTabComponentState extends State<CourseTabComponent> {
               return DataCell(
                 GestureDetector(
                   onTap: () => {
-                    Navigator.pushNamed(
-                        context, '/programme_curriculum_home/courses_info',
+                    Navigator.pushNamed(context,
+                        '/programme_curriculum_home/course_proposals_info',
                         arguments: {'e': e})
                   },
                   child: Container(

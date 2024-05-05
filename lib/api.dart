@@ -107,3 +107,11 @@ String kAcademicProceduresEndTT =
 String kAcademicProceduresHolidaysTT =
     "/static/academic_procedures/List_of_Holidays.pdf";
 String kAcademicProceduresTT = "/static/academic_procedures/";
+
+// programme and curriculumns
+String kugprogrammes = "/programme_curriculum/api/programmes_ug/";
+String kpgprogrammes = "/programme_curriculum/api/programmes_pg/";
+String kphdprogrammes = "/programme_curriculum/api/programmes_phd/";
+String kProgrammeInfo = "/programme_curriculum/api/programme_info/";
+String kCurriculumns = "/programme_curriculum/api/curriculumns/";
+String kAddProgrammes = "/programme_curriculum/api/add_programme/";
