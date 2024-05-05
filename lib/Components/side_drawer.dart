@@ -13,6 +13,8 @@ class _SideDrawerState extends State<SideDrawer> {
   int count = 0;
   String? name;
   String? depttype;
+
+  late String user;
   @override
   void initState() {
     super.initState();
@@ -23,6 +25,7 @@ class _SideDrawerState extends State<SideDrawer> {
     depttype = service.profileData.profile!['department']!['name'] +
         " " +
         service.profileData.profile!['user_type'];
+    user = service.profileData.profile!['user_type'];
   }
 
   @override
@@ -124,6 +127,30 @@ class _SideDrawerState extends State<SideDrawer> {
                         ModulesPadding(
                             line: 'Gymkhana Module',
                             pageMover: '/gymkhana_homepage'),
+
+                        user.toLowerCase().contains("student")
+                            ? ModulesPadding(
+                                line: 'Hostel',
+                                pageMover: '/superadmin/hostel_admin',
+                                // pageMover: '/caretaker/hostel_caretaker',
+                                // pageMover: '/student/hostel_student',
+                                isActive: true,
+                              )
+                            : user.toLowerCase().contains('warden')
+                                ? ModulesPadding(
+                                    line: 'Hostel',
+                                    pageMover: '/warden/hostel_warden',
+                                    isActive: true,
+                                  )
+                                : ModulesPadding(
+                                    line: 'Hostel',
+                                  //  pageMover: '/warden/hostel_warden',
+                                    pageMover: '/caretaker/hostel_caretaker',
+                                    // pageMover: '/student/hostel_student',
+                                    // pageMover:'/superadmin/hostel_admin',
+                                    isActive: true,
+                                  ),
+
                         ModulesPadding(
                             line: 'Establishment Module',
                             pageMover: '/establishment'),
