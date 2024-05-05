@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/side_drawer.dart';
+// import 'package:fusion/Components/side_drawer.dart';
 import 'package:fusion/screens/Programme_Curriculum/Curriculums/tab_curriculum.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
@@ -7,6 +7,9 @@ import 'package:fusion/services/storage_service.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/api.dart';
 import 'package:fusion/constants.dart';
+
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
 
 class Curriculum extends StatefulWidget {
   @override
@@ -69,6 +72,8 @@ class _CurriculumState extends State<Curriculum> {
 
   @override
   Widget build(BuildContext context) {
+    var service = locator<StorageService>();
+    late String curr_desig = service.getFromDisk("Current_designation");
     return FutureBuilder<Object>(
         future: _loadCSV(),
         builder: (context, snapshot) {
@@ -103,42 +108,16 @@ class _CurriculumState extends State<Curriculum> {
           return DefaultTabController(
             length: 1,
             child: Scaffold(
-              appBar: AppBar(
-                backgroundColor: Colors.black,
-                title: Text(
-                  "FUSION",
-                  style: TextStyle(color: Colors.white),
-                ),
-                actions: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Icon(Icons.search),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Icon(Icons.notifications),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Icon(Icons.more_vert),
-                  ),
-                ],
-                bottom: TabBar(
-                  isScrollable: true,
-                  indicatorColor: Colors.white,
-                  indicatorWeight: 6.0,
-                  tabs: [
-                    Tab(
-                      child: Container(
-                        child: Text(
-                          'Working Curriculumns',
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+              appBar: CustomAppBar(
+                curr_desig: curr_desig,
+                headerTitle: "Programme and Curriculum",
+                onDesignationChanged: (newValue) {
+                  setState(() {
+                    curr_desig = newValue;
+                  });
+                },
               ),
-              drawer: SideDrawer(),
+              drawer: SideDrawer(curr_desig: curr_desig),
               body: TabBarView(
                 children: [
                   TabCurriculum(data: data),

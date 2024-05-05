@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
+// import 'package:fusion/Components/appBar.dart';
+// import 'package:fusion/Components/side_drawer.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:fusion/models/profile.dart';
@@ -8,6 +8,12 @@ import 'package:fusion/services/profile_service.dart';
 import 'package:fusion/models/dashboard.dart';
 import 'package:fusion/services/dashboard_service.dart';
 import 'package:http/http.dart';
+
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
+// import 'package:fusion/Components/bottom_navigation_bar.dart';
 
 class ProgrammeCurriculumHome extends StatefulWidget {
   @override
@@ -29,6 +35,8 @@ class _ProgrammeCurriculumHomeState extends State<ProgrammeCurriculumHome> {
   late ProfileData data2;
   // ignore: unused_field
   bool _loading = true;
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
 
   @override
   void initState() {
@@ -104,8 +112,16 @@ class _ProgrammeCurriculumHomeState extends State<ProgrammeCurriculumHome> {
   Widget build(BuildContext context) {
     final data = '';
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
-      drawer: SideDrawer(),
+      appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: "Programme and Curriculum",
+        onDesignationChanged: (newValue) {
+          setState(() {
+            curr_desig = newValue;
+          });
+        },
+      ),
+      drawer: SideDrawer(curr_desig: curr_desig),
       body: ListView(
         shrinkWrap: true,
         physics: ClampingScrollPhysics(),

@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/side_drawer.dart';
+// import 'package:fusion/Components/side_drawer.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
+
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
 
 class Curriculumupdate extends StatefulWidget {
   @override
@@ -65,6 +70,8 @@ class _Curriculumupdate extends State<Curriculumupdate> {
 
   @override
   Widget build(BuildContext context) {
+    var service = locator<StorageService>();
+    late String curr_desig = service.getFromDisk("Current_designation");
     double screenHeight = MediaQuery.of(context).size.height;
     double targetHeight = 0.8 * screenHeight;
     print(
@@ -76,28 +83,16 @@ class _Curriculumupdate extends State<Curriculumupdate> {
     batchController.text = arguments['e'][2].toString();
     numOfSemesterController.text = arguments['e'][3].toString();
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: Text(
-          "FUSION",
-          style: TextStyle(color: Colors.white),
-        ),
-        actions: <Widget>[
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Icon(Icons.search),
-          ),
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Icon(Icons.notifications),
-          ),
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Icon(Icons.more_vert),
-          ),
-        ],
+      appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: "Programme and Curriculum",
+        onDesignationChanged: (newValue) {
+          setState(() {
+            curr_desig = newValue;
+          });
+        },
       ),
-      drawer: SideDrawer(),
+      drawer: SideDrawer(curr_desig: curr_desig),
       body: Container(
         height: targetHeight,
         padding: EdgeInsets.symmetric(vertical: 40, horizontal: 30),
