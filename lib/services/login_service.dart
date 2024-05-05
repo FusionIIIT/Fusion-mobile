@@ -34,7 +34,8 @@ class LoginService {
             .map((dynamic item) => item.toString())
             .toList(),
       );
-      storageService.saveStringToDisk("Current_designation",jsonDecode(response.body)["designations"][0]);
+      storageService.saveStringToDisk(
+          "Current_designation", jsonDecode(response.body)["designations"][0]);
       return true;
     } catch (e) {
       rethrow;

@@ -17,6 +17,7 @@ import 'package:fusion/screens/Complaint/Caretaker/unresolved_complaints.dart';
 import 'package:fusion/screens/Complaint/Caretaker/resolved_complaints.dart';
 import 'package:fusion/screens/Complaint/LodgeComplaint/lodge_complaint.dart';
 import 'package:fusion/screens/Establishment/establishment_home_page.dart';
+import 'package:fusion/screens/HR/HRHomePage.dart';
 import 'package:fusion/screens/Examination/AnnounceGrade.dart';
 import 'package:fusion/screens/Examination/CourseAuthentication.dart';
 import 'package:fusion/screens/Examination/ExaminationHomePage.dart';
@@ -102,6 +103,7 @@ void main() async {
   setupLocator();
   //runApp(MyApp());
   runZonedGuarded(() {
+    WidgetsFlutterBinding.ensureInitialized();
     runApp(MyApp());
   }, (Object error, StackTrace stack) {
     print("---caught error in zoned---\n");
@@ -229,6 +231,7 @@ class MyApp extends StatelessWidget {
           '/health_center/feedback': (context) => FeedBack(),
           '/health_center/viewschedule': (context) => ViewSchedule(),
           '/health_center/history': (context) => History(),
+          '/hr_homepage': (context) => HRHomePage(),
 
           '/examination': (context) => ExaminationHomePage(
               ModalRoute.of(context)!.settings.arguments.toString()),
