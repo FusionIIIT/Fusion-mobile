@@ -11,25 +11,27 @@ import 'package:fusion/api.dart';
 class ViewDraftFilePage extends StatefulWidget {
   final Map<String, dynamic> draftDetails;
   final Function(String) onDelete;
+  final String? selectedDesignation; // Add this line
 
-  const ViewDraftFilePage({Key? key, required this.draftDetails, required this.onDelete}) : super(key: key);
+  const ViewDraftFilePage({Key? key, required this.draftDetails, required this.onDelete, this.selectedDesignation}) : super(key: key); // Modify this line
 
   @override
   _ViewDraftFilePageState createState() => _ViewDraftFilePageState();
 }
 
 class _ViewDraftFilePageState extends State<ViewDraftFilePage> {
-  String receiver = ''; // Receiver username
-  String receiverDesignation = ''; // Receiver designation
+  String receiver = '';
+  String receiverDesignation = '';
   File? _attachedFile;
-  List<String> designations = []; // List to hold designations
-  String? _selectedDesignation; // Variable to hold the selected designation
+  List<String> designations = [];
+  String? _selectedDesignation;
 
   @override
   void initState() {
     super.initState();
     _getDesignations();
   }
+
 
   Future<void> _getDesignations() async {
     try {
@@ -59,84 +61,85 @@ class _ViewDraftFilePageState extends State<ViewDraftFilePage> {
     }
   }
 
-  void _submitForm(BuildContext context, String receiver, String receiverDesignation) async {
-    try {
-      // Validate receiver and receiver designation
-      if (receiver.isEmpty || receiverDesignation.isEmpty) {
-        throw Exception('Receiver username and designation are required.');
-      }
+  void _submitForm(BuildContext context, String receiver, String receiverDesignation, String subject, String description) async {
+  try {
+    // Validate receiver and receiver designation
+    if (receiver.isEmpty || receiverDesignation.isEmpty) {
+      throw Exception('Receiver username and designation are required.');
+    }
 
-      var storageService = locator<StorageService>();
-      if (storageService.userInDB?.token == null) {
-        throw Exception('Token Error');
-      }
+    var storageService = locator<StorageService>();
+    if (storageService.userInDB?.token == null) {
+      throw Exception('Token Error');
+    }
 
-      Map<String, String> headers = {
-        'Authorization': 'Token ${storageService.userInDB?.token ?? ""}',
-        'Content-Type': 'application/json'
-      };
-      var request = http.MultipartRequest(
-        'POST',
-        Uri.http(
-          kserverLink, '/filetracking/api/file/'
+    Map<String, String> headers = {
+      'Authorization': 'Token ${storageService.userInDB?.token ?? ""}',
+      'Content-Type': 'application/json'
+    };
+    var request = http.MultipartRequest(
+      'POST',
+      Uri.http(
+        kserverLink, '/filetracking/api/file/'
+      ),
+    ); 
+
+    request.fields['subject'] = subject;
+    request.fields['designation'] = widget.selectedDesignation!; 
+    request.fields['receiver_username'] = receiver;
+    request.fields['receiver_designation'] = receiverDesignation;
+    request.fields['description'] = description;
+    
+    // Prepare request body
+    if(_attachedFile != null) {
+      var filePart = await http.MultipartFile.fromPath(
+        'file',
+        _attachedFile!.path,
+      );
+      request.files.add(filePart);
+    }
+
+    request.headers['Authorization'] = 'Token ' + (storageService.userInDB?.token ?? "");
+    request.headers['Content-Type'] = 'application/json';
+
+    var response = await http.Response.fromStream(await request.send());
+
+    print(response.statusCode);
+    // Handle response
+    if (response.statusCode == HttpStatus.created) {
+      // Show success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Draft sent successfully to $receiver'),
+          backgroundColor: Colors.green,
         ),
       );
 
-      request.fields['subject'] = widget.draftDetails['subject'].toString();
-      request.fields['designation'] = 'student';
-      request.fields['receiver_username'] = receiver;
-      request.fields['receiver_designation'] = receiverDesignation;
-      request.fields['description'] = widget.draftDetails['description'].toString();
-      
-      // Prepare request body
-      if(_attachedFile != null) {
-        var filePart = await http.MultipartFile.fromPath(
-          'file',
-          _attachedFile!.path,
-        );
-        request.files.add(filePart);
-      }
+      // Delete the current draft
+      widget.onDelete(widget.draftDetails['id'].toString());
 
-      request.headers['Authorization'] = 'Token ' + (storageService.userInDB?.token ?? "");
-      request.headers['Content-Type'] = 'application/json';
-
-      var response = await http.Response.fromStream(await request.send());
-
-      print(response.statusCode);
-      // Handle response
-      if (response.statusCode == HttpStatus.created) {
-        // Show success message
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Draft sent successfully to $receiver'),
-            backgroundColor: Colors.green,
-          ),
-        );
-
-        // Delete the current draft
-        widget.onDelete(widget.draftDetails['id'].toString());
-
-        // Close current page and go back to the previous screen
-        Navigator.pop(context); // Pop out the current page
-      } else {
-        // Show error message with server response
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Failed to send draft: ${response.body}'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
-    } catch (e) {
-      // Show error message
+      // Close current page and go back to the previous screen
+      Navigator.pop(context); // Pop out the current page
+    } else {
+      // Show error message with server response
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Failed to send draft: $e'),
+          content: Text('Failed to send draft: ${response.body}'),
           backgroundColor: Colors.red,
         ),
       );
     }
+  } catch (e) {
+    // Show error message
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Failed to send draft: $e'),
+        backgroundColor: Colors.red,
+      ),
+    );
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -226,6 +229,7 @@ class _ViewDraftFilePageState extends State<ViewDraftFilePage> {
               onChanged: (newValue) {
                 setState(() {
                   _selectedDesignation = newValue;
+                  receiverDesignation = newValue ?? '';
                 });
               },
               items: designations.map((String value) {
@@ -241,7 +245,7 @@ class _ViewDraftFilePageState extends State<ViewDraftFilePage> {
             SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                _submitForm(context, receiver, receiverDesignation);
+                _submitForm(context, receiver, receiverDesignation, widget.draftDetails['file_extra_JSON']['subject'], widget.draftDetails['file_extra_JSON']['description']);
               },
               child: Text('Send'),
             ),

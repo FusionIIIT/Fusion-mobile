@@ -259,6 +259,7 @@ class _DraftsPageState extends State<DraftsPage> {
                                   builder: (context) => ViewDraftFilePage(
                                     draftDetails: jsonData[fileIDsList.indexOf(fileID)],
                                     onDelete: _deleteDraftAndUpdateList,
+                                    selectedDesignation: _selectedDesignation, // Pass selected designation
                                   ),
                                 ),
                               );
