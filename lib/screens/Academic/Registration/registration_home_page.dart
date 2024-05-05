@@ -17,7 +17,7 @@ class _RegistrationHomePageState extends State<RegistrationHomePage> {
     final AcademicData data =
         ModalRoute.of(context)?.settings.arguments as AcademicData;
     return DefaultTabController(
-      length: 3,
+      length: 2,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.black,
@@ -47,13 +47,6 @@ class _RegistrationHomePageState extends State<RegistrationHomePage> {
               Tab(
                 child: Container(
                   child: Text(
-                    'Courses',
-                  ),
-                ),
-              ),
-              Tab(
-                child: Container(
-                  child: Text(
                     'Pre-Registration',
                   ),
                 ),
@@ -64,18 +57,13 @@ class _RegistrationHomePageState extends State<RegistrationHomePage> {
                     'Final Registration',
                   ),
                 ),
-              ),
+              )
             ],
           ),
         ),
         drawer: SideDrawer(),
         body: TabBarView(
-          children: [
-            Courses(data: data.currently_registered),
-            PreRegistration(),
-            FinalRegistration(data: data)
-            // FinalRegistration(data: data)
-          ],
+          children: [PreRegistration(), FinalRegistration()],
         ),
       ),
     );

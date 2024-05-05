@@ -1,4 +1,11 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'package:fusion/models/profile.dart';
+import 'package:fusion/services/profile_service.dart';
+import 'package:fusion/models/dashboard.dart';
+import 'package:fusion/services/dashboard_service.dart';
+import 'package:http/http.dart';
 
 class BatchTabComponent extends StatefulWidget {
   final data;
@@ -9,6 +16,18 @@ class BatchTabComponent extends StatefulWidget {
 }
 
 class _BatchTabComponentState extends State<BatchTabComponent> {
+  late String name = "";
+  late String studentType = "";
+  late String userType = "";
+  // Stream Controller for API
+  late StreamController _dashboardController;
+  late DashboardService dashboardService;
+  late DashboardData data;
+  late StreamController _profileController;
+  late ProfileService profileService;
+  late ProfileData data2;
+  bool _loading = true;
+
   late Map? table;
   late String? column1;
   late String? column2;
@@ -21,6 +40,39 @@ class _BatchTabComponentState extends State<BatchTabComponent> {
     table = widget.data?['table'];
     rows = table?['rows'];
     columns = table?['columns'];
+    _dashboardController = StreamController();
+    dashboardService = DashboardService();
+    _profileController = StreamController();
+    profileService = ProfileService();
+    getData();
+  }
+
+  getData() async {
+    try {
+      Response response = await dashboardService.getDashboard();
+      Response response2 = await profileService.getProfile();
+      setState(() {
+        data = DashboardData.fromJson(jsonDecode(response.body));
+        data2 = ProfileData.fromJson(jsonDecode(response2.body));
+        _loading = false;
+      });
+      name = data2.user!['first_name'] + ' ' + data2.user!['last_name'];
+      studentType = data2.profile!['department']!['name'] +
+          '  ' +
+          data2.profile!['user_type'];
+      userType = data2.profile!['user_type'];
+      print("this is name: $name");
+      print("this is UserType: $userType");
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  loadData() async {
+    getData().then((res) {
+      _dashboardController.add(res);
+      _profileController.add(res);
+    });
   }
 
   @override
@@ -62,6 +114,17 @@ class _BatchTabComponentState extends State<BatchTabComponent> {
         .toList()
         .cast<DataColumn>();
 
+    // Add a column for the button
+    print(userType);
+    if (userType != 'student') {
+      data.add(DataColumn(
+        label: Text(
+          'Update',
+          style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+        ),
+      ));
+    }
+
     return data;
   }
 
@@ -71,24 +134,41 @@ class _BatchTabComponentState extends State<BatchTabComponent> {
     data = rows
         .map(
           (el) {
-            return DataRow(
-              cells: el
-                  .map((e) => DataCell(GestureDetector(
-                        onTap: () => {
-                          // Navigator.pushNamed(context,
-                          //     '/programme_curriculum_home/programme_info',
-                          //     arguments: {'e': e})
-                        },
-                        child: Container(
-                          //SET width
-                          constraints: BoxConstraints(maxWidth: 200),
-                          child: Text(e.toString()),
-                          // width: 100,
-                        ),
-                      )))
-                  .toList()
-                  .cast<DataCell>(),
-            );
+            List<DataCell> cells = el.map<DataCell>((e) {
+              return DataCell(
+                GestureDetector(
+                  onTap: () {
+                    // Action for GestureDetector
+                    print('Data tapped: $e');
+                  },
+                  child: Container(
+                    width: 200,
+                    child: Text(e.toString()),
+                  ),
+                ),
+              );
+            }).toList();
+
+            // Add a button cell at the end of the row
+            if (userType != 'student') {
+              cells.add(DataCell(
+                GestureDetector(
+                  onTap: () {
+                    // Action for button press
+                    print('Button pressed for ${el.join(", ")}');
+                  },
+                  child: Container(
+                    width: 200,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: Text('Update'),
+                    ),
+                  ),
+                ),
+              ));
+            }
+
+            return DataRow(cells: cells);
           },
         )
         .toList()
