@@ -4,6 +4,8 @@ import 'package:fusion/services/storage_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:convert';
+import 'package:fusion/api.dart';
+
 
 class MessageDetailPage extends StatefulWidget {
   final Map<String, dynamic> messageDetails;
@@ -34,8 +36,8 @@ class _MessageDetailPageState extends State<MessageDetailPage> {
         'Content-Type': 'application/json'
       };
 
-      final Uri url = Uri.http('10.0.2.2:8000', '/filetracking/api/file/${widget.messageDetails['id']}');
-      final Uri historyUrl = Uri.http('10.0.2.2:8000', '/filetracking/api/history/${widget.messageDetails['id']}');
+      final Uri url = Uri.http(kserverLink, '/filetracking/api/file/${widget.messageDetails['id']}');
+      final Uri historyUrl = Uri.http(kserverLink, '/filetracking/api/history/${widget.messageDetails['id']}');
       
       final client = http.Client();
       final response = await client.get(url, headers: headers);
@@ -70,7 +72,7 @@ class _MessageDetailPageState extends State<MessageDetailPage> {
   @override
   Widget build(BuildContext context) {
     final bool isUploader = widget.messageDetails['uploader'] == widget.username;
-    final Uri fileUrl = Uri.http('10.0.2.2:8000', filename ?? "");
+    final Uri fileUrl = Uri.http(kserverLink, filename ?? "");
     print(fileUrl);
 
     return Scaffold(

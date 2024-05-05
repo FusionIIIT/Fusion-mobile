@@ -1,5 +1,8 @@
 import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:fusion/api.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
 import 'package:http/http.dart' as http;
@@ -18,6 +21,42 @@ class _ForwardFilePageState extends State<ForwardFilePage> {
   String receiverDesignation = ''; // Receiver designation
   String remarks = ''; // Remarks entered by the user
   bool forwarded = false; // Track if the file has been forwarded
+  List<String> designations = []; // List to hold designations
+  String? _selectedDesignation; // Variable to hold the selected designation
+
+  @override
+  void initState() {
+    super.initState();
+    _getDesignations();
+  }
+
+  Future<void> _getDesignations() async {
+    try {
+      var storageService = locator<StorageService>();
+      if (storageService.userInDB?.token == null) {
+        throw Exception('Token Error');
+      }
+      var response = await http.get(
+        Uri.http(kserverLink, '/filetracking/api/designations/$receiver/'),
+        headers: {
+          'Authorization': 'Token ${storageService.userInDB?.token}',
+          'Content-Type': 'application/json'
+        },
+      );
+
+      if (response.statusCode == HttpStatus.ok) {
+        var data = jsonDecode(response.body);
+        setState(() {
+          designations = List<String>.from(data['designations']);
+          _selectedDesignation = designations.isNotEmpty ? designations.first : null;
+        });
+      } else {
+        throw Exception('Failed to load designations');
+      }
+    } catch (e) {
+      print('An error occurred while fetching designations: $e');
+    }
+  }
 
   Future<void> forwardFile({
     required String receiver,
@@ -46,7 +85,7 @@ class _ForwardFilePageState extends State<ForwardFilePage> {
 
       final client = http.Client();
       final response = await client.post(
-        Uri.http('10.0.2.2:8000', '/filetracking/api/forwardfile/$file_id/'),
+        Uri.http(kserverLink, '/filetracking/api/forwardfile/$file_id/'),
         headers: headers,
         body: data,
       );
@@ -143,19 +182,30 @@ class _ForwardFilePageState extends State<ForwardFilePage> {
                 border: OutlineInputBorder(),
               ),
               onChanged: (value) {
-                receiver = value;
+                setState(() {
+                  receiver = value;
+                  _getDesignations(); // Call _getDesignations() when receiver changes
+                });
               },
             ),
             SizedBox(height: 16),
-            TextField(
-              enabled: !forwarded, // Disable text field if file has been forwarded
+            // Receiver Designation dropdown
+            DropdownButtonFormField<String>(
+              value: _selectedDesignation,
+              onChanged: (newValue) {
+                setState(() {
+                  _selectedDesignation = newValue;
+                });
+              },
+              items: designations.map((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
               decoration: InputDecoration(
                 labelText: 'Receiver Designation',
-                border: OutlineInputBorder(),
               ),
-              onChanged: (value) {
-                receiverDesignation = value;
-              },
             ),
             SizedBox(height: 16),
             ElevatedButton(
@@ -163,7 +213,7 @@ class _ForwardFilePageState extends State<ForwardFilePage> {
                   ? () {
                       forwardFile(
                         receiver: receiver,
-                        receiverDesignation: receiverDesignation,
+                        receiverDesignation: _selectedDesignation ?? '',
                         remarks: remarks,
                         context: context,
                       );

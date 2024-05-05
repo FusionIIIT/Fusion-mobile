@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fusion/api.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
 import 'package:http/http.dart' as http;
@@ -31,8 +32,8 @@ class _MessageDetailPageState extends State<MessageDetailPage> {
         'Content-Type': 'application/json'
       };
 
-      final Uri url = Uri.http('10.0.2.2:8000', '/filetracking/api/file/${widget.messageDetails['id']}');
-      final Uri historyUrl = Uri.http('10.0.2.2:8000', '/filetracking/api/history/${widget.messageDetails['id']}');
+      final Uri url = Uri.http(kserverLink, '/filetracking/api/file/${widget.messageDetails['id']}');
+      final Uri historyUrl = Uri.http(kserverLink, '/filetracking/api/history/${widget.messageDetails['id']}');
       
       final client = http.Client();
       final response = await client.get(url, headers: headers);

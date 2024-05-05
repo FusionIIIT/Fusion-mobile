@@ -1,9 +1,19 @@
-import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:fusion/api.dart';
+import 'package:fusion/screens/Complaint/complaint.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 import '../View_File/view_archive.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
+
 
 class ArchivePage extends StatefulWidget {
   final String username;
@@ -14,14 +24,17 @@ class ArchivePage extends StatefulWidget {
 }
 
 class _ArchivePageState extends State<ArchivePage> {
-  final _designationController = TextEditingController();
+  final TextEditingController _designationController = TextEditingController();
+  late var curr_desig=service.getFromDisk("Current_designation");
   List<String> fileIDsList = [];
   List<dynamic> jsonData = [];
   String? errorMessage;
+  String? _selectedDesignation; // Variable to hold the selected designation
+  List<String> designations = []; // List to hold designations
 
   Future<void> _submitForm() async {
     try {
-      if (_designationController.text.isEmpty == true) {
+      if (_selectedDesignation == null || _selectedDesignation!.isEmpty) {
         throw Exception('Designation required.');
       }
 
@@ -37,11 +50,11 @@ class _ArchivePageState extends State<ArchivePage> {
 
       final queryParams = {
         'username': widget.username,
-        'designation': _designationController.text,
+        'designation': _selectedDesignation ?? "",
         'src_module': 'filetracking',
       };
 
-      final Uri url = Uri.http('10.0.2.2:8000', '/filetracking/api/archive/', queryParams);
+      final Uri url = Uri.http(kserverLink, '/filetracking/api/archive/', queryParams);
 
       final client = http.Client();
 
@@ -56,7 +69,7 @@ class _ArchivePageState extends State<ArchivePage> {
           errorMessage=null;
         });
       } else {
-        print('Error fetching outbox data: ${response.statusCode}');
+        print('Error fetching archive data: ${response.statusCode}');
         setState(() {
           errorMessage = 'Invalid designation';
         });
@@ -66,12 +79,56 @@ class _ArchivePageState extends State<ArchivePage> {
     }
   }
 
+  Future<void> _getDesignations() async {
+    try {
+      var storageService = locator<StorageService>();
+      if (storageService.userInDB?.token == null) {
+        throw Exception('Token Error');
+      }
+
+      var response = await http.get(
+        Uri.http(kserverLink, '/filetracking/api/designations/${widget.username}/'),
+        headers: {
+          'Authorization': 'Token ${storageService.userInDB?.token}',
+          'Content-Type': 'application/json'
+        },
+      );
+
+      if (response.statusCode == HttpStatus.ok) {
+        var data = jsonDecode(response.body);
+        setState(() {
+          designations = List<String>.from(data['designations']);
+          _selectedDesignation = designations.isNotEmpty ? designations.first : null;
+        });
+      } else {
+        throw Exception('Failed to load designations');
+      }
+    } catch (e) {
+      print('An error occurred while fetching designations: $e');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getDesignations(); // Fetch designations on init
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Archive Page'),
-      ),
+      appBar: CustomAppBar(
+    	curr_desig: curr_desig,
+    	headerTitle: "Archived",
+    	onDesignationChanged: (newValue) {
+      	setState(() {
+        	curr_desig = newValue;
+      	});
+    	},
+  	), // This is default app bar used in all modules
+  	drawer: SideDrawer(curr_desig: curr_desig),
+  	bottomNavigationBar:
+  	MyBottomNavigationBar(),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16.0),
         child: Column(
@@ -79,8 +136,20 @@ class _ArchivePageState extends State<ArchivePage> {
             Divider(thickness: 1.0, color: Colors.grey[300]),
             Column(
               children: [
-                TextField(
-                  controller: _designationController,
+                // Designation dropdown
+                DropdownButtonFormField<String>(
+                  value: _selectedDesignation,
+                  onChanged: (newValue) {
+                    setState(() {
+                      _selectedDesignation = newValue;
+                    });
+                  },
+                  items: designations.map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
                   decoration: InputDecoration(
                     labelText: 'View As',
                   ),
@@ -118,7 +187,10 @@ class _ArchivePageState extends State<ArchivePage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => MessageDetailPage(messageDetails: jsonData[fileIDsList.indexOf(fileID)], username: '',),
+                                  builder: (context) => MessageDetailPage(
+                                    messageDetails: jsonData[fileIDsList.indexOf(fileID)],
+                                    username: widget.username,
+                                  ),
                                 ),
                               );
                             },

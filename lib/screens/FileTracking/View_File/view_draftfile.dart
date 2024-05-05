@@ -6,6 +6,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
 import 'package:http/http.dart' as http;
+import 'package:fusion/api.dart';
 
 class ViewDraftFilePage extends StatefulWidget {
   final Map<String, dynamic> draftDetails;
@@ -21,86 +22,121 @@ class _ViewDraftFilePageState extends State<ViewDraftFilePage> {
   String receiver = ''; // Receiver username
   String receiverDesignation = ''; // Receiver designation
   File? _attachedFile;
+  List<String> designations = []; // List to hold designations
+  String? _selectedDesignation; // Variable to hold the selected designation
+
+  @override
+  void initState() {
+    super.initState();
+    _getDesignations();
+  }
+
+  Future<void> _getDesignations() async {
+    try {
+      var storageService = locator<StorageService>();
+      if (storageService.userInDB?.token == null) {
+        throw Exception('Token Error');
+      }
+      var response = await http.get(
+        Uri.http(kserverLink, '/filetracking/api/designations/$receiver/'),
+        headers: {
+          'Authorization': 'Token ${storageService.userInDB?.token}',
+          'Content-Type': 'application/json'
+        },
+      );
+
+      if (response.statusCode == HttpStatus.ok) {
+        var data = jsonDecode(response.body);
+        setState(() {
+          designations = List<String>.from(data['designations']);
+          _selectedDesignation = designations.isNotEmpty ? designations.first : null;
+        });
+      } else {
+        throw Exception('Failed to load designations');
+      }
+    } catch (e) {
+      print('An error occurred while fetching designations: $e');
+    }
+  }
 
   void _submitForm(BuildContext context, String receiver, String receiverDesignation) async {
-  try {
-    // Validate receiver and receiver designation
-    if (receiver.isEmpty || receiverDesignation.isEmpty) {
-      throw Exception('Receiver username and designation are required.');
-    }
+    try {
+      // Validate receiver and receiver designation
+      if (receiver.isEmpty || receiverDesignation.isEmpty) {
+        throw Exception('Receiver username and designation are required.');
+      }
 
-    var storageService = locator<StorageService>();
-     if (storageService.userInDB?.token == null) {
-      throw Exception('Token Error');
-    }
+      var storageService = locator<StorageService>();
+      if (storageService.userInDB?.token == null) {
+        throw Exception('Token Error');
+      }
 
-    Map<String, String> headers = {
-      'Authorization': 'Token ${storageService.userInDB?.token ?? ""}',
-      'Content-Type': 'application/json'
-    };
-    var request = http.MultipartRequest(
-      'POST',
-      Uri.http(
-        '10.0.2.2:8000', '/filetracking/api/file/'
-      ),
-    );
-
-    request.fields['subject'] = widget.draftDetails['subject'].toString();
-    request.fields['designation'] = 'student';
-    request.fields['receiver_username'] = receiver;
-    request.fields['receiver_designation'] = receiverDesignation;
-    request.fields['description'] = widget.draftDetails['description'].toString();
-    
-    // Prepare request body
-    if(_attachedFile != null) {
-      var filePart = await http.MultipartFile.fromPath(
-        'file',
-        _attachedFile!.path,
-      );
-      request.files.add(filePart);
-    }
-
-    request.headers['Authorization'] = 'Token ' + (storageService.userInDB?.token ?? "");
-    request.headers['Content-Type'] = 'application/json';
-
-    var response = await http.Response.fromStream(await request.send());
-
-    print(response.statusCode);
-    // Handle response
-    if (response.statusCode == HttpStatus.created) {
-      // Show success message
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Draft sent successfully to $receiver'),
-          backgroundColor: Colors.green,
+      Map<String, String> headers = {
+        'Authorization': 'Token ${storageService.userInDB?.token ?? ""}',
+        'Content-Type': 'application/json'
+      };
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.http(
+          kserverLink, '/filetracking/api/file/'
         ),
       );
 
-      // Delete the current draft
-      widget.onDelete(widget.draftDetails['id'].toString());
+      request.fields['subject'] = widget.draftDetails['subject'].toString();
+      request.fields['designation'] = 'student';
+      request.fields['receiver_username'] = receiver;
+      request.fields['receiver_designation'] = receiverDesignation;
+      request.fields['description'] = widget.draftDetails['description'].toString();
+      
+      // Prepare request body
+      if(_attachedFile != null) {
+        var filePart = await http.MultipartFile.fromPath(
+          'file',
+          _attachedFile!.path,
+        );
+        request.files.add(filePart);
+      }
 
-      // Close current page and go back to the previous screen
-      Navigator.pop(context); // Pop out the current page
-    } else {
-      // Show error message with server response
+      request.headers['Authorization'] = 'Token ' + (storageService.userInDB?.token ?? "");
+      request.headers['Content-Type'] = 'application/json';
+
+      var response = await http.Response.fromStream(await request.send());
+
+      print(response.statusCode);
+      // Handle response
+      if (response.statusCode == HttpStatus.created) {
+        // Show success message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Draft sent successfully to $receiver'),
+            backgroundColor: Colors.green,
+          ),
+        );
+
+        // Delete the current draft
+        widget.onDelete(widget.draftDetails['id'].toString());
+
+        // Close current page and go back to the previous screen
+        Navigator.pop(context); // Pop out the current page
+      } else {
+        // Show error message with server response
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to send draft: ${response.body}'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } catch (e) {
+      // Show error message
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Failed to send draft: ${response.body}'),
+          content: Text('Failed to send draft: $e'),
           backgroundColor: Colors.red,
         ),
       );
     }
-  } catch (e) {
-    // Show error message
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Failed to send draft: $e'),
-        backgroundColor: Colors.red,
-      ),
-    );
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -139,7 +175,7 @@ class _ViewDraftFilePageState extends State<ViewDraftFilePage> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              subtitle: Text(widget.draftDetails['subject'] ?? 'No subject available'),
+              subtitle: Text(widget.draftDetails['file_extra_JSON']['subject'] ?? 'No subject available'),
             ),
             ListTile(
               title: Text(
@@ -148,7 +184,7 @@ class _ViewDraftFilePageState extends State<ViewDraftFilePage> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              subtitle: Text(widget.draftDetails['description'] ?? 'No description available'),
+              subtitle: Text(widget.draftDetails['file_extra_JSON']['description'] ?? 'No description available'),
             ),
             SizedBox(height: 16),
             ElevatedButton(
@@ -179,20 +215,28 @@ class _ViewDraftFilePageState extends State<ViewDraftFilePage> {
               onChanged: (value) {
                 setState(() {
                   receiver = value;
+                  _getDesignations(); // Call _getDesignations() when receiver changes
                 });
               },
             ),
             SizedBox(height: 16),
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Receiver Designation',
-                border: OutlineInputBorder(),
-              ),
-              onChanged: (value) {
+            // Receiver Designation dropdown
+            DropdownButtonFormField<String>(
+              value: _selectedDesignation,
+              onChanged: (newValue) {
                 setState(() {
-                  receiverDesignation = value;
+                  _selectedDesignation = newValue;
                 });
               },
+              items: designations.map((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+              decoration: InputDecoration(
+                labelText: 'Receiver Designation',
+              ),
             ),
             SizedBox(height: 16),
             ElevatedButton(

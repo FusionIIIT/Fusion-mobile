@@ -157,7 +157,7 @@ class _SideDrawerState extends State<SideDrawer> {
             ModulesCard(cardLine: 'Visitors Hostel Module',pageMover: '/visitor_hostel'),
 
             if(type != "student")
-            ModulesCard(cardLine: 'File Tracking Module',pageMover: '/compose_file'),
+            ModulesCard(cardLine: 'File Tracking Module',pageMover: '/fts'),
 
             ModulesCard(
                 cardLine: 'Establishment Module', pageMover: '/establishment'),
