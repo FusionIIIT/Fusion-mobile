@@ -15,11 +15,33 @@ String kProfile = "/api/profile/";
 //Academic Procedures
 String kAcademicProcedures = "/academic-procedures/api/stu/";
 
+//Central Mess
+String kCentralMess = "172.27.16.214:8000";
+String kFeedbackEndpoint = "/mess/api/feedbackApi";
+String kMenuEndpoint = "/mess/api/menuApi";
+String kMessBillBase = "/mess/api/messBillBaseApi";
+String kMonthlyBillEndpoint = "/mess/api/monthlyBillApi";
+String kMonthlyPaymentEndpoint = "/mess/api/paymentsApi";
+String kRebateEndpoint = "/mess/api/rebateApi";
+String kSpecialRequestEndpoint = "/mess/api/specialRequestApi";
+String kVacationFoodRequestEndpoint = "/mess/api/vacationFoodApi";
+String kMessInfoEndpoint = "/mess/api/messInfoApi";
+String kRegistrationRequestEndpoint = "/mess/api/registrationRequestApi";
+String kDeregistrationRequestEndpoint = "/mess/api/deRegistrationRequestApi";
+String kRegMainEndpoint = "/mess/api/get_mess_students";
+String kStudentAllDetails = "/mess/api/get_student_all_details";
+String kStudentRegRecords = "/mess/api/get_reg_records";
+String kDeregistrationEndpoint = "/mess/api/deRegistrationApi";
+String kUpdatePaymentRequestEndpoint = "/mess/api/updatePaymentApi";
+
 //Complaint
 String kComplaintService = "/complaint/api/studentcomplain";
 String kComplaintNew = "/complaint/api/newcomplain";
 String kComplaintUpdate = "complaint/api/updatecomplain/";
 String kComplaintRemove = "/complaint/api/removecomplain/";
+String kViewCaretaker = "/complaint/api/caretakers/";
+String kViewSupervisor = "/complaint/api/supervisors/";
+String kForward = "/complaint/api/forward/";
 
 //Dashboard
 String kDashboard = "/api/dashboard/";

@@ -135,13 +135,17 @@ class _SideDrawerState extends State<SideDrawer> {
                             pageMover: '/library_homepage'),
                         ModulesPadding(line: 'Awards & Scholarship Module'),
                         ModulesPadding(
-                            line: 'Complaint Module', pageMover: '/complaint'),
+                            line: 'Complaint Module', pageMover: '/complaint', isActive: true,),
                         ModulesPadding(line: 'Central Mess Module'),
                         ModulesPadding(line: 'Feeds Module'),
                         ModulesPadding(
                           line: 'Health Center Module',
                           pageMover: '/health_center',
                         ),
+                        ModulesPadding(
+                    line: 'Central Mess',
+                    pageMover: '/central_mess_home',
+                    isActive: true),
                         ModulesPadding(line: 'Leave Module'),
                         ModulesPadding(line: 'Placement Module'),
                         ModulesPadding(line: 'Visitors Hostel Module'),
@@ -156,8 +160,8 @@ class _SideDrawerState extends State<SideDrawer> {
                     ),
                   )
                 : SizedBox(
-                    width: 2.0,
-                  ),
+              width: 2.0,
+            ),
             ModulesCard(
                 cardLine: 'Profile',
                 icon: Icons.account_circle,
@@ -201,11 +205,11 @@ class ModulesPadding extends StatelessWidget {
       ),
       onPressed: isActive
           ? () async {
-              var _prefs = await StorageService.getInstance();
-              String token = _prefs!.userInDB?.token ?? "";
-              Navigator.pushReplacementNamed(context, pageMover!,
-                  arguments: token);
-            }
+        var _prefs = await StorageService.getInstance();
+        String token = _prefs!.userInDB?.token ?? "";
+        Navigator.pushReplacementNamed(context, pageMover!,
+            arguments: token);
+      }
           : () {},
     );
   }
