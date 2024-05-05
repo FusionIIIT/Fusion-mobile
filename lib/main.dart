@@ -9,10 +9,20 @@ import 'package:fusion/screens/Academic/Acad_Admin/acadmin_home_page.dart';
 import 'package:fusion/screens/Academic/Registration/pre_registration.dart';
 import 'package:fusion/screens/Academic/Registration/final_registration.dart';
 import 'package:fusion/screens/Academic/Faculty/faculty_home_page.dart';
+import 'package:fusion/screens/Complaint/Caretaker/view_caretaker.dart';
 import 'package:fusion/screens/Complaint/ComplaintHistory/complain_history.dart';
 import 'package:fusion/screens/Complaint/Feedback/feedback.dart';
+import 'package:fusion/screens/Complaint/Caretaker/unresolved_complaints.dart';
+import 'package:fusion/screens/Complaint/Caretaker/resolved_complaints.dart';
 import 'package:fusion/screens/Complaint/LodgeComplaint/lodge_complaint.dart';
 import 'package:fusion/screens/Establishment/establishment_home_page.dart';
+import 'package:fusion/screens/Examination/AnnounceGrade.dart';
+import 'package:fusion/screens/Examination/CourseAuthentication.dart';
+import 'package:fusion/screens/Examination/ExaminationHomePage.dart';
+import 'package:fusion/screens/Examination/GenerateResult.dart';
+import 'package:fusion/screens/Examination/ModerateGrade.dart';
+import 'package:fusion/screens/Examination/SubmitGrade.dart';
+import 'package:fusion/screens/Examination/VerifyResult.dart';
 import 'package:fusion/screens/Library/Book_Search.dart';
 import 'package:fusion/screens/Library/dues.dart';
 import 'package:fusion/screens/Library/issued_items.dart';
@@ -60,6 +70,18 @@ import 'package:fusion/screens/Academic/Acad_Admin/course_list.dart';
 import 'package:fusion/screens/Academic/Acad_Admin/academic_calendar.dart';
 import 'package:fusion/screens/Academic/Acad_Admin/generate_student_list.dart';
 import 'package:fusion/screens/Academic/Faculty/view_assigned_courses.dart';
+import 'package:fusion/screens/Central_Mess/central_mess_home.dart';
+import 'package:fusion/screens/Central_Mess/MessMenu/mess_menu_home.dart';
+import 'package:fusion/screens/Central_Mess/Feedback/feedback_menu.dart';
+import 'package:fusion/screens/Central_Mess/Rebate/rebate_homepage.dart';
+import 'package:fusion/screens/Central_Mess/MessBill/mess_bill_home.dart';
+// import 'package:fusion/screens/Central_Mess/Announcement/announcement.dart';
+import 'package:fusion/screens/Central_Mess/RequestSpecialFood/special_food_home.dart';
+import 'package:fusion/screens/Central_Mess/RegistrationDeregistration/reg_dereg_homepage.dart';
+import 'package:fusion/screens/Central_Mess/RegistrationDeregistration/manage_registration_homepage.dart';
+import 'package:fusion/screens/Central_Mess/Rebate/respondToRebateRequest.dart';
+import 'package:fusion/screens/Central_Mess/VacationFood/vacation_food_home.dart';
+import 'package:fusion/screens/Central_Mess/Payments/payments_home.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -85,7 +107,6 @@ class MyApp extends StatelessWidget {
     return MediaQuery(
       data: windowData,
       child: MaterialApp(
-        useInheritedMediaQuery: true,
         title: 'Fusion',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
@@ -161,6 +182,9 @@ class MyApp extends StatelessWidget {
           '/complaint/lodge_complaint': (context) => LodgeComplaint(
               ModalRoute.of(context)!.settings.arguments.toString()),
           '/complaint/complaint_history': (context) => ComplainHistory(),
+          '/complaint/caretaker/unresolved_complaints': (context) => UnresolvedComplaints(),
+          '/complaint/caretaker/resolved_complaints': (context) => ResolvedComplaints(),
+          '/complaint/caretaker/view_caretaker': (context) => ViewCaretaker(),
           '/complaint/feedback': (context) => ComplaintFeedBack(),
           '/profile': (context) => Profile(),
           '/health_center': (context) => HealthCenterMod(
@@ -169,6 +193,32 @@ class MyApp extends StatelessWidget {
           '/health_center/feedback': (context) => FeedBack(),
           '/health_center/viewschedule': (context) => ViewSchedule(),
           '/health_center/history': (context) => History(),
+
+          '/examination': (context) => ExaminationHomePage(
+              ModalRoute.of(context)!.settings.arguments.toString()),
+          '/examination/verify_result': (context) => VerifyResult(),
+          '/examination/generate_result': (context) => GenerateResult(),
+          '/examination/announce_grade': (context) => AnnounceGrade(),
+          '/examination': (context) => ExaminationHomePage(
+              ModalRoute.of(context)!.settings.arguments.toString()),
+          '/examination/course_authentication': (context) => CourseAuthentication(),
+          '/examination/generate_result': (context) => GenerateResult(),
+          '/examination/announce_grade': (context) => AnnounceGrade(),
+          '/examination/submit_grade':(context)=>SubmitGrade(),
+          '/examination/moderate_grade' : (context)=>ModerateGrade(),
+          '/central_mess_home': (context) => CentralMessHome(),
+          '/central_mess_home/menu':(context)=>MessMenu(),
+          '/central_mess_home/feedback':(context)=>FeedbackMenu(),
+          '/central_mess_home/rebate':(context)=>RebateMenu(),
+          '/central_mess_home/messBill':(context)=>ManageBill(),
+          // '/central_mess_home/announcement':(context)=>Announcement(),
+          '/central_mess_home/reqSpecialFood':(context)=>SpecialFood(),
+          '/central_mess_home/registration' : (context)=>RegDeReg(),
+          '/central_mess_home/manageRegistration' : (context)=>ManageRegDeRegHomepage(),
+          '/central_mess_home/rebateRequest': (context)=>RespondToRebateRequest(),
+          '/central_mess_home/vacationFood' : (context)=>VacationFoodHome(),
+          '/central_mess_home/updatePayment' : (context)=>UpdatePaymentHome(),
+
         },
       ),
     );

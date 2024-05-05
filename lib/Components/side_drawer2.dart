@@ -101,11 +101,13 @@ class _SideDrawerState extends State<SideDrawer> {
             ),
             ModulesCard(cardLine: 'DashBoard', pageMover: '/dashboard'),
 
-            if ((type =="student" ||  widget.curr_desig== "corelabcaretaker"))
+
+            if ((type != "staff" || widget.curr_desig=="acadmin"||  widget.curr_desig== "corelabcaretaker"))
               ModulesCard(
                 cardLine: 'Academics Module',
                 pageMover: '/academic_home_page',
               ),
+
 
             if((type == "staff" || widget.curr_desig=="acadadmin"))
               ModulesCard(
@@ -118,6 +120,7 @@ class _SideDrawerState extends State<SideDrawer> {
                 cardLine: 'Academic Module',
                 pageMover: '/academic_home_page/faculty',
             ),  
+
 
             if ((type == "student" || widget.curr_desig=="acadmin"))
               ModulesCard(

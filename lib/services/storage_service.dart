@@ -26,7 +26,9 @@ class StorageService with ChangeNotifier {
   }
 
   AcademicData get academicData {
+
     var acadJson = getFromDisk(AcadKey);
+    var profileJson = getFromDisk(ProfileKey);
     // print(jsonDecode(profileJson));
     return AcademicData.fromJson(jsonDecode(acadJson));
   }
