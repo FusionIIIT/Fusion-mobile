@@ -105,7 +105,7 @@ class _SideDrawerState extends State<SideDrawer> {
             ),
             _loading
                 ? Card(
-                    color: Colors.black,
+                    color: Colors.white,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -143,6 +143,11 @@ class _SideDrawerState extends State<SideDrawer> {
                         ModulesPadding(line: 'Placement Module'),
                         ModulesPadding(line: 'Visitors Hostel Module'),
                         ModulesPadding(line: 'File Tracking Module'),
+                        ModulesPadding(
+                          line: 'Examination Module',
+                          pageMover: '/examination',
+                          isActive: true,
+                        )
                       ],
                     ),
                   )
