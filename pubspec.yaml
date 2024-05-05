@@ -39,6 +39,7 @@ dependencies:
   path_provider: ^2.0.8
   open_file: ^3.2.1
   flutter_html: ^2.2.1
+  file_picker: ^4.0.0
 
 
 
@@ -68,6 +69,7 @@ flutter:
     - assets/mypic.jpg
     - assets/unknown.jpg
     - assets/profile_pic.png
+    - assets/iiitdmj_logo.jpg
     - db/
 
   # An image asset can refer to one or more resolution-specific "variants", see
