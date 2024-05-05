@@ -53,6 +53,27 @@ const kGymkhanaMemberRecords = '/api/gymkhana/members_record';
 //HealthCentre
 String kHealthCentreStudent = "/healthcenter/api/student";
 
+
+//Examination
+
+
+
+
+String kRegisteredStudentDetails = "/examination/api/registered_student_details";
+String kUpdateAuthenticator = "/examination/api/update_authenticator/";
+String kCheckAllAuthenticators = "/examination/api/check_all_authenticators/";
+String kCourseDetails = "/examination/api/get_course_names/";
+String kUpdateGradesEndpoint = "/examination/api/update_grades/";
+String kRegisteredStudentDetailsAndRollNo = "/examination/api/get_registered_students_roll_no/";
+String kGenerateTranscriptForm = "/examination/api/generate_transcript_form/";
+String kGenerateTranscript = "/examination/api/generate_transcript/"; 
+String kAnnounce = "/examination/api/announce/";
+String kGradesForCourseEndpoint = "/examination/api/getGrade";
+String kSubmitGrade ="/examination/api/submit_grades/";
+String kGetAuthStatus ="/examination/api/get_auth_status/";
+
+//  generate_transcript_form    generate_transcript   
+
 //------------Screens------------
 
 //screens/Academic/Current_Semester
