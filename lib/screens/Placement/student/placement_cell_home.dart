@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/side_drawer.dart';
+// import 'package:fusion/Components/side_drawer.dart';
 import 'package:fusion/models/placement.dart';
 import 'package:fusion/services/placement_service.dart';
 import 'package:fusion/constants.dart';
@@ -7,6 +7,12 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
 
 class PlacementHomePage extends StatefulWidget {
   final String? token;
@@ -18,17 +24,13 @@ class PlacementHomePage extends StatefulWidget {
 }
 
 class _PlacementHomePageState extends State<PlacementHomePage> {
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
+
   bool _loading1 = true;
   late StreamController _placementController;
   late PlacementService placementService;
   late List<PlacementRecord> list;
-
-  // String _value = 'Placement Schedule';
-  // var _currentSelectedValue;
-  // var _placementTypes = [
-  //   "PlacementType1",
-  //   "PlacementType2",
-  // ];
 
   @override
   void initState() {
@@ -101,8 +103,19 @@ class _PlacementHomePageState extends State<PlacementHomePage> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: kPrimaryColor, title: Text('Fusion')),
-      drawer: SideDrawer(),
+      appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: "Placement Cell Home",
+        onDesignationChanged: (newValue) {
+          setState(() {
+            curr_desig = newValue;
+          });
+
+        },
+      ), // This is default app bar used in all modules
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar:
+      MyBottomNavigationBar(),
       body: Center(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Container(

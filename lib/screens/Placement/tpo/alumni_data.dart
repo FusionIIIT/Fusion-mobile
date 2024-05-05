@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/constants.dart';
 import 'package:fusion/screens/Placement/tpo/tpo_sidebar.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/services/storage_service.dart';
+import 'package:fusion/services/service_locator.dart';
 
 class AlumniData extends StatefulWidget {
   @override
@@ -15,23 +18,28 @@ class Student {
 }
 
 class AlumniDataState extends State<AlumniData> {
-  //String _value = 'Alumni Data';
-  // var _currentSelectedValue;
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
 
   String tab1 = 'Placement';
-
   String tab2 = 'PBI';
-
   String tab3 = 'Higher Studies';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title:const Text('Alumni Data'),
-        backgroundColor: kPrimaryColor,
-        foregroundColor: Colors.white,
-      ),
+      appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: "Alumni Data",
+        onDesignationChanged: (newValue) {
+          setState(() {
+            curr_desig = newValue;
+          });
+
+        },
+      ), // This is default app bar used in all modules
+      bottomNavigationBar:
+      MyBottomNavigationBar(),
       drawer: Sidebar(),
       body: DefaultTabController(
         length: 3,

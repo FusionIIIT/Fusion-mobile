@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
-import 'resume_model.dart';
+import 'class.dart';
 import 'package:fusion/screens/Placement/student/create_resume/resumeMakerPage.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/services/storage_service.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
 
 class ResumeLandingPage extends StatefulWidget {
   @override
@@ -8,15 +13,27 @@ class ResumeLandingPage extends StatefulWidget {
 }
 
 class _ResumeLandingPageState extends State<ResumeLandingPage> {
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
+
   List<Resume> savedResumes = []; // Initial empty list of saved resumes
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Saved Resumes'),
-        backgroundColor: Colors.deepOrangeAccent,
-      ),
+      appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: "Saved Resumes",
+        onDesignationChanged: (newValue) {
+          setState(() {
+            curr_desig = newValue;
+          });
+
+        },
+      ), // This is default app bar used in all modules
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar:
+      MyBottomNavigationBar(),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

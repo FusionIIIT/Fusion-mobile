@@ -2,8 +2,11 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:fusion/screens/Placement/tpo/placement_charts.dart';
-import 'package:fusion/constants.dart';
 import 'package:fusion/screens/Placement/tpo/tpo_sidebar.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
+import 'package:fusion/Components/appBar2.dart';
 
 class PlacementStatistics extends StatefulWidget {
   @override
@@ -11,16 +14,25 @@ class PlacementStatistics extends StatefulWidget {
 }
 
 class _PlacementStatisticsState extends State<PlacementStatistics> {
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
   int _graphValue = 2011;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Placement Statistics'),
-        backgroundColor: kPrimaryColor,
-        foregroundColor: Colors.white,
-      ),
+      appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: "Alumni Data",
+        onDesignationChanged: (newValue) {
+          setState(() {
+            curr_desig = newValue;
+          });
+
+        },
+      ), // This is default app bar used in all modules
+      bottomNavigationBar:
+      MyBottomNavigationBar(),
       drawer: Sidebar(),
       body: Column(
         children: [

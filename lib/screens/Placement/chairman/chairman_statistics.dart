@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/constants.dart';
-import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
 import 'dart:math';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
 import 'package:fusion/screens/Placement/tpo/placement_charts.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
 
 class Statistics extends StatefulWidget {
   @override
@@ -14,17 +14,26 @@ class Statistics extends StatefulWidget {
 }
 
 class _PlacementStatisticsState extends State<Statistics> {
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
   int _graphValue = 2011;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Placement Statistics'),
-        backgroundColor: kPrimaryColor,
-        foregroundColor: Colors.white,
-      ),
-      drawer: SideDrawer(),
+      appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: "Statistics",
+        onDesignationChanged: (newValue) {
+          setState(() {
+            curr_desig = newValue;
+          });
+
+        },
+      ), // This is default app bar used in all modules
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar:
+      MyBottomNavigationBar(),
       body: Column(
         children: [
           Row(

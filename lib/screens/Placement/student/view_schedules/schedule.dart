@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:fusion/Components/side_drawer.dart';
-import 'package:fusion/constants.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/services/storage_service.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
 
 
 class SchedulesPage extends StatefulWidget {
@@ -12,7 +15,10 @@ class SchedulesPage extends StatefulWidget {
 }
 
 class _SchedulesPageState extends State<SchedulesPage> {
-    BoxDecoration myBoxDecoration() {
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
+
+  BoxDecoration myBoxDecoration() {
     return BoxDecoration(
         border: new Border.all(
           color: Colors.deepOrangeAccent,
@@ -45,9 +51,19 @@ class _SchedulesPageState extends State<SchedulesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Schedules'),
-      ),
+      appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: "Schedules",
+        onDesignationChanged: (newValue) {
+          setState(() {
+            curr_desig = newValue;
+          });
+
+        },
+      ), // This is default app bar used in all modules
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar:
+      MyBottomNavigationBar(),
       body: ScheduleList(),
     );
   }

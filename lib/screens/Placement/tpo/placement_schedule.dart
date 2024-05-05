@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/constants.dart';
 import 'package:fusion/screens/Placement/tpo/tpo_sidebar.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/services/storage_service.dart';
+import 'package:fusion/services/service_locator.dart';
 
 class PlacementSchedule extends StatefulWidget {
   @override
@@ -57,6 +60,9 @@ class NotesProvider {
 }
 
 class _PlacementScheduleState extends State<PlacementSchedule> {
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
+
   final _notesProvider = NotesProvider();
   final _titleController = TextEditingController();
   final _contentController = TextEditingController();
@@ -65,11 +71,18 @@ class _PlacementScheduleState extends State<PlacementSchedule> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Placement Schedule'),
-        backgroundColor: kPrimaryColor,
-        foregroundColor: Colors.white,
-      ),
+      appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: "Placement Schedule",
+        onDesignationChanged: (newValue) {
+          setState(() {
+            curr_desig = newValue;
+          });
+
+        },
+      ), // This is default app bar used in all modules
+      bottomNavigationBar:
+      MyBottomNavigationBar(),
       drawer:Sidebar(),
       body: ListView.builder(
         itemCount: _notesProvider.notes.length,

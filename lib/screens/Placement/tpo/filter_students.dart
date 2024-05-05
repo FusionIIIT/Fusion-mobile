@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/constants.dart';
 import 'package:fusion/screens/Placement/tpo/tpo_sidebar.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/services/storage_service.dart';
+import 'package:fusion/services/service_locator.dart';
 
 class Student {
   final String name;
@@ -74,6 +77,9 @@ class FilterStudents extends StatefulWidget {
 }
 
 class _FilterStudentsState extends State<FilterStudents> {
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
+
   double minCpi = 7.0;
   String selectedGender = "All";
   String selectedBranch = "All";
@@ -100,11 +106,18 @@ class _FilterStudentsState extends State<FilterStudents> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Filter Students"),
-        backgroundColor: kPrimaryColor,
-        foregroundColor: Colors.white,
-      ),
+      appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: "Filter Students",
+        onDesignationChanged: (newValue) {
+          setState(() {
+            curr_desig = newValue;
+          });
+
+        },
+      ), // This is default app bar used in all modules
+      bottomNavigationBar:
+      MyBottomNavigationBar(),
       drawer: Sidebar(),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(20.0),

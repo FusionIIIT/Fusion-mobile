@@ -1,15 +1,13 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:path_provider/path_provider.dart';
-import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'resume_model.dart';
-import 'package:fusion/Components/side_drawer.dart';
-import 'package:fusion/constants.dart';
-import 'package:syncfusion_flutter_pdf/pdf.dart';
-import 'resumeMakerPage.dart';
-import 'package:fusion/screens/Placement/student/create_resume/template1Page.dart';
+import 'class.dart';
+import 'package:fusion/screens/Placement/student/create_resume/support.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/services/storage_service.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
 
 class ResumeMakerPage extends StatefulWidget {
   @override
@@ -17,6 +15,9 @@ class ResumeMakerPage extends StatefulWidget {
 }
 
 class _ResumeMakerPageState extends State<ResumeMakerPage> {
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
+
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _cpiController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -70,10 +71,19 @@ class _ResumeMakerPageState extends State<ResumeMakerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Add Information'),
-        backgroundColor: Colors.deepOrangeAccent,
-      ),
+      appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: "Add Information",
+        onDesignationChanged: (newValue) {
+          setState(() {
+            curr_desig = newValue;
+          });
+
+        },
+      ), // This is default app bar used in all modules
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar:
+      MyBottomNavigationBar(),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(16.0),

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:fusion/constants.dart';
 import 'package:fusion/screens/Placement/tpo/tpo_sidebar.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/services/storage_service.dart';
+import 'package:fusion/services/service_locator.dart';
 
 class AddCompany extends StatefulWidget {
   @override
@@ -9,6 +12,9 @@ class AddCompany extends StatefulWidget {
 }
 
 class _AddCompanyState extends State<AddCompany> {
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
+
   final _formKey = GlobalKey<FormState>();
   String _companyName = "";
   String _placementType = "";
@@ -72,11 +78,19 @@ class _AddCompanyState extends State<AddCompany> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Company Details'),
-        backgroundColor: kPrimaryColor,
-        foregroundColor: Colors.white,
-      ),
+      appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: "Add Company Details",
+        onDesignationChanged: (newValue) {
+          setState(() {
+            curr_desig = newValue;
+          }
+          );
+
+        },
+      ), // This is default app bar used in all modules
+      bottomNavigationBar:
+      MyBottomNavigationBar(),
       drawer: Sidebar(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
