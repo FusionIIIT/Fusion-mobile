@@ -124,206 +124,79 @@ class _DashboardState extends State<Dashboard> {
       ), // This is default app bar used in all modules
       drawer: SideDrawer(curr_desig: curr_desig),
       bottomNavigationBar:
-          MyBottomNavigationBar(), // This is sideDrawer used in all modules
+      MyBottomNavigationBar(), // This is sideDrawer used in all modules
       body: Column(
         children: [
           Expanded(
             child: _loading == true
                 ? Center(child: CircularProgressIndicator())
                 : StreamBuilder(
-                    stream: _dashboardController.stream,
-                    builder: (context, AsyncSnapshot snapshot) {
-                      return ListView(
-                        shrinkWrap: true,
-                        physics: ClampingScrollPhysics(),
+              stream: _dashboardController.stream,
+              builder: (context, AsyncSnapshot snapshot) {
+                return ListView(
+                  shrinkWrap: true,
+                  physics: ClampingScrollPhysics(),
+                  children: [
+                    Card(
+                      elevation: 2.0,
+                      margin: EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 30.0),
+                      // shadowColor: Colors.black,
+                      color: Colors.white,
+
+                      child: Column(
                         children: [
-                          Card(
-                            elevation: 2.0,
-                            margin: EdgeInsets.symmetric(
-                                horizontal: 20.0, vertical: 30.0),
-                            // shadowColor: Colors.black,
-                            color: Colors.white,
-
-                            child: Column(
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(top: 20.0),
-                                  width: 170.0,
-                                  height: 190.0,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image:
-                                          AssetImage('assets/profile_pic.png'),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 10.0,
-                                ),
-                                Text(
-                                  name, //Display name of User
-                                  style: TextStyle(
-                                      fontSize: 20.0,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                SizedBox(
-                                  height: 10.0,
-                                ),
-                                Text(
-                                  studentType +
-                                      " " +
-                                      curr_desig, // Display Type of User
-                                  style: TextStyle(
-                                      fontSize: 17.0,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                SizedBox(
-                                  height: 10.0,
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          Card(
-                            margin: EdgeInsets.symmetric(
-                                horizontal: 20.0, vertical: 10.0),
-                            color: Colors.deepOrangeAccent,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  50.0), // Set the border radius here
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 10.0,
-                                  bottom: 10.0,
-                                  left: 13.0,
-                                  right: 10.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment
-                                    .spaceEvenly, // Align the children along the main axis with space between them
-                                crossAxisAlignment: CrossAxisAlignment
-                                    .center, // Align the children along the cross axis (vertically by default)
-                                // mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      _notificationsBool = true;
-                                      _announcementsBool = false;
-                                      _newsBool = false;
-                                      setState(() {
-                                        _notificationsBool = true;
-                                        _announcementsBool = false;
-                                        _newsBool = false;
-                                      });
-                                      Navigator.pushReplacementNamed(
-                                          context, "/profile");
-                                    },
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Icon(
-                                          Icons.account_circle,
-                                          color: Colors.white,
-                                          size: 30.0,
-                                        ),
-                                        SizedBox(width: 40.0),
-                                        Text(
-                                          'Professsional Profile',
-                                          style: TextStyle(
-                                            fontSize: 20.0,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        SizedBox(width: 40.0),
-                                        Icon(
-                                          Icons.arrow_forward_ios_rounded,
-                                          color: Colors.white,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
+                          Container(
+                            margin: EdgeInsets.only(top: 20.0),
+                            width: 170.0,
+                            height: 190.0,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image:
+                                AssetImage('assets/profile_pic.png'),
+                                fit: BoxFit.cover,
                               ),
                             ),
                           ),
-
-                          if (!isStudent)
-                            Card(
-                              margin: EdgeInsets.symmetric(
-                                  horizontal: 20.0, vertical: 10.0),
-                              color: Colors.deepOrangeAccent,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    50.0), // Set the border radius here
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 10.0,
-                                    bottom: 10.0,
-                                    left: 13.0,
-                                    right: 10.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        _notificationsBool = true;
-                                        _announcementsBool = false;
-                                        _newsBool = false;
-                                        setState(() {
-                                          _notificationsBool = true;
-                                          _announcementsBool = false;
-                                          _newsBool = false;
-                                        });
-                                      },
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment
-                                            .spaceEvenly, // Align the children along the main axis with space between them
-                                        crossAxisAlignment: CrossAxisAlignment
-                                            .center, // Align the children along the cross axis (vertically by default)
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: [
-                                          Icon(
-                                            Icons.notifications_active_rounded,
-                                            color: Colors.white,
-                                          ),
-                                          SizedBox(width: 40.0),
-                                          Text(
-                                            'Admistrative Profile',
-                                            style: TextStyle(
-                                              fontSize: 20.0,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          SizedBox(width: 40.0),
-                                          Icon(
-                                            Icons.arrow_forward_ios_rounded,
-                                            color: Colors.white,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-
-                          // _notificationsBool
-                          //     ? NotificationCard(
-                          //         notifications: data.notifications,
-                          //       )
-                          //     : NewsCard(),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          Text(
+                            name, //Display name of User
+                            style: TextStyle(
+                                fontSize: 20.0,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          Text(
+                            studentType +
+                                " " +
+                                curr_desig, // Display Type of User
+                            style: TextStyle(
+                                fontSize: 17.0,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: 10.0,
+                          ),
                         ],
-                      );
-                    },
-                  ),
+                      ),
+                    ),
+
+
+                    // _notificationsBool
+                    //     ? NotificationCard(
+                    //         notifications: data.notifications,
+                    //       )
+                    //     : NewsCard(),
+                  ],
+                );
+              },
+            ),
           ),
           // Place the BottomNavigationBar here
         ],

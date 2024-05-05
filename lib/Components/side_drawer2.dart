@@ -105,9 +105,7 @@ class _SideDrawerState extends State<SideDrawer> {
 
 
 
-            if ((type != "staff" ||
-                widget.curr_desig == "acadmin" ||
-                widget.curr_desig == "corelabcaretaker"))
+            if ((type=="student"))
               ModulesCard(
                 cardLine: 'Academics Module',
                 pageMover: '/academic_home_page',
@@ -115,116 +113,122 @@ class _SideDrawerState extends State<SideDrawer> {
 
 
 
-            if((type == "staff" || widget.curr_desig=="acadadmin"))
+            if((widget.curr_desig=="acadadmin"))
               ModulesCard(
                 cardLine: 'Academic Module',
                 pageMover: '/academic_home_page/acadmin',
-            ),  
+              ),
 
-            if((type == "faculty" || widget.curr_desig=="Professor"))
+            if((type == "faculty"))
               ModulesCard(
                 cardLine: 'Academic Module',
                 pageMover: '/academic_home_page/faculty',
-            ),  
+              ),
 
 
-            if ((type == "student" || widget.curr_desig=="acadmin"))
+            if (type == "student" || "Professor" == widget.curr_desig || "Dean Academic" == widget.curr_desig || "acadadmin" == widget.curr_desig || "Assistant Professor" == widget.curr_desig || "HOD (CSE)" == widget.curr_desig || "HOD (ECE)" == widget.curr_desig || "HOD (ME)" == widget.curr_desig || "HOD (NS)" == widget.curr_desig || "HOD (Design)" == widget.curr_desig || "HOD (Liberal Arts)" == widget.curr_desig)
               ModulesCard(
                 cardLine: 'Programme Curriculum',
                 pageMover: '/programme_curriculum_home',
               ),
 
 
-            if ((type == "student") ||
-                widget.curr_desig == "Dean_s" ||
-                widget.curr_desig == "DeanPnD" ||
-                widget.curr_desig == "dean_rspc" ||
-                widget.curr_desig == "dean_s")
-              ModulesCard(
-                cardLine: 'Gymkhana Module',
-                pageMover: '/gymkhana_homepage',
-              ),
+            // if ((type == "student") ||
+            //     widget.curr_desig == "Dean_s" ||
+            //     widget.curr_desig == "DeanPnD" ||
+            //     widget.curr_desig == "dean_rspc" ||
+            //     widget.curr_desig == "dean_s")
+            //   ModulesCard(
+            //     cardLine: 'Gymkhana Module',
+            //     pageMover: '/gymkhana_homepage',
+            //   ),
 
-            if ((type == "student" ||
-                widget.curr_desig == "mess_manager" ||
-                widget.curr_desig == "mess_warden"))
+            if (type == "student" || "mess_manager" == widget.curr_desig || "mess_warden" == widget.curr_desig)
               ModulesCard(
                   cardLine: 'Central Mess Module',
                   pageMover: '/central_mess_home'),
 
 
-            ModulesCard(
-              cardLine: 'Health Center Module',
-              pageMover: '/health_center',
-            ),
-            if ((type == "student")) ModulesCard(cardLine: 'Leave Module'),
+            // ModulesCard(
+            //   cardLine: 'Health Center Module',
+            //   pageMover: '/health_center',
+            // ),
 
-            if ((type == "student"))
-              ModulesCard(cardLine: 'Purchase and Store'),
 
-            if ((type == "student"))
+            // if ((type == "student")) ModulesCard(cardLine: 'Leave Module'),
+
+            // if ((type == "student"))
+            //   ModulesCard(cardLine: 'Purchase and Store'),
+
+            if ((type != "student"))
               ModulesCard(
                   cardLine: 'Human Resource', pageMover: '/hr_homepage'),
 
-            if (type == "student" ||
-                widget.curr_desig == "placement chairman" ||
-                widget.curr_desig == "placement officer")
-              ModulesCard(cardLine: 'Placement Module'),
 
-            ModulesCard(
-                cardLine: 'Visitors Hostel Module',
-                pageMover: '/visitor_hostel'),
+            // if (type == "student" ||
+            //     widget.curr_desig == "placement chairman" ||
+            //     widget.curr_desig == "placement officer")
+            //   ModulesCard(cardLine: 'Placement Module'),
+
 
             if(type != "student")
             ModulesCard(cardLine: 'File Tracking Module',pageMover: '/fts'),
 
-            ModulesCard(
-                cardLine: 'Establishment Module', pageMover: '/establishment'),
+            // ModulesCard(
+            //     cardLine: 'Visitors Hostel Module',
+            //     pageMover: '/visitor_hostel'),
 
-            ModulesCard(
-                cardLine: 'Library Module', pageMover: '/library_homepage'),
+            // if (type != "student")
+            //   ModulesCard(
+            //       cardLine: 'File Tracking Module', pageMover: '/compose_file'),
+
+            // ModulesCard(
+            //     cardLine: 'Establishment Module', pageMover: '/establishment'),
+
+            // ModulesCard(
+            //     cardLine: 'Library Module', pageMover: '/library_homepage'),
 
 
-            if (type == "student" ||
-                widget.curr_desig == "spacsconvenor" ||
-                widget.curr_desig == "spacsassistant")
-              ModulesCard(cardLine: 'Awards & Scholarship Module'),
+            // if (type == "student" ||
+            //     widget.curr_desig == "spacsconvenor" ||
+            //     widget.curr_desig == "spacsassistant")
+            //   ModulesCard(cardLine: 'Awards & Scholarship Module'),
 
             ModulesCard(cardLine: 'Complaint Module', pageMover: '/complaint'),
 
-            ModulesCard(cardLine: 'Research Module'),
+            // ModulesCard(cardLine: 'Research Module'),
 
-            ModulesCard(cardLine: 'Counselling Cell'),
+            // ModulesCard(cardLine: 'Counselling Cell'),
 
 
-            if ((type == "faculty" || widget.curr_desig == "acadadmin"))
+            if ((widget.curr_desig == "acadadmin"))
               ModulesCard(
                 cardLine: 'Examination Module',
                 pageMover: '/examination',
               ),
 
-            if ((widget.curr_desig == "Executive Engineer (Civil)" ||
-                widget.curr_desig == "EE" ||
-                widget.curr_desig == "Admin IWD" ||
-                widget.curr_desig == "Electrical_AE" ||
-                widget.curr_desig == "mess_manager" ||
-                widget.curr_desig == "Electrical_JE" ||
-                widget.curr_desig == "Civil_AE" ||
-                widget.curr_desig == "Civil_JE" ||
-                widget.curr_desig == "Director" ||
-                widget.curr_desig == "dean_s" ||
-                widget.curr_desig == "Dean_s" ||
-                widget.curr_desig == "DeanPnD"))
-              ModulesCard(cardLine: 'IWD', pageMover: '/iwd/home_page'),
+            // if ((widget.curr_desig == "Executive Engineer (Civil)" ||
+            //     widget.curr_desig == "EE" ||
+            //     widget.curr_desig == "Admin IWD" ||
+            //     widget.curr_desig == "Electrical_AE" ||
+            //     widget.curr_desig == "mess_manager" ||
+            //     widget.curr_desig == "Electrical_JE" ||
+            //     widget.curr_desig == "Civil_AE" ||
+            //     widget.curr_desig == "Civil_JE" ||
+            //     widget.curr_desig == "Director" ||
+            //     widget.curr_desig == "dean_s" ||
+            //     widget.curr_desig == "Dean_s" ||
+            //     widget.curr_desig == "DeanPnD"))
+            //   ModulesCard(cardLine: 'IWD', pageMover: '/iwd/home_page'),
 
-            ModulesCard(
-              cardLine: 'Courses Module',
-              pageMover: '/registered_courses',
-            ),
-            ModulesCard(
-              cardLine: 'HR Module',
-              pageMover: '/hr_homepage',
-            ),
+            // ModulesCard(
+            //   cardLine: 'Courses Module',
+            //   pageMover: '/registered_courses',
+            // ),
+            // ModulesCard(
+            //   cardLine: 'HR Module',
+            //   pageMover: '/hr_homepage',
+            // ),
 
             // ModulesCard(
             //     cardLine: 'Profile',
@@ -311,3 +315,4 @@ class ModulesCard extends StatelessWidget {
 
 }
 
+  
