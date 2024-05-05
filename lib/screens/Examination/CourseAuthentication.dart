@@ -321,15 +321,7 @@ late String curr_desig = service.getFromDisk("Current_designation");
 
               SizedBox(height: 20),
 
-              // Add checkboxes for authenticators
-               SizedBox(height: 20),
-               Container(
-                 padding: EdgeInsets.symmetric(horizontal: 16),
-                 child: isVerified
-                     ? Text("Result is verified")
-                     : Text("Result is not yet verified"),
-               ),
-               SizedBox(height: 20),
+              
 
               CheckboxListTile(
                 title: Text('Authenticator 1'),
