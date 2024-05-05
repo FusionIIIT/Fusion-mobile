@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
-// import 'package:fusion/Components/appBar.dart';
-import 'package:flutter/services.dart' show rootBundle;
-import 'package:fusion/Components/side_drawer.dart';
-// import 'package:fusion/models/academic.dart';
-import 'package:csv/csv.dart';
+// import 'package:fusion/Components/side_drawer.dart';
 import 'package:fusion/screens/Programme_Curriculum/Programme_Info/InfoTabComponent.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
+import 'package:fusion/services/storage_service.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/api.dart';
+import 'package:fusion/constants.dart';
+
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
 
 class ProgrammeInfo extends StatefulWidget {
   @override
@@ -12,70 +17,112 @@ class ProgrammeInfo extends StatefulWidget {
 }
 
 class _ProgrammeInfoState extends State<ProgrammeInfo> {
-  // List<List<dynamic>> _ugProgrammes = [];
-  // List<List<dynamic>> _pgProgrammes = [];
-  // List<List<dynamic>> _phdProgrammes = [];
   List<List<dynamic>> _selectProgrammes = [];
   List<List<dynamic>> _curriculum = [];
   List<dynamic> _filteredList = [];
   int index = -1;
+  List<List<dynamic>> _listALL_api = [];
+  List<List<dynamic>> _listCurr_api = [
+    ['Name', 'Version', 'Batch', 'No of Semesters']
+  ];
   Future<int> _loadCSV() async {
-    // final _underGraduate = await rootBundle.loadString("db/UG_programmes.csv");
-    // List<List<dynamic>> _listUG =
-    //     const CsvToListConverter().convert(_underGraduate);
-    // final _postGraduate = await rootBundle.loadString("db/PG_Programmes.csv");
-    // List<List<dynamic>> _listPG =
-    //     const CsvToListConverter().convert(_postGraduate);
-    // final _phdGraduate = await rootBundle.loadString("db/PHD_Programmes.csv");
-    // List<List<dynamic>> _listPHD =
-    //     const CsvToListConverter().convert(_phdGraduate);
+    var storageService = locator<StorageService>();
+    if (storageService.userInDB?.token == null) throw Exception('Token Error');
 
-    final _allGraduate = await rootBundle.loadString("db/ALL_Programmes.csv");
-    List<List<dynamic>> _listALL =
-        const CsvToListConverter().convert(_allGraduate);
+    Map<String, String> headers = {
+      'Authorization': 'Token ' + (storageService.userInDB?.token ?? "")
+    };
 
-    final _workingCurriculum =
-        await rootBundle.loadString("db/Working_Curriculum1.csv");
-    List<List<dynamic>> _listCurr =
-        const CsvToListConverter().convert(_workingCurriculum);
+    var client = http.Client();
 
-    _curriculum = _listCurr;
-    // _ugProgrammes = _listUG;
-    // _pgProgrammes = _listPG;
-    // _phdProgrammes = _listPHD;
-    _selectProgrammes = _listALL;
+    final http.Response response_all_grad = await client.get(
+      Uri.http(getLink(), kProgrammeInfo),
+      headers: headers,
+    );
+
+    if (response_all_grad.statusCode == 200) {
+      List<dynamic> data = convert.jsonDecode(response_all_grad.body);
+      _listALL_api = [
+        ['Programme Category', 'Programme Name', 'Programme Begin Year'],
+        ...data
+            .map((item) =>
+                [item['category'], item['name'], item['programme_begin_year']])
+            .toList(),
+      ];
+    } else {
+      throw Exception('Failed to load data from API');
+    }
+
+    // print(_listALL_api);
+    final http.Response response_all_curr = await client.get(
+      Uri.http(getLink(), kCurriculumns),
+      headers: headers,
+    );
+
+    if (response_all_curr.statusCode == 200) {
+      List<dynamic> data1 = convert.jsonDecode(response_all_curr.body);
+
+      for (var data in data1) {
+        for (var data_in in data) {
+          List<dynamic> temp = [
+            data_in['name'],
+            data_in['version'],
+            data_in['batch'],
+            data_in['no_of_semester']
+          ];
+          _listCurr_api.add(temp);
+          // print(data_in['name']);
+        }
+      }
+    } else {
+      throw Exception('Failed to load data from API');
+    }
+
+    // print(_listCurr_api);
+
+    _curriculum = _listCurr_api;
+
+    _selectProgrammes = _listALL_api;
+
     return 1;
   }
 
   @override
   void initState() {
-    // TODO: implement initState
+    super.initState();
     _loadCSV();
   }
 
   @override
   Widget build(BuildContext context) {
-    // final AcademicData data =
-    //     ModalRoute.of(context)?.settings.arguments as AcademicData;
+    var service = locator<StorageService>();
+    late String curr_desig = service.getFromDisk("Current_designation");
     final arguments = (ModalRoute.of(context)?.settings.arguments ??
         <String, dynamic>{}) as Map;
+    print(arguments);
     return FutureBuilder(
         future: _loadCSV(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) return Scaffold();
+          if (snapshot.connectionState == ConnectionState.waiting)
+            return Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
 
           var dat = _selectProgrammes
               .skip(1)
               .map((e) => e.skip(1).take(1).toString())
               .toList();
 
-          print(dat.toString() + " dat");
+          // print(dat.toString() + " dat");
           for (var i = 0; i < dat.length; i++) {
             if (dat[i].replaceAll("(", "").replaceAll(")", "") ==
                 arguments['e']) {
               index = i;
             }
           }
+          print(dat.toString() + " dat");
 
           final info_data = {
             "table": <dynamic, dynamic>{
@@ -93,6 +140,8 @@ class _ProgrammeInfoState extends State<ProgrammeInfo> {
               ].map((e) => e)
             }
           };
+
+          print(_selectProgrammes);
           var dat_curriculum = _curriculum
               .skip(1)
               .map((e) => e.skip(2).take(1).toString())
@@ -104,7 +153,13 @@ class _ProgrammeInfoState extends State<ProgrammeInfo> {
             var temp =
                 dat_curriculum[i].replaceAll("(", "").replaceAll(")", "");
 
-            if (temp.contains(arguments['e'].toString())) {
+            String eString = arguments['e'].toString();
+            String firstTwoLetters = eString.substring(0, 3);
+            String lastTwoLetters = eString.substring(eString.length - 2);
+            print(firstTwoLetters);
+
+            if (temp.contains(firstTwoLetters) &&
+                temp.contains(lastTwoLetters)) {
               _filteredList.add(_curriculum[i + 1]);
             }
           }
@@ -118,56 +173,16 @@ class _ProgrammeInfoState extends State<ProgrammeInfo> {
           return DefaultTabController(
             length: 2,
             child: Scaffold(
-              appBar: AppBar(
-                backgroundColor: Colors.black,
-                title: Text(
-                  "FUSION",
-                  style: TextStyle(color: Colors.white),
-                ),
-                actions: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Icon(Icons.search),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Icon(Icons.notifications),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Icon(Icons.more_vert),
-                  ),
-                ],
-                bottom: TabBar(
-                  isScrollable: true,
-                  indicatorColor: Colors.white,
-                  indicatorWeight: 6.0,
-                  tabs: [
-                    Tab(
-                      child: Container(
-                        child: Text(
-                          arguments['e'].toString() + " Info",
-                        ),
-                      ),
-                    ),
-                    Tab(
-                      child: Container(
-                        child: Text(
-                          'Working Curriculums',
-                        ),
-                      ),
-                    ),
-                    // Tab(
-                    //   child: Container(
-                    //     child: Text(
-                    //       'Obsolete Curriculums',
-                    //     ),
-                    //   ),
-                    // ),
-                  ],
-                ),
+              appBar: CustomAppBar(
+                curr_desig: curr_desig,
+                headerTitle: "Programme and Curriculum",
+                onDesignationChanged: (newValue) {
+                  setState(() {
+                    curr_desig = newValue;
+                  });
+                },
               ),
-              drawer: SideDrawer(),
+              drawer: SideDrawer(curr_desig: curr_desig),
               body: TabBarView(
                 children: [
                   InfoTabComponent(data: info_data),

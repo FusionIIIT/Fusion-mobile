@@ -26,6 +26,7 @@ class _NotifyState extends State<Notify> {
   bool _loading = true;
   late String name;
   late String studentType;
+
   late StreamController _dashboardController;
   late DashboardService dashboardService;
   late DashboardData data;
@@ -67,6 +68,7 @@ class _NotifyState extends State<Notify> {
       print(e);
     }
   }
+
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -146,10 +148,12 @@ class _NotifyState extends State<Notify> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: CustomAppBar(
         curr_desig: curr_desig,
         headerTitle: "Notifications",
+
         onDesignationChanged: (newValue) {
           setState(() {
             curr_desig = newValue;
@@ -243,6 +247,7 @@ class _NotifyState extends State<Notify> {
           },
         ),
       ),
+
     );
   }
 
@@ -252,3 +257,4 @@ class _NotifyState extends State<Notify> {
     super.dispose();
   }
 }
+

@@ -35,14 +35,18 @@ class DashboardService {
 
   Future<http.Response?> getNotification() async {
     try {
+
       final storageService = locator<StorageService>();
       final token = storageService.userInDB?.token;
       if (token == null) {
+
         throw Exception('Token Error');
       }
 
+
       final headers = {'Authorization': 'Token $token'};
       final response = await http.get(
+
         Uri.http(
           getLink(),
           kNotification,
@@ -52,6 +56,44 @@ class DashboardService {
 
       if (response.statusCode == 200) {
         print("Notifications loaded successfully");
+        print("success");
+        print(response);
+        return response;
+      }
+      throw Exception('Can\'t load');
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+
+ getNotification() async {
+    try {
+      print("gett");
+      var storageService = locator<StorageService>();
+      if (storageService.userInDB?.token == null)
+        throw Exception('Token Error');
+
+
+      Map<String, String> headers = {
+        'Authorization': 'Token ' + (storageService.userInDB?.token ?? "")
+      };
+      print("gett2");
+
+      var client = http.Client();
+      http.Response response = await client.get(
+        Uri.http(
+          getLink(),
+          kNotification, // constant dashboard path
+        ),
+        headers: headers,
+      );  
+
+      print("gett3");
+
+      if (response.statusCode == 200) {
+        print("success");
+        print(response);
         return response;
       } else {
         throw Exception('Failed to load notifications');
@@ -104,8 +146,10 @@ class DashboardService {
         throw Exception('Token Error');
       }
 
+
       final headers = {'Authorization': 'Token $token'};
       final response = await http.delete(
+
         Uri.http(
           getLink(),
           kNotificationDelete,

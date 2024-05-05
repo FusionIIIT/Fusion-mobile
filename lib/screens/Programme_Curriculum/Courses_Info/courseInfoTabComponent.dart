@@ -1,4 +1,11 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'package:fusion/models/profile.dart';
+import 'package:fusion/services/profile_service.dart';
+import 'package:fusion/models/dashboard.dart';
+import 'package:fusion/services/dashboard_service.dart';
+import 'package:http/http.dart';
 
 class CourseInfoTabComponent extends StatefulWidget {
   final data;
@@ -9,6 +16,18 @@ class CourseInfoTabComponent extends StatefulWidget {
 }
 
 class _CourseInfoTabComponentState extends State<CourseInfoTabComponent> {
+  late String name = "";
+  late String studentType = "";
+  late String userType = "";
+  // Stream Controller for API
+  late StreamController _dashboardController;
+  late DashboardService dashboardService;
+  late DashboardData data;
+  late StreamController _profileController;
+  late ProfileService profileService;
+  late ProfileData data2;
+  bool _loading = true;
+
   late Map? table;
   late String? column1;
   late String? column2;
@@ -21,6 +40,39 @@ class _CourseInfoTabComponentState extends State<CourseInfoTabComponent> {
     table = widget.data?['table'];
     rows = table?['rows'];
     columns = table?['columns'];
+    _dashboardController = StreamController();
+    dashboardService = DashboardService();
+    _profileController = StreamController();
+    profileService = ProfileService();
+    getData();
+  }
+
+  getData() async {
+    try {
+      Response response = await dashboardService.getDashboard();
+      Response response2 = await profileService.getProfile();
+      setState(() {
+        data = DashboardData.fromJson(jsonDecode(response.body));
+        data2 = ProfileData.fromJson(jsonDecode(response2.body));
+        _loading = false;
+      });
+      name = data2.user!['first_name'] + ' ' + data2.user!['last_name'];
+      studentType = data2.profile!['department']!['name'] +
+          '  ' +
+          data2.profile!['user_type'];
+      userType = data2.profile!['user_type'];
+      print("this is name: $name");
+      print("this is UserType: $userType");
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  loadData() async {
+    getData().then((res) {
+      _dashboardController.add(res);
+      _profileController.add(res);
+    });
   }
 
   @override
@@ -31,14 +83,28 @@ class _CourseInfoTabComponentState extends State<CourseInfoTabComponent> {
           //Component to lay table on the page
           child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
-            child: DataTable(
-              // headingRowColor:
-              //     MaterialStateColor.resolveWith((states) => Colors.blue),
-              // dataRowHeight: 80,
-              columnSpacing: 25.0,
-              columns: tabColumnList(),
-              rows: tabRowList(),
-              // rows: [],
+            child: Column(
+              children: [
+                DataTable(
+                  // headingRowColor:
+                  //     MaterialStateColor.resolveWith((states) => Colors.blue),
+                  // dataRowHeight: 80,
+                  columnSpacing: 25.0,
+                  columns: tabColumnList(),
+                  rows: tabRowList(),
+                ),
+                Visibility(
+                  visible: userType != 'student',
+                  child: ElevatedButton(
+                    onPressed: () => {
+                      Navigator.pushNamed(
+                          context, '/programme_curriculum_home/courses_update',
+                          arguments: {'e': rows})
+                    },
+                    child: Text('Update'),
+                  ),
+                ),
+              ],
             ),
           )),
     );

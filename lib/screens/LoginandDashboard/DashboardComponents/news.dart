@@ -47,15 +47,17 @@ class _NewsState extends State<News> {
     profileService = ProfileService();
     getData();
   }
+
   getData() async {
     try {
       print("gfsgsgd");
-      Response? response = await dashboardService.getDashboard();
+      Response response = await dashboardService.getDashboard();
       print("1");
-      Response? response2 = await profileService.getProfile();
+      Response response2 = await profileService.getProfile();
       print("2");
       print(response);
       print(response2);
+
 
       if (response != null && response2 != null) {
         setState(() {

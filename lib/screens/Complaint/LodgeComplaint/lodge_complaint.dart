@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:fusion/services/complaint_service.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
 import 'package:intl/intl.dart';
+import 'package:file_picker/file_picker.dart';
 
 const kTextFieldInputDecoration = InputDecoration(
   filled: true,
@@ -30,8 +32,8 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
     'plumber',
     'garbage',
     'dustbin',
-    'Internet',
-    'Other',
+    'internet',
+    'other',
   ];
   String? location;
   List locationTypeItem = [
@@ -40,20 +42,23 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
     'hall-4',
     'CC1',
     'CC2',
-    'Core Lab',
+    'core_lab',
     'LHTC',
     'NR2',
-    'Rewa Residency',
+    'Rewa_Residency',
+    'Maa Saraswati Hostel',
+    'Nagarjuna Hostel',
+    'Panini Hostel'
   ];
   var service = locator<StorageService>();
+  File? selectedFile;
+  String? specific_location;
+  String? details;
   @override
   Widget build(BuildContext context) {
-    DateTime? complaint_finish = DateTime.now();
+    DateTime? complaintFinish = DateTime.now();
     DateFormat formatter = DateFormat('yyyy-MM-dd');
-    String formattedDate = formatter.format(complaint_finish);
-    print(formattedDate);
-    String? specific_location;
-    String? details;
+    String formattedDate = formatter.format(complaintFinish);
     String? status = "0";
     String? remarks = "On-Hold";
     String? flag = "0";
@@ -62,6 +67,7 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
     String? comment = "None";
     String? complainer = widget.complainerRollNo;
     String? worker_id = "";
+
 
     return Scaffold(
       appBar: AppBar(
@@ -195,12 +201,15 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
                 ),
                 decoration: kTextFieldInputDecoration,
                 onChanged: (input) {
-                  specific_location = input;
+                  setState(() {
+                    specific_location = input;
+                  });
                 },
                 validator: (String? value) {
                   if (value!.isEmpty) {
                     return 'Please enter specific_location';
                   }
+                  return null;
                 },
               ),
               SizedBox(
@@ -223,20 +232,53 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
                 ),
                 decoration: kTextFieldInputDecoration,
                 onChanged: (input) {
-                  details = input;
+                  setState(() {
+                    details = input;
+                  });
+                  print("$details, $input");
                 },
                 validator: (String? value) {
                   if (value!.isEmpty) {
                     return 'Please enter details';
                   }
+                  return null;
                 },
               ),
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                'Attach File (Optional)',
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 15,
+                ),
+              ),
+              SizedBox(
+                height: 10
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  FilePickerResult? result =
+                  await FilePicker.platform.pickFiles();
+
+                  if (result != null) {
+                    setState(() {
+                      selectedFile = File(result.files.single.path ?? '');
+                    });
+                  }
+                  print("$details");
+                },
+                child: Text('Select File'),
+              ),
+              if (selectedFile != null) Text(selectedFile!.path.split('/').last),
               SizedBox(
                 height: 30,
               ),
               Center(
                 child: ElevatedButton(
                   onPressed: () async {
+                    print(details);
                     ComplaintService auth = ComplaintService();
                     bool lodge = await auth.lodgeComplaint(
                         formattedDate,
@@ -251,7 +293,9 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
                         feedback,
                         comment,
                         complainer,
-                        worker_id);
+                        worker_id,
+                        selectedFile,
+                        );
                     TextInput.finishAutofillContext();
                     if (lodge == true) {
                       return showDialog(
@@ -263,6 +307,7 @@ class _LodgeComplaintState extends State<LodgeComplaint> {
                             ElevatedButton(
                               onPressed: () {
                                 Navigator.of(ctx).pop();
+                                Navigator.of(context).pop();
                               },
                               child: Text("okay"),
                             ),
