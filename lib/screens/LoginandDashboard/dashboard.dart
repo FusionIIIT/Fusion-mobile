@@ -6,11 +6,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
+// import 'package:fusion/Components/side_drawer.dart';
 import 'package:fusion/models/dashboard.dart';
 import 'package:fusion/screens/LoginandDashboard/DashboardComponents/cardItems.dart';
 import 'package:fusion/services/dashboard_service.dart';
 import 'package:http/http.dart';
+
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
+
+
+
 
 class Dashboard extends StatefulWidget {
   static String tag = 'home-page';
@@ -33,6 +42,8 @@ class _DashboardState extends State<Dashboard> {
   late StreamController _profileController;
   late ProfileService profileService;
   late ProfileData data2;
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
   @override
   void initState() {
     super.initState();
@@ -80,9 +91,18 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar()
-          .buildAppBar(), // This is default app bar used in all modules
-      drawer: SideDrawer(), // This is sideDrawer used in all modules
+        appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: "Research Module",
+        onDesignationChanged: (newValue) {
+          setState(() {
+            curr_desig = newValue;
+          });
+        },
+      ),
+      drawer: SideDrawer(
+        curr_desig: curr_desig,
+      ),// This is sideDrawer used in all modules
       body: _loading == true
           ? Center(child: CircularProgressIndicator())
           : StreamBuilder(

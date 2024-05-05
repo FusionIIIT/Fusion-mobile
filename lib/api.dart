@@ -1,16 +1,17 @@
 //Server and local links
 String klocalLink = "127.0.0.1:8000";
-String kserverLink = "172.27.16.215:80";
+String kserverLink = "172.27.16.214:8000";
 
-//Login Service
-String kAuthUrl = "172.27.16.215:80";
+
+String kAuthUrl = "172.27.16.214:8000";
 String kAuthLogin = "/api/auth/login/";
+
 
 //Profile Service
 String kProfile = "/api/profile/";
 
 //Academic Procedures
-String kAcademicProcedures = "/academic-procedures/api/stu/";
+String kAcademicProcedures = "/academic-procedures/api/stu/"; 
 
 //Complaint
 String kComplaintService = "/complaint/api/studentcomplain";
@@ -21,6 +22,7 @@ String kComplaintRemove = "/complaint/api/removecomplain/";
 //Dashboard
 String kDashboard = "/api/dashboard/";
 String kNotificationRead = "/api/notification/read/";
+String kNotification = "/api/notification/";
 
 //Gymkhana
 const kGymkhanaClubDetails = '/api/gymkhana/club_details';
