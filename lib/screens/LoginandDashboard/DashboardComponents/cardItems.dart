@@ -107,7 +107,8 @@ class _InfoCardState extends State<InfoCard> {
               DashboardService service = DashboardService();
               setState(() {
                 try {
-                  service.markRead(widget.notification.id!.toString());
+                  service.markNotificationAsRead(widget.notification.id!.toString());
+
                 } catch (e) {
                   print(e);
                 }

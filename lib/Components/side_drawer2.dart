@@ -52,7 +52,9 @@ class _SideDrawerState extends State<SideDrawer> {
                 Card(
                   elevation: 2.0,
                   margin:
-                      EdgeInsets.symmetric(horizontal: 12.0, vertical: 30.0),
+
+                  EdgeInsets.symmetric(horizontal: 12.0, vertical: 30.0),
+
                   // shadowColor: Colors.black,
                   color: Colors.white,
 
@@ -102,10 +104,10 @@ class _SideDrawerState extends State<SideDrawer> {
             ModulesCard(cardLine: 'DashBoard', pageMover: '/dashboard'),
 
 
+
             if ((type != "staff" ||
                 widget.curr_desig == "acadmin" ||
                 widget.curr_desig == "corelabcaretaker"))
-
               ModulesCard(
                 cardLine: 'Academics Module',
                 pageMover: '/academic_home_page',
@@ -132,6 +134,7 @@ class _SideDrawerState extends State<SideDrawer> {
                 pageMover: '/programme_curriculum_home',
               ),
 
+
             if ((type == "student") ||
                 widget.curr_desig == "Dean_s" ||
                 widget.curr_desig == "DeanPnD" ||
@@ -148,6 +151,7 @@ class _SideDrawerState extends State<SideDrawer> {
               ModulesCard(
                   cardLine: 'Central Mess Module',
                   pageMover: '/central_mess_home'),
+
 
             ModulesCard(
               cardLine: 'Health Center Module',
@@ -181,6 +185,7 @@ class _SideDrawerState extends State<SideDrawer> {
             ModulesCard(
                 cardLine: 'Library Module', pageMover: '/library_homepage'),
 
+
             if (type == "student" ||
                 widget.curr_desig == "spacsconvenor" ||
                 widget.curr_desig == "spacsassistant")
@@ -191,6 +196,7 @@ class _SideDrawerState extends State<SideDrawer> {
             ModulesCard(cardLine: 'Research Module'),
 
             ModulesCard(cardLine: 'Counselling Cell'),
+
 
             if ((type == "faculty" || widget.curr_desig == "acadadmin"))
               ModulesCard(
@@ -241,6 +247,7 @@ class _SideDrawerState extends State<SideDrawer> {
       ),
     );
   }
+
 
   String _getGymkhanaPage() {
     // Determine the pageMover based on designation
@@ -302,4 +309,6 @@ class ModulesCard extends StatelessWidget {
       },
     );
   }
+
 }
+

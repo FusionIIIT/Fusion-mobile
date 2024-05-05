@@ -136,6 +136,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/landing': (context) => LandingPage(),
           '/login_page': (context) => LoginPage(),
+
           '/notification': (context) => Notify(),
           '/news': (context) => News(),
           '/announcement': (context) => Announcement(),

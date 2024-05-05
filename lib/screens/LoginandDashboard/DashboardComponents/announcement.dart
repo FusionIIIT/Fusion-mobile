@@ -50,6 +50,7 @@ class _AnnouncementState extends State<Announcement> {
   getData() async {
     try {
       print("gfsgsgd");
+
       Response response = await dashboardService.getDashboard();
       print("1");
       Response response2 = await profileService.getProfile();
@@ -70,6 +71,7 @@ class _AnnouncementState extends State<Announcement> {
       print(e);
     }
   }
+
 
   loadData() async {
     getData().then((res) {

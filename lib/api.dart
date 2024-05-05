@@ -67,7 +67,9 @@ String kForward = "/complaint/api/forward/";
 //Dashboard
 String kDashboard = "/api/dashboard/";
 String kNotification = "/api/notification/";
-String kNotificationRead = "/api/notification/read/";
+String kNotificationRead = "/notifications/api/mark_as_read/";
+String kNotificationDelete = "/notifications/api/delete/";
+
 
 //Gymkhana
 const kGymkhanaClubDetails = '/api/gymkhana/club_details';
