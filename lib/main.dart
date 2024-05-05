@@ -5,6 +5,8 @@ import 'package:fusion/screens/Complaint/ComplaintHistory/complain_history.dart'
 import 'package:fusion/screens/Complaint/Feedback/feedback.dart';
 import 'package:fusion/screens/Complaint/LodgeComplaint/lodge_complaint.dart';
 import 'package:fusion/screens/Establishment/establishment_home_page.dart';
+import 'package:fusion/screens/Iwd/ProjectRequisition/page1.dart';
+
 import 'package:fusion/screens/Library/Book_Search.dart';
 import 'package:fusion/screens/Library/dues.dart';
 import 'package:fusion/screens/Library/issued_items.dart';
@@ -46,6 +48,10 @@ import 'package:fusion/screens/Healthcenter/history.dart';
 import 'package:fusion/screens/Healthcenter/HealthCenter.dart';
 import 'package:fusion/services/service_locator.dart';
 
+import 'package:fusion/screens/Iwd/iwd_home_page.dart';
+
+import 'package:fusion/screens/Iwd/ViewRequisition/view.dart';
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   setupLocator();
@@ -75,8 +81,9 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
             // primarySwatch: Colors.blueGrey,
-          // colorSchemeSeed: Color(0xFF2085D0),
-          colorSchemeSeed: Color(0xFFF36C35),
+
+          colorSchemeSeed: Color.fromARGB(255, 58, 32, 208),
+
             fontFamily: 'Nunito',
           useMaterial3: true,
         ),
@@ -133,6 +140,12 @@ class MyApp extends StatelessWidget {
           '/health_center/feedback': (context) => FeedBack(),
           '/health_center/viewschedule': (context) => ViewSchedule(),
           '/health_center/history': (context) => History(),
+
+           '/iwd_home_page': (context) => IwdHomePage(),
+        '/iwd_home_page/page1': (context) => page(),
+        '/iwd_home_page/view': (context) => View(),
+        
+        
         },
       ),
     );
