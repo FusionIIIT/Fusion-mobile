@@ -129,8 +129,8 @@ class _SideDrawerState extends State<SideDrawer> {
             if ((type == "student" ))
             ModulesCard(cardLine: 'Leave Module'),
 
-            if ((type != "student" ))
-            ModulesCard(cardLine: 'Purchase and Store',pageMover: '/purchase_store_homepage'),
+            if ((type == "student" ))
+            ModulesCard(cardLine: 'Purchase and Store'),
 
              if ((type == "student" ))
             ModulesCard(cardLine: 'Human Resource'),
