@@ -16,7 +16,7 @@ class LoginService {
       var client = http.Client();
       var response = await client.post(
           Uri.http(
-            kAuthUrl,  // constant api url
+            kAuthUrl, // constant api url
             kAuthLogin, //constant api auth point
           ),
           headers: headers,
