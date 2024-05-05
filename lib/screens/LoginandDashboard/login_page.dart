@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fusion/constants.dart';
 import 'package:fusion/services/login_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   static String tag = 'login-page';
@@ -135,10 +136,13 @@ class _LoginPageState extends State<LoginPage> {
         onPressed: () async {
           if (!(_formKey.currentState?.validate() ?? false)) {
           } else {
+
             LoginService auth = LoginService();
             bool complete = await auth.login(username ?? "", pass ?? "");
             TextInput.finishAutofillContext();
             if (complete == true) {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              await prefs.setString('username', username!);
               Navigator.pushReplacementNamed(context, "/landing");
             }
             Navigator.pushReplacementNamed(context, "/landing");

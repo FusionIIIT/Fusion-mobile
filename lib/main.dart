@@ -96,6 +96,16 @@ import 'package:fusion/screens/Central_Mess/RegistrationDeregistration/manage_re
 import 'package:fusion/screens/Central_Mess/Rebate/respondToRebateRequest.dart';
 import 'package:fusion/screens/Central_Mess/VacationFood/vacation_food_home.dart';
 import 'package:fusion/screens/Central_Mess/Payments/payments_home.dart';
+import 'package:fusion/screens/FileTracking/fts/fts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class UserService {
+  Future<String> getUsername() async {
+    final prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('username');
+    return username ?? '';
+  }
+}
 
 void main() async {
   // await dotenv.load(fileName: ".env");
@@ -113,6 +123,13 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+
+  Future<String> getUsername() async {
+    final userService = UserService();
+    final username = await userService.getUsername();
+    return username;
+  }
+
   @override
   Widget build(BuildContext context) {
     MediaQueryData windowData =
@@ -259,6 +276,12 @@ class MyApp extends StatelessWidget {
           '/central_mess_home/vacationFood' : (context)=>VacationFoodHome(),
           '/central_mess_home/updatePayment' : (context)=>UpdatePaymentHome(),
 
+          '/fts': (context) => RoundedListView(),
+          // '/fts/create_file': (context) => CreateFilePage(), 
+          // '/fts/view_drafts': (context) => DraftsPage(), 
+          // '/fts/view_inbox': (context) => InboxPage(), 
+          // '/fts/view_outbox': (context) => OutboxPage(),
+          // '/fts/tack_file': (context) => FileTrackingPage(),
         },
       ),
     );
