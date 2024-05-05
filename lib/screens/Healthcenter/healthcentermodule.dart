@@ -2,12 +2,13 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
-import 'package:fusion/models/health.dart';
-import 'package:fusion/services/health_service.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
+import 'package:fusion/models/health.dart';
+import 'package:fusion/services/health_service.dart';
 import 'package:http/http.dart';
 
 // ignore: must_be_immutable
@@ -19,6 +20,8 @@ class HealthCenterMod extends StatefulWidget {
 }
 
 class _HealthCenterModState extends State<HealthCenterMod> {
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
   bool _loading1 = true;
   late StreamController _healthController;
   late HeathService healthService;
@@ -37,6 +40,7 @@ class _HealthCenterModState extends State<HealthCenterMod> {
         service.profileData.profile!['user_type'];
     _healthController = StreamController();
     healthService = HeathService();
+    print(healthService);
     getData();
   }
 
@@ -93,8 +97,19 @@ class _HealthCenterModState extends State<HealthCenterMod> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
-      drawer: SideDrawer(),
+      appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: "Health Center",
+        onDesignationChanged: (newValue) {
+          setState(() {
+            curr_desig = newValue;
+          });
+  
+        },
+      ), // This is default app bar used in all modules
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar:
+      MyBottomNavigationBar(),
       body: _loading1 == true
           ? Center(
               child: CircularProgressIndicator(),
@@ -177,15 +192,15 @@ class _HealthCenterModState extends State<HealthCenterMod> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       InkWell(
-                        child: myContainer("Appointments/requests"),
+                        child: myContainer("Announcements"),
                         onTap: () {
                           Navigator.pushNamed(
-                              context, '/health_center/healthcenter',
+                              context, '/health_center/announcement',
                               arguments: data);
                         },
                       ),
                       InkWell(
-                        child: myContainer("History"),
+                        child: myContainer("Health Records"),
                         onTap: () {
                           Navigator.pushNamed(context, '/health_center/history',
                               arguments: data);
@@ -203,7 +218,23 @@ class _HealthCenterModState extends State<HealthCenterMod> {
                         child: myContainer("Doctor Schedule"),
                         onTap: () {
                           Navigator.pushNamed(
+                              context, '/health_center/viewdoctorschedule',
+                              arguments: data);
+                        },
+                      ),
+                      InkWell(
+                        child: myContainer("Pathologist Schedule"),
+                        onTap: () {
+                          Navigator.pushNamed(
                               context, '/health_center/viewschedule',
+                              arguments: data);
+                        },
+                      ),
+                      InkWell(
+                        child: myContainer("Medical Reimbursement"),
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, '/health_center/reimbursement',
                               arguments: data);
                         },
                       ),
