@@ -1,16 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
-import 'package:fusion/screens/RSPC/request_pen.dart';
 
-class Dean_rspc extends StatelessWidget {
+import 'package:fusion/screens/RSPC/request_pen.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
+
+
+class Dean_rspc extends StatefulWidget {
   const Dean_rspc({Key? key}) : super(key: key);
 
   @override
+  State<Dean_rspc> createState() => _Dean_rspcState();
+}
+
+class _Dean_rspcState extends State<Dean_rspc> {
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: DefaultAppBar().buildAppBar(),
-        drawer: SideDrawer(),
+         appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: "Research Module",
+        onDesignationChanged: (newValue) {
+          setState(() {
+            curr_desig = newValue;
+          });
+        },
+      ),
+      drawer: SideDrawer(
+        curr_desig: curr_desig,
+      ),
         body: ListView(children: <Widget>[
           SizedBox(
             height: 20,

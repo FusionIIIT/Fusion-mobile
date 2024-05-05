@@ -2,6 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/screens/RSPC/financial_oulay.dart';
 
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
+
+
+
 class View_Inventory extends StatefulWidget {
   const View_Inventory({Key? key}) : super(key: key);
 
@@ -10,35 +18,23 @@ class View_Inventory extends StatefulWidget {
 }
 
 class _View_InventoryState extends State<View_Inventory> {
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
   String _input = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text('Drawer Header'),
-            ),
-            ListTile(
-              title: Text('Item 1'),
-              onTap: () {
-                // Add your drawer item 1 functionality here
-              },
-            ),
-            ListTile(
-              title: Text('Item 2'),
-              onTap: () {
-                // Add your drawer item 2 functionality here
-              },
-            ),
-          ],
-        ),
+       appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle:"Research Module",
+        onDesignationChanged: (newValue) {
+          setState(() {
+            curr_desig = newValue;
+          });
+        },
+      ),
+      drawer: SideDrawer(
+        curr_desig: curr_desig,
       ),
       body: ListView(
         children: <Widget>[
@@ -58,7 +54,7 @@ class _View_InventoryState extends State<View_Inventory> {
                   width: 30,
                 ),
                 Text(
-                  'Dr. Atul Gupta',
+                  'Dr. Atul Gupta', 
                   style: TextStyle(
                     fontSize: 24.0,
                     fontWeight: FontWeight.bold,
@@ -145,7 +141,7 @@ class _View_InventoryState extends State<View_Inventory> {
               child: ElevatedButton(
                   onPressed: () {
                      Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) =>  outlay(index: _input)));
+                            builder: (context) =>  outlay(index: 2)));
                     print(_input);
                   },
                   child: Text(

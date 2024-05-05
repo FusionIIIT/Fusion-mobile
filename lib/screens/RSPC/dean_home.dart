@@ -28,6 +28,7 @@ class _Dean_rspchomeState extends State<Dean_rspchome> {
         " " +
         service.profileData.profile!['user_type'];
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,92 +38,65 @@ class _Dean_rspchomeState extends State<Dean_rspchome> {
           SizedBox(
             height: 20,
           ),
+
           Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Row(
-              children: [
-                Image.asset(
-                  'assets/mypic.jpg',
-                  width: 150.0,
-                  height: 150.0,
+            padding: const EdgeInsets.all(30.0),
+            child: SizedBox(
+              width: 30,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => View_request()));
+                },
+                child: Text(
+                  'View request',
+                  style: TextStyle(color: Colors.white),
                 ),
-                SizedBox(
-                  width: 30,
-                ),
-                Text(
-                  name!,
-                  style: TextStyle(
-                    fontSize: 24.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                )
-              ],
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Color.fromARGB(255, 81, 152, 210)),
+              ),
             ),
           ),
           SizedBox(
-            height:3,
-          ),
-           Padding(
-          padding: const EdgeInsets.all(30.0),
-          child: SizedBox(
-            width: 30,
-            child: ElevatedButton(
-                  onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) =>  View_request()));
-                  },
-                  child: Text(
-                    'View request',
-                    style: TextStyle( color: Colors.white),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 81, 152, 210)
-                  ),
-                ),
-          ),
-        ),
-         SizedBox(
             height: 3,
           ),
-           Padding(
-          padding: const EdgeInsets.all(30.0),
-          child: SizedBox(
-            width: 30,
-            child: ElevatedButton(
-                  onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) =>  Upload_project()));
-                  },
-                  child: Text(
-                    'Upload Project',
-                    style: TextStyle( color: Colors.white),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 81, 152, 210)
-                  ),
+          Padding(
+            padding: const EdgeInsets.all(30.0),
+            child: SizedBox(
+              width: 30,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => Upload_project()));
+                },
+                child: Text(
+                  'Upload Project',
+                  style: TextStyle(color: Colors.white),
                 ),
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Color.fromARGB(255, 81, 152, 210)),
+              ),
+            ),
           ),
-        ),
-         SizedBox(
+          SizedBox(
             height: 5,
           ),
-        //    Padding(
-        //   padding: const EdgeInsets.all(40.0),
-        //   child: SizedBox(
-        //     width: 30,
-        //     child: ElevatedButton(
-        //           onPressed: () {},
-        //           child: Text(
-        //             'Issue NOC',
-        //             style: TextStyle( color: Colors.white),
-        //           ),
-        //           style: ElevatedButton.styleFrom(
-        //             backgroundColor: Color.fromARGB(255, 81, 152, 210)
-        //           ),
-        //         ),
-        //   ),
-        // ),
-        
+          //    Padding(
+          //   padding: const EdgeInsets.all(40.0),
+          //   child: SizedBox(
+          //     width: 30,
+          //     child: ElevatedButton(
+          //           onPressed: () {},
+          //           child: Text(
+          //             'Issue NOC',
+          //             style: TextStyle( color: Colors.white),
+          //           ),
+          //           style: ElevatedButton.styleFrom(
+          //             backgroundColor: Color.fromARGB(255, 81, 152, 210)
+          //           ),
+          //         ),
+          //   ),
+          // ),
         ]));
   }
 }

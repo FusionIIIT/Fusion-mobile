@@ -1,15 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
 
-class Upload_project extends StatelessWidget {
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
+
+
+class Upload_project extends StatefulWidget {
   const Upload_project({Key? key}) : super(key: key);
 
   @override
+  State<Upload_project> createState() => _Upload_projectState();
+}
+
+class _Upload_projectState extends State<Upload_project> {
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: DefaultAppBar().buildAppBar(),
-        drawer: SideDrawer(),
+          appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: "Research Module",
+        onDesignationChanged: (newValue) {
+          setState(() {
+            curr_desig = newValue;
+          });
+        },
+      ),
+      drawer: SideDrawer(
+        curr_desig: curr_desig,
+      ),
         body: ListView(children: <Widget>[
           SizedBox(
             height: 20,

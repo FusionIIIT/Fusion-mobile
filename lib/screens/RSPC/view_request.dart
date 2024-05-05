@@ -3,9 +3,15 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
+
 import 'package:fusion/screens/RSPC/show_project.dart';
 import 'package:fusion/screens/RSPC/view_staff.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
+
 
 class View_request extends StatefulWidget {
   const View_request({Key? key}) : super(key: key);
@@ -15,6 +21,8 @@ class View_request extends StatefulWidget {
 }
 
 class _View_requestState extends State<View_request> {
+   var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
   List<dynamic> userData = [];
 
   @override
@@ -40,8 +48,18 @@ class _View_requestState extends State<View_request> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
-      drawer: SideDrawer(),
+       appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: "Research Module",
+        onDesignationChanged: (newValue) {
+          setState(() {
+            curr_desig = newValue;
+          });
+        },
+      ),
+      drawer: SideDrawer(
+        curr_desig: curr_desig,
+      ),
       body: Container( // Wrap with a Container and provide a finite height
         height: MediaQuery.of(context).size.height, // or any specific height you want
         child: ListView(

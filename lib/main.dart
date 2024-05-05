@@ -103,8 +103,8 @@ class MyApp extends StatelessWidget {
           '/dashboard': (context) => Dashboard(),
 
           '/rspc_home_page': (context) => RspcHome(),
-          '/financial_outlay' : (context) => outlay(index: "Mark50",),
-          '/view_staff' : (context) => View_staff(index : "Mark50"),
+          '/financial_outlay' : (context) => outlay(index: 0,),
+         
           '/show_project' : (context) => Show_project(index: "Mark50"),
 
           '/closure_report': (context) => Closure_report(),
@@ -116,6 +116,7 @@ class MyApp extends StatelessWidget {
           '/view_request' : (context) => View_request(), 
           '/home_rspc' : (context) =>  Dean_rspc(),
           '/request_pen' : ((context) =>  Pending_request()),
+          '/view_staff' : (context) => View_staff(index: 1),
 
           '/academic_home_page': (context) => AcademicHomePage(
               ModalRoute.of(context)!.settings.arguments.toString()),

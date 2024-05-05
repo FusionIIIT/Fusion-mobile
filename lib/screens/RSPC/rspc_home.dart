@@ -1,13 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
+
+// import 'package:fusion/Components/appBar.dart';
+// import 'package:fusion/Components/side_drawer.dart';
 import 'package:fusion/screens/RSPC/Staff_form.dart';
 import 'package:fusion/screens/RSPC/closure_report.dart';
-import 'package:fusion/screens/RSPC/view_inventory.dart';
 import 'package:fusion/screens/RSPC/request_requirement.dart';
+import 'package:fusion/screens/RSPC/view_inventory.dart';
 import 'package:fusion/screens/RSPC/view_project.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
+
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
+import 'package:fusion/Components/bottom_navigation_bar.dart';
+
+
+
+
 
 // ignore: must_be_immutable
 class RspcHome extends StatefulWidget {
@@ -18,6 +29,8 @@ class RspcHome extends StatefulWidget {
 }
 
 class _RspcHomeState extends State<RspcHome> {
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
   String? name;
   String? depttype;
   @override
@@ -50,8 +63,19 @@ class _RspcHomeState extends State<RspcHome> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: DefaultAppBar().buildAppBar(),
-        drawer: SideDrawer(),
+        appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: "Research Module",
+        onDesignationChanged: (newValue) {
+          setState(() {
+            curr_desig = newValue;
+          });
+        },
+      ),
+      drawer: SideDrawer(
+        curr_desig: curr_desig,
+      ),
+
         body: Center(
           child: ListView(
             // mainAxisAlignment: MainAxisAlignment.center,
@@ -93,7 +117,7 @@ class _RspcHomeState extends State<RspcHome> {
               //     child: ElevatedButton(
               //         onPressed: () {
               //           Navigator.of(context).push(MaterialPageRoute(
-              //               builder: (context) => Closure_report()));
+              //               builder: (context) => Closure_r+eport()));
               //         },
               //         child: Text("Closure report"),
               //         style: ElevatedButton.styleFrom(
@@ -156,8 +180,8 @@ class _RspcHomeState extends State<RspcHome> {
                   height: 50,
                   child: ElevatedButton(
                       onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => View_Inventory()));
+                        // Navigator.of(context).push(MaterialPageRoute(
+                        //     builder: (context) => View_Inventory()));
                       },
                       child: Text("View Inventory"),
                       style: ElevatedButton.styleFrom(
