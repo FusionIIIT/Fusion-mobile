@@ -117,11 +117,6 @@ class _SideDrawerState extends State<SideDrawer> {
                           isActive: true,
                         ),
                         ModulesPadding(
-                          line: 'PurchaseStore Module',
-                          pageMover: '/purchase_store_homepage',
-                          isActive: true,
-                        ),
-                        ModulesPadding(
                           line: 'Programme Curriculum',
                           pageMover: '/programme_curriculum_home',
                           isActive: true,
