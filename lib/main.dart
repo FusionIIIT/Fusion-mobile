@@ -5,6 +5,13 @@ import 'package:fusion/screens/Complaint/ComplaintHistory/complain_history.dart'
 import 'package:fusion/screens/Complaint/Feedback/feedback.dart';
 import 'package:fusion/screens/Complaint/LodgeComplaint/lodge_complaint.dart';
 import 'package:fusion/screens/Establishment/establishment_home_page.dart';
+import 'package:fusion/screens/Examination/AnnounceGrade.dart';
+import 'package:fusion/screens/Examination/CourseAuthentication.dart';
+import 'package:fusion/screens/Examination/ExaminationHomePage.dart';
+import 'package:fusion/screens/Examination/GenerateResult.dart';
+import 'package:fusion/screens/Examination/ModerateGrade.dart';
+import 'package:fusion/screens/Examination/SubmitGrade.dart';
+import 'package:fusion/screens/Examination/VerifyResult.dart';
 import 'package:fusion/screens/Library/Book_Search.dart';
 import 'package:fusion/screens/Library/dues.dart';
 import 'package:fusion/screens/Library/issued_items.dart';
@@ -63,7 +70,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MediaQueryData windowData =
-    MediaQueryData.fromView(WidgetsBinding.instance.window);
+        MediaQueryData.fromView(WidgetsBinding.instance.window);
     windowData = windowData.copyWith(
       textScaler: TextScaler.linear(1),
     );
@@ -74,19 +81,19 @@ class MyApp extends StatelessWidget {
         title: 'Fusion',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-            // primarySwatch: Colors.blueGrey,
+          // primarySwatch: Colors.blueGrey,
           // colorSchemeSeed: Color(0xFF2085D0),
           colorSchemeSeed: Color(0xFFF36C35),
-            fontFamily: 'Nunito',
+          fontFamily: 'Nunito',
           useMaterial3: true,
         ),
         initialRoute: '/landing',
         routes: {
           '/landing': (context) => LandingPage(),
           '/login_page': (context) => LoginPage(),
-          '/notification':(context)=>Notify(),
-          '/news':(context)=>News(),
-          '/announcement':(context)=>Announcement(),
+          '/notification': (context) => Notify(),
+          '/news': (context) => News(),
+          '/announcement': (context) => Announcement(),
           '/dashboard': (context) => Dashboard(),
           '/academic_home_page': (context) => AcademicHomePage(
               ModalRoute.of(context)!.settings.arguments.toString()),
@@ -133,6 +140,18 @@ class MyApp extends StatelessWidget {
           '/health_center/feedback': (context) => FeedBack(),
           '/health_center/viewschedule': (context) => ViewSchedule(),
           '/health_center/history': (context) => History(),
+          '/examination': (context) => ExaminationHomePage(
+              ModalRoute.of(context)!.settings.arguments.toString()),
+          '/examination/verify_result': (context) => VerifyResult(),
+          '/examination/generate_result': (context) => GenerateResult(),
+          '/examination/announce_grade': (context) => AnnounceGrade(),
+          '/examination': (context) => ExaminationHomePage(
+              ModalRoute.of(context)!.settings.arguments.toString()),
+          '/examination/course_authentication': (context) => CourseAuthentication(),
+          '/examination/generate_result': (context) => GenerateResult(),
+          '/examination/announce_grade': (context) => AnnounceGrade(),
+          '/examination/submit_grade':(context)=>SubmitGrade(),
+          '/examination/moderate_grade' : (context)=>ModerateGrade()
         },
       ),
     );
