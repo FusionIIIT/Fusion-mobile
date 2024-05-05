@@ -39,6 +39,7 @@ dependencies:
   path_provider: ^2.0.8
   open_file: ^3.2.1
   flutter_html: ^2.2.1
+  image_picker: ^0.8.4+4
 
 
 
