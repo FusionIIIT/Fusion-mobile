@@ -34,16 +34,16 @@ import 'package:fusion/screens/Gymkhana/NewEvent.dart';
 import 'package:fusion/screens/Gymkhana/gymkhana_coordinator.dart';
 import 'package:fusion/screens/Gymkhana/manage_members.dart';
 import 'package:fusion/screens/Gymkhana/membersRequest.dart';
-import 'package:fusion/screens/Gymkhana/Polls.dart';
+
 import 'package:fusion/screens/Gymkhana/Apply.dart';
 import 'package:fusion/screens/Gymkhana/budgetdetails.dart';
 import 'package:fusion/screens/Gymkhana/NewSession.dart';
-import 'package:fusion/screens/Gymkhana/submit_event_report_to_convenor.dart';
+
 import 'package:fusion/screens/Gymkhana/Record.dart';
 import 'package:fusion/screens/Gymkhana/Club.dart';
 import 'package:fusion/screens/Gymkhana/updatebudgetconvenor.dart';
 import 'package:fusion/screens/Gymkhana/UpdateActivityCalender.dart';
-import 'package:fusion/screens/Gymkhana/SubmittedRequest.dart';
+
 import 'package:fusion/screens/Gymkhana/updatebudgetcouncellor.dart';
 import 'package:fusion/screens/Gymkhana/clubeventreport.dart';
 import 'package:fusion/screens/Gymkhana/clubbudgetform.dart';
@@ -132,7 +132,7 @@ class MyApp extends StatelessWidget {
           '/gymkhana_homepage': (context) => GymkhanaHomepage(),
           '/gymkhana_counsellor': (context) => gymkhana_counsellor(),
           '/gymkhana_counsellor/budgetdetails': (context) => BudgetDetails(),
-          '/gymkhana_counsellor/Polls': (context) => VotingPolls(),
+          
           '/gymkhana_counsellor/clubs': (context) => Club(),
           '/gymkhana_counsellor/member_records': (context) => Records(),
           '/gymkhana_counsellor/updatebudgetcouncellor': (context) =>
@@ -141,12 +141,12 @@ class MyApp extends StatelessWidget {
           '/gymkhana_convenor': (context) => gymkhana_convenor(),
           '/gymkhana_convenor/updatebudgetconvenor': (context) =>
               UpdateBudgetConvenerPage(),
-          '/gymkhana_convenor/Polls': (context) => VotingPolls(),
+         
           '/gymkhana_convenor/clubs': (context) => Club(),
           '/gymkhana_convenor/member_records': (context) => Records(),
           '/gymkhana_dean': (context) => gymkhana_dean(),
           '/gymkhana_dean/budgetdetails': (context) => BudgetDetails(),
-          '/gymkhana_dean/Polls': (context) => VotingPolls(),
+        
           '/gymkhana_dean/clubs': (context) => Club(),
           '/gymkhana_dean/member_records': (context) => Records(),
           '/gymkhana_dean/manage_position_holder': (context) =>
@@ -159,9 +159,9 @@ class MyApp extends StatelessWidget {
           // '/gymkhana_dean/member_records': (context) => Records(),
           '/gymkhana_coordinator': (context) => GymkhanaCoordinator(),
           '/gymkhana_homepage/apply': (context) => Apply(),
-          '/gymkhana_homepage/polls': (context) => VotingPolls(),
+  
           '/gymkhana_homepage/new_club_request': (context) => NewClubRequest(),
-          '/gymkhana_coordinator/polls': (context) => VotingPolls(),
+        
           '/gymkhana_coordinator/apply': (context) => Apply(),
           '/gymkhana_coordinator/budgetdetails': (context) => BudgetDetails(),
           '/gymkhana_convenor/budgetdetails': (context) => BudgetDetails(),
@@ -178,14 +178,12 @@ class MyApp extends StatelessWidget {
           '/gymkhana_coordinator/clubbudgetform': (context) => ClubBudgetForm(),
           '/gymkhana_convenor/budgetFormConvenor': (context) =>
               BudgetFormConvenortwo(),
-          '/gymkhana_coordinator/submit_event_report_to_convenor': (context) =>
-              SubmitEventReportPage(),
+         
           '/gymkhana_coordinator/activity_calender': (context) =>
               ActivityCalendar(),
           '/gymkhana_homepage/clubs': (context) => Club(),
           '/gymkhana_homepage/member_records': (context) => Records(),
-          '/gymkhana_coordinator/SubmittedRequest': (context) =>
-              SubmittedRequest(),
+          
           '/library_homepage': (context) => LibraryHomeScreen(),
           '/library_homepage/book_search': (context) => BookSearch(),
           '/library_homepage/issued_items': (context) => IssuedItems(),

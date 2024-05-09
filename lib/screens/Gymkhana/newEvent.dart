@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:fusion/services/neweventcreate.dart'; // Import the NewEventCreate class
+import 'package:fusion/services/neweventcreate.dart';
+
+import '../../Components/appBar2.dart';
+import '../../Components/bottom_navigation_bar.dart';
+import '../../Components/side_drawer2.dart';
+import '../../services/service_locator.dart';
+import '../../services/storage_service.dart'; // Import the NewEventCreate class
 
 class NewEventPage extends StatefulWidget {
   @override
@@ -8,6 +14,8 @@ class NewEventPage extends StatefulWidget {
 }
 
 class _NewEventPageState extends State<NewEventPage> {
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
   String _eventName = '';
   String _inCharge = '';
   String _selectedFileName = '';
@@ -28,14 +36,16 @@ class _NewEventPageState extends State<NewEventPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'New Event',
-          style: TextStyle(color: Colors.deepOrangeAccent),
-        ),
-        backgroundColor: Colors.black,
-        iconTheme: IconThemeData(color: Colors.deepOrangeAccent),
-      ),
+    
+       appBar: CustomAppBar(curr_desig: curr_desig,
+        headerTitle: 'New Event', // Set your app bar title
+        onDesignationChanged: (newValue) {
+          // Handle designation change if needed
+        },),
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar:
+      MyBottomNavigationBar(),
+      
       body: Padding(
         padding: EdgeInsets.all(20.0),
         child: Form(

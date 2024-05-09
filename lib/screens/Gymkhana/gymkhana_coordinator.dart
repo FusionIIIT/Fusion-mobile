@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
 import 'package:fusion/models/gymkhana.dart';
 import 'package:fusion/models/profile.dart';
 import 'package:fusion/services/gymkhana_service.dart';
@@ -10,6 +10,7 @@ import 'package:fusion/services/help.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
 
+import '../../Components/bottom_navigation_bar.dart';
 import '../LoginandDashboard/dashboard.dart';
 
 class GymkhanaCoordinator extends StatefulWidget {
@@ -19,6 +20,8 @@ class GymkhanaCoordinator extends StatefulWidget {
 }
 
 class _GymkhanaCoordinatorState extends State<GymkhanaCoordinator> {
+  var service = locator<StorageService>();
+late String curr_desig = service.getFromDisk("Current_designation");
   late String xx = "";
   bool _loading1 = true;
   ProfileData? data;
@@ -177,8 +180,14 @@ class _GymkhanaCoordinatorState extends State<GymkhanaCoordinator> {
     print(xx);
     // if (widget.xx == null) return CircularProgressIndicator();
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
-      drawer: SideDrawer(),
+      appBar: CustomAppBar(curr_desig: curr_desig,
+        headerTitle: 'Coordinator Homepage', // Set your app bar title
+        onDesignationChanged: (newValue) {
+          // Handle designation change if needed
+        },),
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar:
+      MyBottomNavigationBar(),
       body:
           //TODO: uncomment when API is functioning
           _loading1 == true

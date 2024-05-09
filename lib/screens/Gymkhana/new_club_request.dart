@@ -7,12 +7,22 @@ import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:fusion/services/create_club.dart';
 
+import '../../Components/appBar2.dart';
+import '../../Components/bottom_navigation_bar.dart';
+import '../../Components/side_drawer2.dart';
+import '../../services/newclubmember.dart';
+import '../../services/service_locator.dart';
+import '../../services/storage_service.dart';
+
 class NewClubRequest extends StatefulWidget {
   @override
   _NewClubRequestState createState() => _NewClubRequestState();
 }
 
 class _NewClubRequestState extends State<NewClubRequest> {
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
+
   String? _selectedCategory;
   late TextEditingController _clubNameController;
   late TextEditingController _coordinatorController;
@@ -53,13 +63,15 @@ class _NewClubRequestState extends State<NewClubRequest> {
   void _submitForm() async {
     if (_formKey.currentState!.validate()) {
       try {
-         print('Head Changed On Date: ${_headChangedOn.toIso8601String().substring(0, 10)}');
-      print('Created On Date: ${_createdOn.toIso8601String().substring(0, 10)}');
-       String formattedDate =
-          "${ _headChangedOn.year}-${ _headChangedOn.month.toString().padLeft(2, '0')}-${ _headChangedOn.day.toString().padLeft(2, '0')}";
+        print(
+            'Head Changed On Date: ${_headChangedOn.toIso8601String().substring(0, 10)}');
+        print(
+            'Created On Date: ${_createdOn.toIso8601String().substring(0, 10)}');
+        String formattedDate =
+            "${_headChangedOn.year}-${_headChangedOn.month.toString().padLeft(2, '0')}-${_headChangedOn.day.toString().padLeft(2, '0')}";
 
-       String formattedDate2 =
-          "${_createdOn.year}-${ _createdOn.month.toString().padLeft(2, '0')}-${ _createdOn.day.toString().padLeft(2, '0')}";
+        String formattedDate2 =
+            "${_createdOn.year}-${_createdOn.month.toString().padLeft(2, '0')}-${_createdOn.day.toString().padLeft(2, '0')}";
 
         await _createClubService.createClub(
           clubName: _clubNameController.text,
@@ -70,7 +82,7 @@ class _NewClubRequestState extends State<NewClubRequest> {
           clubFile: _clubFile,
           description: _descriptionController.text,
           status: _status,
-          headChangedOn:formattedDate, // Format date as 'YYYY-MM-DD'
+          headChangedOn: formattedDate, // Format date as 'YYYY-MM-DD'
           createdOn: formattedDate2, // Format date as 'YYYY-MM-DD'
         );
 
@@ -88,6 +100,40 @@ class _NewClubRequestState extends State<NewClubRequest> {
           ),
         );
       }
+    }
+    try {
+      await NewClubMember().createNewClubMember(
+        member: _coordinatorController.text,
+        club: _clubNameController.text,
+        description: "co-ordinator",
+        status: "confirmed",
+        remarks: "co-ordinator",
+      );
+      print(true); // Submission successful
+    } catch (e) {
+      print('Error submitting form: $e');
+      print(false); // Submission failed
+    }
+    try {
+      await NewClubMember().createNewClubMember(
+        member: _coCoordinatorController.text,
+        club: _clubNameController.text,
+        description: "co-coordinator",
+        status: "confirmed",
+        remarks: "co-coordinator",
+      );
+      print(true); // Submission successful
+    } catch (e) {
+      print('Error submitting form: $e');
+      print(false); // Submission failed
+    }
+  }
+
+  String? formvalidate(value) {
+    if (value.isEmpty) {
+      return "Error";
+    } else {
+      return null;
     }
   }
 
@@ -116,6 +162,7 @@ class _NewClubRequestState extends State<NewClubRequest> {
         _headChangedOn = picked;
       });
   }
+
   Future<void> _selectDate2(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -125,21 +172,22 @@ class _NewClubRequestState extends State<NewClubRequest> {
     );
     if (picked != null)
       setState(() {
-       _createdOn = picked;
+        _createdOn = picked;
       });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: Text(
-          'New Club Request',
-          style: TextStyle(color: Colors.deepOrangeAccent),
-        ),
-        iconTheme: IconThemeData(color: Colors.deepOrangeAccent),
+      appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: 'New Club Request', // Set your app bar title
+        onDesignationChanged: (newValue) {
+          // Handle designation change if needed
+        },
       ),
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar: MyBottomNavigationBar(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -189,7 +237,7 @@ class _NewClubRequestState extends State<NewClubRequest> {
               TextFormField(
                 controller: _coordinatorController,
                 decoration: InputDecoration(
-                  labelText: 'Coordinator',
+                  labelText: 'Coordinator (in Capital)',
                   border: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.deepOrangeAccent),
                   ),
@@ -205,7 +253,7 @@ class _NewClubRequestState extends State<NewClubRequest> {
               TextFormField(
                 controller: _coCoordinatorController,
                 decoration: InputDecoration(
-                  labelText: 'Co-Coordinator',
+                  labelText: 'Co-Coordinator (in Capital)',
                   border: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.deepOrangeAccent),
                   ),
@@ -233,40 +281,6 @@ class _NewClubRequestState extends State<NewClubRequest> {
                   return null;
                 },
               ),
-              // SizedBox(height: 20),
-              // ElevatedButton(
-              //   onPressed: () async {
-              //     DateTime? pickedDate = await showDatePicker(
-              //       context: context,
-              //       initialDate: _headChangedOn,
-              //       firstDate: DateTime(2000),
-              //       lastDate: DateTime(2100),
-              //     );
-              //     if (pickedDate != null) {
-              //       setState(() {
-              //         _headChangedOn = pickedDate;
-              //       });
-              //     }
-              //   },
-              //   child: Text('Select Head Changed On Date: ${_headChangedOn.toString().substring(0, 10)}'),
-              // ),
-              // SizedBox(height: 20),
-              // ElevatedButton(
-              //   onPressed: () async {
-              //     DateTime? pickedDate = await showDatePicker(
-              //       context: context,
-              //       initialDate: _createdOn,
-              //       firstDate: DateTime(2000),
-              //       lastDate: DateTime(2100),
-              //     );
-              //     if (pickedDate != null) {
-              //       setState(() {
-              //         _createdOn = pickedDate;
-              //       });
-              //     }
-              //   },
-              //   child: Text('Select Created On Date: ${_createdOn.toString().substring(0, 10)}'),
-              // ),
               SizedBox(height: 20),
               TextFormField(
                 controller: _descriptionController,
@@ -293,7 +307,8 @@ class _NewClubRequestState extends State<NewClubRequest> {
                     });
                   }
                 },
-                child: Text('Select Club File: ${_clubFile.isNotEmpty ? _clubFile : "No file selected"}'),
+                child: Text(
+                    'Select Club File: ${_clubFile.isNotEmpty ? _clubFile : "No file selected"}'),
               ),
               SizedBox(height: 20),
               ElevatedButton(

@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/models/gymkhana.dart';
 import 'package:fusion/services/viewmembersrecord.dart';
-import 'package:fusion/services/viewclubdetails.dart'; // Import viewclubdetails.dart
+import 'package:fusion/services/viewclubdetails.dart';
+
+import '../../Components/appBar2.dart';
+import '../../Components/bottom_navigation_bar.dart';
+import '../../Components/side_drawer2.dart';
+import '../../services/service_locator.dart';
+import '../../services/storage_service.dart'; // Import viewclubdetails.dart
 
 class Record extends StatefulWidget {
   @override
@@ -9,6 +15,7 @@ class Record extends StatefulWidget {
 }
 
 class _RecordState extends State<Record> {
+ 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -29,6 +36,8 @@ class _RecordsState extends State<Records> {
   List<String> clubs = []; // List to store club names
 
   late String selectedClub = '';
+   var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
 
   @override
   void initState() {
@@ -36,26 +45,7 @@ class _RecordsState extends State<Records> {
     fetchClubDetails(); // Call method to fetch club details
   }
 
-  // Future<void> fetchClubDetails() async {
-  //   try {
-  //     ViewClubDetails viewClubDetails = ViewClubDetails();
-  //     List<dynamic> jsonData = await viewClubDetails.getClubDetails();
-
-  //     setState(() {
-  //       clubs = jsonData
-  //           .map<String>((club) => club['club_name'].toString())
-  //           .toList();
-  //       selectedClub = clubs.isNotEmpty ? clubs.first : '';
-  //     });
-  //   } catch (e) {
-  //     print('Error fetching club details: $e');
-  //     // Handle error, show message to user, etc.
-  //   }
-
-  //   // After fetching club details, fetch member records
-  //   fetchMembersRecord();
-  // }
-
+  
 Future<void> fetchClubDetails() async {
   try {
     ViewClubDetails viewClubDetails = ViewClubDetails();
@@ -79,61 +69,7 @@ Future<void> fetchClubDetails() async {
   fetchMembersRecord();
 }
 
-  
-//   Future<void> fetchMembersRecord() async {
-//   try {
-//     ViewMembersRecord viewMembersRecord = ViewMembersRecord();
-//     List<dynamic> jsonData = await viewMembersRecord.getMembersRecord();
-
-//     // Fetch club details including category and coordinators' roll numbers
-//     ViewClubDetails viewClubDetails = ViewClubDetails();
-//     List<dynamic> clubDetails = await viewClubDetails.getClubDetails();
-
-//     setState(() {
-//       allSrecords = jsonData
-//           .where((Status) => Status['status'].toLowerCase() == 'confirmed')
-//           .map((member) {
-//         // Find category and coordinators' roll numbers for the club of this member
-//         String club = member['club'];
-//         String category = 'None';
-//         String coOrdinatorRoll = '';
-//         String coCoOrdinatorRoll = '';
-//         for (var clubData in clubDetails) {
-//           if (clubData['club_name'] == club) {
-//             category = clubData['category'];
-//             coOrdinatorRoll = clubData['co_ordinator'];
-//             coCoOrdinatorRoll = clubData['co_coordinator'];
-//             break;
-//           }
-//         }
-
-//         // Determine role based on conditions
-//         String role = 'Member';
-//         if (member['member'] == coOrdinatorRoll) {
-//           role = 'Co-ordinator';
-//         } else if (member['member'] == coCoOrdinatorRoll) {
-//           role = 'Co-coordinator';
-//         }
-
-//         return Srecord(
-//           Status: member['status'],
-//           Rollno: member['member'],
-//           Club: club,
-//           Achievements: member['remarks'] ?? 'None',
-//           Category: category,
-//           Role: role,
-//         );
-//       }).toList();
-
-//       // Filter records based on selected club
-//       filteredSrecords =
-//           allSrecords.where((record) => record.Club == selectedClub).toList();
-//     });
-//   } catch (e) {
-//     print('Error fetching members record: $e');
-//     // Handle error, show message to user, etc.
-//   }
-// }
+ 
 Future<void> fetchMembersRecord() async {
   try {
     ViewMembersRecord viewMembersRecord = ViewMembersRecord();
@@ -215,12 +151,15 @@ Future<void> fetchMembersRecord() async {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title:
-            Text('Records', style: TextStyle(color: Colors.deepOrangeAccent)),
-        iconTheme: IconThemeData(color: Colors.deepOrangeAccent),
-        backgroundColor: Colors.black,
-      ),
+    
+       appBar: CustomAppBar(curr_desig: curr_desig,
+        headerTitle: 'Members Record', // Set your app bar title
+        onDesignationChanged: (newValue) {
+          // Handle designation change if needed
+        },),
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar:
+      MyBottomNavigationBar(),
       body: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Column(
@@ -325,27 +264,7 @@ Future<void> fetchMembersRecord() async {
   }
 }
 
-// class Srecord {
-//   late String Status; // Changed 'Name' to 'Status'
-//   late String Rollno;
-//   late String Club;
-//   late String Achievements;
-//   late String Category;
 
-//   Srecord({
-//     required String Status, // Changed to required string
-//     required String Rollno, // Changed to required string
-//     required String Club, // Changed to required string
-//     required String Achievements, // Changed to required string
-//     required String Category,
-//   }) {
-//     this.Status = Status;
-//     this.Rollno = Rollno;
-//     this.Club = Club;
-//     this.Achievements = Achievements;
-//     this.Category = Category;
-//   }
-// }
 class Srecord {
   late String Status;
   late String Rollno;

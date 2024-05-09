@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fusion/services/viewclubdetails.dart';
 import 'package:fusion/services/change_club_position.dart';
+import '../../Components/appBar2.dart';
+import '../../Components/bottom_navigation_bar.dart';
+import '../../Components/side_drawer2.dart';
+import '../../services/service_locator.dart';
+import '../../services/storage_service.dart';
 import '../../services/viewmembersrecord.dart';
 
 class ManagePositionHolderPage extends StatefulWidget {
@@ -17,6 +22,8 @@ class _ManagePositionHolderPageState extends State<ManagePositionHolderPage> {
   String? selectedCoCoordinator;
   late TextEditingController coordinatorController;
   late TextEditingController coCoordinatorController;
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
 
   @override
   void initState() {
@@ -26,20 +33,7 @@ class _ManagePositionHolderPageState extends State<ManagePositionHolderPage> {
     _fetchClubDetails();
   }
 
-  // Future<void> _fetchClubDetails() async {
-  //   try {
-  //     ViewClubDetails viewClubDetails = ViewClubDetails();
-  //     List<dynamic> clubData = await viewClubDetails.getClubDetails();
-  //     List<String> fetchedClubs =
-  //         clubData.map((club) => club['club_name'].toString()).toList();
-  //     setState(() {
-  //       clubs = fetchedClubs;
-  //       selectedClub = clubs.isNotEmpty ? clubs.first : null;
-  //     });
-  //   } catch (e) {
-  //     print('Error fetching club details: $e');
-  //   }
-  // }
+  
 
   Future<void> _fetchClubDetails() async {
   try {
@@ -118,14 +112,15 @@ class _ManagePositionHolderPageState extends State<ManagePositionHolderPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Manage Position Holders',
-          style: TextStyle(color: Colors.deepOrangeAccent),
-        ),
-        iconTheme: IconThemeData(color: Colors.deepOrangeAccent),
-        backgroundColor: Colors.black,
-      ),
+     
+       appBar: CustomAppBar(curr_desig: curr_desig,
+        headerTitle: 'Manage Position Holder', // Set your app bar title
+        onDesignationChanged: (newValue) {
+          // Handle designation change if needed
+        },),
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar:
+      MyBottomNavigationBar(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

@@ -3,6 +3,12 @@ import 'package:fusion/services/viewbudgetdean.dart';
 import 'package:fusion/services/updatebudget.dart';
 import 'package:fusion/services/deletebudget.dart';
 
+import '../../Components/appBar2.dart';
+import '../../Components/bottom_navigation_bar.dart';
+import '../../Components/side_drawer2.dart';
+import '../../services/service_locator.dart';
+import '../../services/storage_service.dart';
+
 class UpdateBudgetCouncellorPage extends StatefulWidget {
   @override
   _UpdateBudgetCouncellorPageState createState() =>
@@ -11,6 +17,8 @@ class UpdateBudgetCouncellorPage extends StatefulWidget {
 
 class _UpdateBudgetCouncellorPageState
     extends State<UpdateBudgetCouncellorPage> {
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
   List<BudgetDetail> updateBudgetCouncellorPage = [];
 
   @override
@@ -135,295 +143,144 @@ class _UpdateBudgetCouncellorPageState
     }
   }
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     appBar: AppBar(
-  //       title: Text(
-  //         'Update Budget',
-  //         style: TextStyle(color: Colors.deepOrangeAccent),
-  //       ),
-  //       iconTheme: IconThemeData(color: Colors.deepOrangeAccent),
-  //       backgroundColor: Colors.black,
-  //     ),
-  //     body: SingleChildScrollView(
-  //       scrollDirection: Axis.vertical,
-  //       child: DataTable(
-  //         columnSpacing: 35,
-  //         columns: <DataColumn>[
-  //           DataColumn(
-  //             label: Text("Status"),
-  //             numeric: false,
-  //             onSort: (i, b) {},
-  //           ),
-  //           DataColumn(
-  //             label: Text("Club"),
-  //             numeric: false,
-  //             onSort: (i, b) {},
-  //           ),
-  //           DataColumn(
-  //             label: Text("Budget For"),
-  //             numeric: false,
-  //             onSort: (i, b) {},
-  //           ),
-  //           DataColumn(
-  //             label: Text("Budget Amount"),
-  //             numeric: false,
-  //             onSort: (i, b) {},
-  //           ),
-  //           DataColumn(
-  //             label: Text("Budget File"),
-  //             numeric: false,
-  //             onSort: (i, b) {},
-  //           ),
-  //           DataColumn(
-  //             label: Text("Actions"),
-  //             numeric: false,
-  //             onSort: (i, b) {},
-  //           ),
-  //         ],
-  //         rows: updateBudgetCouncellorPage
-  //             .map(
-  //               (budgetDetail) => DataRow(
-  //                 cells: <DataCell>[
-  //                   DataCell(
-  //                     Text(
-  //                       budgetDetail.status,
-  //                       style: TextStyle(color: Colors.black),
-  //                     ),
-  //                   ),
-  //                   DataCell(
-  //                     Text(
-  //                       budgetDetail.club,
-  //                       style: TextStyle(color: Colors.black),
-  //                     ),
-  //                   ),
-  //                   DataCell(
-  //                     Text(
-  //                       budgetDetail.budgetFor,
-  //                       style: TextStyle(color: Colors.black),
-  //                     ),
-  //                   ),
-  //                   DataCell(
-  //                     Text(
-  //                       budgetDetail.budgetAmount.toString(),
-  //                       style: TextStyle(color: Colors.black),
-  //                     ),
-  //                   ),
-  //                   DataCell(
-  //                     Text(
-  //                       budgetDetail.budgetFile,
-  //                       style: TextStyle(color: Colors.black),
-  //                     ),
-  //                   ),
-  //                   DataCell(
-  //                     Row(
-  //                       children: [
-  //                         ElevatedButton(
-  //                           onPressed: () {
-  //                             // Confirm button action
-  //                             confirmBudget(budgetDetail.id);
-  //                           },
-  //                           child: Text(
-  //                             'Confirm',
-  //                             style: TextStyle(color: Colors.black),
-  //                           ),
-  //                           style: ElevatedButton.styleFrom(
-  //                             primary: Colors.green,
-  //                           ),
-  //                         ),
-  //                         SizedBox(width: 10.0),
-  //                         ElevatedButton(
-  //                           onPressed: () {
-  //                             // Update button action
-  //                             // You can open a dialog or navigate to another screen to get the new budget amount
-  //                             // For demonstration, I'm providing a dummy value (5000) here
-  //                             updateBudget(budgetDetail.id);
-  //                           },
-  //                           child: Text(
-  //                             'Update',
-  //                             style: TextStyle(color: Colors.black),
-  //                           ),
-  //                           style: ElevatedButton.styleFrom(
-  //                             primary: Colors.deepOrangeAccent,
-  //                           ),
-  //                         ),
-  //                         SizedBox(width: 10.0),
-  //                         ElevatedButton(
-  //                           onPressed: () {
-  //                             // Delete button action
-  //                             deleteBudget(budgetDetail.id);
-  //                           },
-  //                           child: Text(
-  //                             'Delete',
-  //                             style: TextStyle(color: Colors.black),
-  //                           ),
-  //                           style: ElevatedButton.styleFrom(
-  //                             primary: Colors.red,
-  //                           ),
-  //                         ),
-  //                       ],
-  //                     ),
-  //                   ),
-  //                 ],
-  //               ),
-  //             )
-  //             .toList(),
-  //         dataRowColor:
-  //             MaterialStateColor.resolveWith((states) => Colors.white),
-  //         headingRowColor: MaterialStateColor.resolveWith(
-  //             (states) => Colors.deepOrangeAccent),
-  //         headingRowHeight: 50,
-  //         dataRowHeight: 50,
-  //         dividerThickness: 1,
-  //       ),
-  //     ),
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Update Budget',
-          style: TextStyle(color: Colors.deepOrangeAccent),
-        ),
-        iconTheme: IconThemeData(color: Colors.deepOrangeAccent),
-        backgroundColor: Colors.black,
+      appBar: CustomAppBar(
+        curr_desig: curr_desig,
+        headerTitle: 'Update Budget', // Set your app bar title
+        onDesignationChanged: (newValue) {
+          // Handle designation change if needed
+        },
       ),
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar: MyBottomNavigationBar(),
       body: SingleChildScrollView(
         scrollDirection: Axis.horizontal, // Horizontal scrolling
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical, // Vertical scrolling
-          child: DataTable(
-            columnSpacing: 35,
-            columns: <DataColumn>[
-              // DataColumn(
-              //   label: Text("Status"),
-              //   numeric: false,
-              //   onSort: (i, b) {},
-              // ),
-              DataColumn(
-                label: Text("Club"),
-                numeric: false,
-                onSort: (i, b) {},
-              ),
-              DataColumn(
-                label: Text("Budget For"),
-                numeric: false,
-                onSort: (i, b) {},
-              ),
-              DataColumn(
-                label: Text("Budget Amount"),
-                numeric: false,
-                onSort: (i, b) {},
-              ),
-              DataColumn(
-                label: Text("Budget File"),
-                numeric: false,
-                onSort: (i, b) {},
-              ),
-              DataColumn(
-                label: Text("Actions"),
-                numeric: false,
-                onSort: (i, b) {},
-              ),
-            ],
-            rows: updateBudgetCouncellorPage
-                .map(
-                  (budgetDetail) => DataRow(
-                    cells: <DataCell>[
-                      // DataCell(
-                      //   Text(
-                      //     budgetDetail.status,
-                      //     style: TextStyle(color: Colors.black),
-                      //   ),
-                      // ),
-                      DataCell(
-                        Text(
-                          budgetDetail.club,
-                          style: TextStyle(color: Colors.black),
-                        ),
+          child: Center(
+            child: updateBudgetCouncellorPage.isEmpty
+                ? Text('No requests found')
+                : DataTable(
+                    columnSpacing: 35,
+                    columns: <DataColumn>[
+                      DataColumn(
+                        label: Text("Club"),
+                        numeric: false,
+                        onSort: (i, b) {},
                       ),
-                      DataCell(
-                        Text(
-                          budgetDetail.budgetFor,
-                          style: TextStyle(color: Colors.black),
-                        ),
+                      DataColumn(
+                        label: Text("Budget For"),
+                        numeric: false,
+                        onSort: (i, b) {},
                       ),
-                      DataCell(
-                        Text(
-                          budgetDetail.budgetAmount.toString(),
-                          style: TextStyle(color: Colors.black),
-                        ),
+                      DataColumn(
+                        label: Text("Budget Amount"),
+                        numeric: false,
+                        onSort: (i, b) {},
                       ),
-                      DataCell(
-                        Text(
-                          budgetDetail.budgetFile,
-                          style: TextStyle(color: Colors.black),
-                        ),
+                      DataColumn(
+                        label: Text("Budget File"),
+                        numeric: false,
+                        onSort: (i, b) {},
                       ),
-                      DataCell(
-                        Row(
-                          children: [
-                            ElevatedButton(
-                              onPressed: () {
-                                // Confirm button action
-                                confirmBudget(budgetDetail.id);
-                              },
-                              child: Text(
-                                'Confirm',
-                                style: TextStyle(color: Colors.black),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.green,
-                              ),
-                            ),
-                            SizedBox(width: 10.0),
-                            ElevatedButton(
-                              onPressed: () {
-                                // Update button action
-                                // You can open a dialog or navigate to another screen to get the new budget amount
-                                // For demonstration, I'm providing a dummy value (5000) here
-                                updateBudget(budgetDetail.id);
-                              },
-                              child: Text(
-                                'Update',
-                                style: TextStyle(color: Colors.black),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.deepOrangeAccent,
-                              ),
-                            ),
-                            SizedBox(width: 10.0),
-                            ElevatedButton(
-                              onPressed: () {
-                                // Delete button action
-                                deleteBudget(budgetDetail.id);
-                              },
-                              child: Text(
-                                'Delete',
-                                style: TextStyle(color: Colors.black),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.red,
-                              ),
-                            ),
-                          ],
-                        ),
+                      DataColumn(
+                        label: Text("Actions"),
+                        numeric: false,
+                        onSort: (i, b) {},
                       ),
                     ],
+                    rows: updateBudgetCouncellorPage
+                        .map(
+                          (budgetDetail) => DataRow(
+                            cells: <DataCell>[
+                              DataCell(
+                                Text(
+                                  budgetDetail.club,
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                              ),
+                              DataCell(
+                                Text(
+                                  budgetDetail.budgetFor,
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                              ),
+                              DataCell(
+                                Text(
+                                  budgetDetail.budgetAmount.toString(),
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                              ),
+                              DataCell(
+                                Text(
+                                  budgetDetail.budgetFile,
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                              ),
+                              DataCell(
+                                Row(
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        // Confirm button action
+                                        confirmBudget(budgetDetail.id);
+                                      },
+                                      child: Text(
+                                        'Confirm',
+                                        style: TextStyle(color: Colors.black),
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Colors.green,
+                                      ),
+                                    ),
+                                    SizedBox(width: 10.0),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        // Update button action
+                                        // You can open a dialog or navigate to another screen to get the new budget amount
+                                        // For demonstration, I'm providing a dummy value (5000) here
+                                        updateBudget(budgetDetail.id);
+                                      },
+                                      child: Text(
+                                        'Update',
+                                        style: TextStyle(color: Colors.black),
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Colors.deepOrangeAccent,
+                                      ),
+                                    ),
+                                    SizedBox(width: 10.0),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        // Delete button action
+                                        deleteBudget(budgetDetail.id);
+                                      },
+                                      child: Text(
+                                        'Delete',
+                                        style: TextStyle(color: Colors.black),
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Colors.red,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                        .toList(),
+                    dataRowColor: MaterialStateColor.resolveWith(
+                        (states) => Colors.white),
+                    headingRowColor: MaterialStateColor.resolveWith(
+                        (states) => Colors.deepOrangeAccent),
+                    headingRowHeight: 50,
+                    dataRowHeight: 50,
+                    dividerThickness: 1,
                   ),
-                )
-                .toList(),
-            dataRowColor:
-                MaterialStateColor.resolveWith((states) => Colors.white),
-            headingRowColor: MaterialStateColor.resolveWith(
-                (states) => Colors.deepOrangeAccent),
-            headingRowHeight: 50,
-            dataRowHeight: 50,
-            dividerThickness: 1,
           ),
         ),
       ),

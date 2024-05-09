@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:file_picker/file_picker.dart';
 
+import '../../Components/appBar2.dart';
+import '../../Components/bottom_navigation_bar.dart';
+import '../../Components/side_drawer2.dart';
+import '../../services/service_locator.dart';
+import '../../services/storage_service.dart';
+
 
 class ClubEventReportPage extends StatefulWidget {
   @override
@@ -9,6 +15,8 @@ class ClubEventReportPage extends StatefulWidget {
 }
 
 class _ClubEventReportPageState extends State<ClubEventReportPage> {
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
   String _club = '';
   String _eventName = '';
   String _studentInCharge = '';
@@ -21,11 +29,15 @@ class _ClubEventReportPageState extends State<ClubEventReportPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Club Event Report', style: TextStyle(color: Colors.deepOrangeAccent)),
-        backgroundColor: Colors.black,
-        iconTheme: IconThemeData(color: Colors.deepOrangeAccent),
-      ),
+      
+       appBar: CustomAppBar(curr_desig: curr_desig,
+        headerTitle: 'Event Report', // Set your app bar title
+        onDesignationChanged: (newValue) {
+          // Handle designation change if needed
+        },),
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar:
+      MyBottomNavigationBar(),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Form(

@@ -1,13 +1,15 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:fusion/Components/appBar.dart';
-import 'package:fusion/Components/side_drawer.dart';
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
 import 'package:fusion/models/gymkhana.dart';
 import 'package:fusion/models/profile.dart';
 import 'package:fusion/services/gymkhana_service.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
+
+import '../../Components/bottom_navigation_bar.dart';
 
 class gymkhana_counsellor extends StatefulWidget {
   @override
@@ -15,6 +17,8 @@ class gymkhana_counsellor extends StatefulWidget {
 }
 
 class _gymkhana_counsellorState extends State<gymkhana_counsellor> {
+  var service = locator<StorageService>();
+late String curr_desig = service.getFromDisk("Current_designation");
   bool _loading1 = true;
   ProfileData? data;
   late StreamController _gymkhanaController;
@@ -157,8 +161,14 @@ class _gymkhana_counsellorState extends State<gymkhana_counsellor> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar().buildAppBar(),
-      drawer: SideDrawer(),
+      appBar: CustomAppBar(curr_desig: curr_desig,
+        headerTitle: 'Councellor Homepage', // Set your app bar title
+        onDesignationChanged: (newValue) {
+          // Handle designation change if needed
+        },),
+      drawer: SideDrawer(curr_desig: curr_desig),
+      bottomNavigationBar:
+      MyBottomNavigationBar(),
       body:
           //TODO: uncomment when API is functioning
           _loading1 == true
@@ -296,7 +306,7 @@ class _gymkhana_counsellorState extends State<gymkhana_counsellor> {
                             },
                           ),
                           InkWell(
-                            child: myContainer("Update Club Budget"),
+                            child: myContainer("Manage Club Budget Requests"),
                             onTap: () {
                               Navigator.pushNamed(
                                 context,
