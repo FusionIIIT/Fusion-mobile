@@ -236,13 +236,39 @@ class _ClubState extends State<Club> {
   }
 
   Widget clubDetailsWidget() {
-    if (clubDetails.isEmpty) {
-      return Center(
-        child:
-            CircularProgressIndicator(), // Show loading indicator while data is being fetched
-      );
-    }
+   if (clubDetails.isEmpty) {
+    return Center(
+      child: Text('No records to show'),
+    );
+  }
 
+  List<Map<String, dynamic>> detailsForSelectedClub = clubDetails
+      .where((detail) => detail['club_name'] == selectedClub)
+      .toList();
+
+  if (detailsForSelectedClub.isEmpty) {
+    return Column(
+      children: [
+        DropdownButton<String>(
+          value: selectedClub ?? clubNames.first,
+          onChanged: (String? newValue) {
+            setState(() {
+              selectedClub = newValue;
+            });
+          },
+          items: clubNames.map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+        ),
+        Center(
+          child: Text('No records found for selected club'),
+        ),
+      ],
+    );
+  }
     return Column(
       children: [
         DropdownButton<String>(
@@ -305,6 +331,39 @@ class _ClubState extends State<Club> {
   }
 
   Widget clubSessionWidget() {
+   if (sessionDetails.isEmpty) {
+    return Center(
+      child: Text('No records to show'),
+    );
+  }
+
+  List<Map<String, dynamic>> sessionsForSelectedClub = sessionDetails
+      .where((detail) => detail['club'] == selectedClub)
+      .toList();
+
+  if (sessionsForSelectedClub.isEmpty) {
+    return Column(
+      children: [
+        DropdownButton<String>(
+          value: selectedClub ?? clubNames.first,
+          onChanged: (String? newValue) {
+            setState(() {
+              selectedClub = newValue;
+            });
+          },
+          items: clubNames.map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+        ),
+        Center(
+          child: Text('No records found for selected club'),
+        ),
+      ],
+    );
+  }
     if (sessionDetails.isEmpty) {
       return Center(
         child:
@@ -379,7 +438,12 @@ class _ClubState extends State<Club> {
     );
   }
 
-  Widget clubEvents() {
+ Widget clubEvents() {
+  if (eventDetails.isEmpty) {
+    return Center(
+      child: Text('No records to show'),
+    );
+  }
     return DataTable(
       columnSpacing: 20,
       dataRowHeight: 60,

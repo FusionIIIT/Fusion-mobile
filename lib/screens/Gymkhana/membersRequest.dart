@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:fusion/services/viewmembersrecord.dart';
 import 'package:fusion/services/approvemember.dart'; // Import ApproveMember class
@@ -19,15 +17,15 @@ class MemberRequestPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-  
-      appBar: CustomAppBar(curr_desig: curr_desig,
+      appBar: CustomAppBar(
+        curr_desig: curr_desig,
         headerTitle: 'Members Request', // Set your app bar title
         onDesignationChanged: (newValue) {
           // Handle designation change if needed
-        },),
+        },
+      ),
       drawer: SideDrawer(curr_desig: curr_desig),
-      bottomNavigationBar:
-      MyBottomNavigationBar(),
+      bottomNavigationBar: MyBottomNavigationBar(),
       body: MemberRequestList(),
     );
   }
@@ -43,16 +41,13 @@ class _MemberRequestListState extends State<MemberRequestList> {
   late String xx = "";
   var service = locator<StorageService>();
   late String curr_desig = service.getFromDisk("Current_designation");
+  bool isLoading = true; // Add isLoading flag
+
   @override
   void initState() {
     super.initState();
-    // _initializeClubName();
     fetchMemberRequests();
   }
-
-  // Future<void> _initializeClubName() async {
-  //   // Update the UI after getting the club name
-  // }
 
   Future<void> fetchMemberRequests() async {
     xx = await DataFetcher().getClub(context);
@@ -62,27 +57,35 @@ class _MemberRequestListState extends State<MemberRequestList> {
       ViewMembersRecord viewMembersRecord = ViewMembersRecord();
       List<dynamic> data = await viewMembersRecord.getMembersRecord();
       List<MemberRequest> fetchedRequests = [];
+      Set<String> seenRollNos = Set(); // Track seen roll numbers
 
       for (var record in data) {
         print("anu" + xx);
         if (record['status'] == 'open' && record['club'] == xx) {
-          fetchedRequests.add(MemberRequest(
-            rollNo: record['member'],
-            club: record['club'],
-            remarks: record['remarks'],
-            description: record['description'],
-            status: record['status'],
-            id: record[
-                'id'], // assuming 'id' is the field for the unique identifier
-          ));
+          // Check if roll number has already been seen
+          if (!seenRollNos.contains(record['member'])) {
+            fetchedRequests.add(MemberRequest(
+              rollNo: record['member'],
+              club: record['club'],
+              remarks: record['remarks'],
+              description: record['description'],
+              status: record['status'],
+              id: record['id'], // assuming 'id' is the field for the unique identifier
+            ));
+            seenRollNos.add(record['member']); // Add roll number to seenRollNos
+          }
         }
       }
 
       setState(() {
         requests = fetchedRequests;
+        isLoading = false; // Set isLoading to false after fetching requests
       });
     } catch (e) {
       print('Error fetching member requests: $e');
+      setState(() {
+        isLoading = false; // Set isLoading to false if an error occurs
+      });
     }
   }
 
@@ -110,57 +113,66 @@ class _MemberRequestListState extends State<MemberRequestList> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: requests.length,
-      itemBuilder: (BuildContext context, int index) {
-        return Card(
-          child: ListTile(
-            title: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Roll No: ${requests[index].rollNo}'),
-                Text('Club: ${requests[index].club}'),
-                Text('Description: ${requests[index].description}'),
-                Text('Remarks: ${requests[index].remarks}'),
-                Text('Status: ${requests[index].status}'),
-              ],
+    if (isLoading) {
+      // Show loading indicator while data is being fetched
+      return Center(child: CircularProgressIndicator());
+    } else if (requests.isEmpty) {
+      // Show message if there are no member requests
+      return Center(child: Text('No member requests'));
+    } else {
+      // Show list of member requests
+      return ListView.builder(
+        itemCount: requests.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Card(
+            child: ListTile(
+              title: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Roll No: ${requests[index].rollNo}'),
+                  Text('Club: ${requests[index].club}'),
+                  Text('Description: ${requests[index].description}'),
+                  Text('Remarks: ${requests[index].remarks}'),
+                  Text('Status: ${requests[index].status}'),
+                ],
+              ),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      // Approve button action
+                      approveMember(requests[index].id);
+                    },
+                    child: Text(
+                      'Approve',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.deepOrangeAccent,
+                    ),
+                  ),
+                  SizedBox(width: 10.0),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Reject button action
+                      rejectMember(requests[index].id);
+                    },
+                    child: Text(
+                      'Reject',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.deepOrangeAccent,
+                    ),
+                  ),
+                ],
+              ),
             ),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    // Approve button action
-                    approveMember(requests[index].id);
-                  },
-                  child: Text(
-                    'Approve',
-                    style: TextStyle(color: Colors.black),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.deepOrangeAccent,
-                  ),
-                ),
-                SizedBox(width: 10.0),
-                ElevatedButton(
-                  onPressed: () {
-                    // Reject button action
-                    rejectMember(requests[index].id);
-                  },
-                  child: Text(
-                    'Reject',
-                    style: TextStyle(color: Colors.black),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.deepOrangeAccent,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
+          );
+        },
+      );
+    }
   }
 }
 
@@ -191,5 +203,3 @@ void main() {
     ),
   ));
 }
-
-

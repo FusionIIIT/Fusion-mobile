@@ -306,7 +306,7 @@ late String curr_desig = service.getFromDisk("Current_designation");
                             },
                           ),
                           InkWell(
-                            child: myContainer("Update Club Budget"),
+                            child: myContainer("Manage Club Budget Requests"),
                             onTap: () {
                               Navigator.pushNamed(
                                 context,

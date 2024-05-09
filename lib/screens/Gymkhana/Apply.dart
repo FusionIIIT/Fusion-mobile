@@ -26,8 +26,8 @@ class Apply extends StatefulWidget {
 }
 
 class _ApplyState extends State<Apply> with SingleTickerProviderStateMixin {
-   var service = locator<StorageService>();
-late String curr_desig = service.getFromDisk("Current_designation");
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
 
   late TabController _controller;
   List<String> clubNames = [];
@@ -111,33 +111,78 @@ late String curr_desig = service.getFromDisk("Current_designation");
     }
   }
 
- 
-
-
-void fetchClubNames() async {
-  try {
-    xx = await DataFetcher().getClub(context);
-    print(xx);
-    List<dynamic> clubDetails = await ViewClubDetails().getClubDetails();
-    List<String> names = clubDetails
-        .where((club) => club['status'] == 'confirmed') // Filter clubs with status 'confirmed'
-        .map<String>((club) => club['club_name'].toString())
-        .toList();
-    List<String> pp = [];
-    for (var i in names) if (i != xx) pp.add(i);
-    print("hehe");
-    print(pp);
-    setState(() {
-      clubNames = pp;
-      selectedClub = clubNames.isNotEmpty ? clubNames[0] : null;
-    });
-  } catch (e) {
-    print('Error fetching club names: $e');
+  void fetchClubNames() async {
+    try {
+      xx = await DataFetcher().getClub(context);
+      print(xx);
+      List<dynamic> clubDetails = await ViewClubDetails().getClubDetails();
+      List<String> names = clubDetails
+          .where((club) =>
+              club['status'] ==
+              'confirmed') // Filter clubs with status 'confirmed'
+          .map<String>((club) => club['club_name'].toString())
+          .toList();
+      List<String> pp = [];
+      for (var i in names) if (i != xx) pp.add(i);
+      print("hehe");
+      print(pp);
+      setState(() {
+        clubNames = pp;
+        selectedClub = clubNames.isNotEmpty ? clubNames[0] : null;
+      });
+    } catch (e) {
+      print('Error fetching club names: $e');
+    }
   }
-}
 
   final GlobalKey<FormState> formkey1 = GlobalKey<FormState>();
 
+  String? formvalidate(value) {
+    if (value.isEmpty) {
+      return "Error";
+    } else {
+      return null;
+    }
+  }
+
+  // Declare a map to store form submission status for each club
+  Map<String, bool> formSubmittedStatus = {};
+
+// Modify submitForm method to update form submission status
+  Future<bool> submitForm(String club, String rollNo, String description,
+      String achievements, String status) async {
+    try {
+      // Check if the form has already been submitted for the selected club
+      if (formSubmittedStatus.containsKey(club) &&
+          formSubmittedStatus[club] == true) {
+        // Show notification indicating that form has already been submitted
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('You have already submitted the form for this club.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+        return false; // Submission failed
+      } else {
+        // If form submission status is not available or false, submit the form
+        await NewClubMember().createNewClubMember(
+          member: rollNo,
+          club: club,
+          description: description,
+          status: status,
+          remarks: achievements,
+        );
+        // Update form submission status for the selected club
+        formSubmittedStatus[club] = true;
+        return true; // Submission successful
+      }
+    } catch (e) {
+      print('Error submitting form: $e');
+      return false; // Submission failed
+    }
+  }
+
+// Update validate method to check form submission status before submission
   void validate() {
     if (formkey1.currentState!.validate()) {
       String club = clubController.text;
@@ -146,13 +191,13 @@ void fetchClubNames() async {
       String achievements = achievementsController.text;
       String status = statusController.text;
 
-      // Check if the student has already applied to or is a member of the selected club
-      if (appliedClubs.contains(club)) {
-        // Show indicator that the student cannot re-apply
+      // Check if the form has already been submitted for the selected club
+      if (formSubmittedStatus.containsKey(club) &&
+          formSubmittedStatus[club] == true) {
+        // Show notification indicating that form has already been submitted
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content:
-                Text('You are already a member or have applied to this club.'),
+            content: Text('You have already submitted the form for this club.'),
             backgroundColor: Colors.red,
           ),
         );
@@ -186,31 +231,6 @@ void fetchClubNames() async {
     }
   }
 
-  Future<bool> submitForm(String club, String rollNo, String description,
-      String achievements, String status) async {
-    try {
-      await NewClubMember().createNewClubMember(
-        member: rollNo,
-        club: club,
-        description: description,
-        status: status,
-        remarks: achievements,
-      );
-      return true; // Submission successful
-    } catch (e) {
-      print('Error submitting form: $e');
-      return false; // Submission failed
-    }
-  }
-
-  String? formvalidate(value) {
-    if (value.isEmpty) {
-      return "Error";
-    } else {
-      return null;
-    }
-  }
-
   TextEditingController clubController = TextEditingController();
   TextEditingController rollNoController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
@@ -220,15 +240,15 @@ void fetchClubNames() async {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
-      appBar: CustomAppBar(curr_desig: curr_desig,
+      appBar: CustomAppBar(
+        curr_desig: curr_desig,
         headerTitle: 'Club Membership', // Set your app bar title
         onDesignationChanged: (newValue) {
           // Handle designation change if needed
-        },),
+        },
+      ),
       drawer: SideDrawer(curr_desig: curr_desig),
-      bottomNavigationBar:
-      MyBottomNavigationBar(),
+      bottomNavigationBar: MyBottomNavigationBar(),
       body: TabBarView(
         controller: _controller,
         children: [
@@ -239,10 +259,7 @@ void fetchClubNames() async {
                 key: formkey1,
                 child: ListView(
                   children: <Widget>[
-               
-                    SizedBox(
-                      height: 30,
-                    ),
+                    // Club Dropdown Button
                     Padding(
                       padding: EdgeInsets.all(30.0),
                       child: DropdownButtonFormField(
@@ -260,7 +277,7 @@ void fetchClubNames() async {
                           });
                         },
                         decoration: InputDecoration(
-                          hintText: "Club",
+                          labelText: "Club", // Title for the dropdown button
                           contentPadding:
                               EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                           border: OutlineInputBorder(
@@ -275,13 +292,15 @@ void fetchClubNames() async {
                         },
                       ),
                     ),
+                    // Roll No Text Field
                     Padding(
                       padding: EdgeInsets.all(30.0),
                       child: TextFormField(
                         controller: rollNoController,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
-                          hintText: "Roll No",
+                          labelText:
+                              "Roll No", // Title for the roll number field
                           contentPadding:
                               EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                           border: OutlineInputBorder(
@@ -292,13 +311,15 @@ void fetchClubNames() async {
                         validator: formvalidate,
                       ),
                     ),
+                    // Description Text Field
                     Padding(
                       padding: EdgeInsets.all(30.0),
                       child: TextFormField(
                         controller: descriptionController,
                         keyboardType: TextInputType.text,
                         decoration: InputDecoration(
-                          hintText: "Description",
+                          labelText:
+                              "Description", // Title for the description field
                           contentPadding:
                               EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                           border: OutlineInputBorder(
@@ -308,13 +329,15 @@ void fetchClubNames() async {
                         validator: formvalidate,
                       ),
                     ),
+                    // Achievements Text Field
                     Padding(
                       padding: EdgeInsets.all(30.0),
                       child: TextFormField(
                         controller: achievementsController,
                         keyboardType: TextInputType.text,
                         decoration: InputDecoration(
-                          hintText: "Achievements",
+                          labelText:
+                              "Achievements", // Title for the achievements field
                           contentPadding:
                               EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                           border: OutlineInputBorder(
@@ -324,6 +347,7 @@ void fetchClubNames() async {
                         validator: formvalidate,
                       ),
                     ),
+                    // Submit Button
                     Padding(
                       padding: EdgeInsets.all(30.0),
                       child: ElevatedButton(

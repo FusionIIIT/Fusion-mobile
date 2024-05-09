@@ -146,150 +146,151 @@ class _RecordsState extends State<MemberRecordsPage> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-    
-      appBar: CustomAppBar(
-        curr_desig: curr_desig,
-        headerTitle: 'Manage Club Members', // Set your app bar title
-        onDesignationChanged: (newValue) {
-          // Handle designation change if needed
-        },
-      ),
-      drawer: SideDrawer(curr_desig: curr_desig),
-      bottomNavigationBar: MyBottomNavigationBar(),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: DropdownButton<String>(
-              value: selectedClub,
-              onChanged: (newValue) {
-                setState(() {
-                  selectedClub = newValue!;
-                  fetchMembersRecord(); // Fetch members records for the selected club
-                });
-              },
-              items: clubs.map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
+ 
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: CustomAppBar(
+      curr_desig: curr_desig,
+      headerTitle: 'Manage Club Members', // Set your app bar title
+      onDesignationChanged: (newValue) {
+        // Handle designation change if needed
+      },
+    ),
+    drawer: SideDrawer(curr_desig: curr_desig),
+    bottomNavigationBar: MyBottomNavigationBar(),
+    body: Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: DropdownButton<String>(
+            value: selectedClub,
+            onChanged: (newValue) {
+              setState(() {
+                selectedClub = newValue!;
+                fetchMembersRecord(); // Fetch members records for the selected club
+              });
+            },
+            items: clubs.map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: TextField(
+            controller: searchController,
+            onChanged: (value) {
+              setState(() {
+                // Filter records based on selected club and search query
+                filteredSrecords = allSrecords
+                    .where((record) =>
+                        record.club == selectedClub &&
+                        record.rollno.toLowerCase().contains(value.toLowerCase()))
+                    .toList();
+              });
+            },
+            decoration: InputDecoration(
+              labelText: 'Search by Roll No',
+              prefixIcon: Icon(Icons.search),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: TextField(
-              controller: searchController,
-              onChanged: (value) {
-                setState(() {
-                  // Filter records based on selected club and search query
-                  filteredSrecords = allSrecords
-                      .where((record) =>
-                          record.club == selectedClub &&
-                          record.rollno
-                              .toLowerCase()
-                              .contains(value.toLowerCase()))
-                      .toList();
-                });
-              },
-              decoration: InputDecoration(
-                labelText: 'Search by Roll No',
-                prefixIcon: Icon(Icons.search),
-              ),
-            ),
-          ),
-          Expanded(
+        ),
+        Expanded(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
             child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: DataTable(
-                  columnSpacing: 35,
-                  columns: <DataColumn>[
-                    DataColumn(
-                      label: Text("Roll No"),
-                      numeric: false,
-                      onSort: (i, b) {},
+              scrollDirection: Axis.vertical,
+              child: filteredSrecords.isEmpty
+                  ? Center(child: Text('No members found'))
+                  : DataTable(
+                      columnSpacing: 35,
+                      columns: <DataColumn>[
+                        DataColumn(
+                          label: Text("Roll No"),
+                          numeric: false,
+                          onSort: (i, b) {},
+                        ),
+                        DataColumn(
+                          label: Text("Category"),
+                          numeric: false,
+                          onSort: (i, b) {},
+                        ),
+                        DataColumn(
+                          label: Text("Role"),
+                          numeric: false,
+                          onSort: (i, b) {},
+                        ),
+                        DataColumn(
+                          label: Text("Achievements"),
+                          numeric: false,
+                          onSort: (i, b) {},
+                        ),
+                        DataColumn(
+                          label: Text("Action"),
+                          numeric: false,
+                          onSort: (i, b) {},
+                        ),
+                      ],
+                      rows: filteredSrecords
+                          .map((record) => DataRow(
+                                cells: <DataCell>[
+                                  DataCell(
+                                    Text(
+                                      record.rollno,
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  ),
+                                  DataCell(
+                                    Text(
+                                      record.category,
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  ),
+                                  DataCell(
+                                    Text(
+                                      record.role,
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  ),
+                                  DataCell(
+                                    Text(
+                                      record.achievements,
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  ),
+                                  DataCell(
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        deleteMember(
+                                            record.id); // Use 'id' from Srecord
+                                      },
+                                      child: Text('Delete'),
+                                    ),
+                                  ),
+                                ],
+                              ))
+                          .toList(),
+                      dataRowColor:
+                          MaterialStateColor.resolveWith((states) => Colors.white),
+                      headingRowColor: MaterialStateColor.resolveWith(
+                          (states) => Colors.deepOrangeAccent),
+                      headingRowHeight: 50,
+                      dataRowHeight: 50,
+                      dividerThickness: 1,
                     ),
-                    DataColumn(
-                      label: Text("Category"),
-                      numeric: false,
-                      onSort: (i, b) {},
-                    ),
-                    DataColumn(
-                      label: Text("Role"),
-                      numeric: false,
-                      onSort: (i, b) {},
-                    ),
-                    DataColumn(
-                      label: Text("Achievements"),
-                      numeric: false,
-                      onSort: (i, b) {},
-                    ),
-                    DataColumn(
-                      label: Text("Action"),
-                      numeric: false,
-                      onSort: (i, b) {},
-                    ),
-                  ],
-                  rows: filteredSrecords
-                      .map((record) => DataRow(
-                            cells: <DataCell>[
-                              DataCell(
-                                Text(
-                                  record.rollno,
-                                  style: TextStyle(color: Colors.black),
-                                ),
-                              ),
-                              DataCell(
-                                Text(
-                                  record.category,
-                                  style: TextStyle(color: Colors.black),
-                                ),
-                              ),
-                              DataCell(
-                                Text(
-                                  record.role,
-                                  style: TextStyle(color: Colors.black),
-                                ),
-                              ),
-                              DataCell(
-                                Text(
-                                  record.achievements,
-                                  style: TextStyle(color: Colors.black),
-                                ),
-                              ),
-                              DataCell(
-                                ElevatedButton(
-                                  onPressed: () {
-                                    deleteMember(
-                                        record.id); // Use 'id' from Srecord
-                                  },
-                                  child: Text('Delete'),
-                                ),
-                              ),
-                            ],
-                          ))
-                      .toList(),
-                  dataRowColor:
-                      MaterialStateColor.resolveWith((states) => Colors.white),
-                  headingRowColor: MaterialStateColor.resolveWith(
-                      (states) => Colors.deepOrangeAccent),
-                  headingRowHeight: 50,
-                  dataRowHeight: 50,
-                  dividerThickness: 1,
-                ),
-              ),
             ),
           ),
-        ],
-      ),
-    );
-  }
+        ),
+      ],
+    ),
+  );
+}
+
 }
 
 class Srecord {

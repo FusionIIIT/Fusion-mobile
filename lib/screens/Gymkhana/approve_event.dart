@@ -102,36 +102,38 @@ class _ApproveEventState extends State<ApproveEvent> {
 
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(
-        curr_desig: curr_desig,
-        headerTitle: 'Approve Event', // Set your app bar title
-        onDesignationChanged: (newValue) {
-          // Handle designation change if needed
-        },
-      ),
-      drawer: SideDrawer(curr_desig: curr_desig),
-      bottomNavigationBar: MyBottomNavigationBar(),
-      body: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Column(
-          children: [
-            FutureBuilder<List<Map<String, dynamic>>>(
-              future: _eventDetails,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
-                } else {
-                  List<Map<String, dynamic>> openEvents = [];
-                  for (var eventData in snapshot.data!) {
-                    if (eventData['status'] == 'open') {
-                      openEvents.add(eventData);
-                    }
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: CustomAppBar(
+      curr_desig: curr_desig,
+      headerTitle: 'Approve Event', // Set your app bar title
+      onDesignationChanged: (newValue) {
+        // Handle designation change if needed
+      },
+    ),
+    drawer: SideDrawer(curr_desig: curr_desig),
+    bottomNavigationBar: MyBottomNavigationBar(),
+    body: SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Column(
+        children: [
+          FutureBuilder<List<Map<String, dynamic>>>(
+            future: _eventDetails,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Center(child: Text('Error: ${snapshot.error}'));
+              } else {
+                List<Map<String, dynamic>> openEvents = [];
+                for (var eventData in snapshot.data!) {
+                  if (eventData['status'] == 'open') {
+                    openEvents.add(eventData);
                   }
-
+                }
+                if (openEvents.isEmpty) {
+                  return Center(child: Text('No requests found'));
+                } else {
                   eventRequests = openEvents.map((eventData) {
                     return EventRequest(
                       id: eventData['id'],
@@ -200,14 +202,16 @@ class _ApproveEventState extends State<ApproveEvent> {
                     }).toList(),
                   );
                 }
-              },
-            ),
-            SizedBox(height: 20),
-          ],
-        ),
+              }
+            },
+          ),
+          SizedBox(height: 20),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
+
 }
 
 class EventRequest {

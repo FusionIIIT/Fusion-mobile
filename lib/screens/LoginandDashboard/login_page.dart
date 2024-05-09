@@ -157,29 +157,5 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  // void _showDialog() {
-  //   // flutter defined function
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       // return object of type Dialog
-  //       return AlertDialog(
-  //         title: Text("Invalid Username/Password"),
-  //         content: Text("Please enter correct Username or Password"),
-  //         actions: <Widget>[
-  //           // usually buttons at the bottom of the dialog
-  //           new TextButton(
-  //             child: new Text(
-  //               "Close",
-  //               style: TextStyle(color: Colors.deepOrangeAccent),
-  //             ),
-  //             onPressed: () {
-  //               Navigator.of(context).pop();
-  //             },
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
+
 }

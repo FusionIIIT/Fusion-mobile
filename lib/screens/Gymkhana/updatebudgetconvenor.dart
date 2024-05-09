@@ -108,120 +108,112 @@ class _UpdateBudgetConvenerPageState extends State<UpdateBudgetConvenerPage> {
  
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-    
-       appBar: CustomAppBar(curr_desig: curr_desig,
-        headerTitle: 'Update Club Budget', // Set your app bar title
-        onDesignationChanged: (newValue) {
-          // Handle designation change if needed
-        },),
-      drawer: SideDrawer(curr_desig: curr_desig),
-      bottomNavigationBar:
-      MyBottomNavigationBar(),
-      body: SingleChildScrollView(
-        scrollDirection: Axis.horizontal, // Horizontal scrolling
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical, // Vertical scrolling
-          child: DataTable(
-            columnSpacing: 35,
-            columns: <DataColumn>[
-              // DataColumn(
-              //   label: Text("Status"),
-              //   numeric: false,
-              //   onSort: (i, b) {},
-              // ),
-              DataColumn(
-                label: Text("Club"),
-                numeric: false,
-                onSort: (i, b) {},
-              ),
-              DataColumn(
-                label: Text("Budget For"),
-                numeric: false,
-                onSort: (i, b) {},
-              ),
-              DataColumn(
-                label: Text("Budget Amount"),
-                numeric: false,
-                onSort: (i, b) {},
-              ),
-              DataColumn(
-                label: Text("Budget File"),
-                numeric: false,
-                onSort: (i, b) {},
-              ),
-              DataColumn(
-                label: Text("Actions"),
-                numeric: false,
-                onSort: (i, b) {},
-              ),
-            ],
-            rows: UpdateBudgetConvenerPage.map(
-              (budgetDetail) => DataRow(
-                cells: <DataCell>[
-                  // DataCell(
-                  //   Text(
-                  //     budgetDetail.status,
-                  //     style: TextStyle(color: Colors.black),
-                  //   ),
-                  // ),
-                  DataCell(
-                    Text(
-                      budgetDetail.club,
-                      style: TextStyle(color: Colors.black),
-                    ),
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: CustomAppBar(
+      curr_desig: curr_desig,
+      headerTitle: 'Update Club Budget',
+      onDesignationChanged: (newValue) {
+        // Handle designation change if needed
+      },
+    ),
+    drawer: SideDrawer(curr_desig: curr_desig),
+    bottomNavigationBar: MyBottomNavigationBar(),
+    body: SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: UpdateBudgetConvenerPage.isEmpty // Check if the list is empty
+            ? Center(
+                child: Text('No records found'), // Display message if list is empty
+              )
+            : DataTable(
+                // Display DataTable if list is not empty
+                columnSpacing: 35,
+                columns: <DataColumn>[
+                  DataColumn(
+                    label: Text("Club"),
+                    numeric: false,
+                    onSort: (i, b) {},
                   ),
-                  DataCell(
-                    Text(
-                      budgetDetail.budgetFor,
-                      style: TextStyle(color: Colors.black),
-                    ),
+                  DataColumn(
+                    label: Text("Budget For"),
+                    numeric: false,
+                    onSort: (i, b) {},
                   ),
-                  DataCell(
-                    Text(
-                      budgetDetail.budgetAmount.toString(),
-                      style: TextStyle(color: Colors.black),
-                    ),
+                  DataColumn(
+                    label: Text("Budget Amount"),
+                    numeric: false,
+                    onSort: (i, b) {},
                   ),
-                  DataCell(
-                    Text(
-                      budgetDetail.budgetFile,
-                      style: TextStyle(color: Colors.black),
-                    ),
+                  DataColumn(
+                    label: Text("Budget File"),
+                    numeric: false,
+                    onSort: (i, b) {},
                   ),
-                  DataCell(
-                    ElevatedButton(
-                      onPressed: () {
-                        // Update button action
-                        // You can open a dialog or navigate to another screen to get the new budget amount
-                        // For demonstration, I'm providing a dummy value (5000) here
-                        updateBudget(budgetDetail.id);
-                      },
-                      child: Text(
-                        'Update',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.deepOrangeAccent,
-                      ),
-                    ),
+                  DataColumn(
+                    label: Text("Actions"),
+                    numeric: false,
+                    onSort: (i, b) {},
                   ),
                 ],
+                rows: UpdateBudgetConvenerPage.map(
+                  (budgetDetail) => DataRow(
+                    cells: <DataCell>[
+                      DataCell(
+                        Text(
+                          budgetDetail.club,
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                      DataCell(
+                        Text(
+                          budgetDetail.budgetFor,
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                      DataCell(
+                        Text(
+                          budgetDetail.budgetAmount.toString(),
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                      DataCell(
+                        Text(
+                          budgetDetail.budgetFile,
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                      DataCell(
+                        ElevatedButton(
+                          onPressed: () {
+                            updateBudget(budgetDetail.id);
+                          },
+                          child: Text(
+                            'Update',
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.deepOrangeAccent,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ).toList(),
+                dataRowColor:
+                    MaterialStateColor.resolveWith((states) => Colors.white),
+                headingRowColor: MaterialStateColor.resolveWith(
+                    (states) => Colors.deepOrangeAccent),
+                headingRowHeight: 50,
+                dataRowHeight: 50,
+                dividerThickness: 1,
               ),
-            ).toList(),
-            dataRowColor:
-                MaterialStateColor.resolveWith((states) => Colors.white),
-            headingRowColor: MaterialStateColor.resolveWith(
-                (states) => Colors.deepOrangeAccent),
-            headingRowHeight: 50,
-            dataRowHeight: 50,
-            dividerThickness: 1,
-          ),
-        ),
       ),
-    );
-  }
+    ),
+  );
+}
+
 }
 
 class BudgetDetail {

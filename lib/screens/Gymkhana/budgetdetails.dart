@@ -76,47 +76,50 @@ class _BudgetDetailsState extends State<BudgetDetails> {
     }
   }
 
+  
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-    
-      appBar: CustomAppBar(curr_desig: curr_desig,
-        headerTitle: 'Budget Details', // Set your app bar title
-        onDesignationChanged: (newValue) {
-          // Handle designation change if needed
-        },),
-      drawer: SideDrawer(curr_desig: curr_desig),
-      bottomNavigationBar:
-      MyBottomNavigationBar(),
-      
-      body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: DropdownButtonFormField<String>(
-                value: selectedClub,
-                onChanged: (newValue) {
-                  setState(() {
-                    selectedClub = newValue!;
-                    fetchBudgetDetails(selectedClub!);
-                  });
-                },
-                items: clubs.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                decoration: InputDecoration(
-                  labelText: 'Select Club',
-                  border: OutlineInputBorder(),
-                ),
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: CustomAppBar(
+      curr_desig: curr_desig,
+      headerTitle: 'Budget Details', // Set your app bar title
+      onDesignationChanged: (newValue) {
+        // Handle designation change if needed
+      },
+    ),
+    drawer: SideDrawer(curr_desig: curr_desig),
+    bottomNavigationBar: MyBottomNavigationBar(),
+    body: SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: DropdownButtonFormField<String>(
+              value: selectedClub,
+              onChanged: (newValue) {
+                setState(() {
+                  selectedClub = newValue!;
+                  fetchBudgetDetails(selectedClub!);
+                });
+              },
+              items: clubs.map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+              decoration: InputDecoration(
+                labelText: 'Select Club',
+                border: OutlineInputBorder(),
               ),
             ),
-            SizedBox(height: 20),
+          ),
+          SizedBox(height: 20),
+          if (budgetDetails.isEmpty)
+            Center(child: Text('No records found')),
+          if (budgetDetails.isNotEmpty)
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: DataTable(
@@ -151,55 +154,56 @@ class _BudgetDetailsState extends State<BudgetDetails> {
                 rows: budgetDetails
                     .map(
                       (budgetDetail) => DataRow(
-                    cells: <DataCell>[
-                      DataCell(
-                        Text(
-                          budgetDetail.club,
-                          style: TextStyle(color: Colors.black),
-                        ),
+                        cells: <DataCell>[
+                          DataCell(
+                            Text(
+                              budgetDetail.club,
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          ),
+                          DataCell(
+                            Text(
+                              budgetDetail.budgetFor,
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          ),
+                          DataCell(
+                            Text(
+                              budgetDetail.budgetAmount.toString(),
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          ),
+                          DataCell(
+                            Text(
+                              budgetDetail.budgetFile,
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          ),
+                          DataCell(
+                            Text(
+                              budgetDetail.description,
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          ),
+                        ],
                       ),
-                      DataCell(
-                        Text(
-                          budgetDetail.budgetFor,
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ),
-                      DataCell(
-                        Text(
-                          budgetDetail.budgetAmount.toString(),
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ),
-                      DataCell(
-                        Text(
-                          budgetDetail.budgetFile,
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ),
-                      DataCell(
-                        Text(
-                          budgetDetail.description,
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
+                    )
                     .toList(),
-                dataRowColor:
-                MaterialStateColor.resolveWith((states) => Colors.white),
+                dataRowColor: MaterialStateColor.resolveWith(
+                    (states) => Colors.white),
                 headingRowColor: MaterialStateColor.resolveWith(
-                        (states) => Colors.deepOrangeAccent),
+                    (states) => Colors.deepOrangeAccent),
                 headingRowHeight: 50,
                 dataRowHeight: 50,
                 dividerThickness: 1,
               ),
             ),
-          ],
-        ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
+
 }
 
 class BudgetDetail {

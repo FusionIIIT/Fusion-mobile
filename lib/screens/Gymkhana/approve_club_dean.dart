@@ -175,146 +175,148 @@ class _ApproveClubDeanPageState extends State<ApproveClubDeanPage> {
     }
   }
 
+
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-     
-      appBar: CustomAppBar(
-        curr_desig: curr_desig,
-        headerTitle: 'Approve Club', // Set your app bar title
-        onDesignationChanged: (newValue) {
-          // Handle designation change if needed
-        },
-      ),
-      drawer: SideDrawer(curr_desig: curr_desig),
-      bottomNavigationBar: MyBottomNavigationBar(),
-      body: FutureBuilder<List<dynamic>>(
-        future: _clubDetails,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else {
-            List<dynamic> clubs = snapshot.data!;
-            clubs = clubs
-                .where((club) => club['status'] == 'open')
-                .toList(); // Filtering clubs with status as open
-            return SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: DataTable(
-                  columnSpacing: 35,
-                  columns: <DataColumn>[
-                    DataColumn(
-                      label: Text("Club Name"),
-                      numeric: false,
-                    ),
-                    DataColumn(
-                      label: Text("Coordinator"),
-                      numeric: false,
-                    ),
-                    DataColumn(
-                      label: Text("Co-Coordinator"),
-                      numeric: false,
-                    ),
-                    DataColumn(
-                      label: Text("Faculty Incharge"),
-                      numeric: false,
-                    ),
-                    DataColumn(
-                      label: Text("Actions"),
-                      numeric: false,
-                    ),
-                  ],
-                  rows: clubs
-                      .map<DataRow>(
-                        (club) => DataRow(
-                          cells: <DataCell>[
-                            DataCell(
-                              Text(
-                                club['club_name'],
-                                style: TextStyle(color: Colors.black),
-                              ),
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: CustomAppBar(
+      curr_desig: curr_desig,
+      headerTitle: 'Approve Club',
+      onDesignationChanged: (newValue) {
+        // Handle designation change if needed
+      },
+    ),
+    drawer: SideDrawer(curr_desig: curr_desig),
+    bottomNavigationBar: MyBottomNavigationBar(),
+    body: FutureBuilder<List<dynamic>>(
+      future: _clubDetails,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else {
+          List<dynamic> clubs = snapshot.data!;
+          clubs = clubs.where((club) => club['status'] == 'open').toList();
+
+          if (clubs.isEmpty) {
+            return Center(child: Text('No requests found'));
+          }
+
+          return SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: DataTable(
+                columnSpacing: 35,
+                columns: <DataColumn>[
+                  DataColumn(
+                    label: Text("Club Name"),
+                    numeric: false,
+                  ),
+                  DataColumn(
+                    label: Text("Coordinator"),
+                    numeric: false,
+                  ),
+                  DataColumn(
+                    label: Text("Co-Coordinator"),
+                    numeric: false,
+                  ),
+                  DataColumn(
+                    label: Text("Faculty Incharge"),
+                    numeric: false,
+                  ),
+                  DataColumn(
+                    label: Text("Actions"),
+                    numeric: false,
+                  ),
+                ],
+                rows: clubs.map<DataRow>(
+                  (club) => DataRow(
+                    cells: <DataCell>[
+                      DataCell(
+                        Text(
+                          club['club_name'],
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                      DataCell(
+                        Text(
+                          club['co_ordinator'],
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                      DataCell(
+                        Text(
+                          club['co_coordinator'],
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                      DataCell(
+                        Text(
+                          club['faculty_incharge'],
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                      DataCell(
+                        Row(
+                          children: [
+                            IconButton(
+                              icon: Icon(Icons.edit),
+                              onPressed: () {
+                                _updateClub(
+                                  club['club_name'],
+                                  club['co_ordinator'],
+                                  club['co_coordinator'],
+                                  club['category'],
+                                  club['faculty_incharge'],
+                                );
+                              },
                             ),
-                            DataCell(
-                              Text(
-                                club['co_ordinator'],
-                                style: TextStyle(color: Colors.black),
-                              ),
+                            IconButton(
+                              icon: Icon(Icons.thumb_up),
+                              onPressed: () {
+                                _approveClub(
+                                  club['club_name'],
+                                  club['co_ordinator'],
+                                  club['co_coordinator'],
+                                  club['category'],
+                                  club['faculty_incharge'],
+                                );
+                              },
                             ),
-                            DataCell(
-                              Text(
-                                club['co_coordinator'],
-                                style: TextStyle(color: Colors.black),
-                              ),
-                            ),
-                            DataCell(
-                              Text(
-                                club['faculty_incharge'],
-                                style: TextStyle(color: Colors.black),
-                              ),
-                            ),
-                            DataCell(
-                              Row(
-                                children: [
-                                  IconButton(
-                                    icon: Icon(Icons.edit),
-                                    onPressed: () {
-                                      _updateClub(
-                                        club['club_name'],
-                                        club['co_ordinator'],
-                                        club['co_coordinator'],
-                                        club['category'],
-                                        club['faculty_incharge'],
-                                      );
-                                    },
-                                  ),
-                                  IconButton(
-                                    icon: Icon(Icons.thumb_up),
-                                    onPressed: () {
-                                      _approveClub(
-                                        club['club_name'],
-                                        club['co_ordinator'],
-                                        club['co_coordinator'],
-                                        club['category'],
-                                        club['faculty_incharge'],
-                                      );
-                                    },
-                                  ),
-                                  IconButton(
-                                    icon: Icon(Icons.thumb_down),
-                                    onPressed: () {
-                                      _rejectClub(
-                                        club['club_name'],
-                                        club['co_ordinator'],
-                                        club['co_coordinator'],
-                                        club['category'],
-                                        club['faculty_incharge'],
-                                      );
-                                    },
-                                  ),
-                                ],
-                              ),
+                            IconButton(
+                              icon: Icon(Icons.thumb_down),
+                              onPressed: () {
+                                _rejectClub(
+                                  club['club_name'],
+                                  club['co_ordinator'],
+                                  club['co_coordinator'],
+                                  club['category'],
+                                  club['faculty_incharge'],
+                                );
+                              },
                             ),
                           ],
                         ),
-                      )
-                      .toList(),
-                  dataRowColor:
-                      MaterialStateColor.resolveWith((states) => Colors.white),
-                  headingRowColor: MaterialStateColor.resolveWith(
-                      (states) => Colors.deepOrangeAccent),
-                  headingRowHeight: 50,
-                  dataRowHeight: 50,
-                  dividerThickness: 1,
-                ),
+                      ),
+                    ],
+                  ),
+                ).toList(),
+                dataRowColor:
+                    MaterialStateColor.resolveWith((states) => Colors.white),
+                headingRowColor: MaterialStateColor.resolveWith(
+                    (states) => Colors.deepOrangeAccent),
+                headingRowHeight: 50,
+                dataRowHeight: 50,
+                dividerThickness: 1,
               ),
-            );
-          }
-        },
-      ),
-    );
-  }
+            ),
+          );
+        }
+      },
+    ),
+  );
+}
+
 }
