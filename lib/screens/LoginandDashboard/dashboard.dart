@@ -1,48 +1,57 @@
+
+
 import 'dart:async';
 import 'dart:convert';
 import 'package:fusion/models/profile.dart';
 import 'package:fusion/services/profile_service.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:fusion/Components/appBar2.dart';
 import 'package:fusion/Components/side_drawer2.dart';
 import 'package:fusion/models/dashboard.dart';
 import 'package:fusion/screens/LoginandDashboard/DashboardComponents/cardItems.dart';
 import 'package:fusion/services/dashboard_service.dart';
+import 'package:fusion/services/updatesession.dart';
+import 'package:fusion/services/viewclubdetails.dart';
 import 'package:http/http.dart';
-import 'package:fusion/services/appBar_services.dart';
-import 'package:fusion/services/service_locator.dart';
-import 'package:fusion/services/storage_service.dart';
-import 'package:fusion/Components/bottom_navigation_bar.dart';
+
+import '../../Components/bottom_navigation_bar.dart';
+import '../../services/change_club_position.dart';
+import '../../services/service_locator.dart';
+import '../../services/storage_service.dart';
 
 class Dashboard extends StatefulWidget {
+  late String clubb = "";
   static String tag = 'home-page';
   Dashboard();
   @override
   _DashboardState createState() => _DashboardState();
+  String clubnam() {
+    return clubb;
+  }
 }
 
 class _DashboardState extends State<Dashboard> {
-  bool _notificationsBool = false;
+  var service = locator<StorageService>();
+  late String curr_desig = service.getFromDisk("Current_designation");
+  bool _notificationsBool = true;
   bool _newsBool = false;
   bool _announcementsBool = false;
-  bool _homeBool = true;
-
   bool _loading = true;
-  late String name;
+  late String name = "manu";
   late String studentType;
-  // Stream Controller for API
+  late String designation = "student";
+  late String club = "";
+
   late StreamController _dashboardController;
   late DashboardService dashboardService;
   late DashboardData data;
   late StreamController _profileController;
   late ProfileService profileService;
+  late ViewClubDetails clubDetailsService = ViewClubDetails();
   late ProfileData data2;
-  late List<String> designationsArray;
-  var service = locator<StorageService>();
-  late String curr_desig = service.getFromDisk("Current_designation");
-  bool isStudent = false;
 
-  final appBarServices _appBarServices = appBarServices();
   @override
   void initState() {
     super.initState();
@@ -50,51 +59,74 @@ class _DashboardState extends State<Dashboard> {
     dashboardService = DashboardService();
     _profileController = StreamController();
     profileService = ProfileService();
-    getData();
+    getCData();
   }
 
-  getData() async {
+  getCData() async {
     try {
-      print("gfsgsgd");
       Response response = await dashboardService.getDashboard();
-      print("1");
       Response response2 = await profileService.getProfile();
-      print("2");
-      print(response);
-      print(response2);
+      List<dynamic> clubDetails = await clubDetailsService.getClubDetails();
+      if (response.statusCode == 200) {
+        data = DashboardData.fromJson(jsonDecode(response.body));
+      } else {
+        throw Exception(
+            'Failed to load dashboard data: ${response.statusCode}');
+      }
+      if (response2.statusCode == 200) {
+        data2 = ProfileData.fromJson(jsonDecode(response2.body));
+        name = data2.user!["username"];
+      } else {
+        throw Exception('Failed to load profile data: ${response2.statusCode}');
+      }
+
+      String? userClub;
+      // Find the club associated with the user
+      for (var clubDetail in clubDetails) {
+        if (clubDetail['co_ordinator'] == name) {
+          userClub = clubDetail['club_name'];
+          break;
+        }
+      }
 
       setState(() {
-        data = DashboardData.fromJson(jsonDecode(response.body));
-        data2 = ProfileData.fromJson(jsonDecode(response2.body));
+        // Update UI state
+        widget.clubb = userClub ?? "";
+        club = userClub ?? ""; // Provide a default value if userClub is null
         _loading = false;
+        studentType = data2.profile!['department']!['name'] +
+            '  ' +
+            data2.profile!['user_type'];
+
+        if (club != "")
+          designation = "co_ordinator";
+        else
+          designation = data.designation![0];
+        print(designation);
       });
-      print(data2.user!);
-      print(
-          '-----------------------------------=---------------------------------------');
-      name = data2.user!['first_name'] + ' ' + data2.user!['last_name'];
-      studentType = data2.profile!['department']!['name'];
+    } catch (e, stackTrace) {
+      // Print error and stack trace for debugging
+      print('Error: $e');
+      print('Stack Trace: $stackTrace');
 
-      if (data2.profile!['user_type'] == 'student') {
-        isStudent = true;
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  loadData() async {
-    getData().then((res) {
-      _dashboardController.add(res);
-      _profileController.add(res);
-    });
-  }
-
-  fetchDesignations() async {
-    try {
-      designationsArray = await _appBarServices.getDesignations();
-    } catch (e) {
-      print("Error fetching designations: $e");
-      return null;
+      // Show error message to the user
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Error'),
+            content: Text('An error occurred while loading data: $e'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
     }
   }
 
@@ -112,219 +144,179 @@ class _DashboardState extends State<Dashboard> {
     return Scaffold(
       appBar: CustomAppBar(
         curr_desig: curr_desig,
-        headerTitle: "Dashboard",
+        headerTitle: 'Dashboard', // Set your app bar title
         onDesignationChanged: (newValue) {
-          setState(() {
-            curr_desig = newValue;
-          });
+          // Handle designation change if needed
         },
-      ), // This is default app bar used in all modules
+      ),
       drawer: SideDrawer(curr_desig: curr_desig),
-      bottomNavigationBar:
-          MyBottomNavigationBar(), // This is sideDrawer used in all modules
-      body: Column(
-        children: [
-          Expanded(
-            child: _loading == true
-                ? Center(child: CircularProgressIndicator())
-                : StreamBuilder(
-                    stream: _dashboardController.stream,
-                    builder: (context, AsyncSnapshot snapshot) {
-                      return ListView(
-                        shrinkWrap: true,
-                        physics: ClampingScrollPhysics(),
+      bottomNavigationBar: MyBottomNavigationBar(),
+      // This is sideDrawer used in all modules
+      body: _loading == true
+          ? Center(child: CircularProgressIndicator())
+          : StreamBuilder(
+              stream: _dashboardController.stream,
+              builder: (context, AsyncSnapshot snapshot) {
+                return ListView(
+                  shrinkWrap: true,
+                  physics: ClampingScrollPhysics(),
+                  children: [
+                    Card(
+                      elevation: 2.0,
+                      margin: EdgeInsets.symmetric(
+                          horizontal: 50.0, vertical: 20.0),
+                      shadowColor: Colors.black,
+                      child: Column(
                         children: [
-                          Card(
-                            elevation: 2.0,
-                            margin: EdgeInsets.symmetric(
-                                horizontal: 20.0, vertical: 30.0),
-                            // shadowColor: Colors.black,
-                            color: Colors.white,
-
-                            child: Column(
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(top: 20.0),
-                                  width: 170.0,
-                                  height: 190.0,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image:
-                                          AssetImage('assets/profile_pic.png'),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 10.0,
-                                ),
-                                Text(
-                                  name, //Display name of User
-                                  style: TextStyle(
-                                      fontSize: 20.0,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                SizedBox(
-                                  height: 10.0,
-                                ),
-                                Text(
-                                  studentType +
-                                      " " +
-                                      curr_desig, // Display Type of User
-                                  style: TextStyle(
-                                      fontSize: 17.0,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                SizedBox(
-                                  height: 10.0,
-                                ),
-                              ],
+                          Container(
+                            margin: EdgeInsets.only(top: 20.0),
+                            width: 170.0,
+                            height: 170.0,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage('assets/profile_pic.png'),
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
-
-                          Card(
-                            margin: EdgeInsets.symmetric(
-                                horizontal: 20.0, vertical: 10.0),
-                            color: Colors.deepOrangeAccent,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  50.0), // Set the border radius here
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 10.0,
-                                  bottom: 10.0,
-                                  left: 13.0,
-                                  right: 10.0),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          Text(
+                            name, //Display name of User
+                            style:
+                                TextStyle(fontSize: 20.0, color: Colors.black),
+                          ),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          Text(
+                            curr_desig, // Display Type of User
+                            style:
+                                TextStyle(fontSize: 15.0, color: Colors.black),
+                          ),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Card(
+                      color: Colors.black,
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                _notificationsBool = true;
+                                _announcementsBool = false;
+                                _newsBool = false;
+                                setState(() {
+                                  _notificationsBool = true;
+                                  _announcementsBool = false;
+                                  _newsBool = false;
+                                });
+                              },
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment
-                                    .spaceEvenly, // Align the children along the main axis with space between them
-                                crossAxisAlignment: CrossAxisAlignment
-                                    .center, // Align the children along the cross axis (vertically by default)
-                                // mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      _notificationsBool = true;
-                                      _announcementsBool = false;
-                                      _newsBool = false;
-                                      setState(() {
-                                        _notificationsBool = true;
-                                        _announcementsBool = false;
-                                        _newsBool = false;
-                                      });
-                                      Navigator.pushReplacementNamed(
-                                          context, "/profile");
-                                    },
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Icon(
-                                          Icons.account_circle,
-                                          color: Colors.white,
-                                          size: 30.0,
-                                        ),
-                                        SizedBox(width: 40.0),
-                                        Text(
-                                          'Professsional Profile',
-                                          style: TextStyle(
-                                            fontSize: 20.0,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        SizedBox(width: 40.0),
-                                        Icon(
-                                          Icons.arrow_forward_ios_rounded,
-                                          color: Colors.white,
-                                        ),
-                                      ],
+                                  Text(
+                                    'Notifications',
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      color: Colors.white,
                                     ),
+                                  ),
+                                  Icon(
+                                    Icons.notifications_active_rounded,
+                                    color: _notificationsBool
+                                        ? Colors.deepOrangeAccent
+                                        : Colors.white,
                                   ),
                                 ],
                               ),
                             ),
-                          ),
-
-                          if (!isStudent)
-                            Card(
-                              margin: EdgeInsets.symmetric(
-                                  horizontal: 20.0, vertical: 10.0),
-                              color: Colors.deepOrangeAccent,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    50.0), // Set the border radius here
+                            GestureDetector(
+                              onTap: () {
+                                _newsBool = true;
+                                _announcementsBool = false;
+                                _notificationsBool = false;
+                                setState(() {
+                                  _newsBool = true;
+                                  _announcementsBool = false;
+                                  _notificationsBool = false;
+                                });
+                              },
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'News',
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  Icon(
+                                    Icons.email,
+                                    color: _newsBool
+                                        ? Colors.deepOrangeAccent
+                                        : Colors.white,
+                                  ),
+                                ],
                               ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                _announcementsBool = true;
+                                _newsBool = false;
+                                _notificationsBool = false;
+                                setState(() {
+                                  _announcementsBool = true;
+                                  _newsBool = false;
+                                  _notificationsBool = false;
+                                });
+                              },
                               child: Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 10.0,
-                                    bottom: 10.0,
-                                    left: 13.0,
-                                    right: 10.0),
+                                padding: const EdgeInsets.only(right: 16.0),
                                 child: Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        _notificationsBool = true;
-                                        _announcementsBool = false;
-                                        _newsBool = false;
-                                        setState(() {
-                                          _notificationsBool = true;
-                                          _announcementsBool = false;
-                                          _newsBool = false;
-                                        });
-                                      },
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment
-                                            .spaceEvenly, // Align the children along the main axis with space between them
-                                        crossAxisAlignment: CrossAxisAlignment
-                                            .center, // Align the children along the cross axis (vertically by default)
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: [
-                                          Icon(
-                                            Icons.notifications_active_rounded,
-                                            color: Colors.white,
-                                          ),
-                                          SizedBox(width: 40.0),
-                                          Text(
-                                            'Admistrative Profile',
-                                            style: TextStyle(
-                                              fontSize: 20.0,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          SizedBox(width: 40.0),
-                                          Icon(
-                                            Icons.arrow_forward_ios_rounded,
-                                            color: Colors.white,
-                                          ),
-                                        ],
+                                    Text(
+                                      'Announcements',
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                        color: Colors.white,
                                       ),
+                                    ),
+                                    Icon(
+                                      Icons.announcement,
+                                      color: _announcementsBool
+                                          ? Colors.deepOrangeAccent
+                                          : Colors.white,
                                     ),
                                   ],
                                 ),
                               ),
                             ),
-
-                          // _notificationsBool
-                          //     ? NotificationCard(
-                          //         notifications: data.notifications,
-                          //       )
-                          //     : NewsCard(),
-                        ],
-                      );
-                    },
-                  ),
-          ),
-          // Place the BottomNavigationBar here
-        ],
-      ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    _notificationsBool
+                        ? NotificationCard(
+                            notifications: data.notifications,
+                          )
+                        : NewsCard(),
+                  ],
+                );
+              },
+            ),
     );
   }
 

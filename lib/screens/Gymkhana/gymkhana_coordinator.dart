@@ -6,19 +6,23 @@ import 'package:fusion/Components/side_drawer2.dart';
 import 'package:fusion/models/gymkhana.dart';
 import 'package:fusion/models/profile.dart';
 import 'package:fusion/services/gymkhana_service.dart';
+import 'package:fusion/services/help.dart';
 import 'package:fusion/services/service_locator.dart';
 import 'package:fusion/services/storage_service.dart';
 
 import '../../Components/bottom_navigation_bar.dart';
+import '../LoginandDashboard/dashboard.dart';
 
-class GymkhanaHomepage extends StatefulWidget {
+class GymkhanaCoordinator extends StatefulWidget {
+  //late String xx;
   @override
-  _GymkhanaHomepageState createState() => _GymkhanaHomepageState();
+  _GymkhanaCoordinatorState createState() => _GymkhanaCoordinatorState();
 }
 
-class _GymkhanaHomepageState extends State<GymkhanaHomepage> {
+class _GymkhanaCoordinatorState extends State<GymkhanaCoordinator> {
   var service = locator<StorageService>();
 late String curr_desig = service.getFromDisk("Current_designation");
+  late String xx = "";
   bool _loading1 = true;
   ProfileData? data;
   late StreamController _gymkhanaController;
@@ -57,7 +61,12 @@ late String curr_desig = service.getFromDisk("Current_designation");
 
   @override
   void initState() {
+    //widget.xx = Dashboard().clubnam();
     super.initState();
+    print(1);
+    print(DataFetcher().getClub(context));
+    print(Dashboard().clubnam());
+    _initializeClubName();
     var service = locator<StorageService>();
     data = service.profileData;
     _gymkhanaController = StreamController();
@@ -67,6 +76,12 @@ late String curr_desig = service.getFromDisk("Current_designation");
       //profileData cannot be not retrieved show error page
     }
     getData();
+  }
+
+  Future<void> _initializeClubName() async {
+    xx = await DataFetcher().getClub(context);
+    print(xx);
+    setState(() {}); // Update the UI after getting the club name
   }
 
   getData() async {
@@ -160,9 +175,13 @@ late String curr_desig = service.getFromDisk("Current_designation");
 
   @override
   Widget build(BuildContext context) {
+    print(1);
+
+    print(xx);
+    // if (widget.xx == null) return CircularProgressIndicator();
     return Scaffold(
       appBar: CustomAppBar(curr_desig: curr_desig,
-        headerTitle: 'Student Homepage', // Set your app bar title
+        headerTitle: 'Coordinator Homepage', // Set your app bar title
         onDesignationChanged: (newValue) {
           // Handle designation change if needed
         },),
@@ -209,7 +228,7 @@ late String curr_desig = service.getFromDisk("Current_designation");
                             height: 10.0,
                           ),
                           Text(
-                            data!.profile!['user_type'],
+                            "Coordinator " + xx,
                             style:
                                 TextStyle(fontSize: 15.0, color: Colors.black),
                           ),
@@ -259,22 +278,18 @@ late String curr_desig = service.getFromDisk("Current_designation");
                             child: myContainer("Apply"),
                             onTap: () {
                               Navigator.pushNamed(
-                                  context, '/gymkhana_homepage/apply');
+                                  context, 
+                                  '/gymkhana_coordinator/apply',
+                                  arguments: gymkhanaData,
+                              );
                             },
                           ),
-                          // InkWell(
-                          //   child: myContainer("Voting Polls"),
-                          //   onTap: () {
-                          //     Navigator.pushNamed(
-                          //         context, '/gymkhana_homepage/polls');
-                          //   },
-                          // ),
                           InkWell(
                             child: myContainer("Club Details"),
                             onTap: () {
                               Navigator.pushNamed(
                                 context,
-                                '/gymkhana_homepage/clubs',
+                                '/gymkhana_coordinator/clubs',
                                 arguments: gymkhanaData,
                               );
                             },
@@ -284,21 +299,109 @@ late String curr_desig = service.getFromDisk("Current_designation");
                             onTap: () {
                               Navigator.pushNamed(
                                 context,
-                                '/gymkhana_homepage/member_records',
+                                '/gymkhana_coordinator/member_records',
                                 arguments: gymkhanaData,
                               );
                             },
                           ),
                           InkWell(
-                            child: myContainer("New Club Request"),
+                            child: myContainer("Manage Club Members"),
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, '/gymkhana_coordinator/manage_members');
+                            },
+                          ),
+                          InkWell(
+                            child: myContainer("New Event"),
                             onTap: () {
                               Navigator.pushNamed(
                                 context,
-                                '/gymkhana_homepage/new_club_request',
+                                '/gymkhana_coordinator/new_event',
                                 arguments: gymkhanaData,
                               );
                             },
                           ),
+                          InkWell(
+                            child: myContainer("New Session"),
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                '/gymkhana_coordinator/new_session',
+                                arguments: gymkhanaData,
+                              );
+                            },
+                          ),
+                          InkWell(
+                            child: myContainer("Members Request"),
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                '/gymkhana_coordinator/membersRequest',
+                                arguments: gymkhanaData,
+                              );
+                            },
+                          ),
+                          // InkWell(
+                          //   child: myContainer("Submitted Request"),
+                          //   onTap: () {
+                          //     Navigator.pushNamed(
+                          //       context,
+                          //       '/gymkhana_coordinator/SubmittedRequest',
+                          //       arguments: gymkhanaData,
+                          //     );
+                          //   },
+                          // ),
+                          InkWell(
+                            child: myContainer("Acitvity calendar"),
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                '/gymkhana_coordinator/activity_calender',
+                                arguments: gymkhanaData,
+                              );
+                            },
+                          ),
+                          // InkWell(
+                          //   child: myContainer("Submit Event Report"),
+                          //   onTap: () {
+                          //     Navigator.pushNamed(
+                          //       context,
+                          //       '/gymkhana_coordinator/clubeventreport',
+                          //       arguments: gymkhanaData,
+                          //     );
+                          //   },
+                          // ),
+                          InkWell(
+                            child: myContainer("Club Budget Form"),
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                '/gymkhana_coordinator/clubbudgetform',
+                                arguments: gymkhanaData,
+                              );
+                            },
+                          ),
+                           InkWell(
+                            child: myContainer("View Club Budget"),
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                '/gymkhana_coordinator/budgetdetails',
+                                arguments: gymkhanaData,
+                              );
+                            },
+                          ),
+                          // InkWell(
+                          //   child:
+                          //       myContainer("Submit Event Report To Convenor"),
+                          //   onTap: () {
+                          //     Navigator.pushNamed(
+                          //       context,
+                          //       '/gymkhana_coordinator/submit_event_report_to_convenor',
+                          //       arguments: gymkhanaData,
+                          //     );
+                          //   },
+                          // ),
                         ],
                       ),
                     ),
