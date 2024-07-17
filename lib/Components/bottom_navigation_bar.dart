@@ -54,32 +54,32 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
                     ],
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    _newsBool = true;
-                    _announcementsBool = false;
-                    _notificationsBool = false;
-                    _homeBool = false;
-
-                    setState(() {
-                      _newsBool = true;
-                      _announcementsBool = false;
-                      _notificationsBool = false;
-                      _homeBool = false;
-                    });
-                    Navigator.pushReplacementNamed(context, "/news");
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Icon(
-                        Icons.newspaper_rounded,
-                        color: Colors.white,
-                        size: _newsBool ? 30.0 : 25.0,
-                      ),
-                    ],
-                  ),
-                ),
+                // GestureDetector(
+                //   onTap: () {
+                //     _newsBool = true;
+                //     _announcementsBool = false;
+                //     _notificationsBool = false;
+                //     _homeBool = false;
+                //
+                //     setState(() {
+                //       _newsBool = true;
+                //       _announcementsBool = false;
+                //       _notificationsBool = false;
+                //       _homeBool = false;
+                //     });
+                //     Navigator.pushReplacementNamed(context, "/news");
+                //   },
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //     children: [
+                //       Icon(
+                //         Icons.newspaper_rounded,
+                //         color: Colors.white,
+                //         size: _newsBool ? 30.0 : 25.0,
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 GestureDetector(
                   onTap: () {
                     _announcementsBool = false;

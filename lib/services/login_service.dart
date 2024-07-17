@@ -13,6 +13,8 @@ class LoginService {
         'Content-Type': 'application/json; charset=UTF-8'
       };
 
+      print(data);
+
       var client = http.Client();
       var response = await client.post(
           Uri.http(
@@ -32,7 +34,8 @@ class LoginService {
             .map((dynamic item) => item.toString())
             .toList(),
       );
-      storageService.saveStringToDisk("Current_designation",jsonDecode(response.body)["designations"][0]);
+      storageService.saveStringToDisk(
+          "Current_designation", jsonDecode(response.body)["designations"][0]);
       return true;
     } catch (e) {
       rethrow;

@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 // import 'package:fusion/Components/appBar.dart';
-import 'package:flutter/services.dart' show rootBundle;
-import 'package:fusion/Components/side_drawer.dart';
+// import 'package:flutter/services.dart' show rootBundle;
+// import 'package:fusion/Components/side_drawer.dart';
 // import 'package:fusion/models/academic.dart';
-import 'package:csv/csv.dart';
+// import 'package:csv/csv.dart';
 import 'package:fusion/screens/Programme_Curriculum/Courses_Info/courseInfoTabComponent.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
+
+import 'package:fusion/Components/appBar2.dart';
+import 'package:fusion/Components/side_drawer2.dart';
+import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/services/storage_service.dart';
 
 class CoursesInfo extends StatefulWidget {
   @override
@@ -14,24 +21,83 @@ class CoursesInfo extends StatefulWidget {
 class _CoursesInfoState extends State<CoursesInfo> {
   List<List<dynamic>> _courseList = [];
   List<dynamic> _selectedCourse = [];
+  List<List<dynamic>> _courseList_api = [];
   int index = -1;
-  Future<int> _loadCSV() async {
-    final _allCourses = await rootBundle.loadString("db/Course_Code.csv");
-    List<List<dynamic>> _listALL =
-        const CsvToListConverter().convert(_allCourses);
 
-    _courseList = _listALL;
+  Future<int> _loadCSV() async {
+    // final _allCourses = await rootBundle.loadString("db/Course_Code.csv");
+    // List<List<dynamic>> _listALL =
+    //     const CsvToListConverter().convert(_allCourses);
+
+    final String course_code_api =
+        "https://script.google.com/macros/s/AKfycbyEK8qhhtHYnGVmTW7DRHx8jn5U0qJvy94qKezkH4qpy3LU7nWIyZQm7Gln1AN5RImSzw/exec";
+    final http.Response response_course_code =
+        await http.get(Uri.parse(course_code_api));
+
+    if (response_course_code.statusCode == 200) {
+      List<dynamic> data = convert.jsonDecode(response_course_code.body);
+      _courseList_api = [
+        [
+          'code',
+          'name',
+          'credit',
+          'lecture_hours',
+          'tutorial_hours',
+          'pratical_hours',
+          'discussion_hours',
+          'project_hours',
+          'pre_requisits',
+          'syllabus',
+          'ref_books',
+          'percent_course_attendance',
+          'percent_endsem',
+          'percent_midsem',
+          'percent_project',
+          'percent_quiz_1',
+          'percent_quiz_2',
+          'percent_lab_evaluation',
+        ],
+        ...data
+            .map((item) => [
+                  item['code'],
+                  item['name'],
+                  item['credit'],
+                  item['lecture_hours'],
+                  item['tutorial_hours'],
+                  item['pratical_hours'],
+                  item['discussion_hours'],
+                  item['project_hours'],
+                  item['pre_requisits'],
+                  item['syllabus'],
+                  item['ref_books'],
+                  item['percent_course_attendance'],
+                  item['percent_endsem'],
+                  item['percent_midsem'],
+                  item['percent_project'],
+                  item['percent_quiz_1'],
+                  item['percent_quiz_2'],
+                  item['percent_lab_evaluation']
+                ])
+            .toList(),
+      ];
+    } else {
+      throw Exception('Failed to load data from API');
+    }
+
+    _courseList = _courseList_api;
     return 1;
   }
 
   @override
   void initState() {
-    // TODO: implement initState
+    super.initState();
     _loadCSV();
   }
 
   @override
   Widget build(BuildContext context) {
+    var service = locator<StorageService>();
+    late String curr_desig = service.getFromDisk("Current_designation");
     // final AcademicData data =
     //     ModalRoute.of(context)?.settings.arguments as AcademicData;
     final arguments = (ModalRoute.of(context)?.settings.arguments ??
@@ -39,7 +105,12 @@ class _CoursesInfoState extends State<CoursesInfo> {
     return FutureBuilder(
         future: _loadCSV(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) return Scaffold();
+          if (snapshot.connectionState == ConnectionState.waiting)
+            return Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
 
           print(arguments["e"]);
 
@@ -69,49 +140,16 @@ class _CoursesInfoState extends State<CoursesInfo> {
           return DefaultTabController(
             length: 1,
             child: Scaffold(
-              appBar: AppBar(
-                backgroundColor: Colors.black,
-                title: Text(
-                  "FUSION",
-                  style: TextStyle(color: Colors.white),
-                ),
-                actions: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Icon(Icons.search),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Icon(Icons.notifications),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Icon(Icons.more_vert),
-                  ),
-                ],
-                bottom: TabBar(
-                  isScrollable: true,
-                  indicatorColor: Colors.white,
-                  indicatorWeight: 6.0,
-                  tabs: [
-                    Tab(
-                      child: Container(
-                        child: Text(
-                          arguments['e'].toString() + " Info",
-                        ),
-                      ),
-                    ),
-                    // Tab(
-                    //   child: Container(
-                    //     child: Text(
-                    //       'Obsolete Curriculums',
-                    //     ),
-                    //   ),
-                    // ),
-                  ],
-                ),
+              appBar: CustomAppBar(
+                curr_desig: curr_desig,
+                headerTitle: "Programme and Curriculum",
+                onDesignationChanged: (newValue) {
+                  setState(() {
+                    curr_desig = newValue;
+                  });
+                },
               ),
-              drawer: SideDrawer(),
+              drawer: SideDrawer(curr_desig: curr_desig),
               body: TabBarView(
                 children: [
                   CourseInfoTabComponent(data: info_data),
