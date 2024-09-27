@@ -32,7 +32,7 @@ class _FinalRegistrationState extends State<FinalRegistration> {
       children: [
         SizedBox(height: 10),
         Text("Final Choices Of Courses"),
-        if (finalData != null && finalData[0].length > 0)
+        if (finalData?[0].length > 0)
           SingleChildScrollView(
             scrollDirection: Axis.vertical,
             child: SingleChildScrollView(
@@ -61,7 +61,7 @@ class _FinalRegistrationState extends State<FinalRegistration> {
               ], rows: getRows(finalData)),
             ),
           ),
-        if (finalData == null || finalData[0].length == 0)
+        if (finalData?[0].length == 0)
           Expanded(
               child: Center(
                   child: Text(

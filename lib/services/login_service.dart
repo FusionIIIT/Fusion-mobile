@@ -27,6 +27,7 @@ class LoginService {
 
       var storage_service = await StorageService.getInstance();
       storage_service!.saveUserInDB(User((jsonDecode(response.body))["token"]));
+      print(storage_service);
       return true;
     } catch (e) {
       rethrow;

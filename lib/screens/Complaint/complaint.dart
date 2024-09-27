@@ -4,12 +4,9 @@ import 'package:fusion/Components/appBar.dart';
 import 'package:fusion/models/profile.dart';
 import 'package:fusion/services/profile_service.dart';
 import 'package:http/http.dart';
-import 'ComplaintHistory/complain_history.dart';
 import 'package:flutter/material.dart';
 import 'package:fusion/Components/side_drawer.dart';
 import 'dart:ui';
-import 'LodgeComplaint/lodge_complaint.dart';
-import 'Feedback/feedback.dart';
 import 'package:provider/provider.dart';
 
 class Complaint extends StatefulWidget {

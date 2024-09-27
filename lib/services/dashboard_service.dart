@@ -24,6 +24,7 @@ class DashboardService {
       );
       if (response.statusCode == 200) {
         print("success");
+        print(response);
         return response;
       }
       throw Exception('Can\'t load');

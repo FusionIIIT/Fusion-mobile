@@ -42,6 +42,21 @@ import 'package:fusion/screens/Healthcenter/viewschedule.dart';
 import 'package:fusion/screens/Healthcenter/history.dart';
 import 'package:fusion/screens/Healthcenter/HealthCenter.dart';
 import 'package:fusion/services/service_locator.dart';
+import 'package:fusion/screens/Courses/Registered_Courses_Home.dart';
+import 'package:fusion/screens/Courses/course_home.dart';
+import 'package:fusion/screens/Courses/Students/progress/progress.dart';
+import 'package:fusion/screens/Courses/Students/course_content/course_content.dart';
+import 'package:fusion/screens/Courses/Students/announcements/announcements.dart';
+import 'package:fusion/screens/Courses/Students/assignments/assignments.dart';
+import 'package:fusion/screens/Courses/Instructor/content/course_contentIns.dart';
+import 'package:fusion/screens/Courses/Students/assignments/upload_assignment.dart';
+import 'package:fusion/screens/Courses/Instructor/Announcements/Announcement.dart';
+import 'package:fusion/screens/Courses/Acad_admin/academic_admin_homepage.dart';
+import 'package:fusion/screens/Courses/Acad_admin/calender.dart';
+import 'package:fusion/screens/Courses/Acad_admin/timetablepage.dart';
+import 'package:fusion/screens/Courses/Instructor/evaluation/evaluation.dart';
+import 'package:fusion/screens/Courses/Instructor/evaluation/grading_scheme.dart';
+import 'package:fusion/screens/Courses/Instructor/evaluation/submissions.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -60,7 +75,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MediaQueryData windowData =
-    MediaQueryData.fromWindow(WidgetsBinding.instance.window);
+        MediaQueryData.fromWindow(WidgetsBinding.instance.window);
     windowData = windowData.copyWith(
       textScaleFactor: 1,
     );
@@ -71,10 +86,10 @@ class MyApp extends StatelessWidget {
         title: 'Fusion',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-            // primarySwatch: Colors.blueGrey,
+          // primarySwatch: Colors.blueGrey,
           // colorSchemeSeed: Color(0xFF2085D0),
           colorSchemeSeed: Color(0xFFF36C35),
-            fontFamily: 'Nunito',
+          fontFamily: 'Nunito',
           useMaterial3: true,
         ),
         initialRoute: '/landing',
@@ -127,6 +142,31 @@ class MyApp extends StatelessWidget {
           '/health_center/feedback': (context) => FeedBack(),
           '/health_center/viewschedule': (context) => ViewSchedule(),
           '/health_center/history': (context) => History(),
+          '/registered_courses': (context) => RegisteredCoursesHome(),
+          '/registered_courses/course_home': (context) => CourseHome(),
+          '/registered_courses/course_home/progress': (context) => Progress(),
+          '/registered_courses/course_home/course_content': (context) =>
+              CourseContent(),
+          '/registered_courses/course_home/announcement': (context) =>
+              Announcement(),
+          '/registered_courses/course_home/assignment': (context) =>
+              Assignment(),
+          '/registered_courses/course_home/instructor/course_content':
+              (context) => CourseContentIns(),
+          '/registered_courses/course_home/assignment/upload_assignment':
+              (context) => uploadAssignment(),
+          '/registered_courses/course_home/assignment/announcements':
+              (context) => AnnouncementIns(),
+          '/acad_admin/academic_admin_homepage': (context) =>
+              AcademicAdminHomePage(),
+          '/acad_admin/calender': (context) => CalendarPage(),
+          '/acad_admin/timetablepage': (context) => TimeTablePage(),
+          '/registered_courses/course_home/instructor/evaluation/evaluation':
+              (context) => Evaluation(),
+          '/registered_courses/course_home/instructor/evaluation/grading_scheme':
+              (context) => GradingScheme(),
+          '/registered_courses/course_home/instructor/evaluation/submissions':
+              (context) => Submissions(),
         },
       ),
     );
