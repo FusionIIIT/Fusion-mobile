@@ -1,8 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fusion/constants.dart';
 import 'package:fusion/services/login_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   static String tag = 'login-page';
@@ -10,7 +10,9 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
-bool checkBoxValue = false;
+bool _focused = false;
+bool _focused2 = false;
+double bottom =10;
 
 class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -23,21 +25,45 @@ class _LoginPageState extends State<LoginPage> {
 
     final Widget logoWidget = CircleAvatar(
       backgroundColor: Colors.transparent,
-      radius: 54.0,
-      child: Image.asset('assets/logo.jpg'),
+      radius: (_focused || _focused2) ? 110.0 : 150.0,
+      child:Container(
+
+        child: Image.asset('assets/logo.jpg'),
+      ),
     );
-    final Widget emailFormField = TextFormField(
+    final Widget emailFormField =  Focus(
+      onFocusChange: (focus) {
+        setState(() {
+          _focused = focus;
+          if (focus==true){
+            bottom=400;
+          }
+
+        });
+      },
+      child:TextFormField(
       keyboardType: TextInputType.emailAddress,
       autofocus: false,
       decoration: InputDecoration(
         label: Text('Username', style: TextStyle(
-          fontSize: 12.0,
+          fontSize: 18.0,
         ),),
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        border: OutlineInputBorder(
-          // borderRadius: BorderRadius.circular(32.0),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(width: 0, color: Color(0xFFf4f4f4)),
+          borderRadius: BorderRadius.circular(20.0),
         ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(width: 0, color: Color(0xFFf4f4f4)),
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        // enabledBorder: InputBorder.none,
+        fillColor: Color(0xFFf4f4f4), // Green color
+        filled: true,
+        floatingLabelBehavior: FloatingLabelBehavior.never,
       ),
+      cursorColor: Colors.black,
+
       onChanged: (input) {
         username = input;
       },
@@ -48,23 +74,45 @@ class _LoginPageState extends State<LoginPage> {
         else if (value?.contains('@') == true) {
           return 'Please enter username only';
         }
+        return null;
 
       },
       autofillHints: [AutofillHints.username],
-    );
+    ));
 
-    final Widget passwordFormField = TextFormField(
+    final Widget passwordFormField = Focus(
+        onFocusChange: (focus) {
+          setState(() {
+            _focused2 = focus;
+            if (focus==true){
+              bottom=400;
+            }
+
+          });
+        },
+        child: TextFormField(
       autofocus: false,
       obscureText: true,
       decoration: InputDecoration(
         label: Text('Password', style: TextStyle(
-          fontSize: 12.0,
+          fontSize: 18.0,
         ),),
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        border: OutlineInputBorder(
-          // borderRadius: BorderRadius.circular(32.0),
+
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(width: 0, color: Color(0xFFf4f4f4)),
+          borderRadius: BorderRadius.circular(20.0),
         ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(width: 0, color: Color(0xFFf4f4f4)),
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        // enabledBorder: InputBorder.none,
+        fillColor: Color(0xFFf4f4f4), // Green color
+        filled: true,
+        floatingLabelBehavior: FloatingLabelBehavior.never,
       ),
+      cursorColor: Colors.black,
       onChanged: (input) {
         pass = input;
       },
@@ -74,12 +122,13 @@ class _LoginPageState extends State<LoginPage> {
         } else if (value.length < 6) {
           return 'Password must be at least 6 characters';
         }
+        return null;
       },
       autofillHints: [AutofillHints.password],
-    );
+    ));
 
     final loginButton = Padding(
-      padding: EdgeInsets.symmetric(vertical: 16.0),
+      padding: EdgeInsets.only(top: 16.0),
       child: ElevatedButton(
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all(kPrimaryColor),
@@ -87,10 +136,13 @@ class _LoginPageState extends State<LoginPage> {
         onPressed: () async {
           if (!(_formKey.currentState?.validate() ?? false)) {
           } else {
+
             LoginService auth = LoginService();
             bool complete = await auth.login(username ?? "", pass ?? "");
             TextInput.finishAutofillContext();
             if (complete == true) {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              await prefs.setString('username', username!);
               Navigator.pushReplacementNamed(context, "/landing");
             }
             Navigator.pushReplacementNamed(context, "/landing");
@@ -102,7 +154,8 @@ class _LoginPageState extends State<LoginPage> {
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
-            fontSize: 14.0,
+            fontSize: 22.0,
+
           ),
         ),
       ),
@@ -124,13 +177,16 @@ class _LoginPageState extends State<LoginPage> {
             key: _formKey,
             child: ListView(
               shrinkWrap: true,
-              padding: EdgeInsets.only(left: 24.0, right: 24.0),
+              padding: EdgeInsets.only(top:8.0,left: 24.0, right: 24.0),
               children: <Widget>[
-                logoWidget,
+                Padding(
+                  padding: const EdgeInsets.only(top: 0.0), // Change the top padding here
+                  child: logoWidget,
+                ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 30.0),
                   child: Text(
-                    'Fusion Login',
+                    'Fusion',
                     style: TextStyle(
                       color: kPrimaryColor,
                       fontWeight: FontWeight.bold,
@@ -141,14 +197,21 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(bottom: 15),
-                    child: emailFormField,
+                  child: emailFormField,
                 ),
                 Padding(
                   padding: EdgeInsets.only(bottom: 15),
                   child: passwordFormField,
                 ),
-                loginButton,
-                forgotLabel,
+                Padding(
+                  padding: EdgeInsets.only(bottom: 0.0),
+                  child: loginButton,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top:0.0,bottom: bottom),
+                  child: forgotLabel,
+                ),
+
               ],
             ),
           ),
@@ -157,29 +220,29 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  // void _showDialog() {
-  //   // flutter defined function
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       // return object of type Dialog
-  //       return AlertDialog(
-  //         title: Text("Invalid Username/Password"),
-  //         content: Text("Please enter correct Username or Password"),
-  //         actions: <Widget>[
-  //           // usually buttons at the bottom of the dialog
-  //           new TextButton(
-  //             child: new Text(
-  //               "Close",
-  //               style: TextStyle(color: Colors.deepOrangeAccent),
-  //             ),
-  //             onPressed: () {
-  //               Navigator.of(context).pop();
-  //             },
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
+// void _showDialog() {
+//   // flutter defined function
+//   showDialog(
+//     context: context,
+//     builder: (BuildContext context) {
+//       // return object of type Dialog
+//       return AlertDialog(
+//         title: Text("Invalid Username/Password"),
+//         content: Text("Please enter correct Username or Password"),
+//         actions: <Widget>[
+//           // usually buttons at the bottom of the dialog
+//           new TextButton(
+//             child: new Text(
+//               "Close",
+//               style: TextStyle(color: Colors.deepOrangeAccent),
+//             ),
+//             onPressed: () {
+//               Navigator.of(context).pop();
+//             },
+//           ),
+//         ],
+//       );
+//     },
+//   );
+// }
 }
